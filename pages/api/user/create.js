@@ -22,6 +22,13 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  */
 export default async function handler(req, res) {
   try {
+    if(req.method !== 'POST') {
+      throw new Error(`${req.method} is an invalid request method`)
+    }
+
+    // Connect to database
+    await connectDB()
+
     // TODO: Get rid of the parse on the actual version
     const userType = parseInt(req.body.userType)
     const {
@@ -63,9 +70,6 @@ export default async function handler(req, res) {
     // Hash password
     const salt = await bcrypt.genSalt(SALT_ROUNDS)
     const hashedPassword = await bcrypt.hash(password, salt)
-
-    // Connect to database
-    await connectDB()
 
     // Parent or teacher sign up
     if (userType === 2 || userType === 3) {

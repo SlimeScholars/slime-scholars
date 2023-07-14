@@ -1,4 +1,5 @@
 import { verifyName, verifyUsername, verifyHonorific, verifyEmail } from "../../../utils/verify"
+import { authenticate } from "../../../utils/authenticate"
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 
@@ -16,8 +17,15 @@ import User from '../../../models/userModel'
  */
 export default async function (req, res) {
   try {
-    // TODO: Set up middleware to get user
-    const user = req.user
+    if(req.method !== 'PUT') {
+      throw new Error(`${req.method} is an invalid request method`)
+    }
+
+    // Connect to database
+    await connectDB()
+
+    // Authenticate and get user
+    const user = await authenticate(req.headers.authorization)
 
     // If no changes made, the fields should have value equal to their previous value
     // If the user wants to remove their parente email, it should be empty
@@ -35,8 +43,6 @@ export default async function (req, res) {
     verifyName(lastName)
     verifyHonorific(honorific)
 
-    await connectDB()
-
     let newEmail = user.email
     // Only check if email is taken if the user is changing email
     if(email) {
@@ -48,6 +54,7 @@ export default async function (req, res) {
 
         // Make sure the email is not taken
         const userExists = await User.findOne({ email: lowercaseEmail })
+
         if (userExists) {
           throw new Error('Email is already in use')
         }
@@ -70,7 +77,8 @@ export default async function (req, res) {
       const usernameRegex = new RegExp(username, 'i')
       const userExists = await User.findOne({ username: { $regex: usernameRegex } })
 
-      if (userExists) {
+      // Allow user to change their username to different capitalization
+      if (userExists && !userExists._id.equals(user._id)) {
         throw new Error('Username is taken')
       }
       newUsername = username
