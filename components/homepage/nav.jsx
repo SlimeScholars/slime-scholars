@@ -4,7 +4,7 @@ import Button from "./button";
 
 export default function Nav() {
   return (
-    <nav className="w-screen h-36 bg-transparent flex flex-row justify-between items-center px-10">
+    <nav className="w-screen fixed top-0 h-36 bg-transparent flex flex-row justify-between items-center px-10">
       <a className="flex justify-center items-center w-[30%]" href="/">
         <Image
           src="/assets/icons/logo.png"
