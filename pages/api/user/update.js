@@ -54,7 +54,8 @@ export default async function (req, res) {
 
         // Make sure the email is not taken
         const userExists = await User.findOne({ email: lowercaseEmail })
-        if (userExists && userExists._id !== user._id) {
+
+        if (userExists) {
           throw new Error('Email is already in use')
         }
         newEmail = lowercaseEmail
@@ -76,7 +77,8 @@ export default async function (req, res) {
       const usernameRegex = new RegExp(username, 'i')
       const userExists = await User.findOne({ username: { $regex: usernameRegex } })
 
-      if (userExists && userExists._id !== user._id) {
+      // Allow user to change their username to different capitalization
+      if (userExists && !userExists._id.equals(user._id)) {
         throw new Error('Username is taken')
       }
       newUsername = username
