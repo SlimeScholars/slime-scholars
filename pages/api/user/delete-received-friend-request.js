@@ -4,8 +4,8 @@ import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 
 /**
- * @desc    Delete sent friend request
- * @route   POST /api/user/delete-sent-friend-request
+ * @desc    Delete received friend request
+ * @route   POST /api/user/delete-received-request
  * @access  Private
  * @param   {string} req.body.friendId - Account id of person you want delete the request of
  */
@@ -25,28 +25,28 @@ export default async function (req, res) {
 
     const friendIdObj = mongoose.Types.ObjectId(friendId)
 
-    if(!user.sentFriendRequests.includes(friendIdObj)) {
-      throw new Error('You did not send a friend request of that id')
+    if(!user.receivedFriendRequests.includes(friendIdObj)) {
+      throw new Error('No friend request to delete')
     }
 
     const friend = await User.findById(friendIdObj)
     if(!friend) {
-      throw new Error('Cannot find user of that id')
+      throw new Error('User not found')
     }
 
     // Delete friend request
-    user.sentFriendRequests = user.friends.filter((element) => element == friendIdObj)
-    friend.receivedFriendRequests = friend.friends.filter((element) => element == user._id)
+    user.receivedFriendRequests = user.friends.filter((element) => element == friendIdObj)
+    friend.sentFriendRequests = friend.friends.filter((element) => element == user._id)
 
     // Update database
     await User.findByIdAndUpdate(user._id, {
-      sentFriendRequests: user.sentFriendRequests,
+      receivedFriendRequests: user.receivedFriendRequests,
     })
     await User.findByIdAndUpdate(friendIdObj, {
-      receivedFriendRequests: friend.receivedFriendRequests,
+      sentFriendRequests: friend.sentFriendRequests,
     })
 
-    res.status(200).json({friends: user.sentFriendRequests})
+    res.status(200).json({receivedFriendRequests: user.receivedFriendRequests})
 
   } catch(error) {
     res.status(400).json({message: error.message})
