@@ -24,6 +24,7 @@ export default async function (req, res) {
     // Connect to database
     await connectDB()
 
+    // Authenticate and get user
     const user = await authenticate(req.headers.authorization)
 
     // If no changes made, the fields should have value equal to their previous value
