@@ -1,8 +1,11 @@
 import Slime from '../../../models/slimeModel'
 
-// @desc    Get the stats of a slime
-// @route   GET   /api/slime?slimeId=...
-// @access  Public
+/**
+ * @desc    Get the stats of a slime
+ * @route   GET   /api/slime?slimeId=...
+ * @access  Public
+ * @param   {string} req.query.slimeId - Id of slime that you want to get information of
+ */
 export default async function (req, res) {
   try {
     if(req.method !== 'GET') {

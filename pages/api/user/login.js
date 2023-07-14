@@ -4,7 +4,7 @@ import User from '../../../models/userModel'
 const bcrypt = require('bcryptjs')
 
 /**
- * @desc    Authenticate a user
+ * @desc    Login a user and change their authorization token on local storage
  * @route   POST /api/user/login
  * @access  Public
  * @param   {string} req.body.accountIdentifier - Either email (students, parents, teachers) or username (students)

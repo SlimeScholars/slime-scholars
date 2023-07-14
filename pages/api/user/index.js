@@ -2,7 +2,7 @@ import { authenticate } from "../../../utils/authenticate"
 import connectDB from '../../../utils/connectDB'
 
 /**
- * @desc    Get user data
+ * @desc    Get user data of the person who is signed in
  * @route   GET /api/user/
  * @access  Private
  */

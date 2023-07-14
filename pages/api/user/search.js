@@ -2,7 +2,7 @@ import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 
 /**
- * @desc    Search user by username
+ * @desc    Search user's information by username
  * @route   GET /api/user/search?username=...
  * @access  Public
  * @param   {string} req.query.username - Max 55 characters long. Can only contain alphabetical characters.

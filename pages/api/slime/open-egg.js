@@ -5,9 +5,12 @@ import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
 
-// @desc    Open egg to get slime
-// @route   POST /api/slime/open-egg
-// @access  Private
+/**
+ * @desc    Open egg to get slime
+ * @route   POST /api/slime/open-egg
+ * @access  Private
+ * @param   {string} itemName - Name of the egg you want to open
+ */
 export default async function (req, res) {
   try {
     if(req.method !== 'POST') {
