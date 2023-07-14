@@ -32,19 +32,19 @@ export default async function (req, res) {
     const friend = await User.findById(friendIdObj)
 
     if(!friend) {
-      throw new Error(`Cannot find user`)
+      throw new Error('Cannot find user of that id')
     }
 
     if(friend.userType !== 1) {
-      throw new Error('Can only friends students')
+      throw new Error('You can only friend students')
     }
 
     if(user.friends.includes(friendIdObj)) {
-      throw new Error('You are already friends')
+      throw new Error(`You are already friends with ${friend.username}`)
     }
 
     if(user.sentFriendRequests.includes(friendIdObj)) {
-      throw new Error('You already sent the friend request')
+      throw new Error(`You already sent a friend request to ${friend.username}`)
     }
 
     // If you are trying to friend request someone that already request you,

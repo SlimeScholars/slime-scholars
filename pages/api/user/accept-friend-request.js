@@ -35,15 +35,15 @@ const addFriend = asyncHandler(async (req, res) => {
     }
 
     if(friend.userType !== 1) {
-      throw new Error('Can only friends students')
+      throw new Error('You can only friend students')
     }
 
     if(user.friends.includes(friendIdObj)) {
-      throw new Error('You are already friends')
+      throw new Error(`You are already friends with ${friend.username}`)
     }
 
-    if(!user.receivedFriendRequests.includes(friendIdObj)) {
-      throw new Error(`Did not receive friend request from ${friend.username}`)
+    if(user.receivedFriendRequests.includes(friendIdObj)) {
+      throw new Error(`Did not receive friend requrest from ${friend.username}`)
     }
 
     // Add to friends
