@@ -1,11 +1,7 @@
-import connectDB from './connectDB'
 const jwt = require('jsonwebtoken')
 import User from '../models/userModel'
 
 export const authenticate = async(authorization) => {
-  // Connect to database
-  await connectDB()
-
   // authorization is req.headers.authorization
   let token
   
