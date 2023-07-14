@@ -1,7 +1,9 @@
+import { gameData } from "../../../data/gameData"
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
+import Slime from '../../../models/slimeModel'
 
 // @desc    Open egg to get slime
 // @route   POST /api/slime/open-egg
@@ -23,8 +25,8 @@ export default async function (req, res) {
     
     const { itemName } = req.body
     let itemIndex = -1
-    for(let item of user.items) {
-      if(item.itemName === itemName) {
+    for(let i in user.items) {
+      if(user.items[i].itemName === itemName) {
         itemIndex = i
       }
     }
