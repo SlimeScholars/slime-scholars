@@ -1,5 +1,6 @@
 import { mongoose } from 'mongoose'
 import { authenticate } from "../../../utils/authenticate"
+import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 
@@ -20,6 +21,9 @@ export default async function (req, res) {
 
     // Authenticate and get user
     const user = await authenticate(req.headers.authorization)
+
+    // Make sure user is a student
+    checkUserType(user, 1)
     
     const { friendId } = req.body
 
