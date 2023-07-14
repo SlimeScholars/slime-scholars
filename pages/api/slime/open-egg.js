@@ -55,14 +55,44 @@ export default async function (req, res) {
     if(!rarity) {
       throw new Error('System error')
     }
-    // Generate slime
-    let slimeIndexList = []
-    for(let i in gameData.slimes) {
-      if(gameData.slimes[i].rarity === rarity) {
-        slimeIndexList.push(i)
+
+    const slimeList = gameData.slimes[rarity]
+    const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
+
+    const userSlimes = await Slime.find({userId: user._id})
+    let slimeExists
+    for(let userSlime of userSlimes) {
+      if(userSlime.slimeName === chosenSlime) {
+        slimeExists = userSlime
+
+        // If the slime can earn stars
+        if(slimeExists.starProgress !== undefined && slimeExists.starLevel !== slimeExists.maxStarLevel) {
+          // Increase star progress
+          slimeExists.starProgress += 1
+          // If about to level up
+          if(slimeExists.starProgress === slimeExists.maxStarProgress) {
+            slimeExists.starLevel += 1
+
+            // If slime reached max star
+            if(slimeExists.starLevel === slimeExists.maxStarLevel) {
+              slimeExists.starProgress = undefined
+              slimeExists.maxStarProgress = undefined
+            }
+
+            // If slime not at max star
+            else {
+              slimeExists.starProgress = 0
+              // Update maxStarProgress according to game data
+              slimeExists.maxStarProgress = gameData.starProgress[slimeExists.rarity][slimeExists.starLevel]
+            }
+          }
+        }
+        // If not starable or reached maxed stars, just add a bonus level
+        else {
+          slimeExists.bonusLevel += 1
+        }
       }
     }
-    const chosenSlime = gameData.slimes[slimeIndexList[Math.floor((Math.random() * slimeIndexList.length))]]
 
     // Reduce the quantity of item by 1
     let newItems = user.items
@@ -71,19 +101,49 @@ export default async function (req, res) {
       newItems.splice(itemIndex, 1)
     }
 
-    const slime = await Slime.create({
-			userId: user._id,
-      slimeName: chosenSlime.slimeName,
-      maxLevel: chosenSlime.maxLevel,
-      rarity: chosenSlime.rarity,
-      sellPrice: chosenSlime.sellPrice,
-      sellCurrency: chosenSlime.sellCurrency,
-      basePower: gameData.basePowers[chosenSlime.rarity][0],
-      levelUpCost: gameData.levelUpCosts[chosenSlime.rarity][0],
-    })
+    let slime
 
+    // Create an array of the user's new slimes
 		const newSlimes = user.slimes
-		newSlimes.push(slime._id)
+
+    // If the slime is a duplicate, update the old slime
+    if(slimeExists) {
+      await slimeExists.save()
+      slime = slimeExists
+    }
+
+    // If the slime is new, create a new slime
+
+    // Create a starable slime
+    else if(gameData.canStar.includes(rarity)) {
+      slime = await Slime.create({
+        userId: user._id,
+        slimeName: chosenSlime,
+        maxLevel: gameData.maxLevel[rarity],
+        rarity,
+        basePower: gameData.basePower[rarity][0],
+        levelUpCost: gameData.levelUpCost[rarity][0],
+
+        starLevel: 0,
+        maxStarLevel: gameData.maxStarLevel[rarity],
+        starProgress: 0,
+        maxStarProgress: gameData.starProgress[rarity][0]
+      })
+      newSlimes.push(slime._id)
+    }
+
+    // Create a non-starable slime
+    else {
+      slime = await Slime.create({
+        userId: user._id,
+        slimeName: chosenSlime,
+        maxLevel: gameData.maxLevel[rarity],
+        rarity,
+        basePower: gameData.basePower[rarity][0],
+        levelUpCost: gameData.levelUpCost[rarity][0],
+      })
+      newSlimes.push(slime._id)
+    }
 
     // Update user
     await User.findByIdAndUpdate(user._id, {
@@ -92,10 +152,7 @@ export default async function (req, res) {
     })
     const newUser = await User.findById(user._id)
     res.status(200).json({
-      slime: {
-        slimeName: chosenSlime.slimeName,
-        rarity: chosenSlime.rarity,
-      },
+      slime,
       user: newUser,
     })
   } catch (error) {
