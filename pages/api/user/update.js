@@ -17,6 +17,7 @@ import User from '../../../models/userModel'
 export default async function (req, res) {
   try {
     // TODO: Set up middleware to get user
+    // test
     const user = req.user
 
     // If no changes made, the fields should have value equal to their previous value
