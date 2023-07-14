@@ -1,0 +1,65 @@
+import { verifyPassword } from "../../../utils/verify"
+import { authenticate } from "../../../utils/authenticate"
+import connectDB from '../../../utils/connectDB'
+import User from '../../../models/userModel'
+const bcrypt = require('bcryptjs')
+const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
+
+/**
+ * @desc    Update user's password
+ * @route   PUT /api/user/update-password
+ * @access  Private
+ * @param   {string} req.body.oldPassword - Previous password (used to confirm it's the actual user)
+ * @param   {string} req.body.newPassword - The password the user wants to change to
+ * @param   {string} req.body.confirmPassword - Second confirmation of the password
+ */
+export default async function (req, res) {
+  try {
+    if(req.method !== 'PUT') {
+      throw new Error(`${req.method} is an invalid request method`)
+    }
+
+    // Connect to database
+    await connectDB()
+
+    // Authenticate and get user
+    const user = await authenticate(req.headers.authorization)
+
+    const {
+      oldPassword,
+      newPassword,
+      confirmNewPassword,
+    } = req.body
+
+    if(!oldPassword || !newPassword) {
+      throw new Error('Password cannot be left blank')
+    }
+
+    // Make sure password is the same as confirmation password
+    if (newPassword !== confirmNewPassword) {
+      throw new Error('New passwords do not match')
+    }
+
+    verifyPassword(newPassword)
+
+    const correctPassword = (await User.findById(user._id)).password
+
+    // Change hashedPassword only if the user updated the old password
+    if(!(await bcrypt.compare(oldPassword, correctPassword))) {
+      throw new Error('Incorrect old password')
+    }
+
+    // Update password only if new password is different
+    if(oldPassword !== newPassword) {
+      const salt = await bcrypt.genSalt(SALT_ROUNDS)
+      const hashedPassword = await bcrypt.hash(newPassword, salt)
+
+      await User.findByIdAndUpdate(user._id, { password: hashedPassword })
+    }
+
+    res.status(200).json({message: 'Successfully changed password'})
+
+  } catch (error) { 
+    res.status(400).json({message: error.message})
+  }
+}
