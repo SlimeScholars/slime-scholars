@@ -1,0 +1,3 @@
+Make appropriate res.jsons on HTTP endpoints
+
+Handle getting duplicate slimes
