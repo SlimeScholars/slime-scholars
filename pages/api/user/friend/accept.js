@@ -6,11 +6,11 @@ import User from '../../../../models/userModel'
 
 /**
  * @desc    Add friend (only if you have already received a friend request)
- * @route   POST /api/user/accept-friend-request
+ * @route   POST /api/user/friend/accept
  * @access  Private
  * @param   {string} req.body.friendId - Account id of person you want to friend
  */
-const addFriend = asyncHandler(async (req, res) => {
+export default async function (req, res) {
   try {
     if(req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
@@ -26,7 +26,7 @@ const addFriend = asyncHandler(async (req, res) => {
     checkUserType(user, 1)
 
     const { friendId } = req.body
-    const friendIdObj = mongoose.Types.ObjectId(friendId)
+    const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
     if(user._id.equals(friendIdObj)) {
       throw new Error('Cannot friend yourself')
@@ -46,7 +46,7 @@ const addFriend = asyncHandler(async (req, res) => {
       throw new Error(`You are already friends with ${friend.username}`)
     }
 
-    if(user.receivedFriendRequests.includes(friendIdObj)) {
+    if(!user.receivedFriendRequests.includes(friendIdObj)) {
       throw new Error(`Did not receive friend requrest from ${friend.username}`)
     }
 
@@ -72,4 +72,4 @@ const addFriend = asyncHandler(async (req, res) => {
   } catch(error) {
     res.status(400).json({message: error.message})
   }
-})
+}

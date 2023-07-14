@@ -6,7 +6,7 @@ import User from '../../../../models/userModel'
 
 /**
  * @desc    Delete sent friend request
- * @route   POST /api/user/delete-sent-friend-request
+ * @route   POST /api/user/friend/delete-sent
  * @access  Private
  * @param   {string} req.body.friendId - Account id of person you want delete the request of
  */
@@ -27,7 +27,7 @@ export default async function (req, res) {
 
     const { friendId } = req.body
 
-    const friendIdObj = mongoose.Types.ObjectId(friendId)
+    const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
     if(!user.sentFriendRequests.includes(friendIdObj)) {
       throw new Error('You did not send a friend request of that id')

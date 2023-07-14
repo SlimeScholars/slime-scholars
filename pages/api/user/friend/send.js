@@ -6,7 +6,7 @@ import User from '../../../../models/userModel'
 
 /**
  * @desc    Send a friend request
- * @route   POST /api/user/send-friend-request
+ * @route   POST /api/user/friend/send
  * @access  Private
  * @param   {string} req.body.friendId - Account id of person you are trying to friend
  */
