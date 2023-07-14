@@ -1,8 +1,8 @@
 import { mongoose } from 'mongoose'
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import User from '../../../models/userModel'
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import User from '../../../../models/userModel'
 
 /**
  * @desc    Send a friend request
