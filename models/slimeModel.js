@@ -20,18 +20,31 @@ const slimeSchema = Schema(
 			required: [true, 'Missing level'],
 			default: 1,
 		},
+    bonusLevel: {
+      type: Number,
+      required: [true, 'Missing maxLevel'],
+      default: 0,
+    },
 		maxLevel: {
 			type: Number,
 			required: [true, 'Missing maxLevel'],
 		},
-		sellPrice: {
-			type: Number,
-			required: [true, 'Missing sellPrice'],
-		},
-		sellCurrency: {
-			type: Number,
-			required: [true, 'Missing sellCurrency'],
-		},
+    starLevel: {
+      type: Number,
+      required: false,
+    },
+    maxStarLevel: {
+      type: Number,
+      required: false
+    },
+    starProgress: {
+      type: Number,
+      required: false,
+    },
+    maxStarProgress: {
+      type: Number,
+      required: false,
+    },
 		basePower: {
 			type: Number,
 			required: [true, 'Missing basePower'],
