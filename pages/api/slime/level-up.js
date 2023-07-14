@@ -5,9 +5,12 @@ import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
 
-// @desc    Level up a slime
-// @route   POST   /api/slime/level-up
-// @access  Private
+/**
+ * @desc    Level up a slime
+ * @route   POST   /api/slime/level-up
+ * @access  Private
+ * @param   {string} req.body.slimeId - Id of slime you want to level up
+ */
 export default async function (req, res) {
   try {
     if(req.method !== 'POST') {
