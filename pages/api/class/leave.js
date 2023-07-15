@@ -34,17 +34,17 @@ export default async function (req, res) {
     const classExists = await Class.findById(classId)
 
     if(!classExists) {
-      throw new Error('Cannot find a class')
+      throw new Error('Cannot find class')
     }
 
     if(user.userType === 1 && !classExists.students.includes(user._id)) {
       throw new Error(`You already are not in ${classExists.className}`)
-
     }
     if(user.userType === 3 && !classExists.teachers.includes(user._id)) {
       throw new Error(`You are already not in ${classExists.className}`)
     }
 
+    // Delete the student from the class
     if(user.userType === 1) {
       const index = classExists.students.indexOf(user._id)
       if (index !== -1) {
@@ -55,10 +55,14 @@ export default async function (req, res) {
       })
     }
 
+    // Teachers
     else if(user.userType === 3) {
+      // Do not allow teacher to leave if they are the last teacher in the class
       if(classExists.teachers.length === 1) {
         throw new Error(`You are the only teacher in ${classExists.className}, so you cannot leave the class. Either add another teacher before leaving or delete the class altogether.`)
       }
+
+      // Delete teacher from the class
       const index = classExists.teachers.indexOf(user._id)
       if (index !== -1) {
         classExists.teachers.splice(index, 1)
@@ -67,6 +71,8 @@ export default async function (req, res) {
         teachers: classExists.teachers
       })
     }
+
+    // Remove class from user's class list
     const index = user.classes.indexOf(classExists._id)
     if (index !== -1) {
       user.classes.splice(index, 1)
