@@ -115,7 +115,12 @@ export default async function (req, res) {
     }
     user.friends = friends
 
-    res.status(200).json({user})
+    res.status(200).json({
+      user,
+      receivedFriendRequests,
+      sentFriendRequests,
+      friends
+    })
 
   } catch(error) {
     res.status(400).json({message: error.message})
