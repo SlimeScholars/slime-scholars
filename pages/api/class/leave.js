@@ -5,7 +5,7 @@ import User from '../../../models/userModel'
 import Class from '../../../models/classModel'
 
 /**
- * @desc    Update user's account information, but not password
+ * @desc    Leave a class
  * @route   POST /api/class/leave
  * @access  Private - Students, teachers
  * @param   {string} req.body.classId - Id of class you are trying to leave.

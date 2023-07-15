@@ -8,7 +8,7 @@ import User from '../../../models/userModel'
 import Class from '../../../models/classModel'
 
 /**
- * @desc    Update user's account information, but not password
+ * @desc    Create a class
  * @route   POST /api/class/create
  * @access  Private - Teachers
  * @param   {string} req.body.className - Max 60 characters long.

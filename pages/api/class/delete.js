@@ -5,7 +5,7 @@ import User from '../../../models/userModel'
 import Class from '../../../models/classModel'
 
 /**
- * @desc    Update user's account information, but not password
+ * @desc    Delete a class
  * @route   DELETE /api/class/delete
  * @access  Private - Teachers
  * @param   {string} req.body.classId - Id of class.

@@ -4,10 +4,9 @@ import connectDB from '../../../utils/connectDB'
 import Class from '../../../models/classModel'
 
 /**
- * @desc    Update user's account information, but not password
+ * @desc    Get information about all the classes a user is enrolled in
  * @route   GET /api/class/
  * @access  Private - Students and teachers
- * @param   {string} req.query.classId - Id of class.
  */
 export default async function (req, res) {
   try {
@@ -24,31 +23,22 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 1, 3)
 
-    const { classId } = req.query
-
-    if(!classId) {
-      throw new Error('Class id cannot be empty')
-    }
-
-    const classExists = await Class.findById(classId)
-
-    if(!classExists) {
-      throw new Error('Cannot find class')
-    }
-
-    if(user.userType === 1 && !classExists.students.includes(user._id)) {
-      throw new Error(`You are not in ${classExists.className}`)
-    }
-    else if(user.userType === 3 && !classExists.teachers.includes(user._id)) {
-      throw new Error(`You are not in ${classExists.className}`)
+    const classes = []
+    for(let classId of user.classes) {
+      const newClass = await Class.findById(classId)
+      if(!newClass) {
+        throw new Error('System error')
+      }
+      classes.push(newClass)
     }
 
     res.status(200).json({
-      class: classExists,
+      classes
     })
 
   } catch(error) {
     res.status(400).json({message: error.message})
   }
 }
+
 

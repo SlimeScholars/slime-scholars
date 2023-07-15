@@ -5,7 +5,7 @@ import User from '../../../models/userModel'
 import Class from '../../../models/classModel'
 
 /**
- * @desc    Update user's account information, but not password
+ * @desc    Join a class
  * @route   POST /api/class/join
  * @access  Private - Students, teachers
  * @param   {string} req.body.classCode - Class code of the class you are trying to join.
