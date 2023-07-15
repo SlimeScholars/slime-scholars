@@ -7,7 +7,7 @@ import User from '../../../../models/userModel'
 /**
  * @desc    Send a friend request
  * @route   POST /api/user/friend/send
- * @access  Private
+ * @access  Private - Students
  * @param   {string} req.body.friendId - Account id of person you are trying to friend
  */
 export default async function (req, res) {

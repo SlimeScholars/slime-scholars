@@ -8,7 +8,7 @@ import Slime from '../../../models/slimeModel'
 /**
  * @desc    Level up a slime
  * @route   POST   /api/slime/level-up
- * @access  Private
+ * @access  Private - Students
  * @param   {string} req.body.slimeId - Id of slime you want to level up
  */
 export default async function (req, res) {

@@ -7,7 +7,7 @@ import User from '../../../../models/userModel'
 /**
  * @desc    Delete sent friend request
  * @route   POST /api/user/friend/delete-sent
- * @access  Private
+ * @access  Private - Students
  * @param   {string} req.body.friendId - Account id of person you want delete the friend request of
  */
 export default async function (req, res) {

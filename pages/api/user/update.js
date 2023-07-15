@@ -6,7 +6,7 @@ import User from '../../../models/userModel'
 /**
  * @desc    Update user's account information, but not password
  * @route   PUT /api/user/update
- * @access  Private
+ * @access  Private - Any logged in user
  * @param   {string} req.body.username - Min 2 characters long. Max 15 characters long. Can only contain alphabetical characters and numbers (no spaces).
  * @param   {string} req.body.firstName - Max 55 characters long. Can only contain alphabetical characters.
  * @param   {string} req.body.lastName - Max 55 characters long. Can only contain alphabetical characters.
