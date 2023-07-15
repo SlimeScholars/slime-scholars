@@ -44,8 +44,8 @@ export default async function (req, res) {
     const newClass = await Class.create({
       className,
       classCode,
-      teacherIds: [user._id],
-      studentIds: [],
+      teachers: [user._id],
+      students: [],
     })
 
     user.classes.push(newClass._id)
