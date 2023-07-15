@@ -62,13 +62,13 @@ export default async function (req, res) {
       classes: user.classes,
     })
 
-    // Instead of sending the ids of the students, return the actual object
+    // Instead of sending the ids of the students, send the actual object
     const students = []
     for(let studentId of classExists.students) {
       const student = await User.findById(studentId)
       students.push(student)
     }
-    // Instead of sending the ids of the teachers, turn the actual object
+    // Instead of sending the ids of the teachers, send the actual object
     const teachers = []
     for(let teacherId of classExists.teachers) {
       const teacher = await User.findById(teacherId)

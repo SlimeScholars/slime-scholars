@@ -33,7 +33,7 @@ export default async function (req, res) {
       classes.push(newClass)
     }
 
-    // Instead of sending the ids of the teachers, turn the actual object
+    // Instead of sending the ids of the teachers, send the actual object
     const teachers = []
     for(let teacherId of classes.teachers) {
       const teacher = await User.findById(teacherId)
