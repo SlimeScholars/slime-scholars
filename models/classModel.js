@@ -9,16 +9,17 @@ const classSchema = new Schema(
     classCode: {
       type: String,
       required: [true, 'Missing className'],
+      unique: true,
     },
-    teacherIds: {
+    teachers: {
       type: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'Missing teacherId'],
       }],
-      required: true,
+      required: [true, 'Missing teachers'],
     },
-    studentIds: {
+    students: {
       type: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
