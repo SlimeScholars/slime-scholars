@@ -2,6 +2,7 @@ import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import Class from '../../../models/classModel'
+import User from "../../../models/userModel"
 
 /**
  * @desc    Get information about a specific class
@@ -42,6 +43,23 @@ export default async function (req, res) {
     else if(user.userType === 3 && !classExists.teachers.includes(user._id)) {
       throw new Error(`You are not in ${classExists.className}`)
     }
+
+    // Instead of sending the ids of the students, return the actual object
+    const students = []
+    for(let studentId of classExists.students) {
+      const student = await User.findById(studentId)
+      students.push(student)
+    }
+
+    // Instead of sending the ids of the teachers, turn the actual object
+    const teachers = []
+    for(let teacherId of classExists.teachers) {
+      const teacher = await User.findById(teacherId)
+      teachers.push(teacher)
+    }
+
+    classExists.students = students
+    classExists.teachers = teachers
 
     res.status(200).json({
       class: classExists,
