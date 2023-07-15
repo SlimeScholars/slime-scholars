@@ -6,14 +6,13 @@ import User from '../../../models/userModel'
 /**
  * @desc    Update user's account information, but not password
  * @route   PUT /api/user/update
- * @access  Private
- * @param   {string} req.body.username - Min 4 characters long. Max 15 characters long. Can only contain alphabetical characters and numbers (no spaces).
+ * @access  Private - Any logged in user
+ * @param   {string} req.body.username - Min 2 characters long. Max 15 characters long. Can only contain alphabetical characters and numbers (no spaces).
  * @param   {string} req.body.firstName - Max 55 characters long. Can only contain alphabetical characters.
  * @param   {string} req.body.lastName - Max 55 characters long. Can only contain alphabetical characters.
  * @param   {string} req.body.honorific - Can be "Mr.", "Ms.", "Mrs.", "Dr.", "Jr.", or none.
  * @param   {string} req.body.email - Max 255 characters long.
  * @param   {string} req.body.parentEmail - Max 255 characters long.
- * @param   {string} req.body.classCode - Class code that corresponds to the class code of a teacher.
  */
 export default async function (req, res) {
   try {
@@ -36,7 +35,6 @@ export default async function (req, res) {
       honorific,
       email,
       parentEmail,
-      classCode,
     } = req.body
 
     verifyName(firstName)
@@ -101,19 +99,8 @@ export default async function (req, res) {
       newParentEmail = lowercaseParentEmail
     }
 
-    let teacherId
-    let newClassCode = user.classCode
-    if(user.userType === 1 && classCode && classCode !== user.classCode) {
-      const teacher = await User.findOne({classCode: classCode})
-      if(!teacher) {
-        throw new Error('Invalid class code')
-      }
-      teacherId = teacher._id
-      newClassCode = classCode
-    }
-
-    if(!email && !parentEmail && !classCode) {
-      throw new Error('Account must have an email, a parent email, or a class code')
+    if(!email && !parentEmail) {
+      throw new Error('Account must either have an email or parent email')
     }
 
     // This complex expression is used because if either user.parentId
@@ -133,25 +120,6 @@ export default async function (req, res) {
       if(parent) {
         parent.students.push(user._id)
         await User.findByIdAndUpdate(parentId, {students: parent.students})
-      }
-    }
-
-    // Refer to comments about parents
-    if((user.teacherId !== undefined && !user.teacherId.equals(teacherId)) ||
-    (teacherId !== undefined && !teacherId.equals(user.teacherId))) {
-      if(user.teacherId) {
-        // Delete student from old teacher's students list
-        const teacher = await User.findById(user.teacherId)
-        if(teacher) {
-          const newStudents = teacher.students.filter(item => !item.equals(user._id))
-          await User.findByIdAndUpdate(user.teacherId, {students: newStudents})
-        }
-      }
-      // Add student to new teacher's student list
-      const teacher = await User.findById(teacherId)
-      if(teacher) {
-        teacher.students.push(user._id)
-        await User.findByIdAndUpdate(teacherId, {students: teacher.students})
       }
     }
 
@@ -177,9 +145,7 @@ export default async function (req, res) {
       const update = await User.findById(user._id)
       update.email = newEmail
       update.parentEmail = newParentEmail
-      update.classCode = newClassCode
       update.parentId = parentId
-      update.teacherId = teacherId
       await update.save()
     }
 

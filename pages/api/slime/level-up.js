@@ -8,7 +8,7 @@ import Slime from '../../../models/slimeModel'
 /**
  * @desc    Level up a slime
  * @route   POST   /api/slime/level-up
- * @access  Private
+ * @access  Private - Students
  * @param   {string} req.body.slimeId - Id of slime you want to level up
  */
 export default async function (req, res) {
@@ -58,6 +58,8 @@ export default async function (req, res) {
       slimeGel: user.slimeGel - slime.levelUpCost
     })
 		const newUser = await User.findById(user._id)
+    
+    const slimes = await Slime.find({userId: user._id})
 
     res.status(200).json({
 			slime: newSlime,
