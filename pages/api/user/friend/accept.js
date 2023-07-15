@@ -76,7 +76,6 @@ export default async function (req, res) {
       receivedFriendRequest.password = undefined
       receivedFriendRequests.push(receivedFriendRequest)
     }
-    user.receivedFriendRequests = receivedFriendRequests
     // Instead of sending Ids, send objects for sent friend requests
     const sentFriendRequests = []
     for(let friendId of user.sentFriendRequests) {
@@ -84,7 +83,6 @@ export default async function (req, res) {
       sentFriendRequest.password = undefined
       sentFriendRequests.push(sentFriendRequest)
     }
-    user.sentFriendRequests = sentFriendRequests
     // Instead of sending Ids, send objects for friends
     const friends = []
     for(let friendId of user.friends) {
@@ -92,9 +90,13 @@ export default async function (req, res) {
       foundFriend.password = undefined
       friends.push(foundFriend)
     }
-    user.friends = friends
 
-    res.status(200).json({user})
+    res.status(200).json({
+      user,
+      receivedFriendRequests,
+      sentFriendRequests,
+      friends
+    })
   } catch(error) {
     res.status(400).json({message: error.message})
   }
