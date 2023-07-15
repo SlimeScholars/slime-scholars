@@ -9,11 +9,11 @@ export default function Back() {
         href="/"
         className="h-full flex justify-start items-center px-10 stretch"
       >
-        <FaChevronCircleLeft className="text-3xl text-bg-light" />
-        <p className="text-2xl ml-3 mr-2 pt-1 text-bg-light font-galindo">
+        <FaChevronCircleLeft className="text-3xl text-bg-light/80" />
+        <p className="text-2xl ml-3 mr-2 pt-1 text-bg-light/80 font-galindo">
           Back to
         </p>
-        <HiHome className="text-3xl text-bg-light" />
+        <HiHome className="text-3xl text-bg-light/80" />
       </a>
     </nav>
   );
