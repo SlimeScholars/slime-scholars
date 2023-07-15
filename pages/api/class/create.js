@@ -53,6 +53,9 @@ export default async function (req, res) {
     })
     const newUser = await User.findById(user._id)
 
+    // Send back the class with the teacher as an object rather than id
+    newClass.teachers = [newUser]
+
     res.status(201).json({
       class: newClass,
       user: newUser,
