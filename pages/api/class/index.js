@@ -37,6 +37,7 @@ export default async function (req, res) {
     const teachers = []
     for(let teacherId of classes.teachers) {
       const teacher = await User.findById(teacherId)
+      teacher.password = undefined
       teachers.push(teacher)
     }
     classes.teachers = teachers
