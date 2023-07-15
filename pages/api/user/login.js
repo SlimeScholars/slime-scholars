@@ -36,7 +36,7 @@ export default async function (req, res) {
 
     if (user && (await bcrypt.compare(password, user.password))) {
       user.password = undefined
-      res.json({
+      res.stauts(200).json({
         user,
         token: generateToken(user._id),
       })

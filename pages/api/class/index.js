@@ -1,18 +1,17 @@
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
-import User from '../../../models/userModel'
 import Class from '../../../models/classModel'
 
 /**
  * @desc    Update user's account information, but not password
- * @route   DELETE /api/class/delete
- * @access  Private - Teachers
- * @param   {string} req.body.classId - Id of class.
+ * @route   GET /api/class/
+ * @access  Private - Students and teachers
+ * @param   {string} req.query.classId - Id of class.
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'DELETE') {
+    if(req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -23,9 +22,9 @@ export default async function (req, res) {
     const user = await authenticate(req.headers.authorization)
 
     // Make sure user is a teacher
-    checkUserType(user, 3)
+    checkUserType(user, 1, 3)
 
-    const { classId } = req.body
+    const { classId } = req.query
 
     if(!classId) {
       throw new Error('Class id cannot be empty')
@@ -37,35 +36,19 @@ export default async function (req, res) {
       throw new Error('Cannot find class')
     }
 
-    if(!classExists.teachers.includes(user._id)) {
+    if(user.userType === 1 && !classExists.students.includes(user._id)) {
+      throw new Error(`You are not in ${classExists.className}`)
+    }
+    else if(user.userType === 3 && !classExists.teachers.includes(user._id)) {
       throw new Error(`You are not in ${classExists.className}`)
     }
 
-    for(let studentId of classExists.students) {
-      const student = await User.findById(studentId)
-      const index = student.classes.indexOf(classExists._id)
-      if (index !== -1) {
-        student.classes.splice(index, 1)
-      }
-      await User.findByIdAndUpdate(studentId, {
-        classes: student.classes
-      })
-    }
-
-    await Class.findByIdAndDelete(classExists._id)
-    const index = user.classes.indexOf(classExists._id)
-    if (index !== -1) {
-      user.classes.splice(index, 1)
-    }
-    await User.findByIdAndUpdate(user._id, {
-      classes: user.classes,
-    })
-
-    res.status(204).json({
-      user,
+    res.status(200).json({
+      class: classExists,
     })
 
   } catch(error) {
     res.status(400).json({message: error.message})
   }
 }
+
