@@ -50,24 +50,23 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
-    // Students can have teacherId
-    teacherId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: false,
-    },
-    // Teachers have classCode, students can have classCode
-    classCode: {
-      type: String,
-      required: false,
-    },
 
-    // Parents and teachers have students
+    // Parents have students
     students: {
       type: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'Missing studentId'],
+      }],
+      required: false,
+      default: undefined,
+    },
+    // Students and teachers can have classIds
+    classes: {
+      type: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Class',
+        required: [true, 'Missing classId'],
       }],
       required: false,
       default: undefined,
