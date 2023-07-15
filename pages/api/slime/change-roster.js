@@ -8,7 +8,7 @@ import Slime from '../../../models/slimeModel'
 /**
  * @desc    Change user's roster
  * @route   PUT   /api/slime/change-roster
- * @access  Private
+ * @access  Private - Students
  * @param   {[string]} req.body.roster - Array of the id's of the slime in an array, if no slime is equiped in a spot, it should be null. Example roser: [id, null, null, id]
  */
 export default async function (req, res) {

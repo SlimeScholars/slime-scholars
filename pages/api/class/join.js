@@ -7,7 +7,7 @@ import Class from '../../../models/classModel'
 /**
  * @desc    Update user's account information, but not password
  * @route   POST /api/class/join
- * @access  Private
+ * @access  Private - Students, teachers
  * @param   {string} req.body.className - Max 60 characters long.
  */
 

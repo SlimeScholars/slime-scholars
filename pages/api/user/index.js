@@ -4,7 +4,7 @@ import connectDB from '../../../utils/connectDB'
 /**
  * @desc    Get user data of the person who is signed in
  * @route   GET /api/user/
- * @access  Private
+ * @access  Private - Any logged in user
  */
 export default async function (req, res) {
   try {

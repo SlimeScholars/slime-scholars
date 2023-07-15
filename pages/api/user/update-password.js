@@ -8,7 +8,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 /**
  * @desc    Update user's password
  * @route   PUT /api/user/update-password
- * @access  Private
+ * @access  Private - Any logged in user
  * @param   {string} req.body.oldPassword - Previous password (used to confirm it's the actual user)
  * @param   {string} req.body.newPassword - The password the user wants to change to. Min 8 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
  * @param   {string} req.body.confirmPassword - Second confirmation of the password

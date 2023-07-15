@@ -8,7 +8,7 @@ import Slime from '../../../models/slimeModel'
 /**
  * @desc    Open egg to get slime
  * @route   POST /api/slime/open-egg
- * @access  Private
+ * @access  Private - Students
  * @param   {string} itemName - Name of the egg you want to open
  */
 export default async function (req, res) {
