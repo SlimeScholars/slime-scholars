@@ -1,6 +1,7 @@
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
+import User from '../../../models/userModel'
 import Class from '../../../models/classModel'
 
 /**
@@ -31,6 +32,14 @@ export default async function (req, res) {
       }
       classes.push(newClass)
     }
+
+    // Instead of sending the ids of the teachers, turn the actual object
+    const teachers = []
+    for(let teacherId of classes.teachers) {
+      const teacher = await User.findById(teacherId)
+      teachers.push(teacher)
+    }
+    classes.teachers = teachers
 
     res.status(200).json({
       classes
