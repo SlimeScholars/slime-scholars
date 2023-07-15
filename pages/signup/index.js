@@ -6,19 +6,19 @@ import { RiParentFill } from 'react-icons/ri';
 const content = [
   {
     type: "Student",
-    list: ["Lorem ipsum.", "Dolor sit amet.", "Consectetur adipiscing elit"],
+    list: ["Increase your productivity.", "Be excited to learn.", "Collect adorable pets."],
     link: "/signup/student",
     icon: <FaGraduationCap className="text-slate-300/30 absolute w-full h-full p-14 z-10 top-0 bottom-0 left-0 right-0"/>
   },
   {
     type: "Parent",
-    list: ["Lorem ipsum.", "Dolor sit amet.", "Consectetur adipiscing elit"],
+    list: ["Empower your child's learning.", "Improve your child's grades.", "Watch as your child grows."],
     link: "/signup/parent",
     icon: <RiParentFill className="text-slate-300/30 absolute w-full h-full p-14 z-10 top-0 bottom-0 left-0 right-0"/>
   },
   {
     type: "Teacher",
-    list: ["Lorem ipsum.", "Dolor sit amet.", "Consectetur adipiscing elit"],
+    list: ["Get your class to love learning.", "Make homework fun, not a chore.", "Identify areas for improvement"],
     link: "/signup/teacher",
     icon: <FaAppleAlt className="text-slate-300/30 absolute w-full h-full p-14 z-10 top-0 bottom-0 left-0 right-0"/>
   }
