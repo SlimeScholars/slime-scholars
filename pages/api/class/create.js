@@ -13,7 +13,6 @@ import Class from '../../../models/classModel'
  * @access  Private - Teachers
  * @param   {string} req.body.className - Max 60 characters long.
  */
-
 export default async function (req, res) {
   try {
     if(req.method !== 'POST') {

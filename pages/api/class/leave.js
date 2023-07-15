@@ -6,7 +6,7 @@ import Class from '../../../models/classModel'
 
 /**
  * @desc    Update user's account information, but not password
- * @route   POST /api/class/join
+ * @route   POST /api/class/leave
  * @access  Private - Students, teachers
  * @param   {string} req.body.className - Max 60 characters long.
  */
@@ -25,39 +25,52 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 1, 3)
 
-    const { classCode } = req.body
+    const { classId } = req.body
 
-    if(!classCode) {
-      throw new Error('Class code cannot be left empty')
+    if(!classId) {
+      throw new Error('Class id cannot be empty')
     }
 
-    const classExists = await Class.findOne({classCode})
+    const classExists = await Class.findById(classId)
 
     if(!classExists) {
-      throw new Error(`Cannot find a class with code ${classCode}`)
+      throw new Error('Cannot find a class')
     }
 
-    if(user.userType === 1 && classExists.students.includes(user._id)) {
-      throw new Error(`You are already in ${classExists.className}`)
+    if(user.userType === 1 && !classExists.students.includes(user._id)) {
+      throw new Error(`You already are not in ${classExists.className}`)
 
     }
-    if(user.userType === 3 && classExists.teachers.includes(user._id)) {
-      throw new Error(`You are already in ${classExists.className}`)
+    if(user.userType === 3 && !classExists.teachers.includes(user._id)) {
+      throw new Error(`You are already not in ${classExists.className}`)
     }
 
     if(user.userType === 1) {
-      classExists.students.push(user._id)
+      const index = classExists.students.indexOf(user._id)
+      if (index !== -1) {
+        classExists.students.splice(index, 1)
+      }
       await Class.findByIdAndUpdate(classExists._id, {
         students: classExists.students
       })
     }
+
     else if(user.userType === 3) {
-      classExists.teachers.push(user._id)
+      if(classExists.teachers.length === 1) {
+        throw new Error(`You are the only teacher in ${classExists.className}, so you cannot leave the class. Either add another teacher before leaving or delete the class altogether.`)
+      }
+      const index = classExists.teachers.indexOf(user._id)
+      if (index !== -1) {
+        classExists.teachers.splice(index, 1)
+      }
       await Class.findByIdAndUpdate(classExists._id, {
         teachers: classExists.teachers
       })
     }
-    user.classes.push(classExists._id)
+    const index = user.classes.indexOf(classExists._id)
+    if (index !== -1) {
+      user.classes.splice(index, 1)
+    }
     await User.findByIdAndUpdate(user._id, {
       classes: user.classes,
     })
@@ -71,3 +84,4 @@ export default async function (req, res) {
     res.status(400).json({message: error.message})
   }
 }
+
