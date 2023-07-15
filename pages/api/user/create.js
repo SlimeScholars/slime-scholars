@@ -11,8 +11,8 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  * @desc    Create new user
  * @route   POST /api/user/create
  * @access  Public
- * @param   {string} req.body.password - Min 5 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
- * @param   {string} req.body.username - Min 4 characters long. Max 15 characters long. Can only contain alphabetical characters and numbers (no spaces).
+ * @param   {string} req.body.password - Min 8 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
+ * @param   {string} req.body.username - Min 2 characters long. Max 15 characters long. Can only contain alphabetical characters and numbers (no spaces).
  * @param   {string} req.body.firstName - Max 55 characters long. Can only contain alphabetical characters.
  * @param   {string} req.body.lastName - Max 55 characters long. Can only contain alphabetical characters.
  * @param   {string} req.body.honorific - Can be "Mr.", "Ms.", "Mrs.", "Dr.", "Jr.", or none

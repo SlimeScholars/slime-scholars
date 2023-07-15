@@ -10,7 +10,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  * @route   PUT /api/user/update-password
  * @access  Private
  * @param   {string} req.body.oldPassword - Previous password (used to confirm it's the actual user)
- * @param   {string} req.body.newPassword - The password the user wants to change to. Min 5 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
+ * @param   {string} req.body.newPassword - The password the user wants to change to. Min 8 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
  * @param   {string} req.body.confirmPassword - Second confirmation of the password
  */
 export default async function (req, res) {
