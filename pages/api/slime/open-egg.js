@@ -154,8 +154,11 @@ export default async function (req, res) {
       items: newItems,
     })
     const newUser = await User.findById(user._id)
+    const slimes = await Slime.find({userId: user._id})
+
     res.status(200).json({
       slime,
+      slimes,
       user: newUser,
     })
   } catch (error) {
