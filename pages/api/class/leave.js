@@ -8,7 +8,7 @@ import Class from '../../../models/classModel'
  * @desc    Update user's account information, but not password
  * @route   POST /api/class/leave
  * @access  Private - Students, teachers
- * @param   {string} req.body.className - Max 60 characters long.
+ * @param   {string} req.body.classId - Id of class you are trying to leave.
  */
 export default async function (req, res) {
   try {
@@ -90,4 +90,3 @@ export default async function (req, res) {
     res.status(400).json({message: error.message})
   }
 }
-
