@@ -17,7 +17,7 @@ export default function Modal({ preview, content }) {
   ) : (
     <button
       onClick={() => setShow(true)}
-      className="shake duration-300 ease-in-out focus:outline-none"
+      className="shake duration-300 ease-in-out focus:outline-none active:outline-none after:outline-none"
     >
       {preview}
     </button>

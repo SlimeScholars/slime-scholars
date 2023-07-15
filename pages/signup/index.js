@@ -6,7 +6,11 @@ import { RiParentFill } from "react-icons/ri";
 const content = [
   {
     type: "Student",
-    list: ["Increase your productivity.", "Be excited to learn.", "Collect adorable pets."],
+    list: [
+      "Increase your productivity.",
+      "Be excited to learn.",
+      "Collect adorable pets.",
+    ],
     link: "/signup/student",
     icon: (
       <FaGraduationCap className="text-slate-300/30 absolute w-full h-full p-14 z-10 top-0 bottom-0 left-0 right-0" />
@@ -14,7 +18,11 @@ const content = [
   },
   {
     type: "Parent",
-    list: ["Empower your child's learning.", "Improve your child's grades.", "Watch as your child grows."],
+    list: [
+      "Empower your child's learning.",
+      "Improve your child's grades.",
+      "Watch as your child grows.",
+    ],
     link: "/signup/parent",
     icon: (
       <RiParentFill className="text-slate-300/30 absolute w-full h-full p-14 z-10 top-0 bottom-0 left-0 right-0" />
@@ -22,7 +30,11 @@ const content = [
   },
   {
     type: "Teacher",
-    list: ["Get your class to love learning.", "Make homework fun, not a chore.", "Identify areas for improvement"],
+    list: [
+      "Get your class to love learning.",
+      "Make homework fun, not a chore.",
+      "Identify areas for improvement",
+    ],
     link: "/signup/teacher",
     icon: (
       <FaAppleAlt className="text-slate-300/30 absolute w-full h-full p-14 z-10 top-0 bottom-0 left-0 right-0" />
@@ -41,7 +53,7 @@ export default function Signup() {
         {content.map((item) => {
           return (
             <a
-              className="relative w-1/4 h-80 bg-bg-light py-10 px-12 font-galindo text-ink hover:scale-105 hover:shadow-2xl hover:opacity-80 duration-300 ease-in-out"
+              className="relative w-[30%] h-80 bg-bg-light py-10 px-12 font-galindo text-ink hover:scale-105 hover:shadow-2xl hover:opacity-80 duration-300 ease-in-out"
               href={item.link}
               key={item.type}
             >
