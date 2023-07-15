@@ -5,7 +5,7 @@ import User from '../../../models/userModel'
  * @desc    Search user's information by username
  * @route   GET /api/user/search?username=...
  * @access  Public
- * @param   {string} req.query.username - Max 55 characters long. Can only contain alphabetical characters.
+ * @param   {string} req.query.username - Max 15 characters long. Can only contain alphabetical characters.
  */
 export default async function (req, res) {
   try {
