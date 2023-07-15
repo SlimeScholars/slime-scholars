@@ -85,12 +85,14 @@ export default async function (req, res) {
     const students = []
     for(let studentId of classExists.students) {
       const student = await User.findById(studentId)
+      student.password = undefined
       students.push(student)
     }
     // Instead of sending the ids of the teachers, send the actual object
     const teachers = []
     for(let teacherId of classExists.teachers) {
       const teacher = await User.findById(teacherId)
+      teacher.password = undefined
       teachers.push(teacher)
     }
     classExists.students = students

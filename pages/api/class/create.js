@@ -52,6 +52,7 @@ export default async function (req, res) {
       classes: user.classes
     })
     const newUser = await User.findById(user._id)
+    newUser.password = undefined
 
     // Send back the class with the teacher as an object rather than id
     newClass.teachers = [newUser]
