@@ -1,10 +1,13 @@
-import Slime from '../../../models/slimeModel'
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import User from '../../../../models/userModel'
+import Slime from "../../../models/slimeModel"
 
 /**
- * @desc    Get the stats of a slime
- * @route   GET   /api/slime?slimeId=...
- * @access  Public
- * @param   {string} req.query.slimeId - Id of slime that you want to get information of
+ * @desc    Get all friend requests and friends
+ * @route   GET /api/user/friend/
+ * @access  Private - Students
  */
 export default async function (req, res) {
   try {
@@ -12,11 +15,22 @@ export default async function (req, res) {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
-    const { slimeId } = req.query
-		const slime = await Slime.findById(slimeId)
-    res.status(200).json(slime)
-  }
-  catch (error) {
+    // Connect to database
+    await connectDB()
+
+    // Authenticate and get user
+    const user = await authenticate(req.headers.authorization)
+
+    // Make sure user is a student
+    checkUserType(user, 1)
+    
+    // Instead of sending Ids, send objects for slimes
+    const slimes = await Slime.find({userId: user._id})
+
+    res.status(200).json({slimes})
+
+  } catch(error) {
     res.status(400).json({message: error.message})
   }
 }
+

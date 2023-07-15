@@ -7,7 +7,7 @@ import User from '../../../../models/userModel'
 /**
  * @desc    Add friend (only if you have already received a friend request)
  * @route   POST /api/user/friend/accept
- * @access  Private
+ * @access  Private - Students
  * @param   {string} req.body.friendId - Account id of person you want to friend
  */
 export default async function (req, res) {
@@ -47,7 +47,7 @@ export default async function (req, res) {
     }
 
     if(!user.receivedFriendRequests.includes(friendIdObj)) {
-      throw new Error(`Did not receive friend requrest from ${friend.username}`)
+      throw new Error(`Did not receive friend request from ${friend.username}`)
     }
 
     // Add to friends
@@ -68,7 +68,35 @@ export default async function (req, res) {
       sentFriendRequests: friend.sentFriendRequests,
       friends: friend.friends,
     })
-    res.status(200).json({message: 'Successfully added friend'})
+
+    // Instead of sending Ids, send objects for received friend requests
+    const receivedFriendRequests = []
+    for(let friendId of user.receivedFriendRequests) {
+      const receivedFriendRequest = await User.findById(friendId)
+      receivedFriendRequest.password = undefined
+      receivedFriendRequests.push(receivedFriendRequest)
+    }
+    // Instead of sending Ids, send objects for sent friend requests
+    const sentFriendRequests = []
+    for(let friendId of user.sentFriendRequests) {
+      const sentFriendRequest = await User.findById(friendId)
+      sentFriendRequest.password = undefined
+      sentFriendRequests.push(sentFriendRequest)
+    }
+    // Instead of sending Ids, send objects for friends
+    const friends = []
+    for(let friendId of user.friends) {
+      const foundFriend = await User.findById(friendId)
+      foundFriend.password = undefined
+      friends.push(foundFriend)
+    }
+
+    res.status(200).json({
+      user,
+      receivedFriendRequests,
+      sentFriendRequests,
+      friends
+    })
   } catch(error) {
     res.status(400).json({message: error.message})
   }

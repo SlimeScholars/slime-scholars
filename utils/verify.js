@@ -66,8 +66,19 @@ export const verifyPassword = (password) => {
 
 export const verifyHonorific = (honorific) => {
   if(honorific && !userData.honorifics.includes(honorific)) {
-    const honorifcString = userData.honorifics(word => `"${word}"`).join(', ').join(', ')
-    throw new Error(`Honorific must be one of: ${honorifcString}, and none`)
+    const honorificString = userData.honorifics.map(word => `"${word}"`).join(', ')
+    throw new Error(`Honorific must be one of: ${honorificString}, and none`)
   }
 }
 
+export const verifyClassName = (className) => {
+  if(!className) {
+    throw new Error('Class name cannot be left blank')
+  }
+  if(className.length < userData.minClassNameLength) {
+    throw new Error(`Class name must be at least ${userData.minClassNameLength} characters long`)
+  }
+  if(className.length > userData.maxClassNameLength) {
+    throw new Error(`Class name must be at most ${userData.maxClassNameLength} characters long`)
+  }
+}

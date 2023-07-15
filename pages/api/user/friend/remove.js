@@ -7,7 +7,7 @@ import User from '../../../../models/userModel'
 /**
  * @desc    Remove friend
  * @route   POST /api/user/friend/remove
- * @access  Private
+ * @access  Private - Students
  * @param   {string} req.body.friendId - Account id of friend you want delete
  */
 export default async function (req, res) {
@@ -50,7 +50,32 @@ export default async function (req, res) {
       friends: friend.friends,
     })
 
-    res.status(200).json({friends: user.friends})
+    // Instead of sending Ids, send objects for received friend requests
+    const receivedFriendRequests = []
+    for(let friendId of user.receivedFriendRequests) {
+      const receivedFriendRequest = await User.findById(friendId)
+      receivedFriendRequest.password = undefined
+      receivedFriendRequests.push(receivedFriendRequest)
+    }
+    user.receivedFriendRequests = receivedFriendRequests
+    // Instead of sending Ids, send objects for sent friend requests
+    const sentFriendRequests = []
+    for(let friendId of user.sentFriendRequests) {
+      const sentFriendRequest = await User.findById(friendId)
+      sentFriendRequest.password = undefined
+      sentFriendRequests.push(sentFriendRequest)
+    }
+    user.sentFriendRequests = sentFriendRequests
+    // Instead of sending Ids, send objects for friends
+    const friends = []
+    for(let friendId of user.friends) {
+      const foundFriend = await User.findById(friendId)
+      foundFriend.password = undefined
+      friends.push(foundFriend)
+    }
+    user.friends = friends
+
+    res.status(200).json({user})
 
   } catch(error) {
     res.status(400).json({message: error.message})
