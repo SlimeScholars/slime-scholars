@@ -47,7 +47,7 @@ export default async function (req, res) {
     }
 
     if(!user.receivedFriendRequests.includes(friendIdObj)) {
-      throw new Error(`Did not receive friend requrest from ${friend.username}`)
+      throw new Error(`Did not receive friend request from ${friend.username}`)
     }
 
     // Add to friends
@@ -68,7 +68,33 @@ export default async function (req, res) {
       sentFriendRequests: friend.sentFriendRequests,
       friends: friend.friends,
     })
-    res.status(200).json({message: 'Successfully added friend'})
+
+    // Instead of sending Ids, send objects for received friend requests
+    const receivedFriendRequests = []
+    for(let friendId of user.receivedFriendRequests) {
+      const receivedFriendRequest = await User.findById(friendId)
+      receivedFriendRequest.password = undefined
+      receivedFriendRequests.push(receivedFriendRequest)
+    }
+    user.receivedFriendRequests = receivedFriendRequests
+    // Instead of sending Ids, send objects for sent friend requests
+    const sentFriendRequests = []
+    for(let friendId of user.sentFriendRequests) {
+      const sentFriendRequest = await User.findById(friendId)
+      sentFriendRequest.password = undefined
+      sentFriendRequests.push(sentFriendRequest)
+    }
+    user.sentFriendRequests = sentFriendRequests
+    // Instead of sending Ids, send objects for friends
+    const friends = []
+    for(let friendId of user.friends) {
+      const foundFriend = await User.findById(friendId)
+      foundFriend.password = undefined
+      friends.push(foundFriend)
+    }
+    user.friends = friends
+
+    res.status(200).json({user})
   } catch(error) {
     res.status(400).json({message: error.message})
   }
