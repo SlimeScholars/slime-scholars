@@ -17,10 +17,10 @@ export default function Home() {
         <Nav />
         <header className="w-screen h-screen flex flex-col items-center justify-center">
           <h1 className="font-black text-7xl max-w-4xl text-center">
-            Lorem ipsum dolor sit amet.
+            Make Learning Exciting with Slime Scholars
           </h1>
           <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-600">
-            Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Slime Scholars is a project that motivates students to learn by making the process gratifying.
           </h2>
           <Button text="Sign up for free" style="Primary" onClick="/signup" />
         </header>
