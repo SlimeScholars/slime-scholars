@@ -1,4 +1,3 @@
-import { mongoose } from 'mongoose'
 import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'

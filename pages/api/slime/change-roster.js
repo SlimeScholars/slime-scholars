@@ -64,8 +64,20 @@ export default async function (req, res) {
 		})
 		const newUser = await User.findById(user._id)
 
+		// Instead of sendingd Ids, send objects for the roster
+		const objRoster = []
+		for(let slimeId of roster) {
+			if(slimeId !== null) {
+				const slime = await Slime.findById(slimeId)
+				objRoster.push(slime)
+			}
+			else {
+				objRoster.push(null)
+			}
+		}
+
     res.status(200).json({
-			roster: newUser.roster,
+			roster: objRoster,
 			user: newUser,
 		})
   }

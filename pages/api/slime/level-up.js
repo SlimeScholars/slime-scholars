@@ -58,6 +58,8 @@ export default async function (req, res) {
       slimeGel: user.slimeGel - slime.levelUpCost
     })
 		const newUser = await User.findById(user._id)
+    
+    const slimes = await Slime.find({userId: user._id})
 
     res.status(200).json({
 			slime: newSlime,
