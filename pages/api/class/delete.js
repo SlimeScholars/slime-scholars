@@ -61,7 +61,7 @@ export default async function (req, res) {
       classes: user.classes,
     })
 
-    res.status(204).json({
+    res.status(200).json({
       user,
     })
 

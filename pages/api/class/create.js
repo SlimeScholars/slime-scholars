@@ -51,15 +51,13 @@ export default async function (req, res) {
     await User.findByIdAndUpdate(user._id, {
       classes: user.classes
     })
-    const newUser = await User.findById(user._id)
-    newUser.password = undefined
 
     // Send back the class with the teacher as an object rather than id
-    newClass.teachers = [newUser]
+    newClass.teachers = [user]
 
     res.status(201).json({
       class: newClass,
-      user: newUser,
+      user,
     })
 
   } catch(error) {
