@@ -4,6 +4,8 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
 
+import axios from 'axios'
+
 export default function Student() {
   const [honorific, setHonorific] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -17,6 +19,24 @@ export default function Student() {
     // TODO: Add validation, api call, and redirect
     e.preventDefault();
     console.log({ honorific, firstName, lastName, email, password, confirm });
+    axios.post('/api/user/create', {
+      userType: 2,
+      honorific,
+      firstName,
+      lastName,
+      email,
+      password 
+    })
+      .then(response => {
+        console.log('Success:')
+        console.log(response.data)
+      })
+      .catch(error => {
+        if(error.response && error.response.data && error.response.data.message) {
+          console.log('Error:')
+          console.error(error.response.data.message)
+        }
+      })
   };
 
   return (

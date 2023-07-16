@@ -57,7 +57,7 @@ export default async function (req, res) {
       await User.findByIdAndUpdate(user._id, { password: hashedPassword })
     }
 
-    res.status(200).json({message: 'Successfully changed password'})
+    res.status(200).end()
 
   } catch (error) { 
     res.status(400).json({message: error.message})
