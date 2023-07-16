@@ -10,6 +10,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  * @route   POST /api/user/create
  * @access  Public
  * @param   {string} req.body.password - Min 8 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
+ * @param   {string} req.body.confirmPassword - Repeat password.
  * @param   {string} req.body.username - Min 2 characters long. Max 15 characters long. Can only contain alphabetical characters and numbers (no spaces).
  * @param   {string} req.body.firstName - Max 55 characters long. Can only contain alphabetical characters.
  * @param   {string} req.body.lastName - Max 55 characters long. Can only contain alphabetical characters.
@@ -29,14 +30,12 @@ export default async function handler(req, res) {
     // TODO: Get rid of the parse on the actual version
     const userType = parseInt(req.body.userType)
     const {
-        // Mandatory for all
         password,
-        // Optional names
-        username,
+        confirmPassword,
         firstName,
         lastName,
+        username,
         honorific,
-        // Optional identifiers
         email,
         parentEmail,
     } = req.body
@@ -55,6 +54,11 @@ export default async function handler(req, res) {
 
     if(userType === 2 || userType === 3) {
       verifyHonorific(honorific)
+    }
+
+    // Make sure password is the same as confirmation password
+    if (password !== confirmPassword) {
+      throw new Error('New passwords do not match')
     }
 
     // Hash password
