@@ -1,7 +1,10 @@
 export const gameData = {
   rarities: ["Common", "Uncommon", "Rare", "Epic", "Legendary"],
   openingOdds: {
-    "Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
+    //"Slime Egg": [1, 0, 0, 0, 0],
+    //"Slime Egg": [0, 0, 0, 1, 0],
+    "Slime Egg": [0, 0, 0, 0, 1],
+    //"Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
     "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },
   items: {
@@ -67,8 +70,8 @@ export const gameData = {
     Legendary: 3,
   },
   starProgress: {
-    Epic: [2, 4, 6],
-    Legendary: [1, 2, 3],
+    Epic: [2, 4],
+    Legendary: [1, 2],
   },
 
   // Slime data LOL
@@ -96,7 +99,7 @@ export const gameData = {
       {
         slimeName: "Lucky Slime",
         abilityName: "Charm",
-        abilityDescription: [
+        abilityDescriptions: [
           "25% chance to produce double this slime's GP.",
           "50% chance to produce double this slime's GP.",
           "50% chance to produce double this slime's GP plus 25% chance to double the GP of all other active slimes.",
@@ -115,7 +118,7 @@ export const gameData = {
           "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +3 GP/level itself.",
           "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +7 GP/level itself.",
         ],
-        maxLeveL: 25,
+        maxLevel: 25,
       },
     ]
   },

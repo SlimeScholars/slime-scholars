@@ -37,10 +37,12 @@ const slimeSchema = Schema(
 		bonusProduction: {
 			type: Number,
 			required: [true, 'Missing bonusProduction'],
+			default: 0,
 		},
+		// Level up cost set to undefined after reaching max level
 		levelUpCost: {
 			type: Number,
-			required: [true, 'Missing levelUpCost'],
+			required: false,
 		},
 
 		// Only starable slimes can have these
@@ -65,7 +67,7 @@ const slimeSchema = Schema(
 			required: false,
 		},
 		// Description of ability at each star level
-		abilityDescription: {
+		abilityDescriptions: {
 			type: [String],
 			required: false,
 			default: undefined,
