@@ -18,8 +18,8 @@ export default function Student() {
   const onSubmit = (e) => {
     // TODO: Add validation, api call, and redirect
     e.preventDefault();
-    console.log({ honorific, firstName, lastName, email, password, confirm });
     axios.post('/api/user/create', {
+      // userType 2 represents parent
       userType: 2,
       honorific,
       firstName,
@@ -28,12 +28,13 @@ export default function Student() {
       password 
     })
       .then(response => {
-        console.log('Success:')
-        console.log(response.data)
+        if(response.data) {
+          console.log(response.data)
+          localStorage.setItem("jwtToken", response.data.token)
+        }
       })
       .catch(error => {
         if(error.response && error.response.data && error.response.data.message) {
-          console.log('Error:')
           console.error(error.response.data.message)
         }
       })
