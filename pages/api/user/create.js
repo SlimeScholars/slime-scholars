@@ -78,14 +78,15 @@ export default async function handler(req, res) {
       if (userType === 2) {
         // Create parent (if there is no honorific, it will be undefined and not added to MongoDb)
         const user = await User.create({
-          userType,
-          firstName,
-          lastName,
-          honorific,
+          userType: userType,
+          firstName: firstName,
+          lastName: lastName,
+          honorific: honorific,
           password: hashedPassword,
           email: lowercaseEmail,
           students: []
-        }, {password: 0})
+        })
+        user.password = undefined
 
         // Confirm parent creation
         if (user) {
@@ -108,7 +109,8 @@ export default async function handler(req, res) {
           password: hashedPassword,
           email: lowercaseEmail,
           classes: [],
-        }, {password: 0})
+        })
+        user.password = undefined
 
         // Confirm teacher creation
         if (user) {
@@ -193,7 +195,8 @@ export default async function handler(req, res) {
         roster: [null, null, null, null],
         items: [],
         lastRewards: [0, 0],
-      }, {password: 0})
+      })
+      user.password = undefined
 
       if(parent) {
         parent.students.push(user._id)
