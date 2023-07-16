@@ -2,6 +2,7 @@ import { Schema, model, models, mongoose } from 'mongoose'
 
 const slimeSchema = Schema(
   {
+		// All slimes have these properties
 		userId: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
@@ -22,13 +23,27 @@ const slimeSchema = Schema(
 		},
     bonusLevel: {
       type: Number,
-      required: [true, 'Missing maxLevel'],
+      required: [true, 'Missing bonusLevel'],
       default: 0,
     },
 		maxLevel: {
 			type: Number,
 			required: [true, 'Missing maxLevel'],
 		},
+		baseProduction: {
+			type: Number,
+			required: [true, 'Missing baseProduction'],
+		},
+		bonusProduction: {
+			type: Number,
+			required: [true, 'Missing bonusProduction'],
+		},
+		levelUpCost: {
+			type: Number,
+			required: [true, 'Missing levelUpCost'],
+		},
+
+		// Only starable slimes can have these
     starLevel: {
       type: Number,
       required: false,
@@ -45,13 +60,21 @@ const slimeSchema = Schema(
       type: Number,
       required: false,
     },
-		basePower: {
-			type: Number,
-			required: [true, 'Missing basePower'],
+		abilityName: {
+			type: String,
+			required: false,
 		},
-		levelUpCost: {
-			type: Number,
-			required: [true, 'Missing levelUpCost'],
+		// Description of ability at each star level
+		abilityDescription: {
+			type: [String],
+			required: false,
+			default: undefined,
+		},
+		// Special effects associated with slime, eg. cannot be leveled, starts with 100 base GP
+		effects: {
+			type: [String],
+			required: false,
+			default: undefined,
 		},
   },
   {
