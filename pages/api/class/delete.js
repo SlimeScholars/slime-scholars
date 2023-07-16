@@ -42,7 +42,7 @@ export default async function (req, res) {
     }
 
     for(let studentId of classExists.students) {
-      const student = await User.findById(studentId)
+      const student = await User.findById(studentId, {password: 0})
       const index = student.classes.indexOf(classExists._id)
       if (index !== -1) {
         student.classes.splice(index, 1)

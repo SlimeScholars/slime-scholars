@@ -51,7 +51,7 @@ export default async function (req, res) {
         verifyEmail(email)
 
         // Make sure the email is not taken
-        const userExists = await User.findOne({ email: lowercaseEmail })
+        const userExists = await User.findOne({ email: lowercaseEmail }, {password: 0})
 
         if (userExists) {
           throw new Error('Email is already in use')
@@ -73,7 +73,7 @@ export default async function (req, res) {
       
       // Make sure username is not taken
       const usernameRegex = new RegExp(username, 'i')
-      const userExists = await User.findOne({ username: { $regex: usernameRegex } })
+      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
 
       // Allow user to change their username to different capitalization
       if (userExists && !userExists._id.equals(user._id)) {
@@ -88,7 +88,7 @@ export default async function (req, res) {
       verifyEmail(parentEmail)
 
       const lowercaseParentEmail = parentEmail.toLowerCase()
-      const parent = await User.findOne({ email: lowercaseParentEmail })
+      const parent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
       if(!parent) {
         throw new Error('Parent email not found')
       }
@@ -109,14 +109,14 @@ export default async function (req, res) {
     (parentId !== undefined && !parentId.equals(user.parentId))) {
       if(user.parentId) {
         // Delete student from old parent's student list
-        const parent = await User.findById(user.parentId)
+        const parent = await User.findById(user.parentId, {password: 0})
         if(parent) {
           const newStudents = parent.students.filter(item => !item.equals(user._id))
           await User.findByIdAndUpdate(user.parentId, {students: newStudents})
         }
       }
       // Add student to new parent's student list
-      const parent = await User.findById(parentId)
+      const parent = await User.findById(parentId, {password: 0})
       if(parent) {
         parent.students.push(user._id)
         await User.findByIdAndUpdate(parentId, {students: parent.students})
@@ -149,8 +149,7 @@ export default async function (req, res) {
       await update.save()
     }
 
-    const newUser = await User.findById(user._id)
-    newUser.password = undefined
+    const newUser = await User.findById(user._id, {password: 0})
 
     if (newUser) {
       res.status(200).json({

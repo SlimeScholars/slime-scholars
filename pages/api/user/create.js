@@ -69,7 +69,7 @@ export default async function handler(req, res) {
       const lowercaseEmail = email.toLowerCase()
 
       // Make sure email is not already used
-      let userExists = await User.findOne({ email: lowercaseEmail })
+      let userExists = await User.findOne({ email: lowercaseEmail }, {password: 0})
       if (userExists) {
         throw new Error('Email already used')
       }
@@ -85,8 +85,7 @@ export default async function handler(req, res) {
           password: hashedPassword,
           email: lowercaseEmail,
           students: []
-        })
-        user.password = undefined
+        }, {password: 0})
 
         // Confirm parent creation
         if (user) {
@@ -109,8 +108,7 @@ export default async function handler(req, res) {
           password: hashedPassword,
           email: lowercaseEmail,
           classes: [],
-        })
-        user.password = undefined
+        }, {password: 0})
 
         // Confirm teacher creation
         if (user) {
@@ -134,7 +132,7 @@ export default async function handler(req, res) {
 
       // Make sure username is not taken
       const usernameRegex = new RegExp(username, 'i')
-      const userExists = await User.findOne({ username: { $regex: usernameRegex } })
+      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
       if (userExists) {
         throw new Error('Username is taken')
       }
@@ -146,7 +144,7 @@ export default async function handler(req, res) {
         lowercaseEmail = email.toLowerCase()
 
         // Make sure email is not taken
-        const emailInUse = await User.findOne({ email: lowercaseEmail })
+        const emailInUse = await User.findOne({ email: lowercaseEmail }, {password: 0})
         if (emailInUse) {
           throw new Error('Email already used')
         }
@@ -161,7 +159,7 @@ export default async function handler(req, res) {
 
         lowercaseParentEmail = parentEmail.toLowerCase()
         // Make sure that the parent email is a registered parent
-        parent = await User.findOne({ email: lowercaseParentEmail })
+        parent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
         if (!parent) {
           throw new Error('Parent email not found. Please tell your parent to register.')
         }
@@ -195,8 +193,7 @@ export default async function handler(req, res) {
         roster: [null, null, null, null],
         items: [],
         lastRewards: [0, 0],
-      })
-      user.password = undefined
+      }, {password: 0})
 
       if(parent) {
         parent.students.push(user._id)

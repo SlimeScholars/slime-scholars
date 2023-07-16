@@ -32,7 +32,7 @@ export default async function (req, res) {
       throw new Error('Cannot friend yourself')
     }
 
-    const friend = await User.findById(friendIdObj)
+    const friend = await User.findById(friendIdObj, {password: 0})
 
     if(!friend) {
       throw new Error('Cannot find user of that id')

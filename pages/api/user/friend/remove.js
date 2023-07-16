@@ -49,7 +49,7 @@ export default async function (req, res) {
     await User.findByIdAndUpdate(friendIdObj, {
       friends: friend.friends,
     })
-    
+
     // Instead of sending ids, send objects for friends and friend requests
     const receivedFriendRequests = await User.find({ _id: { $in: user.receivedFriendRequests} }, { password: 0})
     const sentFriendRequests = await User.find({ _id: { $in: user.sentFriendRequests} }, { password: 0})

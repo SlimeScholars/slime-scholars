@@ -66,7 +66,7 @@ export default async function (req, res) {
           slimeGel: newSlimeGel,
           items: newItems,
         })
-        const newUser = await User.findById(user._id)
+        const newUser = await User.findById(user._id, {password: 0})
         res.status(200).json(newUser)
       }
       else {
@@ -104,26 +104,8 @@ export default async function (req, res) {
           flowers: newFlowers,
           items: newItems,
         })
-        const newUser = await User.findById(user._id)
 
-        if(itemIndex === -1) {
-          res.status(200).json({
-            item: {
-              itemName: itemName,
-              quantity: quantity,
-            },
-            user: newUser,
-          })
-        }
-        else {
-          res.status(200).json({
-            item: {
-              itemName: itemName,
-              quantity: newItems[itemIndex].quantity,
-            },
-            user: newUser,
-          })
-        }
+        res.status(200).json({user})
       }
       else {
         throw new Error('Insufficient flowers')

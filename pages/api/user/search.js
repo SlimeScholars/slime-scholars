@@ -24,7 +24,7 @@ export default async function (req, res) {
 
     // Search for user
     const usernameRegex = new RegExp(username, 'i')
-    const user = await User.findOne({ username: { $regex: usernameRegex } })
+    const user = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
 
     if(!user) {
       throw new Error(`Cannot find student "${username}"`)
