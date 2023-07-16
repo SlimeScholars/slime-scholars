@@ -24,26 +24,17 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 1, 3)
 
+    // Send teacher objects instead of their ids
     const classes = []
     for(let classId of user.classes) {
       const newClass = await Class.findById(classId)
-      if(!newClass) {
-        throw new Error('System error')
-      }
+      const teachers = await User.find({userType: 3, classes: classId}, {password: 0})
+      newClass.teachers = teachers
       classes.push(newClass)
     }
 
-    // Instead of sending the ids of the teachers, send the actual object
-    const teachers = []
-    for(let teacherId of classes.teachers) {
-      const teacher = await User.findById(teacherId)
-      teacher.password = undefined
-      teachers.push(teacher)
-    }
-    classes.teachers = teachers
-
     res.status(200).json({
-      classes
+      classes,
     })
 
   } catch(error) {

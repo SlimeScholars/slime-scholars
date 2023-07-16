@@ -81,22 +81,11 @@ export default async function (req, res) {
       classes: user.classes,
     })
 
-    // Instead of sending the ids of the students, send the actual object
-    const students = []
-    for(let studentId of classExists.students) {
-      const student = await User.findById(studentId)
-      student.password = undefined
-      students.push(student)
-    }
-    // Instead of sending the ids of the teachers, send the actual object
-    const teachers = []
-    for(let teacherId of classExists.teachers) {
-      const teacher = await User.findById(teacherId)
-      teacher.password = undefined
-      teachers.push(teacher)
-    }
-    classExists.students = students
+    // Send objects instead of their ids for students and teachers
+    const teachers = await User.find({userType: 3, classes: classExists}, {password: 0})
     classExists.teachers = teachers
+    const students = await User.find({userType: 1, classes: classExists}, {password: 0})
+    classExists.students = students
 
     res.status(200).json({
       class: classExists,
