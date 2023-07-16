@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import Back from "../components/signup/back";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showToastMessage } from "../utils/verify";
+
+import axios from "axios";
+
 export default function Student() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -9,12 +15,33 @@ export default function Student() {
   const onSubmit = (e) => {
     // TODO: Add validation, api call, and redirect
     e.preventDefault();
-    console.log({ firstName, lastName, username, email, password, confirm });
+    if (!username || !password) {
+      showToastMessage("Username and password cannot be left blank");
+      return;
+    }
+    axios
+      .post("/api/user/login", { username, password })
+      .then((response) => {
+        if (response.data) {
+          console.log(response.data);
+          localStorage.setItem("jwtToken", response.data.token);
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          showToastMessage(error.response.data.message);
+        }
+      });
   };
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back />
+      <ToastContainer />
       <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <div className="w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
           <h1 className="text-center text-6xl font-cabin font-bold text-bg-light/90 mb-3">
