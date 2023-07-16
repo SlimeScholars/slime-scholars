@@ -1,3 +1,7 @@
-Make appropriate res.jsons on HTTP endpoints
+Sort out slime base powers
+Sort out slime levelUpCost
 
-Make res.jsons send needed info (not array of ids, instead send array of objects)
+Game Data changes:
+- basePower -> baseProduction
+- basePower from array -> one number
+- Added bonusLevelProduction and baseLevelProduction
