@@ -117,7 +117,7 @@ export default async function (req, res) {
         rarity,
         // Override default max level if the slime has a custom one
         maxLevel: chosenSlime.maxLevel ? chosenSlime.maxLevel : gameData.maxLevel[rarity],
-        // Override default base power if the slime has a custom one
+        // Override default base production if the slime has a custom one
         baseProduction: chosenSlime.baseProduction ? chosenSlime.baseProduction : gameData.baseProduction[rarity],
         // Bonus production is always 0 when creating a slime
 
