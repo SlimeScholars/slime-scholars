@@ -17,9 +17,8 @@ export const authenticate = async(authorization) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
       // Get user from the token
-      const user = await User.findById(decoded.id)
+      const user = await User.findById(decoded.id, {password: 0})
       if(user) {
-        user.password = undefined
         return user
       }
       else {
