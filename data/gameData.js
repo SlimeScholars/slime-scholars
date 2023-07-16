@@ -3,7 +3,7 @@ export const gameData = {
   openingOdds: {
     //"Slime Egg": [1, 0, 0, 0, 0],
     //"Slime Egg": [0, 0, 0, 1, 0],
-    "Slime Egg": [0, 0, 0, 0, 1],
+    //"Slime Egg": [0, 0, 0, 0, 1],
     //"Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
     "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },

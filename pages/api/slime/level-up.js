@@ -49,8 +49,9 @@ export default async function (req, res) {
 		await Slime.findByIdAndUpdate(slimeId, {
 			level: slime.level + 1,
 			// Future slime.level - 1 as index to adjust from level to index
+      // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
 			levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
-			basePower: gameData.basePower[slime.rarity][slime.level],
+			basePower: slime.basePower + gameData.baseLevelProduction[slime.rarity],
 		})
 		const newSlime = await Slime.findById(slimeId)
 
@@ -59,8 +60,6 @@ export default async function (req, res) {
     })
 		const newUser = await User.findById(user._id)
     
-    const slimes = await Slime.find({userId: user._id})
-
     res.status(200).json({
 			slime: newSlime,
 			user: newUser,

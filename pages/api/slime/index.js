@@ -1,7 +1,6 @@
-import { authenticate } from "../../../../utils/authenticate"
-import { checkUserType } from '../../../../utils/checkUserType'
-import connectDB from '../../../../utils/connectDB'
-import User from '../../../../models/userModel'
+import { authenticate } from "../../../utils/authenticate"
+import { checkUserType } from '../../../utils/checkUserType'
+import connectDB from '../../../utils/connectDB'
 import Slime from "../../../models/slimeModel"
 
 /**
@@ -26,8 +25,12 @@ export default async function (req, res) {
     
     // Instead of sending Ids, send objects for slimes
     const slimes = await Slime.find({userId: user._id})
+    const roster = await Slime.find({_id: { $in: user.roster }})
 
-    res.status(200).json({slimes})
+    res.status(200).json({
+      slimes,
+      roster,
+    })
 
   } catch(error) {
     res.status(400).json({message: error.message})
