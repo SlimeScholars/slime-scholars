@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 
     // Make sure password is the same as confirmation password
     if (password !== confirmPassword) {
-      throw new Error('New passwords do not match')
+      throw new Error('Passwords do not match')
     }
 
     // Hash password
