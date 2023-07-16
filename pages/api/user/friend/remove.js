@@ -49,33 +49,18 @@ export default async function (req, res) {
     await User.findByIdAndUpdate(friendIdObj, {
       friends: friend.friends,
     })
+    
+    // Instead of sending ids, send objects for friends and friend requests
+    const receivedFriendRequests = await User.find({ _id: { $in: user.receivedFriendRequests} }, { password: 0})
+    const sentFriendRequests = await User.find({ _id: { $in: user.sentFriendRequests} }, { password: 0})
+    const friends = await User.find({ _id: { $in: user.friends} }, { password: 0})
 
-    // Instead of sending Ids, send objects for received friend requests
-    const receivedFriendRequests = []
-    for(let friendId of user.receivedFriendRequests) {
-      const receivedFriendRequest = await User.findById(friendId)
-      receivedFriendRequest.password = undefined
-      receivedFriendRequests.push(receivedFriendRequest)
-    }
-    user.receivedFriendRequests = receivedFriendRequests
-    // Instead of sending Ids, send objects for sent friend requests
-    const sentFriendRequests = []
-    for(let friendId of user.sentFriendRequests) {
-      const sentFriendRequest = await User.findById(friendId)
-      sentFriendRequest.password = undefined
-      sentFriendRequests.push(sentFriendRequest)
-    }
-    user.sentFriendRequests = sentFriendRequests
-    // Instead of sending Ids, send objects for friends
-    const friends = []
-    for(let friendId of user.friends) {
-      const foundFriend = await User.findById(friendId)
-      foundFriend.password = undefined
-      friends.push(foundFriend)
-    }
-    user.friends = friends
-
-    res.status(200).json({user})
+    res.status(200).json({
+      user,
+      receivedFriendRequests,
+      sentFriendRequests,
+      friends
+    })
 
   } catch(error) {
     res.status(400).json({message: error.message})
