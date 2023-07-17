@@ -1,7 +1,3 @@
-Sort out slime base powers
-Sort out slime levelUpCost
-
-Game Data changes:
-- basePower -> baseProduction
-- basePower from array -> one number
-- Added bonusLevelProduction and baseLevelProduction
+Frontend:
+- Connect to backend sign up and login pages
+- Integrate google sign in?
