@@ -4,6 +4,19 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
 
+import {
+  verifyEmail,
+  verifyName,
+  verifyUsername,
+  verifyPassword,
+} from "../../utils/verify";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showToastMessage } from "../../utils/verify";
+
+import axios from "axios";
+
 export default function Student() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -11,17 +24,53 @@ export default function Student() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  // const [error, setError] = useState("");
 
   const onSubmit = (e) => {
-    // TODO: Add validation, api call, and redirect
     e.preventDefault();
-    console.log({ firstName, lastName, username, email, password, confirm });
+    try {
+      verifyName(firstName);
+      verifyName(lastName);
+      verifyUsername(username);
+      verifyEmail(email);
+      verifyPassword(password);
+      if (password !== confirm) {
+        throw new Error("Passwords do not match");
+      }
+    } catch (error) {
+      showToastMessage(error.message);
+      return;
+    }
+    axios
+      .post("/api/user/create", {
+        userType: 1,
+        firstName,
+        lastName,
+        username,
+        email,
+        password,
+        confirmPassword,
+      })
+      .then((response) => {
+        if (response.data) {
+          console.log(response.data);
+          localStorage.setItem("jwtToken", response.data.token);
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          showToastMessage(error.response.data.message);
+        }
+      });
   };
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back />
+      <ToastContainer />
       <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <div className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
           <div className="rotate-[14deg] absolute -bottom-8 -left-11 opacity-100 z-0">
