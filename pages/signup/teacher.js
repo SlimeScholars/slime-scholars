@@ -4,7 +4,7 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
 
-import { verifyEmail, verifyName, verifyPassword } from "../../utils/verify";
+import { verifyEmail, verifyHonorific, verifyName, verifyPassword } from "../../utils/verify";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -30,6 +30,10 @@ export default function Student() {
       if (password !== confirm) {
         throw new Error("Passwords do not match");
       }
+      verifyHonorific(honorific)
+      if(!honorific) {
+        setHonorific(undefined)
+      }
     } catch (error) {
       showToastMessage(error.message);
       return;
@@ -42,7 +46,6 @@ export default function Student() {
         lastName,
         email,
         password,
-        confirmPassword,
       })
       .then((response) => {
         if (response.data) {
@@ -81,9 +84,16 @@ export default function Student() {
               </label>
               <select
                 className="w-full h-8 bg-slate-300/40 ring-2 ring-ink/60 font-galindo text-sm text-ink/90 placeholder:text-ink/40 px-3 py-2 my-1 focus:outline-none focus:ring-ink/90 focus:bg-blue-200/20 hover:ring-ink/90 hover:bg-blue-200/20 duration-300 ease-in-out"
-                onChange={(e) => setHonorific(e.target.value)}
+                onChange={(e) => {
+                  if(e.target.value) {
+                    setHonorific(e.target.value)
+                  }
+                  else {
+                    setHonorific(undefined)
+                  }
+                } }
               >
-                <option value="Mr." className="bg-indigo-50" />
+                <option value={undefined} className="bg-indigo-50" />
                 <option value="Mr." className="bg-indigo-50">
                   Mr.
                 </option>
