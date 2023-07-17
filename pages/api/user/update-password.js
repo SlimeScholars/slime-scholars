@@ -11,7 +11,6 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  * @access  Private - Any logged in user
  * @param   {string} req.body.oldPassword - Previous password (used to confirm it's the actual user)
  * @param   {string} req.body.newPassword - The password the user wants to change to. Min 8 characters long. Max 55 characters long. Must contain a capital, lowercase, and a number.
- * @param   {string} req.body.confirmPassword - Second confirmation of the password
  */
 export default async function (req, res) {
   try {
@@ -28,16 +27,10 @@ export default async function (req, res) {
     const {
       oldPassword,
       newPassword,
-      confirmNewPassword,
     } = req.body
 
     if(!oldPassword || !newPassword) {
       throw new Error('Password cannot be left blank')
-    }
-
-    // Make sure password is the same as confirmation password
-    if (newPassword !== confirmNewPassword) {
-      throw new Error('New passwords do not match')
     }
 
     verifyPassword(newPassword)
