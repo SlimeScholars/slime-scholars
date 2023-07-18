@@ -6,24 +6,19 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../utils/verify";
 
 import axios from "axios";
-
 import { useRouter } from "next/router";
 
-export default function Login({loading, setUpdate, user}) {
-  const router = useRouter()
-  useEffect(() => {
-    // If the user is already signed in
-    if(!loading && user) {
-      // Students get redirected here
-      if(user.userType === 1) {
-        router.push('/dashboard')
-      }
-    }
-  }, [loading, user])
-
+export default function Login({user, setUser}) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
+  const router = useRouter()
+
+  useEffect(() => {
+    if(user) {
+      router.push('/')
+    }
+  }, [user])
 
   const onSubmit = (e) => {
     // TODO: Add validation, api call, and redirect
@@ -41,7 +36,7 @@ export default function Login({loading, setUpdate, user}) {
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token)
-          setUpdate(true)
+          setUser(response.data.user)
         }
       })
       .catch((error) => {

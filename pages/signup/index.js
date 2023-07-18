@@ -3,6 +3,9 @@ import Back from "../../components/signup/back";
 import { FaGraduationCap, FaAppleAlt } from "react-icons/fa";
 import { RiParentFill } from "react-icons/ri";
 
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
 const content = [
   {
     type: "Student",
@@ -42,7 +45,15 @@ const content = [
   },
 ];
 
-export default function Signup() {
+export default function Signup({user}) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if(user) {
+      router.push('/')
+    }
+  }, [user])
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back />

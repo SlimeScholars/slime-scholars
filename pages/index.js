@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Nav from '../components/homepage/nav'
 import Button from '../components/homepage/button'
 
-export default function Home() {
+export default function Home({user, setUser}) {
   return (
     <div className="w-screen flex flex-col">
       <Head>
@@ -14,7 +14,10 @@ export default function Home() {
       </Head>
 
       <main className="w-screen flex flex-col items-center justify-center flex-1">
-        <Nav />
+        <Nav 
+          user={user}
+          setUser={setUser}
+        />
         <header className="w-screen h-screen flex flex-col items-center justify-center">
           <h1 className="font-black text-7xl max-w-4xl text-center">
             Make Learning Exciting with Slime Scholars

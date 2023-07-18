@@ -2,7 +2,42 @@ import Image from "next/image";
 import React from "react";
 import Button from "./button";
 
-export default function Nav() {
+import { useState, useEffect } from "react";
+
+export default function Nav({user, setUser}) {
+  const [accountContent, setAccountContent] = useState(
+    <>
+      <Button text="Login" onClick="/login" style="Secondary" />
+      <Button text="Sign Up" onClick="/signup" style="Primary" />
+    </>
+  )
+
+  const onLogOut = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('jwt')
+    }
+    setUser(null)
+  }
+
+  useEffect(() => {
+    if(user) {
+      setAccountContent(
+        <>
+          <Button text="Log Out" onClick={onLogOut} style="Primary" />
+        </>
+      )
+    }
+    else {
+      setAccountContent(
+        <>
+          <Button text="Login" onClick="/login" style="Secondary" />
+          <Button text="Sign Up" onClick="/signup" style="Primary" />
+        </>
+      )
+
+    }
+  }, [user])
+
   return (
     <nav className="w-screen fixed top-0 h-36 bg-transparent flex flex-row justify-between items-center px-10">
       <a className="flex justify-center items-center w-[30%]" href="/">
@@ -29,8 +64,7 @@ export default function Nav() {
         </li>
       </ul>
       <div className="flex justify-center items-center w-[30%]">
-        <Button text="Login" onClick="/login" style="Secondary" />
-        <Button text="Sign Up" onClick="/signup" style="Primary" />
+        { accountContent }
       </div>
     </nav>
   );

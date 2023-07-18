@@ -3,18 +3,7 @@ import Head from 'next/head'
 
 import Nav from '../components/homepage/nav'
 
-import { useRouter } from 'next/router'
-import { useEffect } from 'react'
-
-export default function Dashboard({loading, user}) {
-  const router = useRouter()
-  useEffect(() => {
-    // If the user is already signed in
-    if(!loading && !user) {
-      router.push('/signup')
-    }
-  }, [loading, user])
-
+export default function Dashboard() {
   return (
     <div className="w-screen flex flex-col">
       <Head>

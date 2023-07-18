@@ -12,7 +12,18 @@ import { showToastMessage } from "../../utils/verify";
 
 import axios from "axios";
 
-export default function Student() {
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+
+export default function Parent({user, setUser}) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if(user) {
+      router.push('/')
+    }
+  }, [user])
+
   const [honorific, setHonorific] = useState(undefined);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -49,8 +60,8 @@ export default function Student() {
       })
       .then((response) => {
         if (response.data) {
-          console.log(response.data);
-          localStorage.setItem("jwtToken", response.data.token);
+          localStorage.setItem("jwt", response.data.token);
+          setUser(response.data.user)
         }
       })
       .catch((error) => {

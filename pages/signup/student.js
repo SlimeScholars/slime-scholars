@@ -16,8 +16,18 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../../utils/verify";
 
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export default function Student() {
+export default function Student({user, setUser}) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if(user) {
+      router.push('/')
+    }
+  }, [user])
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
@@ -48,12 +58,11 @@ export default function Student() {
         username,
         email,
         password,
-        confirmPassword,
       })
       .then((response) => {
         if (response.data) {
-          console.log(response.data);
-          localStorage.setItem("jwtToken", response.data.token);
+          localStorage.setItem("jwt", response.data.token);
+          setUser(response.data.user)
         }
       })
       .catch((error) => {
