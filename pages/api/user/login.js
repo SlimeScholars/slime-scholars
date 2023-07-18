@@ -30,7 +30,7 @@ export default async function (req, res) {
     }
     else {
       // Search user by username
-      const usernameRegex = new RegExp(username, 'i')
+      const usernameRegex = new RegExp(accountIdentifier, 'i')
       user = await User.findOne({ username: { $regex: usernameRegex } })
     }
 

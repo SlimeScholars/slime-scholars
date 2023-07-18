@@ -18,7 +18,7 @@ export default async function (req, res) {
     // Authenticate and get user
     const user = await authenticate(req.headers.authorization)
 
-    res.status(200).json(user)
+    res.status(200).json({ user })
   } catch (error) {
     res.status(400).json({message: error.message})
   }
