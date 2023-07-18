@@ -2,11 +2,14 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 
 export function useGetUser(token) {
+  const [loading, setLoading] = useState(true)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       if(!token) {
+        setUser(null)
+        setLoading(false)
         return
       }
       const config = {
@@ -20,15 +23,17 @@ export function useGetUser(token) {
           if(response.data && response.data.user) {
             setUser(response.data.user)
           }
+          setLoading(false)
         })
         .catch((error) => {
-          setUser(null)
           localStorage.removeItem('jwt')
+          setUser(null)
+          setLoading(false)
         })
     }
 
     fetchData();
   }, [token]);
 
-  return { user };
+  return { loading, user };
 }
