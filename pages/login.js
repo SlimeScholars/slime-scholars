@@ -7,10 +7,19 @@ import { showToastMessage } from "../utils/verify";
 
 import axios from "axios";
 
-export default function Student({user}) {
+import { useRouter } from "next/router";
+
+export default function Login({loading, setUpdate, user}) {
+  const router = useRouter()
   useEffect(() => {
-    console.log(user)
-  }, [user])
+    // If the user is already signed in
+    if(!loading && user) {
+      // Students get redirected here
+      if(user.userType === 1) {
+        router.push('/dashboard')
+      }
+    }
+  }, [loading, user])
 
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +40,8 @@ export default function Student({user}) {
       .post("/api/user/login", { accountIdentifier, password })
       .then((response) => {
         if (response.data) {
-          console.log(response.data);
-          localStorage.setItem("jwt", response.data.token);
+          localStorage.setItem("jwt", response.data.token)
+          setUpdate(true)
         }
       })
       .catch((error) => {
