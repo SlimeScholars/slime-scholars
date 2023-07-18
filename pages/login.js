@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Back from "../components/signup/back";
 
 import { ToastContainer } from "react-toastify";
@@ -7,7 +7,11 @@ import { showToastMessage } from "../utils/verify";
 
 import axios from "axios";
 
-export default function Student() {
+export default function Student({user}) {
+  useEffect(() => {
+    console.log(user)
+  }, [user])
+
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
@@ -28,7 +32,7 @@ export default function Student() {
       .then((response) => {
         if (response.data) {
           console.log(response.data);
-          localStorage.setItem("jwtToken", response.data.token);
+          localStorage.setItem("jwt", response.data.token);
         }
       })
       .catch((error) => {
