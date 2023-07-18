@@ -4,8 +4,8 @@ import connectDB from '../../../utils/connectDB'
 import Slime from "../../../models/slimeModel"
 
 /**
- * @desc    Get all friend requests and friends
- * @route   GET /api/user/friend/
+ * @desc    Get all owned slimes and roster
+ * @route   GET /api/slime/
  * @access  Private - Students
  */
 export default async function (req, res) {
