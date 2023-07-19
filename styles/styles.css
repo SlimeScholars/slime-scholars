@@ -24,6 +24,7 @@ a {
   box-sizing: border-box;
 }
 
+/* animations */
 .stretch:hover {
   animation: stretch 1.5s normal;
 }
@@ -83,5 +84,21 @@ a {
   }
   75% {
     transform: rotate(0deg) scale3d(1, 1, 1);
+  }
+}
+
+.phase {
+  animation: phase 1.5s infinite ease-in-out;
+}
+
+@keyframes phase {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
   }
 }
