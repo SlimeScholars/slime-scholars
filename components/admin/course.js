@@ -13,10 +13,9 @@ export default function Course({ course, setCourse }) {
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
-  const clickRef = React.useRef();
-  useClickOutside(clickRef, () => {
+  const selectRef = useRef();
+  useClickOutside(selectRef, () => {
     if (x < width * 0.4) {
-      setIsOpen(false);
       setSelected(false);
     }
   });
@@ -28,26 +27,25 @@ export default function Course({ course, setCourse }) {
     <>
       <div
         className={
-          "w-full flex flex-col " + (isOpen ? "max-h-max" : "max-h-12")
+          "w-full flex flex-col justify-start items-start overflow-hidden " +
+          (isOpen ? "" : "h-12")
         }
-        ref={clickRef}
       >
         <button
           className={
-            "w-full h-12 flex items-center justify-between px-4 py-1 hover:bg-gray-400 " +
-            (selected ? "bg-gray-400" : "bg-gray-500")
+            "w-full h-12 flex items-center justify-between px-4 py-1 hover:bg-red-400/50 " +
+            (selected ? "bg-red-400/50" : "bg-red-600/50")
           }
           onClick={() => {
-            if (!selected && !isOpen) {
-              setIsOpen(true);
-              setSelected(true);
-            }
+            setSelected(true);
+            setIsOpen(!isOpen);
           }}
+          ref={selectRef}
         >
           <p className="text-white">{newCourse.name}</p>
         </button>
-        {selected && (
-          <div className="w-full flex flex-col pl-5 items-start justify-start bg-gray-300">
+        {isOpen && (
+          <div className="w-full flex flex-col pl-5 items-start justify-start">
             {units.map((unit, index) => (
               <Unit
                 key={index}

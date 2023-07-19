@@ -6,9 +6,9 @@ export default function editCourse() {
 
   return (
     <div className="w-screen h-screen bg-bg-light flex">
-      <div className="w-2/5 h-full flex flex-col items-start justify-start bg-gray-300">
+      <div className="w-2/5 h-screen bg-slate-100 overflow-y-scroll">
         <button
-          className="w-full h-10 bg-green-300 font-bold hover:bg-green-200 border-b-4 border-b-black"
+          className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-b-4 border-b-green-800 text-green-800"
           onClick={() => {
             setCourses([
               ...courses,
