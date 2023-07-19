@@ -5,7 +5,7 @@ export default function CourseEditor({ newCourse, setCourse }) {
   const [code, setCode] = useState(newCourse.code);
   const [author, setAuthor] = useState(newCourse.author);
   return (
-    <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-green-200">
+    <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
       <label className="text-2xl font-black">Course Details</label>
       <label className="text-xl font-bold">Course Name</label>
       <input
@@ -41,6 +41,7 @@ export default function CourseEditor({ newCourse, setCourse }) {
             name: name,
             code: code,
             author: author,
+            id: newCourse.id,
             units: [...newCourse.units],
           });
         }}
@@ -53,7 +54,7 @@ export default function CourseEditor({ newCourse, setCourse }) {
           newCourse.units.push({
             name: "New Unit",
             number: newCourse.units.length + 1,
-            id: newCourse.units.length,
+            lessons: [],
           });
           setCourse(newCourse);
         }}
