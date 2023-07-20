@@ -1,39 +1,42 @@
 import React, { useState } from "react";
+import axios from "axios";
 
-export default function CourseEditor({ newCourse, setCourse }) {
+export default function CourseEditor({ newCourse, courseId, setCourse, setLoading }) {
   const [courseName, setCourseName] = useState(newCourse.courseName);
 
-
   const onSave = () => {
+    try {
+      const token = localStorage.getItem('jwt')
 
-    /*
-    axios
-      .post("/api/user/create", {
-        // userType 2 represents parent
-        userType: 2,
-        honorific,
-        firstName,
-        lastName,
-        email,
-        password,
-      })
-      .then((response) => {
-        if (response.data) {
-          localStorage.setItem("jwt", response.data.token);
-          setUser(response.data.user)
-        }
-      })
-      .catch((error) => {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          showToastMessage(error.response.data.message);
-        }
-      });
-      */
-  };
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      setLoading(true)
+
+      axios
+        .put("/api/admin/update-course", {courseId, courseName}, config)
+        .then((response) => {
+          if (response.data && response.data.course) {
+            setCourse(response.data.course);
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          console.error(error.message)
+          // showToastMessage(error.message)
+          setLoading(false);
+        });
+      
+    } catch (error) {
+      // TODO: figure out why toast message is not showing
+      console.error(error)
+      // showToastMessage(error.message);
+      return;
+    }
+  }
 
 
   return (

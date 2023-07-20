@@ -1,18 +1,12 @@
 import { useEffect, useState } from "react";
 import "../styles/styles.css";
 import axios from "axios";
-import PuffLoader from "react-spinners/PuffLoader";
-
-const override = {
-  display: "block",
-  margin: "0 auto",
-};
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [roster, setRoster] = useState();
-  const modifiedPageProps = { ...pageProps, user, setUser, setLoading }; // Include user in modifiedPageProps
+  const modifiedPageProps = { ...pageProps, user, setUser, loading, setLoading }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
     // If no token, no need to make a request for authentication
@@ -79,21 +73,7 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex flex-col justify-center items-center w-screen h-screen">
-        <PuffLoader
-          color={"#F649DA"}
-          loading={true}
-          css={override}
-          size={150}
-        />
-        <h1 className="text-5xl font-black text-primary mt-10 phase">
-          Loading...
-        </h1>
-      </div>
-    );
-  }
+  // Return loading on the component instead of home. This way, state variables don't get reset
 
   return <Component {...modifiedPageProps} />;
 }

@@ -6,7 +6,7 @@ import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
-export default function Course({ course, setCourse }) {
+export default function Course({ course, setCourse, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
@@ -70,7 +70,7 @@ export default function Course({ course, setCourse }) {
           </div>
         )}
       </div>
-      {selected && <CourseEditor newCourse={newCourse} setCourse={setCourse} />}
+      {selected && <CourseEditor newCourse={newCourse} setCourse={setCourse} courseId={course._id} setLoading={setLoading} />}
     </>
   );
 }
