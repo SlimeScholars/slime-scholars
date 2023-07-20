@@ -4,6 +4,8 @@ import Head from 'next/head'
 import Nav from '../components/homepage/nav'
 
 export default function Dashboard() {
+
+
   return (
     <div className="w-screen flex flex-col">
       <Head>

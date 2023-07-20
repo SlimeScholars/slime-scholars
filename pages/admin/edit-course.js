@@ -8,8 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../../utils/verify";
 import axios from "axios";
 
-import Spinner from "../../components/spinner";
-
 export default function editCourse({user, loading, setLoading}) {
   const router = useRouter()
 
@@ -86,31 +84,27 @@ export default function editCourse({user, loading, setLoading}) {
   }
 
   return (
-    <>
-      { loading ? <Spinner /> : <></>}
-
-      <div className={`w-screen h-screen bg-bg-light flex ${loading ? 'hidden' : ''}`}>
-        <div className="w-2/5 h-screen bg-slate-100 overflow-y-scroll">
-          <button
-            className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-b-4 border-b-green-800 text-green-800"
-            onClick={onAddCourse}
-          >
-            Add Course
-          </button>
-          {courses.map((course, index) => (
-            <Course
-              key={index}
-              course={course}
-              setCourse={(newCourse) => {
-                let newCourses = [...courses];
-                newCourses[index] = newCourse;
-                setCourses(newCourses);
-              }}
-              setLoading={setLoading}
-            />
-          ))}
-        </div>
+    <div className='w-screen h-screen bg-bg-light flex'>
+      <div className="w-2/5 h-screen bg-slate-100 overflow-y-scroll">
+        <button
+          className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-b-4 border-b-green-800 text-green-800"
+          onClick={onAddCourse}
+        >
+          Add Course
+        </button>
+        {courses.map((course, index) => (
+          <Course
+            key={index}
+            course={course}
+            setCourse={(newCourse) => {
+              let newCourses = [...courses];
+              newCourses[index] = newCourse;
+              setCourses(newCourses);
+            }}
+            setLoading={setLoading}
+          />
+        ))}
       </div>
-    </>
+    </div>
   );
 }

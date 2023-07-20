@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/styles.css";
 import axios from "axios";
+import Spinner from "../components/spinner";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -75,7 +76,14 @@ function MyApp({ Component, pageProps }) {
 
   // Return loading on the component instead of home. This way, state variables don't get reset
 
-  return <Component {...modifiedPageProps} />;
+  return (
+    <>
+      { loading ? <Spinner /> : <></>}
+      <div className={loading ? 'hidden' : ''}>
+        <Component {...modifiedPageProps} />
+      </div>
+    </>
+  )
 }
 
 export default MyApp;
