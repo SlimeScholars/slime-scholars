@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const [roster, setRoster] = useState();
-  const modifiedPageProps = { ...pageProps, user, setUser }; // Include user in modifiedPageProps
+  const modifiedPageProps = { ...pageProps, user, setUser, setLoading }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
     // If no token, no need to make a request for authentication

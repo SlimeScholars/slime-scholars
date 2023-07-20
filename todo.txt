@@ -1,3 +1,6 @@
 Frontend:
 - Connect to backend sign up and login pages
 - Integrate google sign in?
+
+- Course should also contain a courseBadge image link
+- Unit should contain unitTest
