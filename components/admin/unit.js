@@ -6,7 +6,7 @@ import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
-export default function Unit({ unit, setUnit }) {
+export default function Unit({ unit, setUnit, setLoading, }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
@@ -70,7 +70,7 @@ export default function Unit({ unit, setUnit }) {
           </div>
         )}
       </div>
-      {selected && <UnitEditor newUnit={newUnit} setUnit={setUnit} />}
+      {selected && <UnitEditor newUnit={newUnit} setUnit={setUnit} setLoading={setLoading} />}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-export default function CourseEditor({ course, courseId, setCourse, setLoading }) {
+export default function CourseEditor({ course, setCourse, setLoading }) {
   const [courseName, setCourseName] = useState(course.courseName);
 
   const onSave = () => {
@@ -17,7 +17,7 @@ export default function CourseEditor({ course, courseId, setCourse, setLoading }
       setLoading(true)
 
       axios
-        .put("/api/admin/update-course", {courseId, courseName}, config)
+        .put("/api/admin/update-course", {courseId: course._id, courseName}, config)
         .then((response) => {
           if (response.data && response.data.course) {
             setCourse(response.data.course);
@@ -52,7 +52,7 @@ export default function CourseEditor({ course, courseId, setCourse, setLoading }
 
       const unitNumber = course.units.length + 1
       axios
-        .post("/api/admin/create-unit", {courseId, unitNumber}, config)
+        .post("/api/admin/create-unit", {courseId: course._id, unitNumber}, config)
         .then((response) => {
           if (response.data && response.data.course) {
             const newCourse = response.data.course
