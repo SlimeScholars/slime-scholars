@@ -1,39 +1,56 @@
 import React, { useState } from "react";
 
 export default function CourseEditor({ newCourse, setCourse }) {
-  const [name, setName] = useState(newCourse.name);
-  const [author, setAuthor] = useState(newCourse.author);
+  const [courseName, setCourseName] = useState(newCourse.courseName);
+
+
+  const onSave = () => {
+
+    /*
+    axios
+      .post("/api/user/create", {
+        // userType 2 represents parent
+        userType: 2,
+        honorific,
+        firstName,
+        lastName,
+        email,
+        password,
+      })
+      .then((response) => {
+        if (response.data) {
+          localStorage.setItem("jwt", response.data.token);
+          setUser(response.data.user)
+        }
+      })
+      .catch((error) => {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          showToastMessage(error.response.data.message);
+        }
+      });
+      */
+  };
+
+
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
       <label className="text-2xl font-black">Course Details</label>
       <label className="text-xl font-bold">Course Name</label>
       <input
         className="w-full h-12 p-2 ring-1 ring-black"
-        placeholder={newCourse.name}
-        value={name}
+        placeholder={newCourse.courseName}
+        value={courseName}
         onChange={(e) => {
-          setName(e.target.value);
-        }}
-      />
-      <label className="text-xl font-bold">Course Author</label>
-      <input
-        className="w-full h-12 p-2 ring-1 ring-black"
-        placeholder={newCourse.author}
-        value={author}
-        onChange={(e) => {
-          setAuthor(e.target.value);
+          setCourseName(e.target.value);
         }}
       />
       <button
         className="w-full h-12 bg-purple-300 hover:bg-purple-200"
-        onClick={() => {
-          setCourse({
-            name: name,
-            author: author,
-            id: newCourse.id,
-            units: [...newCourse.units],
-          });
-        }}
+        onClick={onSave}
       >
         Save
       </button>

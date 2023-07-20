@@ -42,14 +42,14 @@ export default function Course({ course, setCourse }) {
           }}
           ref={selectRef}
         >
-          {newCourse.name ? (
+          {newCourse.courseName ? (
             <p className="text-white">
-              {newCourse.name}
+              {newCourse.courseName}
             </p>
           ) : (
             <p className="text-gray">
               New Course
-              {newCourse.name}
+              {newCourse.courseName}
             </p>
           )}
         </button>
