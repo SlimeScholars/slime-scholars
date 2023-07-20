@@ -65,12 +65,18 @@ export default function Course({ course, setCourse, setLoading }) {
                   newCourse.units = newUnits;
                   setCourse(newCourse);
                 }}
+                setLoading={setLoading}
               />
             ))}
           </div>
         )}
       </div>
-      {selected && <CourseEditor course={newCourse} setCourse={setCourse} courseId={course._id} setLoading={setLoading} />}
+      {selected && 
+        <CourseEditor 
+          course={newCourse} 
+          setCourse={setCourse} 
+          setLoading={setLoading} 
+        />}
     </>
   );
 }

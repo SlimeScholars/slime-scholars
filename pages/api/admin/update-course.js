@@ -7,7 +7,7 @@ import Course from '../../../models/courseModel'
  * @desc    Update a course
  * @route   POST /api/admin/update-course
  * @access  Private - Admin
- * @param   {string} req.body.className - Max 60 characters long.
+ * @param   {string} req.body.courseName
  */
 export default async function (req, res) {
   try {
@@ -45,6 +45,7 @@ export default async function (req, res) {
       .populate('units')
 
     res.status(200).json({course})
+
 
   } catch(error) {
     console.log(error.message)

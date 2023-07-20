@@ -5,10 +5,10 @@ import Course from '../../../models/courseModel'
 import Unit from "../../../models/unitModel"
 
 /**
- * @desc    Create a course
- * @route   POST /api/admin/create-course
+ * @desc    Create a unit
+ * @route   POST /api/admin/create-unit
  * @access  Private - Admin
- * @param   {string} req.body.className - Max 60 characters long.
+ * @param   {string} req.body.unitNumber
  */
 export default async function (req, res) {
   try {
