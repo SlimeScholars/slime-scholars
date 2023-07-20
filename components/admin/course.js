@@ -70,7 +70,7 @@ export default function Course({ course, setCourse, setLoading }) {
           </div>
         )}
       </div>
-      {selected && <CourseEditor newCourse={newCourse} setCourse={setCourse} courseId={course._id} setLoading={setLoading} />}
+      {selected && <CourseEditor course={newCourse} setCourse={setCourse} courseId={course._id} setLoading={setLoading} />}
     </>
   );
 }

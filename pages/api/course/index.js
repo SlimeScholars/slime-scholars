@@ -17,8 +17,7 @@ export default async function (req, res) {
 
     // Get all courses
     const courses = await Course.find({})
-
-    // TODO: Get all units
+      .populate('units')
 
     res.status(200).json({ courses })
   } catch (error) {

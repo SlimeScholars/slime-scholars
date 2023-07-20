@@ -44,9 +44,17 @@ export default function Unit({ unit, setUnit }) {
             }
           }}
         >
-          <p className="text-white">
-            {newUnit.number}. {newUnit.name}
-          </p>
+          {
+            newUnit.unitName ? (
+              <p className="text-white">
+                {newUnit.unitNumber}. {newUnit.unitName}
+              </p>
+            ) : (
+              <p className="text-gray">
+                {newUnit.unitNumber}. New Unit
+              </p>
+            )
+          }
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
@@ -56,7 +64,7 @@ export default function Unit({ unit, setUnit }) {
                 key={index}
                 className="w-full h-12 flex items-center justify-between px-4 py-1 bg-red-600/50 hover:bg-red-400/50 text-bg-light"
               >
-                {lesson.number}. {lesson.name}
+                {lesson.lessonNumber}. {lesson.lessonName}
               </Link>
             ))}
           </div>

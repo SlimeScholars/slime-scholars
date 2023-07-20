@@ -2,16 +2,17 @@ import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import Course from '../../../models/courseModel'
+import Unit from "../../../models/unitModel"
 
 /**
- * @desc    Update a course
- * @route   POST /api/admin/update-course
+ * @desc    Create a course
+ * @route   POST /api/admin/create-course
  * @access  Private - Admin
  * @param   {string} req.body.className - Max 60 characters long.
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if(req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -24,27 +25,39 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4)
 
-    const { courseId, courseName } = req.body
+    const { courseId, unitNumber } = req.body
 
     if(!courseId) {
-      throw new Error('Please send a courseId')
+      throw new Error('Missing courseId')
+    }
+    if(unitNumber === undefined) {
+      throw new Error('Missing unit number')
+    }
+    
+    const course = await Course.findById(courseId)
+    if(!course) {
+      throw new Error('Could not find course')
     }
 
-    const courseExists = Course.findById(courseId)
+    const latestAuthor = `${user.firstName} ${user.lastName}`
 
-    if(!courseExists) {
-      throw new Error('Could not find the course to update')
-    }
-
-    await Course.findByIdAndUpdate(courseId, {
-      courseName,
-      latestAuthor: `${user.firstName} ${user.lastName}`,
+    const unit = await Unit.create({
+      unitNumber,
+      latestAuthor,
     })
 
-    const course = await Course.findById(courseId)
+    course.units.push(unit._id)
+    course.latestAuthor = latestAuthor
+
+    await Course.findByIdAndUpdate(courseId, {
+      units: course.units,
+      latestAuthor,
+    })
+
+    const newCourse = await Course.findById(courseId)
       .populate('units')
 
-    res.status(200).json({course})
+    res.status(201).json({course: newCourse})
 
   } catch(error) {
     console.log(error.message)
