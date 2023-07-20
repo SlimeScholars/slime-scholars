@@ -11,6 +11,10 @@ const unitSchema = new Schema(
       default: '',
       required: false,
     },
+    latestAuthor: {
+      type: String,
+      required: [true, 'Missing latestAuthor'],
+    },
     lessons: {
       type: [{
         type: mongoose.Schema.Types.ObjectId,
@@ -20,6 +24,7 @@ const unitSchema = new Schema(
       required: [true, 'Missing lessons'],
       default: [],
     },
+    // TODO: Unit test
   },
   {
     timestamps: true,
@@ -29,5 +34,3 @@ const unitSchema = new Schema(
 const Unit = models.Unit || model('Unit', unitSchema)
 
 export default Unit
-
-

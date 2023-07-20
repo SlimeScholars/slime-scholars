@@ -26,6 +26,7 @@ export default async function (req, res) {
     const course = await Course.create({
       latestAuthor: `${user.firstName} ${user.lastName}`
     })
+    // No need to populate because units is empty
 
     res.status(201).json({course})
 

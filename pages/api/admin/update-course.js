@@ -42,10 +42,15 @@ export default async function (req, res) {
     })
 
     const course = await Course.findById(courseId)
-      .populate('units')
+      .populate({
+        path: 'units',
+        populate: {
+          path: 'lessons',
+          model: 'Lesson', 
+        },
+      })
 
     res.status(200).json({course})
-
 
   } catch(error) {
     console.log(error.message)

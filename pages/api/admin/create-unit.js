@@ -47,7 +47,6 @@ export default async function (req, res) {
     })
 
     course.units.push(unit._id)
-    course.latestAuthor = latestAuthor
 
     await Course.findByIdAndUpdate(courseId, {
       units: course.units,
@@ -55,7 +54,13 @@ export default async function (req, res) {
     })
 
     const newCourse = await Course.findById(courseId)
-      .populate('units')
+      .populate({
+        path: 'units',
+        populate: {
+          path: 'lessons',
+          model: 'Lesson', 
+        },
+      })
 
     res.status(201).json({course: newCourse})
 

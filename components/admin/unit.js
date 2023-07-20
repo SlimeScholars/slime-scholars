@@ -10,9 +10,6 @@ export default function Unit({ unit, setUnit, setLoading, }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
-  let newUnit = { ...unit };
-  let lessons = [...newUnit.lessons];
-
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -45,32 +42,40 @@ export default function Unit({ unit, setUnit, setLoading, }) {
           }}
         >
           {
-            newUnit.unitName ? (
+            unit.unitName ? (
               <p className="text-white">
-                {newUnit.unitNumber}. {newUnit.unitName}
+                {unit.unitNumber}. {unit.unitName}
               </p>
             ) : (
               <p className="text-gray">
-                {newUnit.unitNumber}. New Unit
+                {unit.unitNumber}. New Unit
               </p>
             )
           }
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
-            {lessons.map((lesson, index) => (
+            {unit.lessons.map((lesson, index) => (
               <Link
                 href={"/admin/editLesson/"}
                 key={index}
                 className="w-full h-12 flex items-center justify-between px-4 py-1 bg-red-600/50 hover:bg-red-400/50 text-bg-light"
               >
-                {lesson.lessonNumber}. {lesson.lessonName}
+                {lesson.lessonName ? (
+                  <p className="text-white">
+                    {lesson.lessonNumber}. {lesson.lessonName}
+                  </p>
+                ) : (
+                  <p className="text-gray">
+                    {lesson.lessonNumber}. New Lesson
+                  </p>
+                )}
               </Link>
             ))}
           </div>
         )}
       </div>
-      {selected && <UnitEditor newUnit={newUnit} setUnit={setUnit} setLoading={setLoading} />}
+      {selected && <UnitEditor unit={unit} setUnit={setUnit} setLoading={setLoading} />}
     </>
   );
 }
