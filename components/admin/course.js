@@ -42,7 +42,16 @@ export default function Course({ course, setCourse }) {
           }}
           ref={selectRef}
         >
-          <p className="text-white">{newCourse.name}</p>
+          {newCourse.name ? (
+            <p className="text-white">
+              {newCourse.name}
+            </p>
+          ) : (
+            <p className="text-gray">
+              New Course
+              {newCourse.name}
+            </p>
+          )}
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-5 items-start justify-start">

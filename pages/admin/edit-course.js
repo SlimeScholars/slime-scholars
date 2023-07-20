@@ -1,7 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Course from "../../components/admin/course";
 
-export default function editCourse() {
+import { useRouter } from "next/router";
+
+export default function editCourse({user}) {
+  const router = useRouter()
+
+  useEffect(() => {
+    if(!user) {
+      router.push('/')
+    }
+    if(user.userType !== 4) {
+      router.push('/')
+    }
+  }, [user])
+
   const [courses, setCourses] = useState([]);
 
   return (
@@ -13,9 +26,8 @@ export default function editCourse() {
             setCourses([
               ...courses,
               {
-                name: "New Course",
-                code: "Unknown Code",
-                author: "<current username>",
+                name: "",
+                author: user && user.firstName ? `${user.firstName} ${user.lastName}` : 'Loading...',
                 units: [],
                 id: courses.length,
               },
