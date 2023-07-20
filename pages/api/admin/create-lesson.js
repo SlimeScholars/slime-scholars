@@ -3,16 +3,17 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import Course from '../../../models/courseModel'
 import Unit from "../../../models/unitModel"
+import Lesson from "../../../models/lessonModel"
 
 /**
- * @desc    Update a unit
- * @route   POST /api/admin/update-unit
+ * @desc    Create a unit
+ * @route   POST /api/admin/create-unit
  * @access  Private - Admin
- * @param   {string} req.body.className - Max 60 characters long.
+ * @param   {string} req.body.unitNumber
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if(req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -25,27 +26,38 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4)
 
-    const { unitId, unitName } = req.body
+    const { unitId, lessonNumber } = req.body
 
     if(!unitId) {
-      throw new Error('Please send a unitId')
+      throw new Error('Missing unitId')
+    }
+    if(lessonNumber === undefined) {
+      throw new Error('Missing lesson number')
+    }
+    
+    const unit = await Unit.findById(unitId)
+    if(!unit) {
+      throw new Error('Could not find unit')
     }
 
-    const unitExists = Unit.findById(unitId)
+    const latestAuthor = `${user.firstName} ${user.lastName}`
 
-    if(!unitExists) {
-      throw new Error('Could not find the unit to update')
-    }
-
-    await Unit.findByIdAndUpdate(unitId, {
-      unitName,
-      latestAuthor: `${user.firstName} ${user.lastName}`,
+    const lesson = await Lesson.create({
+      lessonNumber,
+      latestAuthor,
     })
 
-    const unit = await Unit.findById(unitId)
+    unit.lessons.push(lesson._id)
+
+    await Unit.findByIdAndUpdate(unitId, {
+      lessons: unit.lessons,
+      latestAuthor,
+    })
+
+    const newUnit = await Unit.findById(unitId)
       .populate('lessons')
 
-    res.status(200).json({unit})
+    res.status(201).json({unit: newUnit})
 
   } catch(error) {
     console.log(error.message)

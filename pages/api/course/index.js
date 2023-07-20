@@ -1,5 +1,6 @@
 import connectDB from '../../../utils/connectDB'
 import Course from '../../../models/courseModel'
+import Unit from '../../../models/unitModel'
 
 /**
  * @desc    Get information of all courses
@@ -17,7 +18,13 @@ export default async function (req, res) {
 
     // Get all courses
     const courses = await Course.find({})
-      .populate('units')
+      .populate({
+        path: 'units',
+        populate: {
+          path: 'lessons',
+          model: 'Lesson', 
+        },
+      })
 
     res.status(200).json({ courses })
   } catch (error) {

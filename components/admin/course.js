@@ -13,6 +13,8 @@ export default function Course({ course, setCourse, setLoading }) {
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
+  const newCourse = {...course}
+
   const selectRef = useRef();
   useClickOutside(selectRef, () => {
     if (x < width * 0.4) {
@@ -20,8 +22,6 @@ export default function Course({ course, setCourse, setLoading }) {
     }
   });
 
-  let newCourse = { ...course };
-  let units = [...newCourse.units];
 
   return (
     <>
@@ -42,20 +42,20 @@ export default function Course({ course, setCourse, setLoading }) {
           }}
           ref={selectRef}
         >
-          {newCourse.courseName ? (
+          {course.courseName ? (
             <p className="text-white">
-              {newCourse.courseName}
+              {course.courseName}
             </p>
           ) : (
             <p className="text-gray">
               New Course
-              {newCourse.courseName}
+              {course.courseName}
             </p>
           )}
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-5 items-start justify-start">
-            {units.map((unit, index) => (
+            {newCourse.units.map((unit, index) => (
               <Unit
                 key={index}
                 unit={unit}
@@ -63,7 +63,7 @@ export default function Course({ course, setCourse, setLoading }) {
                   let newUnits = [...units];
                   newUnits[index] = newUnit;
                   newCourse.units = newUnits;
-                  setCourse(newCourse);
+                  setCourse(course);
                 }}
                 setLoading={setLoading}
               />
@@ -71,12 +71,7 @@ export default function Course({ course, setCourse, setLoading }) {
           </div>
         )}
       </div>
-      {selected && 
-        <CourseEditor 
-          course={newCourse} 
-          setCourse={setCourse} 
-          setLoading={setLoading} 
-        />}
+      {selected && <CourseEditor course={newCourse} setCourse={setCourse} setLoading={setLoading} />}
     </>
   );
 }
