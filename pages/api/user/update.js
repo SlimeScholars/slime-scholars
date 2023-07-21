@@ -154,6 +154,11 @@ export default async function (req, res) {
     }
 
     const newUser = await User.findById(user._id, {password: 0})
+        .populate({
+          path: 'parent',
+          select: '-password',
+        })
+        .exec()
 
     if (newUser) {
       res.status(200).json({
