@@ -18,6 +18,12 @@ export const authenticate = async(authorization) => {
 
       // Get user from the token
       const user = await User.findById(decoded.id, {password: 0})
+        .populate({
+          path: 'parent',
+          select: '-password',
+        })
+        .exec()
+
       if(user) {
         return user
       }

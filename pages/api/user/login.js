@@ -27,18 +27,28 @@ export default async function (req, res) {
     let user
     if(accountIdentifier.includes('@')) {
       user = await User.findOne({ email: accountIdentifier })
+        .populate({
+          path: 'parent',
+          select: '-password',
+        })
+        .exec()
     }
     else {
       // Search user by username
       const usernameRegex = new RegExp(accountIdentifier, 'i')
       user = await User.findOne({ username: { $regex: usernameRegex } })
+        .populate({
+          path: 'parent',
+          select: '-password',
+        })
+        .exec()
     }
 
     if (user && (await bcrypt.compare(password, user.password))) {
       user.password = undefined
       res.status(200).json({
-        user,
         token: generateToken(user._id),
+        user,
       })
     } else {
       throw new Error('Invalid credentials')

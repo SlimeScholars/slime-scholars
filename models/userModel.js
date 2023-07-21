@@ -40,14 +40,9 @@ const userSchema = new Schema(
       required: false,
     },
     // Students can have parentId
-    parentId: {
+    parent: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: false,
-    },
-    // Students can have parentEmail
-    parentEmail: {
-      type: String,
       required: false,
     },
 
