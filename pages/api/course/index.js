@@ -1,6 +1,8 @@
 import connectDB from '../../../utils/connectDB'
 import Course from '../../../models/courseModel'
-import Unit from '../../../models/unitModel'
+// Import these to initialize the models for the populate
+import '../../../models/unitModel'
+import '../../../models/lessonModel'
 
 /**
  * @desc    Get information of all courses
