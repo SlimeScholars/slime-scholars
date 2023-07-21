@@ -8,17 +8,20 @@ import { showToastMessage } from "../utils/verify";
 import axios from "axios";
 import { useRouter } from "next/router";
 
-export default function Login({user, setUser}) {
+export default function Login({loading, user, setUser}) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
   const router = useRouter()
 
   useEffect(() => {
+    if(loading) {
+      return
+    }
     if(user) {
       router.push('/')
     }
-  }, [user])
+  }, [loading, user])
 
   const onSubmit = (e) => {
     // TODO: Add validation, api call, and redirect

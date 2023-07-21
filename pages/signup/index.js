@@ -45,14 +45,17 @@ const content = [
   },
 ];
 
-export default function Signup({user}) {
+export default function Signup({loading, user}) {
   const router = useRouter()
 
   useEffect(() => {
+    if(loading) {
+      return
+    }
     if(user) {
       router.push('/')
     }
-  }, [user])
+  }, [loading, user])
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">

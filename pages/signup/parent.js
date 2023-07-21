@@ -15,14 +15,18 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function Parent({user, setUser}) {
+export default function Parent({loading, user, setUser}) {
   const router = useRouter()
 
   useEffect(() => {
+    if(loading) {
+      return
+    }
     if(user) {
       router.push('/')
     }
-  }, [user])
+  }, [loading, user])
+
 
   const [honorific, setHonorific] = useState(undefined);
   const [firstName, setFirstName] = useState("");

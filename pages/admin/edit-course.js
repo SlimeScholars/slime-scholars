@@ -18,7 +18,7 @@ export default function editCourse({user, loading, setLoading}) {
     if(!user || user.userType !== 4) {
       router.push('/')
     }
-  }, [user])
+  }, [user,loading])
 
   const [courses, setCourses] = useState([]);
 
