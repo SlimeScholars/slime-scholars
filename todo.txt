@@ -4,3 +4,5 @@ Frontend:
 
 - Course should also contain a courseBadge image link
 - Unit should contain unitTest
+
+- Look over create user api with populate

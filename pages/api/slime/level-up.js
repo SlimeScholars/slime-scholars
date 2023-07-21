@@ -58,7 +58,32 @@ export default async function (req, res) {
     await User.findByIdAndUpdate(user._id, {
       slimeGel: user.slimeGel - slime.levelUpCost
     })
-		const newUser = await User.findById(user._id)
+
+    const newUser = await User.findById(user._id, {
+      password: 0, createdAt: 0, updatedAt: 0, __v: 0
+    })
+      .populate({
+        path: 'parent',
+        select: '_id userType firstName lastName honorific email',
+      })
+      // TODO: Add profile picture, badges, score, etc.
+      .populate({
+        path: 'friends',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'receivedFriendRequests',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'sentFriendRequests',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'slimes',
+        select: '-userId -createdAt -updatedAt -__v',
+      })
+      .exec()
     
     res.status(200).json({
 			slime: newSlime,

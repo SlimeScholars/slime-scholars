@@ -26,20 +26,66 @@ export default async function (req, res) {
 
     let user
     if(accountIdentifier.includes('@')) {
-      user = await User.findOne({ email: accountIdentifier })
+      user = await User.findOne({ email: accountIdentifier }, {
+        createdAt: 0, updatedAt: 0, __v: 0
+      })
         .populate({
           path: 'parent',
           select: '_id userType firstName lastName honorific email',
+        })
+        // TODO: Add profile picture, badges, score, etc.
+        .populate({
+          path: 'friends',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'receivedFriendRequests',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'sentFriendRequests',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'students',
+          select: '_id userType username firstName lastName completed',
+        })
+        .populate({
+          path: 'slimes',
+          select: '-userId -createdAt -updatedAt -__v',
         })
         .exec()
     }
     else {
       // Search user by username
       const usernameRegex = new RegExp(accountIdentifier, 'i')
-      user = await User.findOne({ username: { $regex: usernameRegex } })
+      user = await User.findOne({ username: { $regex: usernameRegex } }, {
+        createdAt: 0, updatedAt: 0, __v: 0
+      })
         .populate({
           path: 'parent',
           select: '_id userType firstName lastName honorific email',
+        })
+        // TODO: Add profile picture, badges, score, etc.
+        .populate({
+          path: 'friends',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'receivedFriendRequests',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'sentFriendRequests',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'students',
+          select: '_id userType username firstName lastName completed',
+        })
+        .populate({
+          path: 'slimes',
+          select: '-userId -createdAt -updatedAt -__v',
         })
         .exec()
     }
