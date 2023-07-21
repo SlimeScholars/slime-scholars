@@ -191,7 +191,7 @@ export default async function handler(req, res) {
       const user = await User.findById(userId, {password: 0})
         .populate({
           path: 'parent',
-          select: '-password',
+          select: '_id userType firstName lastName honorific email',
         })
         .exec()
 
