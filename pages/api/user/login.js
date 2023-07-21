@@ -29,7 +29,7 @@ export default async function (req, res) {
       user = await User.findOne({ email: accountIdentifier })
         .populate({
           path: 'parent',
-          select: '-password',
+          select: '_id userType firstName lastName honorific email',
         })
         .exec()
     }
@@ -39,7 +39,7 @@ export default async function (req, res) {
       user = await User.findOne({ username: { $regex: usernameRegex } })
         .populate({
           path: 'parent',
-          select: '-password',
+          select: '_id userType firstName lastName honorific email',
         })
         .exec()
     }

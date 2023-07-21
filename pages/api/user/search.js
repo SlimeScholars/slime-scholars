@@ -27,7 +27,7 @@ export default async function (req, res) {
     const user = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
       .populate({
         path: 'parent',
-        select: '-password',
+        select: '_id userType firstName lastName honorific email',
       })
       .exec()
 
