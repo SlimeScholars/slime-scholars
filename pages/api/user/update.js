@@ -82,44 +82,49 @@ export default async function (req, res) {
       newUsername = username
     }
 
-    let parentId = user.parentId
-    let newParentEmail = user.parentEmail
-    if(user.userType === 1 && parentEmail && parentEmail.toLowerCase() !== user.parentEmail) {
-      verifyEmail(parentEmail)
-
+    let parent = user.parent
+    if(user.userType === 1 && parentEmail && (!parent || parentEmail.toLowerCase() !== user.parent.email)) {
       const lowercaseParentEmail = parentEmail.toLowerCase()
-      const parent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
-      if(!parent) {
-        throw new Error('Parent email not found')
+      const newParent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
+      if(!newParent) {
+        throw new Error('Could not find a user with that email')
       }
-      if(parent.userType !== 2) {
+      if(newParent.userType !== 2) {
         throw new Error('The user with that email is not a parent')
       }
-      parentId = parent._id
-      newParentEmail = lowercaseParentEmail
+      parent = newParent
+    }
+    else if(!parentEmail) {
+      parent = undefined
     }
 
     if(!email && !parentEmail) {
       throw new Error('Account must either have an email or parent email')
     }
 
-    // This complex expression is used because if either user.parentId
-    // or parentId is undefined, I can't do undefined.equals(something)
-    if((user.parentId !== undefined && !user.parentId.equals(parentId)) ||
-    (parentId !== undefined && !parentId.equals(user.parentId))) {
-      if(user.parentId) {
+    // This complex expression is used because if either user.parent
+    // or parent is undefined, I can't do undefined.equals(something)
+    if(
+      (user.parent !== undefined && parent !== undefined && user.parent._id !== parent._id) ||
+      (user.parent === undefined && parent !== undefined) ||
+      (user.parent !== undefined && parent === undefined)
+    ) {
+      if(user.parent) {
         // Delete student from old parent's student list
-        const parent = await User.findById(user.parentId, {password: 0})
-        if(parent) {
-          const newStudents = parent.students.filter(item => !item.equals(user._id))
-          await User.findByIdAndUpdate(user.parentId, {students: newStudents})
+        const oldParent = await User.findById(user.parent._id, {password: 0})
+        if(oldParent) {
+          const newStudents = oldParent.students.filter(item => !item.equals(user._id))
+          await User.findByIdAndUpdate(user.parent._id, {students: newStudents})
         }
       }
-      // Add student to new parent's student list
-      const parent = await User.findById(parentId, {password: 0})
+
       if(parent) {
-        parent.students.push(user._id)
-        await User.findByIdAndUpdate(parentId, {students: parent.students})
+        // Add student to new parent's student list
+        const newParent = await User.findById(parent._id, {password: 0})
+        if(newParent) {
+          newParent.students.push(user)
+          await User.findByIdAndUpdate(newParent._id, {students: newParent.students})
+        }
       }
     }
 
@@ -131,7 +136,7 @@ export default async function (req, res) {
       })
 
       const update = await User.findById(user._id)
-      update.honorific = honorific
+      update.honorific = honorific ? honorific : undefined
       await update.save()
     }
 
@@ -144,8 +149,7 @@ export default async function (req, res) {
       
       const update = await User.findById(user._id)
       update.email = newEmail
-      update.parentEmail = newParentEmail
-      update.parentId = parentId
+      update.parent = parent
       await update.save()
     }
 

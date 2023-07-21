@@ -78,7 +78,7 @@ export default async function handler(req, res) {
           userType: userType,
           firstName: firstName,
           lastName: lastName,
-          honorific: honorific,
+          honorific: honorific ? honorific : undefined,
           password: hashedPassword,
           email: lowercaseEmail,
           students: []
@@ -102,7 +102,7 @@ export default async function handler(req, res) {
           userType,
           firstName,
           lastName,
-          honorific,
+          honorific: honorific ? honorific : undefined,
           password: hashedPassword,
           email: lowercaseEmail,
           classes: [],
@@ -151,11 +151,8 @@ export default async function handler(req, res) {
 
       // Creating student with parent email
       let parent
-      let parentId
       let lowercaseParentEmail
       if(parentEmail) {
-        verifyEmail(parentEmail)
-
         lowercaseParentEmail = parentEmail.toLowerCase()
         // Make sure that the parent email is a registered parent
         parent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
@@ -165,11 +162,9 @@ export default async function handler(req, res) {
         if(parent.userType !== 2) {
           throw new Error('The user with that email is not a parent')
         }
-        // Set the student's parent appropriately
-        parentId = parent._id
       }
 
-      const user = await User.create({
+      const userId = (await User.create({
         userType,
         username,
         password: hashedPassword,
@@ -177,8 +172,7 @@ export default async function handler(req, res) {
         lastName,
 
         email: lowercaseEmail,
-        parentId,
-        parentEmail: lowercaseParentEmail,
+        parent,
         classes: [],
         
         friends: [],
@@ -192,8 +186,14 @@ export default async function handler(req, res) {
         roster: [null, null, null, null],
         items: [],
         lastRewards: [0, 0],
-      })
-      user.password = undefined
+      }))._id
+
+      const user = await User.findById(userId, {password: 0})
+        .populate({
+          path: 'parent',
+          select: '-password',
+        })
+        .exec()
 
       if(parent) {
         parent.students.push(user._id)
@@ -202,8 +202,8 @@ export default async function handler(req, res) {
 
       if (user) {
         res.status(201).json({
-          user: user,
           token: generateToken(user._id),
+          user: user,
         })
         return
       }
