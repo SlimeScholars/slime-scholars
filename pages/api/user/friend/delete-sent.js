@@ -29,37 +29,51 @@ export default async function (req, res) {
 
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
-    if(!user.sentFriendRequests.includes(friendIdObj)) {
+    const simpleUser = await User.findById(user._id, {password: 0})
+
+    if(!simpleUser.sentFriendRequests.includes(friendIdObj)) {
       throw new Error('You did not send a friend request of that id')
     }
 
-    const friend = await User.findById(friendIdObj)
+    const friend = await User.findById(friendIdObj, {password: 0})
     if(!friend) {
       throw new Error('Cannot find user of that id')
     }
 
     // Delete friend request
-    user.sentFriendRequests = user.friends.filter((element) => element == friendIdObj)
+    simpleUser.sentFriendRequests = simpleUser.friends.filter((element) => element == friendIdObj)
     friend.receivedFriendRequests = friend.friends.filter((element) => element == user._id)
 
     // Update database
     await User.findByIdAndUpdate(user._id, {
-      sentFriendRequests: user.sentFriendRequests,
+      sentFriendRequests: simpleUser.sentFriendRequests,
     })
     await User.findByIdAndUpdate(friendIdObj, {
       receivedFriendRequests: friend.receivedFriendRequests,
     })
 
-    // Instead of sending ids, send objects for friends and friend requests
-    const receivedFriendRequests = await User.find({ _id: { $in: user.receivedFriendRequests} }, { password: 0})
-    const sentFriendRequests = await User.find({ _id: { $in: user.sentFriendRequests} }, { password: 0})
-    const friends = await User.find({ _id: { $in: user.friends} }, { password: 0})
+    const newUser = await User.findById(user._id, {password: 0})
+      .populate({
+        path: 'parent',
+        select: '_id userType firstName lastName honorific email',
+      })
+      // TODO: Add profile picture, badges, score, etc.
+      .populate({
+        path: 'friends',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'receivedFriendRequests',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'sentFriendRequests',
+        select: '_id userType username'
+      })
+      .exec()
 
     res.status(200).json({
-      user,
-      receivedFriendRequests,
-      sentFriendRequests,
-      friends
+      user: newUser
     })
 
   } catch(error) {

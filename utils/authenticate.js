@@ -22,6 +22,19 @@ export const authenticate = async(authorization) => {
           path: 'parent',
           select: '_id userType firstName lastName honorific email',
         })
+        // TODO: Add profile picture, badges, score, etc.
+        .populate({
+          path: 'friends',
+          select: '_id userType username'
+        })
+        .populate({
+          path: 'receivedFriendRequests',
+          select: '_id userType username'
+        })
+        .populate({
+          path: 'sentFriendRequests',
+          select: '_id userType username'
+        })
         .exec()
 
       if(user) {
