@@ -29,11 +29,13 @@ export default async function (req, res) {
 
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
+    const simpleUser = await User.findById(user._id, {password: 0})
+
     if(user._id.equals(friendIdObj)) {
       throw new Error('Cannot friend yourself')
     }
 
-    const friend = await User.findById(friendIdObj)
+    const friend = await User.findById(friendIdObj, {password: 0})
 
     if(!friend) {
       throw new Error('Cannot find user of that id')
@@ -43,63 +45,95 @@ export default async function (req, res) {
       throw new Error('You can only friend students')
     }
 
-    if(user.friends.includes(friendIdObj)) {
+    if(simpleUser.friends.includes(friendIdObj)) {
       throw new Error(`You are already friends with ${friend.username}`)
     }
 
-    if(user.sentFriendRequests.includes(friendIdObj)) {
+    if(simpleUser.sentFriendRequests.includes(friendIdObj)) {
       throw new Error(`You already sent a friend request to ${friend.username}`)
     }
 
     // If you are trying to friend request someone that already request you,
     // delete the request and become friends
-    if(user.receivedFriendRequests.includes(friendIdObj)) {
+    if(simpleUser.receivedFriendRequests.includes(friendIdObj)) {
       // Add to friends
-      user.friends.push(friendIdObj)
+      simpleUser.friends.push(friendIdObj)
       friend.friends.push(user._id)
 
       // Delete friend requests
-      user.receivedFriendRequests = user.receivedFriendRequests.filter((element) => element == friendIdObj)
-      friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element == user._id)
+      simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element == friendIdObj)
+      friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element == simpleUser._id)
 
       // Update
       await User.findByIdAndUpdate(user._id, {
-        receivedFriendRequests: user.receivedFriendRequests,
-        friends: user.friends,
+        receivedFriendRequests: simpleUser.receivedFriendRequests,
+        friends: simpleUser.friends,
       })
       await User.findByIdAndUpdate(user._id, {
         sentFriendRequests: friend.sentFriendRequests,
         friends: friend.friends,
       })
+
+    const newUser = await User.findById(user._id, {password: 0})
+      .populate({
+        path: 'parent',
+        select: '_id userType firstName lastName honorific email',
+      })
+      // TODO: Add profile picture, badges, score, etc.
+      .populate({
+        path: 'friends',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'receivedFriendRequests',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'sentFriendRequests',
+        select: '_id userType username'
+      })
+      .exec()
+
       res.status(200).json({
-        sentFriendRequests: user.sentFriendRequests,
-        friends: user.friends
+        user: newUser,
       })
       return
     }
 
     // If you haven't already requested, add the friend request to their received and your sent
-    if(!user.sentFriendRequests.includes(friendIdObj)) {
-      user.sentFriendRequests.push(friendIdObj)
+    if(!simpleUser.sentFriendRequests.includes(friendIdObj)) {
+      simpleUser.sentFriendRequests.push(friendIdObj)
     }
     if(!friend.receivedFriendRequests.includes(user._id)) {
       friend.receivedFriendRequests.push(user._id)
     }
 
     // Update friend requests
-    await User.findByIdAndUpdate(user._id, {sentFriendRequests: user.sentFriendRequests})
+    await User.findByIdAndUpdate(user._id, {sentFriendRequests: simpleUser.sentFriendRequests})
     await User.findByIdAndUpdate(friendIdObj, {receivedFriendRequests: friend.receivedFriendRequests})
 
-    // Instead of sending ids, send objects for friends and friend requests
-    const receivedFriendRequests = await User.find({ _id: { $in: user.receivedFriendRequests} }, { password: 0})
-    const sentFriendRequests = await User.find({ _id: { $in: user.sentFriendRequests} }, { password: 0})
-    const friends = await User.find({ _id: { $in: user.friends} }, { password: 0})
+    const newUser = await User.findById(user._id, {password: 0})
+      .populate({
+        path: 'parent',
+        select: '_id userType firstName lastName honorific email',
+      })
+      // TODO: Add profile picture, badges, score, etc.
+      .populate({
+        path: 'friends',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'receivedFriendRequests',
+        select: '_id userType username'
+      })
+      .populate({
+        path: 'sentFriendRequests',
+        select: '_id userType username'
+      })
+      .exec()
 
     res.status(200).json({
-      user,
-      receivedFriendRequests,
-      sentFriendRequests,
-      friends
+      user: newUser,
     })
 
   } catch(error) {
