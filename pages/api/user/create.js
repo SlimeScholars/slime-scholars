@@ -194,6 +194,7 @@ export default async function handler(req, res) {
           select: '_id userType firstName lastName honorific email',
         })
         .exec()
+      // No need to populate other things like friends, slime, class and roster because it's empty
 
       if(parent) {
         parent.students.push(user._id)

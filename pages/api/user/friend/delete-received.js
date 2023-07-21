@@ -52,7 +52,9 @@ export default async function (req, res) {
       sentFriendRequests: friend.sentFriendRequests,
     })
 
-    const newUser = await User.findById(user._id, {password: 0})
+    const newUser = await User.findById(user._id, {
+      password: 0, createdAt: 0, updatedAt: 0, __v: 0
+    })
       .populate({
         path: 'parent',
         select: '_id userType firstName lastName honorific email',
@@ -69,6 +71,10 @@ export default async function (req, res) {
       .populate({
         path: 'sentFriendRequests',
         select: '_id userType username'
+      })
+      .populate({
+        path: 'slimes',
+        select: '-userId -createdAt -updatedAt -__v',
       })
       .exec()
 
