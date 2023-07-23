@@ -1,11 +1,11 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import Course from '../../../models/courseModel'
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import Course from '../../../../models/courseModel'
 
 /**
  * @desc    Create a course
- * @route   POST /api/admin/create-course
+ * @route   POST /api/admin/course/create
  * @access  Private - Admin
  */
 export default async function (req, res) {

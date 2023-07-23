@@ -1,13 +1,14 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import Lesson from "../../../models/lessonModel"
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import Lesson from "../../../../models/lessonModel"
 
 /**
- * @desc    Update a lesson
- * @route   POST /api/admin/update-lesson
+ * @desc    Update the name of a lesson
+ * @route   PUT /api/admin/lesson/update-name
  * @access  Private - Admin
- * @param   {string} req.body.className - Max 60 characters long.
+ * @param   {string} req.body.lessonId - Id of lesson you want to update
+ * @param   {string} req.body.lessonName - Lesson name you want to update to
  */
 export default async function (req, res) {
   try {

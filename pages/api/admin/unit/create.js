@@ -1,14 +1,15 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import Course from '../../../models/courseModel'
-import Unit from "../../../models/unitModel"
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import Course from '../../../../models/courseModel'
+import Unit from "../../../../models/unitModel"
 
 /**
  * @desc    Create a unit
- * @route   POST /api/admin/create-unit
+ * @route   POST /api/admin/unit/create
  * @access  Private - Admin
- * @param   {string} req.body.unitNumber
+ * @param   {string} req.body.courseId - Id of course you want to create a unit under
+ * @param   {number} req.body.unitNumber - Unit number of the unit you want to create
  */
 export default async function (req, res) {
   try {
