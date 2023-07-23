@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
 
 export default function CourseEditor({ course, setCourse, setLoading }) {
   const [courseName, setCourseName] = useState(course.courseName);
@@ -61,14 +62,11 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
           }
         })
         .catch((error) => {
-          console.error(error.message)
-          // showToastMessage(error.message)
+          showToastMessage(error.message)
           setLoading(false);
         });
       
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
       showToastMessage(error.message);
       return;
     }
@@ -77,6 +75,7 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
 
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
+      <ToastContainer />
       <label className="text-2xl font-black">Course Details</label>
       <label className="text-xl font-bold">Course Name</label>
       <input
