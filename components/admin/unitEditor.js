@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Link from "next/link";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
 
 export default function UnitEditor({ unit, setUnit, setLoading }) {
   const [unitName, setUnitName] = useState(unit.unitName);
@@ -98,6 +97,17 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
         onClick={onAddLesson}
       >
         Add Lesson
+      </button>
+      <button className="w-full h-12 bg-yellow-300 hover:bg-yellow-200">
+        <Link
+          href={{
+            pathname: "/admin/edit-unit-test/",
+            query: { unitId: unit._id },
+          }}
+          target="_blank"
+        >
+          Edit Unit Test
+        </Link>
       </button>
     </div>
   );

@@ -2,6 +2,8 @@ import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import Course from '../../../models/courseModel'
+import '../../../models/unitModel'
+import '../../../models/lessonModel'
 
 /**
  * @desc    Update a course

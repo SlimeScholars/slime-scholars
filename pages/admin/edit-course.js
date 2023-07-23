@@ -76,8 +76,6 @@ export default function editCourse({user, loading, setLoading}) {
         });
       
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
       showToastMessage(error.message);
       return;
     }
@@ -85,6 +83,7 @@ export default function editCourse({user, loading, setLoading}) {
 
   return (
     <div className='w-screen h-screen bg-bg-light flex'>
+      <ToastContainer />
       <div className="w-2/5 h-screen bg-slate-100 overflow-y-scroll">
         <button
           className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-b-4 border-b-green-800 text-green-800"

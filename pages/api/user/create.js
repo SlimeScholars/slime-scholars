@@ -66,7 +66,7 @@ export default async function handler(req, res) {
       const lowercaseEmail = email.toLowerCase()
 
       // Make sure email is not already used
-      let userExists = await User.findOne({ email: lowercaseEmail }, {password: 0})
+      const userExists = await User.findOne({ email: lowercaseEmail }, {password: 0})
       if (userExists) {
         throw new Error('Email already used')
       }
@@ -130,8 +130,10 @@ export default async function handler(req, res) {
       verifyUsername(username)
 
       // Make sure username is not taken
-      const usernameRegex = new RegExp(username, 'i')
+      const usernameRegex = new RegExp(`^${username}$`, 'i')
       const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
+      console.log(usernameRegex)
+      console.log(userExists)
       if (userExists) {
         throw new Error('Username is taken')
       }
@@ -188,7 +190,9 @@ export default async function handler(req, res) {
         lastRewards: [0, 0],
       }))._id
 
-      const user = await User.findById(userId, {password: 0})
+      const user = await User.findById(userId, {
+        password: 0, createdAt: 0, updatedAt: 0, __v: 0
+      })
         .populate({
           path: 'parent',
           select: '_id userType firstName lastName honorific email',

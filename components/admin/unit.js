@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import UnitEditor from "./unitEditor";
-import Link from "next/link";
+import Lesson from "./lesson";
 
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
@@ -13,10 +13,9 @@ export default function Unit({ unit, setUnit, setLoading }) {
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
-  const clickRef = useRef();
-  useClickOutside(clickRef, () => {
+  const selectRef = useRef();
+  useClickOutside(selectRef, () => {
     if (x < width * 0.4) {
-      setIsOpen(false);
       setSelected(false);
     }
   });
@@ -27,9 +26,9 @@ export default function Unit({ unit, setUnit, setLoading }) {
     <>
       <div
         className={
-          "w-full flex flex-col " + (isOpen ? "max-h-max" : "max-h-12")
+          "w-full flex flex-col justify-start items-start overflow-hidden " +
+          (isOpen ? "" : "h-12")
         }
-        ref={clickRef}
       >
         <button
           className={
@@ -37,11 +36,10 @@ export default function Unit({ unit, setUnit, setLoading }) {
             (selected ? "bg-red-400/50" : "bg-red-600/50")
           }
           onClick={() => {
-            if (!selected && !isOpen) {
-              setIsOpen(true);
-              setSelected(true);
-            }
+            setSelected(true);
+            setIsOpen(!isOpen);
           }}
+          ref={selectRef}
         >
           {unit.unitName ? (
             <p className="text-white">
@@ -54,19 +52,17 @@ export default function Unit({ unit, setUnit, setLoading }) {
         {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
-              <Link
-                href={"/admin/edit-lesson/" + lesson._id}
+              <Lesson
                 key={index}
-                className="w-full h-12 flex items-center justify-between px-4 py-1 bg-red-600/50 hover:bg-red-400/50 text-bg-light"
-              >
-                {lesson.lessonName ? (
-                  <p className="text-white">
-                    {lesson.lessonNumber}. {lesson.lessonName}
-                  </p>
-                ) : (
-                  <p className="text-gray">{lesson.lessonNumber}. New Lesson</p>
-                )}
-              </Link>
+                lesson={lesson}
+                setLesson={(newLesson) => {
+                  let newLessons = [...unit.lessons];
+                  newLessons[index] = newLesson;
+                  unit.lessons = newLessons;
+                  setUnit(unit);
+                }}
+                setLoading={setLoading}
+              />
             ))}
           </div>
         )}
