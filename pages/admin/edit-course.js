@@ -56,7 +56,7 @@ export default function editCourse({user, loading, setLoading}) {
       };
       setLoading(true)
       axios
-        .post("/api/admin/create-course", {}, config)
+        .post("/api/admin/course/create", {}, config)
         .then((response) => {
           if (response.data && response.data.course) {
             const newCourse = response.data.course

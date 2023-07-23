@@ -1,15 +1,16 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import Course from '../../../models/courseModel'
-import '../../../models/unitModel'
-import '../../../models/lessonModel'
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import Course from '../../../../models/courseModel'
+import '../../../../models/unitModel'
+import '../../../../models/lessonModel'
 
 /**
- * @desc    Update a course
- * @route   POST /api/admin/update-course
+ * @desc    Update a course's name
+ * @route   PUT /api/admin/course/update-name
  * @access  Private - Admin
- * @param   {string} req.body.courseName
+ * @param   {string} req.body.courseId - Id of the course you want to update
+ * @param   {string} req.body.courseName - The name you want to update the course to
  */
 export default async function (req, res) {
   try {

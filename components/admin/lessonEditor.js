@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showToastMessage } from "../../utils/verify";
 
 export default function LessonEditor({ lesson, setLesson, setLoading }) {
   const [lessonName, setLessonName] = useState(lesson.lessonName);
@@ -19,7 +21,7 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
       setLoading(true)
 
       axios
-        .put("/api/admin/update-lesson", {lessonId: lesson._id, lessonName}, config)
+        .put("/api/admin/lesson/update-name", {lessonId: lesson._id, lessonName}, config)
         .then((response) => {
           if (response.data && response.data.lesson) {
             setLesson(response.data.lesson);

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showToastMessage } from "../../utils/verify";
 
 export default function UnitEditor({ unit, setUnit, setLoading }) {
   const [unitName, setUnitName] = useState(unit.unitName);
@@ -19,7 +21,7 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
       setLoading(true)
 
       axios
-        .put("/api/admin/update-unit", {unitId: unit._id, unitName}, config)
+        .put("/api/admin/unit/update-name", {unitId: unit._id, unitName}, config)
         .then((response) => {
           if (response.data && response.data.unit) {
             setUnit(response.data.unit);
@@ -52,7 +54,7 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
       const lessonNumber = unit.lessons.length + 1
 
       axios
-        .post("/api/admin/create-lesson", {unitId: unit._id, lessonNumber}, config)
+        .post("/api/admin/lesson/create", {unitId: unit._id, lessonNumber}, config)
         .then((response) => {
           if (response.data && response.data.unit) {
             const newUnit = response.data.unit

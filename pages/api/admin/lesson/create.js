@@ -1,15 +1,15 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import Course from '../../../models/courseModel'
-import Unit from "../../../models/unitModel"
-import Lesson from "../../../models/lessonModel"
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import Unit from "../../../../models/unitModel"
+import Lesson from "../../../../models/lessonModel"
 
 /**
- * @desc    Create a unit
- * @route   POST /api/admin/create-unit
+ * @desc    Create a lesson
+ * @route   POST /api/admin/lesson/create
  * @access  Private - Admin
- * @param   {string} req.body.unitNumber
+ * @param   {string} req.body.unitId
+ * @param   {number} req.body.lessonNumber
  */
 export default async function (req, res) {
   try {

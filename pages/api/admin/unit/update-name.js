@@ -1,15 +1,16 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import Unit from "../../../models/unitModel"
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import Unit from "../../../../models/unitModel"
 // Import lesson for populate
-import '../../../models/lessonModel'
+import '../../../../models/lessonModel'
 
 /**
  * @desc    Update a unit
- * @route   POST /api/admin/update-unit
+ * @route   POST /api/admin/unit/update-name
  * @access  Private - Admin
- * @param   {string} req.body.className - Max 60 characters long.
+ * @param   {string} req.body.unitId - Id of the unit you want to update the name of
+ * @param   {string} req.body.unitName - The name you want to update the unit's name to
  */
 export default async function (req, res) {
   try {
