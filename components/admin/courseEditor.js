@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
+import { showToastMessage } from "../../utils/verify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CourseEditor({ course, setCourse, setLoading }) {
   const [courseName, setCourseName] = useState(course.courseName);
 
   const onSave = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -15,10 +17,14 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading(true);
 
       axios
-        .put("/api/admin/update-course", {courseId: course._id, courseName}, config)
+        .put(
+          "/api/admin/update-course",
+          { courseId: course._id, courseName },
+          config
+        )
         .then((response) => {
           if (response.data && response.data.course) {
             setCourse(response.data.course);
@@ -26,22 +32,21 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
           }
         })
         .catch((error) => {
-          console.error(error.message)
+          console.error(error.message);
           // showToastMessage(error.message)
           setLoading(false);
         });
-      
     } catch (error) {
       // TODO: figure out why toast message is not showing
-      console.error(error)
+      console.error(error);
       // showToastMessage(error.message);
       return;
     }
-  }
+  };
 
   const onAddUnit = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -49,29 +54,31 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading(true);
 
-      const unitNumber = course.units.length + 1
+      const unitNumber = course.units.length + 1;
       axios
-        .post("/api/admin/create-unit", {courseId: course._id, unitNumber}, config)
+        .post(
+          "/api/admin/create-unit",
+          { courseId: course._id, unitNumber },
+          config
+        )
         .then((response) => {
           if (response.data && response.data.course) {
-            const newCourse = response.data.course
+            const newCourse = response.data.course;
             setCourse(newCourse);
             setLoading(false);
           }
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          showToastMessage(error.message);
           setLoading(false);
         });
-      
     } catch (error) {
       showToastMessage(error.message);
       return;
     }
-  }
-
+  };
 
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
