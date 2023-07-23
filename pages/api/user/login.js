@@ -1,6 +1,7 @@
 import { generateToken } from '../../../utils/generateToken'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
+import { getPopulatedUser } from '../../../utils/getPopulatedUser'
 const bcrypt = require('bcryptjs')
 
 /**
@@ -26,75 +27,22 @@ export default async function (req, res) {
 
     let user
     if(accountIdentifier.includes('@')) {
-      user = await User.findOne({ email: accountIdentifier }, {
-        createdAt: 0, updatedAt: 0, __v: 0
-      })
-        .populate({
-          path: 'parent',
-          select: '_id userType firstName lastName honorific email',
-        })
-        // TODO: Add profile picture, badges, score, etc.
-        .populate({
-          path: 'friends',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'receivedFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'sentFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'students',
-          select: '_id userType username firstName lastName completed',
-        })
-        .populate({
-          path: 'slimes',
-          select: '-userId -createdAt -updatedAt -__v',
-        })
-        .exec()
+      user = await User.findOne({ email: accountIdentifier })
     }
     else {
       // Search user by username
-      const usernameRegex = new RegExp(accountIdentifier, 'i')
-      user = await User.findOne({ username: { $regex: usernameRegex } }, {
-        createdAt: 0, updatedAt: 0, __v: 0
-      })
-        .populate({
-          path: 'parent',
-          select: '_id userType firstName lastName honorific email',
-        })
-        // TODO: Add profile picture, badges, score, etc.
-        .populate({
-          path: 'friends',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'receivedFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'sentFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'students',
-          select: '_id userType username firstName lastName completed',
-        })
-        .populate({
-          path: 'slimes',
-          select: '-userId -createdAt -updatedAt -__v',
-        })
-        .exec()
+      const usernameRegex = new RegExp(`^${accountIdentifier}$`, 'i')
+      user = await User.findOne({ username: { $regex: usernameRegex } })
     }
 
     if (user && (await bcrypt.compare(password, user.password))) {
       user.password = undefined
+
+      const populatedUser = await getPopulatedUser(user._id)
+
       res.status(200).json({
         token: generateToken(user._id),
-        user,
+        user: populatedUser,
       })
     } else {
       throw new Error('Invalid credentials')

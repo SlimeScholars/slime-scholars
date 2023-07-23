@@ -52,34 +52,17 @@ export default async function (req, res) {
       receivedFriendRequests: friend.receivedFriendRequests,
     })
 
-    const newUser = await User.findById(user._id, {
-      password: 0, createdAt: 0, updatedAt: 0, __v: 0
-    })
-      .populate({
-        path: 'parent',
-        select: '_id userType firstName lastName honorific email',
-      })
-      // TODO: Add profile picture, badges, score, etc.
-      .populate({
-        path: 'friends',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username'
-      })
+    const sentFriendRequests = (await User.findById(user._id)
+      .select('sentFriendRequests')
       .populate({
         path: 'sentFriendRequests',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'slimes',
-        select: '-userId -createdAt -updatedAt -__v',
+        select: '_id userType username',
       })
       .exec()
+    ).sentFriendRequests
 
     res.status(200).json({
-      user: newUser
+      sentFriendRequests: sentFriendRequests,
     })
 
   } catch(error) {

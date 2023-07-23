@@ -13,8 +13,17 @@ export default async function (req, res) {
     }
 
     const { slimeId } = req.query
-		const slime = await Slime.findById(slimeId)
-    res.status(200).json(slime)
+		const slime = await Slime.findById(slimeId, {
+      createdAt:0, updatedAt: 0, __v: 0,
+    })
+      .populate({
+        path: 'user',
+        // Change this depending on what we want to display
+        select: '_id userType username',
+      })
+      .exec()
+
+    res.status(200).json({slime})
   }
   catch (error) {
     res.status(400).json({message: error.message})

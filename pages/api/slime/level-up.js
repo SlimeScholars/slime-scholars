@@ -34,7 +34,7 @@ export default async function (req, res) {
 			throw new Error('Slime not found')
 		}
 
-		if(!slime.userId.equals(user._id)) {
+		if(!slime.user.equals(user._id)) {
 			throw new Error('This slime does not belong to you')
 		}
 
@@ -53,41 +53,30 @@ export default async function (req, res) {
 			levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
 			basePower: slime.basePower + gameData.baseLevelProduction[slime.rarity],
 		})
-		const newSlime = await Slime.findById(slimeId)
 
+    user.slimeGel -= slime.levelUpCost
     await User.findByIdAndUpdate(user._id, {
-      slimeGel: user.slimeGel - slime.levelUpCost
+      slimeGel: user.slimeGel
     })
 
-    const newUser = await User.findById(user._id, {
-      password: 0, createdAt: 0, updatedAt: 0, __v: 0
+		const newSlime = await Slime.findById(slimeId, {
+      user: 0, createdAt:0, updatedAt: 0, __v: 0,
     })
-      .populate({
-        path: 'parent',
-        select: '_id userType firstName lastName honorific email',
-      })
-      // TODO: Add profile picture, badges, score, etc.
-      .populate({
-        path: 'friends',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username'
-      })
+
+    // Get the updated slimes
+    const newSlimes = (await User.findById(user._id)
+      .select('slimes')
       .populate({
         path: 'slimes',
-        select: '-userId -createdAt -updatedAt -__v',
+        select: '-user -createdAt -updatedAt -__v',
       })
       .exec()
-    
+    ).slimes
+
     res.status(200).json({
 			slime: newSlime,
-			user: newUser,
+      slimes: newSlimes,
+      slimeGel: user.slimeGel,
 		})
   }
   catch (error) {
