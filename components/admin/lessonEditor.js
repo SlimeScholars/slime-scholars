@@ -66,7 +66,7 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
           }}
           target="_blank"
         >
-          Edit Lesson Test
+          Edit Lesson
         </Link>
       </button>
     </div>
