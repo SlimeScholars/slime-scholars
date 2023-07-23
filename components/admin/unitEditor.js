@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
+import { showToastMessage } from "../../utils/verify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UnitEditor({ unit, setUnit, setLoading }) {
   const [unitName, setUnitName] = useState(unit.unitName);

@@ -1,7 +1,6 @@
 import React, { useState, useRef } from "react";
 import UnitEditor from "./unitEditor";
-import Lesson from "./lesson";
-
+import Link from "next/link";
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
@@ -52,17 +51,14 @@ export default function Unit({ unit, setUnit, setLoading }) {
         {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
-              <Lesson
+              <Link
+                href={`/admin/edit-lesson/${lesson._id}`}
                 key={index}
-                lesson={lesson}
-                setLesson={(newLesson) => {
-                  let newLessons = [...unit.lessons];
-                  newLessons[index] = newLesson;
-                  unit.lessons = newLessons;
-                  setUnit(unit);
-                }}
-                setLoading={setLoading}
-              />
+                className="w-full h-12 flex items-center justify-start px-4 py-1 bg-red-600/50 hover:bg-red-400/50"
+              >
+                <p className="text-white">{lesson.lessonNumber}.</p>
+                <p className="text-white ml-2">{lesson.lessonName}</p>
+              </Link>
             ))}
           </div>
         )}
