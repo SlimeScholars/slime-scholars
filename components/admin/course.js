@@ -13,8 +13,6 @@ export default function Course({ course, setCourse, setLoading }) {
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
-  const newCourse = {...course}
-
   const selectRef = useRef();
   useClickOutside(selectRef, () => {
     if (x < width * 0.4) {
@@ -55,14 +53,14 @@ export default function Course({ course, setCourse, setLoading }) {
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-5 items-start justify-start">
-            {newCourse.units.map((unit, index) => (
+            {course.units.map((unit, index) => (
               <Unit
                 key={index}
                 unit={unit}
                 setUnit={(newUnit) => {
-                  let newUnits = [...units];
+                  let newUnits = [...course.units];
                   newUnits[index] = newUnit;
-                  newCourse.units = newUnits;
+                  course.units = newUnits;
                   setCourse(course);
                 }}
                 setLoading={setLoading}
@@ -71,7 +69,7 @@ export default function Course({ course, setCourse, setLoading }) {
           </div>
         )}
       </div>
-      {selected && <CourseEditor course={newCourse} setCourse={setCourse} setLoading={setLoading} />}
+      {selected && <CourseEditor course={course} setCourse={setCourse} setLoading={setLoading} />}
     </>
   );
 }

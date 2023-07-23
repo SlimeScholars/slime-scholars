@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
+import Link from "next/link";
+import { ToastContainer } from "react-toastify";
 
 export default function UnitEditor({ unit, setUnit, setLoading }) {
   const [unitName, setUnitName] = useState(unit.unitName);
@@ -25,15 +27,12 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           }
         })
         .catch((error) => {
-          console.error(error.message)
-          // showToastMessage(error.message)
+          showToastMessage(error.message)
           setLoading(false);
         });
       
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
-      // showToastMessage(error.message);
+      showToastMessage(error.message);
       return;
     }
   }
@@ -62,24 +61,19 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           }
         })
         .catch((error) => {
-          console.error(error.message)
-          // showToastMessage(error.message)
+          showToastMessage(error.message)
           setLoading(false);
         });
       
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
       showToastMessage(error.message);
       return;
     }
   }
 
-
-
-
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
+      <ToastContainer />
       <label className="text-2xl font-black">Unit Details</label>
       <label className="text-xl font-bold">Unit Name</label>
       <input
@@ -101,6 +95,19 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
         onClick={onAddLesson}
       >
         Add Lesson
+      </button>
+      <button
+        className="w-full h-12 bg-yellow-300 hover:bg-yellow-200"
+      >
+        <Link
+          href={{
+            pathname: "/admin/edit-unit-test/",
+            query: {unitId: unit._id}
+          }}
+          target="_blank"
+        >
+          Edit Unit Test
+        </Link>
       </button>
     </div>
   );

@@ -118,7 +118,6 @@ export default async function (req, res) {
       })
       return
 
-
   } catch(error) {
     res.status(400).json({message: error.message})
   }
