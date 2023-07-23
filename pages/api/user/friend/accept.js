@@ -70,35 +70,21 @@ export default async function (req, res) {
       friends: friend.friends,
     })
 
-    // Instead of sending ids, send objects for friends and friend requests
-    const newUser = await User.findById(user._id, {
-      password: 0, createdAt: 0, updatedAt: 0, __v: 0
-    })
-      .populate({
-        path: 'parent',
-        select: '_id userType firstName lastName honorific email',
-      })
-      // TODO: Add profile picture, badges, score, etc.
-      .populate({
-        path: 'friends',
-        select: '_id userType username'
-      })
+    const newUser = await User.findById(user._id)
+      .select('receivedFriendRequests friends')
       .populate({
         path: 'receivedFriendRequests',
-        select: '_id userType username'
+        select: '_id userType username',
       })
       .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'slimes',
-        select: '-userId -createdAt -updatedAt -__v',
+        path: 'friends',
+        select: '_id userType username',
       })
       .exec()
 
     res.status(200).json({
-      user: newUser
+      receivedFriendRequests: newUser.receivedFriendRequests,
+      friends: newUser.friends,
     })
   } catch(error) {
     res.status(400).json({message: error.message})

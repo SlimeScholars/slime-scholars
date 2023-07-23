@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken')
-import User from '../models/userModel'
-import '../models/slimeModel'
+import { getPopulatedUser } from './getPopulatedUser'
 
 export const authenticate = async(authorization) => {
   // authorization is req.headers.authorization
@@ -18,35 +17,7 @@ export const authenticate = async(authorization) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
       // Get user from the token
-      const user = await User.findById(decoded.id, {
-        password: 0, createdAt: 0, updatedAt: 0, __v: 0
-      })
-        .populate({
-          path: 'parent',
-          select: '_id userType firstName lastName honorific email',
-        })
-        // TODO: Add profile picture, badges, score, etc.
-        .populate({
-          path: 'friends',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'receivedFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'sentFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
-          path: 'students',
-          select: '_id userType username firstName lastName completed',
-        })
-        .populate({
-          path: 'slimes',
-          select: '-userId -createdAt -updatedAt -__v',
-        })
-        .exec()
+      const user = await getPopulatedUser(decoded.id)
 
       if(user) {
         return user

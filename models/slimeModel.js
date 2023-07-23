@@ -3,10 +3,10 @@ import { Schema, model, models, mongoose } from 'mongoose'
 const slimeSchema = Schema(
   {
 		// All slimes have these properties
-		userId: {
+		user: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: 'User',
-			required: [true, 'Missing userId'],
+			required: [true, 'Missing user'],
 		},
 		slimeName: {
 			type: String,

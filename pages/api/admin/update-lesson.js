@@ -1,13 +1,11 @@
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
-import Unit from "../../../models/unitModel"
-// Import lesson for populate
-import '../../../models/lessonModel'
+import Lesson from "../../../models/lessonModel"
 
 /**
- * @desc    Update a unit
- * @route   POST /api/admin/update-unit
+ * @desc    Update a lesson
+ * @route   POST /api/admin/update-lesson
  * @access  Private - Admin
  * @param   {string} req.body.className - Max 60 characters long.
  */
@@ -26,32 +24,32 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4)
 
-    const { unitId, unitName } = req.body
+    const { lessonId, lessonName } = req.body
 
-    if(!unitId) {
-      throw new Error('Please send a unitId')
+    if(!lessonId) {
+      throw new Error('Please send a lessonId')
     }
 
-    const unitExists = Unit.findById(unitId)
+    const lessonExists = Lesson.findById(lessonId)
 
-    if(!unitExists) {
-      throw new Error('Could not find the unit to update')
+    if(!lessonExists) {
+      throw new Error('Could not find the lesson to update')
     }
 
-    await Unit.findByIdAndUpdate(unitId, {
-      unitName,
+    await Lesson.findByIdAndUpdate(lessonId, {
+      lessonName,
       latestAuthor: `${user.firstName} ${user.lastName}`,
     })
 
-    const unit = await Unit.findById(unitId)
-      .populate('lessons')
+    const lesson = await Lesson.findById(lessonId)
 
-    res.status(200).json({unit})
+    res.status(200).json({lesson})
 
   } catch(error) {
     console.log(error.message)
     res.status(400).json({message: error.message})
   }
 }
+
 
 

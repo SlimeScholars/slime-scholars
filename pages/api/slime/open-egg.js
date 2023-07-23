@@ -69,8 +69,8 @@ export default async function (req, res) {
     const slimeList = gameData.slimes[rarity]
     const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
 
-    let newUserSlimes = user.slimes
-    const slimeExists = await Slime.findOne({userId: user._id, slimeName: chosenSlime.slimeName})
+    user.slimes
+    const slimeExists = await Slime.findOne({user: user._id, slimeName: chosenSlime.slimeName})
 
     let slime
     // If the new slime is duplicate
@@ -106,13 +106,19 @@ export default async function (req, res) {
 
       // Save changes to database
       await slimeExists.save()
+
+      // Set an appropriate value for the return statement
       slime = slimeExists
+      slime.user = undefined
+      slime.createdAt = undefined
+      slime.updatedAt = undefined
+      slime.__v = undefined
     }
 
     // Create a starable slime if rarity is starable
     else if(gameData.canStar.includes(rarity)) {
-      slime = await Slime.create({
-        userId: user._id,
+      const slimeId = (await Slime.create({
+        user: user._id,
         slimeName: chosenSlime.slimeName,
         rarity,
         // Override default max level if the slime has a custom one
@@ -133,58 +139,53 @@ export default async function (req, res) {
         abilityDescriptions: chosenSlime.abilityDescriptions,
         // If a slime doesn't have effects, it will be undefined
         effects: chosenSlime.effects,
+      }))._id
+
+      slime = await Slime.findById(slimeId, {
+        user: 0, createdAt:0, updatedAt: 0, __v: 0,
       })
-      newUserSlimes.push(slime._id)
+
+      user.slimes.push(slime)
     }
 
     // Create a non-starable slime
     else {
-      slime = await Slime.create({
-        userId: user._id,
+      const slimeId = (await Slime.create({
+        user: user._id,
         slimeName: chosenSlime.slimeName,
         maxLevel: gameData.maxLevel[rarity],
         rarity,
         basePower: gameData.baseProduction[rarity],
         levelUpCost: gameData.levelUpCost[rarity][0],
+      }))._id
+
+      slime = await Slime.findById(slimeId, {
+        user: 0, createdAt:0, updatedAt: 0, __v: 0,
       })
-      newUserSlimes.push(slime)
+
+      user.slimes.push(slime)
     }
 
     // Update user
     await User.findByIdAndUpdate(user._id, {
-      slimes: newUserSlimes,
+      slimes: user.slimes,
       items: newItems,
     })
 
-    const newUser = await User.findById(user._id, {
-      password: 0, createdAt: 0, updatedAt: 0, __v: 0
-    })
-      .populate({
-        path: 'parent',
-        select: '_id userType firstName lastName honorific email',
-      })
-      // TODO: Add profile picture, badges, score, etc.
-      .populate({
-        path: 'friends',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username'
-      })
+    // Get the updated slimes
+    const newSlimes = (await User.findById(user._id)
+      .select('slimes')
       .populate({
         path: 'slimes',
-        select: '-userId -createdAt -updatedAt -__v',
+        select: '-user -createdAt -updatedAt -__v',
       })
       .exec()
+    ).slimes
 
     res.status(200).json({
       slime,
-      user: newUser,
+      slimes: newSlimes,
+      items: newItems,
     })
   } catch (error) {
     res.status(400).json({message: error.message}) 
