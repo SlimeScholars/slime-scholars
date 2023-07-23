@@ -6,7 +6,7 @@ import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
-export default function Unit({ unit, setUnit, setLoading, }) {
+export default function Unit({ unit, setUnit, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
@@ -20,6 +20,8 @@ export default function Unit({ unit, setUnit, setLoading, }) {
       setSelected(false);
     }
   });
+
+  console.log(unit);
 
   return (
     <>
@@ -41,23 +43,19 @@ export default function Unit({ unit, setUnit, setLoading, }) {
             }
           }}
         >
-          {
-            unit.unitName ? (
-              <p className="text-white">
-                {unit.unitNumber}. {unit.unitName}
-              </p>
-            ) : (
-              <p className="text-gray">
-                {unit.unitNumber}. New Unit
-              </p>
-            )
-          }
+          {unit.unitName ? (
+            <p className="text-white">
+              {unit.unitNumber}. {unit.unitName}
+            </p>
+          ) : (
+            <p className="text-gray">{unit.unitNumber}. New Unit</p>
+          )}
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
               <Link
-                href={"/admin/editLesson/"}
+                href={"/admin/edit-lesson/" + lesson._id}
                 key={index}
                 className="w-full h-12 flex items-center justify-between px-4 py-1 bg-red-600/50 hover:bg-red-400/50 text-bg-light"
               >
@@ -66,16 +64,16 @@ export default function Unit({ unit, setUnit, setLoading, }) {
                     {lesson.lessonNumber}. {lesson.lessonName}
                   </p>
                 ) : (
-                  <p className="text-gray">
-                    {lesson.lessonNumber}. New Lesson
-                  </p>
+                  <p className="text-gray">{lesson.lessonNumber}. New Lesson</p>
                 )}
               </Link>
             ))}
           </div>
         )}
       </div>
-      {selected && <UnitEditor unit={unit} setUnit={setUnit} setLoading={setLoading} />}
+      {selected && (
+        <UnitEditor unit={unit} setUnit={setUnit} setLoading={setLoading} />
+      )}
     </>
   );
 }

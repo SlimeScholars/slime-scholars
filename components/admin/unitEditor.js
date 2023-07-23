@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { showToastMessage } from "../../utils/verify";
 
 export default function UnitEditor({ unit, setUnit, setLoading }) {
   const [unitName, setUnitName] = useState(unit.unitName);
 
   const onSave = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -14,10 +17,10 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading(true);
 
       axios
-        .put("/api/admin/update-unit", {unitId: unit._id, unitName}, config)
+        .put("/api/admin/update-unit", { unitId: unit._id, unitName }, config)
         .then((response) => {
           if (response.data && response.data.unit) {
             setUnit(response.data.unit);
@@ -25,22 +28,18 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           }
         })
         .catch((error) => {
-          console.error(error.message)
-          // showToastMessage(error.message)
+          showToastMessage(error.message);
           setLoading(false);
         });
-      
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
-      // showToastMessage(error.message);
+      showToastMessage(error.message);
       return;
     }
-  }
+  };
 
   const onAddLesson = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -48,38 +47,36 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading(true);
 
-      const lessonNumber = unit.lessons.length + 1
+      const lessonNumber = unit.lessons.length + 1;
 
       axios
-        .post("/api/admin/create-lesson", {unitId: unit._id, lessonNumber}, config)
+        .post(
+          "/api/admin/create-lesson",
+          { unitId: unit._id, lessonNumber },
+          config
+        )
         .then((response) => {
           if (response.data && response.data.unit) {
-            const newUnit = response.data.unit
+            const newUnit = response.data.unit;
             setUnit(newUnit);
             setLoading(false);
           }
         })
         .catch((error) => {
-          console.error(error.message)
-          // showToastMessage(error.message)
+          showToastMessage(error.message);
           setLoading(false);
         });
-      
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
       showToastMessage(error.message);
       return;
     }
-  }
-
-
-
+  };
 
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
+      <ToastContainer />
       <label className="text-2xl font-black">Unit Details</label>
       <label className="text-xl font-bold">Unit Name</label>
       <input
