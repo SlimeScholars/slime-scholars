@@ -4,6 +4,7 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
+import { getPopulatedRoster } from "../../../utils/getPopulatedRoster"
 
 /**
  * @desc    Level up a slime
@@ -64,18 +65,24 @@ export default async function (req, res) {
     })
 
     // Get the updated slimes
-    const newSlimes = (await User.findById(user._id)
-      .select('slimes')
+    const newUser = await User.findById(user._id)
+      .select('slimes roster')
       .populate({
         path: 'slimes',
         select: '-user -createdAt -updatedAt -__v',
       })
       .exec()
-    ).slimes
+    
+      const modifiedUser = {
+        ...newUser.toJSON(),
+      }
+    
+    modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
 
     res.status(200).json({
 			slime: newSlime,
-      slimes: newSlimes,
+      slimes: modifiedUser.slimes,
+      roster: modifiedUser.roster,
       slimeGel: user.slimeGel,
 		})
   }

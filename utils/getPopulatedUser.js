@@ -1,5 +1,6 @@
 import User from '../models/userModel'
-import Slime from '../models/slimeModel'
+import '../models/slimeModel'
+import { getPopulatedRoster } from './getPopulatedRoster'
 
 export const getPopulatedUser = async(userId) => {
   const user = await User.findById(userId, {
@@ -37,14 +38,7 @@ export const getPopulatedUser = async(userId) => {
     ...user.toJSON(),
   }
 
-  for(let i in modifiedUser.roster) {
-    if(modifiedUser.roster[i]) {
-      const slime = await Slime.findById(modifiedUser.roster[i], {
-        user: 0, createdAt:0, updatedAt: 0, __v: 0,
-      })
-      modifiedUser.roster[i] = slime
-    }
-  }
+  modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
 
   return modifiedUser
 }

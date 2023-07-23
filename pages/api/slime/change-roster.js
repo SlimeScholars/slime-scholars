@@ -4,6 +4,7 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
+import { getPopulatedRoster } from '../../../utils/getPopulatedRoster'
 
 /**
  * @desc    Change user's roster
@@ -64,17 +65,10 @@ export default async function (req, res) {
 		})
 
 		// Populate roster
-		for(let i in roster) {
-			if(roster[i]) {
-				const slime = await Slime.findById(roster[i], {
-					user: 0, createdAt:0, updatedAt: 0, __v: 0,
-				})
-				roster[i] = slime
-			}
-		}
+		const populatedRoster = await getPopulatedRoster(roster)
 		
     res.status(200).json({
-			roster: roster,
+			roster: populatedRoster,
 		})
   }
   catch (error) {
