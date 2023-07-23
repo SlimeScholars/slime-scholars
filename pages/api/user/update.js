@@ -2,6 +2,7 @@ import { verifyName, verifyUsername, verifyHonorific, verifyEmail } from "../../
 import { authenticate } from "../../../utils/authenticate"
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
+import { getPopulatedUser } from "../../../utils/getPopulatedUser"
 
 /**
  * @desc    Update user's account information, but not password
@@ -72,7 +73,7 @@ export default async function (req, res) {
       verifyUsername(username)
       
       // Make sure username is not taken
-      const usernameRegex = new RegExp(username, 'i')
+      const usernameRegex = new RegExp(`^${username}$`, 'i')
       const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
 
       // Allow user to change their username to different capitalization
@@ -153,36 +154,7 @@ export default async function (req, res) {
       await update.save()
     }
 
-    const newUser = await User.findById(user._id, {
-      password: 0, createdAt: 0, updatedAt: 0, __v: 0
-    })
-      .populate({
-        path: 'parent',
-        select: '_id userType firstName lastName honorific email',
-      })
-      // TODO: Add profile picture, badges, score, etc.
-      .populate({
-        path: 'friends',
-        select: '_id userType username',
-      })
-      .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username',
-      })
-      .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username',
-      })
-      .populate({
-        path: 'students',
-        select: '_id userType username firstName lastName completed',
-      })
-      .populate({
-        path: 'slimes',
-        select: '-userId -createdAt -updatedAt -__v',
-      })
-      .exec()
-
+    const newUser = await getPopulatedUser(user._id)
 
     if (newUser) {
       res.status(200).json({

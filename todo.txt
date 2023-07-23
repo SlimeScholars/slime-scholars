@@ -6,3 +6,5 @@ Frontend:
 - Unit should contain unitTest
 
 - Look over create user api with populate
+
+- Populate roster

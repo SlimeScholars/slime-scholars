@@ -44,7 +44,7 @@ export default async function (req, res) {
         throw new Error('One of the slimes could not be found')
       }
       
-      if(!slime.userId.equals(user._id)) {
+      if(!slime.user.equals(user._id)) {
 				throw new Error('One of the slimes does not belong to you')
 			}
 
@@ -63,35 +63,18 @@ export default async function (req, res) {
 			roster: roster
 		})
 
-    const newUser = await User.findById(user._id, {
-      password: 0, createdAt: 0, updatedAt: 0, __v: 0
-    })
-      .populate({
-        path: 'parent',
-        select: '_id userType firstName lastName honorific email',
-      })
-      // TODO: Add profile picture, badges, score, etc.
-      .populate({
-        path: 'friends',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username'
-      })
-      .populate({
-        path: 'slimes',
-        select: '-userId -createdAt -updatedAt -__v',
-      })
-      .exec()
-
+		// Populate roster
+		for(let i in roster) {
+			if(roster[i]) {
+				const slime = await Slime.findById(roster[i], {
+					user: 0, createdAt:0, updatedAt: 0, __v: 0,
+				})
+				roster[i] = slime
+			}
+		}
 		
     res.status(200).json({
-			user: newUser,
+			roster: roster,
 		})
   }
   catch (error) {
