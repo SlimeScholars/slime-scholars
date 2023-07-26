@@ -1,33 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextSection from "./sections/text";
 
-export default function LessonPreview({ lesson }) {
-  const [content, setContent] = useState(lesson.content);
-
+export default function LessonPreview({ lesson, setLesson }) {
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
-    let newContent = [...content];
-    newContent[index].sectionNumber = number;
-    setContent(newContent);
+    let newContent = [...lesson.content];
+    newContent[index].sectionNumber = parseInt(number);
+    updateContent(newContent);
   };
 
   const deleteSection = (index) => {
-    let newContent = [...content];
+    let newContent = [...lesson.content];
     newContent.splice(index, 1);
-    setContent(newContent);
+    updateIndices(newContent);
+    updateContent(newContent);
   };
 
   const moveSection = (index, direction) => {
-    if (index + direction < 0 || index + direction >= content.length) return;
-    let newContent = [...content];
+    if (index + direction < 0 || index + direction >= lesson.content.length)
+      return;
+    let newContent = [...lesson.content];
     let temp = newContent[index];
     newContent[index] = newContent[index + direction];
     newContent[index + direction] = temp;
-    for (let i = 0; i < newContent.length; i++) {
-      newContent[i].sectionNumber = i;
-    }
-    setContent(newContent);
+    updateIndices(newContent);
+    updateContent(newContent);
   };
+
+  const updateIndices = (newContent) => {
+    for (let i = 0; i < newContent.length; i++) {
+      newContent[i].index = i;
+    }
+  };
+
+  const updateContent = (newContent) => {
+    let newLesson = { ...lesson };
+    newLesson.content = newContent;
+    setLesson(newLesson);
+  };
+
+  console.log(lesson);
 
   return (
     <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
@@ -41,7 +53,7 @@ export default function LessonPreview({ lesson }) {
         <div className="w-full h-[1px] bg-pink-200 mt-3" />
       </header>
       <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
-        {content.map((section, index) => {
+        {lesson.content.map((section, index) => {
           switch (section.type) {
             case "text":
               return (
