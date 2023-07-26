@@ -10,7 +10,7 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
 
   const onSave = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -18,10 +18,14 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading(true);
 
       axios
-        .put("/api/admin/lesson/update-name", {lessonId: lesson._id, lessonName}, config)
+        .put(
+          "/api/admin/lesson/update-name",
+          { lessonId: lesson._id, lessonName },
+          config
+        )
         .then((response) => {
           if (response.data && response.data.lesson) {
             setLesson(response.data.lesson);
@@ -29,15 +33,14 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
           }
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          showToastMessage(error.message);
           setLoading(false);
         });
-      
     } catch (error) {
       showToastMessage(error.message);
       return;
     }
-  }
+  };
 
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
@@ -58,20 +61,13 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
       >
         Save
       </button>
-      <button
-        className="w-full h-12 bg-yellow-300 hover:bg-yellow-200"
+      <Link
+        href={"/admin/edit-lesson/" + lesson._id}
+        className="w-full h-12 bg-yellow-300 hover:bg-yellow-200 flex items-center justify-center"
+        target="_blank"
       >
-        <Link
-          href={{
-            pathname: "/admin/edit-lesson/",
-            query: {lessonId: lesson._id}
-          }}
-          target="_blank"
-        >
-          Edit Lesson
-        </Link>
-      </button>
+        Edit Lesson
+      </Link>
     </div>
   );
 }
-
