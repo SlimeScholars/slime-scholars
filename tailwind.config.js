@@ -13,6 +13,7 @@ module.exports = {
       fontFamily: {
         galindo: ["Galindo"],
         cabin: ["Cabin Sketch"],
+        averia: ["Averia Serif Libre"],
       },
     },
     boxShadow: {
