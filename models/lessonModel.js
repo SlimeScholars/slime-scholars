@@ -20,8 +20,38 @@ const lessonSchema = new Schema(
       type: [{
         type: {
           sectionType: {
+            // 0 for text, 1 for img, 2 for mc, 3 for fill in the blank
             type: Number,
             required: [true, 'Missing sectionType']
+          },
+          text: {
+            type: String,
+            required: false,
+          },
+          options: {
+            type: [{
+              type: {
+                option: {
+                  type: String,
+                  required: [true, 'Missing option'],
+                },
+                correct: {
+                  type: Boolean,
+                  required: false, // required: true makes it impossible to store false
+                },
+              },
+              required: [true, 'Missing option']
+            }],
+            required: false,
+            default: undefined,
+          },
+          blank: {
+            type: [String],
+            required: false,
+          },
+          afterBlank: {
+            type: String,
+            required: false,
           },
         },
         required: [true, 'Missing section'],
