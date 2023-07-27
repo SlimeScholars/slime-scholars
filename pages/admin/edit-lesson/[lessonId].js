@@ -60,7 +60,7 @@ export default function EditLesson() {
                   newLesson.course = c.courseName
                   newLesson.unit = u.unitName
                   newLesson.name = l.lessonName
-                  // TODO: Add content to lesson
+                  newLesson.content = l.sections
                   setLesson(newLesson)
                   flag = true
                 }
