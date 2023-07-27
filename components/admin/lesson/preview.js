@@ -1,6 +1,7 @@
 import React from "react";
 import TextSection from "./sections/text";
 import MCSection from "./sections/mc";
+import FBSection from "./sections/fb";
 
 export default function LessonPreview({ lesson, setLesson }) {
   // number refers to the ordered group number the section appears with
@@ -70,6 +71,17 @@ export default function LessonPreview({ lesson, setLesson }) {
                 <MCSection
                   key={index}
                   options={section.content}
+                  section={section}
+                  changeSectionNumber={changeSectionNumber}
+                  deleteSection={deleteSection}
+                  moveSection={moveSection}
+                />
+              );
+            case 3:
+              return (
+                <FBSection
+                  key={index}
+                  content={section.content}
                   section={section}
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}

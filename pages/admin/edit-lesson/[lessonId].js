@@ -135,12 +135,8 @@ export default function EditLesson() {
   };
 
   const addFB = () => {
-    if (
-      blank.before.length === 0 ||
-      blank.after.length === 0 ||
-      blank.answer.length === 0
-    ) {
-      showToastMessage("Fill in all fields.");
+    if (blank.answer.length === 0) {
+      showToastMessage("Answer is required.");
       return;
     }
     let newFB = {
@@ -157,6 +153,7 @@ export default function EditLesson() {
 
   const save = () => {
     // TODO: Save lesson to database
+    console.log(lesson);
   };
 
   return (
@@ -250,13 +247,6 @@ export default function EditLesson() {
             placeholder="Enter text here..."
           />
         </div>
-        <button
-          onClick={() => {
-            console.log(lesson.content);
-          }}
-        >
-          Show content
-        </button>
         <button
           className="bg-pink-400 hover:bg-pink-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md mt-10"
           onClick={save}
