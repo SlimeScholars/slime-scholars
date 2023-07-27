@@ -33,6 +33,7 @@ const emptyMC = [
 ];
 
 export default function EditLesson() {
+  // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
   const router = useRouter();
   const [lessonId, setLessonId] = useState(router.query.lessonId);
   const [lesson, setLesson] = useState(sampleLesson);
@@ -81,7 +82,7 @@ export default function EditLesson() {
 
   const addText = () => {
     let newText = {
-      type: "text",
+      type: 0,
       content: text,
       sectionNumber: lesson.content.length + 1,
       index: lesson.content.length,
@@ -99,7 +100,7 @@ export default function EditLesson() {
       return;
     }
     let newMC = {
-      type: "mc",
+      type: 2,
       content: mc,
       sectionNumber: lesson.content.length + 1,
       index: lesson.content.length,
@@ -175,6 +176,13 @@ export default function EditLesson() {
             />
           ))}
         </div>
+        <button
+          onClick={() => {
+            console.log(lesson.content)
+          }}
+        >
+          Show content
+        </button>
       </div>
       <div className="w-2/5 h-full">
         <LessonPreview lesson={lesson} setLesson={setLesson} />
