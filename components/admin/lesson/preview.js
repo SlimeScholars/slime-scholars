@@ -52,8 +52,9 @@ export default function LessonPreview({ lesson, setLesson }) {
       </header>
       <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
         {lesson.content.map((section, index) => {
+          // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
           switch (section.type) {
-            case "text":
+            case 0:
               return (
                 <TextSection
                   key={index}
@@ -64,7 +65,7 @@ export default function LessonPreview({ lesson, setLesson }) {
                   moveSection={moveSection}
                 />
               );
-            case "mc":
+            case 2:
               return (
                 <MCSection
                   key={index}
