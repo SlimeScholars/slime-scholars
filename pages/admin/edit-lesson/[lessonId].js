@@ -4,12 +4,12 @@ import LessonPreview from "../../../components/admin/lesson/preview";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../../../utils/verify";
+import axios from "axios";
 
 const sampleLesson = {
   course: "Loading",
   unit: "Loading",
   name: "Loading",
-  description: "Loading...",
   content: [],
 };
 
@@ -42,7 +42,40 @@ export default function EditLesson() {
   const [mcIsQuiz, setMCIsQuiz] = useState(false);
 
   useEffect(() => {
+    if(!router.query.lessonId) {
+      return
+    }
     setLessonId(router.query.lessonId);
+    axios
+      .get("/api/course")
+      .then((response) => {
+        let flag = false
+        if(response.data && response.data.courses) {
+          for(let c of response.data.courses) {
+            for(let u of c.units) {
+              for(let l of u.lessons) {
+                if(l._id === router.query.lessonId) {
+                  const newLesson = {...lesson}
+                  newLesson.course = c.courseName
+                  newLesson.unit = u.unitName
+                  newLesson.name = l.lessonName
+                  // TODO: Add content to lesson
+                  setLesson(newLesson)
+                  flag = true
+                }
+              }
+            }
+          }
+        }
+        if(!flag) {
+          showToastMessage('Could not find lesson.')
+        }
+      })
+      .catch((error) => {
+        showToastMessage(error.message)
+        setLoading(false);
+      });
+
     // TODO: Fetch lesson from database
   }, [router.query.lessonId]);
 
@@ -103,7 +136,7 @@ export default function EditLesson() {
       <ToastContainer />
       <div className="w-3/5 h-full p-10 pr-40 bg-purple-100 font-averia ">
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
-          Edit lesson {lessonId}
+          Edit lesson {lesson.name}
         </h1>
         <button
           className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"

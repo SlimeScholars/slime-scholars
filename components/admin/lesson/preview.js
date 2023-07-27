@@ -48,7 +48,6 @@ export default function LessonPreview({ lesson, setLesson }) {
           <p className="text-xl">{lesson.unit}</p>
         </div>
         <h1 className="text-3xl mt-3 mb-1">{lesson.name}</h1>
-        <p className="text-xl">{lesson.description}</p>
         <div className="w-full h-[1px] bg-pink-200 mt-3" />
       </header>
       <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
