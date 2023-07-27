@@ -41,39 +41,41 @@ export default function EditLesson() {
   const [text, setText] = useState("");
   const [mc, setMC] = useState(emptyMC);
   const [mcIsQuiz, setMCIsQuiz] = useState(false);
+  const [blank, setBlank] = useState({ before: "", after: "", answer: [] });
+  const [fbIsQuiz, setFBIsQuiz] = useState(false);
 
   useEffect(() => {
-    if(!router.query.lessonId) {
-      return
+    if (!router.query.lessonId) {
+      return;
     }
     setLessonId(router.query.lessonId);
     axios
       .get("/api/course")
       .then((response) => {
-        let flag = false
-        if(response.data && response.data.courses) {
-          for(let c of response.data.courses) {
-            for(let u of c.units) {
-              for(let l of u.lessons) {
-                if(l._id === router.query.lessonId) {
-                  const newLesson = {...lesson}
-                  newLesson.course = c.courseName
-                  newLesson.unit = u.unitName
-                  newLesson.name = l.lessonName
-                  newLesson.content = l.sections
-                  setLesson(newLesson)
-                  flag = true
+        let flag = false;
+        if (response.data && response.data.courses) {
+          for (let c of response.data.courses) {
+            for (let u of c.units) {
+              for (let l of u.lessons) {
+                if (l._id === router.query.lessonId) {
+                  const newLesson = { ...lesson };
+                  newLesson.course = c.courseName;
+                  newLesson.unit = u.unitName;
+                  newLesson.name = l.lessonName;
+                  newLesson.content = l.sections;
+                  setLesson(newLesson);
+                  flag = true;
                 }
               }
             }
           }
         }
-        if(!flag) {
-          showToastMessage('Could not find lesson.')
+        if (!flag) {
+          showToastMessage("Could not find lesson.");
         }
       })
       .catch((error) => {
-        showToastMessage(error.message)
+        showToastMessage(error.message);
         setLoading(false);
       });
 
@@ -132,6 +134,31 @@ export default function EditLesson() {
     setMC(newMC);
   };
 
+  const addFB = () => {
+    if (
+      blank.before.length === 0 ||
+      blank.after.length === 0 ||
+      blank.answer.length === 0
+    ) {
+      showToastMessage("Fill in all fields.");
+      return;
+    }
+    let newFB = {
+      type: 3,
+      content: blank,
+      sectionNumber: lesson.content.length + 1,
+      index: lesson.content.length,
+      quiz: fbIsQuiz,
+    };
+    lesson.content.push(newFB);
+    let newLesson = { ...lesson };
+    setLesson(newLesson);
+  };
+
+  const save = () => {
+    // TODO: Save lesson to database
+  };
+
   return (
     <div className="w-screen h-screen flex flex-row flex-nowrap">
       <ToastContainer />
@@ -151,12 +178,21 @@ export default function EditLesson() {
           value={text}
           placeholder="Enter text here..."
         />
-        <button
-          className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md mt-10"
-          onClick={addMC}
-        >
-          Add MC
-        </button>
+        <div className="w-full flex flex-row items-center justify-start mt-10">
+          <button
+            className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
+            onClick={addMC}
+          >
+            Add MC
+          </button>
+          <input
+            type="checkbox"
+            className="w-5 h-5 ml-10 mr-2"
+            checked={mcIsQuiz}
+            onChange={() => setMCIsQuiz(!mcIsQuiz)}
+          />
+          <p className="text-lg">Quiz</p>
+        </div>
         <div className="w-full grid grid-cols-2 gap-5 mt-5">
           {[1, 2, 3, 4].map((i) => (
             <input
@@ -176,12 +212,56 @@ export default function EditLesson() {
             />
           ))}
         </div>
+        <div className="w-full flex flex-row items-center justify-start mt-10">
+          <button
+            className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
+            onClick={addFB}
+          >
+            Add FB
+          </button>
+          <input
+            type="checkbox"
+            className="w-5 h-5 ml-10 mr-2"
+            checked={fbIsQuiz}
+            onChange={() => setFBIsQuiz(!fbIsQuiz)}
+          />
+          <p className="text-lg">Quiz</p>
+        </div>
+        <div className="w-full grid grid-cols-5 gap-2 mt-1">
+          <p className="text-base col-span-2 text-center">Before</p>
+          <p className="text-base text-center">Answer(s)</p>
+          <p className="text-base col-span-2 text-center">After</p>
+          <textarea
+            className="w-full col-span-2 ring-2 ring-purple-200 rounded-lg p-3"
+            onChange={(e) => setBlank({ ...blank, before: e.target.value })}
+            value={blank.before}
+            placeholder="Enter text here..."
+          />
+          <textarea
+            className="w-full ring-2 ring-purple-200 rounded-lg p-3"
+            onChange={(e) => setBlank({ ...blank, answer: e.target.value })}
+            value={blank.answer}
+            placeholder="Enter text here..."
+          />
+          <textarea
+            className="w-full col-span-2 ring-2 ring-purple-200 rounded-lg p-3"
+            onChange={(e) => setBlank({ ...blank, after: e.target.value })}
+            value={blank.after}
+            placeholder="Enter text here..."
+          />
+        </div>
         <button
           onClick={() => {
-            console.log(lesson.content)
+            console.log(lesson.content);
           }}
         >
           Show content
+        </button>
+        <button
+          className="bg-pink-400 hover:bg-pink-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md mt-10"
+          onClick={save}
+        >
+          Save
         </button>
       </div>
       <div className="w-2/5 h-full">
