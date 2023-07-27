@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import TextSection from "./sections/text";
+import MCSection from "./sections/mc";
 
 export default function LessonPreview({ lesson, setLesson }) {
   // number refers to the ordered group number the section appears with
@@ -39,8 +40,6 @@ export default function LessonPreview({ lesson, setLesson }) {
     setLesson(newLesson);
   };
 
-  console.log(lesson);
-
   return (
     <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
       <header className="w-full h-36 text-pink-400 flex items-center justify-start flex-col font-galindo">
@@ -60,6 +59,17 @@ export default function LessonPreview({ lesson, setLesson }) {
                 <TextSection
                   key={index}
                   text={section.content}
+                  section={section}
+                  changeSectionNumber={changeSectionNumber}
+                  deleteSection={deleteSection}
+                  moveSection={moveSection}
+                />
+              );
+            case "mc":
+              return (
+                <MCSection
+                  key={index}
+                  options={section.content}
                   section={section}
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
