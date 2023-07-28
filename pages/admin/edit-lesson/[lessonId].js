@@ -32,7 +32,7 @@ const emptyMC = [
   },
 ];
 
-export default function EditLesson({user, setLoading}) {
+export default function EditLesson({user, loading, setLoading}) {
   // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
   const router = useRouter();
   const [lessonId, setLessonId] = useState(router.query.lessonId);
@@ -44,6 +44,36 @@ export default function EditLesson({user, setLoading}) {
   const [blank, setBlank] = useState({ text: "", afterBlank: "", blank: "" });
   const [fbIsQuiz, setFBIsQuiz] = useState(false);
   const [maxSectionNumber, setMaxSectionNumber] = useState(0)
+
+  useEffect(() => {
+    if(loading) {
+      return
+    }
+    if(!user || user.userType !== 4) {
+      router.push('/')
+    }
+  }, [user,loading])
+
+  useEffect(() => {
+    if(!loading &&
+      lesson &&
+      lesson.course === sampleLesson.course &&
+      lesson.unit === sampleLesson.unit &&
+      lesson.name === sampleLesson.name &&
+      lesson.sections === sampleLesson.sections
+    ) {
+      setLoading(true)
+    }
+    else if(loading && 
+      lesson && (
+      lesson.course !== sampleLesson.course ||
+      lesson.unit !== sampleLesson.unit ||
+      lesson.name !== sampleLesson.name ||
+      lesson.sections !== sampleLesson.sections
+    )) {
+      setLoading(false)
+    }
+  }, [lesson, loading])
 
   useEffect(() => {
     if (!router.query.lessonId) {
