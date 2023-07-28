@@ -11,6 +11,7 @@ const sampleLesson = {
   unit: "Loading",
   name: "Loading",
   sections: [],
+  quizSections: [],
 };
 
 const emptyMC = [
@@ -44,6 +45,7 @@ export default function EditLesson({user, loading, setLoading}) {
   const [blank, setBlank] = useState({ text: "", afterBlank: "", blank: "" });
   const [fbIsQuiz, setFBIsQuiz] = useState(false);
   const [maxSectionNumber, setMaxSectionNumber] = useState(0)
+  const [maxQuizSectionNumber, setMaxQuizSectionNumber] = useState(0)
 
   useEffect(() => {
     if(loading) {
@@ -61,7 +63,8 @@ export default function EditLesson({user, loading, setLoading}) {
       lesson.course === sampleLesson.course &&
       lesson.unit === sampleLesson.unit &&
       lesson.name === sampleLesson.name &&
-      lesson.sections === sampleLesson.sections
+      lesson.sections === sampleLesson.sections &&
+      lesson.quizSections === sampleLesson.quizSections
     ) {
       setLoading(true)
     }
@@ -71,7 +74,8 @@ export default function EditLesson({user, loading, setLoading}) {
       lesson.course !== sampleLesson.course ||
       lesson.unit !== sampleLesson.unit ||
       lesson.name !== sampleLesson.name ||
-      lesson.sections !== sampleLesson.sections
+      lesson.sections !== sampleLesson.sections ||
+      lesson.quizSections !== sampleLesson.quizSections
     )) {
       setInitialLoad(false)
       setLoading(false)
@@ -97,6 +101,7 @@ export default function EditLesson({user, loading, setLoading}) {
                     unit: u.unitName,
                     name: l.lessonName,
                     sections: l.sections,
+                    quizSections: l.quizSections,
                   }
 
                   let newMax = 0
@@ -117,6 +122,26 @@ export default function EditLesson({user, loading, setLoading}) {
                     }
                   }
                   setMaxSectionNumber(newMax)
+
+                  newMax = 0
+                  for(let s of l.quizSections) {
+                    if(s.sectionType === 3) {
+                      newLesson.quizSections[s.index] = {
+                        index: s.index,
+                        sectionType: s.sectionType,
+                        sectionNumber: s.sectionNumber,
+                        text: s.text,
+                        blank: s.blank.join(', '),
+                        afterBlank: s.afterBlank,
+                      }
+                    }
+
+                    if(s.sectionNumber > newMax) {
+                      newMax = s.sectionNumber
+                    }
+                  }
+                  setMaxQuizSectionNumber(newMax)
+
                   setLesson(newLesson);
                   flag = true;
                 }
@@ -158,14 +183,21 @@ export default function EditLesson({user, loading, setLoading}) {
     let newMC = {
       sectionType: 2,
       options: mc,
-      sectionNumber: maxSectionNumber + 1,
       index: lesson.sections.length,
-      quiz: mcIsQuiz,
     };
-    lesson.sections.push(newMC);
+
     let newLesson = { ...lesson };
+    if(mcIsQuiz) {
+      newMC.sectionNumber = maxQuizSectionNumber + 1
+      newLesson.quizSections.push(newMC)
+      setMaxQuizSectionNumber(maxQuizSectionNumber + 1)
+    }
+    else {
+      newMC.sectionNumber = maxSectionNumber + 1
+      newLesson.sections.push(newMC);
+      setMaxSectionNumber(maxSectionNumber + 1)
+    }
     setLesson(newLesson);
-    setMaxSectionNumber(maxSectionNumber + 1)
   };
 
   const onMCChange = (index, value) => {
@@ -198,14 +230,20 @@ export default function EditLesson({user, loading, setLoading}) {
       text: blank.text,
       blank: blank.blank,
       afterBlank: blank.afterBlank,
-      sectionNumber: maxSectionNumber + 1,
       index: lesson.sections.length,
-      quiz: fbIsQuiz,
     };
-    lesson.sections.push(newFB);
     let newLesson = { ...lesson };
+    if(fbIsQuiz) {
+      newFB.sectionNumber = maxQuizSectionNumber + 1
+      newLesson.quizSections.push(newFB)
+      setMaxQuizSectionNumber(maxQuizSectionNumber + 1)
+    }
+    else {
+      newFB.sectionNumber = maxSectionNumber + 1
+      newLesson.sections.push(newFB);
+      setMaxSectionNumber(maxSectionNumber + 1)
+    }
     setLesson(newLesson);
-    setMaxSectionNumber(maxSectionNumber + 1)
   };
 
   const save = () => {
@@ -220,12 +258,17 @@ export default function EditLesson({user, loading, setLoading}) {
       };
       setLoading(true)
       axios
-        .put("/api/admin/lesson/update-sections", {lessonId, sections: lesson.sections}, config)
+        .put("/api/admin/lesson/update-sections", {
+          lessonId,
+          sections: lesson.sections, 
+          quizSections: lesson.quizSections
+        }, config)
         .then((response) => {
           if (response.data && response.data.lesson) {
             const newLesson = {
               ...lesson,
               sections: response.data.lesson.sections,
+              quizSections: response.data.lesson.quizSections
             }
 
             let newMax = 0
@@ -246,6 +289,26 @@ export default function EditLesson({user, loading, setLoading}) {
               }
             }
             setMaxSectionNumber(newMax)
+
+            newMax = 0
+            for(let s of response.data.lesson.quizSections) {
+              if(s.sectionType === 3) {
+                newLesson.quizSections[s.index] = {
+                  index: s.index,
+                  sectionType: s.sectionType,
+                  sectionNumber: s.sectionNumber,
+                  text: s.text,
+                  blank: s.blank.join(', '),
+                  afterBlank: s.afterBlank,
+                }
+              }
+
+              if(s.sectionNumber > newMax) {
+                newMax = s.sectionNumber
+              }
+            }
+            setMaxQuizSectionNumber(newMax)
+
             setLesson(newLesson);
           }
           setLoading(false)
@@ -366,7 +429,10 @@ export default function EditLesson({user, loading, setLoading}) {
           lesson={lesson}
           setLesson={setLesson} 
           maxSectionNumber={maxSectionNumber}
-          setMaxSectionNumber={setMaxSectionNumber} />
+          setMaxSectionNumber={setMaxSectionNumber}
+          maxQuizSectionNumber={maxQuizSectionNumber}
+          setMaxQuizSectionNumber={setMaxQuizSectionNumber}
+        />
       </div>
     </div>
   );
