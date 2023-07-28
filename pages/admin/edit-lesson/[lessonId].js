@@ -10,29 +10,29 @@ const sampleLesson = {
   course: "Loading",
   unit: "Loading",
   name: "Loading",
-  content: [],
+  sections: [],
 };
 
 const emptyMC = [
   {
-    content: "",
+    option: "",
     correct: false,
   },
   {
-    content: "",
+    option: "",
     correct: false,
   },
   {
-    content: "",
+    option: "",
     correct: false,
   },
   {
-    content: "",
+    option: "",
     correct: false,
   },
 ];
 
-export default function EditLesson() {
+export default function EditLesson({user, setLoading}) {
   // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
   const router = useRouter();
   const [lessonId, setLessonId] = useState(router.query.lessonId);
@@ -41,8 +41,9 @@ export default function EditLesson() {
   const [text, setText] = useState("");
   const [mc, setMC] = useState(emptyMC);
   const [mcIsQuiz, setMCIsQuiz] = useState(false);
-  const [blank, setBlank] = useState({ before: "", after: "", answer: [] });
+  const [blank, setBlank] = useState({ text: "", afterBlank: "", blank: "" });
   const [fbIsQuiz, setFBIsQuiz] = useState(false);
+  const [maxSectionNumber, setMaxSectionNumber] = useState(0)
 
   useEffect(() => {
     if (!router.query.lessonId) {
@@ -58,11 +59,31 @@ export default function EditLesson() {
             for (let u of c.units) {
               for (let l of u.lessons) {
                 if (l._id === router.query.lessonId) {
-                  const newLesson = { ...lesson };
-                  newLesson.course = c.courseName;
-                  newLesson.unit = u.unitName;
-                  newLesson.name = l.lessonName;
-                  newLesson.content = l.sections;
+                  const newLesson = {
+                    course: c.courseName,
+                    unit: u.unitName,
+                    name: l.lessonName,
+                    sections: l.sections,
+                  }
+
+                  let newMax = 0
+                  for(let s of l.sections) {
+                    if(s.sectionType === 3) {
+                      newLesson.sections[s.index] = {
+                        index: s.index,
+                        sectionType: s.sectionType,
+                        sectionNumber: s.sectionNumber,
+                        text: s.text,
+                        blank: s.blank.join(', '),
+                        afterBlank: s.afterBlank,
+                      }
+                    }
+
+                    if(s.sectionNumber > newMax) {
+                      newMax = s.sectionNumber
+                    }
+                  }
+                  setMaxSectionNumber(newMax)
                   setLesson(newLesson);
                   flag = true;
                 }
@@ -71,7 +92,7 @@ export default function EditLesson() {
           }
         }
         if (!flag) {
-          showToastMessage("Could not find lesson.");
+          router.push('/admin/edit-course')
         }
       })
       .catch((error) => {
@@ -79,44 +100,45 @@ export default function EditLesson() {
         setLoading(false);
       });
 
-    // TODO: Fetch lesson from database
   }, [router.query.lessonId]);
 
   const addText = () => {
     let newText = {
-      type: 0,
-      content: text,
-      sectionNumber: lesson.content.length + 1,
-      index: lesson.content.length,
+      sectionType: 0,
+      text: text,
+      sectionNumber: maxSectionNumber + 1,
+      index: lesson.sections.length,
     };
-    lesson.content.push(newText);
+    lesson.sections.push(newText);
     let newLesson = { ...lesson };
     setLesson(newLesson);
+    setMaxSectionNumber(maxSectionNumber + 1)
   };
 
   const addMC = () => {
-    if (mc.every((option) => option.content.length === 0 || !option.correct)) {
+    if (mc.every((option) => option.option.length === 0 || !option.correct)) {
       showToastMessage(
         "You must have at least one option and one correct option."
       );
       return;
     }
     let newMC = {
-      type: 2,
-      content: mc,
-      sectionNumber: lesson.content.length + 1,
-      index: lesson.content.length,
+      sectionType: 2,
+      options: mc,
+      sectionNumber: maxSectionNumber + 1,
+      index: lesson.sections.length,
       quiz: mcIsQuiz,
     };
-    lesson.content.push(newMC);
+    lesson.sections.push(newMC);
     let newLesson = { ...lesson };
     setLesson(newLesson);
+    setMaxSectionNumber(maxSectionNumber + 1)
   };
 
   const onMCChange = (index, value) => {
     let newMC = [...mc];
     newMC[index] = {
-      content: value,
+      option: value,
       correct: false,
     };
     setMC(newMC);
@@ -124,37 +146,89 @@ export default function EditLesson() {
 
   const onMCClick = (event, index) => {
     event.preventDefault();
-    if (mc[index].content.length === 0) {
+    if (mc[index].option.length === 0) {
       showToastMessage("Enter some text first.");
       return;
     }
     let newMC = [...mc];
     newMC[index].correct = !newMC[index].correct;
-    console.log("right click");
     setMC(newMC);
   };
 
   const addFB = () => {
-    if (blank.answer.length === 0) {
+    if (blank.blank.length === 0) {
       showToastMessage("Answer is required.");
       return;
     }
     let newFB = {
-      type: 3,
-      content: blank,
-      sectionNumber: lesson.content.length + 1,
-      index: lesson.content.length,
+      sectionType: 3,
+      text: blank.text,
+      blank: blank.blank,
+      afterBlank: blank.afterBlank,
+      sectionNumber: maxSectionNumber + 1,
+      index: lesson.sections.length,
       quiz: fbIsQuiz,
     };
-    lesson.content.push(newFB);
+    lesson.sections.push(newFB);
     let newLesson = { ...lesson };
     setLesson(newLesson);
+    setMaxSectionNumber(maxSectionNumber + 1)
   };
 
   const save = () => {
-    // TODO: Save lesson to database
-    console.log(lesson);
+    try {
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      setLoading(true)
+      axios
+        .put("/api/admin/lesson/update-sections", {lessonId, sections: lesson.sections}, config)
+        .then((response) => {
+          if (response.data && response.data.lesson) {
+            const newLesson = {
+              ...lesson,
+              sections: response.data.lesson.sections,
+            }
+
+            let newMax = 0
+            for(let s of response.data.lesson.sections) {
+              if(s.sectionType === 3) {
+                newLesson.sections[s.index] = {
+                  index: s.index,
+                  sectionType: s.sectionType,
+                  sectionNumber: s.sectionNumber,
+                  text: s.text,
+                  blank: s.blank.join(', '),
+                  afterBlank: s.afterBlank,
+                }
+              }
+
+              if(s.sectionNumber > newMax) {
+                newMax = s.sectionNumber
+              }
+            }
+            setMaxSectionNumber(newMax)
+            setLesson(newLesson);
+          }
+          setLoading(false)
+        })
+        .catch((error) => {
+          showToastMessage(error.message)
+          setLoading(false);
+        });
+      
+    } catch (error) {
+      setLoading(false)
+      showToastMessage(error.message);
+      return;
+    }
   };
+
 
   return (
     <div className="w-screen h-screen flex flex-row flex-nowrap">
@@ -197,12 +271,12 @@ export default function EditLesson() {
                 "w-full ring-2 rounded-lg p-3 " +
                 (mc[i - 1].correct
                   ? "bg-green-200 text-green-800 ring-green-400 placeholder:text-green-600"
-                  : mc[i - 1].content.length > 0
+                  : mc[i - 1].option.length > 0
                   ? "bg-purple-200 text-purple-800 ring-purple-400"
                   : "bg-gray-200 ring-gray-400 placeholder:text-gray-400")
               }
               onChange={(e) => onMCChange(i - 1, e.target.value)}
-              value={mc[i - 1].content}
+              value={mc[i - 1].option}
               placeholder={`Option ${i}`}
               onContextMenu={(event) => onMCClick(event, i - 1)}
               key={i}
@@ -230,20 +304,20 @@ export default function EditLesson() {
           <p className="text-base col-span-2 text-center">After</p>
           <textarea
             className="w-full col-span-2 ring-2 ring-purple-200 rounded-lg p-3"
-            onChange={(e) => setBlank({ ...blank, before: e.target.value })}
-            value={blank.before}
+            onChange={(e) => setBlank({ ...blank, text: e.target.value })}
+            value={blank.text}
             placeholder="Enter text here..."
           />
           <textarea
             className="w-full ring-2 ring-purple-200 rounded-lg p-3"
-            onChange={(e) => setBlank({ ...blank, answer: e.target.value })}
-            value={blank.answer}
+            onChange={(e) => setBlank({ ...blank, blank: e.target.value })}
+            value={blank.blank}
             placeholder="Enter text here..."
           />
           <textarea
             className="w-full col-span-2 ring-2 ring-purple-200 rounded-lg p-3"
-            onChange={(e) => setBlank({ ...blank, after: e.target.value })}
-            value={blank.after}
+            onChange={(e) => setBlank({ ...blank, afterBlank: e.target.value })}
+            value={blank.afterBlank}
             placeholder="Enter text here..."
           />
         </div>
@@ -255,7 +329,11 @@ export default function EditLesson() {
         </button>
       </div>
       <div className="w-2/5 h-full">
-        <LessonPreview lesson={lesson} setLesson={setLesson} />
+        <LessonPreview
+          lesson={lesson}
+          setLesson={setLesson} 
+          maxSectionNumber={maxSectionNumber}
+          setMaxSectionNumber={setMaxSectionNumber} />
       </div>
     </div>
   );

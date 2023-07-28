@@ -2,26 +2,57 @@ import React from "react";
 import TextSection from "./sections/text";
 import MCSection from "./sections/mc";
 import FBSection from "./sections/fb";
+import { showToastMessage } from "../../../utils/verify";
 
-export default function LessonPreview({ lesson, setLesson }) {
+export default function LessonPreview({ lesson, setLesson, maxSectionNumber, setMaxSectionNumber }) {
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
-    let newContent = [...lesson.content];
+    if(parseInt(number) < 0) {
+      showToastMessage('Cannot have a negative section number')
+      return
+    }
+    let newContent = [...lesson.sections];
     newContent[index].sectionNumber = parseInt(number);
+
+    // Update section number
+    if(parseInt(number) > maxSectionNumber) {
+      setMaxSectionNumber(parseInt(number))
+    }
+    else if(lesson.sections[index].sectionNumber === maxSectionNumber) {
+      let newMax = 0
+      for(let s of newContent) {
+        if(s.sectionNumber > newMax) {
+          newMax = s.sectionNumber
+        }
+      }
+      setMaxSectionNumber(newMax)
+    }
+
     updateContent(newContent);
   };
 
   const deleteSection = (index) => {
-    let newContent = [...lesson.content];
+    let newContent = [...lesson.sections];
     newContent.splice(index, 1);
+
+    // Update maxSectionNumber if needed
+    if(lesson.sections[index].sectionNumber === maxSectionNumber) {
+      let newMax = 0
+      for(let s of newContent) {
+        if(s.sectionNumber > newMax) {
+          newMax = s.sectionNumber
+        }
+      }
+      setMaxSectionNumber(newMax)
+    }
     updateIndices(newContent);
     updateContent(newContent);
   };
 
   const moveSection = (index, direction) => {
-    if (index + direction < 0 || index + direction >= lesson.content.length)
+    if (index + direction < 0 || index + direction >= lesson.sections.length)
       return;
-    let newContent = [...lesson.content];
+    let newContent = [...lesson.sections];
     let temp = newContent[index];
     newContent[index] = newContent[index + direction];
     newContent[index + direction] = temp;
@@ -37,7 +68,7 @@ export default function LessonPreview({ lesson, setLesson }) {
 
   const updateContent = (newContent) => {
     let newLesson = { ...lesson };
-    newLesson.content = newContent;
+    newLesson.sections = newContent;
     setLesson(newLesson);
   };
 
@@ -52,14 +83,14 @@ export default function LessonPreview({ lesson, setLesson }) {
         <div className="w-full h-[1px] bg-pink-200 mt-3" />
       </header>
       <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
-        {lesson.content.map((section, index) => {
+        {lesson.sections.map((section, index) => {
           // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
-          switch (section.type) {
+          switch (section.sectionType) {
             case 0:
               return (
                 <TextSection
                   key={index}
-                  text={section.content}
+                  text={section.text}
                   section={section}
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
@@ -70,7 +101,7 @@ export default function LessonPreview({ lesson, setLesson }) {
               return (
                 <MCSection
                   key={index}
-                  options={section.content}
+                  options={section.options}
                   section={section}
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
@@ -81,7 +112,8 @@ export default function LessonPreview({ lesson, setLesson }) {
               return (
                 <FBSection
                   key={index}
-                  content={section.content}
+                  text={section.text}
+                  afterBlank={section.afterBlank}
                   section={section}
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
