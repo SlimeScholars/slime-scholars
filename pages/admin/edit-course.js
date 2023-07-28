@@ -20,7 +20,16 @@ export default function editCourse({user, loading, setLoading}) {
     }
   }, [user,loading])
 
-  const [courses, setCourses] = useState([]);
+  const [courses, setCourses] = useState(undefined);
+
+  useEffect(() => {
+    if(!loading && courses === undefined) {
+      setLoading(true)
+    }
+    else if(loading && courses) {
+      setLoading(false)
+    }
+  }, [courses, loading])
 
   useEffect(() => {
     setLoading(true)
@@ -92,7 +101,7 @@ export default function editCourse({user, loading, setLoading}) {
         >
           Add Course
         </button>
-        {courses.map((course, index) => (
+        {courses === undefined ? <></> : courses.map((course, index) => (
           <Course
             key={index}
             course={course}
