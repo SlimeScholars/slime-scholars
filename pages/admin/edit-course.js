@@ -20,16 +20,18 @@ export default function editCourse({user, loading, setLoading}) {
     }
   }, [user,loading])
 
+  const [initialLoad, setInitialLoad] = useState(true)
   const [courses, setCourses] = useState(undefined);
 
   useEffect(() => {
     if(!loading && courses === undefined) {
       setLoading(true)
     }
-    else if(loading && courses) {
+    else if(loading && courses && initialLoad) {
+      setInitialLoad(false)
       setLoading(false)
     }
-  }, [courses, loading])
+  }, [courses, loading, initialLoad])
 
   useEffect(() => {
     setLoading(true)
