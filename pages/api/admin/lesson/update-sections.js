@@ -38,6 +38,7 @@ export default async function (req, res) {
     }
 
     const processedSections = []
+    const processedQuizSections = []
     for(let section of sections) {
       if(!Number.isInteger(section.sectionNumber) || section.sectionNumber < 0) {
         throw new Error('Section numbers must all be positive integers (you may have left a section number blank).')
@@ -68,11 +69,18 @@ export default async function (req, res) {
         const rawBlank = section.blank.split(',')
         processedSection.blank = rawBlank.map((str) => str.trim())
       }
-      processedSections.push(processedSection)
+
+      if(section.quiz) {
+        processedQuizSections.push(processedSection)
+      }
+      else {
+        processedSections.push(processedSection)
+      }
     }
 
     await Lesson.findByIdAndUpdate(lessonId, {
       sections: processedSections,
+      quizSections: processedQuizSections,
       latestAuthor: `${user.firstName} ${user.lastName}`,
     })
 

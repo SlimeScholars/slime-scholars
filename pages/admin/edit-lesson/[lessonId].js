@@ -54,6 +54,7 @@ export default function EditLesson({user, loading, setLoading}) {
     }
   }, [user,loading])
 
+  const [initialLoad, setInitialLoad] = useState(true)
   useEffect(() => {
     if(!loading &&
       lesson &&
@@ -65,15 +66,17 @@ export default function EditLesson({user, loading, setLoading}) {
       setLoading(true)
     }
     else if(loading && 
+      initialLoad &&
       lesson && (
       lesson.course !== sampleLesson.course ||
       lesson.unit !== sampleLesson.unit ||
       lesson.name !== sampleLesson.name ||
       lesson.sections !== sampleLesson.sections
     )) {
+      setInitialLoad(false)
       setLoading(false)
     }
-  }, [lesson, loading])
+  }, [lesson, loading, initialLoad])
 
   useEffect(() => {
     if (!router.query.lessonId) {
