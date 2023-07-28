@@ -19,10 +19,18 @@ const lessonSchema = new Schema(
     sections: {
       type: [{
         type: {
+          index: {
+            type: Number,
+            required: [true, 'Missing index'],
+          },
           sectionType: {
             // 0 for text, 1 for img, 2 for mc, 3 for fill in the blank
             type: Number,
-            required: [true, 'Missing sectionType']
+            required: [true, 'Missing sectionType'],
+          },
+          sectionNumber: {
+            type: Number,
+            required: [true, 'Missing sectionNumber'],
           },
           text: {
             type: String,
@@ -48,6 +56,7 @@ const lessonSchema = new Schema(
           blank: {
             type: [String],
             required: false,
+            default: undefined,
           },
           afterBlank: {
             type: String,

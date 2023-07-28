@@ -19,7 +19,7 @@ export default function MCSection({
       <div className="w-full grid grid-cols-2 gap-3 mt-5">
         {options.map(
           (option, index) =>
-            option.content.length > 0 && (
+            option.option.length > 0 && (
               <p
                 className={
                   "w-full ring-2 rounded-lg py-2 px-4 font-averia " +
@@ -29,7 +29,7 @@ export default function MCSection({
                 }
                 key={index}
               >
-                {option.content}
+                {option.option}
               </p>
             )
         )}

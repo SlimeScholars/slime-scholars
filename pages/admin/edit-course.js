@@ -23,6 +23,7 @@ export default function editCourse({user, loading, setLoading}) {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
+    setLoading(true)
     axios
       .get("/api/course")
       .then((response) => {
