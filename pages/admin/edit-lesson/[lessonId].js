@@ -33,32 +33,37 @@ const emptyMC = [
   },
 ];
 
-export default function EditLesson({user, loading, setLoading}) {
+export default function EditLesson({ user, loading, setLoading }) {
   // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
   const router = useRouter();
   const [lessonId, setLessonId] = useState(router.query.lessonId);
   const [lesson, setLesson] = useState(sampleLesson);
 
   const [text, setText] = useState("");
+  const [textIsQuiz, setTextIsQuiz] = useState(false);
   const [mc, setMC] = useState(emptyMC);
   const [mcIsQuiz, setMCIsQuiz] = useState(false);
   const [blank, setBlank] = useState({ text: "", afterBlank: "", blank: "" });
   const [fbIsQuiz, setFBIsQuiz] = useState(false);
-  const [maxSectionNumber, setMaxSectionNumber] = useState(0)
-  const [maxQuizSectionNumber, setMaxQuizSectionNumber] = useState(0)
+  const [image, setImage] = useState(null);
+  const [imageIsQuiz, setImageIsQuiz] = useState(false);
+
+  const [maxSectionNumber, setMaxSectionNumber] = useState(0);
+  const [maxQuizSectionNumber, setMaxQuizSectionNumber] = useState(0);
 
   useEffect(() => {
-    if(loading) {
-      return
+    if (loading) {
+      return;
     }
-    if(!user || user.userType !== 4) {
-      router.push('/')
+    if (!user || user.userType !== 4) {
+      router.push("/");
     }
-  }, [user,loading])
+  }, [user, loading]);
 
-  const [initialLoad, setInitialLoad] = useState(true)
+  const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
-    if(!loading &&
+    if (
+      !loading &&
       lesson &&
       lesson.course === sampleLesson.course &&
       lesson.unit === sampleLesson.unit &&
@@ -66,21 +71,21 @@ export default function EditLesson({user, loading, setLoading}) {
       lesson.sections === sampleLesson.sections &&
       lesson.quizSections === sampleLesson.quizSections
     ) {
-      setLoading(true)
-    }
-    else if(loading && 
+      setLoading(true);
+    } else if (
+      loading &&
       initialLoad &&
-      lesson && (
-      lesson.course !== sampleLesson.course ||
-      lesson.unit !== sampleLesson.unit ||
-      lesson.name !== sampleLesson.name ||
-      lesson.sections !== sampleLesson.sections ||
-      lesson.quizSections !== sampleLesson.quizSections
-    )) {
-      setInitialLoad(false)
-      setLoading(false)
+      lesson &&
+      (lesson.course !== sampleLesson.course ||
+        lesson.unit !== sampleLesson.unit ||
+        lesson.name !== sampleLesson.name ||
+        lesson.sections !== sampleLesson.sections ||
+        lesson.quizSections !== sampleLesson.quizSections)
+    ) {
+      setInitialLoad(false);
+      setLoading(false);
     }
-  }, [lesson, loading, initialLoad])
+  }, [lesson, loading, initialLoad]);
 
   useEffect(() => {
     if (!router.query.lessonId) {
@@ -102,45 +107,45 @@ export default function EditLesson({user, loading, setLoading}) {
                     name: l.lessonName,
                     sections: l.sections,
                     quizSections: l.quizSections,
-                  }
+                  };
 
-                  let newMax = 0
-                  for(let s of l.sections) {
-                    if(s.sectionType === 3) {
+                  let newMax = 0;
+                  for (let s of l.sections) {
+                    if (s.sectionType === 3) {
                       newLesson.sections[s.index] = {
                         index: s.index,
                         sectionType: s.sectionType,
                         sectionNumber: s.sectionNumber,
                         text: s.text,
-                        blank: s.blank.join(', '),
+                        blank: s.blank.join(", "),
                         afterBlank: s.afterBlank,
-                      }
+                      };
                     }
 
-                    if(s.sectionNumber > newMax) {
-                      newMax = s.sectionNumber
+                    if (s.sectionNumber > newMax) {
+                      newMax = s.sectionNumber;
                     }
                   }
-                  setMaxSectionNumber(newMax)
+                  setMaxSectionNumber(newMax);
 
-                  newMax = 0
-                  for(let s of l.quizSections) {
-                    if(s.sectionType === 3) {
+                  newMax = 0;
+                  for (let s of l.quizSections) {
+                    if (s.sectionType === 3) {
                       newLesson.quizSections[s.index] = {
                         index: s.index,
                         sectionType: s.sectionType,
                         sectionNumber: s.sectionNumber,
                         text: s.text,
-                        blank: s.blank.join(', '),
+                        blank: s.blank.join(", "),
                         afterBlank: s.afterBlank,
-                      }
+                      };
                     }
 
-                    if(s.sectionNumber > newMax) {
-                      newMax = s.sectionNumber
+                    if (s.sectionNumber > newMax) {
+                      newMax = s.sectionNumber;
                     }
                   }
-                  setMaxQuizSectionNumber(newMax)
+                  setMaxQuizSectionNumber(newMax);
 
                   setLesson(newLesson);
                   flag = true;
@@ -150,14 +155,13 @@ export default function EditLesson({user, loading, setLoading}) {
           }
         }
         if (!flag) {
-          router.push('/admin/edit-course')
+          router.push("/admin/edit-course");
         }
       })
       .catch((error) => {
         showToastMessage(error.message);
         setLoading(false);
       });
-
   }, [router.query.lessonId]);
 
   const addText = () => {
@@ -167,10 +171,17 @@ export default function EditLesson({user, loading, setLoading}) {
       sectionNumber: maxSectionNumber + 1,
       index: lesson.sections.length,
     };
-    lesson.sections.push(newText);
     let newLesson = { ...lesson };
+    if (textIsQuiz) {
+      newText.sectionNumber = maxQuizSectionNumber + 1;
+      newLesson.quizSections.push(newText);
+      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+    } else {
+      newText.sectionNumber = maxSectionNumber + 1;
+      newLesson.sections.push(newText);
+      setMaxSectionNumber(maxSectionNumber + 1);
+    }
     setLesson(newLesson);
-    setMaxSectionNumber(maxSectionNumber + 1)
   };
 
   const addMC = () => {
@@ -187,15 +198,14 @@ export default function EditLesson({user, loading, setLoading}) {
     };
 
     let newLesson = { ...lesson };
-    if(mcIsQuiz) {
-      newMC.sectionNumber = maxQuizSectionNumber + 1
-      newLesson.quizSections.push(newMC)
-      setMaxQuizSectionNumber(maxQuizSectionNumber + 1)
-    }
-    else {
-      newMC.sectionNumber = maxSectionNumber + 1
+    if (mcIsQuiz) {
+      newMC.sectionNumber = maxQuizSectionNumber + 1;
+      newLesson.quizSections.push(newMC);
+      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+    } else {
+      newMC.sectionNumber = maxSectionNumber + 1;
       newLesson.sections.push(newMC);
-      setMaxSectionNumber(maxSectionNumber + 1)
+      setMaxSectionNumber(maxSectionNumber + 1);
     }
     setLesson(newLesson);
   };
@@ -233,22 +243,21 @@ export default function EditLesson({user, loading, setLoading}) {
       index: lesson.sections.length,
     };
     let newLesson = { ...lesson };
-    if(fbIsQuiz) {
-      newFB.sectionNumber = maxQuizSectionNumber + 1
-      newLesson.quizSections.push(newFB)
-      setMaxQuizSectionNumber(maxQuizSectionNumber + 1)
-    }
-    else {
-      newFB.sectionNumber = maxSectionNumber + 1
+    if (fbIsQuiz) {
+      newFB.sectionNumber = maxQuizSectionNumber + 1;
+      newLesson.quizSections.push(newFB);
+      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+    } else {
+      newFB.sectionNumber = maxSectionNumber + 1;
       newLesson.sections.push(newFB);
-      setMaxSectionNumber(maxSectionNumber + 1)
+      setMaxSectionNumber(maxSectionNumber + 1);
     }
     setLesson(newLesson);
   };
 
   const save = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -256,80 +265,86 @@ export default function EditLesson({user, loading, setLoading}) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading(true);
       axios
-        .put("/api/admin/lesson/update-sections", {
-          lessonId,
-          sections: lesson.sections, 
-          quizSections: lesson.quizSections
-        }, config)
+        .put(
+          "/api/admin/lesson/update-sections",
+          {
+            lessonId,
+            sections: lesson.sections,
+            quizSections: lesson.quizSections,
+          },
+          config
+        )
         .then((response) => {
           if (response.data && response.data.lesson) {
             const newLesson = {
               ...lesson,
               sections: response.data.lesson.sections,
-              quizSections: response.data.lesson.quizSections
-            }
+              quizSections: response.data.lesson.quizSections,
+            };
 
-            let newMax = 0
-            for(let s of response.data.lesson.sections) {
-              if(s.sectionType === 3) {
+            let newMax = 0;
+            for (let s of response.data.lesson.sections) {
+              if (s.sectionType === 3) {
                 newLesson.sections[s.index] = {
                   index: s.index,
                   sectionType: s.sectionType,
                   sectionNumber: s.sectionNumber,
                   text: s.text,
-                  blank: s.blank.join(', '),
+                  blank: s.blank.join(", "),
                   afterBlank: s.afterBlank,
-                }
+                };
               }
 
-              if(s.sectionNumber > newMax) {
-                newMax = s.sectionNumber
+              if (s.sectionNumber > newMax) {
+                newMax = s.sectionNumber;
               }
             }
-            setMaxSectionNumber(newMax)
+            setMaxSectionNumber(newMax);
 
-            newMax = 0
-            for(let s of response.data.lesson.quizSections) {
-              if(s.sectionType === 3) {
+            newMax = 0;
+            for (let s of response.data.lesson.quizSections) {
+              if (s.sectionType === 3) {
                 newLesson.quizSections[s.index] = {
                   index: s.index,
                   sectionType: s.sectionType,
                   sectionNumber: s.sectionNumber,
                   text: s.text,
-                  blank: s.blank.join(', '),
+                  blank: s.blank.join(", "),
                   afterBlank: s.afterBlank,
-                }
+                };
               }
 
-              if(s.sectionNumber > newMax) {
-                newMax = s.sectionNumber
+              if (s.sectionNumber > newMax) {
+                newMax = s.sectionNumber;
               }
             }
-            setMaxQuizSectionNumber(newMax)
+            setMaxQuizSectionNumber(newMax);
 
             setLesson(newLesson);
           }
-          setLoading(false)
+          setLoading(false);
         })
         .catch((error) => {
-          if(error && error.response && error.response.data && error.response.data.message) {
-            showToastMessage(error.response.data.message)
-          }
-          else {
-            showToastMessage(error.message)
+          if (
+            error &&
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
+            showToastMessage(error.response.data.message);
+          } else {
+            showToastMessage(error.message);
           }
           setLoading(false);
         });
-      
     } catch (error) {
-      setLoading(false)
+      setLoading(false);
       showToastMessage(error.message);
       return;
     }
   };
-
 
   return (
     <div className="w-screen h-screen flex flex-row flex-nowrap">
@@ -338,12 +353,21 @@ export default function EditLesson({user, loading, setLoading}) {
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
           Edit lesson {lesson.name}
         </h1>
-        <button
-          className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
-          onClick={addText}
-        >
-          Add text
-        </button>
+        <div className="w-full flex flex-row items-center justify-start mt-10">
+          <button
+            className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
+            onClick={addText}
+          >
+            Add text
+          </button>
+          <input
+            type="checkbox"
+            className="w-5 h-5 ml-10 mr-2"
+            checked={textIsQuiz}
+            onChange={() => setTextIsQuiz(!textIsQuiz)}
+          />
+          <p className="text-lg">Quiz</p>
+        </div>
         <textarea
           className="w-full bg-purple-50 p-3 mt-3"
           onChange={(e) => setText(e.target.value)}
@@ -432,7 +456,7 @@ export default function EditLesson({user, loading, setLoading}) {
       <div className="w-2/5 h-full">
         <LessonPreview
           lesson={lesson}
-          setLesson={setLesson} 
+          setLesson={setLesson}
           maxSectionNumber={maxSectionNumber}
           setMaxSectionNumber={setMaxSectionNumber}
           maxQuizSectionNumber={maxQuizSectionNumber}
