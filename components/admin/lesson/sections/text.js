@@ -27,9 +27,9 @@ export default function TextSection({
         deleteSection={deleteSection}
         moveSection={moveSection}
       />
-      <p className="text-xl w-full text-center py-3 font-averia text-pink-400">
+      <div className="text-xl w-full text-center py-3 font-averia text-pink-400">
         {parsedText}
-      </p>
+      </div>
     </div>
   );
 }
