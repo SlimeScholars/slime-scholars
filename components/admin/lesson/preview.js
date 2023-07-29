@@ -2,6 +2,7 @@ import React from "react";
 import TextSection from "./sections/text";
 import MCSection from "./sections/mc";
 import FBSection from "./sections/fb";
+import ImgSection from "./sections/img";
 import { showToastMessage } from "../../../utils/verify";
 
 export default function LessonPreview({
@@ -14,50 +15,50 @@ export default function LessonPreview({
 }) {
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
-    if(parseInt(number) < 0) {
-      showToastMessage('Cannot have a negative section number')
-      return
+    if (parseInt(number) < 0) {
+      showToastMessage("Cannot have a negative section number");
+      return;
     }
     let newSections = [...lesson.sections];
     newSections[index].sectionNumber = parseInt(number);
 
     // Update section number
-    if(parseInt(number) > maxSectionNumber) {
-      setMaxSectionNumber(parseInt(number))
-    }
-    else if(lesson.sections[index].sectionNumber === maxSectionNumber) {
-      let newMax = 0
-      for(let s of newSections) {
-        if(s.sectionNumber > newMax) {
-          newMax = s.sectionNumber
+    if (parseInt(number) > maxSectionNumber) {
+      setMaxSectionNumber(parseInt(number));
+    } else if (lesson.sections[index].sectionNumber === maxSectionNumber) {
+      let newMax = 0;
+      for (let s of newSections) {
+        if (s.sectionNumber > newMax) {
+          newMax = s.sectionNumber;
         }
       }
-      setMaxSectionNumber(newMax)
+      setMaxSectionNumber(newMax);
     }
 
     updateSections(newSections);
   };
 
   const changeQuizSectionNumber = (index, number) => {
-    if(parseInt(number) < 0) {
-      showToastMessage('Cannot have a negative section number')
-      return
+    if (parseInt(number) < 0) {
+      showToastMessage("Cannot have a negative section number");
+      return;
     }
     let newQuizSections = [...lesson.quizSections];
     newQuizSections[index].sectionNumber = parseInt(number);
 
     // Update section number
-    if(parseInt(number) > maxQuizSectionNumber) {
-      setMaxQuizSectionNumber(parseInt(number))
-    }
-    else if(lesson.quizSections[index].sectionNumber === maxQuizSectionNumber) {
-      let newMax = 0
-      for(let s of newQuizSections) {
-        if(s.sectionNumber > newMax) {
-          newMax = s.sectionNumber
+    if (parseInt(number) > maxQuizSectionNumber) {
+      setMaxQuizSectionNumber(parseInt(number));
+    } else if (
+      lesson.quizSections[index].sectionNumber === maxQuizSectionNumber
+    ) {
+      let newMax = 0;
+      for (let s of newQuizSections) {
+        if (s.sectionNumber > newMax) {
+          newMax = s.sectionNumber;
         }
       }
-      setMaxQuizSectionNumber(newMax)
+      setMaxQuizSectionNumber(newMax);
     }
 
     updateQuizSections(newQuizSections);
@@ -68,14 +69,15 @@ export default function LessonPreview({
     newSections.splice(index, 1);
 
     // Update maxSectionNumber if needed
-    if(lesson.sections[index].sectionNumber === maxSectionNumber) {
-      let newMax = 0
-      for(let s of newSections) {
-        if(s.sectionNumber > newMax) {
-          newMax = s.sectionNumber
+    console.log(lesson.sections, index, maxSectionNumber);
+    if (lesson.sections[index].sectionNumber === maxSectionNumber) {
+      let newMax = 0;
+      for (let s of newSections) {
+        if (s.sectionNumber > newMax) {
+          newMax = s.sectionNumber;
         }
       }
-      setMaxSectionNumber(newMax)
+      setMaxSectionNumber(newMax);
     }
     updateIndices(newSections);
     updateSections(newSections);
@@ -86,14 +88,15 @@ export default function LessonPreview({
     newQuizSections.splice(index, 1);
 
     // Update maxSectionNumber if needed
-    if(lesson.quizSections[index].sectionNumber === maxQuizSectionNumber) {
-      let newMax = 0
-      for(let s of newQuizSections) {
-        if(s.sectionNumber > newMax) {
-          newMax = s.sectionNumber
+    console.log(lesson.quizSections, index, maxQuizSectionNumber);
+    if (lesson.quizSections[index].sectionNumber === maxQuizSectionNumber) {
+      let newMax = 0;
+      for (let s of newQuizSections) {
+        if (s.sectionNumber > newMax) {
+          newMax = s.sectionNumber;
         }
       }
-      setMaxQuizSectionNumber(newMax)
+      setMaxQuizSectionNumber(newMax);
     }
     updateIndices(newQuizSections);
     updateSections(newQuizSections);
@@ -111,7 +114,10 @@ export default function LessonPreview({
   };
 
   const moveQuizSection = (index, direction) => {
-    if (index + direction < 0 || index + direction >= lesson.quizSections.length)
+    if (
+      index + direction < 0 ||
+      index + direction >= lesson.quizSections.length
+    )
       return;
     let newQuizSections = [...lesson.quizSections];
     let temp = newQuizSections[index];
@@ -125,14 +131,14 @@ export default function LessonPreview({
     for (let i = 0; i < newSections.length; i++) {
       newSections[i].index = i;
     }
-    updateSections(newSections)
+    updateSections(newSections);
   };
 
   const updateQuizIndices = (newQuizSections) => {
     for (let i = 0; i < newQuizSections.length; i++) {
       newQuizSections[i].index = i;
     }
-    updateQuizSections(newQuizSections)
+    updateQuizSections(newQuizSections);
   };
 
   const updateSections = (newSections) => {
@@ -166,6 +172,17 @@ export default function LessonPreview({
                 <TextSection
                   key={index}
                   text={section.text}
+                  section={section}
+                  changeSectionNumber={changeSectionNumber}
+                  deleteSection={deleteSection}
+                  moveSection={moveSection}
+                />
+              );
+            case 1:
+              return (
+                <ImgSection
+                  key={index}
+                  image={section.image}
                   section={section}
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
@@ -211,8 +228,19 @@ export default function LessonPreview({
                   text={quizSection.text}
                   section={quizSection}
                   changeSectionNumber={changeQuizSectionNumber}
-                  deleteSection={deleteSection}
-                  moveSection={moveSection}
+                  deleteSection={deleteQuizSection}
+                  moveSection={moveQuizSection}
+                />
+              );
+            case 1:
+              return (
+                <ImgSection
+                  key={index}
+                  image={quizSection.image}
+                  section={quizSection}
+                  changeSectionNumber={changeQuizSectionNumber}
+                  deleteSection={deleteQuizSection}
+                  moveSection={moveQuizSection}
                 />
               );
             case 2:
@@ -242,7 +270,6 @@ export default function LessonPreview({
               return <div key={index} />;
           }
         })}
-
       </div>
     </div>
   );
