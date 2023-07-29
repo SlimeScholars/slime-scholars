@@ -140,13 +140,11 @@ export default function EditLesson({ user, loading, setLoading }) {
                         afterBlank: s.afterBlank,
                       };
                     }
-
                     if (s.sectionNumber > newMax) {
                       newMax = s.sectionNumber;
                     }
                   }
                   setMaxQuizSectionNumber(newMax);
-
                   setLesson(newLesson);
                   flag = true;
                 }
@@ -163,6 +161,8 @@ export default function EditLesson({ user, loading, setLoading }) {
         setLoading(false);
       });
   }, [router.query.lessonId]);
+
+  console.log(maxQuizSectionNumber);
 
   const addText = () => {
     let newText = {
@@ -250,6 +250,29 @@ export default function EditLesson({ user, loading, setLoading }) {
     } else {
       newFB.sectionNumber = maxSectionNumber + 1;
       newLesson.sections.push(newFB);
+      setMaxSectionNumber(maxSectionNumber + 1);
+    }
+    setLesson(newLesson);
+  };
+
+  const addImage = () => {
+    if (!image) {
+      showToastMessage("Image is required.");
+      return;
+    }
+    let newImage = {
+      sectionType: 1,
+      image: image,
+      index: lesson.sections.length,
+    };
+    let newLesson = { ...lesson };
+    if (imageIsQuiz) {
+      newImage.sectionNumber = maxQuizSectionNumber + 1;
+      newLesson.quizSections.push(newImage);
+      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+    } else {
+      newImage.sectionNumber = maxSectionNumber + 1;
+      newLesson.sections.push(newImage);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
     setLesson(newLesson);
@@ -444,6 +467,27 @@ export default function EditLesson({ user, loading, setLoading }) {
             onChange={(e) => setBlank({ ...blank, afterBlank: e.target.value })}
             value={blank.afterBlank}
             placeholder="Enter text here..."
+          />
+        </div>
+        <div className="w-full flex flex-row items-center justify-start mt-10">
+          <button
+            className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
+            onClick={addImage}
+          >
+            Add image
+          </button>
+          <input
+            type="checkbox"
+            className="w-5 h-5 ml-10 mr-2"
+            checked={imageIsQuiz}
+            onChange={() => setImageIsQuiz(!imageIsQuiz)}
+          />
+          <p className="text-lg">Quiz</p>
+          <input
+            type="file"
+            onChange={(event) => setImage(event.target.files[0])}
+            className="w-1/2 ml-10"
+            accept="image/gif, image/jpeg, image/png"
           />
         </div>
         <button
