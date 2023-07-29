@@ -314,7 +314,12 @@ export default function EditLesson({user, loading, setLoading}) {
           setLoading(false)
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          if(error && error.response && error.response.data && error.response.data.message) {
+            showToastMessage(error.response.data.message)
+          }
+          else {
+            showToastMessage(error.message)
+          }
           setLoading(false);
         });
       

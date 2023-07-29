@@ -2,6 +2,7 @@ import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import Lesson from "../../../../models/lessonModel"
+import { processMarkdown, verifyNesting } from "../../../../utils/processMarkdown"
 
 /**
  * @desc    Update the section content of a lesson
@@ -52,7 +53,11 @@ export default async function (req, res) {
 
       //text
       if(section.sectionType === 0) {
-        processedSection.text = section.text
+        const processedText = processMarkdown(section.text)
+        if(!verifyNesting(processedText)) {
+          throw new Error('Must close styles in correct order. eg. *b* bold *b* is correct, *b* bold *i* *b* *i* is not.')
+        }
+        processedSection.text = processedText
       }
       //img
       else if(section.sectionType === 1) {
@@ -87,7 +92,11 @@ export default async function (req, res) {
 
       //text
       if(quizSection.sectionType === 0) {
-        processedQuizSection.text = quizSection.text
+        const processedText = processMarkdown(quizSection.text)
+        if(!verifyNesting(processedText)) {
+          throw new Error('Must close styles in correct order. eg. *b* bold *b* is correct, *b* bold *i* *b* *i* is not.')
+        }
+        processedQuizSection.text = processedText
       }
       //img
       else if(quizSection.sectionType === 1) {
