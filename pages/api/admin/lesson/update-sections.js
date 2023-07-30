@@ -3,6 +3,14 @@ import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import Lesson from "../../../../models/lessonModel"
 import { processMarkdown, verifyNesting } from "../../../../utils/processMarkdown"
+import formidable from 'formidable-serverless';
+import {v2 as cloudinary} from 'cloudinary';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
 /**
  * @desc    Update the section content of a lesson
@@ -27,7 +35,55 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4)
 
-    const { lessonId, sections, quizSections } = req.body
+    const form = new formidable.IncomingForm();
+    form.keepExtensions = true
+    const data = await new Promise((resolve, reject) => {
+      form.parse(req, (err, fields, files) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve({ fields, files });
+        }
+      });
+    });
+
+    const { lessonId, sections, quizSections, imageLength } = JSON.parse(data.fields.data)
+    const imageFiles = []
+    for(let i = 0; i < imageLength; i ++) {
+      if(data.files && data.files[`image${i}`]) {
+        imageFiles.push(data.files[`image${i}`])
+      }
+    }
+
+    cloudinary.config({ 
+      cloud_name: 'dyxnguo6v', 
+      api_key: '533118762414626', 
+      api_secret: 'KPx3CXi5pipIqyxv0JolGhP_7jU' 
+    })
+
+    const uploadedImages = [];
+
+    for (const image of imageFiles) {
+      // Upload the file to Cloudinary
+      await cloudinary.uploader.upload(image.path, (error, result) => {
+        if (error) {
+          throw new Error('Error uploading file:', error);
+        } else {
+          uploadedImages.push(result.secure_url)
+        }
+      });
+    }
+
+    for(let i in sections) {
+      if(sections[i].sectionType === 1) {
+        sections[i].image = uploadedImages[sections[i].image]
+      }
+    }
+    for(let i in quizSections) {
+      if(quizSections[i].sectionType === 1) {
+        quizSections[i].image = uploadedImages[quizSections[i].image]
+      }
+    }
 
     if(!lessonId) {
       throw new Error('Please send a lessonId')
@@ -61,7 +117,8 @@ export default async function (req, res) {
       }
       //img
       else if(section.sectionType === 1) {
-        // TODO: handle imgs
+        processedSection.image = section.image
+        console.log(processedSection.image)
       }
       //multiple choice
       else if(section.sectionType === 2) {
@@ -100,7 +157,7 @@ export default async function (req, res) {
       }
       //img
       else if(quizSection.sectionType === 1) {
-        // TODO: handle imgs
+        processedQuizSection.image = quizSection.image
       }
       //multiple choice
       else if(quizSection.sectionType === 2) {
