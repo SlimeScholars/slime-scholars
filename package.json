@@ -11,7 +11,10 @@
   "dependencies": {
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.39.0",
     "dotenv": "^16.3.1",
+    "formidable": "^3.5.0",
+    "formidable-serverless": "^1.1.1",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.3",
     "next": "13.4.9",

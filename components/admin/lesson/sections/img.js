@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Controls from "../controls";
+import { showToastMessage } from "../../../../utils/verify";
 
 export default function ImgSection({
   image,
@@ -11,8 +12,17 @@ export default function ImgSection({
   const [img, setImg] = useState(null);
   useEffect(() => {
     if (image) {
-      let url = URL.createObjectURL(image);
-      setImg(url);
+      try {
+        if(typeof image === 'string') {
+          setImg(image)
+        }
+        else {
+          let url = URL.createObjectURL(image);
+          setImg(url);
+        }
+      } catch (error) {
+        showToastMessage(error.message)  
+      }
     }
   }, [image]);
 

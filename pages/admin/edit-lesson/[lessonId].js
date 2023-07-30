@@ -289,18 +289,44 @@ export default function EditLesson({ user, loading, setLoading }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       };
       setLoading(true);
+
+      const formData = new FormData()
+
+      let newLesson = {...lesson}
+      let imageFiles = []
+      for(let i in newLesson.sections) {
+        if(newLesson.sections[i].sectionType === 1) {
+          imageFiles.push(newLesson.sections[i].image)
+          newLesson.sections[i].image = imageFiles.length - 1
+        }
+      }
+      for(let i in newLesson.quizSections) {
+        if(newLesson.quizSections[i].sectionType === 1) {
+          imageFiles.push(newLesson.quizSections[i].image)
+          newLesson.sections[i].image = imageFiles.length - 1
+        }
+      }
+      
+      formData.append('data', JSON.stringify({
+        lessonId,
+        sections: lesson.sections,
+        quizSections: lesson.quizSections,
+        imageLength: imageFiles.length,
+      }))
+
+      for(let i in imageFiles) {
+        formData.append(`image${i}`, imageFiles[i])
+      }
+
       axios
         .put(
           "/api/admin/lesson/update-sections",
-          {
-            lessonId,
-            sections: lesson.sections,
-            quizSections: lesson.quizSections,
-          },
-          config
+          formData,
+          config,
         )
         .then((response) => {
           if (response.data && response.data.lesson) {
