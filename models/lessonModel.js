@@ -93,6 +93,10 @@ const lessonSchema = new Schema(
             type: String,
             required: false,
           },
+          image: {
+            type: String, // URL of image
+            required: false,
+          },
           options: {
             type: [{
               type: {

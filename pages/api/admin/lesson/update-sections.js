@@ -75,12 +75,14 @@ export default async function (req, res) {
     }
 
     for(let i in sections) {
-      if(sections[i].sectionType === 1) {
+      if(sections[i].sectionType === 1 &&
+        typeof sections[i].image !== 'string') {
         sections[i].image = uploadedImages[sections[i].image]
       }
     }
     for(let i in quizSections) {
-      if(quizSections[i].sectionType === 1) {
+      if(quizSections[i].sectionType === 1 &&
+        typeof quizSections[i].image !== 'string') {
         quizSections[i].image = uploadedImages[quizSections[i].image]
       }
     }
@@ -118,7 +120,6 @@ export default async function (req, res) {
       //img
       else if(section.sectionType === 1) {
         processedSection.image = section.image
-        console.log(processedSection.image)
       }
       //multiple choice
       else if(section.sectionType === 2) {
