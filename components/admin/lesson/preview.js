@@ -69,7 +69,6 @@ export default function LessonPreview({
     newSections.splice(index, 1);
 
     // Update maxSectionNumber if needed
-    console.log(lesson.sections, index, maxSectionNumber);
     if (lesson.sections[index].sectionNumber === maxSectionNumber) {
       let newMax = 0;
       for (let s of newSections) {
@@ -88,7 +87,6 @@ export default function LessonPreview({
     newQuizSections.splice(index, 1);
 
     // Update maxSectionNumber if needed
-    console.log(lesson.quizSections, index, maxQuizSectionNumber);
     if (lesson.quizSections[index].sectionNumber === maxQuizSectionNumber) {
       let newMax = 0;
       for (let s of newQuizSections) {
