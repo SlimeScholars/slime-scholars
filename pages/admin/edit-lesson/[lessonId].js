@@ -162,8 +162,6 @@ export default function EditLesson({ user, loading, setLoading }) {
       });
   }, [router.query.lessonId]);
 
-  console.log(maxQuizSectionNumber);
-
   const addText = () => {
     let newText = {
       sectionType: 0,
@@ -193,7 +191,7 @@ export default function EditLesson({ user, loading, setLoading }) {
     }
     let newMC = {
       sectionType: 2,
-      options: mc,
+      options: [...mc],
       index: lesson.sections.length,
     };
 
