@@ -299,15 +299,17 @@ export default function EditLesson({ user, loading, setLoading }) {
       let newLesson = {...lesson}
       let imageFiles = []
       for(let i in newLesson.sections) {
-        if(newLesson.sections[i].sectionType === 1) {
+        if(newLesson.sections[i].sectionType === 1 &&
+          typeof newLesson.sections[i].image !== 'string') {
           imageFiles.push(newLesson.sections[i].image)
           newLesson.sections[i].image = imageFiles.length - 1
         }
       }
       for(let i in newLesson.quizSections) {
-        if(newLesson.quizSections[i].sectionType === 1) {
+        if(newLesson.quizSections[i].sectionType === 1 &&
+          typeof newLesson.quizSections[i].image !== 'string') {
           imageFiles.push(newLesson.quizSections[i].image)
-          newLesson.sections[i].image = imageFiles.length - 1
+          newLesson.quizSections[i].image = imageFiles.length - 1
         }
       }
       

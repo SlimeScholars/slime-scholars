@@ -2,3 +2,5 @@
 
 - Course should also contain a courseBadge image link
 - Unit should contain unitTest
+
+- Handle deleting image when an image section is deleted
