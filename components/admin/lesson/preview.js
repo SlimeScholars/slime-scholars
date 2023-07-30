@@ -98,8 +98,8 @@ export default function LessonPreview({
       }
       setMaxQuizSectionNumber(newMax);
     }
-    updateIndices(newQuizSections);
-    updateSections(newQuizSections);
+    updateQuizIndices(newQuizSections);
+    updateQuizSections(newQuizSections);
   };
 
   const moveSection = (index, direction) => {

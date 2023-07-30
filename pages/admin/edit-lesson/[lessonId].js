@@ -168,16 +168,16 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newText = {
       sectionType: 0,
       text: text,
-      sectionNumber: maxSectionNumber + 1,
-      index: lesson.sections.length,
     };
     let newLesson = { ...lesson };
     if (textIsQuiz) {
       newText.sectionNumber = maxQuizSectionNumber + 1;
+      newText.index = lesson.quizSections.length
       newLesson.quizSections.push(newText);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newText.sectionNumber = maxSectionNumber + 1;
+      newText.index = lesson.sections.length
       newLesson.sections.push(newText);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -200,10 +200,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newLesson = { ...lesson };
     if (mcIsQuiz) {
       newMC.sectionNumber = maxQuizSectionNumber + 1;
+      newMC.index = lesson.quizSections.length
       newLesson.quizSections.push(newMC);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newMC.sectionNumber = maxSectionNumber + 1;
+      newMC.index = lesson.sections.length
       newLesson.sections.push(newMC);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -245,10 +247,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newLesson = { ...lesson };
     if (fbIsQuiz) {
       newFB.sectionNumber = maxQuizSectionNumber + 1;
+      newFB.index = lesson.quizSections.length
       newLesson.quizSections.push(newFB);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newFB.sectionNumber = maxSectionNumber + 1;
+      newFB.index = lesson.sections.length
       newLesson.sections.push(newFB);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -263,15 +267,16 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newImage = {
       sectionType: 1,
       image: image,
-      index: lesson.sections.length,
     };
     let newLesson = { ...lesson };
     if (imageIsQuiz) {
       newImage.sectionNumber = maxQuizSectionNumber + 1;
+      newImage.index = lesson.quizSections.length
       newLesson.quizSections.push(newImage);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newImage.sectionNumber = maxSectionNumber + 1;
+      newImage.index = lesson.sections.length
       newLesson.sections.push(newImage);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
