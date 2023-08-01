@@ -22,6 +22,10 @@ export default async function (req, res) {
       createdAt: 0, updatedAt: 0, __v: 0
     })
 
+    if(!lesson) {
+      throw new Error('Could not find lesson')
+    }
+
     res.status(200).json({ lesson })
   } catch (error) {
     res.status(400).json({message: error.message})

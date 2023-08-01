@@ -99,20 +99,17 @@ const userSchema = new Schema(
     completed: {
       type: [{
         lessonId: {
-          type: String,
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Lesson',
           required: [true, 'Missing lessonId']
         },
-        lessonType: {
+        stars: {
           type: Number,
-          required: [true, 'Missing lessonType']
+          required: [true, 'Missing stars']
         },
-        highscore: {
-          type: Number,
-          required: [true, 'Missing highscore']
-        },
-        timeCompleted: {
-          type: Date,
-          required: [true, 'Missing timeCompleted']
+        looted: {
+          type: Boolean,
+          required: [true, 'Missing looted'],
         },
       }],
       required: false,
