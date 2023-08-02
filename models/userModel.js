@@ -105,7 +105,7 @@ const userSchema = new Schema(
         },
         stars: {
           type: Number,
-          required: [true, 'Missing stars']
+          required: false, // Stars can be 0
         },
         looted: {
           type: Boolean,

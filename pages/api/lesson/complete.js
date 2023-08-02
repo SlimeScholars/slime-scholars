@@ -1,10 +1,9 @@
-import { mongoose } from 'mongoose'
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Lesson from '../../../models/lessonModel'
-import { calculateStars } from '../../../utils/calculateStars'
+import { calculateStars, getQuizRewards } from '../../../utils/stars'
 import { areDifferentDays } from '../../../utils/areDifferentDays'
 
 /**
@@ -61,12 +60,13 @@ export default async function (req, res) {
     const stars = calculateStars(score)
     const newCompleted = [...user.completed]
     let newCompletedLesson
+    let newSlimeGel = user.slimeGel
 
     // Has not completed lesson yet
     if(completedIndex === -1) {
       // Can loot lesson
       if(canLoot) {
-        // TODO: Give rewards
+        newSlime += getQuizRewards(stars, undefined)
         newCompletedLesson = {
           lessonId,
           stars,
@@ -75,6 +75,7 @@ export default async function (req, res) {
         newCompleted.push(newCompletedLesson)
 
         await User.findByIdAndUpdate(user._id, {
+          slimeGel: newSlimeGel,
           completed: newCompleted,
           lastRewards: newLastRewards,
         })
@@ -92,23 +93,25 @@ export default async function (req, res) {
           completed: newCompleted,
         })
       }
-
     }
     // Completed lesson and already looted
     else if(user.completed[completedIndex].looted) {
-      // TODO: Give rewards (eg. going from 2 star to 3 star rewards)
       if(stars > user.completed[completedIndex].stars) {
+        newSlimeGel += getQuizRewards(stars, newCompleted[completedIndex].stars)
         newCompleted[completedIndex].stars = stars
         await User.findByIdAndUpdate(user._id, {
+          slimeGel: newSlimeGel,
           completed: newCompleted,
         })
       }
     }
     // Completed lesson, but hasn't looted but can loot
     else if(canLoot) {
+      newSlimeGel += getQuizRewards(stars, undefined)
       newCompleted[completedIndex].stars = stars
       newCompleted[completedIndex].looted = true
       await User.findByIdAndUpdate(user._id, {
+        slimeGel: newSlimeGel,
         completed: newCompleted,
         lastRewards: newLastRewards,
       })
@@ -131,6 +134,7 @@ export default async function (req, res) {
     res.status(400).json({
       stars: stars, // Most recent score
       completedLesson: newCompletedLesson, // Lesson with high score
+      slimeGel: newSlimeGel,
       completed: newUser.completed,
       lastRewards: newUser.lastRewards,
     })
