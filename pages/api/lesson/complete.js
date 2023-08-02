@@ -60,26 +60,33 @@ export default async function (req, res) {
 
     const stars = calculateStars(score)
     const newCompleted = [...user.completed]
+    let newCompletedLesson
+
+    // Has not completed lesson yet
     if(completedIndex === -1) {
+      // Can loot lesson
       if(canLoot) {
         // TODO: Give rewards
-        newCompleted.push({
+        newCompletedLesson = {
           lessonId,
           stars,
-          looted: true,
-        })
+          looted: true
+        }
+        newCompleted.push(newCompletedLesson)
 
         await User.findByIdAndUpdate(user._id, {
           completed: newCompleted,
           lastRewards: newLastRewards,
         })
       }
+      // Cannot loot lesson
       else {
-        newCompleted.push({
+        newCompletedLesson = {
           lessonId,
           stars,
-          looted: false,
-        })
+          looted: false
+        }
+        newCompleted.push(newCompletedLesson)
 
         await User.findByIdAndUpdate(user._id, {
           completed: newCompleted,
@@ -87,21 +94,46 @@ export default async function (req, res) {
       }
 
     }
-    else if(stars > user.completed[completedIndex]) {
-      if(user.completed[completedIndex].looted) {
-        // TODO: Give rewards
+    // Completed lesson and already looted
+    else if(user.completed[completedIndex].looted) {
+      // TODO: Give rewards (eg. going from 2 star to 3 star rewards)
+      if(stars > user.completed[completedIndex].stars) {
         newCompleted[completedIndex].stars = stars
         await User.findByIdAndUpdate(user._id, {
           completed: newCompleted,
-          lastRewards: newLastRewards,
         })
       }
-
+    }
+    // Completed lesson, but hasn't looted but can loot
+    else if(canLoot) {
+      newCompleted[completedIndex].stars = stars
+      newCompleted[completedIndex].looted = true
+      await User.findByIdAndUpdate(user._id, {
+        completed: newCompleted,
+        lastRewards: newLastRewards,
+      })
+    }
+    // Completed lesson, hasn't looted and cannot loot, but new high score
+    else if(stars > newCompleted[completedIndex].stars) {
+      newCompleted[completedIndex].stars = stars
+      await User.findByIdAndUpdate(user._id, {
+        completed: newCompleted,
+      })
     }
 
+    if(completedIndex !== -1) {
+      newCompletedLesson = newCompleted[completedIndex]
+    }
 
     const newUser = await User.findById(user._id)
       .select('completed lastRewards')
+
+    res.status(400).json({
+      stars: stars, // Most recent score
+      completedLesson: newCompletedLesson, // Lesson with high score
+      completed: newUser.completed,
+      lastRewards: newUser.lastRewards,
+    })
 
   } catch(error) {
     res.status(400).json({message: error.message})
