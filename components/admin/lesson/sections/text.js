@@ -10,6 +10,7 @@ export default function TextSection({
   deleteSection,
   moveSection,
   active,
+  sectionNumber,
 }) {
   const [parsedText, setParsedText] = useState(<></>);
 
@@ -21,18 +22,21 @@ export default function TextSection({
     }
   }, [text]);
   return (
-    <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
-      {!active && (
-        <Controls
-          section={section}
-          changeSectionNumber={changeSectionNumber}
-          deleteSection={deleteSection}
-          moveSection={moveSection}
-        />
-      )}
-      <div className="text-xl w-full text-center py-3 font-averia text-pink-400">
-        {parsedText}
+    !active ||
+    (sectionNumber >= section.sectionNumber && (
+      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
+        {!active && (
+          <Controls
+            section={section}
+            changeSectionNumber={changeSectionNumber}
+            deleteSection={deleteSection}
+            moveSection={moveSection}
+          />
+        )}
+        <div className="text-xl w-full text-center py-3 font-averia text-pink-400">
+          {parsedText}
+        </div>
       </div>
-    </div>
+    ))
   );
 }

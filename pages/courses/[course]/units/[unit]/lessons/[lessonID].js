@@ -15,6 +15,8 @@ export default function Lesson() {
   const [lesson, setLesson] = React.useState({});
   const [loading, setLoading] = React.useState(true);
 
+  const [sectionNumber, setSectionNumber] = React.useState(1);
+
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonID && token) {
@@ -74,6 +76,7 @@ export default function Lesson() {
                     text={section.text}
                     section={section}
                     active={true}
+                    sectionNumber={sectionNumber}
                   />
                 );
               case 1:
@@ -83,6 +86,7 @@ export default function Lesson() {
                     image={section.image}
                     section={section}
                     active={true}
+                    sectionNumber={sectionNumber}
                   />
                 );
               case 2:
@@ -92,6 +96,8 @@ export default function Lesson() {
                     options={section.options}
                     section={section}
                     active={true}
+                    sectionNumber={sectionNumber}
+                    setSectionNumber={setSectionNumber}
                   />
                 );
               case 3:
@@ -102,6 +108,8 @@ export default function Lesson() {
                     afterBlank={section.afterBlank}
                     section={section}
                     active={true}
+                    sectionNumber={sectionNumber}
+                    setSectionNumber={setSectionNumber}
                   />
                 );
               default:
@@ -120,6 +128,7 @@ export default function Lesson() {
                     text={quizSection.text}
                     section={quizSection}
                     active={true}
+                    sectionNumber={sectionNumber}
                   />
                 );
               case 1:
@@ -129,6 +138,7 @@ export default function Lesson() {
                     image={quizSection.image}
                     section={quizSection}
                     active={true}
+                    sectionNumber={sectionNumber}
                   />
                 );
               case 2:
@@ -138,6 +148,8 @@ export default function Lesson() {
                     options={quizSection.options}
                     section={quizSection}
                     active={true}
+                    sectionNumber={sectionNumber}
+                    setSectionNumber={setSectionNumber}
                   />
                 );
               case 3:
@@ -148,6 +160,8 @@ export default function Lesson() {
                     afterBlank={quizSection.afterBlank}
                     section={quizSection}
                     active={true}
+                    sectionNumber={sectionNumber}
+                    setSectionNumber={setSectionNumber}
                   />
                 );
               default:
