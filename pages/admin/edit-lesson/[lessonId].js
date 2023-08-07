@@ -170,12 +170,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newLesson = { ...lesson };
     if (textIsQuiz) {
       newText.sectionNumber = maxQuizSectionNumber + 1;
-      newText.index = lesson.quizSections.length
+      newText.index = lesson.quizSections.length;
       newLesson.quizSections.push(newText);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newText.sectionNumber = maxSectionNumber + 1;
-      newText.index = lesson.sections.length
+      newText.index = lesson.sections.length;
       newLesson.sections.push(newText);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -198,12 +198,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newLesson = { ...lesson };
     if (mcIsQuiz) {
       newMC.sectionNumber = maxQuizSectionNumber + 1;
-      newMC.index = lesson.quizSections.length
+      newMC.index = lesson.quizSections.length;
       newLesson.quizSections.push(newMC);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newMC.sectionNumber = maxSectionNumber + 1;
-      newMC.index = lesson.sections.length
+      newMC.index = lesson.sections.length;
       newLesson.sections.push(newMC);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -245,12 +245,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newLesson = { ...lesson };
     if (fbIsQuiz) {
       newFB.sectionNumber = maxQuizSectionNumber + 1;
-      newFB.index = lesson.quizSections.length
+      newFB.index = lesson.quizSections.length;
       newLesson.quizSections.push(newFB);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newFB.sectionNumber = maxSectionNumber + 1;
-      newFB.index = lesson.sections.length
+      newFB.index = lesson.sections.length;
       newLesson.sections.push(newFB);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -269,12 +269,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     let newLesson = { ...lesson };
     if (imageIsQuiz) {
       newImage.sectionNumber = maxQuizSectionNumber + 1;
-      newImage.index = lesson.quizSections.length
+      newImage.index = lesson.quizSections.length;
       newLesson.quizSections.push(newImage);
       setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
     } else {
       newImage.sectionNumber = maxSectionNumber + 1;
-      newImage.index = lesson.sections.length
+      newImage.index = lesson.sections.length;
       newLesson.sections.push(newImage);
       setMaxSectionNumber(maxSectionNumber + 1);
     }
@@ -294,42 +294,45 @@ export default function EditLesson({ user, loading, setLoading }) {
       };
       setLoading(true);
 
-      const formData = new FormData()
+      const formData = new FormData();
 
-      let newLesson = {...lesson}
-      let imageFiles = []
-      for(let i in newLesson.sections) {
-        if(newLesson.sections[i].sectionType === 1 &&
-          typeof newLesson.sections[i].image !== 'string') {
-          imageFiles.push(newLesson.sections[i].image)
-          newLesson.sections[i].image = imageFiles.length - 1
+      let newLesson = { ...lesson };
+      let imageFiles = [];
+      for (let i in newLesson.sections) {
+        if (
+          newLesson.sections[i].sectionType === 1 &&
+          typeof newLesson.sections[i].image !== "string"
+        ) {
+          imageFiles.push(newLesson.sections[i].image);
+          newLesson.sections[i].image = imageFiles.length - 1;
         }
       }
-      for(let i in newLesson.quizSections) {
-        if(newLesson.quizSections[i].sectionType === 1 &&
-          typeof newLesson.quizSections[i].image !== 'string') {
-          imageFiles.push(newLesson.quizSections[i].image)
-          newLesson.quizSections[i].image = imageFiles.length - 1
+      for (let i in newLesson.quizSections) {
+        if (
+          newLesson.quizSections[i].sectionType === 1 &&
+          typeof newLesson.quizSections[i].image !== "string"
+        ) {
+          imageFiles.push(newLesson.quizSections[i].image);
+          newLesson.quizSections[i].image = imageFiles.length - 1;
         }
       }
-      
-      formData.append('data', JSON.stringify({
-        lessonId,
-        sections: lesson.sections,
-        quizSections: lesson.quizSections,
-        imageLength: imageFiles.length,
-      }))
 
-      for(let i in imageFiles) {
-        formData.append(`image${i}`, imageFiles[i])
+      formData.append(
+        "data",
+        JSON.stringify({
+          lessonId,
+          sections: lesson.sections,
+          quizSections: lesson.quizSections,
+          imageLength: imageFiles.length,
+        })
+      );
+
+      for (let i in imageFiles) {
+        formData.append(`image${i}`, imageFiles[i]);
       }
 
       axios
-        .put(
-          "/api/admin/lesson/update-sections",
-          formData,
-          config,
-        )
+        .put("/api/admin/lesson/update-sections", formData, config)
         .then((response) => {
           if (response.data && response.data.lesson) {
             const newLesson = {
@@ -375,8 +378,8 @@ export default function EditLesson({ user, loading, setLoading }) {
               }
             }
             setMaxQuizSectionNumber(newMax);
-
             setLesson(newLesson);
+            showToastMessage("Lesson updated successfully.", true);
           }
           setLoading(false);
         })

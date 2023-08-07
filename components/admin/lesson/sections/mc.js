@@ -7,15 +7,18 @@ export default function MCSection({
   changeSectionNumber,
   deleteSection,
   moveSection,
+  active,
 }) {
   return (
     <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
-      <Controls
-        section={section}
-        changeSectionNumber={changeSectionNumber}
-        deleteSection={deleteSection}
-        moveSection={moveSection}
-      />
+      {!active && (
+        <Controls
+          section={section}
+          changeSectionNumber={changeSectionNumber}
+          deleteSection={deleteSection}
+          moveSection={moveSection}
+        />
+      )}
       <div className="w-full grid grid-cols-2 gap-3 mt-5">
         {options.map(
           (option, index) =>

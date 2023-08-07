@@ -4,15 +4,20 @@ import Head from "next/head";
 
 import axios from "axios";
 
+import TextSection from "../../../../../../components/admin/lesson/sections/text";
+import ImgSection from "../../../../../../components/admin/lesson/sections/img";
+import MCSection from "../../../../../../components/admin/lesson/sections/mc";
+import FBSection from "../../../../../../components/admin/lesson/sections/fb";
+
 export default function Lesson() {
   const router = useRouter();
   const { course, unit, lessonID } = router.query;
   const [lesson, setLesson] = React.useState({});
+  const [loading, setLoading] = React.useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonID && token) {
-      console.log(lessonID, token);
       axios
         .get(
           "/api/lesson",
@@ -31,6 +36,7 @@ export default function Lesson() {
           if (res.status === 200) {
             console.log(res.data.lesson);
             setLesson(res.data.lesson);
+            setLoading(false);
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -41,7 +47,9 @@ export default function Lesson() {
     }
   }, [lessonID]);
 
-  return (
+  return loading ? (
+    <div>Loading...</div>
+  ) : (
     <div className="w-screen h-screen flex items-center justify-center bg-red-50">
       <Head></Head>
       <div className="flex flex-col items-center justify-start lg:w-1/3 h-full bg-purple-50">
@@ -55,6 +63,98 @@ export default function Lesson() {
           </h1>
           <div className="w-full h-[1px] bg-pink-200 mt-3" />
         </header>
+        <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
+          {lesson.sections.map((section, index) => {
+            // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
+            switch (section.sectionType) {
+              case 0:
+                return (
+                  <TextSection
+                    key={index}
+                    text={section.text}
+                    section={section}
+                    active={true}
+                  />
+                );
+              case 1:
+                return (
+                  <ImgSection
+                    key={index}
+                    image={section.image}
+                    section={section}
+                    active={true}
+                  />
+                );
+              case 2:
+                return (
+                  <MCSection
+                    key={index}
+                    options={section.options}
+                    section={section}
+                    active={true}
+                  />
+                );
+              case 3:
+                return (
+                  <FBSection
+                    key={index}
+                    text={section.text}
+                    afterBlank={section.afterBlank}
+                    section={section}
+                    active={true}
+                  />
+                );
+              default:
+                return <div key={index} />;
+            }
+          })}
+
+          <div>Quiz</div>
+          {lesson.quizSections.map((quizSection, index) => {
+            // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
+            switch (quizSection.sectionType) {
+              case 0:
+                return (
+                  <TextSection
+                    key={index}
+                    text={quizSection.text}
+                    section={quizSection}
+                    active={true}
+                  />
+                );
+              case 1:
+                return (
+                  <ImgSection
+                    key={index}
+                    image={quizSection.image}
+                    section={quizSection}
+                    active={true}
+                  />
+                );
+              case 2:
+                return (
+                  <MCSection
+                    key={index}
+                    options={quizSection.options}
+                    section={quizSection}
+                    active={true}
+                  />
+                );
+              case 3:
+                return (
+                  <FBSection
+                    key={index}
+                    text={quizSection.text}
+                    afterBlank={quizSection.afterBlank}
+                    section={quizSection}
+                    active={true}
+                  />
+                );
+              default:
+                return <div key={index} />;
+            }
+          })}
+        </div>
       </div>
     </div>
   );
