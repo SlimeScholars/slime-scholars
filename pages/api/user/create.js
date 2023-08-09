@@ -132,8 +132,6 @@ export default async function handler(req, res) {
       // Make sure username is not taken
       const usernameRegex = new RegExp(`^${username}$`, 'i')
       const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
-      console.log(usernameRegex)
-      console.log(userExists)
       if (userExists) {
         throw new Error('Username is taken')
       }
@@ -181,7 +179,7 @@ export default async function handler(req, res) {
         receivedFriendRequests: [],
         sentFriendRequests: [],
 
-        completed: [],
+        completedLessons: [],
         slimeGel: 0,
         flowers: 0,
         slimes: [],

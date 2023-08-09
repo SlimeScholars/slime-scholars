@@ -22,15 +22,10 @@ export const getQuizRewards = (newStars, oldStars) => {
     450,
   ]
 
+  // Always flowers as currency
   if(oldStars === undefined) {
-    return {
-      quantity: rewards[newStars],
-      currency: 1,
-    }
+    return rewards[newStars]
   }
 
-  return {
-    quantity: rewards[newStars] - rewards[oldStars],
-    currency: 1, // Quiz always rewards 
-  }
+  return rewards[newStars] - rewards[oldStars]
 }
