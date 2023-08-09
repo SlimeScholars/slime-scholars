@@ -24,7 +24,6 @@ export default function Login({loading, user, setUser}) {
   }, [loading, user])
 
   const onSubmit = (e) => {
-    // TODO: Add validation, api call, and redirect
     e.preventDefault();
     if (!accountIdentifier) {
       showToastMessage("Username/email cannot be left blank");
