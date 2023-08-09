@@ -115,6 +115,37 @@ const userSchema = new Schema(
       required: false,
       default: undefined,
     },
+    completedUnits: {
+      type: [{
+        unit: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Unit',
+          required: [true, 'Missing unitId']
+        },
+        tier: {
+          type: Number,
+          required: [true, 'Missing tier'], // 1 is bronze, 2 is silver, 3 is gold
+        },
+      }],
+      required: false,
+      default: undefined,
+    },
+    completedCourses: {
+      type: [{
+        unit: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Coure',
+          required: [true, 'Missing courseId']
+        },
+        tier: {
+          type: Number,
+          required: [true, 'Missing tier'], // 1 is bronze, 2 is silver, 3 is gold
+        },
+      }],
+      required: false,
+      default: undefined,
+    },
+    
     lastRewards: {
       type: [{
         type: Date,

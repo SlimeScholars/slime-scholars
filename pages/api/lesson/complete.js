@@ -7,8 +7,8 @@ import { calculateStars, getQuizRewards } from '../../../utils/stars'
 import { areDifferentDays } from '../../../utils/areDifferentDays'
 
 /**
- * @desc    Completion 
- * @route   POST /api/user/friend/accept
+ * @desc    Completion of lesson
+ * @route   POST /api/lesson/complete
  * @access  Private - Students
  * @param   {string} req.body.lessonId - Id of lesson completed
  * @param   {string} req.body.score - Score achieved on the quiz section of the lesson
@@ -127,6 +127,10 @@ export default async function (req, res) {
     if(completedIndex !== -1) {
       newCompletedLesson = newCompletedLessons[completedIndex]
     }
+
+    // TODO: Handle unit awards, course awards, check for:
+    // start of unit, completion of unit, perfection of unit
+    // start of course, completion of course, perfection of course
 
     const newUser = await User.findById(user._id)
       .select('completedLessons lastRewards')
