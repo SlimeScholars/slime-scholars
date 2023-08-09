@@ -50,92 +50,92 @@ export default async function (req, res) {
     }
 
     let completedIndex = -1
-    for(let i = 0; i < user.completed.length; i ++) {
-      if(user.completed[i].lessonId.equals(lessonId)) {
+    for(let i = 0; i < user.completedLessons.length; i ++) {
+      if(user.completedLessons[i].lesson.equals(lessonId)) {
         completedIndex = i
         break
       }
     }
 
     const stars = calculateStars(score)
-    const newCompleted = [...user.completed]
+    const newCompletedLessons = [...user.completedLessons]
     let newCompletedLesson
-    let newSlimeGel = user.slimeGel
+    let newFlowers = user.flowers
 
     // Has not completed lesson yet
     if(completedIndex === -1) {
       // Can loot lesson
       if(canLoot) {
-        newSlime += getQuizRewards(stars, undefined)
+        newFlowers += getQuizRewards(stars, undefined)
         newCompletedLesson = {
-          lessonId,
+          lesson: lessonId,
           stars,
           looted: true
         }
-        newCompleted.push(newCompletedLesson)
+        newCompletedLessons.push(newCompletedLesson)
 
         await User.findByIdAndUpdate(user._id, {
-          slimeGel: newSlimeGel,
-          completed: newCompleted,
+          flowers: newFlowers,
+          completedLessons: newCompletedLessons,
           lastRewards: newLastRewards,
         })
       }
       // Cannot loot lesson
       else {
         newCompletedLesson = {
-          lessonId,
+          lesson: lessonId,
           stars,
           looted: false
         }
-        newCompleted.push(newCompletedLesson)
+        newCompletedLessons.push(newCompletedLesson)
 
         await User.findByIdAndUpdate(user._id, {
-          completed: newCompleted,
+          completedLessons: newCompletedLessons,
         })
       }
     }
     // Completed lesson and already looted
-    else if(user.completed[completedIndex].looted) {
-      if(stars > user.completed[completedIndex].stars) {
-        newSlimeGel += getQuizRewards(stars, newCompleted[completedIndex].stars)
-        newCompleted[completedIndex].stars = stars
+    else if(user.completedLessons[completedIndex].looted) {
+      if(stars > user.completedLessons[completedIndex].stars) {
+        newFlowers += getQuizRewards(stars, newCompletedLessons[completedIndex].stars)
+        newCompletedLessons[completedIndex].stars = stars
         await User.findByIdAndUpdate(user._id, {
-          slimeGel: newSlimeGel,
-          completed: newCompleted,
+          flowers: newFlowers,
+          completedLessons: newCompletedLessons,
         })
       }
     }
     // Completed lesson, but hasn't looted but can loot
     else if(canLoot) {
-      newSlimeGel += getQuizRewards(stars, undefined)
-      newCompleted[completedIndex].stars = stars
-      newCompleted[completedIndex].looted = true
+      newFlowers += getQuizRewards(stars, undefined)
+      newCompletedLessons[completedIndex].stars = stars
+      newCompletedLessons[completedIndex].looted = true
       await User.findByIdAndUpdate(user._id, {
-        slimeGel: newSlimeGel,
-        completed: newCompleted,
+        flowers: newFlowers,
+        completedLessons: newCompletedLessons,
         lastRewards: newLastRewards,
       })
     }
     // Completed lesson, hasn't looted and cannot loot, but new high score
-    else if(stars > newCompleted[completedIndex].stars) {
-      newCompleted[completedIndex].stars = stars
+    else if(stars > newCompletedLessons[completedIndex].stars) {
+      newCompletedLessons[completedIndex].stars = stars
       await User.findByIdAndUpdate(user._id, {
-        completed: newCompleted,
+        completedLessons: newCompletedLessons,
       })
     }
 
     if(completedIndex !== -1) {
-      newCompletedLesson = newCompleted[completedIndex]
+      newCompletedLesson = newCompletedLessons[completedIndex]
     }
 
     const newUser = await User.findById(user._id)
-      .select('completed lastRewards')
+      .select('completedLessons lastRewards')
 
     res.status(400).json({
       stars: stars, // Most recent score
       completedLesson: newCompletedLesson, // Lesson with high score
-      slimeGel: newSlimeGel,
-      completed: newUser.completed,
+      flowers: newFlowers,
+      completedLessons: newUser.completedLessons,
       lastRewards: newUser.lastRewards,
     })
 
