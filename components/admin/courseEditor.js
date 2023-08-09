@@ -29,14 +29,12 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
         })
         .catch((error) => {
           console.error(error.message)
-          // showToastMessage(error.message)
+          showToastMessage(error.message)
           setLoading(false);
         });
       
     } catch (error) {
-      // TODO: figure out why toast message is not showing
-      console.error(error)
-      // showToastMessage(error.message);
+      showToastMessage(error.message);
       return;
     }
   }
