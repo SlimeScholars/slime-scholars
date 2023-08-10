@@ -164,9 +164,18 @@ export default async function (req, res) {
       // Check if all lessons are completed
       let flag = false
       for(let i in unit.lessons) {
-        if(!newCompletedLessons.includes(unit.lessons[i].lesson)) {
-          flag = true
+        // No need to do unit.lessons[i].lesson since unit is not populated
+        let smallFlag = true
+        for(let j in newCompletedLessons) {
+          if(
+            newCompletedLessons[j].lesson.equals(unit.lessons[i]) ||
+            newCompletedLessons[j].lesson._id.equals(unit.lessons[i])
+          ) {
+            smallFlag = false
+            break
+          }
         }
+        flag = smallFlag
       }
       // Up the unit tier if all lessons are completed
       if(!flag) {
@@ -179,7 +188,7 @@ export default async function (req, res) {
       // Check if all lessons are 3 starred
       let flag = false
       for(let i in newCompletedLessons) {
-        if(!newCompletedLessons[i].stars === 3) {
+        if(newCompletedLessons[i].stars !== 3) {
           flag = true
         }
       }
