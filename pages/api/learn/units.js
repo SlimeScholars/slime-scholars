@@ -9,6 +9,7 @@ import "../../../models/unitModel"
  * @desc    Get units for unit selection
  * @route   GET /api/learn/units
  * @access  Private - Students
+ * @param   {string} req.query.courseId - Id of the course the unit belongs to
  */
 export default async function (req, res) {
   try {

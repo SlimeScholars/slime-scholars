@@ -10,6 +10,8 @@ import '../../../models/lessonModel'
  * @desc    Get units for unit selection
  * @route   GET /api/learn/lessons
  * @access  Private - Students
+ * @param   {string} req.query.courseId - Id of the course the lesson belongs to
+ * @param   {string} req.query.unitId - Id of the unit the lesson belongs to
  */
 export default async function (req, res) {
   try {
