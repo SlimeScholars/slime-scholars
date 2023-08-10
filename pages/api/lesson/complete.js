@@ -133,6 +133,7 @@ export default async function (req, res) {
     }
 
     // Check unit tier
+    // TODO: Unit test impact on tier
     let unit = await Unit.findOne({ lessons: lessonId })
       .select('_id lessons')
     if(!unit) {
