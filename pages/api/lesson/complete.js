@@ -6,6 +6,7 @@ import Lesson from '../../../models/lessonModel'
 import { calculateStars, getQuizRewards } from '../../../utils/stars'
 import { areDifferentDays } from '../../../utils/areDifferentDays'
 import Unit from "../../../models/unitModel"
+import Course from "../../../models/courseModel"
 
 /**
  * @desc    Completion of lesson
@@ -131,9 +132,9 @@ export default async function (req, res) {
     }
 
     // TODO: Handle unit awards, course awards, check for:
-    // start of unit, completion of unit, perfection of unit
     // start of course, completion of course, perfection of course
 
+    // Check unit tier
     let unit = await Unit.findOne({ lessons: lessonId })
       .select('_id lessons')
     if(!unit) {
@@ -143,7 +144,10 @@ export default async function (req, res) {
     const newCompletedUnits = [...user.completedUnits]
     let completedUnitIndex = -1
     for(let i in user.completedUnits) {
-      if(user.completedUnits[i].unit._id === unit._id) {
+      if(
+        user.completedUnits[i].unit.equals(unit._id) ||
+        user.completedUnits[i].unit._id.equals(unit._id)
+      ) {
         completedUnitIndex = i
       }
     }
@@ -188,13 +192,87 @@ export default async function (req, res) {
       // Check if all lessons are 3 starred
       let flag = false
       for(let i in newCompletedLessons) {
-        if(newCompletedLessons[i].stars !== 3) {
+        if(
+          newCompletedLessons[i].stars !== 3 &&
+          unit.lessons.includes(newCompletedLessons[i].lesson)
+        ) {
           flag = true
         }
       }
       // Up the unit tier if all lessons are 3 starred
       if(!flag) {
         newCompletedUnits[completedUnitIndex].tier = 3
+      }
+    }
+
+    // Check course tier
+    let course = await Course.findOne({ units: unit._id })
+      .select('_id units')
+    if(!course) {
+      throw new Error('Could not find course that the lesson belongs to')
+    }
+
+    const newCompletedCourses = [...user.completedCourses]
+    let completedCourseIndex = -1
+    for(let i in user.completedCourses) {
+      if(
+        user.completedCourses[i].course.equals(course._id) ||
+        user.completedCourses[i].course._id.equals(course._id)
+      ) {
+        completedCourseIndex = i
+      }
+    }
+
+    // Has not completed any unit in this course yet
+    if(completedCourseIndex === -1) {
+      const newCompletedCourse = {
+        course: course._id,
+        tier: 1,
+      }
+      newCompletedCourses.push(newCompletedCourse)
+      // user.completedCourses.length did not increase, so no need to do a -1
+      completedCourseIndex = user.completedCourses.length
+    }
+
+    // Has started the course, need to check if this new unit makes it completed
+    if(newCompletedCourses[completedCourseIndex].tier === 1) {
+      // Check if all lessons are completed
+      let flag = false
+      for(let i in course.units) {
+        // No need to do course.units[i].unit since unit is not populated
+        let smallFlag = true
+        for(let j in newCompletedUnits) {
+          if(
+            newCompletedUnits[j].unit.equals(course.units[i]) ||
+            newCompletedUnits[j].unit._id.equals(course.units[i])
+          ) {
+            smallFlag = false
+            break
+          }
+        }
+        flag = smallFlag
+      }
+      // Up the unit tier if all lessons are completed
+      if(!flag) {
+        newCompletedCourses[completedCourseIndex].tier = 2
+      }
+    }
+
+    // Has finished the course, need to check if this unit makes it so that all unit are tier 3
+    if(newCompletedCourses[completedCourseIndex].tier === 2) {
+      // Check if all units are tier 3
+      let flag = false
+      for(let i in newCompletedUnits) {
+        if(
+          newCompletedUnits[i].tier !== 3 &&
+          course.units.includes(newCompletedUnits[i].unit)
+        ) {
+          flag = true
+        }
+      }
+      // Up the unit tier if all lessons are 3 starred
+      if(!flag) {
+        newCompletedCourses[completedCourseIndex].tier = 3
       }
     }
 
@@ -210,6 +288,7 @@ export default async function (req, res) {
       flowers: newFlowers,
       completedLessons: newUser.completedLessons,
       completedUnits: newCompletedUnits,
+      completedCourses: newCompletedCourses,
       lastRewards: newUser.lastRewards,
     })
 
