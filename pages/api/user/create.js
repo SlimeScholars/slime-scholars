@@ -180,6 +180,9 @@ export default async function handler(req, res) {
         sentFriendRequests: [],
 
         completedLessons: [],
+        completedUnits: [],
+        completedCourses: [],
+
         slimeGel: 0,
         flowers: 0,
         slimes: [],

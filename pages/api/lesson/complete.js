@@ -189,6 +189,7 @@ export default async function (req, res) {
       }
     }
 
+    // TODO: Update user collection with the newCompletedUnits and newCompletedCourses
 
     const newUser = await User.findById(user._id)
       .select('completedLessons lastRewards')
@@ -199,6 +200,7 @@ export default async function (req, res) {
       completedLesson: newCompletedLesson, // Lesson with high score
       flowers: newFlowers,
       completedLessons: newUser.completedLessons,
+      completedUnits: newCompletedUnits,
       lastRewards: newUser.lastRewards,
     })
 
