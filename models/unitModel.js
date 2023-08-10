@@ -20,6 +20,7 @@ const unitSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Lesson',
         required: [true, 'Missing lessonId'],
+        unique: true,
       }],
       required: [true, 'Missing lessons'],
       default: [],

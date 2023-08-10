@@ -5,12 +5,14 @@ import User from '../../../models/userModel'
 import Lesson from '../../../models/lessonModel'
 import { calculateStars, getQuizRewards } from '../../../utils/stars'
 import { areDifferentDays } from '../../../utils/areDifferentDays'
+import Unit from "../../../models/unitModel"
 
 /**
  * @desc    Completion of lesson
  * @route   POST /api/lesson/complete
  * @access  Private - Students
  * @param   {string} req.body.lessonId - Id of lesson completed
+ * @param   {string} req.body.unitId - Id of unit completed
  * @param   {string} req.body.score - Score achieved on the quiz section of the lesson
  */
 export default async function (req, res) {
@@ -132,8 +134,65 @@ export default async function (req, res) {
     // start of unit, completion of unit, perfection of unit
     // start of course, completion of course, perfection of course
 
+    let unit = await Unit.findOne({ lessons: lessonId })
+      .select('_id lessons')
+    if(!unit) {
+      throw new Error('Could not find unit that the lesson belongs to')
+    }
+
+    const newCompletedUnits = [...user.completedUnits]
+    let completedUnitIndex = -1
+    for(let i in user.completedUnits) {
+      if(user.completedUnits[i].unit._id === unit._id) {
+        completedUnitIndex = i
+      }
+    }
+
+    // Has not completed any lesson in this unit yet
+    if(completedUnitIndex === -1) {
+      const newCompletedUnit = {
+        unit: unit._id,
+        tier: 1,
+      }
+      newCompletedUnits.push(newCompletedUnit)
+      // user.completedUnits.length did not increase, so no need to do a -1
+      completedUnitIndex = user.completedUnits.length
+    }
+
+    // Has started the unit, need to check if this new lesson makes it completed
+    if(newCompletedUnits[completedUnitIndex].tier === 1) {
+      // Check if all lessons are completed
+      let flag = false
+      for(let i in unit.lessons) {
+        if(!newCompletedLessons.includes(unit.lessons[i].lesson)) {
+          flag = true
+        }
+      }
+      // Up the unit tier if all lessons are completed
+      if(!flag) {
+        newCompletedUnits[completedUnitIndex].tier = 2
+      }
+    }
+
+    // Has finished the unit, need to check if this lesson makes it so that all lessons are 3 starred
+    if(newCompletedUnits[completedUnitIndex].tier === 2) {
+      // Check if all lessons are 3 starred
+      let flag = false
+      for(let i in newCompletedLessons) {
+        if(!newCompletedLessons[i].stars === 3) {
+          flag = true
+        }
+      }
+      // Up the unit tier if all lessons are 3 starred
+      if(!flag) {
+        newCompletedUnits[completedUnitIndex].tier = 3
+      }
+    }
+
+
     const newUser = await User.findById(user._id)
       .select('completedLessons lastRewards')
+    // TODO: Populate
 
     res.status(400).json({
       stars: stars, // Most recent score

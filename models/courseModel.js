@@ -16,6 +16,7 @@ const courseSchema = new Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Unit',
         required: [true, 'Missing unitId'],
+        unique: true,
       }],
       required: [true, 'Missing units'],
       default: [],
