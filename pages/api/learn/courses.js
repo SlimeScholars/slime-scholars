@@ -24,11 +24,7 @@ export default async function (req, res) {
     checkUserType(user, 1)
 
     const courses = await Course.find({})
-      .select('_id courseName units')
-      .populate({
-        path: 'units',
-        select: '_id unitName',
-      })
+      .select('_id courseName')
     
     const modifiedCourses = []
     // Check user for completed
@@ -36,7 +32,6 @@ export default async function (req, res) {
       modifiedCourses.push({
         _id: courses[i]._id,
         courseName: courses[i].courseName,
-        units: courses[i].units,
         tier: 0,
       })
       for(let j in user.completedCourses) {
