@@ -7,6 +7,7 @@ import { calculateStars, getQuizRewards } from '../../../utils/stars'
 import { areDifferentDays } from '../../../utils/areDifferentDays'
 import Unit from "../../../models/unitModel"
 import Course from "../../../models/courseModel"
+import { mongoose } from 'mongoose'
 
 /**
  * @desc    Completion of lesson
@@ -131,9 +132,6 @@ export default async function (req, res) {
       newCompletedLesson = newCompletedLessons[completedIndex]
     }
 
-    // TODO: Handle unit awards, course awards, check for:
-    // start of course, completion of course, perfection of course
-
     // Check unit tier
     let unit = await Unit.findOne({ lessons: lessonId })
       .select('_id lessons')
@@ -166,23 +164,32 @@ export default async function (req, res) {
     // Has started the unit, need to check if this new lesson makes it completed
     if(newCompletedUnits[completedUnitIndex].tier === 1) {
       // Check if all lessons are completed
-      let flag = false
+      let flag = true
       for(let i in unit.lessons) {
         // No need to do unit.lessons[i].lesson since unit is not populated
-        let smallFlag = true
+        let smallFlag = false
+
         for(let j in newCompletedLessons) {
+          let curLessonId
+          if(!newCompletedLessons[j].lesson._id) {
+            curLessonId = new mongoose.Types.ObjectId(newCompletedLessons[j].lesson)
+          }
+
           if(
-            newCompletedLessons[j].lesson.equals(unit.lessons[i]) ||
-            newCompletedLessons[j].lesson._id.equals(unit.lessons[i])
+            (newCompletedLessons[j].lesson._id && newCompletedLessons[j].lesson._id.equals(unit.lessons[i])) ||
+            (!newCompletedLessons[j].lesson._id && curLessonId.equals(unit.lessons[i]))
           ) {
-            smallFlag = false
+            smallFlag = true
             break
           }
         }
-        flag = smallFlag
+        if(!smallFlag) {
+          flag = false
+          break
+        }
       }
       // Up the unit tier if all lessons are completed
-      if(!flag) {
+      if(flag) {
         newCompletedUnits[completedUnitIndex].tier = 2
       }
     }
@@ -197,6 +204,7 @@ export default async function (req, res) {
           unit.lessons.includes(newCompletedLessons[i].lesson)
         ) {
           flag = true
+          break
         }
       }
       // Up the unit tier if all lessons are 3 starred
@@ -236,24 +244,33 @@ export default async function (req, res) {
 
     // Has started the course, need to check if this new unit makes it completed
     if(newCompletedCourses[completedCourseIndex].tier === 1) {
-      // Check if all lessons are completed
-      let flag = false
+      // Check if all units are completed
+      let flag = true
       for(let i in course.units) {
         // No need to do course.units[i].unit since unit is not populated
-        let smallFlag = true
+        let smallFlag = false
+
         for(let j in newCompletedUnits) {
+          let curUnitId
+          if(!newCompletedUnits[j].unit._id) {
+            curUnitId = new mongoose.Types.ObjectId(newCompletedUnits[j].unit)
+          }
+
           if(
-            newCompletedUnits[j].unit.equals(course.units[i]) ||
-            newCompletedUnits[j].unit._id.equals(course.units[i])
+            (newCompletedUnits[j].unit._id && newCompletedUnits[j].unit._id.equals(course.units[i])) ||
+            (!newCompletedUnits[j].unit._id && curUnitId.equals(course.units[i]))
           ) {
-            smallFlag = false
+            smallFlag = true
             break
           }
         }
-        flag = smallFlag
+        if(!smallFlag) {
+          flag = false
+          break
+        }
       }
-      // Up the unit tier if all lessons are completed
-      if(!flag) {
+      // Up the course tier if all units are completed
+      if(flag) {
         newCompletedCourses[completedCourseIndex].tier = 2
       }
     }
@@ -268,15 +285,20 @@ export default async function (req, res) {
           course.units.includes(newCompletedUnits[i].unit)
         ) {
           flag = true
+          break
         }
       }
-      // Up the unit tier if all lessons are 3 starred
+      // Up the course tier if all units are tier 3
       if(!flag) {
         newCompletedCourses[completedCourseIndex].tier = 3
       }
     }
 
     // TODO: Update user collection with the newCompletedUnits and newCompletedCourses
+    await User.findByIdAndUpdate(user._id, {
+      completedUnits: newCompletedUnits,
+      completedCourses: newCompletedCourses,
+    })
 
     const newUser = await User.findById(user._id)
       .select('completedLessons lastRewards')
@@ -293,6 +315,7 @@ export default async function (req, res) {
     })
 
   } catch(error) {
+    console.log(error)
     res.status(400).json({message: error.message})
   }
 }
