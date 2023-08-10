@@ -8,7 +8,7 @@ import '../../../models/lessonModel'
 
 /**
  * @desc    Get units for unit selection
- * @route   GET /api/learn/lesson
+ * @route   GET /api/learn/lessons
  * @access  Private - Students
  */
 export default async function (req, res) {
