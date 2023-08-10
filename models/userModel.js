@@ -132,7 +132,7 @@ const userSchema = new Schema(
     },
     completedCourses: {
       type: [{
-        unit: {
+        course: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Coure',
           required: [true, 'Missing courseId']
@@ -145,7 +145,7 @@ const userSchema = new Schema(
       required: false,
       default: undefined,
     },
-    
+
     lastRewards: {
       type: [{
         type: Date,
