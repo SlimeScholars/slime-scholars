@@ -16,7 +16,7 @@ export default function Play({ loading, user }) {
 	return (
 		<div>
 			<button
-				onClick={console.log(user)}
+				onClick={() => console.log(user)}
 			>
 				Click me to see the information on user (open console to see the console.log)
 			</button>
