@@ -78,7 +78,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      { loading ? <Spinner /> : <></>}
+      {loading ? <Spinner /> : <></>}
       <div className={loading ? 'hidden' : ''}>
         <Component {...modifiedPageProps} />
       </div>
