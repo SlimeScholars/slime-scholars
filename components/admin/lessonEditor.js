@@ -11,7 +11,6 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
   const onSave = () => {
     try {
       const token = localStorage.getItem("jwt");
-
       // Set the authorization header
       const config = {
         headers: {

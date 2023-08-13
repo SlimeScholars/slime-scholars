@@ -13,6 +13,7 @@ export default function LessonPreview({
   maxQuizSectionNumber,
   setMaxQuizSectionNumber,
 }) {
+  console.log(lesson);
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
     if (parseInt(number) < 0) {
@@ -174,6 +175,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
                   moveSection={moveSection}
+                  active={false}
                 />
               );
             case 1:
@@ -185,6 +187,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
                   moveSection={moveSection}
+                  active={false}
                 />
               );
             case 2:
@@ -196,6 +199,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
                   moveSection={moveSection}
+                  active={false}
                 />
               );
             case 3:
@@ -208,6 +212,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeSectionNumber}
                   deleteSection={deleteSection}
                   moveSection={moveSection}
+                  active={false}
                 />
               );
             default:
@@ -228,6 +233,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeQuizSectionNumber}
                   deleteSection={deleteQuizSection}
                   moveSection={moveQuizSection}
+                  active={false}
                 />
               );
             case 1:
@@ -239,6 +245,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeQuizSectionNumber}
                   deleteSection={deleteQuizSection}
                   moveSection={moveQuizSection}
+                  active={false}
                 />
               );
             case 2:
@@ -250,6 +257,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeQuizSectionNumber}
                   deleteSection={deleteQuizSection}
                   moveSection={moveQuizSection}
+                  active={false}
                 />
               );
             case 3:
@@ -262,6 +270,7 @@ export default function LessonPreview({
                   changeSectionNumber={changeQuizSectionNumber}
                   deleteSection={deleteQuizSection}
                   moveSection={moveQuizSection}
+                  active={false}
                 />
               );
             default:
