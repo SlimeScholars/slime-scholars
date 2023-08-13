@@ -19,8 +19,7 @@ export default function MCSection({
   };
 
   return (
-    !active ||
-    (sectionNumber >= section.sectionNumber && (
+    (!active || sectionNumber >= section.sectionNumber) && (
       <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
         {!active && (
           <Controls
@@ -53,6 +52,6 @@ export default function MCSection({
           )}
         </div>
       </div>
-    ))
+    )
   );
 }
