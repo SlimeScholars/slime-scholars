@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Navbar from "../../components/play/Navbar";
+import { Navbar } from "../../components/play/Navbar";
 
 export default function Play({ loading, user }) {
   const router = useRouter();
@@ -17,7 +17,7 @@ export default function Play({ loading, user }) {
 
   return (
     <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
-      <Navbar />
+      <Navbar current="0"></Navbar>
       {/* slimes */}
       <div className="flex flex-row space-x-56 h-100 w-100 absolute bottom-10 left-44 opacity-100 z-0">
         <div className="flex flex-col justify-center">
