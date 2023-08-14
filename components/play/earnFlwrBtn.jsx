@@ -10,10 +10,19 @@ Bg Color:
 
 export default function EarnFlwrBtn() {
     return (
-        <button id="earnFlwr" onClick = {
+        <button id="earnFlwr" 
+            className="font-galindo"
+            onClick = {
             () => function() {
                 return (
-                    <a href="TODO"></a>
+                    <a
+                        href={"/earn_flowers"}
+                        className={
+                        "text-xl font-bold py-3 px-8 mx-2 rounded-lg duration-300 hover:scale-105 ease-in-out " +
+                        styleClass
+                        }
+                    >
+                    </a>
                 )
             }
         }>
