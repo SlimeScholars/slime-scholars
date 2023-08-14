@@ -1,4 +1,5 @@
 import React from "react";
+import EarnFlwrBtn from '../../components/play/earnFlwrBtn';
 
 const Navbar = () => {
   return (
