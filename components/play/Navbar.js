@@ -2,7 +2,12 @@ import React from "react";
 import EarnFlwrBtn from './earnFlwrBtn';
 import { useRouter } from "next/router"
 
-const Navbar = () => {
+/*
+Parameter:
+  current: the id of the web page that the user is currently on
+*/
+
+export function Navbar(props) {
 
   const types = [
     { title: 'shopping', id: 1},
@@ -12,16 +17,12 @@ const Navbar = () => {
   ]
 
   const router = useRouter()
-
-  function handleClick(e, title) {
-    e.preventDedault()
-    router.push("/play/"+title)
-  }
+  const current_id = parseInt(props.current, 10)
 
   return (
     <div className="flex flex-row items-center justify-between p-5">
       {/* earn flowers button */}
-      <div className="p-8 bg-red-300 hover:bg-red-300/75">
+      <div className="p-8 bg-red-300 hover:bg-red-300/75 rounded">
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
@@ -33,9 +34,25 @@ const Navbar = () => {
         {
           types.map(type => {
             const imgLink = "/assets/icons/"+type.title+".png"
+            if (type.id !== current_id) {
             return (
                 <button 
-                    onClick={(e) => handleClick(e, type.title)}
+                    onClick={(e) => {
+                      e.preventDefault()
+                      router.push("/play/"+type.title)
+                    }}
+                    className="p-8 bg-white/50 rounded-full hover:bg-red-300/75"
+                    key = {type.id}>
+                    <img src={imgLink} className="h-14 w-14">
+                    </img>
+                </button>
+            );}
+            return (
+              <button 
+                    onClick={(e) => {
+                      e.preventDefault()
+                      router.push("/play/"+type.title)
+                    }}
                     className="p-8 bg-red-300 rounded-full hover:bg-red-300/75"
                     key = {type.id}>
                     <img src={imgLink} className="h-14 w-14">
@@ -48,5 +65,3 @@ const Navbar = () => {
     </div>
   );
 };
-
-export default Navbar;
