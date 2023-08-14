@@ -1,11 +1,12 @@
-import {useEffect} from "react";
-import {useRouter} from "next/router";
-import {Navbar} from "../../components/play/Navbar";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
+import { Navbar } from "../../components/play/Navbar";
 import axios from "axios";
 
 export default function Friends({ loading, user }) {
     const router = useRouter();
 
+    /*
     axios.post('/slimes', {
         
     }
@@ -16,12 +17,14 @@ export default function Friends({ loading, user }) {
     .catch((error) => {
         console.error(error.message);
     })
+    */
 
     useEffect(() => {
-        if (loading) {return;}
+        if (loading) { return; }
         if (!user || user.userType !== 1) {
             router.push("/");
         }
+        console.log(user)
     }, [user, loading]);
 
     return (
@@ -36,7 +39,7 @@ export default function Friends({ loading, user }) {
                     <div className="grow-0 pl-4">
                         <img src="/assets/icons/friends.png" className="h-20 w-20"></img>
                     </div>
-                    <div  className="grow pl-4 font-galindo text-xl">
+                    <div className="grow pl-4 font-galindo text-xl">
                         Friends
                     </div>
                     <div className="grow-0 flex grow pr-4">
