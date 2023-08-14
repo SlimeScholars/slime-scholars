@@ -16,7 +16,7 @@ export default function Play({ loading, user }) {
   }, [user, loading]);
 
   return (
-    <div className="w-screen h-screen bg-[url('/assets/backgrounds/bg-beach.png')]">
+    <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
       <Navbar />
       {/* slimes */}
       <div className="flex flex-row space-x-56 h-100 w-100 absolute bottom-10 left-44 opacity-100 z-0">

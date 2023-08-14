@@ -8,13 +8,17 @@ Bg Color:
     Blue: 136
 */
 
-export default function earnFlwrBtn() {
-
+export default function EarnFlwrBtn() {
     return (
-        <button className={
-            "pink-bg sqr-btn lg-btn"
+        <button id="earnFlwr" onClick = {
+            () => function() {
+                return (
+                    <a href="TODO"></a>
+                )
+            }
         }>
+            Earn Flowers
             
         </button>
-    )
+    );
 }
