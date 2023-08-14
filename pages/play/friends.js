@@ -1,9 +1,21 @@
 import {useEffect} from "react";
 import {useRouter} from "next/router";
 import {Navbar} from "../../components/play/Navbar";
+import axios from "axios";
 
 export default function Friends({ loading, user }) {
     const router = useRouter();
+
+    axios.post('/slimes', {
+        
+    }
+    )
+    .then((response)=>{
+        console.log(response)
+    })
+    .catch((error) => {
+        console.error(error.message);
+    })
 
     useEffect(() => {
         if (loading) {return;}
