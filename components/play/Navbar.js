@@ -1,5 +1,6 @@
 import React from "react";
-import EarnFlwrBtn from '../../components/play/earnFlwrBtn';
+import EarnFlwrBtn from './earnFlwrBtn';
+import { useRouter } from "next/router"
 
 const Navbar = () => {
 
@@ -9,6 +10,13 @@ const Navbar = () => {
     { title: 'slimes', id: 3},
     { title: 'backpack', id: 4}
   ]
+
+  const router = useRouter()
+
+  function handleClick(e, title) {
+    e.preventDedault()
+    router.push("/play/"+title)
+  }
 
   return (
     <div className="flex flex-row items-center justify-between p-5">
@@ -27,8 +35,9 @@ const Navbar = () => {
             const imgLink = "/assets/icons/"+type.title+".png"
             return (
                 <button 
-                    onClick="../courses/index"
-                    className="p-8 bg-red-300 rounded-full hover:bg-red-300/75">
+                    onClick={(e) => handleClick(e, type.title)}
+                    className="p-8 bg-red-300 rounded-full hover:bg-red-300/75"
+                    key = {type.id}>
                     <img src={imgLink} className="h-14 w-14">
                     </img>
                 </button>

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
-import Navbar from "./Navbar";
+import Navbar from "../../components/play/Navbar";
 
 export default function Play({ loading, user }) {
   const router = useRouter();
