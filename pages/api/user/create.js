@@ -19,7 +19,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  */
 export default async function handler(req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -29,19 +29,19 @@ export default async function handler(req, res) {
     // TODO: Get rid of the parse on the actual version
     const userType = parseInt(req.body.userType)
     const {
-        password,
-        firstName,
-        lastName,
-        username,
-        honorific,
-        email,
-        parentEmail,
+      password,
+      firstName,
+      lastName,
+      username,
+      honorific,
+      email,
+      parentEmail,
     } = req.body
 
-    if(!userType) {
+    if (!userType) {
       throw new Error('Missing user type')
     }
-    if(userType !== 1 && userType !== 2 && userType !== 3) {
+    if (userType !== 1 && userType !== 2 && userType !== 3) {
       throw new Error('Invalid user type')
     }
 
@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     verifyName(lastName)
     verifyPassword(password)
 
-    if(userType === 2 || userType === 3) {
+    if (userType === 2 || userType === 3) {
       verifyHonorific(honorific)
     }
 
@@ -66,11 +66,11 @@ export default async function handler(req, res) {
       const lowercaseEmail = email.toLowerCase()
 
       // Make sure email is not already used
-      const userExists = await User.findOne({ email: lowercaseEmail }, {password: 0})
+      const userExists = await User.findOne({ email: lowercaseEmail }, { password: 0 })
       if (userExists) {
         throw new Error('Email already used')
       }
- 
+
       // Parent registration
       if (userType === 2) {
         // Create parent (if there is no honorific, it will be undefined and not added to MongoDb)
@@ -96,7 +96,7 @@ export default async function handler(req, res) {
       }
 
       // Teacher registration
-      else if(userType === 3) {
+      else if (userType === 3) {
         // Create teacher (if there is no honorific, it will be undefined and not added to MongoDb)
         const user = await User.create({
           userType,
@@ -122,7 +122,7 @@ export default async function handler(req, res) {
 
     // Student account creation
     else if (userType === 1) {
-      if(!email && !parentEmail) {
+      if (!email && !parentEmail) {
         throw new Error('Must have either an email or parent email')
       }
 
@@ -131,19 +131,19 @@ export default async function handler(req, res) {
 
       // Make sure username is not taken
       const usernameRegex = new RegExp(`^${username}$`, 'i')
-      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
+      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, { password: 0 })
       if (userExists) {
         throw new Error('Username is taken')
       }
 
       // Creating student with email
       let lowercaseEmail
-      if(email) {
+      if (email) {
         verifyEmail(email)
         lowercaseEmail = email.toLowerCase()
 
         // Make sure email is not taken
-        const emailInUse = await User.findOne({ email: lowercaseEmail }, {password: 0})
+        const emailInUse = await User.findOne({ email: lowercaseEmail }, { password: 0 })
         if (emailInUse) {
           throw new Error('Email already used')
         }
@@ -152,14 +152,14 @@ export default async function handler(req, res) {
       // Creating student with parent email
       let parent
       let lowercaseParentEmail
-      if(parentEmail) {
+      if (parentEmail) {
         lowercaseParentEmail = parentEmail.toLowerCase()
         // Make sure that the parent email is a registered parent
-        parent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
+        parent = await User.findOne({ email: lowercaseParentEmail }, { password: 0 })
         if (!parent) {
           throw new Error('Parent email not found. Please tell your parent to register.')
         }
-        if(parent.userType !== 2) {
+        if (parent.userType !== 2) {
           throw new Error('The user with that email is not a parent')
         }
       }
@@ -174,7 +174,7 @@ export default async function handler(req, res) {
         email: lowercaseEmail,
         parent,
         classes: [],
-        
+
         friends: [],
         receivedFriendRequests: [],
         sentFriendRequests: [],
@@ -185,6 +185,8 @@ export default async function handler(req, res) {
 
         slimeGel: 0,
         flowers: 0,
+        exp: 0,
+
         slimes: [],
         roster: [null, null, null, null],
         items: [],
@@ -201,9 +203,9 @@ export default async function handler(req, res) {
         .exec()
       // No need to populate other things like friends, slime, class and roster because it's empty
 
-      if(parent) {
+      if (parent) {
         parent.students.push(user._id)
-        await User.findByIdAndUpdate(parent._id, {students: parent.students})
+        await User.findByIdAndUpdate(parent._id, { students: parent.students })
       }
 
       if (user) {
@@ -218,6 +220,6 @@ export default async function handler(req, res) {
     // If failed to create user
     throw new Error('Failed to create user')
   } catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
