@@ -163,22 +163,26 @@ const userSchema = new Schema(
       type: Number,
       required: false,
     },
+    exp: {
+      type: Number,
+      required: false,
+    },
 
     slimes: {
       type: [{
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Slime',
-          required: [true, 'Missing slimeId'],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Slime',
+        required: [true, 'Missing slimeId'],
       }],
       required: false,
       default: undefined,
     },
     roster: {
       type: [{
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Slime',
-          required: false,
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Slime',
+        required: false,
+      }
       ],
       required: false,
       default: undefined,
