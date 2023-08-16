@@ -6,7 +6,6 @@ import Spinner from "../components/spinner";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [roster, setRoster] = useState();
   const modifiedPageProps = { ...pageProps, user, setUser, loading, setLoading }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -30,10 +29,8 @@ function MyApp({ Component, pageProps }) {
         if (response.data && response.data.user) {
           setUser(response.data.user);
           if (response.data.user.userType === 1) {
-            fetchRoster(token);
-          } else {
-            setLoading(false);
           }
+          setLoading(false);
         }
       })
       .catch(() => {
