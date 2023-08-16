@@ -12,7 +12,7 @@ import User from '../../../../models/userModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -28,26 +28,26 @@ export default async function (req, res) {
     const { friendId } = req.body
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
-    if(user._id.equals(friendIdObj)) {
+    if (user._id.equals(friendIdObj)) {
       throw new Error('Cannot friend yourself')
     }
 
-    const simpleUser = await User.findById(user._id, {password: 0})
-    const friend = await User.findById(friendId, {password: 0})
+    const simpleUser = await User.findById(user._id, { password: 0 })
+    const friend = await User.findById(friendId, { password: 0 })
 
-    if(!friend) {
+    if (!friend) {
       throw new Error('Cannot find user of that id')
     }
 
-    if(friend.userType !== 1) {
+    if (friend.userType !== 1) {
       throw new Error('You can only friend students')
     }
 
-    if(simpleUser.friends.includes(friendIdObj)) {
+    if (simpleUser.friends.includes(friendIdObj)) {
       throw new Error(`You are already friends with ${friend.username}`)
     }
 
-    if(!simpleUser.receivedFriendRequests.includes(friendIdObj)) {
+    if (!simpleUser.receivedFriendRequests.includes(friendIdObj)) {
       throw new Error(`Did not receive friend request from ${friend.username}`)
     }
 
@@ -78,7 +78,10 @@ export default async function (req, res) {
       })
       .populate({
         path: 'friends',
-        select: '_id userType username',
+        select: '-password -createdAt -updatedAt -__v',
+        options: {
+          sort: { exp: -1 }
+        }
       })
       .exec()
 
@@ -86,7 +89,7 @@ export default async function (req, res) {
       receivedFriendRequests: newUser.receivedFriendRequests,
       friends: newUser.friends,
     })
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }
