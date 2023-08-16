@@ -80,19 +80,24 @@ export const gameData = {
     Common: [
       {
         slimeName: "Red Slime",
+        pfp: 'slime-red.png'
       },
       {
         slimeName: "Blue Slime",
+        pfp: 'slime-blue.png'
       },
     ],
     Uncommon: [
       {
         slimeName: "Puppy Slime",
+        pfp: 'puppy-slime.png'
       },
     ],
     Rare: [
       {
         slimeName: "Mochi Slime",
+        // TODO: Write pfps
+        pfp: ''
       },
     ],
     Epic: [
