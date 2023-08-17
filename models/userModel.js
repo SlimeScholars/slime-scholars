@@ -219,6 +219,14 @@ const userSchema = new Schema(
           type: Number,
           required: false,
         },
+        pfp: {
+          type: String,
+          required: false,
+        },
+        background: {
+          type: String,
+          required: false,
+        },
       }],
       required: false,
       default: undefined,
