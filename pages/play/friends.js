@@ -1,16 +1,31 @@
-import {useEffect} from "react";
-import {useRouter} from "next/router";
-import {Navbar} from "../../components/play/Navbar";
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useRouter } from "next/router";
+import { Navbar } from "../../components/play/Navbar";
+import { Leaderboard } from "../../components/play/Leaderboard";
 import axios from "axios";
 
 export default function Friends({ loading, user }) {
     const router = useRouter();
 
+    const friendsOnClick = {
+        friendsClassName: "pr-4 bg-red-200 rounded-full",
+        playersClassName: "rounded-full"
+    };
+    const playersOnClick = {
+        friendsClassName: "rounded-full",
+        playersClassName: "pr-4 bg-red-200 rounded-full"
+    }
+
+    const [switchBtn, setSwitchBtn] = useState(friendsOnClick);
+    const [currentType, setCurrentType] = useState("friends");
+
     useEffect(() => {
-        if (loading) {return;}
+        if (loading) { return; }
         if (!user || user.userType !== 1) {
             router.push("/");
         }
+        console.log(user)
     }, [user, loading]);
 
     return (
@@ -52,8 +67,40 @@ export default function Friends({ loading, user }) {
                         </div>
                     </div>
                 </div>
-            </div>
-            
+
+                {/* Default: leaderboard and managing friends */}
+                <div className="pt-8 flex flex-row items-center font-galindo">
+
+                    {/* Leaderboard */}
+                    <div className="pr-4 basis-1/2 ">
+                        <div className="bg-white/75 rounded-lg">
+                            <Leaderboard userFriends={user.friends}/>
+                        </div>
+                        
+                    </div>
+
+                    {/* Manage Friends */}
+                    <div className="basis-1/2 bg-white/75 rounded-lg">
+                        <div className="p-8 flex flex-row">
+                            <div className="grow text-xl">
+                                Manage Friends
+                            </div>
+
+                            <div className="grow-0">
+                                <div className="rounded-full border-4 border-red-200">
+                                    <button data-name="friends" className="p-4" >
+                                        Friends
+                                    </button>
+                                    <button data-name="all_players" className="p-4">
+                                        All players
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>            
         </div>
     );
 }
