@@ -213,11 +213,11 @@ const userSchema = new Schema(
         },
         sellPrice: {
           type: Number,
-          required: [true, 'Missing sellPrice'],
+          required: false,
         },
         sellCurrency: {
           type: Number,
-          required: [true, 'Missing sellCurrency'],
+          required: false,
         },
       }],
       required: false,

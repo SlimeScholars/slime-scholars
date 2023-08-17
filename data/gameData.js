@@ -8,7 +8,10 @@ export const gameData = {
     // "Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
     // "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },
+
   items: {
+    // TODO: Write prices and currency
+    // Eggs
     "Slime Egg": {
       itemName: "Slime Egg",
       rarity: "Rare",
@@ -17,6 +20,7 @@ export const gameData = {
       buyCurrency: 1,
       sellCurrency: 1
     },
+    /*
     "Rotten Egg": {
       itemName: "Rotten Egg",
       rarity: "Uncommon",
@@ -24,7 +28,18 @@ export const gameData = {
       sellPrice: 1,
       buyCurrency: 0,
       sellCurrency: 0
-    }
+    },
+    */
+
+    // Backgrounds
+    // TODO: Write bgs
+    "Forest Mountains": {
+      itemName: "Forest Mountains",
+      rarity: "Rare",
+      pfp: 'forest-mountains.png',
+      buyPrice: 1,
+      buyCurrency: 0,
+    },
   },
 
   baseProduction: {
@@ -161,12 +176,4 @@ export const gameData = {
       },
     ]
   },
-
-  // Background data
-  backgrounds: {
-    // TODO: Write bgs
-    "Forest Mountains": {
-      pfp: 'forest-mountains.png',
-    },
-  }
 }
