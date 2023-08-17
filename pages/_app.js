@@ -28,6 +28,8 @@ function MyApp({ Component, pageProps }) {
       .then((response) => {
         if (response.data && response.data.user) {
           setUser(response.data.user);
+          if (response.data.user.userType === 1) {
+          }
           setLoading(false);
         }
       })
