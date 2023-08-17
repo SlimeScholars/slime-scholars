@@ -41,29 +41,6 @@ function MyApp({ Component, pageProps }) {
       });
   };
 
-  const fetchRoster = (token) => {
-    // Set the authorization header
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios
-      .get("/api/slime", config)
-      .then((response) => {
-        if (response.data && response.data.roster) {
-          setRoster(response.data.roster);
-          console.log(response.data.roster);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error(error);
-        setLoading(false);
-      });
-  };
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const token = localStorage.getItem("jwt");
