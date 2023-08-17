@@ -161,4 +161,12 @@ export const gameData = {
       },
     ]
   },
+
+  // Background data
+  backgrounds: {
+    // TODO: Write bgs
+    "Forest Mountains": {
+      pfp: 'forest-mountains.png',
+    },
+  }
 }
