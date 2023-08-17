@@ -2,6 +2,8 @@ import { verifyName, verifyUsername, verifyPassword, verifyHonorific, verifyEmai
 import { generateToken } from '../../../utils/generateToken'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
+import Slime from "../../../models/slimeModel"
+import { gameData } from "../../../data/gameData"
 const bcrypt = require('bcryptjs')
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
 
@@ -190,11 +192,32 @@ export default async function handler(req, res) {
         flowers: 0,
         exp: 0,
 
-        slimes: [],
         roster: [null, null, null, null],
-        items: [],
+        items: [
+          {
+            itemName: "Forest Mountains",
+            rarity: "Rare",
+            quantity: 1,
+            pfp: 'forest-mountains.png',
+            background: 'forest-mountains.png',
+          },
+        ],
         lastRewards: [0, 0],
       }))._id
+
+      // Create a blue slime
+      const slimeId = (await Slime.create({
+        user: userId,
+        slimeName: 'Blue Slime',
+        rarity: 'Common',
+        maxLevel: gameData.maxLevel['Common'],
+        baseProduction: gameData.baseProduction['Common'],
+        levelUpCost: gameData.levelUpCost['Common'][0],
+      }))._id
+
+      await User.findByIdAndUpdate(userId, {
+        slimes: [slimeId]
+      })
 
       const user = await User.findById(userId, {
         password: 0, createdAt: 0, updatedAt: 0, __v: 0
@@ -202,6 +225,10 @@ export default async function handler(req, res) {
         .populate({
           path: 'parent',
           select: '_id userType firstName lastName honorific email',
+        })
+        .populate({
+          path: 'slimes',
+          select: '-user -createdAt -updatedAt -__v',
         })
         .exec()
       // No need to populate other things like friends, slime, class and roster because it's empty
