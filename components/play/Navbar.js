@@ -20,9 +20,9 @@ export function Navbar(props) {
   const current_id = parseInt(props.current, 10)
 
   return (
-    <div className="flex flex-row items-center justify-between p-5">
+    <div className="flex flex-row items-center justify-between">
       {/* earn flowers button */}
-      <div className="p-8 bg-red-300 hover:bg-red-300/75 rounded">
+      <div className="p-8 bg-red-300 hover:bg-red-300/75 rounded text-lg">
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
