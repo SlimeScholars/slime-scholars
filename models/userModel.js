@@ -155,6 +155,15 @@ const userSchema = new Schema(
       default: undefined,
     },
 
+    pfpSlime: {
+      type: String,
+      required: false,
+    },
+    pfpBg: {
+      type: String,
+      required: false,
+    },
+
     slimeGel: {
       type: Number,
       required: false,
