@@ -1,13 +1,12 @@
-export default function LeadboardListing({users}) {
+export default function LeadboardListing({ users }) {
 
     return (
         <div className="overflow-auto" id="friends-listing">
             {
-                users.map((user) => {
-                    cnt += 1;
+                users.map((user, index) => {
                     return (
                         <div className="flex flex-row items-center">
-                            <div className="grow-0 px-4">{cnt-1}</div>
+                            <div className="grow-0 px-4">{index + 1}</div>
                             <div className="grow-0 rounded-full">
                                 <img> /* TODO */</img>
                             </div>

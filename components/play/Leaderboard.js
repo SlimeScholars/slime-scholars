@@ -1,8 +1,8 @@
+import React from "react";
+import SwitchButton from "./switchButton";
+import LeadboardListing from "./leadboardListing";
 
-import { switchButton } from "./switchButton";
-import { LeadboardListing } from "./leadboardListing";
-
-export default function Leaderbaord({userFriends}) {
+export function Leaderboard({ userFriends }) {
 
     return (
         <div className="p-8">
@@ -13,12 +13,12 @@ export default function Leaderbaord({userFriends}) {
 
                 <div className="grow-0">
                     <div className="rounded-full border-4 border-red-200">
-                        <switchButton />
+                        <SwitchButton />
                     </div>
                 </div>
             </div>
             <div className="flex flex-col grow">
-                <LeadboardListing userFriends={userFriends}/>
+                <LeadboardListing users={userFriends} />
             </div>
         </div>
     )
