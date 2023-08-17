@@ -183,6 +183,9 @@ export default async function handler(req, res) {
         completedUnits: [],
         completedCourses: [],
 
+        pfpSlime: 'Blue Slime',
+        pfpBg: 'Forest Mountains',
+
         slimeGel: 0,
         flowers: 0,
         exp: 0,
