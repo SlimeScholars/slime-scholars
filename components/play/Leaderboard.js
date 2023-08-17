@@ -1,24 +1,31 @@
-
-import { switchButton } from "./switchButton";
-import { LeadboardListing } from "./leadboardListing";
+import SwitchButton from "./switchButton";
+import LeadboardListing from "./leadboardListing";
+import React, { useState } from "react";
 
 export default function Leaderbaord({userFriends}) {
+    const [currentType, setCurrentType] = useState("friends");
 
     return (
         <div className="p-8">
             <div className="flex flex-col">
-                <div className="grow text-xl">
-                    Leaderboard
-                </div>
-
-                <div className="grow-0">
-                    <div className="rounded-full border-4 border-red-200">
-                        <switchButton />
+                <dvi className="flex flex-row">
+                    <div className="grow text-xl">
+                        Leaderboard
                     </div>
-                </div>
+
+                    <div className="shrink rounded-full border-2 border-red-200">
+                        <SwitchButton 
+                            currentType={currentType}
+                            changeType={ (type) => setCurrentType(type) }
+                        />
+                    </div>
+                </dvi>
             </div>
             <div className="flex flex-col grow">
-                <LeadboardListing userFriends={userFriends}/>
+                <LeadboardListing 
+                    users={userFriends}
+                    currentType={currentType}
+                />
             </div>
         </div>
     )

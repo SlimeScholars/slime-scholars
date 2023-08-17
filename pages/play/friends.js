@@ -1,31 +1,19 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
-import { Leaderboard } from "../../components/play/Leaderboard";
+import Leaderboard from '../../components/play/Leaderboard';
 import axios from "axios";
 
 export default function Friends({ loading, user }) {
     const router = useRouter();
-
-    const friendsOnClick = {
-        friendsClassName: "pr-4 bg-red-200 rounded-full",
-        playersClassName: "rounded-full"
-    };
-    const playersOnClick = {
-        friendsClassName: "rounded-full",
-        playersClassName: "pr-4 bg-red-200 rounded-full"
-    }
-
-    const [switchBtn, setSwitchBtn] = useState(friendsOnClick);
-    const [currentType, setCurrentType] = useState("friends");
+    const [userFriends, setUserFriends] = useState("empty for now");
 
     useEffect(() => {
         if (loading) { return; }
         if (!user || user.userType !== 1) {
             router.push("/");
         }
-        console.log(user)
+        setUserFriends(user.friends);
     }, [user, loading]);
 
     return (
@@ -41,7 +29,7 @@ export default function Friends({ loading, user }) {
                         <div className="grow-0 pl-4">
                             <img src="/assets/icons/friends.png" className="h-20 w-20"></img>
                         </div>
-                        <div  className="grow pl-4 font-galindo text-xl">
+                        <div className="grow pl-4 font-galindo text-xl">
                             Friends
                         </div>
                         <div className="grow-0 flex grow pr-4">
@@ -50,16 +38,14 @@ export default function Friends({ loading, user }) {
                                     const token = localStorage.getItem('jwt');
                                     const config = {
                                         headers: {
-                                        Authorization: `Bearer ${token}`,
+                                            Authorization: `Bearer ${token}`,
                                         },
                                     };
                                     axios.post('/api/slime/level-up', {
                                     }, config)
                                     .then((response)=>{
-                                        console.log(response)
                                     })
                                     .catch((error) => {
-                                        console.error(error.message);
                                     })
                                 }}>
                                 Add Friends
@@ -74,9 +60,8 @@ export default function Friends({ loading, user }) {
                     {/* Leaderboard */}
                     <div className="pr-4 basis-1/2 ">
                         <div className="bg-white/75 rounded-lg">
-                            <Leaderboard userFriends={user.friends}/>
+                            <Leaderboard userFriends={userFriends}/>
                         </div>
-                        
                     </div>
 
                     {/* Manage Friends */}
