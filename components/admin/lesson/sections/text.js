@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Controls from "../controls";
 import ReactHtmlParser from "react-html-parser";
-import { showToastMessage } from "../../../../utils/verify";
+import { showToastError } from "../../../../utils/toast";
 
 export default function TextSection({
   text,
@@ -18,7 +18,7 @@ export default function TextSection({
     try {
       setParsedText(ReactHtmlParser(text));
     } catch (error) {
-      showToastMessage("Parsing error");
+      showToastError("Parsing error");
     }
   }, [text]);
   return (

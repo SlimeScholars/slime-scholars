@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Back from "../components/signup/back";
 
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../utils/showToastMessage";
+import { showToastError } from "../utils/toast";
 
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -25,11 +25,11 @@ export default function Login({ loading, user, setUser }) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!accountIdentifier) {
-      showToastMessage("Username/email cannot be left blank");
+      showToastError("Username/email cannot be left blank");
       return;
     }
     if (!password) {
-      showToastMessage("Password cannot be left blank");
+      showToastError("Password cannot be left blank");
       return;
     }
     axios
@@ -46,7 +46,7 @@ export default function Login({ loading, user, setUser }) {
           error.response.data &&
           error.response.data.message
         ) {
-          showToastMessage(error.response.data.message);
+          showToastError(error.response.data.message);
         }
       });
   };

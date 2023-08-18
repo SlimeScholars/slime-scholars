@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastError } from "../../utils/toast";
 
 export default function UnitEditor({ unit, setUnit, setLoading }) {
   const [unitName, setUnitName] = useState(unit.unitName);
@@ -21,7 +21,7 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
       setLoading(true)
 
       axios
-        .put("/api/admin/unit/update-name", {unitId: unit._id, unitName}, config)
+        .put("/api/admin/unit/update-name", { unitId: unit._id, unitName }, config)
         .then((response) => {
           if (response.data && response.data.unit) {
             setUnit(response.data.unit);
@@ -29,12 +29,12 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           }
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          showToastError(error.message)
           setLoading(false);
         });
-      
+
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   }
@@ -54,7 +54,7 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
       const lessonNumber = unit.lessons.length + 1
 
       axios
-        .post("/api/admin/lesson/create", {unitId: unit._id, lessonNumber}, config)
+        .post("/api/admin/lesson/create", { unitId: unit._id, lessonNumber }, config)
         .then((response) => {
           if (response.data && response.data.unit) {
             const newUnit = response.data.unit
@@ -63,12 +63,12 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           }
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          showToastError(error.message)
           setLoading(false);
         });
-      
+
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   }
@@ -104,7 +104,7 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
         <Link
           href={{
             pathname: "/admin/edit-unit-test/",
-            query: {unitId: unit._id}
+            query: { unitId: unit._id }
           }}
           target="_blank"
         >

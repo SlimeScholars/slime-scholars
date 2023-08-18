@@ -13,7 +13,7 @@ import {
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/showToastMessage";
+import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 import { useRouter } from "next/router";
@@ -51,7 +51,7 @@ export default function Student({ loading, user, setUser }) {
         throw new Error("Passwords do not match");
       }
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
     axios
@@ -75,7 +75,7 @@ export default function Student({ loading, user, setUser }) {
           error.response.data &&
           error.response.data.message
         ) {
-          showToastMessage(error.response.data.message);
+          showToastError(error.response.data.message);
         }
       });
   };
