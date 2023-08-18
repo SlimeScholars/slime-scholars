@@ -104,7 +104,7 @@ export const gameData = {
       pfp: 'grey-slime.png',
     },
     "Orange Slime": {
-      "Orange Slime",
+      slimeName: "Orange Slime",
       pfp: 'orange-slime.png'
     },
     "Pink Slime": {
