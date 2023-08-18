@@ -13,20 +13,20 @@ import {
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastMessage } from "../../utils/showToastMessage";
 
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function Student({loading, user, setUser}) {
+export default function Student({ loading, user, setUser }) {
   const router = useRouter()
 
   useEffect(() => {
-    if(loading) {
+    if (loading) {
       return
     }
-    if(user) {
+    if (user) {
       router.push('/')
     }
   }, [loading, user])

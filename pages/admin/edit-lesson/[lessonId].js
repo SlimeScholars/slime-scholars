@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LessonPreview from "../../../components/admin/lesson/preview";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../../utils/verify";
+import { showToastMessage } from "../../../utils/showToastMessage";
 import axios from "axios";
 
 const sampleLesson = {
