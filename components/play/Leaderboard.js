@@ -4,8 +4,6 @@ import React, { useState } from "react";
 
 export default function Leaderbaord({ userFriends, allPlayers }) {
     const [currentType, setCurrentType] = useState("friends");
-    console.log(userFriends);
-    console.log(allPlayers);
     return (
         <div className="p-8">
             <div className="flex flex-col">
@@ -22,7 +20,7 @@ export default function Leaderbaord({ userFriends, allPlayers }) {
                     </div>
                 </dvi>
             </div>
-            <div className="flex flex-col grow">
+            <div className="flex flex-col grow pt-8">
                 {
                     currentType==="friends"? (
                         <LeadboardListing 
@@ -31,7 +29,7 @@ export default function Leaderbaord({ userFriends, allPlayers }) {
                         />
                     ) : (
                         <LeadboardListing 
-                            users={allPlayers.leaderboard}
+                            users={allPlayers}
                             currentType={currentType}
                         />
                     )
