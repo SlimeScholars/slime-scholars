@@ -4,7 +4,7 @@ import Course from "../../components/admin/course";
 import { useRouter } from "next/router";
 
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/showToastMessage";
+import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
 export default function editCourse({ user, loading, setLoading }) {
@@ -49,7 +49,7 @@ export default function editCourse({ user, loading, setLoading }) {
         }
       })
       .catch((error) => {
-        showToastMessage(error.message)
+        showToastError(error.message)
         setLoading(false);
       });
 
@@ -82,12 +82,12 @@ export default function editCourse({ user, loading, setLoading }) {
           }
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          showToastError(error.message)
           setLoading(false);
         });
 
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   }

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LessonPreview from "../../../components/admin/lesson/preview";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../../utils/showToastMessage";
+import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 
 const sampleLesson = {
@@ -156,7 +156,7 @@ export default function EditLesson({ user, loading, setLoading }) {
         }
       })
       .catch((error) => {
-        showToastMessage(error.message);
+        showToastError(error.message);
         setLoading(false);
       });
   }, [router.query.lessonId]);
@@ -183,7 +183,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const addMC = () => {
     if (mc.every((option) => option.option.length === 0 || !option.correct)) {
-      showToastMessage(
+      showToastError(
         "You must have at least one option and one correct option."
       );
       return;
@@ -221,7 +221,7 @@ export default function EditLesson({ user, loading, setLoading }) {
   const onMCClick = (event, index) => {
     event.preventDefault();
     if (mc[index].option.length === 0) {
-      showToastMessage("Enter some text first.");
+      showToastError("Enter some text first.");
       return;
     }
     let newMC = [...mc];
@@ -231,7 +231,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const addFB = () => {
     if (blank.blank.length === 0) {
-      showToastMessage("Answer is required.");
+      showToastError("Answer is required.");
       return;
     }
     let newFB = {
@@ -258,7 +258,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const addImage = () => {
     if (!image) {
-      showToastMessage("Image is required.");
+      showToastError("Image is required.");
       return;
     }
     let newImage = {
@@ -378,7 +378,7 @@ export default function EditLesson({ user, loading, setLoading }) {
             }
             setMaxQuizSectionNumber(newMax);
             setLesson(newLesson);
-            showToastMessage("Lesson updated successfully.", true);
+            showToastError("Lesson updated successfully.", true);
           }
           setLoading(false);
         })
@@ -389,15 +389,15 @@ export default function EditLesson({ user, loading, setLoading }) {
             error.response.data &&
             error.response.data.message
           ) {
-            showToastMessage(error.response.data.message);
+            showToastError(error.response.data.message);
           } else {
-            showToastMessage(error.message);
+            showToastError(error.message);
           }
           setLoading(false);
         });
     } catch (error) {
       setLoading(false);
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   };
