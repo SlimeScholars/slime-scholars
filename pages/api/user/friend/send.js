@@ -63,7 +63,7 @@ export default async function (req, res) {
       friend.friends.push(user._id)
 
       // Delete friend requests
-      simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element != friendIdObj)
+      simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element != friendId)
       friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element != simpleUser._id)
 
       // Update
