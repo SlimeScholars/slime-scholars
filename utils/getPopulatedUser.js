@@ -2,7 +2,7 @@ import User from '../models/userModel'
 import '../models/slimeModel'
 import { getPopulatedRoster } from './getPopulatedRoster'
 
-export const getPopulatedUser = async(userId) => {
+export const getPopulatedUser = async (userId) => {
   const user = await User.findById(userId, {
     password: 0, createdAt: 0, updatedAt: 0, __v: 0
   })
@@ -13,7 +13,10 @@ export const getPopulatedUser = async(userId) => {
     // TODO: Add profile picture, badges, score, etc.
     .populate({
       path: 'friends',
-      select: '_id userType username',
+      select: '-password -createdAt -updatedAt -__v',
+      options: {
+        sort: { exp: -1 }
+      }
     })
     .populate({
       path: 'receivedFriendRequests',
@@ -32,7 +35,7 @@ export const getPopulatedUser = async(userId) => {
       select: '-user -createdAt -updatedAt -__v',
     })
     .exec()
-  
+
   // Duplicate user so that it can be editted
   const modifiedUser = {
     ...user.toJSON(),

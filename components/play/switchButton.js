@@ -1,51 +1,35 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function SwitchButton() {
+export default function SwitchButton({ currentType, changeType }) {
 
-    const onSwitchBtnPressed = () => {
-        try {
-            const token = localStorage.getItem("jwt");
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`, 
-                },
-            };
-    
-            let playersListings = {};
-            const pathPlayers = "/api/user/leaderboard";
-    
-            axios.get(pathPlayers, config)
-            .then((response) => {
-                playersListings = response.data;
-            
-            })
-            .catch((error) => {console.log(error.message)});
-        } catch (error) {
-            setLoading(false);
-        }
-    }
+    const friendsOnClick = {
+        friendsClassName: "pr-4 bg-red-200 rounded-full p-1",
+        playersClassName: "rounded-full p-1"
+    };
+    const playersOnClick = {
+        friendsClassName: "rounded-full p-1",
+        playersClassName: "pr-4 bg-red-200 rounded-full p-1"
+    };
 
-    // Change background for the button clicked
-    function handleClick(e) {
-
-        // Switch button bg
-        if (currentType == "friends") {
-            setSwitchBtn(playersOnClick);
-            setCurrentType("players");
-            // Switch listing details
-            //onSwitchBtnPressed();
-        } else {
-            setSwitchBtn(friendsOnClick);
-            setCurrentType("friends");
-            //onSwitchBtnPressed();
-        }
-    }
+    const [switchBtn, setSwitchBtn] = useState(friendsOnClick);
 
     return (
-        <button className="p-4" key="switch-1" 
-            onClick={(e) => handleClick(e)}
-            data-current="friends">
+        <button className="grid grid-cols-2"
+            onClick={() => {
+
+                if (currentType === "friends") {
+                    // Change bg
+                    setSwitchBtn(playersOnClick);
+
+                    // Defer currentType change to upper level (Leaderboard)
+                    changeType("players");
+
+                } else {
+                    setSwitchBtn(friendsOnClick);
+                    changeType("friends");
+                }
+            }}>
             <div className={switchBtn.friendsClassName}>Friends</div>
             <div className={switchBtn.playersClassName}>All Players</div>
         </button>
