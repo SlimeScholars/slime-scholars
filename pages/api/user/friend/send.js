@@ -4,6 +4,7 @@ import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import User from '../../../../models/userModel'
 import { NestedMiddlewareError } from 'next/dist/build/utils'
+import { getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
 
 /**
  * @desc    Send a friend request
@@ -62,8 +63,8 @@ export default async function (req, res) {
       friend.friends.push(user._id)
 
       // Delete friend requests
-      simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element == friendIdObj)
-      friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element == simpleUser._id)
+      simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element != friendId)
+      friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element != simpleUser._id)
 
       // Update
       await User.findByIdAndUpdate(user._id, {
@@ -78,21 +79,29 @@ export default async function (req, res) {
       const newUser = await User.findById(user._id)
         .select('receivedFriendRequests friends')
         .populate({
-          path: 'receivedFriendRequests',
-          select: '_id userType username',
-        })
-        .populate({
           path: 'friends',
-          select: '-password -createdAt -updatedAt -__v',
+          select: '_id',
           options: {
             sort: { exp: -1 }
           }
         })
         .exec()
 
+      const populatedSentFriendRequests = []
+      for (let i in newUser.sentFriendRequests) {
+        const populatedRequest = await getPopulatedPlayer(newUser.sentFriendRequests[i])
+        populatedSentFriendRequests.push(populatedRequest)
+      }
+
+      const populatedFriends = []
+      for (let i in newUser.friends) {
+        const populatedFriend = await getPopulatedPlayer(newUser.friends[i]._id)
+        populatedFriends.push(populatedFriend)
+      }
+
       res.status(200).json({
-        receivedFriendRequests: newUser.receivedFriendRequests,
-        friends: newUser.friends,
+        receivedFriendRequests: populatedSentFriendRequests,
+        friends: populatedFriends,
       })
       return
     }
@@ -109,16 +118,19 @@ export default async function (req, res) {
     await User.findByIdAndUpdate(user._id, { sentFriendRequests: simpleUser.sentFriendRequests })
     await User.findByIdAndUpdate(friendIdObj, { receivedFriendRequests: friend.receivedFriendRequests })
 
-    const newUser = await User.findById(user._id)
+    const sentFriendRequests = (await User.findById(user._id)
       .select('sentFriendRequests')
-      .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username',
-      })
       .exec()
+    ).sentFriendRequests
+
+    const populatedSentFriendRequests = []
+    for (let i in sentFriendRequests) {
+      const populatedRequest = await getPopulatedPlayer(sentFriendRequests[i])
+      populatedSentFriendRequests.push(populatedRequest)
+    }
 
     res.status(200).json({
-      sentFriendRequests: newUser.sentFriendRequests,
+      sentFriendRequests: populatedSentFriendRequests,
       friends: user.friends,
     })
     return

@@ -1,6 +1,6 @@
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
-import { getPopulatedUser } from '../../../utils/getPopulatedUser'
+import { getPopulatedPlayer } from '../../../utils/getPopulatedUser'
 
 /**
  * @desc    Search user's information by username
@@ -34,7 +34,7 @@ export default async function (req, res) {
       throw new Error(`Cannot find student "${username}"`)
     }
 
-    const user = await getPopulatedUser(userId)
+    const user = await getPopulatedPlayer(userId)
 
     res.status(200).json({ user: user })
 
