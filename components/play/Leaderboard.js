@@ -2,7 +2,7 @@ import SwitchButton from "./switchButton";
 import LeadboardListing from "./leadboardListing";
 import React, { useState } from "react";
 
-export default function Leaderbaord({ userFriends }) {
+export default function Leaderbaord({ userFriends, allPlayers }) {
     const [currentType, setCurrentType] = useState("friends");
 
     return (
@@ -22,10 +22,19 @@ export default function Leaderbaord({ userFriends }) {
                 </dvi>
             </div>
             <div className="flex flex-col grow">
-                <LeadboardListing
-                    users={userFriends}
-                    currentType={currentType}
-                />
+                {
+                    currentType==="friends"? (
+                        <LeadboardListing 
+                            users={userFriends}
+                            currentType={currentType}
+                        />
+                    ) : (
+                        <LeadboardListing 
+                            users={allPlayers}
+                            currentType={currentType}
+                        />
+                    )
+                }
             </div>
         </div>
     )
