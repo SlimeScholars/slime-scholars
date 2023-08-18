@@ -2,8 +2,6 @@ import { gameData } from "../../data/gameData.js";
 
 export default function LeadboardListing({ users, currentType }) {
 
-    
-    console.log(users);
     return (
         <div 
             className="overflow-y-auto max-h-96" 
