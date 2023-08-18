@@ -4,7 +4,7 @@ import Course from "../../components/admin/course";
 import { useRouter } from "next/router";
 
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastMessage } from "../../utils/showToastMessage";
 import axios from "axios";
 
 export default function editCourse({ user, loading, setLoading }) {

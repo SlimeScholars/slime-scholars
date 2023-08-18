@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Back from "../components/signup/back";
 
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../utils/verify";
+import { showToastMessage } from "../utils/showToastMessage";
 
 import axios from "axios";
 import { useRouter } from "next/router";
