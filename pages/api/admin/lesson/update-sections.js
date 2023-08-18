@@ -3,8 +3,9 @@ import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import Lesson from "../../../../models/lessonModel"
 import { processMarkdown, verifyNesting } from "../../../../utils/processMarkdown"
+// TODO: investigate the ts error
 import formidable from 'formidable-serverless';
-import {v2 as cloudinary} from 'cloudinary';
+import { v2 as cloudinary } from 'cloudinary';
 
 export const config = {
   api: {
@@ -22,7 +23,7 @@ export const config = {
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if (req.method !== 'PUT') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -49,16 +50,16 @@ export default async function (req, res) {
 
     const { lessonId, sections, quizSections, imageLength } = JSON.parse(data.fields.data)
     const imageFiles = []
-    for(let i = 0; i < imageLength; i ++) {
-      if(data.files && data.files[`image${i}`]) {
+    for (let i = 0; i < imageLength; i++) {
+      if (data.files && data.files[`image${i}`]) {
         imageFiles.push(data.files[`image${i}`])
       }
     }
 
-    cloudinary.config({ 
-      cloud_name: 'dyxnguo6v', 
-      api_key: '533118762414626', 
-      api_secret: 'KPx3CXi5pipIqyxv0JolGhP_7jU' 
+    cloudinary.config({
+      cloud_name: 'dyxnguo6v',
+      api_key: '533118762414626',
+      api_secret: 'KPx3CXi5pipIqyxv0JolGhP_7jU'
     })
 
     const uploadedImages = [];
@@ -74,32 +75,32 @@ export default async function (req, res) {
       });
     }
 
-    for(let i in sections) {
-      if(sections[i].sectionType === 1 &&
+    for (let i in sections) {
+      if (sections[i].sectionType === 1 &&
         typeof sections[i].image !== 'string') {
         sections[i].image = uploadedImages[sections[i].image]
       }
     }
-    for(let i in quizSections) {
-      if(quizSections[i].sectionType === 1 &&
+    for (let i in quizSections) {
+      if (quizSections[i].sectionType === 1 &&
         typeof quizSections[i].image !== 'string') {
         quizSections[i].image = uploadedImages[quizSections[i].image]
       }
     }
 
-    if(!lessonId) {
+    if (!lessonId) {
       throw new Error('Please send a lessonId')
     }
 
     const lessonExists = Lesson.findById(lessonId)
 
-    if(!lessonExists) {
+    if (!lessonExists) {
       throw new Error('Could not find the lesson to update')
     }
 
     const processedSections = []
-    for(let section of sections) {
-      if(!Number.isInteger(section.sectionNumber) || section.sectionNumber < 0) {
+    for (let section of sections) {
+      if (!Number.isInteger(section.sectionNumber) || section.sectionNumber < 0) {
         throw new Error('Section numbers must all be positive integers (you may have left a section number blank).')
       }
 
@@ -110,23 +111,23 @@ export default async function (req, res) {
       }
 
       //text
-      if(section.sectionType === 0) {
+      if (section.sectionType === 0) {
         const processedText = processMarkdown(section.text)
-        if(!verifyNesting(processedText)) {
+        if (!verifyNesting(processedText)) {
           throw new Error('Must close styles in correct order. eg. *b* bold *b* is correct, *b* bold *i* *b* *i* is not.')
         }
         processedSection.text = processedText
       }
       //img
-      else if(section.sectionType === 1) {
+      else if (section.sectionType === 1) {
         processedSection.image = section.image
       }
       //multiple choice
-      else if(section.sectionType === 2) {
+      else if (section.sectionType === 2) {
         processedSection.options = section.options
       }
       //fill in the blank
-      else if(section.sectionType === 3) {
+      else if (section.sectionType === 3) {
         processedSection.text = section.text
         processedSection.afterBlank = section.afterBlank
         const rawBlank = section.blank.split(',')
@@ -137,8 +138,8 @@ export default async function (req, res) {
     }
 
     const processedQuizSections = []
-    for(let quizSection of quizSections) {
-      if(!Number.isInteger(quizSection.sectionNumber) || quizSection.sectionNumber < 0) {
+    for (let quizSection of quizSections) {
+      if (!Number.isInteger(quizSection.sectionNumber) || quizSection.sectionNumber < 0) {
         throw new Error('Section numbers must all be positive integers (you may have left a section number blank).')
       }
 
@@ -149,23 +150,23 @@ export default async function (req, res) {
       }
 
       //text
-      if(quizSection.sectionType === 0) {
+      if (quizSection.sectionType === 0) {
         const processedText = processMarkdown(quizSection.text)
-        if(!verifyNesting(processedText)) {
+        if (!verifyNesting(processedText)) {
           throw new Error('Must close styles in correct order. eg. *b* bold *b* is correct, *b* bold *i* *b* *i* is not.')
         }
         processedQuizSection.text = processedText
       }
       //img
-      else if(quizSection.sectionType === 1) {
+      else if (quizSection.sectionType === 1) {
         processedQuizSection.image = quizSection.image
       }
       //multiple choice
-      else if(quizSection.sectionType === 2) {
+      else if (quizSection.sectionType === 2) {
         processedQuizSection.options = quizSection.options
       }
       //fill in the blank
-      else if(quizSection.sectionType === 3) {
+      else if (quizSection.sectionType === 3) {
         processedQuizSection.text = quizSection.text
         processedQuizSection.afterBlank = quizSection.afterBlank
         const rawBlank = quizSection.blank.split(',')
@@ -183,11 +184,11 @@ export default async function (req, res) {
 
     const lesson = await Lesson.findById(lessonId)
 
-    res.status(200).json({lesson})
+    res.status(200).json({ lesson })
 
-  } catch(error) {
+  } catch (error) {
     console.log(error.message)
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
 
