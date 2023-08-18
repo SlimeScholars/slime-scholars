@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Controls from "../controls";
-import { showToastMessage } from "../../../../utils/verify";
+import { showToastError } from "../../../../utils/toast";
 
 export default function ImgSection({
   image,
@@ -22,7 +22,7 @@ export default function ImgSection({
           setImg(url);
         }
       } catch (error) {
-        showToastMessage(error.message);
+        showToastError(error.message);
       }
     }
   }, [image]);

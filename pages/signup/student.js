@@ -13,20 +13,20 @@ import {
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function Student({loading, user, setUser}) {
+export default function Student({ loading, user, setUser }) {
   const router = useRouter()
 
   useEffect(() => {
-    if(loading) {
+    if (loading) {
       return
     }
-    if(user) {
+    if (user) {
       router.push('/')
     }
   }, [loading, user])
@@ -51,7 +51,7 @@ export default function Student({loading, user, setUser}) {
         throw new Error("Passwords do not match");
       }
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
     axios
@@ -75,7 +75,7 @@ export default function Student({loading, user, setUser}) {
           error.response.data &&
           error.response.data.message
         ) {
-          showToastMessage(error.response.data.message);
+          showToastError(error.response.data.message);
         }
       });
   };

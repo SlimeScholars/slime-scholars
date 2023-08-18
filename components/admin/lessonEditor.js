@@ -3,7 +3,7 @@ import axios from "axios";
 import Link from "next/link";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastError } from "../../utils/toast";
 
 export default function LessonEditor({ lesson, setLesson, setLoading }) {
   const [lessonName, setLessonName] = useState(lesson.lessonName);
@@ -32,11 +32,11 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
           }
         })
         .catch((error) => {
-          showToastMessage(error.message);
+          showToastError(error.message);
           setLoading(false);
         });
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   };

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LessonPreview from "../../../components/admin/lesson/preview";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../../utils/verify";
+import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 
 const sampleLesson = {
@@ -157,7 +156,7 @@ export default function EditLesson({ user, loading, setLoading }) {
         }
       })
       .catch((error) => {
-        showToastMessage(error.message);
+        showToastError(error.message);
         setLoading(false);
       });
   }, [router.query.lessonId]);
@@ -184,7 +183,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const addMC = () => {
     if (mc.every((option) => option.option.length === 0 || !option.correct)) {
-      showToastMessage(
+      showToastError(
         "You must have at least one option and one correct option."
       );
       return;
@@ -222,7 +221,7 @@ export default function EditLesson({ user, loading, setLoading }) {
   const onMCClick = (event, index) => {
     event.preventDefault();
     if (mc[index].option.length === 0) {
-      showToastMessage("Enter some text first.");
+      showToastError("Enter some text first.");
       return;
     }
     let newMC = [...mc];
@@ -232,7 +231,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const addFB = () => {
     if (blank.blank.length === 0) {
-      showToastMessage("Answer is required.");
+      showToastError("Answer is required.");
       return;
     }
     let newFB = {
@@ -259,7 +258,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const addImage = () => {
     if (!image) {
-      showToastMessage("Image is required.");
+      showToastError("Image is required.");
       return;
     }
     let newImage = {
@@ -379,7 +378,7 @@ export default function EditLesson({ user, loading, setLoading }) {
             }
             setMaxQuizSectionNumber(newMax);
             setLesson(newLesson);
-            showToastMessage("Lesson updated successfully.", true);
+            showToastError("Lesson updated successfully.", true);
           }
           setLoading(false);
         })
@@ -390,22 +389,21 @@ export default function EditLesson({ user, loading, setLoading }) {
             error.response.data &&
             error.response.data.message
           ) {
-            showToastMessage(error.response.data.message);
+            showToastError(error.response.data.message);
           } else {
-            showToastMessage(error.message);
+            showToastError(error.message);
           }
           setLoading(false);
         });
     } catch (error) {
       setLoading(false);
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   };
 
   return (
     <div className="w-screen h-screen flex flex-row flex-nowrap">
-      <ToastContainer />
       <div className="w-3/5 h-full p-10 pr-40 bg-purple-100 font-averia ">
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
           Edit lesson {lesson.name}
@@ -454,8 +452,8 @@ export default function EditLesson({ user, loading, setLoading }) {
                 (mc[i - 1].correct
                   ? "bg-green-200 text-green-800 ring-green-400 placeholder:text-green-600"
                   : mc[i - 1].option.length > 0
-                  ? "bg-purple-200 text-purple-800 ring-purple-400"
-                  : "bg-gray-200 ring-gray-400 placeholder:text-gray-400")
+                    ? "bg-purple-200 text-purple-800 ring-purple-400"
+                    : "bg-gray-200 ring-gray-400 placeholder:text-gray-400")
               }
               onChange={(e) => onMCChange(i - 1, e.target.value)}
               value={mc[i - 1].option}

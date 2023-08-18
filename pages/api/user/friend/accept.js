@@ -27,6 +27,11 @@ export default async function (req, res) {
     checkUserType(user, 1)
 
     const { friendId } = req.body
+
+    if (!friendId) {
+      throw new Error('Friend id cannot be empty')
+    }
+
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
     if (user._id.equals(friendIdObj)) {

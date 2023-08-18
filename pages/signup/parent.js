@@ -8,21 +8,21 @@ import { verifyEmail, verifyHonorific, verifyName, verifyPassword } from "../../
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
-export default function Parent({loading, user, setUser}) {
+export default function Parent({ loading, user, setUser }) {
   const router = useRouter()
 
   useEffect(() => {
-    if(loading) {
+    if (loading) {
       return
     }
-    if(user) {
+    if (user) {
       router.push('/')
     }
   }, [loading, user])
@@ -49,7 +49,7 @@ export default function Parent({loading, user, setUser}) {
       }
       verifyHonorific(honorific)
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
     axios
@@ -74,7 +74,7 @@ export default function Parent({loading, user, setUser}) {
           error.response.data &&
           error.response.data.message
         ) {
-          showToastMessage(error.response.data.message);
+          showToastError(error.response.data.message);
         }
       });
   };
@@ -100,13 +100,13 @@ export default function Parent({loading, user, setUser}) {
               <select
                 className="w-full h-8 bg-slate-300/40 ring-2 ring-ink/60 font-galindo text-sm text-ink/90 placeholder:text-ink/40 px-3 py-2 my-1 focus:outline-none focus:ring-ink/90 focus:bg-blue-200/20 hover:ring-ink/90 hover:bg-blue-200/20 duration-300 ease-in-out"
                 onChange={(e) => {
-                  if(e.target.value) {
+                  if (e.target.value) {
                     setHonorific(e.target.value)
                   }
                   else {
                     setHonorific(undefined)
                   }
-                } }
+                }}
               >
                 <option value={undefined} className="bg-indigo-50" />
                 <option value="Mr." className="bg-indigo-50">
