@@ -90,6 +90,53 @@ export const gameData = {
     Legendary: [1, 2],
   },
 
+  slimePfps: {
+    "Blue Slime": {
+      slimeName: "Blue Slime",
+      pfp: 'blue-slime.png',
+    },
+    "Green Slime": {
+      slimeName: "Green Slime",
+      pfp: 'green-slime.png',
+    },
+    "Grey Slime": {
+      slimeName: "Grey Slime",
+      pfp: 'grey-slime.png',
+    },
+    "Orange Slime": {
+      "Orange Slime",
+      pfp: 'orange-slime.png'
+    },
+    "Pink Slime": {
+      slimeName: "Pink Slime",
+      pfp: 'pink-slime.png'
+    },
+    "Purple Slime": {
+      slimeName: "Purple Slime",
+      pfp: 'purple-slime.png'
+    },
+    "Red Slime": {
+      slimeName: "Red Slime",
+      pfp: 'red-slime.png'
+    },
+    "Turquoise Slime": {
+      slimeName: "Turquoise Slime",
+      pfp: 'turquoise-slime.png'
+    },
+    "White Slime": {
+      slimeName: "White Slime",
+      pfp: 'white-slime.png'
+    },
+    "Yellow Slime": {
+      slimeName: "Yellow Slime",
+      pfp: 'yellow-slime.png'
+    },
+    "Puppy Slime": {
+      slimeName: "Puppy Slime",
+      pfp: 'puppy-slime.png'
+    },
+  },
+
   // Slime data
   slimes: {
     // TODO: Write pfps
