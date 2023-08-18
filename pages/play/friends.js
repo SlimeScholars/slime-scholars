@@ -75,7 +75,7 @@ export default function Friends({ loading, user }) {
                 </div>
 
                 {/* Default: leaderboard and managing friends */}
-                <div className="pt-8 flex flex-row items-center font-galindo">
+                <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
 
                     {/* Leaderboard */}
                     <div className="pr-4 basis-1/2 ">
