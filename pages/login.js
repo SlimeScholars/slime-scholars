@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from "react";
 import Back from "../components/signup/back";
 
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../utils/verify";
 
 import axios from "axios";
 import { useRouter } from "next/router";
 
-export default function Login({loading, user, setUser}) {
+export default function Login({ loading, user, setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
   const router = useRouter()
 
   useEffect(() => {
-    if(loading) {
+    if (loading) {
       return
     }
-    if(user) {
+    if (user) {
       router.push('/')
     }
   }, [loading, user])
@@ -55,7 +54,6 @@ export default function Login({loading, user, setUser}) {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back />
-      <ToastContainer />
       <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <div className="w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
           <h1 className="text-center text-6xl font-cabin font-bold text-bg-light/90 mb-3">

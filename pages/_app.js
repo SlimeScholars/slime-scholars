@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "../styles/styles.css";
 import axios from "axios";
 import Spinner from "../components/spinner";
+import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -54,6 +55,7 @@ function MyApp({ Component, pageProps }) {
     <>
       {loading ? <Spinner /> : <></>}
       <div className={loading ? 'hidden' : ''}>
+        <ToastContainer />
         <Component {...modifiedPageProps} />
       </div>
     </>

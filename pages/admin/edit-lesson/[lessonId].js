@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import LessonPreview from "../../../components/admin/lesson/preview";
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../../../utils/verify";
 import axios from "axios";
@@ -405,7 +404,6 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   return (
     <div className="w-screen h-screen flex flex-row flex-nowrap">
-      <ToastContainer />
       <div className="w-3/5 h-full p-10 pr-40 bg-purple-100 font-averia ">
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
           Edit lesson {lesson.name}
@@ -454,8 +452,8 @@ export default function EditLesson({ user, loading, setLoading }) {
                 (mc[i - 1].correct
                   ? "bg-green-200 text-green-800 ring-green-400 placeholder:text-green-600"
                   : mc[i - 1].option.length > 0
-                  ? "bg-purple-200 text-purple-800 ring-purple-400"
-                  : "bg-gray-200 ring-gray-400 placeholder:text-gray-400")
+                    ? "bg-purple-200 text-purple-800 ring-purple-400"
+                    : "bg-gray-200 ring-gray-400 placeholder:text-gray-400")
               }
               onChange={(e) => onMCChange(i - 1, e.target.value)}
               value={mc[i - 1].option}

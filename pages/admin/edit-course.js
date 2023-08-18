@@ -3,31 +3,30 @@ import Course from "../../components/admin/course";
 
 import { useRouter } from "next/router";
 
-import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastMessage } from "../../utils/verify";
 import axios from "axios";
 
-export default function editCourse({user, loading, setLoading}) {
+export default function editCourse({ user, loading, setLoading }) {
   const router = useRouter()
 
   useEffect(() => {
-    if(loading) {
+    if (loading) {
       return
     }
-    if(!user || user.userType !== 4) {
+    if (!user || user.userType !== 4) {
       router.push('/')
     }
-  }, [user,loading])
+  }, [user, loading])
 
   const [initialLoad, setInitialLoad] = useState(true)
   const [courses, setCourses] = useState(undefined);
 
   useEffect(() => {
-    if(!loading && courses === undefined) {
+    if (!loading && courses === undefined) {
       setLoading(true)
     }
-    else if(loading && courses && initialLoad) {
+    else if (loading && courses && initialLoad) {
       setInitialLoad(false)
       setLoading(false)
     }
@@ -38,9 +37,9 @@ export default function editCourse({user, loading, setLoading}) {
     axios
       .get("/api/course")
       .then((response) => {
-        if(response.data && response.data.courses) {
+        if (response.data && response.data.courses) {
           const responseCourses = []
-          for(let i in response.data.courses) {
+          for (let i in response.data.courses) {
             responseCourses.push({
               ...response.data.courses[i],
               id: i,
@@ -86,7 +85,7 @@ export default function editCourse({user, loading, setLoading}) {
           showToastMessage(error.message)
           setLoading(false);
         });
-      
+
     } catch (error) {
       showToastMessage(error.message);
       return;
@@ -95,7 +94,6 @@ export default function editCourse({user, loading, setLoading}) {
 
   return (
     <div className='w-screen h-screen bg-bg-light flex'>
-      <ToastContainer />
       <div className="w-2/5 h-screen bg-slate-100 overflow-y-scroll">
         <button
           className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-b-4 border-b-green-800 text-green-800"
