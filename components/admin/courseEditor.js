@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastMessage } from "../../utils/verify";
+import { showToastError } from "../../utils/toast";
 
 export default function CourseEditor({ course, setCourse, setLoading }) {
   const [courseName, setCourseName] = useState(course.courseName);
@@ -20,7 +20,7 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
       setLoading(true)
 
       axios
-        .put("/api/admin/course/update-name", {courseId: course._id, courseName}, config)
+        .put("/api/admin/course/update-name", { courseId: course._id, courseName }, config)
         .then((response) => {
           if (response.data && response.data.course) {
             setCourse(response.data.course);
@@ -29,12 +29,12 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
         })
         .catch((error) => {
           console.error(error.message)
-          showToastMessage(error.message)
+          showToastError(error.message)
           setLoading(false);
         });
-      
+
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   }
@@ -53,7 +53,7 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
 
       const unitNumber = course.units.length + 1
       axios
-        .post("/api/admin/unit/create", {courseId: course._id, unitNumber}, config)
+        .post("/api/admin/unit/create", { courseId: course._id, unitNumber }, config)
         .then((response) => {
           if (response.data && response.data.course) {
             const newCourse = response.data.course
@@ -62,12 +62,12 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
           }
         })
         .catch((error) => {
-          showToastMessage(error.message)
+          showToastError(error.message)
           setLoading(false);
         });
-      
+
     } catch (error) {
-      showToastMessage(error.message);
+      showToastError(error.message);
       return;
     }
   }

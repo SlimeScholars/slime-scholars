@@ -3,7 +3,7 @@ import TextSection from "./sections/text";
 import MCSection from "./sections/mc";
 import FBSection from "./sections/fb";
 import ImgSection from "./sections/img";
-import { showToastMessage } from "../../../utils/verify";
+import { showToastError } from "../../../utils/toast";
 
 export default function LessonPreview({
   lesson,
@@ -17,7 +17,7 @@ export default function LessonPreview({
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
     if (parseInt(number) < 0) {
-      showToastMessage("Cannot have a negative section number");
+      showToastError("Cannot have a negative section number");
       return;
     }
     let newSections = [...lesson.sections];
@@ -41,7 +41,7 @@ export default function LessonPreview({
 
   const changeQuizSectionNumber = (index, number) => {
     if (parseInt(number) < 0) {
-      showToastMessage("Cannot have a negative section number");
+      showToastError("Cannot have a negative section number");
       return;
     }
     let newQuizSections = [...lesson.quizSections];

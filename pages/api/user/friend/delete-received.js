@@ -28,6 +28,10 @@ export default async function (req, res) {
 
     const { friendId } = req.body
 
+    if (!friendId) {
+      throw new Error('Friend id cannot be empty')
+    }
+
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
     const simpleUser = await User.findById(user._id, { password: 0 })
