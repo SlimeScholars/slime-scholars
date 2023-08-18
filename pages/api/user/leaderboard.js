@@ -24,7 +24,7 @@ export default async function (req, res) {
 		// Make sure user is a student
 		checkUserType(user, 1)
 
-		const leaderboard = await User.find({})
+		const leaderboard = await User.find({ userType: 1 })
 			.sort({ exp: -1 }) // Sort in descending order by exp
 			// TODO: Make sure 20 is the number to show
 			.limit(20) // How many users to find
