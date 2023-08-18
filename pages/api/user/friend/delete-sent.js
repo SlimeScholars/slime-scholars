@@ -3,6 +3,7 @@ import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import User from '../../../../models/userModel'
+import { getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
 
 /**
  * @desc    Delete sent friend request
@@ -12,7 +13,7 @@ import User from '../../../../models/userModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -29,20 +30,20 @@ export default async function (req, res) {
 
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
-    const simpleUser = await User.findById(user._id, {password: 0})
+    const simpleUser = await User.findById(user._id, { password: 0 })
 
-    if(!simpleUser.sentFriendRequests.includes(friendIdObj)) {
+    if (!simpleUser.sentFriendRequests.includes(friendIdObj)) {
       throw new Error('You did not send a friend request of that id')
     }
 
-    const friend = await User.findById(friendIdObj, {password: 0})
-    if(!friend) {
+    const friend = await User.findById(friendIdObj, { password: 0 })
+    if (!friend) {
       throw new Error('Cannot find user of that id')
     }
 
     // Delete friend request
-    simpleUser.sentFriendRequests = simpleUser.friends.filter((element) => element == friendIdObj)
-    friend.receivedFriendRequests = friend.friends.filter((element) => element == user._id)
+    simpleUser.sentFriendRequests = simpleUser.sentFriendRequests.filter((element) => element != friendId)
+    friend.receivedFriendRequests = friend.receivedFriendRequests.filter((element) => element != user._id)
 
     // Update database
     await User.findByIdAndUpdate(user._id, {
@@ -54,18 +55,20 @@ export default async function (req, res) {
 
     const sentFriendRequests = (await User.findById(user._id)
       .select('sentFriendRequests')
-      .populate({
-        path: 'sentFriendRequests',
-        select: '_id userType username',
-      })
       .exec()
     ).sentFriendRequests
 
+    const populatedSentFriendRequests = []
+    for (let i in sentFriendRequests) {
+      const populatedRequest = await getPopulatedPlayer(sentFriendRequests[i])
+      populatedSentFriendRequests.push(populatedRequest)
+    }
+
     res.status(200).json({
-      sentFriendRequests: sentFriendRequests,
+      receivedFriendRequests: populatedSentFriendRequests,
     })
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

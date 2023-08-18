@@ -3,6 +3,7 @@ import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import User from '../../../../models/userModel'
+import { getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
 
 /**
  * @desc    Add friend (only if you have already received a friend request)
@@ -56,9 +57,8 @@ export default async function (req, res) {
     friend.friends.push(user._id)
 
     // Clear sent and received requests from both sides
-    simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element == friendIdObj)
-
-    friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element == user._id)
+    simpleUser.receivedFriendRequests = simpleUser.receivedFriendRequests.filter((element) => element != friendId)
+    friend.sentFriendRequests = friend.sentFriendRequests.filter((element) => element != user._id)
 
     // Update database
     await User.findByIdAndUpdate(user._id, {
@@ -73,21 +73,29 @@ export default async function (req, res) {
     const newUser = await User.findById(user._id)
       .select('receivedFriendRequests friends')
       .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username',
-      })
-      .populate({
         path: 'friends',
-        select: '-password -createdAt -updatedAt -__v',
+        select: '_id',
         options: {
           sort: { exp: -1 }
         }
       })
       .exec()
 
+    const populatedReceivedFriendRequests = []
+    for (let i in newUser.receivedFriendRequests) {
+      const populatedRequest = await getPopulatedPlayer(newUser.receivedFriendRequests[i])
+      populatedReceivedFriendRequests.push(populatedRequest)
+    }
+
+    const populatedFriends = []
+    for (let i in newUser.friends) {
+      const populatedFriend = await getPopulatedPlayer(newUser.friends[i]._id)
+      populatedFriends.push(populatedFriend)
+    }
+
     res.status(200).json({
-      receivedFriendRequests: newUser.receivedFriendRequests,
-      friends: newUser.friends,
+      receivedFriendRequests: populatedReceivedFriendRequests,
+      friends: populatedFriends,
     })
   } catch (error) {
     res.status(400).json({ message: error.message })

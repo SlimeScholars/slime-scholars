@@ -13,18 +13,10 @@ export const getPopulatedUser = async (userId) => {
     // TODO: Add profile picture, badges, score, etc.
     .populate({
       path: 'friends',
-      select: '-password -createdAt -updatedAt -__v',
+      select: '_id',
       options: {
         sort: { exp: -1 }
       }
-    })
-    .populate({
-      path: 'receivedFriendRequests',
-      select: '_id userType username',
-    })
-    .populate({
-      path: 'sentFriendRequests',
-      select: '_id userType username',
     })
     .populate({
       path: 'students',
@@ -42,6 +34,21 @@ export const getPopulatedUser = async (userId) => {
   }
 
   modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
+
+  for (let i in modifiedUser.friends) {
+    const populatedFriend = await getPopulatedPlayer(modifiedUser.friends[i]._id)
+    modifiedUser.friends[i] = populatedFriend
+  }
+
+  for (let i in modifiedUser.receivedFriendRequests) {
+    const populatedRequest = await getPopulatedPlayer(modifiedUser.receivedFriendRequests[i])
+    modifiedUser.receivedFriendRequests[i] = populatedRequest
+  }
+
+  for (let i in modifiedUser.sentFriendRequests) {
+    const populatedRequest = await getPopulatedPlayer(modifiedUser.sentFriendRequests[i])
+    modifiedUser.sentFriendRequests[i] = populatedRequest
+  }
 
   return modifiedUser
 }
