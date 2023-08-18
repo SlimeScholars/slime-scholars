@@ -8,21 +8,21 @@ export default function SearchFriends() {
     };
 
     return (
-        <form 
+        <form
             className="border-2 border-red-300 flex bg-transparent rounded"
             onSubmit={handleSubmit}>
-            <input 
+            <input
                 type="text"
                 value={searchContent}
                 placeholder="Search Friends"
                 className="p-1 grow bg-transparent text-m"
                 onChange={(e) => setSearchContent(e.target.value)}>
             </input>
-            <button 
+            <button
                 type="submit"
                 className="h-full flex p-1">
-                <span class="material-symbols-outlined">
-                search
+                <span className="material-symbols-outlined">
+                    search
                 </span>
             </button>
         </form>
