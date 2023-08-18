@@ -3,6 +3,7 @@ import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import User from '../../../../models/userModel'
+import { NestedMiddlewareError } from 'next/dist/build/utils'
 
 /**
  * @desc    Send a friend request
@@ -69,7 +70,7 @@ export default async function (req, res) {
         receivedFriendRequests: simpleUser.receivedFriendRequests,
         friends: simpleUser.friends,
       })
-      await User.findByIdAndUpdate(user._id, {
+      await User.findByIdAndUpdate(friend._id, {
         sentFriendRequests: friend.sentFriendRequests,
         friends: friend.friends,
       })
