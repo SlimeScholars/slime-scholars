@@ -1,13 +1,17 @@
 export const gameData = {
   rarities: ["Common", "Uncommon", "Rare", "Epic", "Legendary"],
   openingOdds: {
-    //"Slime Egg": [1, 0, 0, 0, 0],
-    //"Slime Egg": [0, 0, 0, 1, 0],
-    "Slime Egg": [0, 0, 0, 0, 1],
-    //"Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
-    "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
+    // TODO: Reset slime egg rarity after getting spritesheets
+    "Slime Egg": [1, 0, 0, 0, 0],
+    // "Slime Egg": [0, 0, 0, 1, 0],
+    // "Slime Egg": [0, 0, 0, 0, 1],
+    // "Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
+    // "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },
+
   items: {
+    // TODO: Write prices and currency
+    // Eggs
     "Slime Egg": {
       itemName: "Slime Egg",
       rarity: "Rare",
@@ -16,6 +20,7 @@ export const gameData = {
       buyCurrency: 1,
       sellCurrency: 1
     },
+    /*
     "Rotten Egg": {
       itemName: "Rotten Egg",
       rarity: "Uncommon",
@@ -23,7 +28,18 @@ export const gameData = {
       sellPrice: 1,
       buyCurrency: 0,
       sellCurrency: 0
-    }
+    },
+    */
+
+    // Backgrounds
+    // TODO: Write bgs
+    "Forest Mountains": {
+      itemName: "Forest Mountains",
+      rarity: "Rare",
+      pfp: 'forest-mountains.png',
+      buyPrice: 1,
+      buyCurrency: 0,
+    },
   },
 
   baseProduction: {
@@ -74,25 +90,63 @@ export const gameData = {
     Legendary: [1, 2],
   },
 
-  // Slime data LOL
-
+  // Slime data
   slimes: {
+    // TODO: Write pfps
     Common: [
       {
-        slimeName: "Red Slime",
+        slimeName: "Blue Slime",
+        pfp: 'blue-slime.png'
       },
       {
-        slimeName: "Blue Slime",
+        slimeName: "Green Slime",
+        pfp: 'green-slime.png'
+      },
+      {
+        slimeName: "Grey Slime",
+        pfp: 'grey-slime.png'
+      },
+      {
+        slimeName: "Orange Slime",
+        pfp: 'orange-slime.png'
+      },
+      {
+        slimeName: "Pink Slime",
+        pfp: 'pink-slime.png'
+      },
+      {
+        slimeName: "Purple Slime",
+        pfp: 'purple-slime.png'
+      },
+      {
+        slimeName: "Red Slime",
+        pfp: 'red-slime.png'
+      },
+      {
+        slimeName: "Turquoise Slime",
+        pfp: 'turquoise-slime.png'
+      },
+      {
+        slimeName: "White Slime",
+        pfp: 'white-slime.png'
+      },
+      {
+        slimeName: "Yellow Slime",
+        pfp: 'yellow-slime.png'
       },
     ],
+
     Uncommon: [
       {
         slimeName: "Puppy Slime",
+        pfp: 'puppy-slime.png'
       },
     ],
+
     Rare: [
       {
         slimeName: "Mochi Slime",
+        pfp: ''
       },
     ],
     Epic: [

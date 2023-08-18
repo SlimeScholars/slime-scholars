@@ -12,7 +12,7 @@ import User from '../../../../models/userModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -24,38 +24,38 @@ export default async function (req, res) {
 
     // Make sure user is a student
     checkUserType(user, 1)
-    
+
     const { friendId } = req.body
 
     const friendIdObj = new mongoose.Types.ObjectId(friendId)
 
-    const simpleUser = await User.findById(user._id, {password: 0})
+    const simpleUser = await User.findById(user._id, { password: 0 })
 
-    if(user._id.equals(friendIdObj)) {
+    if (user._id.equals(friendIdObj)) {
       throw new Error('Cannot friend yourself')
     }
 
-    const friend = await User.findById(friendIdObj, {password: 0})
+    const friend = await User.findById(friendIdObj, { password: 0 })
 
-    if(!friend) {
+    if (!friend) {
       throw new Error('Cannot find user of that id')
     }
 
-    if(friend.userType !== 1) {
+    if (friend.userType !== 1) {
       throw new Error('You can only friend students')
     }
 
-    if(simpleUser.friends.includes(friendIdObj)) {
+    if (simpleUser.friends.includes(friendIdObj)) {
       throw new Error(`You are already friends with ${friend.username}`)
     }
 
-    if(simpleUser.sentFriendRequests.includes(friendIdObj)) {
+    if (simpleUser.sentFriendRequests.includes(friendIdObj)) {
       throw new Error(`You already sent a friend request to ${friend.username}`)
     }
 
     // If you are trying to friend request someone that already request you,
     // delete the request and become friends
-    if(simpleUser.receivedFriendRequests.includes(friendIdObj)) {
+    if (simpleUser.receivedFriendRequests.includes(friendIdObj)) {
       // Add to friends
       simpleUser.friends.push(friendIdObj)
       friend.friends.push(user._id)
@@ -74,17 +74,20 @@ export default async function (req, res) {
         friends: friend.friends,
       })
 
-    const newUser = await User.findById(user._id)
-      .select('receivedFriendRequests friends')
-      .populate({
-        path: 'receivedFriendRequests',
-        select: '_id userType username',
-      })
-      .populate({
-        path: 'friends',
-        select: '_id userType username',
-      })
-      .exec()
+      const newUser = await User.findById(user._id)
+        .select('receivedFriendRequests friends')
+        .populate({
+          path: 'receivedFriendRequests',
+          select: '_id userType username',
+        })
+        .populate({
+          path: 'friends',
+          select: '-password -createdAt -updatedAt -__v',
+          options: {
+            sort: { exp: -1 }
+          }
+        })
+        .exec()
 
       res.status(200).json({
         receivedFriendRequests: newUser.receivedFriendRequests,
@@ -94,16 +97,16 @@ export default async function (req, res) {
     }
 
     // If you haven't already requested, add the friend request to their received and your sent
-    if(!simpleUser.sentFriendRequests.includes(friendIdObj)) {
+    if (!simpleUser.sentFriendRequests.includes(friendIdObj)) {
       simpleUser.sentFriendRequests.push(friendIdObj)
     }
-    if(!friend.receivedFriendRequests.includes(user._id)) {
+    if (!friend.receivedFriendRequests.includes(user._id)) {
       friend.receivedFriendRequests.push(user._id)
     }
 
     // Update friend requests
-    await User.findByIdAndUpdate(user._id, {sentFriendRequests: simpleUser.sentFriendRequests})
-    await User.findByIdAndUpdate(friendIdObj, {receivedFriendRequests: friend.receivedFriendRequests})
+    await User.findByIdAndUpdate(user._id, { sentFriendRequests: simpleUser.sentFriendRequests })
+    await User.findByIdAndUpdate(friendIdObj, { receivedFriendRequests: friend.receivedFriendRequests })
 
     const newUser = await User.findById(user._id)
       .select('sentFriendRequests')
@@ -113,12 +116,13 @@ export default async function (req, res) {
       })
       .exec()
 
-      res.status(200).json({
-        sentFriendRequests: newUser.sentFriendRequests,
-      })
-      return
+    res.status(200).json({
+      sentFriendRequests: newUser.sentFriendRequests,
+      friends: user.friends,
+    })
+    return
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

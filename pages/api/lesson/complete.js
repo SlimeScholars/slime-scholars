@@ -19,7 +19,7 @@ import { mongoose } from 'mongoose'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -38,15 +38,15 @@ export default async function (req, res) {
       createdAt: 0, updatedAt: 0, __v: 0
     })
 
-    if(!lesson) {
+    if (!lesson) {
       throw new Error('Could not find lesson')
     }
 
     let canLoot = false
     const today = new Date()
     const newLastRewards = [...user.lastRewards]
-    for(let i = 0; i < user.lastRewards.length; i ++) {
-      if(areDifferentDays(today, user.lastRewards[i])) {
+    for (let i = 0; i < user.lastRewards.length; i++) {
+      if (areDifferentDays(today, user.lastRewards[i])) {
         canLoot = true
         newLastRewards[i] = today
         break
@@ -54,8 +54,8 @@ export default async function (req, res) {
     }
 
     let completedIndex = -1
-    for(let i = 0; i < user.completedLessons.length; i ++) {
-      if(user.completedLessons[i].lesson.equals(lessonId)) {
+    for (let i = 0; i < user.completedLessons.length; i++) {
+      if (user.completedLessons[i].lesson.equals(lessonId)) {
         completedIndex = i
         break
       }
@@ -66,10 +66,13 @@ export default async function (req, res) {
     let newCompletedLesson
     let newFlowers = user.flowers
 
+    // Increase the user's exp according to quiz rewards (exp gain = flower gain from completing new lesson)
+    const newExp = user.exp += getQuizRewards(stars, undefined)
+
     // Has not completed lesson yet
-    if(completedIndex === -1) {
+    if (completedIndex === -1) {
       // Can loot lesson
-      if(canLoot) {
+      if (canLoot) {
         newFlowers += getQuizRewards(stars, undefined)
         newCompletedLesson = {
           lesson: lessonId,
@@ -99,8 +102,8 @@ export default async function (req, res) {
       }
     }
     // Completed lesson and already looted
-    else if(user.completedLessons[completedIndex].looted) {
-      if(stars > user.completedLessons[completedIndex].stars) {
+    else if (user.completedLessons[completedIndex].looted) {
+      if (stars > user.completedLessons[completedIndex].stars) {
         newFlowers += getQuizRewards(stars, newCompletedLessons[completedIndex].stars)
         newCompletedLessons[completedIndex].stars = stars
         await User.findByIdAndUpdate(user._id, {
@@ -110,7 +113,7 @@ export default async function (req, res) {
       }
     }
     // Completed lesson, but hasn't looted but can loot
-    else if(canLoot) {
+    else if (canLoot) {
       newFlowers += getQuizRewards(stars, undefined)
       newCompletedLessons[completedIndex].stars = stars
       newCompletedLessons[completedIndex].looted = true
@@ -121,14 +124,14 @@ export default async function (req, res) {
       })
     }
     // Completed lesson, hasn't looted and cannot loot, but new high score
-    else if(stars > newCompletedLessons[completedIndex].stars) {
+    else if (stars > newCompletedLessons[completedIndex].stars) {
       newCompletedLessons[completedIndex].stars = stars
       await User.findByIdAndUpdate(user._id, {
         completedLessons: newCompletedLessons,
       })
     }
 
-    if(completedIndex !== -1) {
+    if (completedIndex !== -1) {
       newCompletedLesson = newCompletedLessons[completedIndex]
     }
 
@@ -136,14 +139,14 @@ export default async function (req, res) {
     // TODO: Unit test impact on tier
     let unit = await Unit.findOne({ lessons: lessonId })
       .select('_id lessons')
-    if(!unit) {
+    if (!unit) {
       throw new Error('Could not find unit that the lesson belongs to')
     }
 
     const newCompletedUnits = [...user.completedUnits]
     let completedUnitIndex = -1
-    for(let i in user.completedUnits) {
-      if(
+    for (let i in user.completedUnits) {
+      if (
         user.completedUnits[i].unit.equals(unit._id) ||
         user.completedUnits[i].unit._id.equals(unit._id)
       ) {
@@ -152,7 +155,7 @@ export default async function (req, res) {
     }
 
     // Has not completed any lesson in this unit yet
-    if(completedUnitIndex === -1) {
+    if (completedUnitIndex === -1) {
       const newCompletedUnit = {
         unit: unit._id,
         tier: 1,
@@ -163,20 +166,20 @@ export default async function (req, res) {
     }
 
     // Has started the unit, need to check if this new lesson makes it completed
-    if(newCompletedUnits[completedUnitIndex].tier === 1) {
+    if (newCompletedUnits[completedUnitIndex].tier === 1) {
       // Check if all lessons are completed
       let flag = true
-      for(let i in unit.lessons) {
+      for (let i in unit.lessons) {
         // No need to do unit.lessons[i].lesson since unit is not populated
         let smallFlag = false
 
-        for(let j in newCompletedLessons) {
+        for (let j in newCompletedLessons) {
           let curLessonId
-          if(!newCompletedLessons[j].lesson._id) {
+          if (!newCompletedLessons[j].lesson._id) {
             curLessonId = new mongoose.Types.ObjectId(newCompletedLessons[j].lesson)
           }
 
-          if(
+          if (
             (newCompletedLessons[j].lesson._id && newCompletedLessons[j].lesson._id.equals(unit.lessons[i])) ||
             (!newCompletedLessons[j].lesson._id && curLessonId.equals(unit.lessons[i]))
           ) {
@@ -184,23 +187,23 @@ export default async function (req, res) {
             break
           }
         }
-        if(!smallFlag) {
+        if (!smallFlag) {
           flag = false
           break
         }
       }
       // Up the unit tier if all lessons are completed
-      if(flag) {
+      if (flag) {
         newCompletedUnits[completedUnitIndex].tier = 2
       }
     }
 
     // Has finished the unit, need to check if this lesson makes it so that all lessons are 3 starred
-    if(newCompletedUnits[completedUnitIndex].tier === 2) {
+    if (newCompletedUnits[completedUnitIndex].tier === 2) {
       // Check if all lessons are 3 starred
       let flag = false
-      for(let i in newCompletedLessons) {
-        if(
+      for (let i in newCompletedLessons) {
+        if (
           newCompletedLessons[i].stars !== 3 &&
           unit.lessons.includes(newCompletedLessons[i].lesson)
         ) {
@@ -209,7 +212,7 @@ export default async function (req, res) {
         }
       }
       // Up the unit tier if all lessons are 3 starred
-      if(!flag) {
+      if (!flag) {
         newCompletedUnits[completedUnitIndex].tier = 3
       }
     }
@@ -217,14 +220,14 @@ export default async function (req, res) {
     // Check course tier
     let course = await Course.findOne({ units: unit._id })
       .select('_id units')
-    if(!course) {
+    if (!course) {
       throw new Error('Could not find course that the lesson belongs to')
     }
 
     const newCompletedCourses = [...user.completedCourses]
     let completedCourseIndex = -1
-    for(let i in user.completedCourses) {
-      if(
+    for (let i in user.completedCourses) {
+      if (
         user.completedCourses[i].course.equals(course._id) ||
         user.completedCourses[i].course._id.equals(course._id)
       ) {
@@ -233,7 +236,7 @@ export default async function (req, res) {
     }
 
     // Has not completed any unit in this course yet
-    if(completedCourseIndex === -1) {
+    if (completedCourseIndex === -1) {
       const newCompletedCourse = {
         course: course._id,
         tier: 1,
@@ -244,20 +247,20 @@ export default async function (req, res) {
     }
 
     // Has started the course, need to check if this new unit makes it completed
-    if(newCompletedCourses[completedCourseIndex].tier === 1) {
+    if (newCompletedCourses[completedCourseIndex].tier === 1) {
       // Check if all units are completed
       let flag = true
-      for(let i in course.units) {
+      for (let i in course.units) {
         // No need to do course.units[i].unit since unit is not populated
         let smallFlag = false
 
-        for(let j in newCompletedUnits) {
+        for (let j in newCompletedUnits) {
           let curUnitId
-          if(!newCompletedUnits[j].unit._id) {
+          if (!newCompletedUnits[j].unit._id) {
             curUnitId = new mongoose.Types.ObjectId(newCompletedUnits[j].unit)
           }
 
-          if(
+          if (
             (newCompletedUnits[j].unit._id && newCompletedUnits[j].unit._id.equals(course.units[i])) ||
             (!newCompletedUnits[j].unit._id && curUnitId.equals(course.units[i]))
           ) {
@@ -265,23 +268,23 @@ export default async function (req, res) {
             break
           }
         }
-        if(!smallFlag) {
+        if (!smallFlag) {
           flag = false
           break
         }
       }
       // Up the course tier if all units are completed
-      if(flag) {
+      if (flag) {
         newCompletedCourses[completedCourseIndex].tier = 2
       }
     }
 
     // Has finished the course, need to check if this unit makes it so that all unit are tier 3
-    if(newCompletedCourses[completedCourseIndex].tier === 2) {
+    if (newCompletedCourses[completedCourseIndex].tier === 2) {
       // Check if all units are tier 3
       let flag = false
-      for(let i in newCompletedUnits) {
-        if(
+      for (let i in newCompletedUnits) {
+        if (
           newCompletedUnits[i].tier !== 3 &&
           course.units.includes(newCompletedUnits[i].unit)
         ) {
@@ -290,34 +293,37 @@ export default async function (req, res) {
         }
       }
       // Up the course tier if all units are tier 3
-      if(!flag) {
+      if (!flag) {
         newCompletedCourses[completedCourseIndex].tier = 3
       }
     }
 
-    // TODO: Update user collection with the newCompletedUnits and newCompletedCourses
+
+
     await User.findByIdAndUpdate(user._id, {
+      exp: newExp,
       completedUnits: newCompletedUnits,
       completedCourses: newCompletedCourses,
     })
 
     const newUser = await User.findById(user._id)
       .select('completedLessons lastRewards')
-    // TODO: Populate
+    // TODO: Populate completedLessons
 
     res.status(400).json({
       stars: stars, // Most recent score
       completedLesson: newCompletedLesson, // Lesson with high score
       flowers: newFlowers,
+      exp: newExp,
       completedLessons: newUser.completedLessons,
       completedUnits: newCompletedUnits,
       completedCourses: newCompletedCourses,
       lastRewards: newUser.lastRewards,
     })
 
-  } catch(error) {
+  } catch (error) {
     console.log(error)
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
 

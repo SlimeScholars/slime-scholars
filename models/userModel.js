@@ -155,6 +155,15 @@ const userSchema = new Schema(
       default: undefined,
     },
 
+    pfpSlime: {
+      type: String,
+      required: false,
+    },
+    pfpBg: {
+      type: String,
+      required: false,
+    },
+
     slimeGel: {
       type: Number,
       required: false,
@@ -163,22 +172,26 @@ const userSchema = new Schema(
       type: Number,
       required: false,
     },
+    exp: {
+      type: Number,
+      required: false,
+    },
 
     slimes: {
       type: [{
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Slime',
-          required: [true, 'Missing slimeId'],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Slime',
+        required: [true, 'Missing slimeId'],
       }],
       required: false,
       default: undefined,
     },
     roster: {
       type: [{
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Slime',
-          required: false,
-        }
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Slime',
+        required: false,
+      }
       ],
       required: false,
       default: undefined,
@@ -200,11 +213,19 @@ const userSchema = new Schema(
         },
         sellPrice: {
           type: Number,
-          required: [true, 'Missing sellPrice'],
+          required: false,
         },
         sellCurrency: {
           type: Number,
-          required: [true, 'Missing sellCurrency'],
+          required: false,
+        },
+        pfp: {
+          type: String,
+          required: false,
+        },
+        background: {
+          type: String,
+          required: false,
         },
       }],
       required: false,
