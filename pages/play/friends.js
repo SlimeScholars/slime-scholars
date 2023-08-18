@@ -2,18 +2,41 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
 import Leaderboard from '../../components/play/Leaderboard';
+import ManageFriends from '../../components/play/ManageFriends';
 import axios from "axios";
 
 export default function Friends({ loading, user }) {
     const router = useRouter();
     const [userFriends, setUserFriends] = useState("empty for now");
+    const [allPlayers, setAllPlayers] = useState("empty for now");
 
     useEffect(() => {
         if (loading) { return; }
         if (!user || user.userType !== 1) {
             router.push("/");
         }
+
+        // Get userfriends for userfriendListings in leaderboard
         setUserFriends(user.friends);
+
+        // Get allplayers for playerListings in leaderboard
+        // Fetching top 20 players in order of exp
+        const token = localStorage.getItem("jwt");
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`, 
+            },
+        };
+
+        axios.get("/api/user/leaderboard", config)
+            .then((response) => {
+                console.log("playesListings",response.data);
+
+                setAllPlayers(response.data);
+                
+            })
+            .catch((error) => {console.log("playersListings",error.message)});
+
     }, [user, loading]);
 
     return (
@@ -60,27 +83,16 @@ export default function Friends({ loading, user }) {
                     {/* Leaderboard */}
                     <div className="pr-4 basis-1/2 ">
                         <div className="bg-white/75 rounded-lg">
-                            <Leaderboard userFriends={userFriends} />
+                            <Leaderboard 
+                                userFriends={userFriends}
+                                allPlayers={allPlayers}/>
                         </div>
                     </div>
 
                     {/* Manage Friends */}
                     <div className="basis-1/2 bg-white/75 rounded-lg">
                         <div className="p-8 flex flex-row">
-                            <div className="grow text-xl">
-                                Manage Friends
-                            </div>
-
-                            <div className="grow-0">
-                                <div className="rounded-full border-4 border-red-200">
-                                    <button data-name="friends" className="p-4" >
-                                        Friends
-                                    </button>
-                                    <button data-name="all_players" className="p-4">
-                                        All players
-                                    </button>
-                                </div>
-                            </div>
+                            <ManageFriends />
                         </div>
                     </div>
 
