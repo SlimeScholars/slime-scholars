@@ -10,7 +10,7 @@ import { getPopulatedUser } from '../../../utils/getPopulatedUser'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'GET') {
+    if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -19,7 +19,7 @@ export default async function (req, res) {
 
     const { username } = req.query
 
-    if(!username) {
+    if (!username) {
       throw new Error('Username cannot be empty')
     }
 
@@ -28,16 +28,17 @@ export default async function (req, res) {
     const userId = (await User.findOne({ username: { $regex: usernameRegex } })
       .select('_id')
       .exec()
-    )._id
-    const user = await getPopulatedUser(userId)
+    )
 
-    if(!user) {
+    if (!userId) {
       throw new Error(`Cannot find student "${username}"`)
     }
 
-    res.status(200).json({user: user})
+    const user = await getPopulatedUser(userId)
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+    res.status(200).json({ user: user })
+
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }
