@@ -30,10 +30,7 @@ export default function Friends({ loading, user }) {
 
         axios.get("/api/user/leaderboard", config)
             .then((response) => {
-                console.log("playesListings",response.data);
-
-                setAllPlayers(response.data);
-                
+                setAllPlayers(response.data.leaderboard);
             })
             .catch((error) => {console.log("playersListings",error.message)});
 
@@ -91,8 +88,9 @@ export default function Friends({ loading, user }) {
 
                     {/* Manage Friends */}
                     <div className="basis-1/2 bg-white/75 rounded-lg">
-                        <div className="p-8 flex flex-row">
-                            <ManageFriends />
+                        <div className="flex flex-row">
+                            <ManageFriends 
+                                userFriends={userFriends}/>
                         </div>
                     </div>
 

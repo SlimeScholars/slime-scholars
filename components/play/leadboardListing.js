@@ -2,32 +2,31 @@ import { gameData } from "../../data/gameData.js";
 
 export default function LeadboardListing({ users, currentType }) {
 
-    if (currentType === "friends") {
-        console.log(users);
-        return (
-            <div className="overflow-auto" id="friends-listing">
-                {Array.isArray(users) ? (
-                    users.map((user, index) => (
-                        <div className="flex flex-row items-center" key={user.id}>
-                            <div className="grow-0 px-4">{index+1}</div>
-                            <div className="rounded-full">
-                                <div className="relative">
-                                    <img src={"/assets/pfp/backgrounds/"+gameData.items[user.pfpBg].pfp}
-                                        className="absolution inset-0 w-full h-full"></img>
-                                    <img src={"/assets/pfp/slimes/blue-slime.png"}
-                                        className="relative z-10"></img>
-                                <div/>
+    
+    console.log(users);
+    return (
+        <div 
+            className="overflow-y-auto max-h-96" 
+            id="friends-listing">
+            {Array.isArray(users) ? (
+                users.map((user, index) => (
+                    <div className="flex flex-row items-center py-4" key={index}>
+                        <div className="grow-0 px-4">{index+1}</div>
+                        <div className="w-10 h-10 rounded-full overflow-hidden">
+                            <div className="relative">
+                                <img src={"/assets/pfp/backgrounds/"+gameData.items[user.pfpBg].pfp}
+                                    className="absolute inset-0"></img>
+                                <img src={"/assets/pfp/slimes/"+gameData.slimePfps[user.pfpSlime].pfp}
+                                    className="relative z-10 translate-y-1/4 scale-125"></img>
                             </div>
-                            <div className="grow">{user.username}</div>
-                            <div className="grow-0">{user.exp} exp</div>
                         </div>
-                    ))
-                ) : (
-                    <p>No users to display.</p>
-                )}
-            </div>
-        );
-    } else {
-        // TODO
-    }
+                        <div className="grow px-4">{user.username}</div>
+                        <div className="grow-0 pr-4">{user.exp} exp</div>
+                    </div>
+                ))
+            ) : (
+                <p>No users to display.</p>
+            )}
+        </div>
+    );
 }
