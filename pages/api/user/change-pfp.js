@@ -4,15 +4,15 @@ import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 
 /**
- * @desc    Buy item
- * @route   POST /api/user/buy-item
+ * @desc    Change profile picture
+ * @route   PUT /api/user/change-pfp
  * @access  Private - Students
  * @param   {string} req.body.pfpSlime - Name of the slime you want to set the pfp to
  * @param   {string} req.body.pfpBg - Name of the background you want to set the pfp to
  */
 export default async function (req, res) {
 	try {
-		if (req.method !== 'POST') {
+		if (req.method !== 'PUT') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
 
