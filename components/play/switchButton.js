@@ -4,12 +4,12 @@ import axios from "axios";
 export default function SwitchButton({ currentType, changeType }) {
 
     const friendsOnClick = {
-        friendsClassName: "pr-4 bg-red-200 rounded-full p-1",
-        playersClassName: "rounded-full p-1"
+        friendsClassName: "bg-red-200 rounded-full p-2",
+        playersClassName: "rounded-full p-2"
     };
     const playersOnClick = {
-        friendsClassName: "rounded-full p-1",
-        playersClassName: "pr-4 bg-red-200 rounded-full p-1"
+        friendsClassName: "rounded-full p-2",
+        playersClassName: "bg-red-200 rounded-full p-2"
     };
 
     const [switchBtn, setSwitchBtn] = useState(friendsOnClick);
