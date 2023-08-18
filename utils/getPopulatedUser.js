@@ -45,3 +45,22 @@ export const getPopulatedUser = async (userId) => {
 
   return modifiedUser
 }
+
+export const getPopulatedPlayer = async (userId) => {
+  const user = await User.findById(userId)
+    .select('_id username slimes roster exp pfpBg pfpSlime completedCourses completedLessons completedUnits')
+    .populate({
+      path: 'slimes',
+      select: '-user -createdAt -updatedAt -__v',
+    })
+    .exec()
+
+  // Duplicate user so that it can be editted
+  const modifiedUser = {
+    ...user.toJSON(),
+  }
+
+  modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
+
+  return modifiedUser
+}
