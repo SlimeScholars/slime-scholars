@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
 import { FaExclamationCircle } from "react-icons/fa";
 
-export const showToastMessage = (text, success) => {
+export const showToastError = (text, success) => {
 	if (success) {
 		toast.success(text, {
 			position: toast.POSITION.BOTTOM_RIGHT,
