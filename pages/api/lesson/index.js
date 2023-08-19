@@ -1,5 +1,7 @@
 import connectDB from '../../../utils/connectDB'
 import Lesson from '../../../models/lessonModel'
+import Unit from '../../../models/unitModel'
+import Course from '../../../models/courseModel'
 
 /**
  * @desc    Get information of all courses
@@ -9,26 +11,43 @@ import Lesson from '../../../models/lessonModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'GET') {
+    if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
     // Connect to database
     await connectDB()
 
-    const { lessonId } = req.query
+    const { lessonId, unitId, courseId } = req.query
+
+    if (!lessonId || !unitId || !courseId) {
+      throw new Error('Missing required ids')
+    }
+
     // Get lesson
     const lesson = await Lesson.findById(lessonId, {
       createdAt: 0, updatedAt: 0, __v: 0
     })
 
-    if(!lesson) {
+    const unit = (await Unit.findById(unitId)
+      .select('unitName')
+    )
+
+    const course = (await Course.findById(courseId)
+      .select('courseName')
+    )
+
+    if (!lesson) {
       throw new Error('Could not find lesson')
     }
 
-    res.status(200).json({ lesson })
+    res.status(200).json({
+      lesson,
+      unitName: unit.unitName,
+      courseName: course.courseName
+    })
   } catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
 

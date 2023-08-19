@@ -10,7 +10,7 @@ export default function FBSection({
   moveSection,
   active,
   sectionNumber,
-  setSectionNumber,
+  increment,
 }) {
   const [selected, setSelected] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -19,7 +19,7 @@ export default function FBSection({
   const handleSubmit = () => {
     console.log(section);
     if (active) {
-      setSectionNumber(section.sectionNumber + 1);
+      increment(sectionNumber)
       setSelected(true);
       setCorrect(section.blank.includes(answer));
     }
@@ -39,6 +39,7 @@ export default function FBSection({
         <div className="w-full flex flex-row flex-wrap items-center justify-center gap-3 mt-5">
           <p className="font-averia text-lg text-pink-400">{text}</p>
           <input
+            onClick={(e) => e.stopPropagation()}
             className={
               "w-32 ring-1 rounded-md py-1 px-2 font-averia " +
               (selected

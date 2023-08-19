@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
@@ -8,24 +8,33 @@ import TextSection from "../../../../../../components/admin/lesson/sections/text
 import ImgSection from "../../../../../../components/admin/lesson/sections/img";
 import MCSection from "../../../../../../components/admin/lesson/sections/mc";
 import FBSection from "../../../../../../components/admin/lesson/sections/fb";
+import { showToastError } from "../../../../../../utils/toast";
 
 export default function Lesson() {
   const router = useRouter();
-  const { course, unit, lessonID } = router.query;
-  const [lesson, setLesson] = React.useState({});
-  const [loading, setLoading] = React.useState(true);
+  const { courseId, unitId, lessonId } = router.query;
+  const [lesson, setLesson] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const [sectionNumber, setSectionNumber] = React.useState(1);
+  const [sectionNumber, setSectionNumber] = useState(1);
+  const [maxSectionNumber, setMaxSectionNumber] = useState(Number.MAX_SAFE_INTEGER)
+  const [quizSectionNumber, setQuizSectionNumber] = useState(-1)
+  const [maxQuizSectionNumber, setMaxQuizSectionNumber] = useState(Number.MAX_SAFE_INTEGER)
+
+  const [courseName, setCourseName] = useState('')
+  const [unitName, setUnitName] = useState('')
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
-    if (lessonID && token) {
+    if (lessonId && token) {
       axios
         .get(
           "/api/lesson",
           {
             params: {
-              lessonId: lessonID,
+              lessonId,
+              unitId,
+              courseId,
             },
           },
           {
@@ -36,29 +45,74 @@ export default function Lesson() {
         )
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data.lesson);
             setLesson(res.data.lesson);
+            setUnitName(res.data.unitName)
+            setCourseName(res.data.courseName)
+            let newMax = 0
+            for (let i in res.data.lesson.sections) {
+              if (res.data.lesson.sections[i].sectionNumber > newMax) {
+                newMax = res.data.lesson.sections[i].sectionNumber
+              }
+            }
+            setMaxSectionNumber(newMax)
+
+            newMax = 0
+            for (let i in res.data.lesson.quizSections) {
+              if (res.data.lesson.quizSections[i].sectionNumber > newMax) {
+                newMax = res.data.lesson.quizSections[i].sectionNumber
+              }
+            }
+            setMaxQuizSectionNumber(newMax)
             setLoading(false);
           } else {
             throw new Error("Failed to fetch lesson");
           }
         })
         .catch((err) => {
+          showToastError(err.response.data.message)
           console.log(err);
         });
     }
-  }, [lessonID]);
+  }, [lessonId])
+
+  const [delayedIncrement, setDelayedIncrement] = useState(false)
+
+  const clickIncrement = () => {
+    const sections = lesson.sections
+    if (!delayedIncrement) {
+      for (let i in sections) {
+        if (
+          sections[i].sectionNumber === sectionNumber &&
+          (sections[i].sectionType === 2 || sections[i].sectionType === 3)
+        ) {
+          return
+        }
+      }
+    }
+    else {
+      setDelayedIncrement(false)
+    }
+    setSectionNumber(sectionNumber + 1)
+  }
+
+  const questionIncrement = (questionSectionNumber) => {
+    if (questionSectionNumber === sectionNumber) {
+      setDelayedIncrement(true)
+    }
+  }
 
   return loading ? (
     <div>Loading...</div>
   ) : (
-    <div className="w-screen h-screen flex items-center justify-center bg-red-50">
+    <div className="w-screen h-screen flex items-center justify-center bg-red-50"
+      onClick={clickIncrement}
+    >
       <Head></Head>
       <div className="flex flex-col items-center justify-start lg:w-1/3 h-full bg-purple-50">
         <header className="w-full h-36 text-pink-400 flex items-center justify-start flex-col font-galindo">
           <div className="w-full h-12 flex items-center justify-between px-6 py-3 bg-pink-200">
-            <p className="text-xl">{course}</p>
-            <p className="text-xl">{unit}</p>
+            <p className="text-xl">{courseName}</p>
+            <p className="text-xl">{unitName}</p>
           </div>
           <h1 className="text-3xl mt-3 mb-1">
             {lesson ? lesson.lessonName : "Loading..."}
@@ -97,7 +151,7 @@ export default function Lesson() {
                     section={section}
                     active={true}
                     sectionNumber={sectionNumber}
-                    setSectionNumber={setSectionNumber}
+                    increment={questionIncrement}
                   />
                 );
               case 3:
@@ -109,11 +163,11 @@ export default function Lesson() {
                     section={section}
                     active={true}
                     sectionNumber={sectionNumber}
-                    setSectionNumber={setSectionNumber}
+                    increment={questionIncrement}
                   />
                 );
               default:
-                return <div key={index} />;
+                return <div key={`lessonSection-${index}`} />;
             }
           })}
 
@@ -128,7 +182,7 @@ export default function Lesson() {
                     text={quizSection.text}
                     section={quizSection}
                     active={true}
-                    sectionNumber={sectionNumber}
+                    quizSectionNumber={quizSectionNumber}
                   />
                 );
               case 1:
@@ -138,7 +192,7 @@ export default function Lesson() {
                     image={quizSection.image}
                     section={quizSection}
                     active={true}
-                    sectionNumber={sectionNumber}
+                    quizSectionNumber={quizSectionNumber}
                   />
                 );
               case 2:
@@ -148,8 +202,8 @@ export default function Lesson() {
                     options={quizSection.options}
                     section={quizSection}
                     active={true}
-                    sectionNumber={sectionNumber}
-                    setSectionNumber={setSectionNumber}
+                    quizSectionNumber={quizSectionNumber}
+                    setQuizSectionNumber={setQuizSectionNumber}
                   />
                 );
               case 3:
@@ -160,12 +214,12 @@ export default function Lesson() {
                     afterBlank={quizSection.afterBlank}
                     section={quizSection}
                     active={true}
-                    sectionNumber={sectionNumber}
-                    setSectionNumber={setSectionNumber}
+                    quizSectionNumber={quizSectionNumber}
+                    setQuizSectionNumber={setQuizSectionNumber}
                   />
                 );
               default:
-                return <div key={index} />;
+                return <div key={`quizSection-${index}`} />;
             }
           })}
         </div>
