@@ -104,11 +104,11 @@ export default function Lesson() {
   return loading ? (
     <div>Loading...</div>
   ) : (
-    <div className="w-screen h-screen flex items-center justify-center bg-red-50"
+    <div className="w-full min-h-screen flex items-center justify-center bg-red-50"
       onClick={clickIncrement}
     >
       <Head></Head>
-      <div className="flex flex-col items-center justify-start lg:w-1/3 h-full bg-purple-50">
+      <div className="flex flex-col items-center justify-start lg:w-1/3 min-h-screen bg-purple-50">
         <header className="w-full h-36 text-pink-400 flex items-center justify-start flex-col font-galindo">
           <div className="w-full h-12 flex items-center justify-between px-6 py-3 bg-pink-200">
             <p className="text-xl">{courseName}</p>

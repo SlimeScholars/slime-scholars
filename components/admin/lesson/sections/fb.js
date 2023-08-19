@@ -16,8 +16,9 @@ export default function FBSection({
   const [answer, setAnswer] = useState("");
   const [correct, setCorrect] = useState(false);
 
+  console.log(section)
+
   const handleSubmit = () => {
-    console.log(section);
     if (active) {
       increment(sectionNumber)
       setSelected(true);
@@ -59,7 +60,7 @@ export default function FBSection({
         </div>
         {selected && active && !correct && (
           <p className="font-averia text-sm mt-1 text-green-400 w-full text-center">
-            Answer: {section.blank[0]}
+            Answer(s): {section.blank.join(', ')}
           </p>
         )}
       </div>
