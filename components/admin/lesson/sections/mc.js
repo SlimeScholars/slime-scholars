@@ -9,13 +9,15 @@ export default function MCSection({
   moveSection,
   active,
   sectionNumber,
-  setSectionNumber,
+  increment,
 }) {
   const [selected, setSelected] = useState(false);
 
   const handleClick = (option) => {
     setSelected(true);
-    if (active) setSectionNumber(section.sectionNumber + 1);
+    if (active) {
+      increment(sectionNumber)
+    }
   };
 
   return (
@@ -43,7 +45,10 @@ export default function MCSection({
                       : "bg-pink-100  text-pink-400 ring-pink-400 hover:bg-pink-200 ")
                   }
                   key={index}
-                  onClick={() => handleClick(option)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleClick(option)
+                  }}
                   disabled={selected}
                 >
                   {option.option}
