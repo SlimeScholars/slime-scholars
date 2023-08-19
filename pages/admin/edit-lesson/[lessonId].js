@@ -403,8 +403,8 @@ export default function EditLesson({ user, loading, setLoading }) {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-row flex-nowrap">
-      <div className="w-3/5 h-full p-10 pr-40 bg-purple-100 font-averia ">
+    <div className="w-full min-h-screen flex flex-row flex-nowrap">
+      <div className="w-3/5 min-h-full p-10 pr-40 bg-purple-100 font-averia ">
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
           Edit lesson {lesson.name}
         </h1>

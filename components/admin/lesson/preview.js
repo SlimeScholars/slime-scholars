@@ -13,7 +13,6 @@ export default function LessonPreview({
   maxQuizSectionNumber,
   setMaxQuizSectionNumber,
 }) {
-  console.log(lesson);
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
     if (parseInt(number) < 0) {
