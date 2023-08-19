@@ -57,9 +57,9 @@ export default async function (req, res) {
     }
 
     cloudinary.config({
-      cloud_name: 'dwhtftbo5',
-      api_key: '482943397853264',
-      api_secret: '3a7tnGzOalUAHG57qqPOgaoexJc'
+      cloud_name: process.env.CLOUD_NAME,
+      api_key: process.env.API_KEY,
+      api_secret: process.env.API_SECRET,
     })
 
     const uploadedImages = [];
