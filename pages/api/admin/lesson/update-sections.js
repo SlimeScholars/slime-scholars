@@ -62,13 +62,14 @@ export default async function (req, res) {
       api_secret: process.env.API_SECRET,
     })
 
-    const uploadedImages = [];
+    const uploadedImages = []
 
     for (const image of imageFiles) {
       // Upload the file to Cloudinary
       await cloudinary.uploader.upload(image.path, (error, result) => {
         if (error) {
-          throw new Error('Error uploading file:', error);
+          console.log(error)
+          throw new Error(`Error uploading file: ${error}`);
         } else {
           uploadedImages.push(result.secure_url)
         }
@@ -191,7 +192,3 @@ export default async function (req, res) {
     res.status(400).json({ message: error.message })
   }
 }
-
-
-
-
