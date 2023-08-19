@@ -77,26 +77,55 @@ export default function Lesson() {
 
   const [delayedIncrement, setDelayedIncrement] = useState(false)
 
+  const scrollToBottom = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: 'smooth' // Use 'auto' for instant scrolling
+    });
+  }
+
   const clickIncrement = () => {
-    const sections = lesson.sections
-    if (!delayedIncrement) {
-      for (let i in sections) {
-        if (
-          sections[i].sectionNumber === sectionNumber &&
-          (sections[i].sectionType === 2 || sections[i].sectionType === 3)
-        ) {
-          return
+    if (sectionNumber === maxSectionNumber) {
+      if (delayedIncrement) {
+        setDelayedIncrement(false)
+      }
+      else {
+        // Prevent clicking if it's a question active
+      }
+      setQuizSectionNumber(quizSectionNumber + 1)
+    }
+
+    else {
+      const sections = lesson.sections
+      if (delayedIncrement) {
+        setDelayedIncrement(false)
+      }
+      else {
+        for (let i in sections) {
+          if (
+            sections[i].sectionNumber === sectionNumber &&
+            (sections[i].sectionType === 2 || sections[i].sectionType === 3)
+          ) {
+            return
+          }
         }
       }
+      setSectionNumber(sectionNumber + 1)
     }
-    else {
-      setDelayedIncrement(false)
-    }
-    setSectionNumber(sectionNumber + 1)
   }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [sectionNumber, quizSectionNumber])
 
   const questionIncrement = (questionSectionNumber) => {
     if (questionSectionNumber === sectionNumber) {
+      setDelayedIncrement(true)
+    }
+  }
+
+  const quizQuestionIncrement = (questionSectionNumber) => {
+    if (questionSectionNumber === quizSectionNumber) {
       setDelayedIncrement(true)
     }
   }
@@ -119,7 +148,7 @@ export default function Lesson() {
           </h1>
           <div className="w-full h-[1px] bg-pink-200 mt-3" />
         </header>
-        <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
+        <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50 pb-[20vh]">
           {lesson.sections.map((section, index) => {
             // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
             switch (section.sectionType) {
@@ -171,7 +200,16 @@ export default function Lesson() {
             }
           })}
 
-          <div>Quiz</div>
+          {
+            quizSectionNumber !== -1 ?
+              <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
+                <div className="w-full h-[1px] bg-pink-200 mb-3" />
+                <h1 className="text-3xl mt-3 mb-1">
+                  Quiz
+                </h1>
+                <div className="w-full h-[1px] bg-pink-200 mt-3" />
+              </div> : <></>
+          }
           {lesson.quizSections.map((quizSection, index) => {
             // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
             switch (quizSection.sectionType) {
@@ -182,7 +220,7 @@ export default function Lesson() {
                     text={quizSection.text}
                     section={quizSection}
                     active={true}
-                    quizSectionNumber={quizSectionNumber}
+                    sectionNumber={quizSectionNumber}
                   />
                 );
               case 1:
@@ -192,7 +230,7 @@ export default function Lesson() {
                     image={quizSection.image}
                     section={quizSection}
                     active={true}
-                    quizSectionNumber={quizSectionNumber}
+                    sectionNumber={quizSectionNumber}
                   />
                 );
               case 2:
@@ -202,8 +240,8 @@ export default function Lesson() {
                     options={quizSection.options}
                     section={quizSection}
                     active={true}
-                    quizSectionNumber={quizSectionNumber}
-                    setQuizSectionNumber={setQuizSectionNumber}
+                    sectionNumber={quizSectionNumber}
+                    increment={quizQuestionIncrement}
                   />
                 );
               case 3:
@@ -214,8 +252,8 @@ export default function Lesson() {
                     afterBlank={quizSection.afterBlank}
                     section={quizSection}
                     active={true}
-                    quizSectionNumber={quizSectionNumber}
-                    setQuizSectionNumber={setQuizSectionNumber}
+                    sectionNumber={quizSectionNumber}
+                    increment={quizQuestionIncrement}
                   />
                 );
               default:

@@ -16,8 +16,6 @@ export default function FBSection({
   const [answer, setAnswer] = useState("");
   const [correct, setCorrect] = useState(false);
 
-  console.log(section)
-
   const handleSubmit = () => {
     if (active) {
       increment(sectionNumber)
