@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Back from "../components/signup/back";
 
-import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../utils/toast";
 
 import axios from "axios";
