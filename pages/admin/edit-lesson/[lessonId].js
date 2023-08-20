@@ -190,9 +190,13 @@ export default function EditLesson({ user, loading, setLoading }) {
     }
     let newMC = {
       sectionType: 2,
-      options: [...mc],
+      options: [],
       index: lesson.sections.length,
     };
+    console.log(mc)
+    for (let i in mc) {
+      newMC.options.push({ ...mc[i] })
+    }
 
     let newLesson = { ...lesson };
     if (mcIsQuiz) {

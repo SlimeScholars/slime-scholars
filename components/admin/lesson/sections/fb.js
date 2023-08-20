@@ -12,6 +12,8 @@ export default function FBSection({
   active,
   sectionNumber,
   increment,
+  isQuiz,
+  addScore,
 }) {
   const [selected, setSelected] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -20,9 +22,12 @@ export default function FBSection({
 
   const handleSubmit = () => {
     if (active) {
+      if (!selected && isQuiz && section.blank.includes(answer.trim())) {
+        addScore(1)
+      }
       increment(sectionNumber)
       setSelected(true);
-      setCorrect(section.blank.includes(answer));
+      setCorrect(section.blank.includes(answer.trim()));
     }
   }
 
