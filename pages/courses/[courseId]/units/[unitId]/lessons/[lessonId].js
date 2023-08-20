@@ -144,6 +144,12 @@ export default function Lesson() {
     }
   }
 
+  const [quizScore, setQuizScore] = useState(0)
+
+  const addScore = (points) => {
+    setQuizScore(quizScore + points)
+  }
+
   return loading ? (
     <div>Loading...</div>
   ) : (
@@ -256,6 +262,8 @@ export default function Lesson() {
                     active={true}
                     sectionNumber={quizSectionNumber}
                     increment={quizQuestionIncrement}
+                    isQuiz={true}
+                    addScore={addScore}
                   />
                 );
               case 3:
@@ -268,6 +276,8 @@ export default function Lesson() {
                     active={true}
                     sectionNumber={quizSectionNumber}
                     increment={quizQuestionIncrement}
+                    isQuiz={true}
+                    addScore={addScore}
                   />
                 );
               default:
@@ -278,7 +288,12 @@ export default function Lesson() {
           {
             quizSectionNumber === maxQuizSectionNumber + 1 ?
               <div className="w-full flex justify-center mt-5 font-bold">
-                <button className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400">Complete Lesson</button>
+                <button
+                  className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"
+                  onClick={() => console.log(quizScore)}
+                >
+                  Complete Lesson
+                </button>
               </div> : <></>
           }
         </div>

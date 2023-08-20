@@ -12,6 +12,7 @@ export default function MCSection({
   sectionNumber,
   increment,
   isQuiz,
+  addScore,
 }) {
   const [selected, setSelected] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -21,6 +22,9 @@ export default function MCSection({
   const handleClick = (option, index) => {
     setSelected(true);
     if (active) {
+      if (!selected && isQuiz && option.correct) {
+        addScore(1)
+      }
       setCorrect(option.correct)
       setSelectedOption(index)
       increment(sectionNumber)
