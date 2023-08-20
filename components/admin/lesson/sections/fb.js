@@ -46,7 +46,7 @@ export default function FBSection({
               (selected
                 ? correct
                   ? "bg-green-100 text-green-400 ring-green-400"
-                  : "bg-red-200 text-red-400 ring-red-400"
+                  : "bg-red-100 text-red-400 ring-red-400"
                 : "bg-pink-100  text-pink-400 ring-pink-400 hover:bg-pink-200 ")
             }
             value={answer}
