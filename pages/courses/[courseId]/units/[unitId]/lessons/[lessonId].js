@@ -10,7 +10,7 @@ import MCSection from "../../../../../../components/admin/lesson/sections/mc";
 import FBSection from "../../../../../../components/admin/lesson/sections/fb";
 import { showToastError } from "../../../../../../utils/toast";
 
-export default function Lesson() {
+export default function Lesson({ user }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -145,11 +145,59 @@ export default function Lesson() {
   }
 
   const [quizScore, setQuizScore] = useState(0)
+  const [updatedUser, setUpdatedUser] = useState(user)
+  const [completed, setCompleted] = useState(false)
 
   const addScore = (points) => {
     setQuizScore(quizScore + points)
   }
 
+  const submitQuiz = (e) => {
+    e.preventDefault()
+    try {
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      setLoading(true)
+      axios
+        .post("/api/lesson/complete", { lessonId, unitId, score: quizScore }, config)
+        .then((response) => {
+          if (response.data) {
+            console.log(response.data)
+            const newUser = {
+              ...user,
+              completedCourses: response.data.completedCourses,
+              completedUnits: response.data.completedUnits,
+              completedLessons: response.data.completedLessons,
+
+              exp: response.data.exp,
+              flowers: response.data.flowers,
+              lastRewards: response.data.lastRewards,
+            }
+            setUpdatedUser(newUser)
+            setCompleted(true)
+            setLoading(false);
+          }
+        })
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message)
+          }
+          setLoading(false);
+        });
+
+    } catch (error) {
+      showToastError(error.message);
+      return;
+    }
+  }
+
+  // TODO: Add a completion screen that shows increase to flowers, exp, and star level
   return loading ? (
     <div>Loading...</div>
   ) : (
@@ -157,11 +205,28 @@ export default function Lesson() {
       onClick={clickIncrement}
     >
       <Head></Head>
-      <div className="flex flex-col items-center justify-start lg:w-1/3 min-h-screen bg-purple-50">
-        <header className="w-full h-36 text-pink-400 flex items-center justify-start flex-col font-galindo">
-          <div className="w-full h-12 flex items-center justify-between px-6 py-3 bg-pink-200">
-            <p className="text-xl">{courseName}</p>
-            <p className="text-xl">{unitName}</p>
+      <form
+        className="flex flex-col items-center justify-start lg:w-1/3 min-h-screen bg-purple-50"
+        onSubmit={(e) => submitQuiz(e)}
+      >
+        <header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
+          <div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
+            <p className="text-lg"
+              onClick={(e) => {
+                e.stopPropagation()
+                const confirmed = window.confirm('Are you sure you want to exit the lesson. Your question responses will NOT be saved.')
+                if (confirmed) {
+                  router.push('/')
+                }
+              }}
+            >
+              Back
+            </p>
+            <p className="text-lg text-right">
+              {courseName}
+              <br />
+              {unitName}
+            </p>
           </div>
           <h1 className="text-3xl mt-3 mb-1">
             {lesson ? lesson.lessonName : "Loading..."}
@@ -290,14 +355,14 @@ export default function Lesson() {
               <div className="w-full flex justify-center mt-5 font-bold">
                 <button
                   className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"
-                  onClick={() => console.log(quizScore)}
+                  type='submit'
                 >
                   Complete Lesson
                 </button>
               </div> : <></>
           }
         </div>
-      </div>
+      </form>
     </div>
   );
 }

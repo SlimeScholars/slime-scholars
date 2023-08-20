@@ -310,7 +310,7 @@ export default async function (req, res) {
       .select('completedLessons lastRewards')
     // TODO: Populate completedLessons
 
-    res.status(400).json({
+    res.status(200).json({
       stars: stars, // Most recent score
       completedLesson: newCompletedLesson, // Lesson with high score
       flowers: newFlowers,
