@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Controls from "../controls";
+import { FaCaretDown } from 'react-icons/fa'
 
 export default function FBSection({
   text,
@@ -15,6 +16,7 @@ export default function FBSection({
   const [selected, setSelected] = useState(false);
   const [answer, setAnswer] = useState("");
   const [correct, setCorrect] = useState(false);
+  const [collapse, setCollapse] = useState(true)
 
   const handleSubmit = () => {
     if (active) {
@@ -22,7 +24,7 @@ export default function FBSection({
       setSelected(true);
       setCorrect(section.blank.includes(answer));
     }
-  };
+  }
 
   return (
     (!active || sectionNumber >= section.sectionNumber) && (
@@ -56,10 +58,30 @@ export default function FBSection({
           />
           <p className="font-averia text-lg text-pink-400">{afterBlank}</p>
         </div>
-        {selected && active && !correct && (
-          <p className="font-averia text-sm mt-1 text-green-400 w-full text-center">
-            Answer(s): {section.blank.join(', ')}
-          </p>
+        {selected && active && (
+          <div className="flex justify-center w-full mt-8 flex-col select-none cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation()
+              setCollapse(!collapse)
+            }}
+          >
+            <div
+              className={`w-full ring-2 rounded-sm py-2 px-4 font-averia text-center ${correct ?
+                'bg-green-100 text-green-400 ring-green-400' :
+                'bg-red-100 text-red-400  ring-red-400'}`
+              }
+            >
+              <div>
+                See answers <FaCaretDown className="ml-1 inline text-lg -mt-1" />
+              </div>
+              {!collapse && (
+                <p>
+                  Answer(s): {section.blank.join(', ')}
+                </p>
+              )}
+            </div>
+
+          </div>
         )}
       </div>
     )

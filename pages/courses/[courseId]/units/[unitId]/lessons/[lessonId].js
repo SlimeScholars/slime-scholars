@@ -75,8 +75,6 @@ export default function Lesson() {
     }
   }, [lessonId])
 
-  const [delayedIncrement, setDelayedIncrement] = useState(false)
-
   const scrollToBottom = () => {
     window.scrollTo({
       top: document.documentElement.scrollHeight,
@@ -84,23 +82,36 @@ export default function Lesson() {
     });
   }
 
+  const [delayedIncrement, setDelayedIncrement] = useState(false)
+
   const clickIncrement = () => {
-    if (sectionNumber === maxSectionNumber) {
+    if (sectionNumber === maxSectionNumber + 1) {
+      if (quizSectionNumber === maxQuizSectionNumber + 1) {
+        return
+      }
       if (delayedIncrement) {
         setDelayedIncrement(false)
       }
       else {
-        // Prevent clicking if it's a question active
+        const quizSections = lesson.quizSections
+        for (let i in quizSections) {
+          if (
+            quizSections[i].sectionNumber === quizSectionNumber &&
+            (quizSections[i].sectionType === 2 || quizSections[i].sectionType === 3)
+          ) {
+            return
+          }
+        }
       }
       setQuizSectionNumber(quizSectionNumber + 1)
     }
 
     else {
-      const sections = lesson.sections
       if (delayedIncrement) {
         setDelayedIncrement(false)
       }
       else {
+        const sections = lesson.sections
         for (let i in sections) {
           if (
             sections[i].sectionNumber === sectionNumber &&
@@ -109,6 +120,9 @@ export default function Lesson() {
             return
           }
         }
+      }
+      if (sectionNumber === maxSectionNumber) {
+        setQuizSectionNumber(0)
       }
       setSectionNumber(sectionNumber + 1)
     }
@@ -260,6 +274,13 @@ export default function Lesson() {
                 return <div key={`quizSection-${index}`} />;
             }
           })}
+
+          {
+            quizSectionNumber === maxQuizSectionNumber + 1 ?
+              <div className="w-full flex justify-center mt-5 font-bold">
+                <button className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400">Complete Lesson</button>
+              </div> : <></>
+          }
         </div>
       </div>
     </div>
