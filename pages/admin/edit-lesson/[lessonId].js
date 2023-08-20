@@ -286,6 +286,18 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const save = () => {
     try {
+      // Make sure there are only 4 questions on the quiz
+      let maxScore = 0
+      for (let i in lesson.quizSections) {
+        console.log(lesson.quizSections[i])
+        if (lesson.quizSections[i].sectionType === 2 || lesson.quizSections[i].sectionType === 3) {
+          maxScore++
+        }
+      }
+      if (maxScore !== 4) {
+        throw new Error(`There must be exactly 4 quiz questions. There are currently ${maxScore}.`)
+      }
+
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
