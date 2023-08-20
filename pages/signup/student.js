@@ -11,8 +11,6 @@ import {
   verifyPassword,
 } from "../../utils/verify";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
@@ -83,9 +81,10 @@ export default function Student({ loading, user, setUser }) {
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back />
-      <ToastContainer />
       <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
-        <div className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
+        <form
+          className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
+        >
           <div className="rotate-[14deg] absolute -bottom-8 -left-11 opacity-100 z-0">
             <Image
               src="/assets/graphics/slimes/slime-cat.png"
@@ -109,6 +108,7 @@ export default function Student({ loading, user, setUser }) {
                   type="text"
                   placeholder="What is your first name?"
                   value={firstName}
+                  autoComplete="given-name"
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
@@ -121,6 +121,7 @@ export default function Student({ loading, user, setUser }) {
                   type="text"
                   placeholder="What is your last name?"
                   value={lastName}
+                  autoComplete="family-name"
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </div>
@@ -150,6 +151,7 @@ export default function Student({ loading, user, setUser }) {
               type="text"
               placeholder="What name do you want others to see?"
               value={username}
+              autoComplete="username"
               onChange={(e) => setUsername(e.target.value)}
             />
             <label className="font-galindo text-bg-light/90 text-base mt-2">
@@ -160,6 +162,7 @@ export default function Student({ loading, user, setUser }) {
               type="text"
               placeholder="Enter your email, e.g. johndoe@email.com"
               value={email}
+              autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
             />
             <div className="w-full flex justify-between items-end mb-1">
@@ -188,6 +191,7 @@ export default function Student({ loading, user, setUser }) {
               type="password"
               placeholder="What is your password?"
               value={password}
+              autoComplete="new-password"
               onChange={(e) => setPassword(e.target.value)}
             />
             <label className="font-galindo text-bg-light/90 text-base mt-2">
@@ -198,6 +202,7 @@ export default function Student({ loading, user, setUser }) {
               type="password"
               placeholder="Confirm your password"
               value={confirm}
+              autoComplete="off"
               onChange={(e) => setConfirm(e.target.value)}
             />
             <div className="w-full h-[2px] bg-bg-light/30 my-5" />
@@ -220,7 +225,7 @@ export default function Student({ loading, user, setUser }) {
               Log in here!
             </a>
           </p>
-        </div>
+        </form>
       </div>
     </div>
   );
