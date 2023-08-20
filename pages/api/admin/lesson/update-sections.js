@@ -49,6 +49,38 @@ export default async function (req, res) {
     });
 
     const { lessonId, sections, quizSections, imageLength } = JSON.parse(data.fields.data)
+
+    // Make sure there are only 4 questions on the quiz
+    let maxScore = 0
+    for (let i in quizSections) {
+      if (quizSections[i].sectionType === 2 || quizSections[i].sectionType === 3) {
+        maxScore++
+      }
+    }
+    if (maxScore !== 4) {
+      throw new Error(`There must be exactly 4 quiz questions. There are currently ${maxScore}.`)
+    }
+
+    // Make sure there is only one question max section number
+    const sectionsOverlap = {}
+    for (let i in sections) {
+      if (sections.sectionType === 2 || sections.sectionType === 3) {
+        if (sectionsOverlap[sections[i].sectionNumber]) {
+          throw new Error(`There can only one question max per section number. On lesson section number ${sections[i].sectionNumber} there is an overlap.`)
+        }
+        sectionsOverlap[sections[i].sectionNumber] = true
+      }
+    }
+    const quizSectionsOverlap = {}
+    for (let i in quizSections) {
+      if (quizSections.sectionType === 2 || quizSections.sectionType === 3) {
+        if (quizSectionsOverlap[quizSections[i].sectionNumber]) {
+          throw new Error(`There can only one question per section number. On quiz section number ${quizSections[i].sectionNumber} there is an overlap.`)
+        }
+        quizSectionsOverlap[quizSections[i].sectionNumber] = true
+      }
+    }
+
     const imageFiles = []
     for (let i = 0; i < imageLength; i++) {
       if (data.files && data.files[`image${i}`]) {
