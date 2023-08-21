@@ -9,6 +9,7 @@ export default function Friends({ loading, user }) {
     const router = useRouter();
     const [userFriends, setUserFriends] = useState("empty for now");
     const [allPlayers, setAllPlayers] = useState("empty for now");
+    const [toDo, setToDo] = useState("manage");
 
     useEffect(() => {
         if (loading) { return; }
@@ -55,20 +56,15 @@ export default function Friends({ loading, user }) {
                         <div className="grow-0 flex grow pr-4">
                             <button className="p-2 text-xl bg-red-300 hover:bg-red-300/50 rounded-lg font-galindo"
                                 onClick={() => {
-                                    const token = localStorage.getItem('jwt');
-                                    const config = {
-                                        headers: {
-                                            Authorization: `Bearer ${token}`,
-                                        },
-                                    };
-                                    axios.post('/api/slime/level-up', {
-                                    }, config)
-                                        .then((response) => {
-                                        })
-                                        .catch((error) => {
-                                        })
+                                    if ( toDo === "manage" ) {
+                                        setToDo("add");
+                                    } else {
+                                        setToDo("manage");
+                                    }
                                 }}>
-                                Add Friends
+                                {
+                                    toDo=="manage"? ("Add Friends") : ("Manage Friends")
+                                }
                             </button>
                         </div>
                     </div>
@@ -90,7 +86,8 @@ export default function Friends({ loading, user }) {
                     <div className="basis-1/2 bg-white/75 rounded-lg h-full">
                         <div className="flex flex-row">
                             <ManageFriends 
-                                userFriends={userFriends}/>
+                                userFriends={userFriends}
+                                toDo={toDo}/>
                         </div>
                     </div>
                 </div>

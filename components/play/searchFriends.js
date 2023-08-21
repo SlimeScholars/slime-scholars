@@ -2,8 +2,16 @@ import React, { useState } from "react";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
-export default function SearchFriends({ setFriends }) {
-    const [searchContent, setSearchContent] = useState("Search Friends");
+/**
+ * @param   {function} setFriends - can change the matching friends variable in upper level (ManageFriends.js)
+ * @param   {string} toDo - acts as a flag indicating the functionality of ManageFriends Board
+ *                          - "manage": return search friends bar on default
+ *                          - "add": allow search across entire user database
+ * @param   {string} placeHolder - placeholder for the search bar
+ */
+
+export default function SearchFriends({ setFriends, toDo, placeHolder }) {
+    const [searchContent, setSearchContent] = useState("");
 
     const handleSubmit = (e) => {
         const token = localStorage.getItem('jwt')
@@ -17,13 +25,28 @@ export default function SearchFriends({ setFriends }) {
                 username: searchContent,
             }
         };
-        axios
+        
+        if ( toDo === "add") {
+            axios
+                .get("/api/user/search", config)
+                .then(response => {
+                    setFriends(response.data.users);
+                })
+                .catch(error => {
+                    console.log(error.message);
+                });
+        } else {
+            axios
             .get("/api/user/friend/search", config)
             .then(response => {
                 setFriends(response.data.matchingFriends);
             })
             .catch(error => 
-                console.error(error.message));
+                console.error()
+                //console.error(error.message)
+                );
+        }
+        
         e.preventDefault();
     };
 
@@ -34,7 +57,7 @@ export default function SearchFriends({ setFriends }) {
             <input
                 type="text"
                 value={searchContent}
-                placeholder="Search Friends"
+                placeholder={placeHolder}
                 className="p-1 grow bg-transparent text-m"
                 onChange={(e) => setSearchContent(e.target.value)}>
             </input>
