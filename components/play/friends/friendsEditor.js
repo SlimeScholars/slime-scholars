@@ -1,5 +1,5 @@
-import { gameData } from "../../data/gameData";
-import { showToastError } from "../../utils/toast";
+import { gameData } from "../../../data/gameData";
+import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 
 /**
@@ -11,7 +11,7 @@ import axios from "axios";
  * @param   {function} setAlertMessage - create a pop up alert on change
  */
 
-export default function FriendsEditor({ userFriends, usersOnlist, toDo }) {
+export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurrentUser }) {
 
     const handleManageFriend = (friendId) => {
         const token = localStorage.getItem('jwt')
@@ -54,10 +54,17 @@ export default function FriendsEditor({ userFriends, usersOnlist, toDo }) {
                     console.error('Error removing friend')
             });
         }
-        
+
+        // Sync user data with backend
+        axios
+            .get("/api/user", config)
+            .then(response => {
+                // Sync current user after deleting a friend or sending a friend request
+                setCurrentUser(response.data.user);
+            });
     }
 
-    if (usersOnlist === "empty for now") {
+    if (todo === "manage") {
         return (
             <div className="grid grid-cols-2 gap-4">
                 {Array.isArray(userFriends) ? (

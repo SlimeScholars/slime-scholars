@@ -16,6 +16,10 @@ export default function Leaderbaord({ userFriends, allPlayers }) {
                         <SwitchButton
                             currentType={currentType}
                             changeType={(type) => setCurrentType(type)}
+                            leftType="friends"
+                            rightType="players"
+                            leftText="Friends"
+                            rightText="All Players"
                         />
                     </div>
                 </dvi>
