@@ -7,14 +7,14 @@ import '../../../../models/lessonModel'
 
 /**
  * @desc    Update a unit
- * @route   POST /api/admin/unit/update-name
+ * @route   PUT /api/admin/unit/update-name
  * @access  Private - Admin
  * @param   {string} req.body.unitId - Id of the unit you want to update the name of
  * @param   {string} req.body.unitName - The name you want to update the unit's name to
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if (req.method !== 'PUT') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -29,13 +29,13 @@ export default async function (req, res) {
 
     const { unitId, unitName } = req.body
 
-    if(!unitId) {
+    if (!unitId) {
       throw new Error('Please send a unitId')
     }
 
     const unitExists = Unit.findById(unitId)
 
-    if(!unitExists) {
+    if (!unitExists) {
       throw new Error('Could not find the unit to update')
     }
 
@@ -47,11 +47,11 @@ export default async function (req, res) {
     const unit = await Unit.findById(unitId)
       .populate('lessons')
 
-    res.status(200).json({unit})
+    res.status(200).json({ unit })
 
-  } catch(error) {
+  } catch (error) {
     console.log(error.message)
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
 

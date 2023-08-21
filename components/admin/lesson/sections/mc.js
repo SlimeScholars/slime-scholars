@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Controls from "../controls";
+import { FaCaretDown } from 'react-icons/fa'
 
 export default function MCSection({
   options,
@@ -9,14 +10,33 @@ export default function MCSection({
   moveSection,
   active,
   sectionNumber,
-  setSectionNumber,
+  increment,
+  isQuiz,
+  addScore,
 }) {
   const [selected, setSelected] = useState(false);
+  const [correct, setCorrect] = useState(false);
+  const [selectedOption, setSelectedOption] = useState(-1)
+  const [collapse, setCollapse] = useState(true)
 
-  const handleClick = (option) => {
+  const handleClick = (option, index) => {
     setSelected(true);
-    if (active) setSectionNumber(section.sectionNumber + 1);
+    if (active) {
+      if (!selected && isQuiz && option.correct) {
+        addScore(1)
+      }
+      setCorrect(option.correct)
+      setSelectedOption(index)
+      increment(sectionNumber)
+    }
   };
+
+  const answers = []
+  for (let i in options) {
+    if (options[i].correct) {
+      answers.push(options[i].option)
+    }
+  }
 
   return (
     (!active || sectionNumber >= section.sectionNumber) && (
@@ -37,13 +57,16 @@ export default function MCSection({
                   className={
                     "w-full ring-2 rounded-lg py-2 px-4 font-averia " +
                     (selected
-                      ? option.correct
-                        ? "bg-green-100 text-green-400 ring-green-400"
-                        : "bg-red-200 text-red-400 ring-red-400"
+                      ? correct
+                        ? selectedOption === index ? 'bg-green-300 text-green-700 ring-green-700 font-bold' : "bg-green-100 text-green-400 ring-green-400"
+                        : selectedOption === index ? 'bg-red-300 text-red-700 ring-red-700 font-bold' : "bg-red-100 text-red-400 ring-red-400"
                       : "bg-pink-100  text-pink-400 ring-pink-400 hover:bg-pink-200 ")
                   }
                   key={index}
-                  onClick={() => handleClick(option)}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleClick(option, index)
+                  }}
                   disabled={selected}
                 >
                   {option.option}
@@ -51,6 +74,32 @@ export default function MCSection({
               )
           )}
         </div>
+
+        {selected && active && (
+          <div className="flex justify-center w-full mt-8 flex-col select-none cursor-pointer"
+            onClick={(e) => {
+              e.stopPropagation()
+              setCollapse(!collapse)
+            }}
+          >
+            <div
+              className={`w-full ring-2 rounded-sm py-2 px-4 font-averia text-center ${correct ?
+                'bg-green-100 text-green-400 ring-green-400' :
+                'bg-red-100 text-red-400  ring-red-400'}`
+              }
+            >
+              <div>
+                See answers <FaCaretDown className="ml-1 inline text-lg -mt-1" />
+              </div>
+              {!collapse && (
+                <p>
+                  Answer(s): {answers.join(', ')}
+                </p>
+              )}
+            </div>
+
+          </div>
+        )}
       </div>
     )
   );

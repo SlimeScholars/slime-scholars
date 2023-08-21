@@ -3,10 +3,10 @@ import User from '../../../models/userModel'
 import { getPopulatedPlayer } from '../../../utils/getPopulatedUser'
 
 /**
- * @desc    Search user's information by username
+ * @desc    Search for a player based on keywords in their username
  * @route   GET /api/user/search?username=...
  * @access  Public
- * @param   {string} req.query.username - Max 15 characters long. Can only contain alphabetical characters.
+ * @param   {string} req.query.username - Words included in the username of the user you want to find
  */
 export default async function (req, res) {
   try {
@@ -23,20 +23,41 @@ export default async function (req, res) {
       throw new Error('Username cannot be empty')
     }
 
+    // Get rid of all characters except spaces, letters, and numbers
+    const cleanedUsername = username.toLowerCase().replace(/[^a-z0-9\s]/g, '')
+
+    // Make an array of keywords out of all space seperated words
+    const keywords = cleanedUsername.split(' ')
+
     // Search for user
+    const users = await User.find({
+      $and: [
+        { userType: 1 },
+        { username: { $all: keywords.map(keyword => new RegExp(keyword, 'i')) } }
+      ]
+    })
+      // TODO: Make sure the search limit is 20
+      .limit(20)
+      .select('_id')
+      .exec()
+
+    // Populate the users
+    const populatedPlayers = []
+    for (let i in users) {
+      const populatedPlayer = await getPopulatedPlayer(users[i]._id)
+      console.log(populatedPlayer)
+      populatedPlayers.push(populatedPlayer)
+    }
+
+    /*
     const usernameRegex = new RegExp(`^${username}$`, 'i')
     const userId = (await User.findOne({ username: { $regex: usernameRegex } })
       .select('_id')
       .exec()
     )
+    */
 
-    if (!userId) {
-      throw new Error(`Cannot find student "${username}"`)
-    }
-
-    const user = await getPopulatedPlayer(userId)
-
-    res.status(200).json({ user: user })
+    res.status(200).json({ users: populatedPlayers })
 
   } catch (error) {
     res.status(400).json({ message: error.message })

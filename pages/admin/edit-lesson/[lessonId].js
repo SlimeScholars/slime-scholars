@@ -190,9 +190,13 @@ export default function EditLesson({ user, loading, setLoading }) {
     }
     let newMC = {
       sectionType: 2,
-      options: [...mc],
+      options: [],
       index: lesson.sections.length,
     };
+    console.log(mc)
+    for (let i in mc) {
+      newMC.options.push({ ...mc[i] })
+    }
 
     let newLesson = { ...lesson };
     if (mcIsQuiz) {
@@ -282,6 +286,38 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const save = () => {
     try {
+      // Make sure there are only 4 questions on the quiz
+      let maxScore = 0
+      for (let i in lesson.quizSections) {
+        if (lesson.quizSections[i].sectionType === 2 || lesson.quizSections[i].sectionType === 3) {
+          maxScore++
+        }
+      }
+      if (maxScore !== 4) {
+        throw new Error(`There must be exactly 4 quiz questions. There are currently ${maxScore}.`)
+      }
+
+      // Make sure there is only one question max section number
+      const sectionsOverlap = {}
+      for (let i in lesson.sections) {
+        if (lesson.sections.sectionType === 2 || lesson.sections.sectionType === 3) {
+          if (sectionsOverlap[lesson.sections[i].sectionNumber]) {
+            throw new Error(`There can only one question max per section number. On lesson section number ${lesson.sections[i].sectionNumber} there is an overlap.`)
+          }
+          sectionsOverlap[lesson.sections[i].sectionNumber] = true
+        }
+      }
+
+      const quizSectionsOverlap = {}
+      for (let i in lesson.quizSections) {
+        if (lesson.quizSections.sectionType === 2 || lesson.quizSections.sectionType === 3) {
+          if (quizSectionsOverlap[lesson.quizSections[i].sectionNumber]) {
+            throw new Error(`There can only one question per section number. On quiz section number ${lesson.quizSections[i].sectionNumber} there is an overlap.`)
+          }
+          quizSectionsOverlap[lesson.quizSections[i].sectionNumber] = true
+        }
+      }
+
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
@@ -403,8 +439,8 @@ export default function EditLesson({ user, loading, setLoading }) {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-row flex-nowrap">
-      <div className="w-3/5 h-full p-10 pr-40 bg-purple-100 font-averia ">
+    <div className="w-full min-h-screen flex flex-row flex-nowrap">
+      <div className="w-3/5 min-h-full p-10 pr-40 bg-purple-100 font-averia ">
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
           Edit lesson {lesson.name}
         </h1>
