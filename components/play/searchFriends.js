@@ -13,19 +13,18 @@ export default function SearchFriends({ setFriends }) {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
+            params: {
+                username: searchContent,
+            }
         };
-        e.preventDefault();
         axios
-            .get(`/api/user/friend/search&username=${e.target.value}`, config)
+            .get("/api/user/friend/search", config)
             .then(response => {
-                if (response.data) {
-                    console.log(response.data);
-                } else {
-                    setFriends("No results");
-                }
+                setFriends(response.data.matchingFriends);
             })
             .catch(error => 
                 console.error(error.message));
+        e.preventDefault();
     };
 
     return (

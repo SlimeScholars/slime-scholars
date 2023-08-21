@@ -87,13 +87,12 @@ export default function Friends({ loading, user }) {
                     </div>
 
                     {/* Manage Friends */}
-                    <div className="basis-1/2 bg-white/75 rounded-lg">
+                    <div className="basis-1/2 bg-white/75 rounded-lg h-full">
                         <div className="flex flex-row">
                             <ManageFriends 
                                 userFriends={userFriends}/>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
