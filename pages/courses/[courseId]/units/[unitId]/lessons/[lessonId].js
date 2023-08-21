@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Stars from "../../../../../../components/learn/stars";
+import { HiHome } from 'react-icons/hi'
+import { FaArrowRight } from 'react-icons/fa'
 
 import axios from "axios";
 
@@ -10,11 +13,10 @@ import MCSection from "../../../../../../components/admin/lesson/sections/mc";
 import FBSection from "../../../../../../components/admin/lesson/sections/fb";
 import { showToastError } from "../../../../../../utils/toast";
 
-export default function Lesson({ user }) {
+export default function Lesson({ user, loading, setLoading }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
-  const [loading, setLoading] = useState(true);
 
   const [sectionNumber, setSectionNumber] = useState(1);
   const [maxSectionNumber, setMaxSectionNumber] = useState(Number.MAX_SAFE_INTEGER)
@@ -152,8 +154,13 @@ export default function Lesson({ user }) {
     setQuizScore(quizScore + points)
   }
 
+  const [stars, setStars] = useState(0)
+
   const submitQuiz = (e) => {
     e.preventDefault()
+    if (completed) {
+      return
+    }
     try {
       const token = localStorage.getItem('jwt')
 
@@ -179,6 +186,7 @@ export default function Lesson({ user }) {
               flowers: response.data.flowers,
               lastRewards: response.data.lastRewards,
             }
+            setStars(response.data.stars)
             setUpdatedUser(newUser)
             setCompleted(true)
             setLoading(false);
@@ -198,24 +206,67 @@ export default function Lesson({ user }) {
   }
 
   // TODO: Add a completion screen that shows increase to flowers, exp, and star level
-  return loading ? (
-    <div>Loading...</div>
-  ) : (
-    <div className="w-full min-h-screen flex items-center justify-center bg-red-50"
+  return (
+    <div className={`w-full min-h-screen flex items-center justify-center bg-red-50`}
       onClick={clickIncrement}
     >
       <Head></Head>
+      {completed && !loading &&
+        <div
+          className='bg-bg-completed text-bg-light w-screen h-screen fixed inset-0 flex justify-center items-center'
+        >
+          <div className="font-galindo flex items-center flex-col">
+            <h2 className="text-3xl">
+              Lesson Completed
+            </h2>
+            <Stars stars={stars} />
+            <div className="text-xl my-2">
+              {user.exp} Exp <FaArrowRight className="inline" /> {updatedUser.exp} Exp
+            </div>
+            <div className="text-xl my-2">
+              {user.flowers} F <FaArrowRight className="inline" /> {updatedUser.flowers} F
+            </div>
+
+            <div className="mt-8 grid grid-cols-2 w-[22rem] gap-x-5">
+              <button
+                className="bg-bg-light text-bg-completed rounded-sm py-1 px-2 text-xl"
+                onClick={() => {
+                  setUpdatedUser(updatedUser)
+                  router.push('/play')
+                }}
+              >
+                Home
+                <HiHome className="inline text-2xl -mt-1 ml-1" />
+              </button>
+              <button
+                className="bg-bg-light text-bg-completed rounded-sm py-1 px-2 text-xl"
+                onClick={() => {
+                  setUser(updatedUser)
+                }}
+              >
+                Try Again
+                <HiHome className="inline text-2xl -mt-1 ml-1" />
+              </button>
+            </div>
+          </div>
+        </div>
+      }
       <form
-        className="flex flex-col items-center justify-start lg:w-1/3 min-h-screen bg-purple-50"
+        className={`flex flex-col items-center justify-start w-[30rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
         onSubmit={(e) => submitQuiz(e)}
       >
         <header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
           <div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
             <p className="text-lg"
               onClick={(e) => {
-                e.stopPropagation()
-                const confirmed = window.confirm('Are you sure you want to exit the lesson. Your question responses will NOT be saved.')
-                if (confirmed) {
+                if (!completed) {
+                  e.stopPropagation()
+                  const confirmed = window.confirm('Are you sure you want to exit the lesson. Your question responses will NOT be saved.')
+                  if (confirmed) {
+                    router.push('/')
+                  }
+                }
+                else {
                   router.push('/')
                 }
               }}
@@ -234,7 +285,7 @@ export default function Lesson({ user }) {
           <div className="w-full h-[1px] bg-pink-200 mt-3" />
         </header>
         <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50 pb-[20vh]">
-          {lesson.sections.map((section, index) => {
+          {lesson && lesson.sections && lesson.sections.map((section, index) => {
             // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
             switch (section.sectionType) {
               case 0:
@@ -295,7 +346,7 @@ export default function Lesson({ user }) {
                 <div className="w-full h-[1px] bg-pink-200 mt-3" />
               </div> : <></>
           }
-          {lesson.quizSections.map((quizSection, index) => {
+          {lesson && lesson.quizSections && lesson.quizSections.map((quizSection, index) => {
             // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
             switch (quizSection.sectionType) {
               case 0:

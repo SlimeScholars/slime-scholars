@@ -9,6 +9,7 @@ module.exports = {
         "primary-light": "#EC5ED6",
         "primary-dark": "#D125B5",
         ink: "#4E5A84",
+        'bg-completed': '#151515',
       },
       fontFamily: {
         galindo: ["Galindo"],
