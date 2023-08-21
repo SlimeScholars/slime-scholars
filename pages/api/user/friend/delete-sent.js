@@ -69,7 +69,7 @@ export default async function (req, res) {
     }
 
     res.status(200).json({
-      receivedFriendRequests: populatedSentFriendRequests,
+      sentFriendRequests: populatedSentFriendRequests,
     })
 
   } catch (error) {
