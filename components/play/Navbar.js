@@ -1,5 +1,5 @@
 import React from "react";
-import EarnFlwrBtn from './earnFlwrBtn';
+import EarnFlwrBtn from './friends/earnFlwrBtn';
 import { useRouter } from "next/router"
 
 /*

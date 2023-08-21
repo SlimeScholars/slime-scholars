@@ -1,4 +1,4 @@
-import { gameData } from "../../data/gameData.js";
+import { gameData } from "../../../data/gameData.js";
 
 export default function LeadboardListing({ users, currentType }) {
 

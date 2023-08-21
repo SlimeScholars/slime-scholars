@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
-import Leaderboard from '../../components/play/Leaderboard';
-import ManageFriends from '../../components/play/ManageFriends';
+import Leaderboard from '../../components/play/friends/Leaderboard';
+import ManageFriends from '../../components/play/friends/ManageFriends';
+import FriendRequestsEditor from '../../components/play/friends/FriendRequestsEditor';
 import axios from "axios";
 
-export default function Friends({ loading, user }) {
+export default function Friends({ loading, user, setUser }) {
     const router = useRouter();
+
     const [userFriends, setUserFriends] = useState("empty for now");
     const [allPlayers, setAllPlayers] = useState("empty for now");
     const [toDo, setToDo] = useState("manage");
@@ -76,9 +78,18 @@ export default function Friends({ loading, user }) {
                     {/* Leaderboard */}
                     <div className="pr-4 basis-1/2 ">
                         <div className="bg-white/75 rounded-lg">
-                            <Leaderboard 
-                                userFriends={userFriends}
-                                allPlayers={allPlayers}/>
+                            {
+                                toDo=="manage"? (
+                                    <Leaderboard 
+                                        userFriends={userFriends}
+                                        allPlayers={allPlayers}/>
+                                ) : (
+                                    <FriendRequestsEditor 
+                                        currentUser={user}
+                                    />
+                                )
+                            }
+                            
                         </div>
                     </div>
 
@@ -87,7 +98,8 @@ export default function Friends({ loading, user }) {
                         <div className="flex flex-row">
                             <ManageFriends 
                                 userFriends={userFriends}
-                                toDo={toDo}/>
+                                toDo={toDo}
+                                setCurrentUser={setUser}/>
                         </div>
                     </div>
                 </div>
