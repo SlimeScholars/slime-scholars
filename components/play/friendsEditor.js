@@ -1,8 +1,63 @@
 import { gameData } from "../../data/gameData";
+import { showToastError } from "../../utils/toast";
+import axios from "axios";
 
-export default function FriendsEditor({ userFriends, friendsOnlist }) {
+/**
+ * @param   {table} userFriends - all friends of current user
+ * @param   {table} usersOnlist - search result 
+ * @param   {string} toDo - acts as a flag indicating the functionality of ManageFriends Board
+ *                          - "manage": return search friends bar on default
+ *                          - "add": allow search across entire user database
+ * @param   {function} setAlertMessage - create a pop up alert on change
+ */
 
-    if (friendsOnlist === "empty for now") {
+export default function FriendsEditor({ userFriends, usersOnlist, toDo }) {
+
+    const handleManageFriend = (friendId) => {
+        const token = localStorage.getItem('jwt')
+
+        // Set the authorization header
+        const config = {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        };
+
+        if ( toDo === "manage" ) {
+            axios
+            .post('/api/user/friend/remove', {
+                friendId
+            }, config)
+            .then(response => {
+                userFriends = response.data.friends;
+                showToastError("Friend removed");
+            })
+            .catch(error => {
+                if (error && error.response && error.response.data && error.response.data.message)
+                    showToastError(error.response.data.message);
+                else
+                    console.error('Error removing friend')
+            });
+        } else {
+            axios
+            .post('/api/user/friend/send', {
+                friendId
+            }, config)
+            .then(response => {
+                userFriends = response.data.friends;
+                showToastError("Friend request sent", true);
+            })
+            .catch(error => {
+                if (error && error.response && error.response.data && error.response.data.message)
+                    showToastError(error.response.data.message);
+                else
+                    console.error('Error removing friend')
+            });
+        }
+        
+    }
+
+    if (usersOnlist === "empty for now") {
         return (
             <div className="grid grid-cols-2 gap-4">
                 {Array.isArray(userFriends) ? (
@@ -21,7 +76,7 @@ export default function FriendsEditor({ userFriends, friendsOnlist }) {
                                 <div className="grow px-4">{user.username}</div>
                                 <button
                                     className="bg-red-400 rounded-lg p-2"
-                                    onClick={() => handleDeleteFriend(user._id)}
+                                    onClick={() => handleManageFriend(user._id)}
                                 >X</button>
                             </div>
                         )
@@ -34,11 +89,10 @@ export default function FriendsEditor({ userFriends, friendsOnlist }) {
         )
     }
     else {
-        console.log(friendsOnlist);
         return (
             <div className="grid grid-cols-2 gap-4">
-                {friendsOnlist.length > 0 ? (
-                    userFriends.map((user, index) => {
+                {Array.isArray(usersOnlist) ? (
+                    usersOnlist.map((user, index) => {
 
                         return (
                             <div key={index} className="bg-red-200 rounded-xl flex flex-row items-center p-4">
@@ -51,13 +105,23 @@ export default function FriendsEditor({ userFriends, friendsOnlist }) {
                                     </div>
                                 </div>
                                 <div className="grow px-4">{user.username}</div>
-                                <button
-                                    className="bg-red-400 rounded-lg p-2"
-                                    onClick={() => handleDeleteFriend(user._id)}
-                                >X</button>
+                                {
+                                    toDo=="manage"? (
+                                        <button
+                                            className="bg-red-400 rounded-lg p-2"
+                                            onClick={() => handleManageFriend(user._id)}
+                                        >X</button>
+                                    ) : (
+                                        <button
+                                            className="bg-red-400 rounded-lg p-2 w-10 h-10"
+                                            onClick={() => handleManageFriend(user._id)}
+                                        >
+                                            <span class="h-full material-symbols-outlined">add</span>
+                                        </button>
+                                    )
+                                }
                             </div>
                         )
-
                     })) : (
                     <p>No result to display.</p>
                 )
