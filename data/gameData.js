@@ -151,57 +151,45 @@ export const gameData = {
     Common: [
       {
         slimeName: "Blue Slime",
-        pfp: 'blue-slime.png'
       },
       {
         slimeName: "Green Slime",
-        pfp: 'green-slime.png'
       },
       {
         slimeName: "Grey Slime",
-        pfp: 'grey-slime.png'
       },
       {
         slimeName: "Orange Slime",
-        pfp: 'orange-slime.png'
       },
       {
         slimeName: "Pink Slime",
-        pfp: 'pink-slime.png'
       },
       {
         slimeName: "Purple Slime",
-        pfp: 'purple-slime.png'
       },
       {
         slimeName: "Red Slime",
-        pfp: 'red-slime.png'
       },
       {
         slimeName: "Turquoise Slime",
-        pfp: 'turquoise-slime.png'
       },
       {
         slimeName: "White Slime",
-        pfp: 'white-slime.png'
       },
       {
         slimeName: "Yellow Slime",
-        pfp: 'yellow-slime.png'
       },
     ],
 
     Uncommon: [
       {
         slimeName: "Puppy Slime",
-        pfp: 'puppy-slime.png'
       },
     ],
 
     Rare: [
       {
         slimeName: "Mochi Slime",
-        pfp: ''
       },
     ],
     Epic: [
