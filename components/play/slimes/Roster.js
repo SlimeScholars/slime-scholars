@@ -108,7 +108,11 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
                 />
               </button>
               <div className="absolute bg-gray-400 h-5 w-10 -bottom-2.5 inset-x-0 mx-auto rounded-md items-center mt-2">
-                <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+                {char.level === char.maxLevel ? (
+                  <p className="text-center text-xs mt-1">Lvl. MAX </p>
+                ) : (
+                  <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+                )}
               </div>
             </div>
           );
