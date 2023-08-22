@@ -16,6 +16,7 @@ export default function SlimeDetails({
   const gelProduction = slime.baseProduction;
   const levelUpCost = slime.levelUpCost;
   const maxLevel = slime.maxLevel;
+  const colour = gameData.rarityColours[slime.rarity];
   return (
     <div>
       <div className="flex flex-row gap-2 justify-around p-2">
@@ -28,8 +29,7 @@ export default function SlimeDetails({
           />
         </div>
         <div className="flex flex-col flex-wrap">
-          {/* TODO create something to map colours and rarity */}
-          <p className="">{rarity}</p>
+          <p className={`text-[${colour}]`}>{rarity}</p>
           <p>{name}</p>
           <p className="text-xs">
             Level {level}/{maxLevel}
