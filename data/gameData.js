@@ -15,6 +15,7 @@ export const gameData = {
     "Slime Egg": {
       itemName: "Slime Egg",
       rarity: "Rare",
+      isBg: false,
       buyPrice: 1,
       sellPrice: 1,
       buyCurrency: 1,
@@ -24,6 +25,7 @@ export const gameData = {
     "Rotten Egg": {
       itemName: "Rotten Egg",
       rarity: "Uncommon",
+      isBg: false,
       buyPrice: 1,
       sellPrice: 1,
       buyCurrency: 0,
@@ -36,6 +38,7 @@ export const gameData = {
     "Forest Mountains": {
       itemName: "Forest Mountains",
       rarity: "Rare",
+      isBg: true,
       pfp: "forest-mountains.png",
       bg: "forest-mountains.png",
       buyPrice: 0,
@@ -51,6 +54,7 @@ export const gameData = {
     "Blue Planet": {
       itemName: "Blue Planet",
       rarity: "Rare",
+      isBg: true,
       pfp: "blue-planet.png",
       bg: "blue-planet.png",
       buyPrice: 1000,
