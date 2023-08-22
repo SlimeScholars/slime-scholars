@@ -29,7 +29,9 @@ export default function SlimeDetails({
           />
         </div>
         <div className="flex flex-col flex-wrap">
-          <p className={`text-[${colour}]`}>{rarity}</p>
+          <p className="" style={{ color: colour }}>
+            {rarity}
+          </p>
           <p>{name}</p>
           {level === maxLevel ? (
             <p className="text-xs">Level MAX </p>

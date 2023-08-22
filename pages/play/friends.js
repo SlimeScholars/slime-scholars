@@ -62,7 +62,11 @@ export default function Friends({ loading, user }) {
 
   return (
     <div
-      className={`w-screen h-screen bg-cover bg-[url('/assets/backgrounds/${bg}')] `}
+      className="w-screen h-screen"
+      style={{
+        backgroundImage: `url('/assets/backgrounds/${bg}')`,
+        backgroundSize: "cover",
+      }}
     >
       <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
         <Navbar current="2" className=""></Navbar>
