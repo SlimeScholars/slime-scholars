@@ -1,5 +1,5 @@
+import { gameData } from "../../../data/gameData";
 export default function SlimeInventory({ user, loading, setSlime }) {
-
   return (
     <>
       {Array.isArray(user.slimes) &&
@@ -13,7 +13,10 @@ export default function SlimeInventory({ user, loading, setSlime }) {
                 className="mb-3"
               >
                 <img
-                  src="/assets/graphics/slimes/slime-blue.png"
+                  src={
+                    "/assets/pfp/slimes/" +
+                    gameData.slimePfps[slime.slimeName].pfp
+                  }
                   alt="Slime"
                   className="h-20 w-20 mx-auto"
                 />

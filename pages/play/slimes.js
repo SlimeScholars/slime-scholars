@@ -86,6 +86,7 @@ export default function Slimes({ loading, user, setLoading }) {
                     user={user}
                     loading={loading}
                     setLoading={setLoading}
+                    slime={slime}
                   />
                 </div>
               </div>
