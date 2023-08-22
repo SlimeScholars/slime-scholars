@@ -1,12 +1,13 @@
 import axios from "axios";
 import { showToastError } from "../../../utils/toast";
-// import { nameToSlime } from "../../../utils/nameToImg";
+import { gameData } from "../../../data/gameData";
 
-export default function Roster({ user, loading, setLoading, slime }) {
+export default function Roster({ user, loading, setLoading, slime, setUser }) {
   if (loading) {
     return;
   }
-  // console.log(nameToSlime());
+  // console.log(user);
+  // console.log(slime._id);
 
   const handleClick = (id, index) => {
     try {
@@ -14,14 +15,29 @@ export default function Roster({ user, loading, setLoading, slime }) {
         return;
       }
       const roster = [null, null, null, null];
+      let swap = false;
+      let cur_pos = -1;
       for (let i in user.roster) {
+        console.log(user.roster[i]);
         if (user.roster[i] === null) {
           roster[i] = null;
         } else {
           roster[i] = user.roster[i]._id;
         }
+        if (user.roster[i] !== null && user.roster[i]._id === id) {
+          swap = true;
+          cur_pos = i;
+        }
       }
-      roster[index] = id;
+      if (swap) {
+        let temp = roster[index];
+        roster[index] = id;
+        roster[cur_pos] = temp;
+      } else {
+        roster[index] = id;
+      }
+      // console.log(roster);
+      // console.log(user.roster);
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
@@ -32,13 +48,15 @@ export default function Roster({ user, loading, setLoading, slime }) {
       };
       setLoading(true);
       axios
-        .post("/api/slime/change-roster", { roster }, config)
+        .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          console.log(response.data);
+          const newUser = { ...user, roster: response.data.roster };
+          setUser(newUser);
           setLoading(false);
         })
         .catch((error) => {
-          showToastError(error.message);
+          showToastError(error.response.data.message);
+          console.log(error);
           setLoading(false);
         });
     } catch (error) {
@@ -49,18 +67,18 @@ export default function Roster({ user, loading, setLoading, slime }) {
 
   return (
     // if slime not selected, don't allow user to add
-    <>
+    <div className="flex flex-row gap-1">
       {Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
-          console.log(char);
+          // console.log(char);
           if (char === null) {
             return (
-              <div className="px-10 border-2 border-gray-400 rounded-md mt-1 pt-6 py-5">
+              <div key={index} className="border-2 border-gray-400 rounded-md">
                 <button
-                  // TODO add params later
                   onClick={() => {
                     handleClick(slime._id, index);
                   }}
+                  className="h-20 w-20 mx-auto"
                 >
                   +
                 </button>
@@ -68,25 +86,36 @@ export default function Roster({ user, loading, setLoading, slime }) {
             );
           }
           return (
-            <div className="flex flex-col border-2 border-gray-400 rounded-md p-1 bg-green-400 relative flex-wrap w-32">
+            <div
+              key={index}
+              className={`flex flex-col border-2 border-gray-400 rounded-md p-1 relative flex-wrap w-32`}
+              style={{ backgroundColor: gameData.rarityColours[char.rarity] }}
+            >
               <button
                 onClick={() => {
                   handleClick(slime._id, index);
                 }}
-                className="mb-3"
+                className=""
               >
                 <img
-                  src="/assets/graphics/slimes/slime-blue.png"
+                  src={
+                    "/assets/pfp/slimes/" +
+                    gameData.slimePfps[char.slimeName].pfp
+                  }
                   alt="Slime"
                   className="h-20 w-20 mx-auto"
                 />
               </button>
-              <div className="absolute bg-gray-400 h-5 w-10 bottom-0 inset-x-0 mx-auto rounded-md items-center mt-2">
-                <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+              <div className="absolute bg-gray-400 h-5 w-10 -bottom-2.5 inset-x-0 mx-auto rounded-md items-center mt-2">
+                {char.level === char.maxLevel ? (
+                  <p className="text-center text-xs mt-1">Lvl. MAX </p>
+                ) : (
+                  <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+                )}
               </div>
             </div>
           );
         })}
-    </>
+    </div>
   );
 }

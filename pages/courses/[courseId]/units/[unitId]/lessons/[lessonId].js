@@ -175,7 +175,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
       };
       setLoading(true)
       axios
-        .post("/api/lesson/complete", { lessonId, unitId, score: quizScore }, config)
+        .post("/api/lesson/complete", {}, config)
         .then((response) => {
           if (response.data) {
             console.log(response.data)
@@ -210,7 +210,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
 
   // TODO: Add a completion screen that shows increase to flowers, exp, and star level
   return (
-    <div className={`w-full min-h-screen flex items-center justify-center bg-red-50`}
+    <div className='w-full min-h-screen flex items-center justify-center bg-red-50'
       onClick={clickIncrement}
     >
       <Head></Head>
@@ -281,12 +281,12 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
         </div>
       }
       <form
-        className={`flex flex-col items-center justify-start w-[30rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
+        className={`flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
         onSubmit={(e) => submitQuiz(e)}
       >
         <header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
           <div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
-            <p className="text-lg"
+            <p className="text-lg cursor-pointer"
               onClick={(e) => {
                 if (!completed) {
                   e.stopPropagation()

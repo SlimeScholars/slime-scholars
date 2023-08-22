@@ -1,10 +1,10 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { showToastError } from "../../../../utils/toast"
+import { showToastError } from "../../../../../../utils/toast"
 import axios from "axios"
-import Unit from "../../../../components/learn/unit"
+import Lesson from "../../../../../../components/learn/lesson"
 
-export default function Units({ user, loading, setLoading }) {
+export default function Lessons({ user, loading, setLoading }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -17,15 +17,18 @@ export default function Units({ user, loading, setLoading }) {
 	}, [user, loading])
 
 	const [courseId, setCourseId] = useState(router.query.courseId)
-	const [units, setUnits] = useState([])
+	const [unitId, setUnitId] = useState(router.query.unitId)
+	const [lessons, setLessons] = useState([])
 	const [courseName, setCourseName] = useState('Loading...')
+	const [unitName, setUnitName] = useState('Loading...')
 
 	useEffect(() => {
 		try {
-			if (!router.query.courseId) {
+			if (!router.query.courseId || !router.query.unitId) {
 				return
 			}
 			setCourseId(router.query.courseId)
+			setUnitId(router.query.unitId)
 
 			const token = localStorage.getItem('jwt')
 			if (!token) {
@@ -36,6 +39,7 @@ export default function Units({ user, loading, setLoading }) {
 			const config = {
 				params: {
 					courseId: router.query.courseId,
+					unitId: router.query.unitId,
 				},
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -43,11 +47,12 @@ export default function Units({ user, loading, setLoading }) {
 			};
 			setLoading(true)
 			axios
-				.get("/api/learn/units", config)
+				.get("/api/learn/lessons", config)
 				.then((response) => {
-					if (response?.data?.units) {
+					if (response?.data?.lessons) {
 						setCourseName(response.data.courseName)
-						setUnits(response.data.units)
+						setUnitName(response.data.unitName)
+						setLessons(response.data.lessons)
 						setLoading(false);
 					}
 				})
@@ -62,36 +67,39 @@ export default function Units({ user, loading, setLoading }) {
 			showToastError(error.message);
 			return;
 		}
-	}, [router.query.courseId])
+	}, [router.query.courseId, router.query.unitId])
 
 	return (
 		<div className='w-full min-h-screen flex items-center justify-center bg-red-50'>
 			<div className='flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50'>
-				<header className="w-full h-30 text-pink-400 flex items-center justify-start flex-col font-galindo">
-					<div className="w-full h-15 flex items-center justify-between px-6 py-3 bg-pink-200">
+				<header className="w-full h-50 text-pink-400 flex items-center justify-start flex-col font-galindo">
+					<div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
 						<p className="text-lg cursor-pointer"
-							onClick={() => router.push('/courses')}
+							onClick={() => router.push(`/courses/${courseId}/units`)}
 						>
 							Back
 						</p>
 						<p className="text-lg text-right">
 							{courseName}
+							<br />
+							{unitName}
 						</p>
 					</div>
 					<h1 className="text-3xl mt-8 mb-4">
-						Unit Select
+						Lesson Select
 					</h1>
 					<div className="w-full h-[1px] bg-pink-200 mt-3">&nbsp;</div>
 				</header>
 				<div className="w-full h-full flex flex-col justify-start items-center bg-purple-50 pt-[8vh] pb-[20vh] font-galindo">
-					{units.map((unit) => (
-						<Unit
-							key={unit._id}
+					{lessons.map((lesson) => (
+						<Lesson
+							key={lesson._id}
 							courseId={courseId}
-							unitId={unit._id}
-							unitName={unit.unitName}
-							unitBadge={unit.unitBadge}
-							tier={unit.tier}
+							unitId={unitId}
+							lessonId={lesson._id}
+							lessonName={lesson.lessonName}
+							looted={lesson.looted}
+							stars={lesson.stars}
 						/>
 					))}
 				</div>
@@ -99,3 +107,4 @@ export default function Units({ user, loading, setLoading }) {
 		</div >
 	)
 }
+

@@ -13,7 +13,7 @@ export function Navbar(props) {
     { title: "shopping", src: "shopping", id: 1 },
     { title: "friends", src: "friends", id: 2 },
     { title: "slimes", src: "slimes", id: 3 },
-    { title: "inventory", src: "backpack", id: 4 },
+    { title: "inventory", src: "inventory", id: 4 },
   ];
 
   const router = useRouter();
@@ -35,7 +35,6 @@ export function Navbar(props) {
       .get("/api/user", config)
       .then((response) => {
         setUser(response.data.user);
-        console.log(user);
       })
       .catch((error) => {
         console.log("navbar", error.message);
@@ -45,7 +44,7 @@ export function Navbar(props) {
   return (
     <div className="flex flex-row items-center justify-between">
       {/* earn flowers button */}
-      <div className="p-8 bg-red-300 hover:bg-red-300/75 rounded text-lg">
+      <div className=" bg-red-300 hover:bg-red-300/75 rounded text-lg">
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
