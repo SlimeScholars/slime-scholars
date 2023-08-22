@@ -59,6 +59,7 @@ export default async function (req, res) {
             rarity: rarity,
             sellPrice: sellPrice,
             sellCurrency: sellCurrency,
+            isBg: gameData.items[itemName].isBg,
           })
         }
         // Otherwise, just increase the user's quantity
@@ -105,6 +106,7 @@ export default async function (req, res) {
             rarity: rarity,
             sellPrice: sellPrice,
             sellCurrency: sellCurrency,
+            isBg: gameData.items[itemName].isBg,
           })
         }
         // Otherwise, just increase the user's quantity
