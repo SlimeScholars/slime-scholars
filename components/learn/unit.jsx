@@ -24,5 +24,3 @@ export default function Unit({ courseId, unitId, unitName, unitBadge, tier }) {
 		</button>
 	);
 }
-
-
