@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
 
-export default function Backpack({ loading, user }) {
+export default function Slimes({ loading, user }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -15,9 +15,9 @@ export default function Backpack({ loading, user }) {
   }, [user, loading]);
 
   return (
-    <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
+    <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')] ">
       <div class="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
-        <Navbar current="4" className=""></Navbar>
+        <Navbar current="3" className=""></Navbar>
       </div>
     </div>
   );
