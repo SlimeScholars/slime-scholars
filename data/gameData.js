@@ -48,6 +48,21 @@ export const gameData = {
       grey: "#B6B7A9",
       black: "#0C1414",
     },
+    "Blue Plant": {
+      itemName: "Blue Planet",
+      rarity: "Rare",
+      pfp: "blue-planet.png",
+      bg: "blue-planet.png",
+      buyPrice: 1000,
+      buyCurrency: 0,
+      primary1: "#510E34",
+      primary2: "#0A155E",
+      secondary1: "#63ABF1",
+      secondary2: "#21073E",
+      white: "#f4fdff",
+      grey: "#272B3A",
+      black: "#131520",
+    },
   },
 
   baseProduction: {
