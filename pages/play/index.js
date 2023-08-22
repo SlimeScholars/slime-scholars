@@ -27,7 +27,7 @@ export default function Play({ loading, user }) {
     <div
       className={`p-8 w-screen h-screen bg-cover bg-[url('/assets/backgrounds/${bg}')]`}
     >
-      <Navbar current="0" className=""></Navbar>
+      <Navbar current="0"></Navbar>
       {/* slimes */}
       <div className="flex flex-row space-x-56 h-100 w-100 absolute bottom-10 left-44 opacity-100 z-0">
         <div className="flex flex-col justify-center">
