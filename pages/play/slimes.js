@@ -4,12 +4,14 @@ import { Navbar } from "../../components/play/Navbar";
 import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import AddToRoster from "../../components/play/slimes/AddToRoster";
+import { gameData } from "../../data/gameData";
 
 export default function Slimes({ loading, user, setLoading }) {
   const [searchContent, setSearchContent] = useState("");
   const [slime, setSlime] = useState("");
 
   const router = useRouter();
+  const [bg, setBg] = useState("bg-beach.png"); // Default background
 
   useEffect(() => {
     if (loading) {
@@ -17,11 +19,17 @@ export default function Slimes({ loading, user, setLoading }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
+    } else {
+      if (user.bg && gameData.items[user.bg].bg) {
+        setBg(gameData.items[user.bg].bg);
+      }
     }
   }, [user, loading]);
 
   return (
-    <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')] ">
+    <div
+      className={`w-screen h-screen bg-cover bg-[url('/assets/backgrounds/${bg}')]`}
+    >
       <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
         <Navbar current="3" className=""></Navbar>
         <div className="pt-5">
