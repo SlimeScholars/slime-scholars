@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Stars from "../../../../../../components/learn/stars";
 import { HiHome } from 'react-icons/hi'
+import { TbReload } from 'react-icons/tb'
 import { FaArrowRight } from 'react-icons/fa'
 
 import axios from "axios";
@@ -267,12 +268,13 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
               <button
                 className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
+                  setLoading(true)
                   setUser(updatedUser)
                   window.location.reload()
                 }}
               >
                 Try Again
-                <HiHome className="inline text-2xl -mt-1 ml-1" />
+                <TbReload className="inline text-2xl ml-1" />
               </button>
             </div>
           </div>
@@ -290,11 +292,11 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
                   e.stopPropagation()
                   const confirmed = window.confirm('Are you sure you want to exit the lesson. Your question responses will NOT be saved.')
                   if (confirmed) {
-                    router.push('/')
+                    router.push('/play')
                   }
                 }
                 else {
-                  router.push('/')
+                  router.push('/play')
                 }
               }}
             >
