@@ -56,7 +56,7 @@ export default function Backpack({ loading, user }) {
 						<div className="flex flex-row bg-white/75 rounded-lg items-center">
 							<div className="grow-0 pl-4">
 								<img
-									src="/assets/icons/backpack.png"
+									src="/assets/icons/inventory.png"
 									className="p-4 h-20 w-20"
 								></img>
 							</div>
