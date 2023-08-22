@@ -19,7 +19,7 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  * @param   {string} req.body.email - Max 255 characters long.
  * @param   {string} req.body.parentEmail - Max 255 characters long.
  */
-export default async function handler(req, res) {
+export default async function (req, res) {
   try {
     if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)

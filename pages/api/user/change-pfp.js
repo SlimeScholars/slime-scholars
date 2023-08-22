@@ -26,11 +26,10 @@ export default async function (req, res) {
 		checkUserType(user, 1)
 
 		const { pfpSlime, pfpBg } = req.body
-		// let cost = gameData.items[itemName].buyPrice
 
 		let slimeIndex = -1
 		for (let i in user.slimes) {
-			if (slimes[i].slimeName === pfpSlime) {
+			if (user.slimes[i].slimeName === pfpSlime) {
 				slimeIndex = i
 				break
 			}
@@ -43,18 +42,18 @@ export default async function (req, res) {
 
 		let itemIndex = -1
 		for (let i in user.items) {
-			if (item.itemName === pfpBg) {
+			if (user.items[i].itemName === pfpBg) {
 				itemIndex = i
 				break
 			}
 		}
 
-		// If user.items doesn't include an item with name of pfpItem
+		// If user.items doesn't include an item with name of pfpBg
 		if (itemIndex === -1) {
 			throw new Error(`You do not own the following item: ${pfpBg}`)
 		}
 
-		if (!user.items[itemIndex].pfp) {
+		if (!user.items[itemIndex].isBg) {
 			throw new Error(`The following item is not a background: ${pfpBg}`)
 		}
 
@@ -69,5 +68,3 @@ export default async function (req, res) {
 		res.status(400).json({ message: error.message })
 	}
 }
-
-
