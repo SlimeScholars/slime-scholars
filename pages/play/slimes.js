@@ -5,7 +5,7 @@ import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import AddToRoster from "../../components/play/slimes/AddToRoster";
 
-export default function Slimes({ loading, user }) {
+export default function Slimes({ loading, user, setLoading }) {
   const [searchContent, setSearchContent] = useState("");
   const [slime, setSlime] = useState("");
 
@@ -70,19 +70,23 @@ export default function Slimes({ loading, user }) {
               </div>
             </div>
 
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 basis-1/2">
               {/* Get Slime details */}
-              <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+              <div className=" bg-white/75 rounded-lg h-full">
                 <div className="">
                   {/* Display the slime details of the slime that is clicked */}
                   <SlimeDetails slime={slime} />
                 </div>
               </div>
               {/* Add slimes to roster */}
-              <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+              <div className=" bg-white/75 rounded-lg h-full">
                 <div className="">
                   {/* Add to Roster component */}
-                  <AddToRoster user={user} loading={loading} />
+                  <AddToRoster
+                    user={user}
+                    loading={loading}
+                    setLoading={setLoading}
+                  />
                 </div>
               </div>
             </div>

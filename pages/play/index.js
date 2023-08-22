@@ -14,6 +14,7 @@ export default function Play({ loading, user }) {
       router.push("/");
     }
   }, [user, loading]);
+  console.log(user.pfpBg);
 
   return (
     <div className="p-8 w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
