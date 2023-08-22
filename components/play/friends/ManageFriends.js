@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import SearchFriends from './searchFriends';
-import { showToastError } from "../../utils/toast";
 import FriendsEditor from "./friendsEditor";
-import axios from "axios";
 
 /**
  * @param   {table} userFriends - friends of current user
@@ -11,7 +9,7 @@ import axios from "axios";
  *                          - "add": allow search across entire user database
  */
 
-export default function ManageFriends({ userFriends, toDo }) {
+export default function ManageFriends({ userFriends, toDo, setUserFriends, setCurrentUser, setSentFriendRequests }) {
 
     const [matchingFriends, setMatchingFriends] = useState("empty for now");
 
@@ -30,7 +28,7 @@ export default function ManageFriends({ userFriends, toDo }) {
                             setFriends={setMatchingFriends}
                             toDo={toDo}
                             placeHolder={
-                                toDo=="add"? ("Search username") : ("Search friends")
+                                toDo=="add"? ("Search username") : ("Search friend username")
                             }
                         />
                     </div>
@@ -49,7 +47,10 @@ export default function ManageFriends({ userFriends, toDo }) {
                 <FriendsEditor
                     userFriends={userFriends}
                     usersOnlist={matchingFriends}
-                    todo={toDo}
+                    toDo={toDo}
+                    setCurrentUser={setCurrentUser}
+                    setUserFriends={setUserFriends}
+                    setSentFriendRequests={setSentFriendRequests}
                 />
             </div>
         </div>

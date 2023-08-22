@@ -2,7 +2,7 @@ import SwitchButton from "./switchButton";
 import LeadboardListing from "./leadboardListing";
 import React, { useState } from "react";
 
-export default function Leaderbaord({ userFriends, allPlayers }) {
+export default function Leaderbaord({ userFriends, allPlayers, userId }) {
     const [currentType, setCurrentType] = useState("friends");
     return (
         <div className="p-8">
@@ -16,6 +16,10 @@ export default function Leaderbaord({ userFriends, allPlayers }) {
                         <SwitchButton
                             currentType={currentType}
                             changeType={(type) => setCurrentType(type)}
+                            leftType="friends"
+                            rightType="players"
+                            leftText="Friends"
+                            rightText="All Players"
                         />
                     </div>
                 </dvi>
@@ -26,11 +30,13 @@ export default function Leaderbaord({ userFriends, allPlayers }) {
                         <LeadboardListing 
                             users={userFriends}
                             currentType={currentType}
+                            userId={userId}
                         />
                     ) : (
                         <LeadboardListing 
                             users={allPlayers}
                             currentType={currentType}
+                            userId={userId}
                         />
                     )
                 }
