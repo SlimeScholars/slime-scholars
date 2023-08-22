@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EarnFlwrBtn from "./friends/earnFlwrBtn";
+import EarnFlwrBtn from "./earnFlwrBtn";
 import { useRouter } from "next/router";
 import axios from "axios";
 

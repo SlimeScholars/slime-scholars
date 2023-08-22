@@ -45,7 +45,6 @@ export default async function (req, res) {
     const populatedPlayers = []
     for (let i in users) {
       const populatedPlayer = await getPopulatedPlayer(users[i]._id)
-      console.log(populatedPlayer)
       populatedPlayers.push(populatedPlayer)
     }
 
