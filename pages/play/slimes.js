@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
 import SlimeDetails from "../../components/play/slimes/SlimeDetails";
+import SlimeInventory from "../../components/play/slimes/SlimeInventory";
+import AddToRoster from "../../components/play/slimes/AddToRoster";
 
 export default function Slimes({ loading, user }) {
   const [searchContent, setSearchContent] = useState("");
@@ -53,37 +55,35 @@ export default function Slimes({ loading, user }) {
           <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
             <div className="pr-4 basis-1/2 ">
               <div className="bg-white/75 rounded-lg">
-                <div className="h-24">
+                <div className="">
                   {/* loop through all slimes from user and display them */}
-                  {user &&
-                    Array.isArray(user.slimes) &&
-                    user.slimes.map((slime, index) => {
-                      return (
-                        <div className="flex flex-row">
-                          <div className="flex flex-col">
-                            <p className="text-center font-galindo">
-                              {slime.slimeName}
-                            </p>
-                            <button
-                              onClick={() => {
-                                setSlime(slime);
-                              }}
-                            >
-                              Click Me
-                            </button>
-                          </div>
-                        </div>
-                      );
-                    })}
+                  {user && (
+                    <div className="flex flex-row gap-2 flex-wrap justify-center p-4 items-center">
+                      <SlimeInventory
+                        user={user}
+                        loading={loading}
+                        setSlime={setSlime}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
-            {/* Get Slime details */}
-            <div className="basis-1/2 bg-white/75 rounded-lg h-full">
-              <div className="">
-                {/* Display the slime details of the slime that is clicked */}
-                <SlimeDetails slime={slime} />
+            <div className="flex flex-col gap-2">
+              {/* Get Slime details */}
+              <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+                <div className="">
+                  {/* Display the slime details of the slime that is clicked */}
+                  <SlimeDetails slime={slime} />
+                </div>
+              </div>
+              {/* Add slimes to roster */}
+              <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+                <div className="">
+                  {/* Add to Roster component */}
+                  <AddToRoster user={user} loading={loading} />
+                </div>
               </div>
             </div>
           </div>
