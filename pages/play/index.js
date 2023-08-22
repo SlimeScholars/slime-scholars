@@ -4,10 +4,11 @@ import Image from "next/image";
 import { Navbar } from "../../components/play/Navbar";
 import Home from "../../components/play/Home";
 import { gameData } from "../../data/gameData";
+import DisplaySlimes from "../../components/play/slimes/DisplaySlimes";
 
 export default function Play({ loading, user }) {
   const router = useRouter();
-  const [bg, setBg] = useState("bg-beach.png"); // Default background
+  const [bg, setBg] = useState(""); // Default background
 
   useEffect(() => {
     if (loading) {
@@ -21,6 +22,7 @@ export default function Play({ loading, user }) {
       }
     }
   }, [user, loading]);
+
   console.log(bg);
 
   return (
@@ -29,54 +31,7 @@ export default function Play({ loading, user }) {
     >
       <Navbar current="0"></Navbar>
       {/* slimes */}
-      <div className="flex flex-row space-x-56 h-100 w-100 absolute bottom-10 left-44 opacity-100 z-0">
-        <div className="flex flex-col justify-center">
-          <div className="bg-[#5A5A5A] opacity-60 h-5 w-28 pb-6 rounded-md ml-12 text-white text-center">
-            <p>Lv. 9 | 90 &#169;</p>
-          </div>
-          <Image
-            src="/assets/graphics/slimes/whale slime.png"
-            width={200}
-            height={200}
-            alt="Cat slime"
-          />
-        </div>
-        <div className="flex flex-col justify-center">
-          <div className="bg-[#5A5A5A] opacity-60 h-5 w-28 pb-6 rounded-md ml-12 text-white text-center">
-            <p>Lv. 9 | 90 &#169;</p>
-          </div>
-          <Image
-            src="/assets/graphics/slimes/whale slime.png"
-            width={200}
-            height={200}
-            alt="Cat slime"
-          />
-        </div>
-      </div>
-      <div className="flex flex-row space-x-56 h-100 w-100 absolute bottom-24 right-44 opacity-100 z-0">
-        <div className="flex flex-col justify-center">
-          <div className="bg-[#5A5A5A] opacity-60 h-5 w-28 pb-6 rounded-md ml-12 text-white text-center">
-            <p>Lv. 9 | 90 &#169;</p>
-          </div>
-          <Image
-            src="/assets/graphics/slimes/whale slime.png"
-            width={200}
-            height={200}
-            alt="Cat slime"
-          />
-        </div>
-        <div className="flex flex-col justify-center">
-          <div className="bg-[#5A5A5A] opacity-60 h-5 w-28 pb-6 rounded-md ml-12 text-white text-center">
-            <p>Lv. 9 | 90 &#169;</p>
-          </div>
-          <Image
-            src="/assets/graphics/slimes/whale slime.png"
-            width={200}
-            height={200}
-            alt="Cat slime"
-          />
-        </div>
-      </div>
+      <DisplaySlimes user={user} />
     </div>
   );
   return (

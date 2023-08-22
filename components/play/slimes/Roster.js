@@ -29,7 +29,6 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
           cur_pos = i;
         }
       }
-      console.log(swap);
       if (swap) {
         let temp = roster[index];
         roster[index] = id;
@@ -37,8 +36,8 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
       } else {
         roster[index] = id;
       }
-      console.log(roster);
-      console.log(user.roster);
+      // console.log(roster);
+      // console.log(user.roster);
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
@@ -89,7 +88,9 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
           return (
             <div
               key={index}
-              className="flex flex-col border-2 border-gray-400 rounded-md p-1 bg-green-400 relative flex-wrap w-32"
+              className={`flex flex-col border-2 border-gray-400 bg-[${
+                gameData.rarityColours[char.rarity]
+              }] rounded-md p-1 relative flex-wrap w-32`}
             >
               <button
                 onClick={() => {
