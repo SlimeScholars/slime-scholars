@@ -18,7 +18,7 @@ export const gameData = {
       buyPrice: 1,
       sellPrice: 1,
       buyCurrency: 1,
-      sellCurrency: 1
+      sellCurrency: 1,
     },
     /*
     "Rotten Egg": {
@@ -36,17 +36,17 @@ export const gameData = {
     "Forest Mountains": {
       itemName: "Forest Mountains",
       rarity: "Rare",
-      pfp: 'forest-mountains.png',
-      bg: 'forest-mountains.png',
+      pfp: "forest-mountains.png",
+      bg: "forest-mountains.png",
       buyPrice: 0,
       buyCurrency: 0,
-      primary1: '#76ABAB',
-      primary2: '#CFC420',
-      secondary1: '#76BEF3',
-      secondary2: '#767A02',
-      white: '#FCFBEA',
-      grey: '#B6B7A9',
-      black: '#0C1414',
+      primary1: "#76ABAB",
+      primary2: "#CFC420",
+      secondary1: "#76BEF3",
+      secondary2: "#767A02",
+      white: "#FCFBEA",
+      grey: "#B6B7A9",
+      black: "#0C1414",
     },
   },
 
@@ -74,11 +74,26 @@ export const gameData = {
 
   // TODO: Sort out levelUpCost
   levelUpCost: {
-    Common: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-    Uncommon: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-    Rare: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-    Epic: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
-    Legendary: [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+    Common: [
+      10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+      28, 29, 30,
+    ],
+    Uncommon: [
+      10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+      28, 29, 30,
+    ],
+    Rare: [
+      10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+      28, 29, 30,
+    ],
+    Epic: [
+      10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+      28, 29, 30,
+    ],
+    Legendary: [
+      10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27,
+      28, 29, 30,
+    ],
   },
   maxLevel: {
     Common: 50,
@@ -88,7 +103,7 @@ export const gameData = {
     Legendary: 10,
   },
 
-  canStar: ["Epic", "Legendary",],
+  canStar: ["Epic", "Legendary"],
   maxStarLevel: {
     Epic: 3,
     Legendary: 3,
@@ -101,47 +116,47 @@ export const gameData = {
   slimePfps: {
     "Blue Slime": {
       slimeName: "Blue Slime",
-      pfp: 'blue-slime.png',
+      pfp: "blue-slime.png",
     },
     "Green Slime": {
       slimeName: "Green Slime",
-      pfp: 'green-slime.png',
+      pfp: "green-slime.png",
     },
     "Grey Slime": {
       slimeName: "Grey Slime",
-      pfp: 'grey-slime.png',
+      pfp: "grey-slime.png",
     },
     "Orange Slime": {
       slimeName: "Orange Slime",
-      pfp: 'orange-slime.png'
+      pfp: "orange-slime.png",
     },
     "Pink Slime": {
       slimeName: "Pink Slime",
-      pfp: 'pink-slime.png'
+      pfp: "pink-slime.png",
     },
     "Purple Slime": {
       slimeName: "Purple Slime",
-      pfp: 'purple-slime.png'
+      pfp: "purple-slime.png",
     },
     "Red Slime": {
       slimeName: "Red Slime",
-      pfp: 'red-slime.png'
+      pfp: "red-slime.png",
     },
     "Turquoise Slime": {
       slimeName: "Turquoise Slime",
-      pfp: 'turquoise-slime.png'
+      pfp: "turquoise-slime.png",
     },
     "White Slime": {
       slimeName: "White Slime",
-      pfp: 'white-slime.png'
+      pfp: "white-slime.png",
     },
     "Yellow Slime": {
       slimeName: "Yellow Slime",
-      pfp: 'yellow-slime.png'
+      pfp: "yellow-slime.png",
     },
     "Puppy Slime": {
       slimeName: "Puppy Slime",
-      pfp: 'puppy-slime.png'
+      pfp: "puppy-slime.png",
     },
   },
 
@@ -206,9 +221,7 @@ export const gameData = {
     Legendary: [
       {
         slimeName: "Scholar Slime",
-        effects: [
-          "Max level is level 25"
-        ],
+        effects: ["Max level is level 25"],
         abilityName: "Wisdom",
         abilityDescription: [
           "All other active slimes gain 2 extra GP per level (1 for commons).",
@@ -217,6 +230,15 @@ export const gameData = {
         ],
         maxLevel: 25,
       },
-    ]
+    ],
   },
-}
+
+  // map rarity to colour
+  rarityColours: {
+    Common: "#5a5a5a",
+    Uncommon: "#1eff00",
+    Rare: "#0070dd",
+    Epic: "#a335ee",
+    Legendary: "#ffea00",
+  },
+};
