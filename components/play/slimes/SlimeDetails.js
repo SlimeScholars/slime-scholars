@@ -1,24 +1,26 @@
-export default function SlimeDetails(slime) {
-  if (!slime.slime) return <></>;
-  console.log(slime);
-  const rarity = slime.slime.rarity.toUpperCase();
-  const name = slime.slime.slimeName;
-  const level = slime.slime.level;
-  const gelProduction = slime.slime.baseProduction;
-  const levelUpCost = slime.slime.levelUpCost;
-  const maxLevel = slime.slime.maxLevel;
+import { gameData } from "../../../data/gameData";
+
+export default function SlimeDetails({ slime }) {
+  if (!slime) return <></>;
+  //   console.log(slime);
+  const rarity = slime.rarity.toUpperCase();
+  const name = slime.slimeName;
+  const level = slime.level;
+  const gelProduction = slime.baseProduction;
+  const levelUpCost = slime.levelUpCost;
+  const maxLevel = slime.maxLevel;
   return (
     <div className="flex flex-row gap-2 justify-around p-2">
       <div className="flex">
-        {/* create something to map slime names to images */}
+        {/* TODO create something to map slime names to images */}
         <img
-          src="/assets/graphics/slimes/slime-blue.png"
+          src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
           alt="Slime"
           className="h-32 w-full"
         />
       </div>
       <div className="flex flex-col flex-wrap">
-        {/* create something to map colours and rarity */}
+        {/* TODO create something to map colours and rarity */}
         <p className="">{rarity}</p>
         <p>{name}</p>
         <p className="text-xs">

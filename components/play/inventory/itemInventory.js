@@ -1,7 +1,7 @@
 import { gameData } from '../../../data/gameData';
 
 export default function ItemInventory({
-    setItemOnClick,
+    handleItemClick,
     itemOnClick,
     item,
     displayOnly
@@ -23,7 +23,7 @@ export default function ItemInventory({
             }
                 onClick={(e) => {
                     if (displayOnly !== "true") {
-                        setItemOnClick(item);
+                        handleItemClick(item);
                     }
                 }}>
                 <img src={imgPath}></img>

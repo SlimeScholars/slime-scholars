@@ -4,6 +4,7 @@ import { Navbar } from "../../components/play/Navbar";
 import Leaderboard from '../../components/play/friends/Leaderboard';
 import ManageFriends from '../../components/play/friends/ManageFriends';
 import FriendRequestsEditor from '../../components/play/friends/FriendRequestsEditor';
+import { gameData } from '../../data/gameData';
 import axios from "axios";
 
 export default function Friends({ loading, user }) {
@@ -15,6 +16,7 @@ export default function Friends({ loading, user }) {
     const [userId, setUserId] = useState("empty for now");
     const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
     const [receivedFriendRequests, setReceivedFriendRequests] = useState("empty for now");
+    const [bg, setBg] = useState("bg-beach.png");
 
     useEffect(() => {
         if (loading) {
@@ -22,6 +24,8 @@ export default function Friends({ loading, user }) {
         }
         if (!user || user.userType !== 1) {
             router.push("/");
+        } else if (user.bg && gameData.items[user.bg].bg) {
+            setBg(gameData.items[user.bg].bg);
         }
 
         // Get userfriends for userfriendListings in leaderboard
@@ -54,7 +58,13 @@ export default function Friends({ loading, user }) {
     }, [user, loading]);
 
     return (
-        <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')] ">
+        <div
+            className="w-screen h-screen"
+            style={{
+                backgroundImage: `url('/assets/backgrounds/${bg}')`,
+                backgroundSize: "cover",
+            }}
+            >
             <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
                 <Navbar current="2" className=""></Navbar>
                 <div className="pt-5">
