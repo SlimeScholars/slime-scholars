@@ -67,7 +67,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
 
   return (
     // if slime not selected, don't allow user to add
-    <>
+    <div className="flex flex-row gap-1">
       {Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
           // console.log(char);
@@ -88,15 +88,14 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
           return (
             <div
               key={index}
-              className={`flex flex-col border-2 border-gray-400 bg-[${
-                gameData.rarityColours[char.rarity]
-              }] rounded-md p-1 relative flex-wrap w-32`}
+              className={`flex flex-col border-2 border-gray-400 rounded-md p-1 relative flex-wrap w-32`}
+              style={{ backgroundColor: gameData.rarityColours[char.rarity] }}
             >
               <button
                 onClick={() => {
                   handleClick(slime._id, index);
                 }}
-                className="mb-3"
+                className=""
               >
                 <img
                   src={
@@ -107,12 +106,16 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
                   className="h-20 w-20 mx-auto"
                 />
               </button>
-              <div className="absolute bg-gray-400 h-5 w-10 bottom-0 inset-x-0 mx-auto rounded-md items-center mt-2">
-                <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+              <div className="absolute bg-gray-400 h-5 w-10 -bottom-2.5 inset-x-0 mx-auto rounded-md items-center mt-2">
+                {char.level === char.maxLevel ? (
+                  <p className="text-center text-xs mt-1">Lvl. MAX </p>
+                ) : (
+                  <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+                )}
               </div>
             </div>
           );
         })}
-    </>
+    </div>
   );
 }

@@ -235,7 +235,7 @@ export const gameData = {
 
   // map rarity to colour
   rarityColours: {
-    Common: "#5a5a5a",
+    Common: "#a5a2a2",
     Uncommon: "#1eff00",
     Rare: "#0070dd",
     Epic: "#a335ee",
