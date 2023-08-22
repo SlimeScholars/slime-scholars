@@ -1,10 +1,13 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { Navbar } from "../../components/play/Navbar";
+import Home from "../../components/play/Home";
+import { gameData } from "../../data/gameData";
 
 export default function Play({ loading, user }) {
   const router = useRouter();
+  const [bg, setBg] = useState("bg-beach.png"); // Default background
 
   useEffect(() => {
     if (loading) {
@@ -12,12 +15,19 @@ export default function Play({ loading, user }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
+    } else {
+      if (user.bg && gameData.items[user.bg].bg) {
+        setBg(gameData.items[user.bg].bg);
+      }
     }
   }, [user, loading]);
+  console.log(bg);
 
   return (
-    <div className="p-8 w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
-      <Navbar current="0"></Navbar>
+    <div
+      className={`p-8 w-screen h-screen bg-cover bg-[url('/assets/backgrounds/${bg}')]`}
+    >
+      <Navbar current="0" className=""></Navbar>
       {/* slimes */}
       <div className="flex flex-row space-x-56 h-100 w-100 absolute bottom-10 left-44 opacity-100 z-0">
         <div className="flex flex-col justify-center">

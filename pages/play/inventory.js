@@ -4,33 +4,50 @@ import { Navbar } from "../../components/play/Navbar";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
+import { gameData } from "../../data/gameData";
 
 export default function Backpack({ loading, user }) {
+  const router = useRouter();
+  const [items, setItems] = useState("empty for now");
+  const [itemOnClick, setItemOnClick] = useState("empty for now");
 
-	const router = useRouter();
-	const [items, setItems] = useState("empty for now");
-	const [itemOnClick, setItemOnCLick] = useState("empty for now");
+  // item.itemName => "Forest Mountains"
+  // bg => "forest-mountains.png"
+  const [bg, setBg] = useState("bg-beach.png"); // Default background
+  const [pfpBg, setpfpBg] = useState("empty for now");
 
-	useEffect(() => {
-		if (loading) {
-			return;
-		}
-		if (!user || user.userType !== 1) {
-			router.push("/");
-		}
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (!user || user.userType !== 1) {
+      router.push("/");
+    } else if (user.bg && gameData.items[user.bg].bg) {
+		setBg(gameData.items[user.bg].bg);
+	}
 
-		console.log(user.items);
-		// Set the items for displaying in inventory to user's items
-		setItems(user.items);
+    // Set the items for displaying in inventory to user's items
+	setItems(user.items);
+	console.log(items);
+	
+	setpfpBg(user.pfpBg);
 
-		if (Array.isArray(items)) {
-			setItemOnCLick(items[0]);
-		}
-
-	}, [user, loading])
+    if (Array.isArray(items)) {
+      setItemOnClick(items[0]);
+    }
+    if (user.bg && gameData.items[user.bg].bg) {
+      setBg(gameData.items[user.bg].bg);
+    }
+  }, [user, loading]);
 
 	return (
-		<div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
+		<div
+			className="w-screen h-screen"
+			style={{
+				backgroundImage: `url('/assets/backgrounds/${bg}')`,
+				backgroundSize: "cover",
+			}}
+			>
 			<div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
 				<Navbar current="4" className=""></Navbar>
 				<div className="pt-5">
@@ -62,7 +79,7 @@ export default function Backpack({ loading, user }) {
 								<ItemList
 									items={items}
 									itemOnClick={itemOnClick}
-									setItemOnCLick={setItemOnCLick}
+									setItemOnClick={setItemOnClick}
 								/>
 							</div>
 
@@ -70,6 +87,11 @@ export default function Backpack({ loading, user }) {
 							<div className="basis-3/7 bg-white/75 rounded-lg">
 								<ItemDetails
 									item={itemOnClick}
+									user={user}
+									pfpBg={pfpBg}
+									setpfpBg={setpfpBg}
+									bg={bg}
+									setBg={setBg}
 								/>
 							</div>
 						</div>

@@ -6,6 +6,10 @@ export default function ItemList({
     setItemOnClick
 }) 
 {
+
+    function handleItemClick(item) {
+        setItemOnClick(item);
+    }
     return (
         <div className="bg-white/75 rounded-lg pr-4 grid grid-rows-5 grid-flow-col gap-4 overflow-y-auto p-4">
             {
@@ -14,7 +18,7 @@ export default function ItemList({
 
                         return (
                             <ItemInventory
-                            setItemOnClick={setItemOnClick}
+                            handleItemClick={handleItemClick}
                             item={item}
                             itemOnClick={itemOnClick}
                             />
