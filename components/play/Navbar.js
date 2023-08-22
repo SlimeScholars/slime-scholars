@@ -35,7 +35,6 @@ export function Navbar(props) {
       .get("/api/user", config)
       .then((response) => {
         setUser(response.data.user);
-        console.log(user);
       })
       .catch((error) => {
         console.log("navbar", error.message);
