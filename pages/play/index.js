@@ -27,7 +27,11 @@ export default function Play({ loading, user }) {
 
   return (
     <div
-      className={`p-8 w-screen h-screen bg-cover bg-[url('/assets/backgrounds/${bg}')]`}
+      className="p-8 w-screen h-screen"
+      style={{
+        backgroundImage: `url('/assets/backgrounds/${bg}')`,
+        backgroundSize: "cover",
+      }}
     >
       <Navbar current="0"></Navbar>
       {/* slimes */}
