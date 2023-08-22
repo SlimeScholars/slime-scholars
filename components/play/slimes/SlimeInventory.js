@@ -5,7 +5,10 @@ export default function SlimeInventory({ user, loading, setSlime }) {
       {Array.isArray(user.slimes) &&
         user.slimes.map((slime, index) => {
           return (
-            <div className="flex flex-col border-2 border-gray-400 rounded-md p-1 bg-green-400 relative flex-wrap w-32">
+            <div
+              key={index}
+              className="flex flex-col border-2 border-gray-400 rounded-md p-1 bg-green-400 relative flex-wrap w-32"
+            >
               <button
                 onClick={() => {
                   setSlime(slime);
