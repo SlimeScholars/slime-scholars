@@ -29,7 +29,6 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
           cur_pos = i;
         }
       }
-      console.log(swap);
       if (swap) {
         let temp = roster[index];
         roster[index] = id;
@@ -37,8 +36,8 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
       } else {
         roster[index] = id;
       }
-      console.log(roster);
-      console.log(user.roster);
+      // console.log(roster);
+      // console.log(user.roster);
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
