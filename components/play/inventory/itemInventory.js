@@ -1,21 +1,37 @@
 import { gameData } from '../../../data/gameData';
 
-export default function ItemInventory(props) {
+export default function ItemInventory({
+    setItemOnClick,
+    itemOnClick,
+    item,
+    displayOnly
+}) {
 
-    console.log(props.rarity);
-    // If is background
+    const classNameDefault="w-20 h-20 border-solid border-8 border-white rounded-lg hover:border-white/75";
+    const classNameClick="w-20 h-20 border-solid border-8 border-red-300 rounded-lg hover:border-white/75";
+    const classNameDisplay="w-22 h-22 border-solid border-8 border-white rounded-lg";
+    // for background
     if (item.isBg) {
 
         const itemName = item.itemName;
         const imgPath = '/assets/pfp/backgrounds/'+gameData.items[itemName].pfp;
         return (
-            <div className="w-10 h-10 border-solid border-4 border-white">
+            <div className={
+                displayOnly=="true"? (classNameDisplay) : (
+                    itemOnClick._id==item._id? (classNameClick):(classNameDefault)
+                )
+            }
+                onClick={(e) => {
+                    if (displayOnly !== "true") {
+                        setItemOnClick(item);
+                    }
+                }}>
                 <img src={imgPath}></img>
             </div>
         )
     }
-    return (
-        <div className="w-10 h-10">
-        </div>
-    )
+    // eggs
+    else if (item.quantity) {
+
+    }
 }

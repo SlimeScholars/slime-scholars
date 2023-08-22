@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
+import ItemDetails from "../../components/play/inventory/itemDetails";
 
 export default function Backpack({ loading, user }) {
 
@@ -18,7 +19,7 @@ export default function Backpack({ loading, user }) {
 			router.push("/");
 		}
 
-		//console.log(user.items);
+		console.log(user.items);
 		// Set the items for displaying in inventory to user's items
 		setItems(user.items);
 
@@ -57,7 +58,7 @@ export default function Backpack({ loading, user }) {
 						<div className="py-8 flex flex-row font-galindo w-full">
 
 							{/* Inventory List */}
-							<div className="pr-4 basis-2/3">
+							<div className="pr-4 basis-4/7">
 								<ItemList
 									items={items}
 									itemOnClick={itemOnClick}
@@ -66,8 +67,10 @@ export default function Backpack({ loading, user }) {
 							</div>
 
 							{/* Item details */}
-							<div className="pl-4 basis-1/3 bg-white/75 rounded-lg">
-
+							<div className="basis-3/7 bg-white/75 rounded-lg">
+								<ItemDetails
+									item={itemOnClick}
+								/>
 							</div>
 						</div>
 					</div>
