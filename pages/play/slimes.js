@@ -1,0 +1,70 @@
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { Navbar } from "../../components/play/Navbar";
+
+export default function Slimes({ loading, user }) {
+  const [searchContent, setSearchContent] = useState("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (!user || user.userType !== 1) {
+      router.push("/");
+    }
+  }, [user, loading]);
+
+  return (
+    <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')] ">
+      <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
+        <Navbar current="3" className=""></Navbar>
+        <div className="pt-5">
+          <div className="items-center justify-between">
+            <div className="flex flex-row bg-white/75 rounded-lg items-center">
+              <div className="grow-0 pl-4">
+                <img src="/assets/icons/slimes.png" className="h-20 w-20"></img>
+              </div>
+              <div className="grow pl-4 font-galindo text-xl">Slimes</div>
+              <div className="grow-0 flex grow pr-4">
+                <form
+                  className="border-2 border-black flex bg-transparent rounded"
+                  onSubmit={(e) => handleSubmit(e)}
+                >
+                  <input
+                    type="text"
+                    value={"Search for a slime"}
+                    // placeholder=
+                    className="p-1 grow bg-transparent text-m font-galindo ml-2"
+                    onChange={(e) => setSearchContent(e.target.value)}
+                  ></input>
+                  <button type="submit" className="h-full flex p-1">
+                    <span className="material-symbols-outlined">search</span>
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {/* Slimes inventory, all users slimes */}
+          <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
+            <div className="pr-4 basis-1/2 ">
+              <div className="bg-white/75 rounded-lg">
+                {/* <SlimesInventory
+                  userSlimes={userSlimes}
+                /> */}
+                <div className="h-24"></div>
+              </div>
+            </div>
+
+            {/* Get Slime details */}
+            <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+              <div className="h-24"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
