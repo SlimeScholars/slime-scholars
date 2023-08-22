@@ -9,12 +9,12 @@ Parameter:
 */
 
 export function Navbar(props) {
-  const types = [
-    { title: "shopping", id: 1 },
-    { title: "friends", id: 2 },
-    { title: "slimes", id: 3 },
-    { title: "backpack", id: 4 },
-  ];
+	const types = [
+		{ title: "shopping", src:"shopping", id: 1 },
+		{ title: "friends", src:"friends", id: 2 },
+		{ title: "slimes", src:"slimes", id: 3 },
+		{ title: "inventory", src:"backpack", id: 4 },
+	];
 
   const router = useRouter();
   const current_id = parseInt(props.current, 10);
