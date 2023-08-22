@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import SearchBar from "../searchBar";
 import axios from "axios";
 
 /**
@@ -7,11 +8,11 @@ import axios from "axios";
  *                          - "manage": return search friends bar on default
  *                          - "add": allow search across entire user database
  * @param   {string} placeHolder - placeholder for the search bar
- */
+ **/
 
 export default function SearchFriends({ setFriends, toDo, placeHolder }) {
     const [searchContent, setSearchContent] = useState("");
-
+    
     const handleSubmit = (e) => {
         const token = localStorage.getItem('jwt')
 
@@ -45,28 +46,16 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
                 //console.error(error.message)
                 );
         }
-        
-        e.preventDefault();
     };
 
     return (
-        <form
-            className="border-2 border-red-300 flex bg-transparent rounded"
-            onSubmit={(e) => handleSubmit(e)}>
-            <input
-                type="text"
-                value={searchContent}
-                placeholder={placeHolder}
-                className="p-1 grow bg-transparent text-m"
-                onChange={(e) => setSearchContent(e.target.value)}>
-            </input>
-            <button
-                type="submit"
-                className="h-full flex p-1">
-                <span className="material-symbols-outlined">
-                    search
-                </span>
-            </button>
-        </form>
+        <SearchBar
+            handleSubmit={handleSubmit}
+            placeHolder={placeHolder}
+            setFriends={setFriends}
+            setSearchContent={setSearchContent}
+            searchContent={searchContent}
+            toDO={toDo}
+        />
     )
 }
