@@ -187,6 +187,7 @@ export default async function handler(req, res) {
 
         pfpSlime: 'Blue Slime',
         pfpBg: 'Forest Mountains',
+        bg: 'Forest Mountains',
 
         slimeGel: 0,
         flowers: 0,
@@ -198,8 +199,7 @@ export default async function handler(req, res) {
             itemName: "Forest Mountains",
             rarity: "Rare",
             quantity: 1,
-            pfp: 'forest-mountains.png',
-            background: 'forest-mountains.png',
+            isBg: true,
           },
         ],
         lastRewards: [0, 0],

@@ -163,6 +163,10 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
+    bg: {
+      type: String,
+      required: false,
+    },
 
     slimeGel: {
       type: Number,
@@ -219,12 +223,9 @@ const userSchema = new Schema(
           type: Number,
           required: false,
         },
-        pfp: {
-          type: String,
-          required: false,
-        },
-        background: {
-          type: String,
+        isBg: {
+          type: Boolean,
+          // Required makes it so that isBg cannot be false
           required: false,
         },
       }],
