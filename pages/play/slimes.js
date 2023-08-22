@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
+import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 
 export default function Slimes({ loading, user }) {
   const [searchContent, setSearchContent] = useState("");
+  const [slime, setSlime] = useState("");
 
   const router = useRouter();
 
@@ -51,16 +53,38 @@ export default function Slimes({ loading, user }) {
           <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
             <div className="pr-4 basis-1/2 ">
               <div className="bg-white/75 rounded-lg">
-                {/* <SlimesInventory
-                  userSlimes={userSlimes}
-                /> */}
-                <div className="h-24"></div>
+                <div className="h-24">
+                  {/* loop through all slimes from user and display them */}
+                  {user &&
+                    Array.isArray(user.slimes) &&
+                    user.slimes.map((slime, index) => {
+                      return (
+                        <div className="flex flex-row">
+                          <div className="flex flex-col">
+                            <p className="text-center font-galindo">
+                              {slime.slimeName}
+                            </p>
+                            <button
+                              onClick={() => {
+                                setSlime(slime);
+                              }}
+                            >
+                              Click Me
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                </div>
               </div>
             </div>
 
             {/* Get Slime details */}
             <div className="basis-1/2 bg-white/75 rounded-lg h-full">
-              <div className="h-24"></div>
+              <div className="">
+                {/* Display the slime details of the slime that is clicked */}
+                <SlimeDetails slime={slime} />
+              </div>
             </div>
           </div>
         </div>
