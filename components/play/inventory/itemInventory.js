@@ -1,7 +1,8 @@
 import { gameData } from '../../../data/gameData';
 
-export default function Item({ item }) {
+export default function ItemInventory(props) {
 
+    console.log(props.rarity);
     // If is background
     if (item.isBg) {
 

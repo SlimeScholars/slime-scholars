@@ -18,7 +18,7 @@ export default function Backpack({ loading, user }) {
 			router.push("/");
 		}
 
-		console.log(user.items);
+		//console.log(user.items);
 		// Set the items for displaying in inventory to user's items
 		setItems(user.items);
 
