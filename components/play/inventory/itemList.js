@@ -1,4 +1,4 @@
-import Item from './item';
+import ItemInventory from './itemInventory';
 
 export default function ItemList({
     items,
@@ -6,13 +6,18 @@ export default function ItemList({
     setItemOnClick
 }) 
 {
+    console.log(items);
+    
     return (
         <div className="bg-white/75 rounded-lg pr-4 grid grid-rows-5 grid-flow-col gap-4 overflow-y-auto">
             {
                 Array.isArray(items)? (
                     items.map((item) => {
-                        <Item
-                            item={item}
+                        <ItemInventory
+                            itemName={item.itemName}
+                            isBg={item.isBg}
+                            quantity={item.quantity}
+                            rarity={item.rarity}
                         />
                     })
                 ): (
