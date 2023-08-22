@@ -1,22 +1,71 @@
-export default function Roster({ user, loading }) {
-  console.log(user);
+import axios from "axios";
+import { showToastError } from "../../../utils/toast";
 
+export default function Roster({ user, loading, setLoading }) {
   if (loading) {
-    return
+    return;
   }
+
+  const handleClick = (id, index) => {
+    try {
+      const roster = [null, null, null, null];
+      for (let i in user.roster) {
+        if (user.roster[i] === null) {
+          roster[i] = null;
+        } else {
+          roster[i] = user.roster[i]._id;
+        }
+      }
+      roster[index] = id;
+      const token = localStorage.getItem("jwt");
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      setLoading(true);
+      axios
+        .post("/api/slime/change-roster", { roster }, config)
+        .then((response) => {
+          console.log(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          showToastError(error.message);
+          setLoading(false);
+        });
+    } catch (error) {
+      showToastError(error.message);
+      return;
+    }
+  };
 
   return (
     <>
       {Array.isArray(user.roster) &&
         user.roster.map((slime, index) => {
+          console.log(slime);
           if (slime === null) {
-            return <div>+</div>
+            return (
+              <div className="px-10 border-2 border-gray-400 rounded-md mt-1 pt-6 py-5">
+                <button
+                  // TODO add params later
+                  onClick={() => {
+                    handleClick();
+                  }}
+                >
+                  +
+                </button>
+              </div>
+            );
           }
           return (
             <div className="flex flex-col border-2 border-gray-400 rounded-md p-1 bg-green-400 relative flex-wrap w-32">
               <button
                 onClick={() => {
-                  setSlime(slime);
+                  handleClick();
                 }}
                 className="mb-3"
               >
