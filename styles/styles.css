@@ -129,6 +129,11 @@ a {
   }
 }
 
+
+.not-started {
+  background-color: #8b8282;
+}
+
 .gold {
   background-color: #d1bb3b;
   background-image: linear-gradient(to left, #d6b33e, #e2be70, #e0da80, #af8b36)
