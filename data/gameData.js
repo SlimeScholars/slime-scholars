@@ -37,6 +37,7 @@ export const gameData = {
       itemName: "Forest Mountains",
       rarity: "Rare",
       pfp: 'forest-mountains.png',
+      bg: 'forest-mountains.png',
       buyPrice: 1,
       buyCurrency: 0,
     },
