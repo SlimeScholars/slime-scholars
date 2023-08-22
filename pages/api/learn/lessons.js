@@ -50,9 +50,10 @@ export default async function (req, res) {
         looted: false,
       })
       for (let j in user.completedLessons) {
+        // TODO: Bugfix this comparison
         if (
           (user.completedLessons[j].lesson._id && user.completedLessons[j]._id.equals(unit.lessons[i]._id)) ||
-          user.completedLessons[j].unit.equals(unit.lessons[i]._id)
+          user.completedLessons[j].unit && user.completedLessons[j].unit.equals(unit.lessons[i]._id)
         ) {
           modifiedLessons[i].stars = user.completedLessons[j].stars
           modifiedLessons[i].looted = user.completedLessons[j].looted
