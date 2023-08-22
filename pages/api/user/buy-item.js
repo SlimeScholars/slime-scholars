@@ -13,7 +13,7 @@ import User from '../../../models/userModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -27,39 +27,54 @@ export default async function (req, res) {
     checkUserType(user, 1)
 
     const { itemName, quantity } = req.body
+
+    if (!gameData.items[itemName]) {
+      throw new Error(`The item ${itemName} does not exist`)
+    }
+    if (gameData.items[itemName].buyPrice === undefined) {
+      throw new Error('This item cannot be bought')
+    }
+
+    // Make sure they buy at max one background
+    if (gameData.items[itemName].isBg && quantity > 1) {
+      throw new Error('You can only buy one copy of each background')
+    }
+
     let cost = gameData.items[itemName].buyPrice
     let buyCurrency = gameData.items[itemName].buyCurrency
     let rarity = gameData.items[itemName].rarity
     let sellPrice = gameData.items[itemName].sellPrice
     let sellCurrency = gameData.items[itemName].sellCurrency
-    if(!cost) {
-      throw new Error('Item not found')
-    }
     cost *= quantity
     // Currency 0 is slimeGel, currency 1 is flower
-    if(buyCurrency === 0) {
-      if(cost <= user.slimeGel) {
+    if (buyCurrency === 0) {
+      if (cost <= user.slimeGel) {
         let newSlimeGel = user.slimeGel - cost
         let newItems = user.items
         // See if the user already has the item in inventory
         let itemIndex = -1
-        for(let i in user.items) {
-          if(user.items[i].itemName === itemName) {
+        for (let i in user.items) {
+          if (user.items[i].itemName === itemName) {
             itemIndex = i
           }
         }
         // If the user doesn't have the item, add a new element to the user's items
-        if(itemIndex === -1) {
+        if (itemIndex === -1) {
           newItems.push({
             itemName: itemName,
             quantity: parseInt(quantity),
             rarity: rarity,
             sellPrice: sellPrice,
             sellCurrency: sellCurrency,
+            isBg: gameData.items[itemName].isBg,
           })
         }
         // Otherwise, just increase the user's quantity
         else {
+          // Make sure user has at max one copy of each background 
+          if (gameData.items[itemName].isBg) {
+            throw new Error('You already own this background')
+          }
           newItems[itemIndex].quantity += parseInt(quantity)
         }
         await User.findByIdAndUpdate(user._id, {
@@ -83,29 +98,34 @@ export default async function (req, res) {
     }
 
     // Buying with flowers
-    else if(buyCurrency === 1) {
-      if(cost <= user.flowers) {
+    else if (buyCurrency === 1) {
+      if (cost <= user.flowers) {
         let newFlowers = user.flowers - cost
         let newItems = user.items
         // See if the user already has the item in inventory
         let itemIndex = -1
-        for(let i in user.items) {
-          if(user.items[i].itemName === itemName) {
+        for (let i in user.items) {
+          if (user.items[i].itemName === itemName) {
             itemIndex = i
           }
         }
         // If the user doesn't have the item, add a new element to the user's items
-        if(itemIndex === -1) {
+        if (itemIndex === -1) {
           newItems.push({
             itemName: itemName,
             quantity: parseInt(quantity),
             rarity: rarity,
             sellPrice: sellPrice,
             sellCurrency: sellCurrency,
+            isBg: gameData.items[itemName].isBg,
           })
         }
         // Otherwise, just increase the user's quantity
         else {
+          // Make sure user has at max one copy of each background 
+          if (gameData.items[itemName].isBg) {
+            throw new Error('You already own this background')
+          }
           newItems[itemIndex].quantity += parseInt(quantity)
         }
 
@@ -132,7 +152,7 @@ export default async function (req, res) {
       throw new Error('System error')
     }
   } catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
 
