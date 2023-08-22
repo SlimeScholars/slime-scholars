@@ -88,9 +88,8 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
           return (
             <div
               key={index}
-              className={`flex flex-col border-2 border-gray-400 bg-[${
-                gameData.rarityColours[char.rarity]
-              }] rounded-md p-1 relative flex-wrap w-32`}
+              className={`flex flex-col border-2 border-gray-400 rounded-md p-1 relative flex-wrap w-32`}
+              style={{ backgroundColor: gameData.rarityColours[char.rarity] }}
             >
               <button
                 onClick={() => {
