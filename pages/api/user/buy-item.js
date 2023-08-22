@@ -27,12 +27,19 @@ export default async function (req, res) {
     checkUserType(user, 1)
 
     const { itemName, quantity } = req.body
+
     if (!gameData.items[itemName]) {
       throw new Error(`The item ${itemName} does not exist`)
     }
     if (gameData.items[itemName].buyPrice === undefined) {
       throw new Error('This item cannot be bought')
     }
+
+    // Make sure they buy at max one background
+    if (gameData.items[itemName].isBg && quantity > 1) {
+      throw new Error('You can only buy one copy of each background')
+    }
+
     let cost = gameData.items[itemName].buyPrice
     let buyCurrency = gameData.items[itemName].buyCurrency
     let rarity = gameData.items[itemName].rarity
@@ -64,6 +71,10 @@ export default async function (req, res) {
         }
         // Otherwise, just increase the user's quantity
         else {
+          // Make sure user has at max one copy of each background 
+          if (gameData.items[itemName].isBg) {
+            throw new Error('You already own this background')
+          }
           newItems[itemIndex].quantity += parseInt(quantity)
         }
         await User.findByIdAndUpdate(user._id, {
@@ -111,6 +122,10 @@ export default async function (req, res) {
         }
         // Otherwise, just increase the user's quantity
         else {
+          // Make sure user has at max one copy of each background 
+          if (gameData.items[itemName].isBg) {
+            throw new Error('You already own this background')
+          }
           newItems[itemIndex].quantity += parseInt(quantity)
         }
 
