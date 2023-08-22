@@ -48,7 +48,7 @@ export const gameData = {
       grey: "#B6B7A9",
       black: "#0C1414",
     },
-    "Blue Plant": {
+    "Blue Planet": {
       itemName: "Blue Planet",
       rarity: "Rare",
       pfp: "blue-planet.png",
