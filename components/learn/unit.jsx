@@ -5,7 +5,7 @@ export default function Unit({ courseId, unitId, unitName, unitBadge, tier }) {
 
 	// TODO: unit badges
 	const tierClass = {
-		0: '',
+		0: 'not-started',
 		1: 'bronze',
 		2: 'silver',
 		3: 'gold',

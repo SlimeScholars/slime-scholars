@@ -5,7 +5,7 @@ export default function Course({ courseId, courseName, courseBadge, tier }) {
 
 	// TODO: course badges
 	const tierClass = {
-		0: '',
+		0: 'not-started',
 		1: 'bronze',
 		2: 'silver',
 		3: 'gold',
