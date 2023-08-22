@@ -9,8 +9,8 @@ export default function AddToRoster({
 }) {
   return (
     <div className="p-4">
-      <p className="text-md"> Add to team</p>
-      <p className="text-xs"> Choose a slime to replace</p>
+      <p className="text-md mx-1"> Add to team</p>
+      <p className="text-xs mb-2 mx-1"> Choose a slime to replace</p>
       <div className="flex flex-row justify-around items-center">
         <Roster
           user={user}
