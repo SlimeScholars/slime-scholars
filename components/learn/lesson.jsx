@@ -5,9 +5,6 @@ export default function Lesson({ courseId, unitId, lessonId, lessonName, looted,
 	const router = useRouter()
 
 	const maxStars = 3
-	// TODO: Fix up api for retrieving completed lessons (not showing as completed)
-	// TODO: Render stars on this component and looted status
-	// Maybe grey stars for unlooted, grey stars for not started, gold stars for looted
 	const tier = looted ? 'text-yellow-300' :
 		stars > -1 ? 'text-yellow-100' : 'text-gray-400'
 
