@@ -3,7 +3,13 @@ import RequestListings from "./requestListings";
 import SwitchButton from "./switchButton";
 import axios from "axios";
 
-export default function FriendRequestsEditor({ currentUser }) {
+export default function FriendRequestsEditor({ 
+    currentUser, 
+    sentFriendRequests,
+    receivedFriendRequests,
+    setReceivedFriendRequests,
+    setSentFriendRequests,
+ }) {
 
     const [currentType, setCurrentType] = useState("received");
 
@@ -31,6 +37,10 @@ export default function FriendRequestsEditor({ currentUser }) {
                 <RequestListings
                     currentType={currentType}
                     currentUser={currentUser}
+                    sentFriendRequests={sentFriendRequests}
+                    receivedFriendRequests={receivedFriendRequests}
+                    setReceivedFriendRequests={setReceivedFriendRequests}
+                    setSentFriendRequests={setSentFriendRequests}
                 />
             </div>
         </div>

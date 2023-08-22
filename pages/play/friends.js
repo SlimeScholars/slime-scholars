@@ -6,12 +6,15 @@ import ManageFriends from '../../components/play/friends/ManageFriends';
 import FriendRequestsEditor from '../../components/play/friends/FriendRequestsEditor';
 import axios from "axios";
 
-export default function Friends({ loading, user, setUser }) {
+export default function Friends({ loading, user }) {
     const router = useRouter();
 
     const [userFriends, setUserFriends] = useState("empty for now");
     const [allPlayers, setAllPlayers] = useState("empty for now");
     const [toDo, setToDo] = useState("manage");
+    const [userId, setUserId] = useState("empty for now");
+    const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
+    const [receivedFriendRequests, setReceivedFriendRequests] = useState("empty for now");
 
     useEffect(() => {
         if (loading) { return; }
@@ -21,6 +24,13 @@ export default function Friends({ loading, user, setUser }) {
 
         // Get userfriends for userfriendListings in leaderboard
         setUserFriends(user.friends);
+
+        // Record user id for leaderboard listing background highlight
+        setUserId(user._id);
+
+        // Initialize friend requests
+        setSentFriendRequests(user.sentFriendRequests);
+        setReceivedFriendRequests(user.receivedFriendRequests);
 
         // Get allplayers for playerListings in leaderboard
         // Fetching top 20 players in order of exp
@@ -82,10 +92,15 @@ export default function Friends({ loading, user, setUser }) {
                                 toDo=="manage"? (
                                     <Leaderboard 
                                         userFriends={userFriends}
-                                        allPlayers={allPlayers}/>
+                                        allPlayers={allPlayers}
+                                        userId={userId}/>
                                 ) : (
                                     <FriendRequestsEditor 
                                         currentUser={user}
+                                        sentFriendRequests={sentFriendRequests}
+                                        receivedFriendRequests={receivedFriendRequests}
+                                        setReceivedFriendRequests={setReceivedFriendRequests}
+                                        setSentFriendRequests={setSentFriendRequests}
                                     />
                                 )
                             }
@@ -99,7 +114,8 @@ export default function Friends({ loading, user, setUser }) {
                             <ManageFriends 
                                 userFriends={userFriends}
                                 toDo={toDo}
-                                setCurrentUser={setUser}/>
+                                setUserFriends={setUserFriends}
+                                setSentFriendRequests={setSentFriendRequests}/>
                         </div>
                     </div>
                 </div>

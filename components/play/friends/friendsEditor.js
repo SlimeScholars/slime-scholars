@@ -11,7 +11,7 @@ import axios from "axios";
  * @param   {function} setAlertMessage - create a pop up alert on change
  */
 
-export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurrentUser }) {
+export default function FriendsEditor({ userFriends, usersOnlist, toDo, setUserFriends, setSentFriendRequests }) {
 
     const handleManageFriend = (friendId) => {
         const token = localStorage.getItem('jwt')
@@ -29,12 +29,12 @@ export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurre
                 friendId
             }, config)
             .then(response => {
-                userFriends = response.data.friends;
-                showToastError("Friend removed");
+                setUserFriends(response.data.friends);
+                showToastError("Friend removed", true);
             })
             .catch(error => {
                 if (error && error.response && error.response.data && error.response.data.message)
-                    showToastError(error.response.data.message);
+                    showToastError(error.response.data.message, true);
                 else
                     console.error('Error removing friend')
             });
@@ -45,6 +45,8 @@ export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurre
             }, config)
             .then(response => {
                 userFriends = response.data.friends;
+                const updatedRequestListing = response.data.sentFriendRequests;
+                setSentFriendRequests(updatedRequestListing);
                 showToastError("Friend request sent", true);
             })
             .catch(error => {
@@ -54,17 +56,9 @@ export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurre
                     console.error('Error removing friend')
             });
         }
-
-        // Sync user data with backend
-        axios
-            .get("/api/user", config)
-            .then(response => {
-                // Sync current user after deleting a friend or sending a friend request
-                setCurrentUser(response.data.user);
-            });
     }
 
-    if (todo === "manage") {
+    if (toDo === "manage") {
         return (
             <div className="grid grid-cols-2 gap-4">
                 {Array.isArray(userFriends) ? (
@@ -82,7 +76,7 @@ export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurre
                                 </div>
                                 <div className="grow px-4">{user.username}</div>
                                 <button
-                                    className="bg-red-400 rounded-lg p-2"
+                                    className="bg-red-400 rounded-lg p-2 hover:bg-red-300"
                                     onClick={() => handleManageFriend(user._id)}
                                 >X</button>
                             </div>
@@ -115,15 +109,15 @@ export default function FriendsEditor({ userFriends, usersOnlist, toDo, setCurre
                                 {
                                     toDo=="manage"? (
                                         <button
-                                            className="bg-red-400 rounded-lg p-2"
+                                            className="bg-red-400 rounded-lg p-2 hover:bg-red-300"
                                             onClick={() => handleManageFriend(user._id)}
                                         >X</button>
                                     ) : (
                                         <button
-                                            className="bg-red-400 rounded-lg p-2 w-10 h-10"
+                                            className="bg-red-400 rounded-lg p-2 w-10 h-10 hover:bg-red-300"
                                             onClick={() => handleManageFriend(user._id)}
                                         >
-                                            <span class="h-full material-symbols-outlined">add</span>
+                                            <span className="h-full material-symbols-outlined">add</span>
                                         </button>
                                     )
                                 }
