@@ -13,16 +13,16 @@ export default function EarnFlwrBtn() {
     const router = useRouter()
 
     return (
-        <button id="earnFlwr" 
+        <button id="earnFlwr"
             className="font-galindo"
-            onClick = {
-            (e) => {
-                e.preventDefault()
-                router.push("/courses/index")
-            }
-        }>
+            onClick={
+                (e) => {
+                    e.preventDefault()
+                    router.push("/courses")
+                }
+            }>
             Earn Flowers
-            
+
         </button>
     );
 }
