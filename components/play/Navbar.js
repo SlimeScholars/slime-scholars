@@ -1,6 +1,7 @@
-import React from "react";
-import EarnFlwrBtn from './earnFlwrBtn';
-import { useRouter } from "next/router"
+import React, { useState, useEffect } from "react";
+import EarnFlwrBtn from "./friends/earnFlwrBtn";
+import { useRouter } from "next/router";
+import axios from "axios";
 
 /*
 Parameter:
@@ -8,16 +9,38 @@ Parameter:
 */
 
 export function Navbar(props) {
-
   const types = [
-    { title: 'shopping', id: 1},
-    { title: 'friends', id: 2},
-    { title: 'slimes', id: 3},
-    { title: 'backpack', id: 4}
-  ]
+    { title: "shopping", id: 1 },
+    { title: "friends", id: 2 },
+    { title: "slimes", id: 3 },
+    { title: "backpack", id: 4 },
+  ];
 
-  const router = useRouter()
-  const current_id = parseInt(props.current, 10)
+  const router = useRouter();
+  const current_id = parseInt(props.current, 10);
+
+  // get user data to display flowers and slimeGel
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (!token) {
+      router.push("/");
+    }
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios
+      .get("/api/user", config)
+      .then((response) => {
+        setUser(response.data.user);
+        console.log(user);
+      })
+      .catch((error) => {
+        console.log("navbar", error.message);
+      });
+  }, []);
 
   return (
     <div className="flex flex-row items-center justify-between">
@@ -26,42 +49,65 @@ export function Navbar(props) {
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
-        <div className="flex flex-col justify-end">
-          <div className="bg-[#5A5A5A] opacity-60 h-8 w-24 rounded-md"></div>
-          <div className="bg-[#5A5A5A] opacity-60 h-8 w-12 rounded-md mt-1"></div>
+        <div className="flex flex-col justify-center p-4">
+          <div className="flex bg-white/75 opacity-60 h-8 w-24 rounded-md">
+            {/* slime gel */}
+            {user && (
+              <div className="flex flex-row items-center justify-center">
+                <img
+                  src="/assets/icons/slimeGel.png"
+                  alt="Icon"
+                  className="h-4 w-4 ml-1 mr-2"
+                />
+                <p className="text-black font-galindo">{user.slimeGel}</p>
+              </div>
+            )}
+          </div>
+          <div className="flex bg-white/75 opacity-60 h-8 w- rounded-md mt-1 ml-8">
+            {/* flowers */}
+            {user && (
+              <div className="flex flex-row items-center">
+                <img
+                  src="/assets/icons/slimeGel.png"
+                  alt="Icon"
+                  className="h-4 w-4 ml-1 mr-2"
+                />
+                <p className="text-black font-galindo">{user.flowers}</p>
+              </div>
+            )}
+          </div>
         </div>
         {/* buttons and icons */}
-        {
-          types.map(type => {
-            const imgLink = "/assets/icons/"+type.title+".png"
-            if (type.id !== current_id) {
+        {types.map((type) => {
+          const imgLink = "/assets/icons/" + type.title + ".png";
+          if (type.id !== current_id) {
             return (
-                <button 
-                    onClick={(e) => {
-                      e.preventDefault()
-                      router.push("/play/"+type.title)
-                    }}
-                    className="p-8 bg-white/50 rounded-full hover:bg-red-300/75"
-                    key = {type.id}>
-                    <img src={imgLink} className="h-14 w-14">
-                    </img>
-                </button>
-            );}
-            return (
-              <button 
-                    onClick={(e) => {
-                      e.preventDefault()
-                      router.push("/play/"+type.title)
-                    }}
-                    className="p-8 bg-red-300 rounded-full hover:bg-red-300/75"
-                    key = {type.id}>
-                    <img src={imgLink} className="h-14 w-14">
-                    </img>
-                </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push("/play/" + type.title);
+                }}
+                className="p-8 bg-white/50 rounded-full hover:bg-red-300/75"
+                key={type.id}
+              >
+                <img src={imgLink} className="h-14 w-14"></img>
+              </button>
             );
-          })
-        }
+          }
+          return (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/play/" + type.title);
+              }}
+              className="p-8 bg-red-300 rounded-full hover:bg-red-300/75"
+              key={type.id}
+            >
+              <img src={imgLink} className="h-14 w-14"></img>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
-};
+}

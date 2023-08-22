@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Navbar } from "../../components/play/Navbar";
 
-export default function Shopping({ loading, user }) {
+export default function Backpack({ loading, user }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -16,10 +16,8 @@ export default function Shopping({ loading, user }) {
 
   return (
     <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')]">
-      <div className="w-screen h-screen bg-cover bg-[url('/assets/backgrounds/bg-beach.png')] ">
-        <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
-          <Navbar current="1" className=""></Navbar>
-        </div>
+      <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
+        <Navbar current="4" className=""></Navbar>
       </div>
     </div>
   );
