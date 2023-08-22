@@ -1,6 +1,12 @@
 import Roster from "./Roster";
 
-export default function AddToRoster({ user, loading, setLoading, slime }) {
+export default function AddToRoster({
+  user,
+  loading,
+  setLoading,
+  slime,
+  setUser,
+}) {
   return (
     <div className="p-4">
       <p className="text-md"> Add to team</p>
@@ -11,6 +17,7 @@ export default function AddToRoster({ user, loading, setLoading, slime }) {
           loading={loading}
           setLoading={setLoading}
           slime={slime}
+          setUser={setUser}
         />
       </div>
     </div>
