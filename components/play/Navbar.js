@@ -45,7 +45,7 @@ export function Navbar(props) {
   return (
     <div className="flex flex-row items-center justify-between">
       {/* earn flowers button */}
-      <div className="p-8 bg-red-300 hover:bg-red-300/75 rounded text-lg">
+      <div className=" bg-red-300 hover:bg-red-300/75 rounded text-lg">
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
