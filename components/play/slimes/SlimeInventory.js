@@ -1,16 +1,5 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
 export default function SlimeInventory({ user, loading, setSlime }) {
-  const router = useRouter();
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (!user || user.userType !== 1) {
-      router.push("/");
-    }
-  }, [user, loading]);
+
   return (
     <>
       {Array.isArray(user.slimes) &&

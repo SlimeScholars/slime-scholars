@@ -1,21 +1,17 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
 export default function Roster({ user, loading }) {
-  const router = useRouter();
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (!user || user.userType !== 1) {
-      router.push("/");
-    }
-  }, [user, loading]);
   console.log(user);
+
+  if (loading) {
+    return
+  }
+
   return (
     <>
-      {/* {Array.isArray(user.roster) &&
+      {Array.isArray(user.roster) &&
         user.roster.map((slime, index) => {
+          if (slime === null) {
+            return <div>+</div>
+          }
           return (
             <div className="flex flex-col border-2 border-gray-400 rounded-md p-1 bg-green-400 relative flex-wrap w-32">
               <button
@@ -35,7 +31,7 @@ export default function Roster({ user, loading }) {
               </div>
             </div>
           );
-        })} */}
+        })}
     </>
   );
 }
