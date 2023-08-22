@@ -52,7 +52,7 @@ export default async function (req, res) {
       for (let j in user.completedLessons) {
         if (
           (user.completedLessons[j].lesson._id && user.completedLessons[j]._id.equals(unit.lessons[i]._id)) ||
-          user.completedLessons[j]._id && user.completedLessons[j]._id.equals(unit.lessons[i]._id)
+          user.completedLessons[j].lesson && user.completedLessons[j].lesson.equals(unit.lessons[i]._id)
         ) {
           modifiedLessons[i].stars = user.completedLessons[j].stars
           modifiedLessons[i].looted = user.completedLessons[j].looted

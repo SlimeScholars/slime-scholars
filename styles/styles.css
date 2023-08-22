@@ -148,3 +148,7 @@ a {
   background-color: #cd7f32;
   background-image: linear-gradient(to left, #91613a, #c58d51, #e2b26b, #8a5c39);
 }
+
+.lesson-card {
+  grid-template-columns: 1fr 8rem;
+}

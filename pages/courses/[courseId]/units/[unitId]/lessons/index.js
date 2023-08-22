@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { showToastError } from "../../../../../../utils/toast"
 import axios from "axios"
-import Unit from "../../../../../../components/learn/unit"
+import Lesson from "../../../../../../components/learn/lesson"
 
 export default function Lessons({ user, loading, setLoading }) {
 	const router = useRouter()
@@ -50,7 +50,6 @@ export default function Lessons({ user, loading, setLoading }) {
 				.get("/api/learn/lessons", config)
 				.then((response) => {
 					if (response?.data?.lessons) {
-						console.log(response.data.lessons)
 						setCourseName(response.data.courseName)
 						setUnitName(response.data.unitName)
 						setLessons(response.data.lessons)
@@ -73,7 +72,7 @@ export default function Lessons({ user, loading, setLoading }) {
 	return (
 		<div className='w-full min-h-screen flex items-center justify-center bg-red-50'>
 			<div className='flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50'>
-				<header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
+				<header className="w-full h-50 text-pink-400 flex items-center justify-start flex-col font-galindo">
 					<div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
 						<p className="text-lg cursor-pointer"
 							onClick={() => router.push(`/courses/${courseId}/units`)}
@@ -92,16 +91,17 @@ export default function Lessons({ user, loading, setLoading }) {
 					<div className="w-full h-[1px] bg-pink-200 mt-3">&nbsp;</div>
 				</header>
 				<div className="w-full h-full flex flex-col justify-start items-center bg-purple-50 pt-[8vh] pb-[20vh] font-galindo">
-					{/* units.map((unit) => (
-						<Unit
-							key={unit._id}
+					{lessons.map((lesson) => (
+						<Lesson
+							key={lesson._id}
 							courseId={courseId}
-							unitId={unit._id}
-							unitName={unit.unitName}
-							unitBadge={unit.unitBadge}
-							tier={unit.tier}
+							unitId={unitId}
+							lessonId={lesson._id}
+							lessonName={lesson.lessonName}
+							looted={lesson.looted}
+							stars={lesson.stars}
 						/>
-					)) */}
+					))}
 				</div>
 			</div>
 		</div >
