@@ -20,7 +20,8 @@ export const getPopulatedUser = async (userId) => {
     })
     .populate({
       path: 'students',
-      select: '_id userType username firstName lastName completed',
+      // TODO: Populate completedLessons, completedUnits, completedCourses
+      select: '_id userType username firstName lastName completedLessons completedUnits completedCourses',
     })
     .populate({
       path: 'slimes',
