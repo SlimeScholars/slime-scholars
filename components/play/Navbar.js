@@ -10,10 +10,10 @@ Parameter:
 
 export function Navbar(props) {
 	const types = [
-		{ title: "shopping", id: 1 },
-		{ title: "friends", id: 2 },
-		{ title: "slimes", id: 3 },
-		{ title: "backpack", id: 4 },
+		{ title: "shopping", src:"shopping", id: 1 },
+		{ title: "friends", src:"friends", id: 2 },
+		{ title: "slimes", src:"slimes", id: 3 },
+		{ title: "inventory", src:"backpack", id: 4 },
 	];
 
 	const router = useRouter();
@@ -79,7 +79,7 @@ export function Navbar(props) {
 				</div>
 				{/* buttons and icons */}
 				{types.map((type) => {
-					const imgLink = "/assets/icons/" + type.title + ".png";
+					const imgLink = "/assets/icons/" + type.src + ".png";
 					if (type.id !== current_id) {
 						return (
 							<button

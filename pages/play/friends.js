@@ -59,7 +59,7 @@ export default function Friends({ loading, user }) {
                 <Navbar current="2" className=""></Navbar>
                 <div className="pt-5">
                     <div className="items-center justify-between">
-                        {/*  Add Friend  and others (TODO) */}
+                        {/*  Add Friend  and others */}
                         <div className="flex flex-row bg-white/75 rounded-lg items-center">
                             <div className="grow-0 pl-4">
                                 <img
