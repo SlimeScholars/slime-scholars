@@ -79,7 +79,7 @@ export function Navbar(props) {
         </div>
         {/* buttons and icons */}
         {types.map((type) => {
-          const imgLink = "/assets/icons/" + type.title + ".png";
+          const imgLink = "/assets/icons/" + type.src + ".png";
           if (type.id !== current_id) {
             return (
               <button
