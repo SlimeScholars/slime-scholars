@@ -9,7 +9,7 @@ import FriendsEditor from "./friendsEditor";
  *                          - "add": allow search across entire user database
  */
 
-export default function ManageFriends({ userFriends, toDo, setCurrentUser }) {
+export default function ManageFriends({ userFriends, toDo, setUserFriends, setCurrentUser, setSentFriendRequests }) {
 
     const [matchingFriends, setMatchingFriends] = useState("empty for now");
 
@@ -47,8 +47,10 @@ export default function ManageFriends({ userFriends, toDo, setCurrentUser }) {
                 <FriendsEditor
                     userFriends={userFriends}
                     usersOnlist={matchingFriends}
-                    todo={toDo}
+                    toDo={toDo}
                     setCurrentUser={setCurrentUser}
+                    setUserFriends={setUserFriends}
+                    setSentFriendRequests={setSentFriendRequests}
                 />
             </div>
         </div>

@@ -6,21 +6,11 @@ import axios from 'axios';
 export default function RequestListings({
     currentType,
     currentUser,
-    setCurrentUser
+    sentFriendRequests,
+    receivedFriendRequests,
+    setReceivedFriendRequests,
+    setSentFriendRequests,
 }) {
-
-    const [usersOnlist, setUsersOnlist] = useState("empty for now");
-    useEffect(() => {
-        try {
-            if (currentType === "received") {
-                setUsersOnlist(currentUser.receivedFriendRequests);
-            } else {
-                setUsersOnlist(currentUser.sentFriendRequests);
-            }
-        }
-        catch {}
-        
-    });
 
     function handleAcceptRequest(friendId) {
 
@@ -33,7 +23,7 @@ export default function RequestListings({
                 }
             })
             .then(response => {
-                setUsersOnlist(response.data.receivedFriendRequests);
+                setReceivedFriendRequests(response.data.receivedFriendRequests);
                 showToastError("Friend request accepted.", true);
             })
             .catch(error => {});
@@ -55,13 +45,14 @@ export default function RequestListings({
                 friendId: friendId
             }, config)
             .then(response => {
+                console.log(response.data);
                 if (currentType === "received") {
-                    setUsersOnlist(response.receivedFriendRequests);
-                    console.log(response.data);
+                    const updatedRequestListing = response.data.receivedFriendRequests;
+                    setReceivedFriendRequests(updatedRequestListing);
                 }
                 else {
-                    setUsersOnlist(response.data.sentFriendRequests);
-                    console.log(response.data);
+                    const updatedRequestListing = response.data.sentFriendRequests;
+                    setSentFriendRequests(updatedRequestListing);
                 }
                 showToastError("Friend request deleted.", true);
             })
@@ -73,37 +64,75 @@ export default function RequestListings({
     return (
         <div 
             className="overflow-y-auto max-h-96">
-            {Array.isArray(usersOnlist) ? (
-                usersOnlist.map((user, index) => (
-                    <div className="flex flex-row items-center py-4" key={index}>
-                        <div className="w-10 h-10 rounded-full overflow-hidden">
-                            <div className="relative">
-                                <img src={"/assets/pfp/backgrounds/"+gameData.items[user.pfpBg].pfp}
-                                    className="absolute inset-0"></img>
-                                <img src={"/assets/pfp/slimes/"+gameData.slimePfps[user.pfpSlime].pfp}
-                                    className="relative z-10 translate-y-1/4 scale-125"></img>
-                            </div>
-                        </div>
-                        <div className="grow px-4">{
-                            currentType=="received"? (user.username+" requested to add you") : 
-                            ("You requested to add "+user.username)
-                        }</div>
-                        { // To accept friend request
-                            currentType=="received"?(
-                                <button className="bg-none rounded-lg pr-4" onClick={() => handleAcceptRequest(user._id)}>
-                                    <span class="material-symbols-outlined">done</span>
+            {
+                currentType=="received"?
+                (   
+                    Array.isArray(receivedFriendRequests)? (
+                        receivedFriendRequests.map((user, index) => (
+                            <div className="flex flex-row items-center py-4" key={index}>
+                                <div className="w-10 h-10 rounded-full overflow-hidden">
+                                    <div className="relative">
+                                        <img src={"/assets/pfp/backgrounds/"+gameData.items[user.pfpBg].pfp}
+                                            className="absolute inset-0"></img>
+                                        <img src={"/assets/pfp/slimes/"+gameData.slimePfps[user.pfpSlime].pfp}
+                                            className="relative z-10 translate-y-1/4 scale-125"></img>
+                                    </div>
+                                </div>
+                                <div className="grow px-4">{
+                                    currentType=="received"? (user.username+" requested to add you") : 
+                                    ("You requested to add "+user.username)
+                                }</div>
+                                { // To accept friend request
+                                    currentType=="received"?(
+                                        <button className="bg-none rounded-full pr-4 hover:bg-white p-3" onClick={() => handleAcceptRequest(user._id)}>
+                                            <span className="p-2 material-symbols-outlined">done</span>
+                                        </button>
+                                    ) : (<></>)
+                                }
+                                <button className="bg-none rounded-full pr-4 hover:bg-white p-3" onClick={() => handleDeleteRequest(user._id)}>
+                                    <span className="p-2 material-symbols-outlined">delete</span>
                                 </button>
-                            ) : (<></>)
-                        }
-                        <button className="bg-none rounded-lg pr-4" onClick={() => handleDeleteRequest(user._id)}>
-                            <span class="material-symbols-outlined">delete</span>
-                        </button>
-                        
-                    </div>
-                ))
-            ) : (
-                <p>No users to display.</p>
-            )}
+                                
+                            </div>
+                        ))
+                    ) : (
+                        <p>No friend requests received.</p>
+                    )
+                    
+                ) : (
+                    Array.isArray(sentFriendRequests)? (
+                        sentFriendRequests.map((user, index) => (
+                            <div className="flex flex-row items-center py-4" key={index}>
+                                <div className="w-10 h-10 rounded-full overflow-hidden">
+                                    <div className="relative">
+                                        <img src={"/assets/pfp/backgrounds/"+gameData.items[user.pfpBg].pfp}
+                                            className="absolute inset-0"></img>
+                                        <img src={"/assets/pfp/slimes/"+gameData.slimePfps[user.pfpSlime].pfp}
+                                            className="relative z-10 translate-y-1/4 scale-125"></img>
+                                    </div>
+                                </div>
+                                <div className="grow px-4">{
+                                    currentType=="received"? (user.username+" requested to add you") : 
+                                    ("You requested to add "+user.username)
+                                }</div>
+                                { // To accept friend request
+                                    currentType=="received"?(
+                                        <button className="bg-none rounded-full pr-4 hover:bg-white p-3" onClick={() => handleAcceptRequest(user._id)}>
+                                            <span className="p-2 material-symbols-outlined">done</span>
+                                        </button>
+                                    ) : (<></>)
+                                }
+                                <button className="bg-none rounded-full pr-4 hover:bg-white p-3" onClick={() => handleDeleteRequest(user._id)}>
+                                    <span className="p-2 material-symbols-outlined">delete</span>
+                                </button>
+                                
+                            </div>
+                        ))
+                    ) : (
+                        <p>No friend requests sent.</p>
+                    )
+                )
+            }
         </div>
     )
 }
