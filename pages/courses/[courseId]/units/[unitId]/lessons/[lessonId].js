@@ -12,8 +12,10 @@ import ImgSection from "../../../../../../components/admin/lesson/sections/img";
 import MCSection from "../../../../../../components/admin/lesson/sections/mc";
 import FBSection from "../../../../../../components/admin/lesson/sections/fb";
 import { showToastError } from "../../../../../../utils/toast";
+import Modal from "../../../../../../components/learn/modal";
+import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, loading, setLoading }) {
+export default function Lesson({ user, setUser, loading, setLoading }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -221,15 +223,39 @@ export default function Lesson({ user, loading, setLoading }) {
             </h2>
             <Stars stars={stars} />
             <div className="text-xl my-2">
-              {user.exp} Exp <FaArrowRight className="inline" /> {updatedUser.exp} Exp
+              {user.exp} Exp &nbsp;
+              <FaArrowRight className="inline" /> &nbsp;
+              {updatedUser.exp} Exp &nbsp;
+              <Modal
+                preview={
+                  <AiOutlineQuestionCircle className="text-xl" />
+                }
+                content={
+                  <div className="flex flex-col items-start justify-center">
+                    <p className="text-2xl mb-2 text-bg-completed">Earn Exp by scoring well on lesson quizes, unit tests, completing units, and completing courses.</p>
+                  </div>
+                }
+              />
             </div>
             <div className="text-xl my-2">
-              {user.flowers} F <FaArrowRight className="inline" /> {updatedUser.flowers} F
+              {user.flowers} F &nbsp;
+              <FaArrowRight className="inline" /> &nbsp;
+              {updatedUser.flowers} F &nbsp;
+              <Modal
+                preview={
+                  <AiOutlineQuestionCircle className="text-xl" />
+                }
+                content={
+                  <div className="flex flex-col items-start justify-center">
+                    <p className="text-2xl mb-2 text-bg-completed">Earn Flowers by scoring well on lesson quizzes two times a day, or by completing units and courses.</p>
+                  </div>
+                }
+              />
             </div>
 
             <div className="mt-8 grid grid-cols-2 w-[22rem] gap-x-5">
               <button
-                className="bg-bg-light text-bg-completed rounded-sm py-1 px-2 text-xl"
+                className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
                   setUpdatedUser(updatedUser)
                   router.push('/play')
@@ -239,9 +265,10 @@ export default function Lesson({ user, loading, setLoading }) {
                 <HiHome className="inline text-2xl -mt-1 ml-1" />
               </button>
               <button
-                className="bg-bg-light text-bg-completed rounded-sm py-1 px-2 text-xl"
+                className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
                   setUser(updatedUser)
+                  window.location.reload()
                 }}
               >
                 Try Again
