@@ -13,7 +13,7 @@ import Slime from '../../../models/slimeModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -25,44 +25,44 @@ export default async function (req, res) {
 
     // Make sure user is a student
     checkUserType(user, 1)
-    
+
     const { itemName } = req.body
     let itemIndex = -1
-    for(let i in user.items) {
-      if(user.items[i].itemName === itemName) {
+    for (let i in user.items) {
+      if (user.items[i].itemName === itemName) {
         itemIndex = i
       }
     }
-    if(itemIndex === -1 || user.items[itemIndex].quantity < 1) {
+    if (itemIndex === -1 || user.items[itemIndex].quantity < 1) {
       throw new Error(`Insufficient ${itemName.toLowerCase()}`)
     }
     // Check if item can be opened
-    if(!gameData.openingOdds[itemName]) {
+    if (!gameData.openingOdds[itemName]) {
       throw new Error('Item cannot be opened')
     }
     let rarityList = []
-    for(let i in gameData.openingOdds[itemName]) {
+    for (let i in gameData.openingOdds[itemName]) {
       rarityList.push(gameData.openingOdds[itemName][i])
-      if(i != 0) {
+      if (i != 0) {
         rarityList[i] += rarityList[i - 1]
       }
     }
     const randomRarity = Math.random()
     let rarity
-    for(let i in rarityList) {
-      if(randomRarity <= rarityList[i]) {
+    for (let i in rarityList) {
+      if (randomRarity <= rarityList[i]) {
         rarity = gameData.rarities[i]
         break
       }
     }
-    if(!rarity) {
+    if (!rarity) {
       throw new Error('System error')
     }
 
     // Reduce the quantity of item by 1, will save this change at the end
     let newItems = user.items
     newItems[itemIndex].quantity -= 1
-    if(user.items[itemIndex].quantity < 1) {
+    if (user.items[itemIndex].quantity < 1) {
       newItems.splice(itemIndex, 1)
     }
 
@@ -70,21 +70,21 @@ export default async function (req, res) {
     const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
 
     user.slimes
-    const slimeExists = await Slime.findOne({user: user._id, slimeName: chosenSlime.slimeName})
+    const slimeExists = await Slime.findOne({ user: user._id, slimeName: chosenSlime.slimeName })
 
     let slime
     // If the new slime is duplicate
-    if(slimeExists) {
+    if (slimeExists) {
       // If the slime can earn stars
-      if(slimeExists.starProgress !== undefined && slimeExists.starLevel !== slimeExists.maxStarLevel) {
+      if (slimeExists.starProgress !== undefined && slimeExists.starLevel !== slimeExists.maxStarLevel) {
         // Increase star progress
         slimeExists.starProgress += 1
         // If about to star up
-        if(slimeExists.starProgress === slimeExists.maxStarProgress) {
+        if (slimeExists.starProgress === slimeExists.maxStarProgress) {
           slimeExists.starLevel += 1
 
           // If slime reached max star
-          if(slimeExists.starLevel === slimeExists.maxStarLevel) {
+          if (slimeExists.starLevel === slimeExists.maxStarLevel) {
             slimeExists.starProgress = undefined
             slimeExists.maxStarProgress = undefined
           }
@@ -116,7 +116,7 @@ export default async function (req, res) {
     }
 
     // Create a starable slime if rarity is starable
-    else if(gameData.canStar.includes(rarity)) {
+    else if (gameData.canStar.includes(rarity)) {
       const slimeId = (await Slime.create({
         user: user._id,
         slimeName: chosenSlime.slimeName,
@@ -142,7 +142,7 @@ export default async function (req, res) {
       }))._id
 
       slime = await Slime.findById(slimeId, {
-        user: 0, createdAt:0, updatedAt: 0, __v: 0,
+        user: 0, createdAt: 0, updatedAt: 0, __v: 0,
       })
 
       user.slimes.push(slime)
@@ -155,12 +155,12 @@ export default async function (req, res) {
         slimeName: chosenSlime.slimeName,
         maxLevel: gameData.maxLevel[rarity],
         rarity,
-        basePower: gameData.baseProduction[rarity],
+        baseProduction: gameData.baseProduction[rarity],
         levelUpCost: gameData.levelUpCost[rarity][0],
       }))._id
 
       slime = await Slime.findById(slimeId, {
-        user: 0, createdAt:0, updatedAt: 0, __v: 0,
+        user: 0, createdAt: 0, updatedAt: 0, __v: 0,
       })
 
       user.slimes.push(slime)
@@ -188,6 +188,6 @@ export default async function (req, res) {
       items: newItems,
     })
   } catch (error) {
-    res.status(400).json({message: error.message}) 
+    res.status(400).json({ message: error.message })
   }
 }
