@@ -34,15 +34,15 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                             <div className="flex flex-col items-center">
                                 <p>Current</p>
                                 <div className="relative rounded-full overflow-hidden  border-4 border-red-300">
-                                    <img src={"/assets/pfp/backgrounds/"+gameData.items[user.pfpBg].pfp}
+                                    <img src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp}
                                         className="absolute inset-0"></img>
-                                    <img src={"/assets/pfp/slimes/"+gameData.slimePfps[user.pfpSlime].pfp}
+                                    <img src={"/assets/pfp/slimes/" + gameData.slimePfps[user.pfpSlime].pfp}
                                         className="relative z-10 translate-y-1/4 scale-125"></img>
                                 </div>
                             </div>
                         </div>
                         <div className="basis-1/5">
-                            <span class="text-red-300 material-symbols-outlined scale-150 p-10">
+                            <span className="text-red-300 material-symbols-outlined scale-150 p-10">
                                 arrow_forward
                             </span>
                         </div>
@@ -50,16 +50,16 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                             <div className="flex flex-col items-center">
                                 <p>Updated</p>
                                 <div className="relative rounded-full overflow-hidden border-4 border-red-300">
-                                    <img src={"/assets/pfp/backgrounds/"+gameData.items[item.itemName].pfp}
+                                    <img src={"/assets/pfp/backgrounds/" + gameData.items[item.itemName].pfp}
                                         className="absolute inset-0"></img>
-                                    <img src={"/assets/pfp/slimes/"+gameData.slimePfps[user.pfpSlime].pfp}
+                                    <img src={"/assets/pfp/slimes/" + gameData.slimePfps[user.pfpSlime].pfp}
                                         className="relative z-10 translate-y-1/4 scale-125"></img>
                                 </div>
                             </div>
                         </div>
                         <div className="basis-2/5 p-4" dir="rtl">
                             {
-                                pfpBg===item.itemName? (
+                                pfpBg === item.itemName ? (
                                     <button className="rounded-s-lg p-4 bg-black/20" disabled>
                                         Equipped Already
                                     </button>
@@ -68,16 +68,18 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                         onClick={(e) => {
                                             axios
                                                 .put('/api/user/change-pfp', {
-                                                    pfpBg: item.itemName
+                                                    pfpBg: item.itemName,
+                                                    pfpSlime: user.pfpSlime,
                                                 }, {
                                                     headers: {
                                                         Authorization: `Bearer ${localStorage.getItem('jwt')}`
                                                     }
                                                 })
-                                                .then(response => {setpfpBg(item.itemName);})
-                                                .catch(error => {
-                                                    showToastError(error.message);
-                                                });
+                                                .then(response => { 
+                                                    setpfpBg(item.itemName);
+                                                    showToastError("Profile background was changed.", true);
+                                                 })
+                                                .catch(error => { });
                                         }}>
                                         Equip as Profile Background
                                     </button>
@@ -88,16 +90,16 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                 </div>
                 <div className="bg-black/40 rounded-lg p-8 col-span-3">
                     {
-                        gameData.items[item.itemName].bg===bg? (
+                        gameData.items[item.itemName].bg === bg ? (
                             <button className="text-black" disabled>Equipped as background</button>
                         ) : (
                             <button className="text-red-300 hover:text-red-300/75 p-4"
                                 onClick={(e) => {
                                     axios
                                         .put('/api/user/change-bg', {
-                                            bg:gameData.items[item.itemName].bg
+                                            bg: gameData.items[item.itemName].bg
                                         }, {
-                                            headers:{
+                                            headers: {
                                                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
                                             }
                                         })
@@ -105,6 +107,7 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                             setBg(item.itemName);
                                         })
                                         .catch(error => {
+                                            console.log(error);
                                             showToastError(error.message);
                                         });
                                 }}>
