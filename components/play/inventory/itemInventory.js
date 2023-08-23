@@ -7,9 +7,10 @@ export default function ItemInventory({
     displayOnly
 }) {
 
-    const classNameDefault="w-20 h-20 border-solid border-8 border-white rounded-lg hover:border-white/75";
-    const classNameClick="w-20 h-20 border-solid border-8 border-red-300 rounded-lg hover:border-white/75";
-    const classNameDisplay="w-22 h-22 border-solid border-8 border-white rounded-lg";
+    const classNameDefault="w-20 h-20 border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";
+    const classNameClick="w-20 h-20 border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible";
+    const classNameDisplay="w-22 h-22 border-solid border-8 border-white rounded-lg relative overflow-visible";
+
     // for background
     if (item.isBg) {
 
@@ -20,7 +21,7 @@ export default function ItemInventory({
                 displayOnly=="true"? (classNameDisplay) : (
                     itemOnClick._id==item._id? (classNameClick):(classNameDefault)
                 )
-            } key={item._id}
+            }   key={item._id}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
                         handleItemClick(item);
@@ -32,6 +33,27 @@ export default function ItemInventory({
     }
     // eggs
     else if (item.quantity) {
-
+        return (
+            <div className={
+                displayOnly=="true"? (classNameDisplay) : (
+                    itemOnClick._id==item._id? (classNameClick):(classNameDefault)
+                )
+            }   
+            style={{ backgroundColor: gameData.rarityColours[item.rarity] }}
+            key={item._id}
+                onClick={(e) => {
+                    if (displayOnly !== "true") {
+                        handleItemClick(item);
+                    }
+                }}>
+                {/* <img src={imgPath}></img> */}
+                {/* TODO */}
+                <div className="absolute inset-x-0 bottom-0 translate-y-4 px-2">
+                    <div className="rounded-full w-15 h-5 bg-amber-50 text-sm border-2 border-amber-300 text-center">
+                        { item.quantity }
+                    </div>
+                </div>
+            </div>
+        )
     }
 }
