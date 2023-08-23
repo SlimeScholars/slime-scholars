@@ -6,7 +6,7 @@ import Home from "../../components/play/Home";
 import { gameData } from "../../data/gameData";
 import DisplaySlimes from "../../components/play/slimes/DisplaySlimes";
 
-export default function Play({ loading, user, setLoading }) {
+export default function Play({ loading, user, setLoading, setUser }) {
   const router = useRouter();
   const [bg, setBg] = useState(""); // Default background
 
@@ -33,7 +33,7 @@ export default function Play({ loading, user, setLoading }) {
     >
       <Navbar current="0"></Navbar>
       {/* slimes */}
-      <DisplaySlimes user={user} setLoading={setLoading} />
+      <DisplaySlimes user={user} setLoading={setLoading} setUser={setUser} />
     </div>
   );
   return (
