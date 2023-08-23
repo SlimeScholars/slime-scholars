@@ -4,7 +4,7 @@ import DisplaySlimes from "./slimes/DisplaySlimes";
 export default function Home({ user, bg }) {
   return (
     <div
-      className="w-screen h-screen relative"
+      className="w-screen h-screen relative bg-bottom"
       style={{
         backgroundImage: `url('/assets/backgrounds/${bg}')`,
         backgroundSize: "cover",
