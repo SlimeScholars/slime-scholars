@@ -14,7 +14,7 @@ import { getPopulatedRoster } from "../../../utils/getPopulatedRoster"
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -29,39 +29,39 @@ export default async function (req, res) {
 
     const { slimeId } = req.body
 
-		const slime = await Slime.findById(slimeId)
+    const slime = await Slime.findById(slimeId)
 
-		if(!slime) {
-			throw new Error('Slime not found')
-		}
+    if (!slime) {
+      throw new Error('Slime not found')
+    }
 
-		if(!slime.user.equals(user._id)) {
-			throw new Error('This slime does not belong to you')
-		}
+    if (!slime.user.equals(user._id)) {
+      throw new Error('This slime does not belong to you')
+    }
 
-		if(user.slimeGel < slime.levelUpCost) {
-			throw new Error('Insufficient slime gel')
-		}
+    if (user.slimeGel < slime.levelUpCost) {
+      throw new Error('Insufficient slime gel')
+    }
 
-    if(slime.level === slime.maxLevel) {
+    if (slime.level === slime.maxLevel) {
       throw new Error('Already at max level')
     }
 
-		await Slime.findByIdAndUpdate(slimeId, {
-			level: slime.level + 1,
-			// Future slime.level - 1 as index to adjust from level to index
+    await Slime.findByIdAndUpdate(slimeId, {
+      level: slime.level + 1,
+      // Future slime.level - 1 as index to adjust from level to index
       // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
-			levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
-			basePower: slime.basePower + gameData.baseLevelProduction[slime.rarity],
-		})
+      levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
+      basePower: slime.basePower + gameData.baseLevelProduction[slime.rarity],
+    })
 
     user.slimeGel -= slime.levelUpCost
     await User.findByIdAndUpdate(user._id, {
       slimeGel: user.slimeGel
     })
 
-		const newSlime = await Slime.findById(slimeId, {
-      user: 0, createdAt:0, updatedAt: 0, __v: 0,
+    const newSlime = await Slime.findById(slimeId, {
+      user: 0, createdAt: 0, updatedAt: 0, __v: 0,
     })
 
     // Get the updated slimes
@@ -72,21 +72,21 @@ export default async function (req, res) {
         select: '-user -createdAt -updatedAt -__v',
       })
       .exec()
-    
-      const modifiedUser = {
-        ...newUser.toJSON(),
-      }
-    
+
+    const modifiedUser = {
+      ...newUser.toJSON(),
+    }
+
     modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
 
     res.status(200).json({
-			slime: newSlime,
+      slime: newSlime,
       slimes: modifiedUser.slimes,
       roster: modifiedUser.roster,
       slimeGel: user.slimeGel,
-		})
+    })
   }
   catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
