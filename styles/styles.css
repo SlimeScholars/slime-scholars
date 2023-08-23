@@ -153,9 +153,63 @@ a {
   grid-template-columns: 1fr 8rem;
 }
 
-.gradient-border {
+/* gradient borders and backgrounds */
+.common-gradient-border {
   border: 2px solid transparent;
-  border-image: linear-gradient(90.13deg, #00cea8 1.9%, #bf61ff 97.5%);
+  border-image: linear-gradient(to top,#D0D0D0 1.9%, #F0F0F0 97.5%);
   border-image-slice: 1;
+}
+
+.common-gradient-background {
+  background: linear-gradient(45deg, #D0D0D0 1.9%, #F0F0F0 97.5%);
+  -webkit-background-clip: content-box;
+  background-clip: content-box;
+}
+
+.uncommon-gradient-border {
+  border: 2px solid transparent;
+  border-image: linear-gradient(to top,#14DC24 1.9%, #AEEE9A 97.5%);
+  border-image-slice: 1;
+}
+
+.uncommon-gradient-background {
+  background: linear-gradient(45deg, #14DC24 1.9%, #AEEE9A 97.5%);
+  -webkit-background-clip: content-box;
+  background-clip: content-box;
+}
+
+.rare-gradient-border {
+  border: 2px solid transparent;
+  border-image: linear-gradient(to top,#0061ff 1.9%, #60efff 97.5%);
+  border-image-slice: 1;
+}
+
+.rare-gradient-background {
+  background: linear-gradient(45deg, #0061ff 1.9%, #60efff 97.5%);
+  -webkit-background-clip: content-box;
+  background-clip: content-box;
+}
+.epic-gradient-border {
+  border: 2px solid transparent;
+  border-image: linear-gradient(90.13deg, #BC19F7 1.9%, #EA70FF 97.5%);
+  border-image-slice: 1;
+}
+
+.epic-gradient-background {
+  background: linear-gradient(90.13deg, #BC19F7 1.9%, #EA70FF 97.5%);
+  -webkit-background-clip: content-box;
+  background-clip: content-box;
+}
+
+.legendary-gradient-border {
+  border: 2px solid transparent;
+  border-image: linear-gradient(90.13deg, #F7E818 1.9%, #F7F070 97.5%);
+  border-image-slice: 1;
+}
+
+.legendary-gradient-background {
+  background: linear-gradient(90.13deg, #F7E818 1.9%, #F7F070 97.5%);
+  -webkit-background-clip: content-box;
+  background-clip: content-box;
 }
 

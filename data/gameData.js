@@ -16,7 +16,7 @@ export const gameData = {
       itemName: "Slime Egg",
       rarity: "Rare",
       isBg: false,
-      icon: 'slime-egg.png',
+      icon: "slime-egg.png",
       buyPrice: 1,
       sellPrice: 1,
       buyCurrency: 1,
@@ -255,10 +255,25 @@ export const gameData = {
 
   // map rarity to colour
   rarityColours: {
-    Common: "#a5a2a2",
-    Uncommon: "#1eff00",
-    Rare: "#0070dd",
-    Epic: "#a335ee",
-    Legendary: "#ffea00",
+    Common: {
+      bord: "common-gradient-border",
+      bg: "common-gradient-background",
+    },
+    Uncommon: {
+      bord: "uncommon-gradient-border",
+      bg: "uncommon-gradient-background",
+    },
+    Rare: {
+      bord: "rare-gradient-border",
+      bg: "rare-gradient-background",
+    },
+    Epic: {
+      bord: "epic-gradient-border",
+      bg: "epic-gradient-background",
+    },
+    Legendary: {
+      bord: "legendary-gradient-border",
+      bg: "legendary-gradient-background",
+    },
   },
 };
