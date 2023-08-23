@@ -25,7 +25,6 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true);
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
@@ -39,15 +38,12 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
           setUser(newUser);
           setShowLevelUpPopup(true);
           setRes(response.data);
-          setLoading(false);
         })
         .catch((error) => {
-          showToastError(error.response.data.message);
-          console.log(error);
-          setLoading(false);
+          showToastError(error?.response?.data?.message);
         });
     } catch (error) {
-      showToastError(error.response.data.message);
+      showToastError(error?.response?.data?.message);
       return;
     }
   };
@@ -142,9 +138,8 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
             return (
               <div
                 key={index}
-                className={`flex flex-col ${
-                  offset ? "transform -translate-y-16" : ""
-                }`}
+                className={`flex flex-col ${offset ? "transform -translate-y-16" : ""
+                  }`}
               >
                 <div className="flex flex-row items-center mx-auto">
                   <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">

@@ -22,25 +22,8 @@ export default function Play({ loading, user, setLoading, setUser }) {
     setBg(gameData.items[user.bg].bg)
   }, [user, loading]);
 
+  // Home will be rendered via the Home component found on app. This is to prevent a rerendering of home when switching between pages
   return (
-    <div
-      className="p-8 w-screen h-screen bg-bottom"
-      style={{
-        backgroundImage: `url('/assets/backgrounds/${bg}')`,
-        backgroundSize: "cover",
-      }}
-    >
-      <Navbar current={0} user={user} />
-      {/* slimes */}
-      <DisplaySlimes user={user} setLoading={setLoading} setUser={setUser} />
-    </div>
-  );
-  return (
-    <div>
-      <button onClick={() => console.log(user)}>
-        Click me to see the information on user (open console to see the
-        console.log)
-      </button>
-    </div>
-  );
+    <></>
+  )
 }

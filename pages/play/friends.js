@@ -76,69 +76,65 @@ export default function Friends({ loading, user }) {
 
   return (
     <div>
-      <Home user={user} />
-      <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center home">
-        <Navbar current={2} user={user} />
-        <div className="pt-5">
-          <div className="items-center justify-between">
-            {/*  Add Friend  and others */}
-            <div className="flex flex-row bg-white/75 rounded-lg items-center">
-              <div className="grow-0 pl-4">
-                <img
-                  src="/assets/icons/friends.png"
-                  className="h-20 w-20"
-                ></img>
-              </div>
-              <div className="grow pl-4 font-galindo text-xl">Friends</div>
-              <div className="grow-0 flex pr-4">
-                <button
-                  className="p-2 text-xl bg-red-300 hover:bg-red-300/50 rounded-lg font-galindo"
-                  onClick={() => {
-                    if (toDo === "manage") {
-                      setToDo("add");
-                    } else {
-                      setToDo("manage");
-                    }
-                  }}
-                >
-                  {toDo == "manage" ? "Add Friends" : "Manage Friends"}
-                </button>
+      <div className="pt-5">
+        <div className="items-center justify-between">
+          {/*  Add Friend  and others */}
+          <div className="flex flex-row bg-white/75 rounded-lg items-center">
+            <div className="grow-0 pl-4">
+              <img
+                src="/assets/icons/friends.png"
+                className="h-20 w-20"
+              ></img>
+            </div>
+            <div className="grow pl-4 font-galindo text-xl">Friends</div>
+            <div className="grow-0 flex pr-4">
+              <button
+                className="p-2 text-xl bg-red-300 hover:bg-red-300/50 rounded-lg font-galindo"
+                onClick={() => {
+                  if (toDo === "manage") {
+                    setToDo("add");
+                  } else {
+                    setToDo("manage");
+                  }
+                }}
+              >
+                {toDo == "manage" ? "Add Friends" : "Manage Friends"}
+              </button>
+            </div>
+          </div>
+
+          {/* Default: leaderboard and managing friends */}
+          <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
+            {/* Leaderboard */}
+            <div className="pr-4 basis-1/2 ">
+              <div className="bg-white/75 rounded-lg">
+                {toDo == "manage" ? (
+                  <Leaderboard
+                    userFriends={userFriends}
+                    allPlayers={allPlayers}
+                    userId={userId}
+                  />
+                ) : (
+                  <FriendRequestsEditor
+                    currentUser={user}
+                    sentFriendRequests={sentFriendRequests}
+                    receivedFriendRequests={receivedFriendRequests}
+                    setReceivedFriendRequests={setReceivedFriendRequests}
+                    setSentFriendRequests={setSentFriendRequests}
+                  />
+                )}
               </div>
             </div>
 
-            {/* Default: leaderboard and managing friends */}
-            <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
-              {/* Leaderboard */}
-              <div className="pr-4 basis-1/2 ">
-                <div className="bg-white/75 rounded-lg">
-                  {toDo == "manage" ? (
-                    <Leaderboard
-                      userFriends={userFriends}
-                      allPlayers={allPlayers}
-                      userId={userId}
-                    />
-                  ) : (
-                    <FriendRequestsEditor
-                      currentUser={user}
-                      sentFriendRequests={sentFriendRequests}
-                      receivedFriendRequests={receivedFriendRequests}
-                      setReceivedFriendRequests={setReceivedFriendRequests}
-                      setSentFriendRequests={setSentFriendRequests}
-                    />
-                  )}
-                </div>
-              </div>
-
-              {/* Manage Friends */}
-              <div className="basis-1/2 bg-white/75 rounded-lg h-full">
-                <div className="flex flex-row">
-                  <ManageFriends
-                    userFriends={userFriends}
-                    toDo={toDo}
-                    setUserFriends={setUserFriends}
-                    setSentFriendRequests={setSentFriendRequests}
-                  />
-                </div>
+            {/* Manage Friends */}
+            <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+              <div className="flex flex-row">
+                <ManageFriends
+                  userFriends={userFriends}
+                  toDo={toDo}
+                  setUserFriends={setUserFriends}
+                  setSentFriendRequests={setSentFriendRequests}
+                />
               </div>
             </div>
           </div>
