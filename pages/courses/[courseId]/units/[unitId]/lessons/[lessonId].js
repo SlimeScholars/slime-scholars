@@ -259,6 +259,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
                 className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
                   setUpdatedUser(updatedUser)
+                  // TODO: Keep track of the latest lessons page that they were on so that they can go back to it
                   router.push('/play')
                 }}
               >
