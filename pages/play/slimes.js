@@ -64,10 +64,10 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
           <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
             <div className="pr-4 basis-1/2 ">
               <div className="bg-white/75 rounded-lg">
-                <div className="">
+                <div className="items-center">
                   {/* loop through all slimes from user and display them */}
                   {user && (
-                    <div className="flex flex-row gap-2 flex-wrap justify-center p-4 items-center">
+                    <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  gap-4 p-4">
                       <SlimeInventory
                         user={user}
                         loading={loading}
