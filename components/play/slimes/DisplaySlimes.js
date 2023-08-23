@@ -14,7 +14,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
   const [oldSlime, setOldSlime] = useState(null);
 
   //   handle click should automatically level up the slime and update the user
-  const handleClick = (id, index) => {
+  const handleClick = (id) => {
     console.log(id);
     try {
       const token = localStorage.getItem("jwt");
@@ -54,6 +54,64 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
   const handleClosePopup = () => {
     setShowLevelUpPopup(false); // Set showLevelUpPopup to false to close the popup
   };
+
+  // ************ Mobile View ************
+  // const [currentSlimeIndex, setCurrentSlimeIndex] = useState(0);
+
+  // const handlePrevClick = () => {
+  //   if (currentSlimeIndex > 0) {
+  //     setCurrentSlimeIndex(currentSlimeIndex - 1);
+  //   }
+  // };
+
+  // const handleNextClick = () => {
+  //   if (currentSlimeIndex < user.roster.length - 1) {
+  //     setCurrentSlimeIndex(currentSlimeIndex + 1);
+  //   }
+  // };
+  // return (
+  //   <div className="flex flex-row absolute bottom-0 items-center justify-center w-full">
+  //     {/* Arrow buttons for mobile navigation */}
+  //     {user.roster.length > 1 && (
+  //       <div className="flex justify-between w-full px-4">
+  //         <button
+  //           className="p-2 bg-gray-200 rounded-full"
+  //           onClick={handlePrevClick}
+  //         >
+  //           &lt;
+  //         </button>
+  //         <button
+  //           className="p-2 bg-gray-200 rounded-full"
+  //           onClick={handleNextClick}
+  //         >
+  //           &gt;
+  //         </button>
+  //       </div>
+  //     )}
+
+  //     <div className="flex flex-row ">
+  //       {Array.isArray(user.roster) &&
+  //         user.roster.map((slime, index) => {
+  //           if (index === currentSlimeIndex) {
+  //             console.log(index, slime);
+  //             return (
+  //               <img
+  //                 src={
+  //                   "/assets/pfp/slimes/" +
+  //                   gameData.slimePfps[slime.slimeName].pfp
+  //                 }
+  //                 alt="Slime"
+  //                 className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
+  //                 onClick={() => {
+  //                   router.push("/play/slimes");
+  //                 }}
+  //               />
+  //             );
+  //           }
+  //         })}
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div className="flex flex-row absolute bottom-0 items-center justify-center w-full">
