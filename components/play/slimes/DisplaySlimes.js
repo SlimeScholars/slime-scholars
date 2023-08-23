@@ -153,7 +153,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                         Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
                       </p>
                       <img
-                        src="/assets/icons/slimeGel.png"
+                        src="/assets/icons/slime-gel.png"
                         alt="Icon"
                         className="h-4 w-4 ml-1 mr-2"
                       />

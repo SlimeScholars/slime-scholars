@@ -54,7 +54,7 @@ export function Navbar(props) {
             {user && (
               <div className="flex flex-row items-center justify-center">
                 <img
-                  src="/assets/icons/slimeGel.png"
+                  src="/assets/icons/slime-gel.png"
                   alt="Icon"
                   className="h-4 w-4 ml-1 mr-2"
                 />
@@ -67,7 +67,7 @@ export function Navbar(props) {
             {user && (
               <div className="flex flex-row items-center">
                 <img
-                  src="/assets/icons/slimeGel.png"
+                  src="/assets/icons/slime-gel.png"
                   alt="Icon"
                   className="h-4 w-4 ml-1 mr-2"
                 />
