@@ -1,5 +1,6 @@
 import ItemInventory from './itemInventory';
 import { gameData } from '../../../data/gameData';
+import showToastError from '../../utils/toast';
 import axios from 'axios';
 
 export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) {
@@ -74,7 +75,7 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                                     }
                                                 })
                                                 .then(response => {setpfpBg(item.itemName);})
-                                                .catch(error => console.log(error.message));
+                                                .catch(error => {});
                                         }}>
                                         Equip as Profile Background
                                     </button>
