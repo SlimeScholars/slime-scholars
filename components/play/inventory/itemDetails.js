@@ -34,7 +34,7 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                             <div className="flex flex-col items-center">
                                 <p>Current</p>
                                 <div className="relative rounded-full overflow-hidden  border-4 border-red-300">
-                                    <img src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp}
+                                    <img src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
                                         className="absolute inset-0"></img>
                                     <img src={"/assets/pfp/slimes/" + gameData.slimePfps[user.pfpSlime].pfp}
                                         className="relative z-10 translate-y-1/4 scale-125"></img>
@@ -97,14 +97,14 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                 onClick={(e) => {
                                     axios
                                         .put('/api/user/change-bg', {
-                                            bg: gameData.items[item.itemName].bg
+                                            bg: item.itemName
                                         }, {
                                             headers: {
                                                 Authorization: `Bearer ${localStorage.getItem('jwt')}`
                                             }
                                         })
                                         .then(response => {
-                                            setBg(item.itemName);
+                                            setBg(gameData.items[item.itemName].bg);
                                         })
                                         .catch(error => {
                                             console.log(error);
