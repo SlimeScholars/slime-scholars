@@ -20,19 +20,15 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
-    } else {
-      if (user.bg && gameData.items[user.bg].bg) {
-        setBg(gameData.items[user.bg].bg);
-      }
     }
   }, [user, loading]);
 
   return (
     //
     <div>
-      <Home user={user} bg={bg} cur={3} />
+      <Home user={user} />
       <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
-        <Navbar current={3} className=""></Navbar>
+        <Navbar current={3} user={user} />
         <div className="pt-5">
           <div className="items-center justify-between">
             <div className="flex flex-row bg-white/75 rounded-lg items-center">
