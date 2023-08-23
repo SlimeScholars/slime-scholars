@@ -43,49 +43,45 @@ export default function Backpack({ loading, user }) {
 
   return (
     <div>
-      <Home user={user} />
-      <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
-        <Navbar current={4} />
-        <div className="pt-5">
-          <div className="items-center justify-between">
-            {/*  Inventory bar */}
-            <div className="flex flex-row bg-white/75 rounded-lg items-center">
-              <div className="grow-0 pl-4">
-                <img
-                  src="/assets/icons/inventory.png"
-                  className="p-4 h-20 w-20"
-                ></img>
-              </div>
-              <div className="grow pl-4 font-galindo text-xl">Inventory</div>
-              <div className="shrink pr-6">
-                {/* Search Bar */}
-                {/* Handle Submit Function TODO */}
-                <SearchInventory />
-              </div>
+      <div className="pt-5">
+        <div className="items-center justify-between">
+          {/*  Inventory bar */}
+          <div className="flex flex-row bg-white/75 rounded-lg items-center">
+            <div className="grow-0 pl-4">
+              <img
+                src="/assets/icons/inventory.png"
+                className="p-4 h-20 w-20"
+              ></img>
+            </div>
+            <div className="grow pl-4 font-galindo text-xl">Inventory</div>
+            <div className="shrink pr-6">
+              {/* Search Bar */}
+              {/* Handle Submit Function TODO */}
+              <SearchInventory />
+            </div>
+          </div>
+
+          {/* Default: inventory lists and item details */}
+          <div className="py-8 flex flex-row font-galindo w-full">
+            {/* Inventory List */}
+            <div className="pr-4 basis-4/7">
+              <ItemList
+                items={items}
+                itemOnClick={itemOnClick}
+                setItemOnClick={setItemOnClick}
+              />
             </div>
 
-            {/* Default: inventory lists and item details */}
-            <div className="py-8 flex flex-row font-galindo w-full">
-              {/* Inventory List */}
-              <div className="pr-4 basis-4/7">
-                <ItemList
-                  items={items}
-                  itemOnClick={itemOnClick}
-                  setItemOnClick={setItemOnClick}
-                />
-              </div>
-
-              {/* Item details */}
-              <div className="basis-3/7 bg-white/75 rounded-lg">
-                <ItemDetails
-                  item={itemOnClick}
-                  user={user}
-                  pfpBg={pfpBg}
-                  setpfpBg={setpfpBg}
-                  bg={bg}
-                  setBg={setBg}
-                />
-              </div>
+            {/* Item details */}
+            <div className="basis-3/7 bg-white/75 rounded-lg">
+              <ItemDetails
+                item={itemOnClick}
+                user={user}
+                pfpBg={pfpBg}
+                setpfpBg={setpfpBg}
+                bg={bg}
+                setBg={setBg}
+              />
             </div>
           </div>
         </div>

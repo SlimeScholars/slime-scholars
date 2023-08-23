@@ -19,10 +19,6 @@ export default function Shopping({ loading, user }) {
 
   return (
     <div>
-      <Home user={user} />
-      <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
-        <Navbar current={1} user={user} />
-      </div>
     </div>
   );
 }

@@ -4,6 +4,9 @@ import axios from "axios";
 import Spinner from "../components/spinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/router";
+import { Navbar } from "../components/play/Navbar";
+import Home from "../components/play/Home";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -50,14 +53,57 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
+  const router = useRouter()
+  const [onPlay, setOnPlay] = useState(false)
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    if (router.pathname.startsWith('/play')) {
+      setOnPlay(router.pathname.startsWith('/play'))
+      const paths = [
+        'shopping',
+        'friends',
+        'slimes',
+        'inventory',
+      ]
+      const path = router.pathname.split('/')[2]
+      for (let i in paths) {
+        if (paths[i] === path) {
+          setCurrent(parseInt(i) + 1)
+          return
+        }
+      }
+    }
+    else {
+      setOnPlay(false)
+      setCurrent(0)
+    }
+
+  }, [router.pathname])
+
   // Return loading on the component instead of home. This way, state variables don't get reset
 
   return (
     <>
       {loading ? <Spinner /> : <></>}
-      <div className={loading ? 'hidden' : ''}>
+      <div className={`relative ${loading ? 'hidden' : ''}`}>
         <ToastContainer />
-        <Component {...modifiedPageProps} />
+        {onPlay ? (
+          <>
+            <Home
+              user={user}
+              active={current === 0}
+              setLoading={current === 0 ? setLoading : () => null}
+              setUser={current === 0 ? setUser : () => null}
+            />
+            <div className={`fixed top-0 left-0 p-8 w-full justify-center items-center ${current === 0 ? '' : 'h-full'}`}>
+              <Navbar user={user} current={current} />
+              <Component {...modifiedPageProps} />
+            </div>
+          </>
+        ) :
+          <Component {...modifiedPageProps} />
+        }
       </div>
     </>
   )

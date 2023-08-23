@@ -20,7 +20,7 @@ export function Navbar({ current, user }) {
   const current_id = parseInt(current, 10);
 
   return (
-    <div className="flex flex-row items-center justify-between">
+    <div className="flex flex-row items-center justify-between z-20 w-full">
       {/* earn flowers button */}
       <div className=" bg-red-300 hover:bg-red-300/75 rounded text-lg">
         <EarnFlwrBtn />
