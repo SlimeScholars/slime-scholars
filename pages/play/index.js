@@ -9,7 +9,6 @@ import PopUpDetails from "../../components/play/slimes/PopUpDetails";
 
 export default function Play({ loading, user, setLoading, setUser }) {
   const router = useRouter();
-  const [bg, setBg] = useState(""); // Default background
 
   useEffect(() => {
     if (loading) {
@@ -17,10 +16,6 @@ export default function Play({ loading, user, setLoading, setUser }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
-    } else {
-      if (user.bg && gameData.items[user.bg].bg) {
-        setBg(gameData.items[user.bg].bg);
-      }
     }
   }, [user, loading]);
 
@@ -32,7 +27,7 @@ export default function Play({ loading, user, setLoading, setUser }) {
         backgroundSize: "cover",
       }}
     >
-      <Navbar current="0"></Navbar>
+      <Navbar current={0} user={user} />
       {/* slimes */}
       <DisplaySlimes user={user} setLoading={setLoading} setUser={setUser} />
     </div>

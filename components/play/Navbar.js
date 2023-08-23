@@ -8,7 +8,7 @@ Parameter:
   current: the id of the web page that the user is currently on
 */
 
-export function Navbar(props) {
+export function Navbar({ current, user }) {
   const types = [
     { title: "shopping", src: "shopping", id: 1 },
     { title: "friends", src: "friends", id: 2 },
@@ -17,29 +17,7 @@ export function Navbar(props) {
   ];
 
   const router = useRouter();
-  const current_id = parseInt(props.current, 10);
-
-  // get user data to display flowers and slimeGel
-  const [user, setUser] = useState(null);
-  useEffect(() => {
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      router.push("/");
-    }
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    axios
-      .get("/api/user", config)
-      .then((response) => {
-        setUser(response.data.user);
-      })
-      .catch((error) => {
-        console.log("navbar", error.message);
-      });
-  }, []);
+  const current_id = parseInt(current, 10);
 
   return (
     <div className="flex flex-row items-center justify-between">
@@ -89,9 +67,8 @@ export function Navbar(props) {
                 e.preventDefault();
                 router.push("/play/" + type.title);
               }}
-              className={`${
-                isActive ? "bg-red-300" : "bg-white/50"
-              } ${commonButtonClasses}`}
+              className={`${isActive ? "bg-red-300" : "bg-white/50"
+                } ${commonButtonClasses}`}
               key={type.id}
             >
               <img src={imgLink} className="h-10 w-10 md:h-14 md:w-14" alt="" />

@@ -16,9 +16,7 @@ export default function Friends({ loading, user }) {
   const [toDo, setToDo] = useState("manage");
   const [userId, setUserId] = useState("empty for now");
   const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
-  const [receivedFriendRequests, setReceivedFriendRequests] =
-    useState("empty for now");
-  const [bg, setBg] = useState("bg-beach.png"); // Default background
+  const [receivedFriendRequests, setReceivedFriendRequests] = useState("empty for now");
 
   useEffect(() => {
     if (loading) {
@@ -26,10 +24,6 @@ export default function Friends({ loading, user }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
-    } else {
-      if (user.bg && gameData.items[user.bg].bg) {
-        setBg(gameData.items[user.bg].bg);
-      }
     }
 
     // Get userfriends for userfriendListings in leaderboard
@@ -63,9 +57,9 @@ export default function Friends({ loading, user }) {
 
   return (
     <div>
-      <Home user={user} bg={bg} />
+      <Home user={user} />
       <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
-        <Navbar current={2} className=""></Navbar>
+        <Navbar current={2} user={user} />
         <div className="pt-5">
           <div className="items-center justify-between">
             {/*  Add Friend  and others */}

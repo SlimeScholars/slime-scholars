@@ -43,9 +43,9 @@ export default function Backpack({ loading, user }) {
 
   return (
     <div>
-      <Home user={user} bg={bg} />
+      <Home user={user} />
       <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
-        <Navbar current={4} className=""></Navbar>
+        <Navbar current={4} />
         <div className="pt-5">
           <div className="items-center justify-between">
             {/*  Inventory bar */}

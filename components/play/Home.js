@@ -1,7 +1,18 @@
-import { Navbar } from "./Navbar";
 import DisplaySlimes from "./slimes/DisplaySlimes";
+import { gameData } from "../../data/gameData";
+import { useEffect, useState } from "react";
 
-export default function Home({ user, bg }) {
+export default function Home({ user }) {
+  const [bg, setBg] = useState(undefined)
+
+  useEffect(() => {
+    if (user)
+      setBg(gameData.items[user.bg].bg)
+  }, [user])
+
+  if (!user) {
+    return <></>
+  }
   return (
     <div
       className="w-screen h-screen relative bg-bottom"
