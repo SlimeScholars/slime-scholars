@@ -10,6 +10,7 @@ export default function ItemInventory({
     const classNameDefault="w-20 h-20 border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameClick="w-20 h-20 border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameDisplay="w-22 h-22 border-solid border-8 border-white rounded-lg relative overflow-visible";
+    const gradientBg=gameData.rarityColours[item.rarity].bg;
 
     // for background
     if (item.isBg) {
@@ -35,11 +36,10 @@ export default function ItemInventory({
     else if (item.quantity) {
         return (
             <div className={
-                displayOnly=="true"? (classNameDisplay) : (
-                    itemOnClick._id==item._id? (classNameClick):(classNameDefault)
+                displayOnly=="true"? (classNameDisplay+" "+gradientBg) : (
+                    itemOnClick._id==item._id? (classNameClick+" "+gradientBg):(classNameDefault+" "+gradientBg)
                 )
             }   
-            style={{ backgroundColor: gameData.rarityColours[item.rarity] }}
             key={item._id}
                 onClick={(e) => {
                     if (displayOnly !== "true") {

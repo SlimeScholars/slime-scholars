@@ -231,7 +231,9 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                 </div>
                 {/* Open eggs */}
                 <div className="col-span-3 bg-black/40 rounded-lg p-6">
-                    <p onClick={(e) => {
+                    <p 
+                        className="text-red-300 hover:text-red-300/75"
+                        onClick={(e) => {
                         
                     }}>
                         Open Egg
