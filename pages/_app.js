@@ -66,6 +66,10 @@ function MyApp({ Component, pageProps }) {
         'slimes',
         'inventory',
       ]
+      if (router.pathname.split('/').length === 2) {
+        setCurrent(0)
+        return
+      }
       const path = router.pathname.split('/')[2]
       for (let i in paths) {
         if (paths[i] === path) {
@@ -78,7 +82,6 @@ function MyApp({ Component, pageProps }) {
       setOnPlay(false)
       setCurrent(0)
     }
-
   }, [router.pathname])
 
   // Return loading on the component instead of home. This way, state variables don't get reset
@@ -96,9 +99,11 @@ function MyApp({ Component, pageProps }) {
               setLoading={current === 0 ? setLoading : () => null}
               setUser={current === 0 ? setUser : () => null}
             />
-            <div className={`fixed top-0 left-0 p-8 w-full justify-center items-center ${current === 0 ? '' : 'h-full'}`}>
-              <Navbar user={user} current={current} />
-              <Component {...modifiedPageProps} />
+            <div className={`absolute inset-0`}>
+              <div className="p-8">
+                <Navbar user={user} current={current} />
+                <Component {...modifiedPageProps} />
+              </div>
             </div>
           </>
         ) :

@@ -23,7 +23,7 @@ export default function Home({ user, setLoading, setUser, active }) {
       }}
     >
       <div className={`w-full h-full justify-center items-center ${!active ? 'backdrop-brightness-[0.25] blur-sm' : ''}`}>
-        <div className={`${active ? '' : 'w-full h-full relative'}`}>
+        <div className={`w-full h-full ${active ? '' : 'relative'}`}>
           <DisplaySlimes
             user={user}
             setLoading={active ? setLoading : undefined}
