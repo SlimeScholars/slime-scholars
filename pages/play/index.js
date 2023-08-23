@@ -26,7 +26,7 @@ export default function Play({ loading, user, setLoading, setUser }) {
 
   return (
     <div
-      className="p-8 w-screen h-screen"
+      className="p-8 w-screen h-screen bg-bottom"
       style={{
         backgroundImage: `url('/assets/backgrounds/${bg}')`,
         backgroundSize: "cover",

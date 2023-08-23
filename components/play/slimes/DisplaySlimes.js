@@ -114,7 +114,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
   // );
 
   return (
-    <div className="flex flex-row absolute bottom-0 items-center justify-center w-full">
+    <div className="flex flex-row absolute -bottom-4 items-center justify-center w-full">
       <div className="flex flex-row ">
         {showLevelUpPopup && (
           <PopUpDetails
