@@ -2,14 +2,19 @@ import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { showToastError } from "../../../utils/toast";
+import { useState } from "react";
+import PopUpDetails from "./PopUpDetails";
 
 export default function DisplaySlimes({ user, setLoading, setUser }) {
   if (!user) return <></>;
 
   const router = useRouter();
+  const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
+  const [res, setRes] = useState([]);
+  const [oldSlime, setOldSlime] = useState(null);
 
   //   handle click should automatically level up the slime and update the user
-  const handleClick = (id) => {
+  const handleClick = (id, index) => {
     console.log(id);
     try {
       const token = localStorage.getItem("jwt");
@@ -32,6 +37,8 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
             slimes: response.data.slimes,
           };
           setUser(newUser);
+          setShowLevelUpPopup(true);
+          setRes(response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -44,10 +51,21 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
       return;
     }
   };
+  const handleClosePopup = () => {
+    setShowLevelUpPopup(false); // Set showLevelUpPopup to false to close the popup
+  };
 
   return (
     <div className="flex flex-row absolute bottom-0 items-center justify-center w-full">
       <div className="flex flex-row ">
+        {showLevelUpPopup && (
+          <PopUpDetails
+            user={user}
+            res={res}
+            onClose={handleClosePopup}
+            oldSlime={oldSlime}
+          />
+        )}
         {Array.isArray(user.roster) &&
           user.roster.map((slime, index) => {
             if (slime === null)
@@ -71,7 +89,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                 }`}
               >
                 <div className="flex flex-row items-center mx-auto">
-                  <div className="bg-[#5A5A5A] opacity-60 h-5 w-28 pb-6 rounded-md mx-auto text-white text-center">
+                  <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
                     <div className="flex flex-row justify-center items-center pl-2">
                       <p>
                         Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
@@ -86,7 +104,8 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                   <button
                     className="p-1 rounded-full bg-red-300"
                     onClick={() => {
-                      handleClick(slime._id);
+                      setOldSlime(slime);
+                      handleClick(slime._id, index);
                     }}
                   >
                     &nbsp;^&nbsp;
