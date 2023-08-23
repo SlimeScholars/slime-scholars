@@ -31,13 +31,13 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
             Base production: {oldSlime.baseProduction}
           </p>
           <img
-            src="/assets/icons/slimeGel.png"
+            src="/assets/icons/slime-gel.png"
             alt="Icon"
             className="h-4 w-4 mx-1"
           />
           <p className="text-lg font-semibold"> → {newSlime.baseProduction} </p>
           <img
-            src="/assets/icons/slimeGel.png"
+            src="/assets/icons/slime-gel.png"
             alt="Icon"
             className="h-4 w-4 mx-1"
           />
@@ -47,13 +47,13 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
             Level up cost: {oldSlime.levelUpCost}
           </p>
           <img
-            src="/assets/icons/slimeGel.png"
+            src="/assets/icons/slime-gel.png"
             alt="Icon"
             className="h-4 w-4 mx-1"
           />
           <p className="text-lg font-semibold"> → {newSlime.levelUpCost} </p>
           <img
-            src="/assets/icons/slimeGel.png"
+            src="/assets/icons/slime-gel.png"
             alt="Icon"
             className="h-4 w-4 mx-1"
           />

@@ -110,7 +110,7 @@ export default function SlimeDetails({
             <div className="flex flex-row justify-center items-center">
               <p className="">Level up</p>
               <img
-                src="/assets/icons/slimeGel.png"
+                src="/assets/icons/slime-gel.png"
                 alt="Icon"
                 className="h-3 w-3 m-1"
               />
