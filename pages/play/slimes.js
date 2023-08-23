@@ -5,6 +5,7 @@ import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import AddToRoster from "../../components/play/slimes/AddToRoster";
 import { gameData } from "../../data/gameData";
+import Home from "../../components/play/Home";
 
 export default function Slimes({ loading, user, setLoading, setUser }) {
   const [searchContent, setSearchContent] = useState("");
@@ -27,15 +28,11 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
   }, [user, loading]);
 
   return (
-    <div
-      className="w-screen h-screen"
-      style={{
-        backgroundImage: `url('/assets/backgrounds/${bg}')`,
-        backgroundSize: "cover",
-      }}
-    >
-      <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
-        <Navbar current="3" className=""></Navbar>
+    //
+    <div>
+      <Home user={user} bg={bg} cur={3} />
+      <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
+        <Navbar current={3} className=""></Navbar>
         <div className="pt-5">
           <div className="items-center justify-between">
             <div className="flex flex-row bg-white/75 rounded-lg items-center">
