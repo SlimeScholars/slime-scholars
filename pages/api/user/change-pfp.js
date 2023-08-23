@@ -65,6 +65,7 @@ export default async function (req, res) {
 		res.status(200).json({ pfpSlime, pfpBg })
 
 	} catch (error) {
+		console.log(error.message)
 		res.status(400).json({ message: error.message })
 	}
 }
