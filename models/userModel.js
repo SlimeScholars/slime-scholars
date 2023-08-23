@@ -114,7 +114,7 @@ const userSchema = new Schema(
       }],
       required: false,
       default: undefined,
-      noId: true,
+      _id: false,
     },
     completedUnits: {
       type: [{
@@ -130,7 +130,7 @@ const userSchema = new Schema(
       }],
       required: false,
       default: undefined,
-      noId: true,
+      _id: false,
     },
     completedCourses: {
       type: [{
@@ -146,7 +146,7 @@ const userSchema = new Schema(
       }],
       required: false,
       default: undefined,
-      noId: true,
+      _id: false,
     },
 
     lastRewards: {
@@ -234,7 +234,7 @@ const userSchema = new Schema(
       }],
       required: false,
       default: undefined,
-      noId: true,
+      _id: false,
     },
   },
   {
