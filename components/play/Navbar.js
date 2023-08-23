@@ -62,7 +62,7 @@ export function Navbar(props) {
               </div>
             )}
           </div>
-          <div className="flex bg-white/75 opacity-60 h-8 w- rounded-md mt-1 ml-8">
+          <div className="flex bg-white/75 opacity-60 h-8 w-16 rounded-md mt-1 ml-8">
             {/* flowers */}
             {user && (
               <div className="flex flex-row items-center">
@@ -79,30 +79,22 @@ export function Navbar(props) {
         {/* buttons and icons */}
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
-          if (type.id !== current_id) {
-            return (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push("/play/" + type.title);
-                }}
-                className="p-8 bg-white/50 rounded-full hover:bg-red-300/75"
-                key={type.id}
-              >
-                <img src={imgLink} className="h-14 w-14"></img>
-              </button>
-            );
-          }
+          const commonButtonClasses =
+            "p-2 md:p-8 rounded-full hover:bg-red-300/75";
+          const isActive = type.id === current_id;
+
           return (
             <button
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/play/" + type.title);
               }}
-              className="p-8 bg-red-300 rounded-full hover:bg-red-300/75"
+              className={`${
+                isActive ? "bg-red-300" : "bg-white/50"
+              } ${commonButtonClasses}`}
               key={type.id}
             >
-              <img src={imgLink} className="h-14 w-14"></img>
+              <img src={imgLink} className="h-10 w-10 md:h-14 w-14" alt="" />
             </button>
           );
         })}
