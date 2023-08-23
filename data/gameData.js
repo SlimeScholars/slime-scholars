@@ -71,6 +71,7 @@ export const gameData = {
     },
 
     /*
+    TODO: Get the color palette
     "Castle": {
       itemName: "Castle",
       rarity: "Rare",
