@@ -19,6 +19,7 @@ export default function Shopping({ loading, user }) {
 
   return (
     <div>
+
     </div>
   );
 }
