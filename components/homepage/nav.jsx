@@ -4,7 +4,7 @@ import Button from "./button";
 
 import { useState, useEffect } from "react";
 
-export default function Nav({user, setUser}) {
+export default function Nav({ user, setUser }) {
   const [accountContent, setAccountContent] = useState(
     <>
       <Button text="Login" onClick="/login" style="Secondary" />
@@ -20,7 +20,7 @@ export default function Nav({user, setUser}) {
   }
 
   useEffect(() => {
-    if(user) {
+    if (user) {
       setAccountContent(
         <>
           <Button text="Log Out" onClick={onLogOut} style="Primary" />
@@ -40,11 +40,11 @@ export default function Nav({user, setUser}) {
 
   return (
     <nav className="w-screen fixed top-0 h-36 bg-transparent flex flex-row justify-between items-center px-10">
-      <a className="flex justify-center items-center w-[30%]" href="/">
+      <a className="flex justify-center items-center h-auto w-[30%]" href="/">
         <Image
           src="/assets/icons/logo.png"
           alt="Slime Scholars Logo"
-          className="mb-2"
+          className="mb-2 h-auto w-auto"
           width={270}
           height={300}
         />
@@ -64,7 +64,7 @@ export default function Nav({user, setUser}) {
         </li>
       </ul>
       <div className="flex justify-center items-center w-[30%]">
-        { accountContent }
+        {accountContent}
       </div>
     </nav>
   );

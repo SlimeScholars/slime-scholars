@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 
 import Nav from '../components/homepage/nav'
 import Button from '../components/homepage/button'
@@ -9,7 +8,7 @@ export default function Home({ user, setUser }) {
     <div className="w-screen flex flex-col">
       <Head>
         <title>Slime Scholars</title>
-        <meta name="description" content="Lorem ipsum solor sit amet." />
+        <meta name="description" content="Make Learning Exiting with Slime Scholars" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
