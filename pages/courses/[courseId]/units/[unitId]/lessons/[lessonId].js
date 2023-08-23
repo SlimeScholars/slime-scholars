@@ -175,7 +175,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
       };
       setLoading(true)
       axios
-        .post("/api/lesson/complete", {}, config)
+        .post("/api/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
           if (response.data) {
             console.log(response.data)
@@ -208,7 +208,6 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
     }
   }
 
-  // TODO: Add a completion screen that shows increase to flowers, exp, and star level
   return (
     <div className='w-full min-h-screen flex items-center justify-center bg-red-50'
       onClick={clickIncrement}
