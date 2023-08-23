@@ -29,7 +29,6 @@ export default function Backpack({ loading, user }) {
 
     // Set the items for displaying in inventory to user's items
     setItems(user.items);
-    console.log(items);
 
     setpfpBg(user.pfpBg);
 
