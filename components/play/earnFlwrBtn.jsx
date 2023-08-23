@@ -14,7 +14,7 @@ export default function EarnFlwrBtn() {
 
     return (
         <button id="earnFlwr"
-            className="font-galindo p-8"
+            className="font-galindo p-4 text-sm md:p-8 md:text-lg"
             onClick={
                 (e) => {
                     e.preventDefault()
