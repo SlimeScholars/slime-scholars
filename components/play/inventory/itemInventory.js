@@ -20,7 +20,7 @@ export default function ItemInventory({
                 displayOnly=="true"? (classNameDisplay) : (
                     itemOnClick._id==item._id? (classNameClick):(classNameDefault)
                 )
-            }
+            } key={item._id}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
                         handleItemClick(item);
