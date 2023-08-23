@@ -16,6 +16,7 @@ export const gameData = {
       itemName: "Slime Egg",
       rarity: "Rare",
       isBg: false,
+      icon: 'slime-egg.png',
       buyPrice: 1,
       sellPrice: 1,
       buyCurrency: 1,
