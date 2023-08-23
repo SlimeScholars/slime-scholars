@@ -193,6 +193,7 @@ export default async function (req, res) {
         flowers: 0,
         exp: 0,
 
+        slimes: [],
         roster: [null, null, null, null],
         items: [
           {
