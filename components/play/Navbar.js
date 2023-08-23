@@ -94,7 +94,7 @@ export function Navbar(props) {
               } ${commonButtonClasses}`}
               key={type.id}
             >
-              <img src={imgLink} className="h-10 w-10 md:h-14 w-14" alt="" />
+              <img src={imgLink} className="h-10 w-10 md:h-14 md:w-14" alt="" />
             </button>
           );
         })}

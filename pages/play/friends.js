@@ -77,7 +77,7 @@ export default function Friends({ loading, user }) {
                 ></img>
               </div>
               <div className="grow pl-4 font-galindo text-xl">Friends</div>
-              <div className="grow-0 flex grow pr-4">
+              <div className="grow-0 flex pr-4">
                 <button
                   className="p-2 text-xl bg-red-300 hover:bg-red-300/50 rounded-lg font-galindo"
                   onClick={() => {
