@@ -16,12 +16,11 @@ export default function SlimeDetails({
   const gelProduction = slime.baseProduction;
   const levelUpCost = slime.levelUpCost;
   const maxLevel = slime.maxLevel;
-  const colour = gameData.rarityColours[slime.rarity];
+  const colour = gameData.rarityColours[slime.rarity].text;
   return (
     <div>
       <div className="flex flex-row gap-2 justify-around p-2">
         <div className="flex">
-          {/* TODO create something to map slime names to images */}
           <img
             src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
             alt="Slime"

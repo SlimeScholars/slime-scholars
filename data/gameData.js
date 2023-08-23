@@ -256,22 +256,27 @@ export const gameData = {
   // map rarity to colour
   rarityColours: {
     Common: {
+      text: "#8A8A8A",
       bord: "common-gradient-border",
       bg: "common-gradient-background",
     },
     Uncommon: {
+      text: "#14DC24",
       bord: "uncommon-gradient-border",
       bg: "uncommon-gradient-background",
     },
     Rare: {
+      text: "#0061ff",
       bord: "rare-gradient-border",
       bg: "rare-gradient-background",
     },
     Epic: {
+      text: "#BC19F7",
       bord: "epic-gradient-border",
       bg: "epic-gradient-background",
     },
     Legendary: {
+      text: "#F7E818",
       bord: "legendary-gradient-border",
       bg: "legendary-gradient-background",
     },
