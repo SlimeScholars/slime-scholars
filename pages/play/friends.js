@@ -6,7 +6,6 @@ import ManageFriends from '../../components/play/friends/ManageFriends';
 import FriendRequestsEditor from '../../components/play/friends/FriendRequestsEditor';
 import { gameData } from '../../data/gameData';
 import axios from "axios";
-import { gameData } from "../../data/gameData";
 
 export default function Friends({ loading, user }) {
 	const router = useRouter();
