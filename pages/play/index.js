@@ -23,8 +23,6 @@ export default function Play({ loading, user }) {
     }
   }, [user, loading]);
 
-  console.log(bg);
-
   return (
     <div
       className="p-8 w-screen h-screen"

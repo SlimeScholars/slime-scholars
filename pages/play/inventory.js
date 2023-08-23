@@ -4,6 +4,7 @@ import { Navbar } from "../../components/play/Navbar";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
 import { gameData } from "../../data/gameData";
+import Home from "../../components/play/Home";
 
 export default function Backpack({ loading, user }) {
   const router = useRouter();
@@ -32,15 +33,10 @@ export default function Backpack({ loading, user }) {
   }, [user, loading]);
 
   return (
-    <div
-      className="w-screen h-screen"
-      style={{
-        backgroundImage: `url('/assets/backgrounds/${bg}')`,
-        backgroundSize: "cover",
-      }}
-    >
-      <div className="p-8 w-full h-full justify-center items-center backdrop-brightness-50">
-        <Navbar current="4" className=""></Navbar>
+    <div>
+      <Home user={user} bg={bg} />
+      <div className="absolute top-0 left-0 p-8 w-full h-full justify-center items-center ">
+        <Navbar current={4} className=""></Navbar>
         <div className="pt-5">
           <div className="items-center justify-between">
             {/*  Inventory bar */}
