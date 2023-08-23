@@ -1,5 +1,10 @@
 import { gameData } from "../../../data/gameData";
 import AddToRoster from "./AddToRoster";
+import { useState } from "react";
+import PopUpDetails from "./PopUpDetails";
+import { showToastError } from "../../../utils/toast";
+import axios from "axios";
+import { set } from "mongoose";
 
 export default function SlimeDetails({
   user,
@@ -9,6 +14,53 @@ export default function SlimeDetails({
   setUser,
 }) {
   if (!slime) return <></>;
+
+  const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
+  const [res, setRes] = useState([]);
+  const [oldSlime, setOldSlime] = useState(null);
+
+  //   handle click should automatically level up the slime and update the user
+  const handleClick = (id) => {
+    console.log(id);
+    try {
+      const token = localStorage.getItem("jwt");
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      setLoading(true);
+      axios
+        .post("/api/slime/level-up", { slimeId: id }, config)
+        .then((response) => {
+          console.log(response.data);
+          const newUser = {
+            ...user,
+            roster: response.data.roster,
+            slimeGel: response.data.slimeGel,
+            slimes: response.data.slimes,
+          };
+          setUser(newUser);
+          setShowLevelUpPopup(true);
+          setRes(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          showToastError(error.response.data.message);
+          console.log(error);
+          setLoading(false);
+        });
+    } catch (error) {
+      showToastError(error.response.data.message);
+      return;
+    }
+  };
+  const handleClosePopup = () => {
+    setShowLevelUpPopup(false); // Set showLevelUpPopup to false to close the popup
+  };
+
   //   console.log(slime);
   const rarity = slime.rarity.toUpperCase();
   const name = slime.slimeName;
@@ -19,6 +71,14 @@ export default function SlimeDetails({
   const colour = gameData.rarityColours[slime.rarity].text;
   return (
     <div>
+      {showLevelUpPopup && (
+        <PopUpDetails
+          user={user}
+          res={res}
+          onClose={handleClosePopup}
+          oldSlime={oldSlime}
+        />
+      )}
       <div className="flex flex-row gap-2 justify-around p-2">
         <div className="flex">
           <img
@@ -40,7 +100,13 @@ export default function SlimeDetails({
             </p>
           )}
           <p className="text-xs">Gel production: {gelProduction} SG</p>
-          <button className="bg-pink-400 p-1 text-xs">
+          <button
+            className="bg-pink-400 p-1 text-xs"
+            onClick={() => {
+              setOldSlime(slime);
+              handleClick(slime._id);
+            }}
+          >
             <div className="flex flex-row justify-center items-center">
               <p className="">Level up</p>
               <img

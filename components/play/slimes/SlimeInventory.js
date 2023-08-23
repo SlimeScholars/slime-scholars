@@ -1,6 +1,6 @@
 import { gameData } from "../../../data/gameData";
 export default function SlimeInventory({ user, loading, setSlime }) {
-  console.log(user);
+  // console.log(user);
   return (
     <>
       {Array.isArray(user.slimes) &&
