@@ -93,23 +93,38 @@ function MyApp({ Component, pageProps }) {
         <ToastContainer />
         {onPlay ? (
           <>
-            <Home
-              user={user}
-              active={current === 0}
-              setLoading={current === 0 ? setLoading : () => null}
-              setUser={current === 0 ? setUser : () => null}
-            />
-            <div className={`absolute inset-0`}>
-              <div className="p-8">
+            {/* Each component is wrapped in a relative div to allow use to z-index*/}
+            {/* Home page */}
+            <div className={`relative h-0 ${current === 0 ? 'z-10' : '-z-10'}`}>
+              <Home
+                user={user}
+                active={current === 0}
+                setLoading={current === 0 ? setLoading : () => null}
+                setUser={current === 0 ? setUser : () => null}
+              />
+            </div>
+
+            {/* Navbar */}
+            <div className={`relative h-0 z-20`}>
+              <div className={`fixed inset-0 p-8`}>
                 <Navbar user={user} current={current} />
-                <Component {...modifiedPageProps} />
+              </div>
+            </div>
+
+            {/* Other pages */}
+            <div className={`relative h-0`}>
+              <div className={`fixed inset-0 p-8`}>
+                {/* Margin for the navbar */}
+                <div className="mt-[10rem]">
+                  <Component {...modifiedPageProps} />
+                </div>
               </div>
             </div>
           </>
         ) :
           <Component {...modifiedPageProps} />
         }
-      </div>
+      </div >
     </>
   )
 }
