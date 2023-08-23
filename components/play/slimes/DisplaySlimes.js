@@ -22,7 +22,7 @@ export default function DisplaySlimes({ user, setLoading }) {
       };
       setLoading(true);
       axios
-        .post("/api/slime/level-up", { id }, config)
+        .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
           console.log(response.data.message);
           setLoading(false);
@@ -49,9 +49,8 @@ export default function DisplaySlimes({ user, setLoading }) {
             return (
               <div
                 key={index}
-                className={`flex flex-col ${
-                  offset ? "transform -translate-y-16" : ""
-                }`}
+                className={`flex flex-col ${offset ? "transform -translate-y-16" : ""
+                  }`}
               >
                 <div className="flex flex-row items-center mx-auto">
                   <div className="bg-[#5A5A5A] opacity-60 h-5 w-28 pb-6 rounded-md mx-auto text-white text-center">
