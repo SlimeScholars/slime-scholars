@@ -1,6 +1,6 @@
 import ItemInventory from './itemInventory';
 import { gameData } from '../../../data/gameData';
-import showToastError from '../../utils/toast';
+import { showToastError } from '../../../utils/toast';
 import axios from 'axios';
 
 export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) {
@@ -75,7 +75,9 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                                     }
                                                 })
                                                 .then(response => {setpfpBg(item.itemName);})
-                                                .catch(error => {});
+                                                .catch(error => {
+                                                    showToastError(error.message);
+                                                });
                                         }}>
                                         Equip as Profile Background
                                     </button>
@@ -102,7 +104,9 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                         .then(response => {
                                             setBg(item.itemName);
                                         })
-                                        .catch(error => console.log(error));
+                                        .catch(error => {
+                                            showToastError(error.message);
+                                        });
                                 }}>
                                 Equip as background
                             </button>
