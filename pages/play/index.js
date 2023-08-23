@@ -5,6 +5,7 @@ import { Navbar } from "../../components/play/Navbar";
 import Home from "../../components/play/Home";
 import { gameData } from "../../data/gameData";
 import DisplaySlimes from "../../components/play/slimes/DisplaySlimes";
+import PopUpDetails from "../../components/play/slimes/PopUpDetails";
 
 export default function Play({ loading, user, setLoading, setUser }) {
   const router = useRouter();
