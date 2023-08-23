@@ -16,7 +16,7 @@ export default function Home({ user, setLoading, setUser, active }) {
   }
   return (
     <div
-      className="w-screen h-screen relative bg-bottom"
+      className="w-full h-screen relative bg-bottom"
       style={{
         backgroundImage: `url('/assets/backgrounds/${bg}')`,
         backgroundSize: "cover",
@@ -30,7 +30,7 @@ export default function Home({ user, setLoading, setUser, active }) {
             setUser={active ? setUser : undefined}
           />
           {!active && (
-            <div className="fixed inset-0 backdrop-filter backdrop-brightness-[0.25]"></div>
+            <div className="fixed inset-0 backdrop-filter backdrop-brightness-[0.25]" />
           )}
         </div>
       </div>
