@@ -50,6 +50,16 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
       <div className="flex flex-row ">
         {Array.isArray(user.roster) &&
           user.roster.map((slime, index) => {
+            if (slime === null)
+              return (
+                <button
+                  onClick={() => {
+                    router.push("/play/slimes");
+                  }}
+                >
+                  +
+                </button>
+              );
             // console.log(slime._id);
             const offset = index === 1 || index === 3;
 
