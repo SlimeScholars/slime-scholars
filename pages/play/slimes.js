@@ -40,7 +40,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
                 <img src="/assets/icons/slimes.png" className="h-20 w-20"></img>
               </div>
               <div className="grow pl-4 font-galindo text-xl">Slimes</div>
-              <div className="grow-0 flex grow pr-4">
+              <div className="grow-0 flex pr-4">
                 <form
                   className="border-2 border-black flex bg-transparent rounded"
                   onSubmit={(e) => handleSubmit(e)}
