@@ -7,7 +7,7 @@ export default function SlimeInventory({ user, loading, setSlime }) {
           return (
             <div
               key={index}
-              className={`flex flex-col border-2 border-gray-400 rounded-md p-1 relative flex-wrap w-full`}
+              className={`flex flex-col gradient-border rounded-md p-1 relative flex-wrap w-full`}
               style={{ backgroundColor: gameData.rarityColours[slime.rarity] }}
             >
               <button
