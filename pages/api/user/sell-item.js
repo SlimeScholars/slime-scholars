@@ -29,32 +29,56 @@ export default async function (req, res) {
 		const { itemName, quantity } = req.body
 
 		if (!gameData.items[itemName]) {
-			throw new Error(`The item ${itemName} does not exist`)
+			throw new Error(`The following item does not exist: ${itemName}`)
 		}
 		if (gameData.items[itemName].sellPrice === undefined) {
-			throw new Error('This item cannot be bought')
+			throw new Error(`The following item cannot be sold: ${itemName}`)
 		}
 
 		// Make sure they buy at max one background
-		if (quantity > 0) {
+		if (quantity <= 0) {
 			throw new Error('Quantity sold must be a positive integer')
 		}
 
-		let flag = true
+		let itemIndex = -1
 		for (let i in user.items) {
 			if (user.items[i].itemName === itemName) {
-				flag = false
 				if (user.items[i].quantity < quantity) {
 					throw new Error(`You do not have enough of this item to sell: ${itemName}`)
 				}
+				itemIndex = i
+				break
 			}
 		}
-		if (flag) {
+		if (itemIndex === -1) {
 			throw new Error(`You don't have the following item in your inventory: ${itemName}`)
 		}
 
 		const item = gameData.items[itemName]
-		const price = gameData.items[sellPrice] * quantity
+		const price = item.sellPrice * quantity
+
+		const newUser = { ...user }
+		newUser.items[itemIndex].quantity -= quantity
+		if (newUser.items[itemIndex].quantity === 0) {
+			newUser.items.splice(itemIndex, 1)
+		}
+
+		if (item.sellCurrency === 0) {
+			newUser.slimeGel += price
+		}
+		else if (item.sellCurrency === 1) {
+			newUser.flowers += price
+		}
+
+		await User.findByIdAndUpdate(user._id, {
+			flowers: newUser.flowers,
+			slimeGel: newUser.slimeGel,
+			items: newUser.items,
+		})
+
+		res.status(200).json({
+			flowers: newUser.flowers, slimeGel: newUser.slimeGel, items: newUser.items
+		})
 
 	} catch (error) {
 		res.status(400).json({ message: error.message })
