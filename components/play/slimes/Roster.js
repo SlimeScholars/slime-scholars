@@ -94,7 +94,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
               <div className="overflow-hidden rounded-lg">
                 <div
                   key={index}
-                  className={`flex flex-col relative flex-wrap w-32 ${
+                  className={`flex flex-col relative flex-wrap w-32 rounded-lg ${
                     gameData.rarityColours[char.rarity].bg
                   } ${gameData.rarityColours[char.rarity].bord}`}
                 >
@@ -113,16 +113,14 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
                       className="h-20 w-20 mx-auto"
                     />
                   </button>
-                  <div className="absolute bg-gray-400 h-5 w-10 -bottom-2.5 inset-x-0 mx-auto rounded-md items-center mt-2">
-                    {char.level === char.maxLevel ? (
-                      <p className="text-center text-xs mt-1">Lvl. MAX </p>
-                    ) : (
-                      <p className="text-center text-xs mt-1">
-                        Lvl. {char.level}
-                      </p>
-                    )}
-                  </div>
                 </div>
+              </div>
+              <div className="absolute bg-gray-400 h-5 w-10 -bottom-2.5 inset-x-0 mx-auto rounded-md items-center mt-2">
+                {char.level === char.maxLevel ? (
+                  <p className="text-center text-xs mt-1">Lvl. MAX </p>
+                ) : (
+                  <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+                )}
               </div>
             </div>
           );
