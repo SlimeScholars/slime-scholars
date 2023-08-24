@@ -27,7 +27,7 @@ export function Navbar({ current, user }) {
       </div>
       <div className="flex flex-row space-x-2">
         <div className="flex flex-col justify-center p-4">
-          <div className="flex bg-white/75 opacity-60 h-8 w-24 rounded-md">
+          <div className="flex bg-white/50 opacity-60 h-8 w-24 rounded-md">
             {/* slime gel */}
             {user && (
               <div className="flex flex-row items-center justify-center">
@@ -40,7 +40,7 @@ export function Navbar({ current, user }) {
               </div>
             )}
           </div>
-          <div className="flex bg-white/75 opacity-60 h-8 w-16 rounded-md mt-1 ml-8">
+          <div className="flex bg-white/50 opacity-60 h-8 w-16 rounded-md mt-1 ml-8">
             {/* flowers */}
             {user && (
               <div className="flex flex-row items-center">
@@ -67,8 +67,9 @@ export function Navbar({ current, user }) {
                 e.preventDefault();
                 router.push("/play/" + type.title);
               }}
-              className={`${isActive ? "bg-red-300" : "bg-white/50"
-                } ${commonButtonClasses}`}
+              className={`${
+                isActive ? "bg-red-300" : "bg-white/50"
+              } ${commonButtonClasses}`}
               key={type.id}
             >
               <img src={imgLink} className="h-10 w-10 md:h-14 md:w-14" alt="" />

@@ -11,7 +11,13 @@ import Home from "../components/play/Home";
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const modifiedPageProps = { ...pageProps, user, setUser, loading, setLoading }; // Include user in modifiedPageProps
+  const modifiedPageProps = {
+    ...pageProps,
+    user,
+    setUser,
+    loading,
+    setLoading,
+  }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
     // If no token, no need to make a request for authentication
@@ -53,49 +59,50 @@ function MyApp({ Component, pageProps }) {
     }
   }, []);
 
-  const router = useRouter()
-  const [onPlay, setOnPlay] = useState(false)
-  const [current, setCurrent] = useState(0)
+  const router = useRouter();
+  const [onPlay, setOnPlay] = useState(false);
+  const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (router.pathname.startsWith('/play')) {
-      setOnPlay(router.pathname.startsWith('/play'))
-      const paths = [
-        'shopping',
-        'friends',
-        'slimes',
-        'inventory',
-      ]
-      if (router.pathname.split('/').length === 2) {
-        setCurrent(0)
-        return
+    if (router.pathname.startsWith("/play")) {
+      setOnPlay(router.pathname.startsWith("/play"));
+      const paths = ["shopping", "friends", "slimes", "inventory"];
+      if (router.pathname.split("/").length === 2) {
+        setCurrent(0);
+        return;
       }
-      const path = router.pathname.split('/')[2]
+      const path = router.pathname.split("/")[2];
       for (let i in paths) {
         if (paths[i] === path) {
-          setCurrent(parseInt(i) + 1)
-          return
+          setCurrent(parseInt(i) + 1);
+          return;
         }
       }
+    } else {
+      setOnPlay(false);
+      setCurrent(0);
     }
-    else {
-      setOnPlay(false)
-      setCurrent(0)
+  }, [router.pathname]);
+
+  // navigate back home when clicking empty space above navbar
+  const handleNavHome = (event) => {
+    if (event.target.classList.contains("home")) {
+      router.push("/play");
     }
-  }, [router.pathname])
+  };
 
   // Return loading on the component instead of home. This way, state variables don't get reset
 
   return (
     <>
       {loading ? <Spinner /> : <></>}
-      <div className={`relative ${loading ? 'hidden' : ''}`}>
+      <div className={`relative ${loading ? "hidden" : ""}`}>
         <ToastContainer />
         {onPlay ? (
           <>
             {/* Each component is wrapped in a relative div to allow use to z-index*/}
             {/* Home page */}
-            <div className={`relative h-0 ${current === 0 ? 'z-10' : '-z-10'}`}>
+            <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
                 user={user}
                 active={current === 0}
@@ -104,9 +111,17 @@ function MyApp({ Component, pageProps }) {
               />
             </div>
 
+            {/* Navbar */}
+            <div className={`relative h-0 z-10`}>
+              <div
+                className={`absolute inset-0 p-8 home`}
+                onClick={handleNavHome}
+              ></div>
+            </div>
+
             {/* Other pages */}
             <div className={`relative h-0`}>
-              <div className={`absolute inset-0 p-8`}>
+              <div className={`absolute inset-0 p-8 `}>
                 <div className="relative z-20">
                   <Navbar user={user} current={current} />
                 </div>
@@ -114,12 +129,12 @@ function MyApp({ Component, pageProps }) {
               </div>
             </div>
           </>
-        ) :
+        ) : (
           <Component {...modifiedPageProps} />
-        }
-      </div >
+        )}
+      </div>
     </>
-  )
+  );
 }
 
 export default MyApp;

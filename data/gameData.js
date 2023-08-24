@@ -53,7 +53,6 @@ export const gameData = {
       black: "#131520",
     },
 
-
     "Blue Space": {
       itemName: "Blue Space",
       rarity: "Rare",
@@ -71,8 +70,7 @@ export const gameData = {
       black: "#0D1616",
     },
 
-
-    "Castle": {
+    Castle: {
       itemName: "Castle",
       rarity: "Rare",
       isBg: true,
@@ -88,7 +86,6 @@ export const gameData = {
       grey: "#E4E3E2",
       black: "#141C1C",
     },
-
 
     "Cosmic Lights": {
       itemName: "Cosmic Lights",
@@ -107,7 +104,6 @@ export const gameData = {
       black: "#070811",
     },
 
-
     "Day Sakura": {
       itemName: "Day Sakura",
       rarity: "Rare",
@@ -124,7 +120,6 @@ export const gameData = {
       grey: "#7F9089",
       black: "#2E0109",
     },
-
 
     "Fall Castle": {
       itemName: "Fall Castle",
@@ -143,7 +138,6 @@ export const gameData = {
       black: "#0D0605",
     },
 
-
     "Fall Forest": {
       itemName: "Fall Forest",
       rarity: "Rare",
@@ -160,7 +154,6 @@ export const gameData = {
       grey: "#DCE0E5",
       black: "#0F0200",
     },
-
 
     "Fence Garden": {
       itemName: "Fence Garden",
@@ -179,7 +172,6 @@ export const gameData = {
       black: "#0E1206",
     },
 
-
     "Flower Field": {
       itemName: "Flower Field",
       rarity: "Rare",
@@ -196,7 +188,6 @@ export const gameData = {
       grey: "#E1E5E4",
       black: "#050D03",
     },
-
 
     "Forest Jungle": {
       itemName: "Florest Jungle",
@@ -215,7 +206,6 @@ export const gameData = {
       black: "#0B0506",
     },
 
-
     "Forest Mountains": {
       itemName: "Forest Mountains",
       rarity: "Rare",
@@ -232,7 +222,6 @@ export const gameData = {
       grey: "#B6B7A9",
       black: "#0C1414",
     },
-
 
     "Gem Space": {
       itemName: "Gem Space",
@@ -251,7 +240,6 @@ export const gameData = {
       black: "#04010C",
     },
 
-
     "Green Field": {
       itemName: "Green Field",
       rarity: "Rare",
@@ -268,7 +256,6 @@ export const gameData = {
       grey: "#ADB3B8",
       black: "#28221D",
     },
-
 
     "Ice City": {
       itemName: "Ice City",
@@ -287,7 +274,6 @@ export const gameData = {
       black: "#06111D",
     },
 
-
     "Japan Vibes": {
       itemName: "Japan Vibes",
       rarity: "Rare",
@@ -304,7 +290,6 @@ export const gameData = {
       grey: "#C9C5CE",
       black: "#0D031D",
     },
-
 
     "Magma Caverns": {
       itemName: "Magma Caverns",
@@ -323,7 +308,6 @@ export const gameData = {
       black: "#070011",
     },
 
-
     "Neon City": {
       itemName: "Neon City",
       rarity: "Rare",
@@ -340,7 +324,6 @@ export const gameData = {
       grey: "#968792",
       black: "#06030B",
     },
-
 
     "Night Sakura": {
       itemName: "Night Sakura",
@@ -359,7 +342,6 @@ export const gameData = {
       black: "#09020B",
     },
 
-
     "Night View": {
       itemName: "Night View",
       rarity: "Rare",
@@ -376,7 +358,6 @@ export const gameData = {
       grey: "#C3BDE8",
       black: "#07071B",
     },
-
 
     "Ocean City": {
       itemName: "Ocean City",
@@ -395,7 +376,6 @@ export const gameData = {
       black: "#001217",
     },
 
-
     "Orange Desert": {
       itemName: "Orange Desert",
       rarity: "Rare",
@@ -412,7 +392,6 @@ export const gameData = {
       grey: "#8C8573",
       black: "#0E0300",
     },
-
 
     "Orange Sunset": {
       itemName: "Orange Sunset",
@@ -431,7 +410,6 @@ export const gameData = {
       black: "#110C07",
     },
 
-
     "Pillar Space": {
       itemName: "Pillar Space",
       rarity: "Rare",
@@ -448,7 +426,6 @@ export const gameData = {
       grey: "#403E46",
       black: "#19063B",
     },
-
 
     "Pink Candy": {
       itemName: "Pink Candy",
@@ -467,7 +444,6 @@ export const gameData = {
       black: "#230002",
     },
 
-
     "Pink Pyramid": {
       itemName: "Pink Pyramid",
       rarity: "Rare",
@@ -484,7 +460,6 @@ export const gameData = {
       grey: "#585558",
       black: "#110E0F",
     },
-
 
     "Rainy City": {
       itemName: "Rainy City",
@@ -503,7 +478,6 @@ export const gameData = {
       black: "#09040A",
     },
 
-
     "Rainy Forest": {
       itemName: "Rainy Forest",
       rarity: "Rare",
@@ -520,7 +494,6 @@ export const gameData = {
       grey: "#A4A6AD",
       black: "#0B0D07",
     },
-
 
     "Rainy Town": {
       itemName: "Rainy Town",
@@ -539,7 +512,6 @@ export const gameData = {
       black: "#0A0A0D",
     },
 
-
     "Red Space": {
       itemName: "Red Space",
       rarity: "Rare",
@@ -556,8 +528,6 @@ export const gameData = {
       grey: "#DDDAD4",
       black: "#1E111A",
     },
-
-
   },
 
   baseProduction: {
@@ -746,7 +716,7 @@ export const gameData = {
   // map rarity to colour
   rarityColours: {
     Common: {
-      text: "#8A8A8A",
+      text: "#fff",
       bord: "common-gradient-border",
       bg: "common-gradient-background",
     },

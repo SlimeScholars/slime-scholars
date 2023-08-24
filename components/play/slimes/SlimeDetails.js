@@ -4,7 +4,6 @@ import { useState } from "react";
 import PopUpDetails from "./PopUpDetails";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
-import { set } from "mongoose";
 
 export default function SlimeDetails({
   user,
@@ -71,66 +70,64 @@ export default function SlimeDetails({
   const colour = gameData.rarityColours[slime.rarity].text;
   return (
     <div>
-      {showLevelUpPopup && (
-        <PopUpDetails
-          user={user}
-          res={res}
-          onClose={handleClosePopup}
-          oldSlime={oldSlime}
-        />
-      )}
-      <div className="flex flex-row gap-2 justify-around p-2">
-        <div className="flex">
-          <img
-            src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
-            alt="Slime"
-            className="h-32 w-full"
+      <div className="bg-white/50 rounded-lg h-full mb-2">
+        {showLevelUpPopup && (
+          <PopUpDetails
+            user={user}
+            res={res}
+            onClose={handleClosePopup}
+            oldSlime={oldSlime}
           />
-        </div>
-        <div className="flex flex-col flex-wrap">
-          <p className="" style={{ color: colour }}>
-            {rarity}
-          </p>
-          <p>{name}</p>
-          {level === maxLevel ? (
-            <p className="text-xs">Level MAX </p>
-          ) : (
-            <p className="text-xs">
-              Level {level}/{maxLevel}{" "}
+        )}
+        <div className="flex flex-row gap-2 p-2 justify-around">
+          <div className="flex">
+            <img
+              src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
+              alt="Slime"
+              className="h-48 w-full"
+            />
+          </div>
+          <div className="flex flex-col flex-wrap justify-center">
+            <p className="text-lg" style={{ color: colour }}>
+              {rarity}
             </p>
-          )}
-          <p className="text-xs">Gel production: {gelProduction} SG</p>
-          <button
-            className="bg-pink-400 p-1 text-xs"
-            onClick={() => {
-              setOldSlime(slime);
-              handleClick(slime._id);
-            }}
-          >
-            <div className="flex flex-row justify-center items-center">
-              <p className="">Level up</p>
-              <img
-                src="/assets/icons/slime-gel.png"
-                alt="Icon"
-                className="h-3 w-3 m-1"
-              />
-              <p className="">{levelUpCost}</p>
-            </div>
-          </button>
+            <p className="text-xl pb-1">{name}</p>
+            {level === maxLevel ? (
+              <p className="text-xs">Level MAX </p>
+            ) : (
+              <p className="text-xs">
+                Level {level}/{maxLevel}{" "}
+              </p>
+            )}
+            <p className="text-xs">Gel production: {gelProduction} SG</p>
+            <button
+              className="bg-pink-400 p-1 text-xs mt-2"
+              onClick={() => {
+                setOldSlime(slime);
+                handleClick(slime._id);
+              }}
+            >
+              <div className="flex flex-row justify-center items-center">
+                <p className="">Level up</p>
+                <img
+                  src="/assets/icons/slime-gel.png"
+                  alt="Icon"
+                  className="h-3 w-3 m-1"
+                />
+                <p className="">{levelUpCost}</p>
+              </div>
+            </button>
+          </div>
         </div>
       </div>
-      {/* Add slimes to roster */}
-      <div className=" bg-white/75 rounded-lg h-full">
-        <div className="">
-          {/* Add to Roster component */}
-          <AddToRoster
-            user={user}
-            loading={loading}
-            setLoading={setLoading}
-            slime={slime}
-            setUser={setUser}
-          />
-        </div>
+      <div className="bg-white/75 rounded-lg h-full">
+        <AddToRoster
+          user={user}
+          loading={loading}
+          setLoading={setLoading}
+          slime={slime}
+          setUser={setUser}
+        />
       </div>
     </div>
   );

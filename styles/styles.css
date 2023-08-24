@@ -155,7 +155,7 @@ a {
 
 /* gradient borders and backgrounds */
 .common-gradient-border {
-  border-image: linear-gradient(45deg, #D0D0D0 1.9%, #F0F0F0 97.5%) 30;
+  border-image: linear-gradient(45deg, #FFF 1.9%, #F0F0F0 97.5%) 30;
   border-width: 4px;
   border-style: solid;
 }
