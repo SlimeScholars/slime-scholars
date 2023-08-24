@@ -100,7 +100,6 @@ export default async function (req, res) {
       // Upload the file to Cloudinary
       await cloudinary.uploader.upload(image.path, (error, result) => {
         if (error) {
-          console.log(error)
           throw new Error(`Error uploading file: ${error}`);
         } else {
           uploadedImages.push(result.secure_url)
