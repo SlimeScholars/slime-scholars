@@ -16,7 +16,8 @@ export default function Friends({ loading, user }) {
   const [toDo, setToDo] = useState("manage");
   const [userId, setUserId] = useState("empty for now");
   const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
-  const [receivedFriendRequests, setReceivedFriendRequests] = useState("empty for now");
+  const [receivedFriendRequests, setReceivedFriendRequests] =
+    useState("empty for now");
 
   useEffect(() => {
     if (loading) {
@@ -79,12 +80,9 @@ export default function Friends({ loading, user }) {
       <div className="pt-5">
         <div className="items-center justify-between">
           {/*  Add Friend  and others */}
-          <div className="flex flex-row bg-white/75 rounded-lg items-center">
+          <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
-              <img
-                src="/assets/icons/friends.png"
-                className="h-20 w-20"
-              ></img>
+              <img src="/assets/icons/friends.png" className="h-20 w-20"></img>
             </div>
             <div className="grow pl-4 font-galindo text-xl">Friends</div>
             <div className="grow-0 flex pr-4">
@@ -107,7 +105,7 @@ export default function Friends({ loading, user }) {
           <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
             {/* Leaderboard */}
             <div className="pr-4 basis-1/2 ">
-              <div className="bg-white/75 rounded-lg">
+              <div className="bg-white/50 rounded-lg">
                 {toDo == "manage" ? (
                   <Leaderboard
                     userFriends={userFriends}
@@ -127,7 +125,7 @@ export default function Friends({ loading, user }) {
             </div>
 
             {/* Manage Friends */}
-            <div className="basis-1/2 bg-white/75 rounded-lg h-full">
+            <div className="basis-1/2 bg-white/50 rounded-lg h-full">
               <div className="flex flex-row">
                 <ManageFriends
                   userFriends={userFriends}

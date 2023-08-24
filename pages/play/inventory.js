@@ -46,7 +46,7 @@ export default function Backpack({ loading, user }) {
       <div className="pt-5">
         <div className="items-center justify-between">
           {/*  Inventory bar */}
-          <div className="flex flex-row bg-white/75 rounded-lg items-center">
+          <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
               <img
                 src="/assets/icons/inventory.png"
@@ -73,7 +73,7 @@ export default function Backpack({ loading, user }) {
             </div>
 
             {/* Item details */}
-            <div className="basis-3/7 bg-white/75 rounded-lg">
+            <div className="basis-3/7 bg-white/50 rounded-lg">
               <ItemDetails
                 item={itemOnClick}
                 user={user}

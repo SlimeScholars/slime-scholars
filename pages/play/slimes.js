@@ -28,7 +28,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     <div>
       <div className="pt-5">
         <div className="items-center justify-between">
-          <div className="flex flex-row bg-white/75 rounded-lg items-center">
+          <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
               <img src="/assets/icons/slimes.png" className="h-20 w-20"></img>
             </div>
@@ -52,15 +52,14 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
             </div>
           </div>
         </div>
-
         {/* Slimes inventory, all users slimes */}
         <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
-          <div className="pr-4 basis-1/2 ">
-            <div className="bg-white/75 rounded-lg">
+          <div className=" basis-1/2 ">
+            <div className="bg-white/50 rounded-lg ">
               <div className="items-center">
                 {/* loop through all slimes from user and display them */}
                 {user && (
-                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2  gap-4 p-4">
+                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-4">
                     <SlimeInventory
                       user={user}
                       loading={loading}
@@ -71,21 +70,15 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               </div>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2 basis-1/2">
+          <div className=" basis-1/2 ">
             {/* Get Slime details */}
-            <div className=" bg-white/75 rounded-lg h-full">
-              <div className="">
-                {/* Display the slime details of the slime that is clicked */}
-                <SlimeDetails
-                  user={user}
-                  loading={loading}
-                  setLoading={setLoading}
-                  slime={slime}
-                  setUser={setUser}
-                />
-              </div>
-            </div>
+            <SlimeDetails
+              user={user}
+              loading={loading}
+              setLoading={setLoading}
+              slime={slime}
+              setUser={setUser}
+            />
           </div>
         </div>
       </div>
