@@ -24,14 +24,16 @@ export default function AddToRoster({
     // console.log(inRoster);
   }, [slime, user]);
 
-  const handleClick = (id, index) => {
+  const handleClick = (id) => {
     try {
       if (id === null) {
         return;
       }
       const roster = [null, null, null, null];
       for (let i in user.roster) {
-        if (user.roster[i]._id === id) {
+        if (user.roster[i] === null) {
+          roster[i] = null;
+        } else if (user.roster[i]._id === id) {
           roster[i] = null;
         } else {
           roster[i] = user.roster[i]._id;

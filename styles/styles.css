@@ -155,9 +155,9 @@ a {
 
 /* gradient borders and backgrounds */
 .common-gradient-border {
-  border: 2px solid transparent;
-  border-image: linear-gradient(to top, #D0D0D0 1.9%, #F0F0F0 97.5%);
-  border-image-slice: 3px;
+  border-image: linear-gradient(45deg, #D0D0D0 1.9%, #F0F0F0 97.5%) 30;
+  border-width: 4px;
+  border-style: solid;
 }
 
 .common-gradient-background {
@@ -167,9 +167,9 @@ a {
 }
 
 .uncommon-gradient-border {
-  border: 2px solid transparent;
-  border-image: linear-gradient(to top, #14DC24 1.9%, #AEEE9A 97.5%);
-  border-image-slice: 3px;
+  border-image: linear-gradient(to top, #14DC24 1.9%, #AEEE9A 97.5%) 30;
+  border-width: 4px;
+  border-style: solid;
 }
 
 .uncommon-gradient-background {
@@ -179,9 +179,9 @@ a {
 }
 
 .rare-gradient-border {
-  border: 2px solid transparent;
-  border-image: linear-gradient(to top, #0061ff 1.9%, #60efff 97.5%);
-  border-image-slice: 3px;
+  border-image: linear-gradient(45deg, #0061ff 1.9%, #60efff 97.5%) 30;
+  border-width: 4px;
+  border-style: solid;
 }
 
 .rare-gradient-background {
@@ -191,9 +191,9 @@ a {
 }
 
 .epic-gradient-border {
-  border: 2px solid transparent;
-  border-image: linear-gradient(90.13deg, #BC19F7 1.9%, #EA70FF 97.5%);
-  border-image-slice: 3px;
+  border-image: linear-gradient(90.13deg, #BC19F7 1.9%, #EA70FF 97.5%) 30;
+  border-width: 4px;
+  border-style: solid;
 }
 
 .epic-gradient-background {
@@ -203,9 +203,9 @@ a {
 }
 
 .legendary-gradient-border {
-  border: 2px solid transparent;
-  border-image: linear-gradient(90.13deg, #F7E818 1.9%, #F7F070 97.5%);
-  border-image-slice: 3px;
+  border-image: linear-gradient(90.13deg, #F7E818 1.9%, #F7F070 97.5%) 30;
+  border-width: 4px;
+  border-style: solid;
 }
 
 .legendary-gradient-background {
