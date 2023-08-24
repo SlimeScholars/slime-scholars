@@ -2,7 +2,7 @@ import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
 import axios from "axios";
 import { showToastError } from "../../../utils/toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 
 export default function DisplaySlimes({ user, setLoading, setUser }) {
@@ -52,139 +52,201 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
   };
 
   // ************ Mobile View ************
-  // const [currentSlimeIndex, setCurrentSlimeIndex] = useState(0);
+  const [isMobileView, setIsMobileView] = useState(false);
 
-  // const handlePrevClick = () => {
-  //   if (currentSlimeIndex > 0) {
-  //     setCurrentSlimeIndex(currentSlimeIndex - 1);
-  //   }
-  // };
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileView(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
 
-  // const handleNextClick = () => {
-  //   if (currentSlimeIndex < user.roster.length - 1) {
-  //     setCurrentSlimeIndex(currentSlimeIndex + 1);
-  //   }
-  // };
-  // return (
-  //   <div className="flex flex-row absolute bottom-0 items-center justify-center w-full">
-  //     {/* Arrow buttons for mobile navigation */}
-  //     {user.roster.length > 1 && (
-  //       <div className="flex justify-between w-full px-4">
-  //         <button
-  //           className="p-2 bg-gray-200 rounded-full"
-  //           onClick={handlePrevClick}
-  //         >
-  //           &lt;
-  //         </button>
-  //         <button
-  //           className="p-2 bg-gray-200 rounded-full"
-  //           onClick={handleNextClick}
-  //         >
-  //           &gt;
-  //         </button>
-  //       </div>
-  //     )}
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  const [currentSlimeIndex, setCurrentSlimeIndex] = useState(0);
 
-  //     <div className="flex flex-row ">
-  //       {Array.isArray(user.roster) &&
-  //         user.roster.map((slime, index) => {
-  //           if (index === currentSlimeIndex) {
-  //             console.log(index, slime);
-  //             return (
-  //               <img
-  //                 src={
-  //                   "/assets/pfp/slimes/" +
-  //                   gameData.slimePfps[slime.slimeName].pfp
-  //                 }
-  //                 alt="Slime"
-  //                 className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
-  //                 onClick={() => {
-  //                   router.push("/play/slimes");
-  //                 }}
-  //               />
-  //             );
-  //           }
-  //         })}
-  //     </div>
-  //   </div>
-  // );
+  const handlePrevClick = () => {
+    if (currentSlimeIndex > 0) {
+      setCurrentSlimeIndex(currentSlimeIndex - 1);
+    } else {
+      setCurrentSlimeIndex(currentSlimeIndex + user.roster.length - 1);
+    }
+  };
 
-  return (
-    <div className="flex flex-row fixed bottom-0 items-center justify-center w-full">
-      <div className="flex flex-row ">
-        {showLevelUpPopup && (
-          <PopUpDetails
-            user={user}
-            res={res}
-            onClose={handleClosePopup}
-            oldSlime={oldSlime}
-          />
-        )}
-        {Array.isArray(user.roster) &&
-          user.roster.map((slime, index) => {
-            // console.log(slime._id);
-            const offset = index === 1 || index === 3;
+  const handleNextClick = () => {
+    if (currentSlimeIndex < user.roster.length - 1) {
+      setCurrentSlimeIndex(currentSlimeIndex + 1);
+    } else {
+      setCurrentSlimeIndex(0);
+    }
+  };
 
-            if (slime === null)
-              return (
-                <button
-                  key={index}
-                  className={`${
-                    offset ? "transform -translate-y-16" : ""
-                  } md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto border-2 border-gray-400 rounded-md items-center text-6xl`}
-                  onClick={() => {
-                    router.push("/play/slimes");
-                  }}
-                >
-                  +
-                </button>
-              );
-
-            return (
-              <div
-                key={index}
-                className={`flex flex-col ${
-                  offset ? "transform -translate-y-16" : ""
-                }`}
-              >
-                <div className="flex flex-row items-center mx-auto">
-                  <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
-                    <div className="flex flex-row justify-center items-center pl-2">
-                      <p>
-                        Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
-                      </p>
+  if (isMobileView) {
+    return (
+      <div className="flex flex-col items-center justify-center w-full h-screen">
+        {/* Arrow buttons for mobile navigation */}
+        <div className="flex flex-row fixed bottom-4">
+          <button
+            className="p-2 bg-gray-200 rounded-full my-auto"
+            onClick={handlePrevClick}
+          >
+            &lt;
+          </button>
+          <div className="flex flex-row mt-4">
+            {showLevelUpPopup && (
+              <PopUpDetails
+                user={user}
+                res={res}
+                onClose={handleClosePopup}
+                oldSlime={oldSlime}
+              />
+            )}
+            {Array.isArray(user.roster) &&
+              user.roster.map((slime, index) => {
+                if (index === currentSlimeIndex) {
+                  console.log(index, slime);
+                  return slime === null ? (
+                    <button
+                      key={index}
+                      className={`h-48 w-48 mx-2 border-2 border-gray-400 rounded-md items-center text-6xl`}
+                      onClick={() => {
+                        router.push("/play/slimes");
+                      }}
+                    >
+                      +
+                    </button>
+                  ) : (
+                    <div key={index} className={`flex flex-col`}>
+                      <div className="flex flex-row items-center mx-auto">
+                        <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
+                          <div className="flex flex-row justify-center items-center pl-2">
+                            <p>
+                              Lv. {slime.level} &nbsp;|&nbsp;{" "}
+                              {slime.levelUpCost}
+                            </p>
+                            <img
+                              src="/assets/icons/slime-gel.png"
+                              alt="Icon"
+                              className="h-4 w-4 ml-1 mr-2"
+                            />
+                          </div>
+                        </div>
+                        <button
+                          className="p-1 rounded-full bg-red-300"
+                          onClick={() => {
+                            setOldSlime(slime);
+                            handleClick(slime._id, index);
+                          }}
+                        >
+                          &nbsp;^&nbsp;
+                        </button>
+                      </div>
                       <img
-                        src="/assets/icons/slime-gel.png"
-                        alt="Icon"
-                        className="h-4 w-4 ml-1 mr-2"
+                        src={
+                          "/assets/pfp/slimes/" +
+                          gameData.slimePfps[slime.slimeName].pfp
+                        }
+                        alt="Slime"
+                        className="h-64 w-64 mx-auto"
+                        onClick={() => {
+                          router.push("/play/slimes");
+                        }}
                       />
                     </div>
-                  </div>
+                  );
+                }
+              })}
+          </div>
+          <button
+            className="p-2 bg-gray-200 rounded-full my-auto"
+            onClick={handleNextClick}
+          >
+            &gt;
+          </button>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div className="flex flex-row fixed bottom-0 items-center justify-center w-full">
+        <div className="flex flex-row ">
+          {showLevelUpPopup && (
+            <PopUpDetails
+              user={user}
+              res={res}
+              onClose={handleClosePopup}
+              oldSlime={oldSlime}
+            />
+          )}
+          {Array.isArray(user.roster) &&
+            user.roster.map((slime, index) => {
+              // console.log(slime._id);
+              const offset = index === 1 || index === 3;
+
+              if (slime === null)
+                return (
                   <button
-                    className="p-1 rounded-full bg-red-300"
+                    key={index}
+                    className={`${
+                      offset ? "transform -translate-y-16" : ""
+                    } md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto border-2 border-gray-400 rounded-md items-center text-6xl`}
                     onClick={() => {
-                      setOldSlime(slime);
-                      handleClick(slime._id, index);
+                      router.push("/play/slimes");
                     }}
                   >
-                    &nbsp;^&nbsp;
+                    +
                   </button>
+                );
+
+              return (
+                <div
+                  key={index}
+                  className={`flex flex-col ${
+                    offset ? "transform -translate-y-16" : ""
+                  }`}
+                >
+                  <div className="flex flex-row items-center mx-auto">
+                    <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
+                      <div className="flex flex-row justify-center items-center pl-2">
+                        <p>
+                          Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
+                        </p>
+                        <img
+                          src="/assets/icons/slime-gel.png"
+                          alt="Icon"
+                          className="h-4 w-4 ml-1 mr-2"
+                        />
+                      </div>
+                    </div>
+                    <button
+                      className="p-1 rounded-full bg-red-300"
+                      onClick={() => {
+                        setOldSlime(slime);
+                        handleClick(slime._id, index);
+                      }}
+                    >
+                      &nbsp;^&nbsp;
+                    </button>
+                  </div>
+                  <img
+                    src={
+                      "/assets/pfp/slimes/" +
+                      gameData.slimePfps[slime.slimeName].pfp
+                    }
+                    alt="Slime"
+                    className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
+                    onClick={() => {
+                      router.push("/play/slimes");
+                    }}
+                  />
                 </div>
-                <img
-                  src={
-                    "/assets/pfp/slimes/" +
-                    gameData.slimePfps[slime.slimeName].pfp
-                  }
-                  alt="Slime"
-                  className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
-                  onClick={() => {
-                    router.push("/play/slimes");
-                  }}
-                />
-              </div>
-            );
-          })}
+              );
+            })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
