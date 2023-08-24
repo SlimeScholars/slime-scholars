@@ -122,10 +122,16 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
         )}
         {Array.isArray(user.roster) &&
           user.roster.map((slime, index) => {
+            // console.log(slime._id);
+            const offset = index === 1 || index === 3;
+
             if (slime === null)
               return (
                 <button
                   key={index}
+                  className={`${
+                    offset ? "transform -translate-y-16" : ""
+                  } md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto border-2 border-gray-400 rounded-md items-center text-6xl`}
                   onClick={() => {
                     router.push("/play/slimes");
                   }}
@@ -133,8 +139,6 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                   +
                 </button>
               );
-            // console.log(slime._id);
-            const offset = index === 1 || index === 3;
 
             return (
               <div
