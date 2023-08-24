@@ -104,12 +104,6 @@ function MyApp({ Component, pageProps }) {
               />
             </div>
 
-            {/* Navbar */}
-            <div className={`relative h-0 z-10`}>
-              <div className={`absolute inset-0 p-8`}>
-              </div>
-            </div>
-
             {/* Other pages */}
             <div className={`relative h-0`}>
               <div className={`absolute inset-0 p-8`}>
