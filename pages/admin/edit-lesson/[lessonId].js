@@ -299,11 +299,19 @@ export default function EditLesson({ user, loading, setLoading }) {
     setLesson(newLesson);
   };
 
+  const addQuizQuestion = () => {
+    const newLesson = { ...lesson };
+    newLesson.quizQuestions.push([]);
+    setLesson(newLesson);
+    setCurQuizQuestion(newLesson.quizQuestions.length - 1)
+    setMaxQuizSectionNumbers([...maxQuizSectionNumbers, 0])
+  }
+
   const save = () => {
     try {
       // Make sure there are at least 4 questions on the quiz
-      if (quizQuestions.length < 4) {
-        throw new Error(`There must be at least 4 quiz questions. There are currently ${maxScore}.`)
+      if (lesson.quizQuestions.length < 4) {
+        throw new Error(`There must be at least 4 quiz questions. There are currently ${lesson.quizQuestions.length}.`)
       }
 
       // Make sure there is only one question max section number
@@ -585,6 +593,15 @@ export default function EditLesson({ user, loading, setLoading }) {
             accept="image/gif, image/jpeg, image/png"
           />
         </div>
+        <div className="w-full flex flex-row items-center justify-start mt-10">
+          <button
+            className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
+            onClick={addQuizQuestion}
+          >
+            Add Quiz Question
+          </button>
+        </div>
+
         <button
           className="bg-pink-400 hover:bg-pink-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md mt-10"
           onClick={save}
@@ -599,7 +616,7 @@ export default function EditLesson({ user, loading, setLoading }) {
           maxSectionNumber={maxSectionNumber}
           setMaxSectionNumber={setMaxSectionNumber}
           maxQuizSectionNumbers={maxQuizSectionNumbers}
-          setMaxQuizSectionNumber={setMaxQuizSectionNumbers}
+          setMaxQuizSectionNumbers={setMaxQuizSectionNumbers}
           curQuizQuestion={curQuizQuestion}
           setCurQuizQuestion={setCurQuizQuestion}
         />

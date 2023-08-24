@@ -89,7 +89,7 @@ const lessonSchema = new Schema(
         _id: false,
       }],
       required: true,
-      default: [],
+      default: [[]],
       _id: false
     },
   },
