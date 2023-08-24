@@ -7,7 +7,7 @@ export default function Home({ user, setLoading, setUser, active }) {
   const [bg, setBg] = useState(undefined);
 
   useEffect(() => {
-    if (user) setBg(gameData.items[user.bg].bg);
+    if (user && user.bg) setBg(gameData.items[user.bg].bg);
   }, [user]);
 
   if (!user) {
@@ -30,9 +30,8 @@ export default function Home({ user, setLoading, setUser, active }) {
       }}
     >
       <div
-        className={`w-full h-full justify-center items-center ${
-          !active ? "backdrop-brightness-[0.25] blur-sm" : ""
-        }`}
+        className={`w-full h-full justify-center items-center ${!active ? "backdrop-brightness-[0.25] blur-sm" : ""
+          }`}
       >
         <div className={`w-full h-full ${active ? "" : "relative"}`}>
           <DisplaySlimes
