@@ -10,7 +10,7 @@ const sampleLesson = {
   unit: "Loading",
   name: "Loading",
   sections: [],
-  quizSections: [],
+  quizQuestions: [[]],
 };
 
 const emptyMC = [
@@ -48,7 +48,9 @@ export default function EditLesson({ user, loading, setLoading }) {
   const [imageIsQuiz, setImageIsQuiz] = useState(false);
 
   const [maxSectionNumber, setMaxSectionNumber] = useState(0);
-  const [maxQuizSectionNumber, setMaxQuizSectionNumber] = useState(0);
+  const [maxQuizSectionNumbers, setMaxQuizSectionNumbers] = useState([]);
+
+  const [curQuizQuestion, setCurQuizQuestion] = useState(0)
 
   useEffect(() => {
     if (loading) {
@@ -68,7 +70,7 @@ export default function EditLesson({ user, loading, setLoading }) {
       lesson.unit === sampleLesson.unit &&
       lesson.name === sampleLesson.name &&
       lesson.sections === sampleLesson.sections &&
-      lesson.quizSections === sampleLesson.quizSections
+      lesson.quizQuestions === sampleLesson.quizQuestions
     ) {
       setLoading(true);
     } else if (
@@ -79,7 +81,7 @@ export default function EditLesson({ user, loading, setLoading }) {
         lesson.unit !== sampleLesson.unit ||
         lesson.name !== sampleLesson.name ||
         lesson.sections !== sampleLesson.sections ||
-        lesson.quizSections !== sampleLesson.quizSections)
+        lesson.quizQuestions !== sampleLesson.quizQuestions)
     ) {
       setInitialLoad(false);
       setLoading(false);
@@ -91,72 +93,78 @@ export default function EditLesson({ user, loading, setLoading }) {
       return;
     }
     setLessonId(router.query.lessonId);
+
+    const config = {
+      params: {
+        lessonId: router.query.lessonId,
+      }
+    };
+
     axios
-      .get("/api/course")
+      .get("/api/admin/lesson", config)
       .then((response) => {
-        let flag = false;
-        if (response.data && response.data.courses) {
-          for (let c of response.data.courses) {
-            for (let u of c.units) {
-              for (let l of u.lessons) {
-                if (l._id === router.query.lessonId) {
-                  const newLesson = {
-                    course: c.courseName,
-                    unit: u.unitName,
-                    name: l.lessonName,
-                    sections: l.sections,
-                    quizSections: l.quizSections,
-                  };
+        const resLesson = response?.data?.lesson
+        if (!lesson) {
+          throw new Error("Lesson not found")
+        }
+        const newLesson = {
+          course: 'Course Name',
+          unit: 'Unit Name',
+          name: resLesson.lessonName,
+          sections: resLesson.sections,
+          quizQuestions: resLesson.quizQuestions,
+        }
 
-                  let newMax = 0;
-                  for (let s of l.sections) {
-                    if (s.sectionType === 3) {
-                      newLesson.sections[s.index] = {
-                        index: s.index,
-                        sectionType: s.sectionType,
-                        sectionNumber: s.sectionNumber,
-                        text: s.text,
-                        blank: s.blank.join(", "),
-                        afterBlank: s.afterBlank,
-                      };
-                    }
+        let newMax = 0
+        for (let section of resLesson.sections) {
+          // Join the blank array into a string
+          if (section.sectionType === 3) {
+            newLesson.sections[section.index] = {
+              index: section.index,
+              sectionType: section.sectionType,
+              sectionNumber: section.sectionNumber,
+              text: section.text,
+              blank: section.blank.join(", "),
+              afterBlank: section.afterBlank,
+            };
+          }
 
-                    if (s.sectionNumber > newMax) {
-                      newMax = s.sectionNumber;
-                    }
-                  }
-                  setMaxSectionNumber(newMax);
-
-                  newMax = 0;
-                  for (let s of l.quizSections) {
-                    if (s.sectionType === 3) {
-                      newLesson.quizSections[s.index] = {
-                        index: s.index,
-                        sectionType: s.sectionType,
-                        sectionNumber: s.sectionNumber,
-                        text: s.text,
-                        blank: s.blank.join(", "),
-                        afterBlank: s.afterBlank,
-                      };
-                    }
-                    if (s.sectionNumber > newMax) {
-                      newMax = s.sectionNumber;
-                    }
-                  }
-                  setMaxQuizSectionNumber(newMax);
-                  setLesson(newLesson);
-                  flag = true;
-                }
-              }
-            }
+          // Get the max section number
+          if (section.sectionNumber > newMax) {
+            newMax = section.sectionNumber
           }
         }
-        if (!flag) {
-          router.push("/admin/edit-course");
+        setMaxSectionNumber(newMax);
+
+        //
+        newMax = 0;
+        const newMaxQuizSectionNumbers = []
+        for (let i in resLesson.quizQuestions) {
+          newMax = 0
+          for (let section of resLesson.quizQuestions[i]) {
+            if (section.sectionType === 3) {
+              newLesson.quizQuestions[i][section.index] = {
+                index: section.index,
+                sectionType: section.sectionType,
+                sectionNumber: section.sectionNumber,
+                text: section.text,
+                blank: section.blank.join(", "),
+                afterBlank: section.afterBlank,
+              }
+            }
+
+            if (section.sectionNumber > newMax) {
+              newMax = section.sectionNumber
+            }
+          }
+          newMaxQuizSectionNumbers.push(newMax)
         }
+        setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
+
+        setLesson(newLesson);
       })
       .catch((error) => {
-        showToastError(error.message);
+        showToastError(error?.response?.data?.message || error.message)
         setLoading(false);
       });
   }, [router.query.lessonId]);
@@ -168,10 +176,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     };
     let newLesson = { ...lesson };
     if (textIsQuiz) {
-      newText.sectionNumber = maxQuizSectionNumber + 1;
-      newText.index = lesson.quizSections.length;
-      newLesson.quizSections.push(newText);
-      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+      newText.sectionNumber = maxQuizSectionNumbers[curQuizQuestion] + 1;
+      newText.index = lesson.quizQuestions[curQuizQuestion].length;
+      newLesson.quizQuestions[curQuizQuestion].push(newText);
+      let newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[curQuizQuestion] = maxQuizSectionNumbers[curQuizQuestion] + 1
+      setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
     } else {
       newText.sectionNumber = maxSectionNumber + 1;
       newText.index = lesson.sections.length;
@@ -193,17 +203,18 @@ export default function EditLesson({ user, loading, setLoading }) {
       options: [],
       index: lesson.sections.length,
     };
-    console.log(mc)
     for (let i in mc) {
       newMC.options.push({ ...mc[i] })
     }
 
     let newLesson = { ...lesson };
     if (mcIsQuiz) {
-      newMC.sectionNumber = maxQuizSectionNumber + 1;
-      newMC.index = lesson.quizSections.length;
-      newLesson.quizSections.push(newMC);
-      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+      newMC.sectionNumber = maxQuizSectionNumbers[curQuizQuestion] + 1;
+      newMC.index = lesson.quizQuestions[curQuizQuestion].length;
+      newLesson.quizQuestions[curQuizQuestion].push(newMC);
+      let newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[curQuizQuestion] = maxQuizSectionNumbers[curQuizQuestion] + 1
+      setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
     } else {
       newMC.sectionNumber = maxSectionNumber + 1;
       newMC.index = lesson.sections.length;
@@ -247,10 +258,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     };
     let newLesson = { ...lesson };
     if (fbIsQuiz) {
-      newFB.sectionNumber = maxQuizSectionNumber + 1;
-      newFB.index = lesson.quizSections.length;
-      newLesson.quizSections.push(newFB);
-      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+      newFB.sectionNumber = maxQuizSectionNumbers[curQuizQuestion] + 1;
+      newFB.index = lesson.quizQuestions[curQuizQuestion].length;
+      newLesson.quizQuestions[curQuizQuestion].push(newFB);
+      let newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[curQuizQuestion] = maxQuizSectionNumbers[curQuizQuestion] + 1
+      setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
     } else {
       newFB.sectionNumber = maxSectionNumber + 1;
       newFB.index = lesson.sections.length;
@@ -271,10 +284,12 @@ export default function EditLesson({ user, loading, setLoading }) {
     };
     let newLesson = { ...lesson };
     if (imageIsQuiz) {
-      newImage.sectionNumber = maxQuizSectionNumber + 1;
-      newImage.index = lesson.quizSections.length;
-      newLesson.quizSections.push(newImage);
-      setMaxQuizSectionNumber(maxQuizSectionNumber + 1);
+      newImage.sectionNumber = maxQuizSectionNumbers[curQuizQuestion] + 1;
+      newImage.index = lesson.quizQuestions[curQuizQuestion].length;
+      newLesson.quizQuestions[curQuizQuestion].push(newImage);
+      let newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[curQuizQuestion] = maxQuizSectionNumbers[curQuizQuestion] + 1
+      setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
     } else {
       newImage.sectionNumber = maxSectionNumber + 1;
       newImage.index = lesson.sections.length;
@@ -286,15 +301,9 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const save = () => {
     try {
-      // Make sure there are only 4 questions on the quiz
-      let maxScore = 0
-      for (let i in lesson.quizSections) {
-        if (lesson.quizSections[i].sectionType === 2 || lesson.quizSections[i].sectionType === 3) {
-          maxScore++
-        }
-      }
-      if (maxScore !== 4) {
-        throw new Error(`There must be exactly 4 quiz questions. There are currently ${maxScore}.`)
+      // Make sure there are at least 4 questions on the quiz
+      if (quizQuestions.length < 4) {
+        throw new Error(`There must be at least 4 quiz questions. There are currently ${maxScore}.`)
       }
 
       // Make sure there is only one question max section number
@@ -308,13 +317,16 @@ export default function EditLesson({ user, loading, setLoading }) {
         }
       }
 
-      const quizSectionsOverlap = {}
-      for (let i in lesson.quizSections) {
-        if (lesson.quizSections.sectionType === 2 || lesson.quizSections.sectionType === 3) {
-          if (quizSectionsOverlap[lesson.quizSections[i].sectionNumber]) {
-            throw new Error(`There can only one question per section number. On quiz section number ${lesson.quizSections[i].sectionNumber} there is an overlap.`)
+      // Make sure there is only one question per quiz question
+      for (let i in lesson.quizQuestions) {
+        let flag = false
+        for (let section in lesson.quizQuestions[i]) {
+          if (section.sectionType === 2 || section.sectionType === 3) {
+            if (flag) {
+              throw new Error(`There can only one question per quiz question. On quiz question number ${j} there is are multiple questions.`)
+            }
+            flag = true
           }
-          quizSectionsOverlap[lesson.quizSections[i].sectionNumber] = true
         }
       }
 
@@ -342,13 +354,16 @@ export default function EditLesson({ user, loading, setLoading }) {
           newLesson.sections[i].image = imageFiles.length - 1;
         }
       }
-      for (let i in newLesson.quizSections) {
-        if (
-          newLesson.quizSections[i].sectionType === 1 &&
-          typeof newLesson.quizSections[i].image !== "string"
-        ) {
-          imageFiles.push(newLesson.quizSections[i].image);
-          newLesson.quizSections[i].image = imageFiles.length - 1;
+
+      for (let i in newLesson.quizQuestions) {
+        for (let section of newLesson.quizQuestions[i]) {
+          if (
+            section.sectionType === 1 &&
+            typeof section.image !== "string"
+          ) {
+            imageFiles.push(section.image);
+            section.image = imageFiles.length - 1;
+          }
         }
       }
 
@@ -356,8 +371,8 @@ export default function EditLesson({ user, loading, setLoading }) {
         "data",
         JSON.stringify({
           lessonId,
-          sections: lesson.sections,
-          quizSections: lesson.quizSections,
+          sections: newLesson.sections,
+          quizQuestions: newLesson.quizQuestions,
           imageLength: imageFiles.length,
         })
       );
@@ -370,49 +385,61 @@ export default function EditLesson({ user, loading, setLoading }) {
         .put("/api/admin/lesson/update-sections", formData, config)
         .then((response) => {
           if (response.data && response.data.lesson) {
+            const resLesson = response.data.lesson
             const newLesson = {
               ...lesson,
-              sections: response.data.lesson.sections,
-              quizSections: response.data.lesson.quizSections,
+              sections: resLesson.sections,
+              quizQuestions: resLesson.quizQuestions,
             };
 
-            let newMax = 0;
-            for (let s of response.data.lesson.sections) {
-              if (s.sectionType === 3) {
-                newLesson.sections[s.index] = {
-                  index: s.index,
-                  sectionType: s.sectionType,
-                  sectionNumber: s.sectionNumber,
-                  text: s.text,
-                  blank: s.blank.join(", "),
-                  afterBlank: s.afterBlank,
+            let newMax = 0
+            for (let section of resLesson.sections) {
+              // Join the blank array into a string
+              if (section.sectionType === 3) {
+                newLesson.sections[section.index] = {
+                  index: section.index,
+                  sectionType: section.sectionType,
+                  sectionNumber: section.sectionNumber,
+                  text: section.text,
+                  blank: section.blank.join(", "),
+                  afterBlank: section.afterBlank,
                 };
               }
 
-              if (s.sectionNumber > newMax) {
-                newMax = s.sectionNumber;
+              // Get the max section number
+              if (section.sectionNumber > newMax) {
+                newMax = section.sectionNumber
               }
             }
             setMaxSectionNumber(newMax);
 
+            //
             newMax = 0;
-            for (let s of response.data.lesson.quizSections) {
-              if (s.sectionType === 3) {
-                newLesson.quizSections[s.index] = {
-                  index: s.index,
-                  sectionType: s.sectionType,
-                  sectionNumber: s.sectionNumber,
-                  text: s.text,
-                  blank: s.blank.join(", "),
-                  afterBlank: s.afterBlank,
-                };
-              }
+            const newMaxQuizSectionNumbers = []
+            for (let i in resLesson.quizQuestions) {
+              newMax = 0
+              for (let section of resLesson.quizQuestions[i]) {
+                if (section.sectionType === 3) {
+                  newLesson.quizQuestions[i][section.index] = {
+                    index: section.index,
+                    sectionType: section.sectionType,
+                    sectionNumber: section.sectionNumber,
+                    text: section.text,
+                    blank: section.blank.join(", "),
+                    afterBlank: section.afterBlank,
+                  }
+                }
 
-              if (s.sectionNumber > newMax) {
-                newMax = s.sectionNumber;
+                if (section.sectionNumber > newMax) {
+                  newMax = section.sectionNumber
+                }
               }
+              newMaxQuizSectionNumbers.push(newMax)
             }
-            setMaxQuizSectionNumber(newMax);
+            setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
+
+            setLesson(newLesson);
+
             setLesson(newLesson);
             showToastError("Lesson updated successfully.", true);
           }
@@ -571,8 +598,10 @@ export default function EditLesson({ user, loading, setLoading }) {
           setLesson={setLesson}
           maxSectionNumber={maxSectionNumber}
           setMaxSectionNumber={setMaxSectionNumber}
-          maxQuizSectionNumber={maxQuizSectionNumber}
-          setMaxQuizSectionNumber={setMaxQuizSectionNumber}
+          maxQuizSectionNumbers={maxQuizSectionNumbers}
+          setMaxQuizSectionNumber={setMaxQuizSectionNumbers}
+          curQuizQuestion={curQuizQuestion}
+          setCurQuizQuestion={setCurQuizQuestion}
         />
       </div>
     </div>
