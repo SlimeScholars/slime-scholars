@@ -107,17 +107,16 @@ function MyApp({ Component, pageProps }) {
             {/* Navbar */}
             <div className={`relative h-0 z-10`}>
               <div className={`absolute inset-0 p-8`}>
-                <Navbar user={user} current={current} />
               </div>
             </div>
 
             {/* Other pages */}
             <div className={`relative h-0`}>
               <div className={`absolute inset-0 p-8`}>
-                {/* Margin for the navbar */}
-                <div className="mt-[10rem]">
-                  <Component {...modifiedPageProps} />
+                <div className="relative z-20">
+                  <Navbar user={user} current={current} />
                 </div>
+                <Component {...modifiedPageProps} />
               </div>
             </div>
           </>
