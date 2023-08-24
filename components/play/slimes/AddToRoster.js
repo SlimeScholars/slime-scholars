@@ -67,12 +67,12 @@ export default function AddToRoster({
 
   return (
     <div className="flex flex-col px-8 py-4">
-      <div className="flex flex-row justify-between">
-        <div>
-          <p className="text-md mx-1"> Add to team</p>
-          <p className="text-xs mb-2 mx-1"> Choose a slime to replace</p>
-        </div>
-        {inRoster && (
+      {inRoster ? (
+        <div className="flex flex-row justify-between">
+          <div>
+            <p className="text-md mx-1"> Add to team</p>
+            <p className="text-xs mb-2 mx-1"> Choose a slime to replace</p>
+          </div>
           <div>
             <button
               className="bg-pink-400 p-2 text-sm"
@@ -83,8 +83,13 @@ export default function AddToRoster({
               Unequip
             </button>
           </div>
-        )}
-      </div>
+        </div>
+      ) : (
+        <div>
+          <p className="text-md mx-1"> Add to team</p>
+          <p className="text-xs mb-2 mx-1"> Choose a slime to add/replace</p>
+        </div>
+      )}
       <div className="flex flex-row justify-around items-center">
         <Roster
           user={user}
