@@ -89,7 +89,7 @@ export default function LessonPreview({
 
   const deleteQuizSection = (index, questionIndex) => {
     const newQuizQuestions = [...lesson.quizQuestions];
-    const newQuizSections = newQuizQuestions[questionIndex]
+    const newQuizSections = [...newQuizQuestions[questionIndex]]
     newQuizSections.splice(index, 1);
 
     // Update maxSectionNumber if needed
@@ -104,6 +104,7 @@ export default function LessonPreview({
       newMaxQuizSectionNumbers[questionIndex] = newMax
       setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
     }
+    newQuizQuestions[questionIndex] = newQuizSections
     updateQuizIndices(newQuizQuestions, questionIndex);
     updateQuizQuestions(newQuizQuestions);
   };
@@ -242,6 +243,16 @@ export default function LessonPreview({
           <Fragment
             key={`quiz-question-${questionIndex}`}
           >
+            <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
+              <div className="w-full h-[1px] bg-pink-200 mb-3" />
+              <h1 className="text-2xl mt-2 mb-0.5 cursor-pointer"
+                onClick={() => {
+                  setCurQuizQuestion(questionIndex)
+                }}
+              >
+                Question {questionIndex + 1}.
+              </h1>
+            </div>
             {quizQuestion.map((quizSection, index) => {
               // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
               switch (quizSection.sectionType) {
