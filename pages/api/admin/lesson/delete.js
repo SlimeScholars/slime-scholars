@@ -60,9 +60,9 @@ export default async function (req, res) {
 			}
 		}
 
-		for (let i in lesson.quizSections) {
-			if (lesson.quizSections[i].sectionType === 1) {
-				const imageUrl = lesson.quizSections[i].image
+		for (let i in lesson.quizQuestions) {
+			for (let j in lesson.quizQuestions[i]) {
+				const imageUrl = lesson.quizQuestions[i][j].image
 				const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
 				await cloudinary.uploader.destroy(publicId, (error, result) => {
 					if (error) {
