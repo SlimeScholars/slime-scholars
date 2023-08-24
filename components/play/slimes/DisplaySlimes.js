@@ -125,6 +125,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
             if (slime === null)
               return (
                 <button
+                  key={index}
                   onClick={() => {
                     router.push("/play/slimes");
                   }}
