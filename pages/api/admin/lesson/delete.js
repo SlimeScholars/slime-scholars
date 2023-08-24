@@ -6,20 +6,15 @@ import Unit from "../../../../models/unitModel"
 import { v2 as cloudinary } from 'cloudinary';
 import User from "../../../../models/userModel"
 
-export const config = {
-	api: {
-		bodyParser: false,
-	},
-};
-
 /**
- * @desc    Delete a lesson and handle the appropriate image deletes from cloudinary
+ * @desc    Delete a lesson and handle the appropriate image deletes from cloudinary. Won't handle for processing things like unit tier (bronze, silver, gold, etc.)
  * @route   DELETE /api/admin/lesson/update-sections
  * @access  Private - Admin
  * @param   {string} req.query.lessonId - Id of lesson you want to delete
  */
 export default async function (req, res) {
 	try {
+		// TODO: Investigate why course select is broken
 		if (req.method !== 'DELETE') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
