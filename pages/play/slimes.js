@@ -23,10 +23,16 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     }
   }, [user, loading]);
 
+  const handleNavHome = (event) => {
+    if (event.target.classList.contains("home")) {
+      router.push("/play");
+    }
+  };
+
   return (
     //
     <div>
-      <div className="pt-5">
+      <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
@@ -53,7 +59,10 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
           </div>
         </div>
         {/* Slimes inventory, all users slimes */}
-        <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
+        <div
+          className="pt-8 flex flex-row gap-4 items-start font-galindo home"
+          onClick={handleNavHome}
+        >
           <div className=" basis-1/2 ">
             <div className="bg-white/50 rounded-lg ">
               <div className="items-center">

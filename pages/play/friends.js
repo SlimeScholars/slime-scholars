@@ -75,9 +75,15 @@ export default function Friends({ loading, user }) {
     };
   }, []);
 
+  const handleNavHome = (event) => {
+    if (event.target.classList.contains("home")) {
+      router.push("/play");
+    }
+  };
+
   return (
     <div>
-      <div className="pt-5">
+      <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/*  Add Friend  and others */}
           <div className="flex flex-row bg-white/50 rounded-lg items-center">
@@ -102,7 +108,10 @@ export default function Friends({ loading, user }) {
           </div>
 
           {/* Default: leaderboard and managing friends */}
-          <div className="pt-8 flex flex-row gap-4 items-start font-galindo">
+          <div
+            className="pt-8 flex flex-row gap-4 items-start font-galindo home"
+            onClick={handleNavHome}
+          >
             {/* Leaderboard */}
             <div className="pr-4 basis-1/2 ">
               <div className="bg-white/50 rounded-lg">
