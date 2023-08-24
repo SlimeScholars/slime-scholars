@@ -11,6 +11,7 @@ export default function TextSection({
   moveSection,
   active,
   sectionNumber,
+  questionIndex,
 }) {
   const [parsedText, setParsedText] = useState(<></>);
 
@@ -30,6 +31,7 @@ export default function TextSection({
             changeSectionNumber={changeSectionNumber}
             deleteSection={deleteSection}
             moveSection={moveSection}
+            questionIndex={questionIndex}
           />
         )}
         <div className="text-xl w-full text-center py-3 font-averia text-pink-400">

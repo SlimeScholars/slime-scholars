@@ -14,6 +14,7 @@ export default function FBSection({
   increment,
   isQuiz,
   addScore,
+  questionIndex,
 }) {
   const [selected, setSelected] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -40,6 +41,7 @@ export default function FBSection({
             changeSectionNumber={changeSectionNumber}
             deleteSection={deleteSection}
             moveSection={moveSection}
+            questionIndex={questionIndex}
           />
         )}
         <div className="w-full flex flex-row flex-wrap items-center justify-center gap-3 mt-5">
