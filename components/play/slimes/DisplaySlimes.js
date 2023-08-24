@@ -110,7 +110,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
   // );
 
   return (
-    <div className="flex flex-row fixed -bottom-4 items-center justify-center w-full">
+    <div className="flex flex-row fixed bottom-0 items-center justify-center w-full">
       <div className="flex flex-row ">
         {showLevelUpPopup && (
           <PopUpDetails
@@ -138,8 +138,9 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
             return (
               <div
                 key={index}
-                className={`flex flex-col ${offset ? "transform -translate-y-16" : ""
-                  }`}
+                className={`flex flex-col ${
+                  offset ? "transform -translate-y-16" : ""
+                }`}
               >
                 <div className="flex flex-row items-center mx-auto">
                   <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
