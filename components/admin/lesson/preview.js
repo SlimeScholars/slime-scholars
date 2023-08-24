@@ -243,15 +243,15 @@ export default function LessonPreview({
           <Fragment
             key={`quiz-question-${questionIndex}`}
           >
-            <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
+            <div className={`w-full flex items-center justify-start flex-col font-galindo mt-10 ${curQuizQuestion === questionIndex ? 'text-pink-900' : 'text-pink-400'}`}>
               <div className="w-full h-[1px] bg-pink-200 mb-3" />
-              <h1 className="text-2xl mt-2 mb-0.5 cursor-pointer"
+              <h3 className="text-2xl mt-2 mb-0.5 cursor-pointer"
                 onClick={() => {
                   setCurQuizQuestion(questionIndex)
                 }}
               >
                 Question {questionIndex + 1}.
-              </h1>
+              </h3>
             </div>
             {quizQuestion.map((quizSection, index) => {
               // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank

@@ -56,7 +56,7 @@ export default function EditLesson({ user, loading, setLoading }) {
     if (loading) {
       return;
     }
-    if (!user || user.userType !== 4) {
+    else if (!user || user.userType !== 4) {
       router.push("/");
     }
   }, [user, loading]);
