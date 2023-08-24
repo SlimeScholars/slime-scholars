@@ -15,6 +15,10 @@ const sectionSchema = new Schema(
       type: Number,
       required: [true, 'Missing sectionNumber'],
     },
+    explanation: {
+      type: String,
+      required: false,
+    },
     text: {
       type: String,
       required: false,
