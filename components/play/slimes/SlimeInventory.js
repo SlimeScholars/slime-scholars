@@ -6,9 +6,11 @@ export default function SlimeInventory({ user, loading, setSlime }) {
       {Array.isArray(user.slimes) &&
         user.slimes.map((slime, index) => {
           return (
-            <div className="relative">
+            <div
+              className="relative"
+              key={index}
+            >
               <div
-                key={index}
                 className="overflow-hidden rounded-lg"
               >
                 <div
