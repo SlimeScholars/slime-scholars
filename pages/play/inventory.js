@@ -41,12 +41,18 @@ export default function Backpack({ loading, user }) {
     }
   }, [user, loading]);
 
+  const handleNavHome = (event) => {
+    if (event.target.classList.contains("home")) {
+      router.push("/play");
+    }
+  };
+
   return (
     <div>
-      <div className="pt-5">
+      <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/*  Inventory bar */}
-          <div className="flex flex-row bg-white/75 rounded-lg items-center">
+          <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
               <img
                 src="/assets/icons/inventory.png"
@@ -62,7 +68,10 @@ export default function Backpack({ loading, user }) {
           </div>
 
           {/* Default: inventory lists and item details */}
-          <div className="py-8 flex flex-row font-galindo w-full">
+          <div
+            className="py-8 flex flex-row font-galindo w-full home"
+            onClick={handleNavHome}
+          >
             {/* Inventory List */}
             <div className="pr-4 basis-4/7">
               <ItemList
@@ -73,7 +82,7 @@ export default function Backpack({ loading, user }) {
             </div>
 
             {/* Item details */}
-            <div className="basis-3/7 bg-white/75 rounded-lg">
+            <div className="basis-3/7 bg-white/50 rounded-lg">
               <ItemDetails
                 item={itemOnClick}
                 user={user}
