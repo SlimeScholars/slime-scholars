@@ -1,5 +1,5 @@
-import connectDB from '../../../utils/connectDB'
-import Lesson from '../../../models/lessonModel'
+import connectDB from '../../../../utils/connectDB'
+import Lesson from '../../../../models/lessonModel'
 
 /**
  * @desc    Get information of a lesson
