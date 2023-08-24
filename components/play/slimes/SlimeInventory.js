@@ -9,7 +9,7 @@ export default function SlimeInventory({ user, loading, setSlime }) {
             <div className="relative" key={index}>
               <div className="overflow-hidden rounded-lg">
                 <div
-                  className={`flex flex-col flex-wrap w-full rounded-lg ${
+                  className={`flex flex-col flex-wrap w-full ${
                     gameData.rarityColours[slime.rarity].bg
                   } ${gameData.rarityColours[slime.rarity].bord}`}
                 >

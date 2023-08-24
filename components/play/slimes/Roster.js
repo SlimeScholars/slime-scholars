@@ -75,7 +75,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
             return (
               <div className="relative" key={index}>
                 <div className="overflow-hidden rounded-lg">
-                  <div className="border-2 border-gray-400 rounded-md">
+                  <div className="border-4 border-gray-400 rounded-md">
                     <button
                       onClick={() => {
                         handleClick(slime._id, index);
@@ -94,7 +94,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
               <div className="overflow-hidden rounded-lg">
                 <div
                   key={index}
-                  className={`flex flex-col relative flex-wrap w-32 rounded-lg ${
+                  className={`flex flex-col relative flex-wrap w-32 ${
                     gameData.rarityColours[char.rarity].bg
                   } ${gameData.rarityColours[char.rarity].bord}`}
                 >
