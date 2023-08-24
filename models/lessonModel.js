@@ -86,6 +86,7 @@ const lessonSchema = new Schema(
       }],
       required: true,
       default: [],
+      _id: false
     },
   },
   {
