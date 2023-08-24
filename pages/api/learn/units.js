@@ -13,7 +13,7 @@ import "../../../models/unitModel"
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'GET') {
+    if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
 
@@ -34,18 +34,18 @@ export default async function (req, res) {
         path: 'units',
         select: '_id unitName',
       })
-    
+
     const modifiedUnits = []
     // Check user for completed
-    for(let i in course.units) {
+    for (let i in course.units) {
       modifiedUnits.push({
         _id: course.units[i]._id,
         unitName: course.units[i].unitName,
         tier: 0,
       })
-      for(let j in user.completedUnits) {
-        if(
-          (user.completedUnits[j].unit._id && user.completedUnits[j]._id.equals(course.units[i]._id)) ||
+      for (let j in user.completedUnits) {
+        if (
+          (user.completedUnits[j].unit._id && user.completedUnits[j].unit._id.equals(course.units[i]._id)) ||
           user.completedUnits[j].unit.equals(course.units[i]._id)
         ) {
           modifiedUnits[i].tier = user.completedUnits[j].tier
@@ -54,10 +54,10 @@ export default async function (req, res) {
     }
 
     res.json({
-      courseName: course.courseName, 
+      courseName: course.courseName,
       units: modifiedUnits,
     })
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }
