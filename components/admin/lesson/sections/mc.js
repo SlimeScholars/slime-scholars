@@ -13,6 +13,7 @@ export default function MCSection({
   increment,
   isQuiz,
   addScore,
+  questionIndex,
 }) {
   const [selected, setSelected] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -47,6 +48,7 @@ export default function MCSection({
             changeSectionNumber={changeSectionNumber}
             deleteSection={deleteSection}
             moveSection={moveSection}
+            questionIndex={questionIndex}
           />
         )}
         <div className="w-full grid grid-cols-2 gap-3 mt-5">

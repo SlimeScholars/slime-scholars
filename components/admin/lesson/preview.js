@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import TextSection from "./sections/text";
 import MCSection from "./sections/mc";
 import FBSection from "./sections/fb";
@@ -10,8 +10,11 @@ export default function LessonPreview({
   setLesson,
   maxSectionNumber,
   setMaxSectionNumber,
-  maxQuizSectionNumber,
-  setMaxQuizSectionNumber,
+  maxQuizSectionNumbers,
+  setMaxQuizSectionNumbers,
+
+  curQuizQuestion,
+  setCurQuizQuestion,
 }) {
   // number refers to the ordered group number the section appears with
   const changeSectionNumber = (index, number) => {
@@ -38,30 +41,32 @@ export default function LessonPreview({
     updateSections(newSections);
   };
 
-  const changeQuizSectionNumber = (index, number) => {
+  const changeQuizSectionNumber = (index, number, questionIndex) => {
     if (parseInt(number) < 0) {
       showToastError("Cannot have a negative section number");
       return;
     }
-    let newQuizSections = [...lesson.quizSections];
-    newQuizSections[index].sectionNumber = parseInt(number);
+    //
+    let newQuizQuestions = [...lesson.quizQuestions]
+    newQuizQuestions[questionIndex][index].sectionNumber = parseInt(number)
 
     // Update section number
-    if (parseInt(number) > maxQuizSectionNumber) {
-      setMaxQuizSectionNumber(parseInt(number));
-    } else if (
-      lesson.quizSections[index].sectionNumber === maxQuizSectionNumber
-    ) {
-      let newMax = 0;
-      for (let s of newQuizSections) {
+    if (parseInt(number) > maxQuizSectionNumbers[questionIndex]) {
+      const newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[questionIndex] = parseInt(number)
+    }
+    else if (lesson.quizQuestions[questionIndex][index].sectionNumber === maxQuizSectionNumbers[questionIndex]) {
+      let newMax = 0
+      for (let s of newQuizQuestions[questionIndex]) {
         if (s.sectionNumber > newMax) {
-          newMax = s.sectionNumber;
+          newMax = s.sectionNumber
         }
       }
-      setMaxQuizSectionNumber(newMax);
+      const newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[questionIndex] = newMax
     }
 
-    updateQuizSections(newQuizSections);
+    updateQuizQuestions(newQuizQuestions);
   };
 
   const deleteSection = (index) => {
@@ -82,22 +87,25 @@ export default function LessonPreview({
     updateSections(newSections);
   };
 
-  const deleteQuizSection = (index) => {
-    let newQuizSections = [...lesson.quizSections];
+  const deleteQuizSection = (index, questionIndex) => {
+    const newQuizQuestions = [...lesson.quizQuestions];
+    const newQuizSections = newQuizQuestions[questionIndex]
     newQuizSections.splice(index, 1);
 
     // Update maxSectionNumber if needed
-    if (lesson.quizSections[index].sectionNumber === maxQuizSectionNumber) {
+    if (lesson.quizQuestions[questionIndex][index].sectionNumber === maxQuizSectionNumbers[questionIndex]) {
       let newMax = 0;
       for (let s of newQuizSections) {
         if (s.sectionNumber > newMax) {
           newMax = s.sectionNumber;
         }
       }
-      setMaxQuizSectionNumber(newMax);
+      const newMaxQuizSectionNumbers = [...maxQuizSectionNumbers]
+      newMaxQuizSectionNumbers[questionIndex] = newMax
+      setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
     }
-    updateQuizIndices(newQuizSections);
-    updateQuizSections(newQuizSections);
+    updateQuizIndices(newQuizQuestions, questionIndex);
+    updateQuizQuestions(newQuizQuestions);
   };
 
   const moveSection = (index, direction) => {
@@ -111,18 +119,21 @@ export default function LessonPreview({
     updateSections(newSections);
   };
 
-  const moveQuizSection = (index, direction) => {
+  const moveQuizSection = (index, direction, questionIndex) => {
     if (
       index + direction < 0 ||
-      index + direction >= lesson.quizSections.length
+      index + direction >= lesson.quizQuestions[questionIndex].length
     )
       return;
-    let newQuizSections = [...lesson.quizSections];
+
+
+    const newQuizQuestions = [...lesson.quizQuestions];
+    const newQuizSections = newQuizQuestions[questionIndex]
     let temp = newQuizSections[index];
     newQuizSections[index] = newQuizSections[index + direction];
     newQuizSections[index + direction] = temp;
-    updateQuizIndices(newQuizSections);
-    updateQuizSections(newQuizSections);
+    updateQuizIndices(newQuizQuestions, questionIndex);
+    updateQuizQuestions(newQuizQuestions);
   };
 
   const updateIndices = (newSections) => {
@@ -132,11 +143,12 @@ export default function LessonPreview({
     updateSections(newSections);
   };
 
-  const updateQuizIndices = (newQuizSections) => {
+  const updateQuizIndices = (newQuizQuestions, questionIndex) => {
+    const newQuizSections = newQuizQuestions[questionIndex]
     for (let i = 0; i < newQuizSections.length; i++) {
       newQuizSections[i].index = i;
     }
-    updateQuizSections(newQuizSections);
+    updateQuizQuestions(newQuizQuestions);
   };
 
   const updateSections = (newSections) => {
@@ -145,9 +157,9 @@ export default function LessonPreview({
     setLesson(newLesson);
   };
 
-  const updateQuizSections = (newQuizSections) => {
+  const updateQuizQuestions = (newQuizQuestions) => {
     let newLesson = { ...lesson };
-    newLesson.quizSections = newQuizSections;
+    newLesson.quizQuestions = newQuizQuestions;
     setLesson(newLesson);
   };
 
@@ -219,63 +231,79 @@ export default function LessonPreview({
           }
         })}
 
-        <div>Quiz</div>
-        {lesson.quizSections.map((quizSection, index) => {
-          // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
-          switch (quizSection.sectionType) {
-            case 0:
-              return (
-                <TextSection
-                  key={index}
-                  text={quizSection.text}
-                  section={quizSection}
-                  changeSectionNumber={changeQuizSectionNumber}
-                  deleteSection={deleteQuizSection}
-                  moveSection={moveQuizSection}
-                  active={false}
-                />
-              );
-            case 1:
-              return (
-                <ImgSection
-                  key={index}
-                  image={quizSection.image}
-                  section={quizSection}
-                  changeSectionNumber={changeQuizSectionNumber}
-                  deleteSection={deleteQuizSection}
-                  moveSection={moveQuizSection}
-                  active={false}
-                />
-              );
-            case 2:
-              return (
-                <MCSection
-                  key={index}
-                  options={quizSection.options}
-                  section={quizSection}
-                  changeSectionNumber={changeQuizSectionNumber}
-                  deleteSection={deleteQuizSection}
-                  moveSection={moveQuizSection}
-                  active={false}
-                />
-              );
-            case 3:
-              return (
-                <FBSection
-                  key={index}
-                  text={quizSection.text}
-                  afterBlank={quizSection.afterBlank}
-                  section={quizSection}
-                  changeSectionNumber={changeQuizSectionNumber}
-                  deleteSection={deleteQuizSection}
-                  moveSection={moveQuizSection}
-                  active={false}
-                />
-              );
-            default:
-              return <div key={index} />;
-          }
-        })}
+        <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
+          <div className="w-full h-[1px] bg-pink-200 mb-3" />
+          <h1 className="text-3xl mt-3 mb-1">
+            Quiz
+          </h1>
+          <div className="w-full h-[1px] bg-pink-200 mt-3" />
+        </div>
+        {lesson.quizQuestions.map((quizQuestion, questionIndex) => (
+          <Fragment
+            key={`quiz-question-${questionIndex}`}
+          >
+            {quizQuestion.map((quizSection, index) => {
+              // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
+              switch (quizSection.sectionType) {
+                case 0:
+                  return (
+                    <TextSection
+                      key={`quiz-section-${questionIndex}-${index}`}
+                      text={quizSection.text}
+                      section={quizSection}
+                      changeSectionNumber={changeQuizSectionNumber}
+                      deleteSection={deleteQuizSection}
+                      moveSection={moveQuizSection}
+                      active={false}
+                      questionIndex={questionIndex}
+                    />
+                  );
+                case 1:
+                  return (
+                    <ImgSection
+                      key={`quiz-section-${questionIndex}-${index}`}
+                      image={quizSection.image}
+                      section={quizSection}
+                      changeSectionNumber={changeQuizSectionNumber}
+                      deleteSection={deleteQuizSection}
+                      moveSection={moveQuizSection}
+                      active={false}
+                      questionIndex={questionIndex}
+                    />
+                  );
+                case 2:
+                  return (
+                    <MCSection
+                      key={`quiz-section-${questionIndex}-${index}`}
+                      options={quizSection.options}
+                      section={quizSection}
+                      changeSectionNumber={changeQuizSectionNumber}
+                      deleteSection={deleteQuizSection}
+                      moveSection={moveQuizSection}
+                      active={false}
+                      questionIndex={questionIndex}
+                    />
+                  );
+                case 3:
+                  return (
+                    <FBSection
+                      key={`quiz-section-${questionIndex}-${index}`}
+                      text={quizSection.text}
+                      afterBlank={quizSection.afterBlank}
+                      section={quizSection}
+                      changeSectionNumber={changeQuizSectionNumber}
+                      deleteSection={deleteQuizSection}
+                      moveSection={moveQuizSection}
+                      active={false}
+                      questionIndex={questionIndex}
+                    />
+                  );
+                default:
+                  return <div key={index} />;
+              }
+            })}
+          </Fragment>
+        ))}
       </div>
     </div>
   );

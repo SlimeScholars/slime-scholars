@@ -10,6 +10,7 @@ export default function ImgSection({
   moveSection,
   active,
   sectionNumber,
+  questionIndex,
 }) {
   const [img, setImg] = useState(null);
   useEffect(() => {
@@ -36,6 +37,7 @@ export default function ImgSection({
             changeSectionNumber={changeSectionNumber}
             deleteSection={deleteSection}
             moveSection={moveSection}
+            questionIndex={questionIndex}
           />
         )}
         <div className="w-full flex justify-center items-center mt-5">
