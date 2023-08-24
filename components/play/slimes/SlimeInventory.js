@@ -6,16 +6,12 @@ export default function SlimeInventory({ user, loading, setSlime }) {
       {Array.isArray(user.slimes) &&
         user.slimes.map((slime, index) => {
           return (
-            <div
-              className="relative"
-              key={index}
-            >
-              <div
-                className="overflow-hidden rounded-lg"
-              >
+            <div className="relative" key={index}>
+              <div className="overflow-hidden rounded-lg">
                 <div
-                  className={`flex flex-col flex-wrap w-full rounded-lg ${gameData.rarityColours[slime.rarity].bg
-                    } ${gameData.rarityColours[slime.rarity].bord}`}
+                  className={`flex flex-col flex-wrap w-full rounded-lg ${
+                    gameData.rarityColours[slime.rarity].bg
+                  } ${gameData.rarityColours[slime.rarity].bord}`}
                 >
                   <button
                     onClick={() => {
