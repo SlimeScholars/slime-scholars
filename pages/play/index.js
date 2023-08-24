@@ -10,8 +10,6 @@ import PopUpDetails from "../../components/play/slimes/PopUpDetails";
 export default function Play({ loading, user, setLoading, setUser }) {
   const router = useRouter();
 
-  const [bg, setBg] = useState(undefined)
-
   useEffect(() => {
     if (loading) {
       return;
@@ -19,7 +17,6 @@ export default function Play({ loading, user, setLoading, setUser }) {
     if (!user || user.userType !== 1) {
       router.push("/");
     }
-    setBg(gameData.items[user.bg].bg)
   }, [user, loading]);
 
   // Home will be rendered via the Home component found on app. This is to prevent a rerendering of home when switching between pages
