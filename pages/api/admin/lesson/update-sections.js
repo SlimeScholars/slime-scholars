@@ -71,6 +71,9 @@ export default async function (req, res) {
       let flag = true
       for (let j in quizQuestions[i]) {
         if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
+          if (!flag) {
+            throw new Error(`Every quiz question can only have one question in it. Question ${i + 1} does not.`)
+          }
           flag = false
         }
       }
