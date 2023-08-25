@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Stars from "../../../../../../components/learn/stars";
@@ -24,10 +24,11 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
   const [sectionNumber, setSectionNumber] = useState(1);
   const [maxSectionNumber, setMaxSectionNumber] = useState(Number.MAX_SAFE_INTEGER)
   const [quizSectionNumber, setQuizSectionNumber] = useState(-1)
-  const [maxQuizSectionNumber, setMaxQuizSectionNumber] = useState(Number.MAX_SAFE_INTEGER)
+  const [maxQuizSectionNumbers, setMaxQuizSectionNumbers] = useState(Number.MAX_SAFE_INTEGER)
+  const [curQuizQuestion, setCurQuizQuestion] = useState(-1)
 
-  const [courseName, setCourseName] = useState('')
-  const [unitName, setUnitName] = useState('')
+  const [courseName, setCourseName] = useState('Loading...')
+  const [unitName, setUnitName] = useState('Loading...')
 
   useEffect(() => {
     const token = localStorage.getItem("jwt");
@@ -53,6 +54,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
             setLesson(res.data.lesson);
             setUnitName(res.data.unitName)
             setCourseName(res.data.courseName)
+
             let newMax = 0
             for (let i in res.data.lesson.sections) {
               if (res.data.lesson.sections[i].sectionNumber > newMax) {
@@ -61,13 +63,18 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
             }
             setMaxSectionNumber(newMax)
 
-            newMax = 0
-            for (let i in res.data.lesson.quizSections) {
-              if (res.data.lesson.quizSections[i].sectionNumber > newMax) {
-                newMax = res.data.lesson.quizSections[i].sectionNumber
+            const newMaxQuizSectionNumbers = []
+            for (let i in res.data.lesson.quizQuestions) {
+              newMax = 0
+              for (let section of res.data.lesson.quizQuestions[i]) {
+                if (section.sectionNumber > newMax) {
+                  newMax = section.sectionNumber
+                }
               }
+              newMaxQuizSectionNumbers.push(newMax)
             }
-            setMaxQuizSectionNumber(newMax)
+            setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
+
             setLoading(false);
           } else {
             throw new Error("Failed to fetch lesson");
@@ -91,14 +98,25 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
 
   const clickIncrement = () => {
     if (sectionNumber === maxSectionNumber + 1) {
-      if (quizSectionNumber === maxQuizSectionNumber + 1) {
+      if (curQuizQuestion === -1) {
+        setCurQuizQuestion(0)
+      }
+      if (curQuizQuestion === lesson.quizQuestions.length) {
+        return
+      }
+      if (quizSectionNumber === maxQuizSectionNumbers[curQuizQuestion]) {
+        setDelayedIncrement(false)
+        setCurQuizQuestion(curQuizQuestion + 1)
+        setQuizSectionNumber(0)
         return
       }
       if (delayedIncrement) {
         setDelayedIncrement(false)
+        setQuizSectionNumber(quizSectionNumber + 1)
+        return
       }
       else {
-        const quizSections = lesson.quizSections
+        const quizSections = lesson.quizQuestions[curQuizQuestion]
         for (let i in quizSections) {
           if (
             quizSections[i].sectionNumber === quizSectionNumber &&
@@ -135,7 +153,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
 
   useEffect(() => {
     scrollToBottom()
-  }, [sectionNumber, quizSectionNumber])
+  }, [sectionNumber, quizSectionNumber, curQuizQuestion])
 
   const questionIncrement = (questionSectionNumber) => {
     if (questionSectionNumber === sectionNumber) {
@@ -320,7 +338,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
               case 0:
                 return (
                   <TextSection
-                    key={index}
+                    key={`lesson-section-${index}`}
                     text={section.text}
                     section={section}
                     active={true}
@@ -330,7 +348,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
               case 1:
                 return (
                   <ImgSection
-                    key={index}
+                    key={`lesson-section-${index}`}
                     image={section.image}
                     section={section}
                     active={true}
@@ -340,7 +358,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
               case 2:
                 return (
                   <MCSection
-                    key={index}
+                    key={`lesson-section-${index}`}
                     options={section.options}
                     section={section}
                     active={true}
@@ -351,7 +369,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
               case 3:
                 return (
                   <FBSection
-                    key={index}
+                    key={`lesson-section-${index}`}
                     text={section.text}
                     afterBlank={section.afterBlank}
                     section={section}
@@ -367,71 +385,93 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
 
           {
             quizSectionNumber !== -1 ?
-              <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
-                <div className="w-full h-[1px] bg-pink-200 mb-3" />
-                <h1 className="text-3xl mt-3 mb-1">
-                  Quiz
-                </h1>
-                <div className="w-full h-[1px] bg-pink-200 mt-3" />
-              </div> : <></>
+              <>
+                <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
+                  <div className="w-full h-[1px] bg-pink-200 mb-3" />
+                  <h1 className="text-3xl mt-3 mb-1">
+                    Quiz
+                  </h1>
+                  <div className="w-full h-[1px] bg-pink-200 mt-3" />
+                </div>
+                {lesson && lesson.quizQuestions && lesson.quizQuestions.map((quizQuestion, questionIndex) => (
+                  <Fragment key={`quiz-question-${questionIndex}`}>
+                    {curQuizQuestion >= questionIndex ?
+                      <div className='w-full flex items-center justify-start flex-col font-galindo mt-10 text-pink-400'>
+                        <h3 className="text-2xl mt-2 mb-0.5">
+                          Question {questionIndex + 1}.
+                        </h3>
+                      </div> : <></>
+                    }
+                    {quizQuestion.map((quizSection, index) => {
+                      // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
+                      switch (quizSection.sectionType) {
+                        case 0:
+                          return (
+                            <TextSection
+                              key={`quiz-section-${questionIndex}-${index}`}
+                              text={quizSection.text}
+                              section={quizSection}
+                              active={true}
+                              sectionNumber={quizSectionNumber}
+                              questionNumber={questionIndex}
+                              curQuizQuestion={curQuizQuestion}
+                            />
+                          );
+                        case 1:
+                          return (
+                            <ImgSection
+                              key={`quiz-section-${questionIndex}-${index}`}
+                              image={quizSection.image}
+                              section={quizSection}
+                              active={true}
+                              sectionNumber={quizSectionNumber}
+                              questionNumber={questionIndex}
+                              curQuizQuestion={curQuizQuestion}
+                            />
+                          );
+                        case 2:
+                          return (
+                            <MCSection
+                              key={`quiz-section-${questionIndex}-${index}`}
+                              options={quizSection.options}
+                              section={quizSection}
+                              active={true}
+                              sectionNumber={quizSectionNumber}
+                              increment={quizQuestionIncrement}
+                              isQuiz={true}
+                              addScore={addScore}
+                              questionNumber={questionIndex}
+                              curQuizQuestion={curQuizQuestion}
+                            />
+                          );
+                        case 3:
+                          return (
+                            <FBSection
+                              key={`quiz-section-${questionIndex}-${index}`}
+                              text={quizSection.text}
+                              afterBlank={quizSection.afterBlank}
+                              section={quizSection}
+                              active={true}
+                              sectionNumber={quizSectionNumber}
+                              increment={quizQuestionIncrement}
+                              isQuiz={true}
+                              addScore={addScore}
+                              questionNumber={questionIndex}
+                              curQuizQuestion={curQuizQuestion}
+                            />
+                          );
+                        default:
+                          return <div key={`quizSection-${index}`} />;
+                      }
+                    })}
+
+                  </Fragment>
+                ))}
+              </> : <></>
           }
-          {lesson && lesson.quizSections && lesson.quizSections.map((quizSection, index) => {
-            // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
-            switch (quizSection.sectionType) {
-              case 0:
-                return (
-                  <TextSection
-                    key={index}
-                    text={quizSection.text}
-                    section={quizSection}
-                    active={true}
-                    sectionNumber={quizSectionNumber}
-                  />
-                );
-              case 1:
-                return (
-                  <ImgSection
-                    key={index}
-                    image={quizSection.image}
-                    section={quizSection}
-                    active={true}
-                    sectionNumber={quizSectionNumber}
-                  />
-                );
-              case 2:
-                return (
-                  <MCSection
-                    key={index}
-                    options={quizSection.options}
-                    section={quizSection}
-                    active={true}
-                    sectionNumber={quizSectionNumber}
-                    increment={quizQuestionIncrement}
-                    isQuiz={true}
-                    addScore={addScore}
-                  />
-                );
-              case 3:
-                return (
-                  <FBSection
-                    key={index}
-                    text={quizSection.text}
-                    afterBlank={quizSection.afterBlank}
-                    section={quizSection}
-                    active={true}
-                    sectionNumber={quizSectionNumber}
-                    increment={quizQuestionIncrement}
-                    isQuiz={true}
-                    addScore={addScore}
-                  />
-                );
-              default:
-                return <div key={`quizSection-${index}`} />;
-            }
-          })}
 
           {
-            quizSectionNumber === maxQuizSectionNumber + 1 ?
+            lesson && lesson.quizQuestions && curQuizQuestion === lesson.quizQuestions.length ?
               <div className="w-full flex justify-center mt-5 font-bold">
                 <button
                   className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"

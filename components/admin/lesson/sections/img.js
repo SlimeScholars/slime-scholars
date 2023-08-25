@@ -11,6 +11,8 @@ export default function ImgSection({
   active,
   sectionNumber,
   questionIndex,
+  questionNumber,
+  curQuizQuestion,
 }) {
   const [img, setImg] = useState(null);
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function ImgSection({
   }, [image]);
 
   return (
-    (!active || sectionNumber >= section.sectionNumber) && (
+    (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
       <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
         {!active && (
           <Controls

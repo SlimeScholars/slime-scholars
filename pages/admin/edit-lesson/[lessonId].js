@@ -136,8 +136,6 @@ export default function EditLesson({ user, loading, setLoading }) {
         }
         setMaxSectionNumber(newMax);
 
-        //
-        newMax = 0;
         const newMaxQuizSectionNumbers = []
         for (let i in resLesson.quizQuestions) {
           newMax = 0
