@@ -20,6 +20,16 @@ export default async function (req, res) {
     // Make sure the user is a student
     checkUserType(user, 1);
 
+    if (
+      user.lastSlimeRewards &&
+      isSameDay(new Date(user.lastSlimeRewards), new Date())
+    ) {
+      return res.status(400).json({ message: "Rewards already claimed today" });
+    }
+    await User.findByIdAndUpdate(user._id, {
+      lastSlimeRewards: new Date(),
+    });
+
     // Assuming you want to fetch rewards for the user's roster or perform some other logic
     const rewards = await fetchRewardsForUser(user);
 
@@ -29,6 +39,14 @@ export default async function (req, res) {
     console.log(error);
     res.status(500).json({ message: error.message });
   }
+}
+
+function isSameDay(date1, date2) {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  );
 }
 
 async function fetchRewardsForUser(user) {
