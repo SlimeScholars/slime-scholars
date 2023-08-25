@@ -107,7 +107,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
             {Array.isArray(user.roster) &&
               user.roster.map((slime, index) => {
                 if (index === currentSlimeIndex) {
-                  console.log(index, slime);
+                  // console.log(index, slime);
                   return slime === null ? (
                     <button
                       key={index}

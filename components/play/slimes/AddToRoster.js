@@ -11,7 +11,7 @@ export default function AddToRoster({
   setUser,
 }) {
   const [inRoster, setInRoster] = useState(false);
-  console.log(slime);
+  // console.log(slime);
   useEffect(() => {
     let flag = false;
     user.roster.map((char, index) => {

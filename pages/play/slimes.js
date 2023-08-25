@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Navbar } from "../../components/play/Navbar";
 import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 import SlimeInventory from "../../components/play/slimes/SlimeInventory";
-import AddToRoster from "../../components/play/slimes/AddToRoster";
-import { gameData } from "../../data/gameData";
-import Home from "../../components/play/Home";
+import axios from "axios";
+import { showToastError } from "../../utils/toast";
 
 export default function Slimes({ loading, user, setLoading, setUser }) {
   const [searchContent, setSearchContent] = useState("");
@@ -29,11 +27,52 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     }
   };
 
+  const handleClick = () => {
+    try {
+      const token = localStorage.getItem("jwt");
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      setLoading(true);
+      axios
+        .post("/api/slime/get-rewards", {}, config)
+        .then((response) => {
+          const { rewards } = response.data;
+          console.log("rewards " + rewards);
+          setLoading(false);
+        })
+        .catch((error) => {
+          showToastError(error.response.data.message);
+          console.log(error);
+          setLoading(false);
+        });
+    } catch (error) {
+      showToastError(error.message);
+      return;
+    }
+  };
+
   return (
     //
     <div>
       <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
+          {/* button here just to test the backend get-rewards */}
+          <div>
+            <button
+              className="p-2 bg-white"
+              onClick={() => {
+                handleClick();
+              }}
+            >
+              {" "}
+              Click Me
+            </button>
+          </div>
           <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
               <img src="/assets/icons/slimes.png" className="h-20 w-20"></img>
