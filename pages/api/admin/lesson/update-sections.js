@@ -72,13 +72,13 @@ export default async function (req, res) {
       for (let j in quizQuestions[i]) {
         if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
           if (!flag) {
-            throw new Error(`Every quiz question can only have one question in it. Question ${i + 1} does not.`)
+            throw new Error(`Every quiz question can only have one question in it. Question ${parseInt(i) + 1} does not.`)
           }
           flag = false
         }
       }
       if (flag) {
-        throw new Error(`Every quiz question must have a question in it. Question ${i + 1} does not.`)
+        throw new Error(`Every quiz question must have a question in it. Question ${parseInt(i) + 1} does not.`)
       }
     }
 
@@ -98,7 +98,7 @@ export default async function (req, res) {
       for (let j in quizQuestions[i]) {
         if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
           if (quizSectionsOverlap[quizQuestions[i][j].sectionNumber]) {
-            throw new Error(`There can only one question per section number.On quiz question number ${i + 1}, section ${quizQuestions[i][j].sectionNumber} there is an overlap.`)
+            throw new Error(`There can only one question per section number.On quiz question number ${parseInt(i) + 1}, section ${quizQuestions[i][j].sectionNumber} there is an overlap.`)
           }
           quizSectionsOverlap[quizQuestions[i][j].sectionNumber] = true
         }
