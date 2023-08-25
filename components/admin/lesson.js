@@ -5,7 +5,7 @@ import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 
-export default function Lesson({ lesson, setLesson, setLoading, }) {
+export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
@@ -53,7 +53,12 @@ export default function Lesson({ lesson, setLesson, setLoading, }) {
           }
         </button>
       </div>
-      {selected && <LessonEditor lesson={lesson} setLesson={setLesson} setLoading={setLoading} />}
+      {selected && <LessonEditor
+        lesson={lesson}
+        setLesson={setLesson}
+        setLoading={setLoading}
+        deleteLesson={deleteLesson}
+      />}
     </>
   );
 }
