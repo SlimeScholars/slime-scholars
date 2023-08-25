@@ -104,7 +104,9 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
       if (curQuizQuestion === lesson.quizQuestions.length) {
         return
       }
-      if (quizSectionNumber === maxQuizSectionNumbers[curQuizQuestion]) {
+      if (quizSectionNumber === maxQuizSectionNumbers[curQuizQuestion] + 1
+        || (quizSectionNumber === maxQuizSectionNumbers[curQuizQuestion] && delayedIncrement)
+      ) {
         setDelayedIncrement(false)
         setCurQuizQuestion(curQuizQuestion + 1)
         setQuizSectionNumber(0)
@@ -125,8 +127,8 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
             return
           }
         }
+        setQuizSectionNumber(quizSectionNumber + 1)
       }
-      setQuizSectionNumber(quizSectionNumber + 1)
     }
 
     else {
@@ -364,6 +366,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
                     active={true}
                     sectionNumber={sectionNumber}
                     increment={questionIncrement}
+                    explanation={section.explanation}
                   />
                 );
               case 3:
@@ -376,6 +379,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
                     active={true}
                     sectionNumber={sectionNumber}
                     increment={questionIncrement}
+                    explanation={section.explanation}
                   />
                 );
               default:
@@ -442,6 +446,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
                               addScore={addScore}
                               questionNumber={questionIndex}
                               curQuizQuestion={curQuizQuestion}
+                              explanation={quizSection.explanation}
                             />
                           );
                         case 3:
@@ -458,6 +463,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
                               addScore={addScore}
                               questionNumber={questionIndex}
                               curQuizQuestion={curQuizQuestion}
+                              explanation={quizSection.explanation}
                             />
                           );
                         default:
