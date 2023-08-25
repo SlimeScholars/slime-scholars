@@ -1,4 +1,4 @@
-import { Schema, model, models, mongoose } from 'mongoose'
+import { Schema, model, models, mongoose } from "mongoose";
 
 const userSchema = new Schema(
   {
@@ -7,11 +7,11 @@ const userSchema = new Schema(
     // 4 for admin
     userType: {
       type: Number,
-      required: [true, 'Missing userType'],
+      required: [true, "Missing userType"],
     },
     password: {
       type: String,
-      required: [true, 'Missing password'],
+      required: [true, "Missing password"],
     },
 
     // Only students have username
@@ -22,11 +22,11 @@ const userSchema = new Schema(
     // All users have firstName and lastName
     firstName: {
       type: String,
-      required: [true, 'Missing firstName'],
+      required: [true, "Missing firstName"],
     },
     lastName: {
       type: String,
-      required: [true, 'Missing lastName'],
+      required: [true, "Missing lastName"],
     },
     // Honorific is optional for parents and teachers
     honorific: {
@@ -42,120 +42,143 @@ const userSchema = new Schema(
     // Students can have parentId
     parent: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: false,
     },
 
     // Parents have students
     students: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Missing studentId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: [true, "Missing studentId"],
+        },
+      ],
       required: false,
       default: undefined,
     },
     // Students and teachers can have classIds
     classes: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Class',
-        required: [true, 'Missing classId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Class",
+          required: [true, "Missing classId"],
+        },
+      ],
       required: false,
       default: undefined,
     },
 
     // Only students will have everything below
     friends: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Missing friendId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: [true, "Missing friendId"],
+        },
+      ],
       required: false,
       default: undefined,
     },
     sentFriendRequests: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Missing friendId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: [true, "Missing friendId"],
+        },
+      ],
       required: false,
       default: undefined,
     },
     receivedFriendRequests: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'Missing friendId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: [true, "Missing friendId"],
+        },
+      ],
       required: false,
       default: undefined,
     },
 
     completedLessons: {
-      type: [{
-        lesson: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Lesson',
-          required: [true, 'Missing lessonId']
+      type: [
+        {
+          lesson: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Lesson",
+            required: [true, "Missing lessonId"],
+          },
+          stars: {
+            type: Number,
+            required: false, // Stars can be 0
+          },
+          looted: {
+            type: Boolean,
+            required: [true, "Missing looted"],
+          },
         },
-        stars: {
-          type: Number,
-          required: false, // Stars can be 0
-        },
-        looted: {
-          type: Boolean,
-          required: [true, 'Missing looted'],
-        },
-      }],
+      ],
       required: false,
       default: undefined,
       _id: false,
     },
     completedUnits: {
-      type: [{
-        unit: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Unit',
-          required: [true, 'Missing unitId']
+      type: [
+        {
+          unit: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Unit",
+            required: [true, "Missing unitId"],
+          },
+          tier: {
+            type: Number,
+            required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
+          },
         },
-        tier: {
-          type: Number,
-          required: [true, 'Missing tier'], // 1 is bronze, 2 is silver, 3 is gold
-        },
-      }],
+      ],
       required: false,
       default: undefined,
       _id: false,
     },
     completedCourses: {
-      type: [{
-        course: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Coure',
-          required: [true, 'Missing courseId']
+      type: [
+        {
+          course: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Coure",
+            required: [true, "Missing courseId"],
+          },
+          tier: {
+            type: Number,
+            required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
+          },
         },
-        tier: {
-          type: Number,
-          required: [true, 'Missing tier'], // 1 is bronze, 2 is silver, 3 is gold
-        },
-      }],
+      ],
       required: false,
       default: undefined,
       _id: false,
     },
 
     lastRewards: {
-      type: [{
-        type: Date,
-        required: [true, 'Missing rewardTime'],
-      }],
+      type: [
+        {
+          type: Date,
+          required: [true, "Missing rewardTime"],
+        },
+      ],
       required: false,
       default: undefined,
+    },
+
+    lastSlimeRewards: {
+      type: Date,
+      required: false,
     },
 
     pfpSlime: {
@@ -185,53 +208,58 @@ const userSchema = new Schema(
     },
 
     slimes: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Slime',
-        required: [true, 'Missing slimeId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Slime",
+          required: [true, "Missing slimeId"],
+        },
+      ],
       required: false,
       default: undefined,
     },
     roster: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Slime',
-        required: false,
-      }
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Slime",
+          required: false,
+        },
       ],
       required: false,
       default: undefined,
     },
 
     items: {
-      type: [{
-        itemName: {
-          type: String,
-          required: [true, 'Missing itemName'],
+      type: [
+        {
+          itemName: {
+            type: String,
+            required: [true, "Missing itemName"],
+          },
+          rarity: {
+            type: String,
+            required: [true, "Missing rarity"],
+          },
+          quantity: {
+            type: Number,
+            required: [true, "Missing quantity"],
+          },
+          sellPrice: {
+            type: Number,
+            required: false,
+          },
+          sellCurrency: {
+            type: Number,
+            required: false,
+          },
+          isBg: {
+            type: Boolean,
+            // Required makes it so that isBg cannot be false
+            required: false,
+          },
         },
-        rarity: {
-          type: String,
-          required: [true, 'Missing rarity'],
-        },
-        quantity: {
-          type: Number,
-          required: [true, 'Missing quantity'],
-        },
-        sellPrice: {
-          type: Number,
-          required: false,
-        },
-        sellCurrency: {
-          type: Number,
-          required: false,
-        },
-        isBg: {
-          type: Boolean,
-          // Required makes it so that isBg cannot be false
-          required: false,
-        },
-      }],
+      ],
       required: false,
       default: undefined,
       _id: false,
@@ -239,9 +267,9 @@ const userSchema = new Schema(
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
-const User = models.User || model('User', userSchema)
+const User = models.User || model("User", userSchema);
 
-export default User
+export default User;
