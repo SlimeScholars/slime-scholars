@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
-export default function LessonEditor({ lesson, setLesson, setLoading }) {
+export default function LessonEditor({ lesson, setLesson, setLoading, deleteLesson }) {
   const [lessonName, setLessonName] = useState(lesson.lessonName);
 
   const onSave = () => {
@@ -67,6 +67,12 @@ export default function LessonEditor({ lesson, setLesson, setLoading }) {
       >
         Edit Lesson
       </Link>
+      <button
+        className="w-full h-12 bg-red-300 hover:bg-red-200"
+        onClick={deleteLesson}
+      >
+        Delete
+      </button>
     </div>
   );
 }
