@@ -4,6 +4,8 @@ import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import axios from "axios";
 import { showToastError } from "../../utils/toast";
+import { set } from "mongoose";
+import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 
 export default function Slimes({ loading, user, setLoading, setUser }) {
   const [searchContent, setSearchContent] = useState("");
@@ -11,6 +13,8 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
 
   const router = useRouter();
   const [bg, setBg] = useState("bg-beach.png"); // Default background
+  const [chanceSlimes, setChanceSlimes] = useState([]);
+  const [showRewardsPopup, setShowRewardsPopup] = useState(false);
 
   useEffect(() => {
     if (loading) {
@@ -47,6 +51,12 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
             slimeGel: response.data.slimeGel,
           };
           setUser(newUser);
+          // if there are chance abilities triggered give the user a popup
+          if (response.data.rewardMessages.length > 0) {
+            setChanceSlimes(response.data.rewardMessages);
+            setShowRewardsPopup(true);
+          }
+          console.log(response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -60,9 +70,18 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     }
   };
 
+  const handleClosePopup = () => {
+    setShowRewardsPopup(false);
+  };
+
   return (
-    //
     <div>
+      {showRewardsPopup && (
+        <RewardsPopUp
+          rewardMessages={chanceSlimes}
+          onClose={handleClosePopup}
+        />
+      )}
       <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/* button here just to test the backend get-rewards */}

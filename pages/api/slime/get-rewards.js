@@ -4,6 +4,7 @@ import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import User from "../../../models/userModel";
 import Slime from "../../../models/slimeModel";
+import { areDifferentDays } from "../../../utils/areDifferentDays";
 
 export default async function (req, res) {
   try {
@@ -22,13 +23,13 @@ export default async function (req, res) {
 
     // if (
     //   user.lastSlimeRewards &&
-    //   isSameDay(new Date(user.lastSlimeRewards), new Date())
+    //   !areDifferentDays(new Date(user.lastSlimeRewards), new Date())
     // ) {
     //   return res.status(400).json({ message: "Rewards already claimed today" });
     // }
 
-    // Assuming you want to fetch rewards for the user's roster or perform some other logic
-    const rewards = await fetchRewardsForUser(user);
+    const rewardMessages = [];
+    const rewards = await fetchRewardsForUser(user, rewardMessages);
 
     user.slimeGel += rewards;
     await User.findByIdAndUpdate(user._id, {
@@ -36,39 +37,31 @@ export default async function (req, res) {
       slimeGel: user.slimeGel,
     });
 
-    // Send a successful response with the rewards
-    res
-      .status(200)
-      .json({
-        lastSlimeRewards: user.lastSlimeRewards,
-        slimeGel: user.slimeGel,
-      });
+    res.status(200).json({
+      lastSlimeRewards: user.lastSlimeRewards,
+      slimeGel: user.slimeGel,
+      rewardMessages,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
   }
 }
 
-function isSameDay(date1, date2) {
-  return (
-    date1.getFullYear() === date2.getFullYear() &&
-    date1.getMonth() === date2.getMonth() &&
-    date1.getDate() === date2.getDate()
-  );
-}
-
-async function fetchRewardsForUser(user) {
+async function fetchRewardsForUser(user, rewardMessages) {
   const foundUser = await User.findById(user._id).exec();
   if (!foundUser) {
     throw new Error("User not found");
   }
-  const rewards = await fetchRewardsBasedOnRoster(foundUser.roster);
-  console.log("rewards " + rewards);
+  const rewards = await fetchRewardsBasedOnRoster(
+    foundUser.roster,
+    rewardMessages
+  );
 
   return rewards;
 }
 
-async function fetchRewardsBasedOnRoster(roster) {
+async function fetchRewardsBasedOnRoster(roster, rewardMessages) {
   let res = 0;
   let slimes = [];
   let baseProd = []; // to handle abilities that increase the production
@@ -81,10 +74,17 @@ async function fetchRewardsBasedOnRoster(roster) {
     slimes[i] = slime;
     baseProd[i] = slime.baseProduction;
   }
-  checkNebula(slimes);
+  checkNebula(slimes, rewardMessages);
   // check slimes for abilities give add ons
   for (let i = 0; i < slimes.length; i++) {
-    abilityChangeBaseProd(slimes[i], slimes, baseProd, abilityProd, i);
+    abilityChangeBaseProd(
+      slimes[i],
+      slimes,
+      baseProd,
+      abilityProd,
+      i,
+      rewardMessages
+    );
   }
   for (let i = 0; i < slimes.length; i++) {
     res +=
@@ -101,7 +101,7 @@ async function fetchRewardsBasedOnRoster(roster) {
 // first check if this activated and get the multiplier
 // add this multiplier for Robo, Black Hole, and Scholar.
 var bonusLvlMultiplier = 1;
-function checkNebula(slimes) {
+function checkNebula(slimes, rewardMessages) {
   const rand = Math.random();
   for (let i = 0; i < slimes.length; i++) {
     if (slimes[i].slimeName === "Nebula Slime") {
@@ -112,6 +112,11 @@ function checkNebula(slimes) {
       } else if (starLevel === 3) {
         if (rand <= 0.42) {
           bonusLvlMultiplier = 5;
+          rewardMessages.push({
+            slimeName: "Nebula Slime",
+            message:
+              "Nebula Slime Star Level 3 chance ability activated! All other active slimes' bonus levels are 5x more effective!",
+          });
         } else {
           bonusLvlMultiplier = 3;
         }
@@ -122,7 +127,20 @@ function checkNebula(slimes) {
 }
 
 // calculate the gel production with
-function abilityChangeBaseProd(slime, slimes, baseProd, abilityProd, id) {
+function abilityChangeBaseProd(
+  slime,
+  slimes,
+  baseProd,
+  abilityProd,
+  id,
+  rewardMessages
+) {
+  // test
+  //   rewardMessages.push({
+  //     slimeName: slime.slimeName,
+  //     message: "Ability activated!",
+  //   });
+
   if (
     slime.rarity === "Common" ||
     slime.rarity === "Uncommon" ||
@@ -159,12 +177,28 @@ function abilityChangeBaseProd(slime, slimes, baseProd, abilityProd, id) {
       // could put it in one if statement but this is more readable
       if (starLevel === 1 && rand <= 0.25) {
         abilityProd[id] += 2 * baseProd[id];
-      } else if (starLevel === 2 && rand <= 0.5) {
+        rewardMessages.push({
+          slimeName: "Lucky Slime",
+          message:
+            "Lucky Slime Star Level 1 chance ability activated! Gel production doubled!",
+        });
+      } else if (starLevel >= 2 && rand <= 0.5) {
         abilityProd[id] += 2 * baseProd[id];
-      } else if (starLevel === 3 && rand <= 0.25) {
+        rewardMessages.push({
+          slimeName: "Lucky Slime",
+          message:
+            "Lucky Slime Star Level 2 chance ability activated! Gel production doubled!",
+        });
+      }
+      if (starLevel === 3 && rand <= 0.25) {
         for (let i = 0; i < abilityProd.length; i++) {
           abilityProd[i] += 2 * baseProd[i];
         }
+        rewardMessages.push({
+          slimeName: "Lucky Slime",
+          message:
+            "Lucky Slime Star Level 3 chance ability activated! Gel production doubled for all active slimes!",
+        });
       }
       break;
     case "Nuclear Slime":
@@ -215,18 +249,43 @@ function abilityChangeBaseProd(slime, slimes, baseProd, abilityProd, id) {
       }
       if (starLevel === 2 && rand <= 0.25) {
         abilityProd[id] += 92;
+        rewardMessages.push({
+          slimeName: "Slive Slime",
+          message:
+            "Slive Slime Star Level 2 chance ability activated! Gain 92GP!",
+        });
       } else if (starLevel === 3 && rand <= 0.75) {
         abilityProd[id] += 92;
+        rewardMessages.push({
+          slimeName: "Silver Slime",
+          message:
+            "Silver Slime Star Level 3 chance ability activated! Gain 92!",
+        });
       }
       break;
     case "Block Slime":
       if (rand > 0.1666) break;
       if (starLevel === 1) {
         abilityProd[id] += 2 * baseProd[id];
+        rewardMessages.push({
+          slimeName: "Block Slime",
+          message:
+            "Block Slime Star Level 1 chance ability activated! 2x gel production!",
+        });
       } else if (starLevel === 2) {
         abilityProd[id] += 4 * baseProd[id];
+        rewardMessages.push({
+          slimeName: "Block Slime",
+          message:
+            "Block Slime Star Level 2 chance ability activated! 4x gel production!",
+        });
       } else if (starLevel === 3) {
         abilityProd[id] += 6 * baseProd[id];
+        rewardMessages.push({
+          slimeName: "Block Slime",
+          message:
+            "Block Slime Star Level 3 chance ability activated! 6x gel production!",
+        });
       }
       break;
     case "Robo Slime":
@@ -273,6 +332,11 @@ function abilityChangeBaseProd(slime, slimes, baseProd, abilityProd, id) {
       } else if (starLevel === 3) {
         if (rand <= 0.5) {
           abilityProd[maxID] += baseProd[maxID];
+          rewardMessages.push({
+            slimeName: "Sakura Slime",
+            message:
+              "Sakura Slime Star Level 3 chance ability activated! Gain 100% gel production from your highest base GP active slime!",
+          });
         } else {
           abilityProd[maxID] += Math.round(baseProd[maxID] * 0.5);
         }
@@ -293,8 +357,18 @@ function abilityChangeBaseProd(slime, slimes, baseProd, abilityProd, id) {
       }
       if (starLevel === 2 && rand <= 0.24) {
         abilityProd[id] += 240;
+        rewardMessages.push({
+          slimeName: "Golden Slime",
+          message:
+            "Golden Slime Star Level 1 chance ability activated! Gain 240GP!",
+        });
       } else if (starLevel === 3 && rand <= 0.24) {
         abilityProd[id] += 777;
+        rewardMessages.push({
+          slimeName: "Golden Slime",
+          message:
+            "Golden Slime Star Level 2 chance ability activated! Gain 777GP!",
+        });
       }
       break;
     case "Black Hole Slime":
