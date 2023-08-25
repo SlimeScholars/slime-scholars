@@ -184,6 +184,7 @@ export default async function (req, res) {
       //multiple choice
       else if (section.sectionType === 2) {
         processedSection.options = section.options
+        processedSection.explanation = section.explanation
       }
       //fill in the blank
       else if (section.sectionType === 3) {
@@ -191,6 +192,7 @@ export default async function (req, res) {
         processedSection.afterBlank = section.afterBlank
         const rawBlank = section.blank.split(',')
         processedSection.blank = rawBlank.map((str) => str.trim())
+        processedSection.explanation = section.explanation
       }
 
       processedSections.push(processedSection)
@@ -225,6 +227,7 @@ export default async function (req, res) {
         //multiple choice
         else if (quizSection.sectionType === 2) {
           processedQuizSection.options = quizSection.options
+          processedQuizSection.explanation = quizSection.explanation
         }
         //fill in the blank
         else if (quizSection.sectionType === 3) {
@@ -232,6 +235,7 @@ export default async function (req, res) {
           processedQuizSection.afterBlank = quizSection.afterBlank
           const rawBlank = quizSection.blank.split(',')
           processedQuizSection.blank = rawBlank.map((str) => str.trim())
+          processedQuizSection.explanation = quizSection.explanation
         }
 
         processedQuizSections.push(processedQuizSection)
