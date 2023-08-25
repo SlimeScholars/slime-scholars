@@ -15,6 +15,8 @@ export default function FBSection({
   isQuiz,
   addScore,
   questionIndex,
+  questionNumber,
+  curQuizQuestion,
 }) {
   const [selected, setSelected] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -33,7 +35,7 @@ export default function FBSection({
   }
 
   return (
-    (!active || sectionNumber >= section.sectionNumber) && (
+    (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
       <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
         {!active && (
           <Controls

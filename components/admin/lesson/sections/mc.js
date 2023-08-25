@@ -14,6 +14,8 @@ export default function MCSection({
   isQuiz,
   addScore,
   questionIndex,
+  questionNumber,
+  curQuizQuestion,
 }) {
   const [selected, setSelected] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -40,7 +42,7 @@ export default function MCSection({
   }
 
   return (
-    (!active || sectionNumber >= section.sectionNumber) && (
+    (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
       <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
         {!active && (
           <Controls
