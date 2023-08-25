@@ -41,6 +41,7 @@ export default async function (req, res) {
       lastSlimeRewards: user.lastSlimeRewards,
       slimeGel: user.slimeGel,
       rewardMessages,
+      rewards,
     });
   } catch (error) {
     console.log(error);
@@ -136,10 +137,10 @@ function abilityChangeBaseProd(
   rewardMessages
 ) {
   // test
-  //   rewardMessages.push({
-  //     slimeName: slime.slimeName,
-  //     message: "Ability activated!",
-  //   });
+  rewardMessages.push({
+    slimeName: slime.slimeName,
+    message: "Ability activated!",
+  });
 
   if (
     slime.rarity === "Common" ||
