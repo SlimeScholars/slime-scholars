@@ -212,6 +212,7 @@ export default function LessonPreview({
                   deleteSection={deleteSection}
                   moveSection={moveSection}
                   active={false}
+                  explanation={section.explanation}
                 />
               );
             case 3:
@@ -225,6 +226,7 @@ export default function LessonPreview({
                   deleteSection={deleteSection}
                   moveSection={moveSection}
                   active={false}
+                  explanation={section.explanation}
                 />
               );
             default:
@@ -293,6 +295,7 @@ export default function LessonPreview({
                       moveSection={moveQuizSection}
                       active={false}
                       questionIndex={questionIndex}
+                      explanation={quizSection.explanation}
                     />
                   );
                 case 3:
@@ -307,6 +310,7 @@ export default function LessonPreview({
                       moveSection={moveQuizSection}
                       active={false}
                       questionIndex={questionIndex}
+                      explanation={quizSection.explanation}
                     />
                   );
                 default:

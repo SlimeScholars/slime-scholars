@@ -52,6 +52,9 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   const [curQuizQuestion, setCurQuizQuestion] = useState(0)
 
+  const [mcExplanation, setMcExplanation] = useState('')
+  const [fbExplanation, setFbExplanation] = useState('')
+
   useEffect(() => {
     if (loading) {
       return;
@@ -196,10 +199,15 @@ export default function EditLesson({ user, loading, setLoading }) {
       );
       return;
     }
+    if (!mcExplanation) {
+      showToastError("You must have an explanation for the multiple choice answer(s).")
+      return
+    }
     let newMC = {
       sectionType: 2,
       options: [],
       index: lesson.sections.length,
+      explanation: mcExplanation,
     };
     for (let i in mc) {
       newMC.options.push({ ...mc[i] })
@@ -246,6 +254,10 @@ export default function EditLesson({ user, loading, setLoading }) {
     if (blank.blank.length === 0) {
       showToastError("Answer is required.");
       return;
+    }
+    if (!fbExplanation) {
+      showToastError("You must have an explanation for the fill in the blank answer(s).")
+      return
     }
     let newFB = {
       sectionType: 3,
@@ -532,6 +544,17 @@ export default function EditLesson({ user, loading, setLoading }) {
             />
           ))}
         </div>
+        <div
+          className="w-full mt-5 flex flex-col items-center"
+        >
+          <p>MC Explanation</p>
+          <textarea
+            className="w-full col-span-2 ring-2 ring-purple-200 rounded-lg p-3 mt-5"
+            onChange={(e) => setMcExplanation(e.target.value)}
+            value={mcExplanation}
+            placeholder="Enter explanation for MC here..."
+          />
+        </div>
         <div className="w-full flex flex-row items-center justify-start mt-10">
           <button
             className="bg-purple-400 hover:bg-purple-300 text-lg font-bold text-bg-light px-3 py-1 rounded-md"
@@ -568,6 +591,17 @@ export default function EditLesson({ user, loading, setLoading }) {
             onChange={(e) => setBlank({ ...blank, afterBlank: e.target.value })}
             value={blank.afterBlank}
             placeholder="Enter text here..."
+          />
+        </div>
+        <div
+          className="w-full mt-5 flex flex-col items-center"
+        >
+          <p>Fill in the Blank Explanation</p>
+          <textarea
+            className="w-full col-span-2 ring-2 ring-purple-200 rounded-lg p-3 mt-5"
+            onChange={(e) => setFbExplanation(e.target.value)}
+            value={fbExplanation}
+            placeholder="Enter explanation for fill in the blank here..."
           />
         </div>
         <div className="w-full flex flex-row items-center justify-start mt-10">
