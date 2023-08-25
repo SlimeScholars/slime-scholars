@@ -20,23 +20,29 @@ export default async function (req, res) {
     // Make sure the user is a student
     checkUserType(user, 1);
 
-    if (
-      user.lastSlimeRewards &&
-      isSameDay(new Date(user.lastSlimeRewards), new Date())
-    ) {
-      return res.status(400).json({ message: "Rewards already claimed today" });
-    }
+    // if (
+    //   user.lastSlimeRewards &&
+    //   isSameDay(new Date(user.lastSlimeRewards), new Date())
+    // ) {
+    //   return res.status(400).json({ message: "Rewards already claimed today" });
+    // }
 
     // Assuming you want to fetch rewards for the user's roster or perform some other logic
     const rewards = await fetchRewardsForUser(user);
 
+    user.slimeGel += rewards;
     await User.findByIdAndUpdate(user._id, {
       lastSlimeRewards: new Date(),
-      slimeGel: user.slimeGel + rewards,
+      slimeGel: user.slimeGel,
     });
 
     // Send a successful response with the rewards
-    res.status(200).json({ rewards });
+    res
+      .status(200)
+      .json({
+        lastSlimeRewards: user.lastSlimeRewards,
+        slimeGel: user.slimeGel,
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
