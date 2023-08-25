@@ -15,6 +15,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
   const [bg, setBg] = useState("bg-beach.png"); // Default background
   const [chanceSlimes, setChanceSlimes] = useState([]);
   const [showRewardsPopup, setShowRewardsPopup] = useState(false);
+  const [rewards, setRewards] = useState(0);
 
   useEffect(() => {
     if (loading) {
@@ -51,11 +52,9 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
             slimeGel: response.data.slimeGel,
           };
           setUser(newUser);
-          // if there are chance abilities triggered give the user a popup
-          if (response.data.rewardMessages.length > 0) {
-            setChanceSlimes(response.data.rewardMessages);
-            setShowRewardsPopup(true);
-          }
+          setChanceSlimes(response.data.rewardMessages);
+          setShowRewardsPopup(true);
+          setRewards(response.data.rewards);
           console.log(response.data);
           setLoading(false);
         })
@@ -80,6 +79,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
         <RewardsPopUp
           rewardMessages={chanceSlimes}
           onClose={handleClosePopup}
+          rewards={rewards}
         />
       )}
       <div className="pt-5 home" onClick={handleNavHome}>
@@ -108,8 +108,8 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               >
                 <input
                   type="text"
-                  value={"Search for a slime"}
-                  // placeholder=
+                  // value={"Search for a slime"}
+                  placeholder={"Search for a slime"}
                   className="p-1 grow bg-transparent text-m font-galindo ml-2"
                   onChange={(e) => setSearchContent(e.target.value)}
                 ></input>
