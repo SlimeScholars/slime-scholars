@@ -29,6 +29,19 @@ export default async function (req, res) {
       createdAt: 0, updatedAt: 0, __v: 0
     })
 
+    if (!lesson.quizQuestions || lesson.quizQuestions.length < 4) {
+      throw new Error('Lesson does not have enough quiz questions')
+    }
+    // Pick four random quiz questions from lesson
+    const quizQuestionBank = [...lesson.quizQuestions]
+    const quizQuestions = []
+    while (quizQuestions.length < 4) {
+      const randomIndex = Math.floor(Math.random() * quizQuestionBank.length)
+      const randomQuestion = quizQuestionBank.splice(randomIndex, 1)[0]
+      quizQuestions.push(randomQuestion)
+    }
+    lesson.quizQuestions = quizQuestions
+
     const unit = (await Unit.findById(unitId)
       .select('unitName')
     )
