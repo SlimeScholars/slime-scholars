@@ -66,12 +66,25 @@ export default async function (req, res) {
       throw new Error(`There must be more than 4 quiz questions. There are currently ${quizQuestions.length}.`)
     }
 
+    // Make sure every quiz question has a question in it
+    for (let i in quizQuestions) {
+      let flag = true
+      for (let j in quizQuestions[i]) {
+        if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
+          flag = false
+        }
+      }
+      if (flag) {
+        throw new Error(`Every quiz question must have a question in it. Question ${i + 1} does not.`)
+      }
+    }
+
     // Make sure there is only one question max section number
     const sectionsOverlap = {}
     for (let i in sections) {
       if (sections.sectionType === 2 || sections.sectionType === 3) {
         if (sectionsOverlap[sections[i].sectionNumber]) {
-          throw new Error(`There can only one question max per section number. On lesson section number ${sections[i].sectionNumber} there is an overlap.`)
+          throw new Error(`There can only one question max per section number.On lesson section number ${sections[i].sectionNumber} there is an overlap.`)
         }
         sectionsOverlap[sections[i].sectionNumber] = true
       }
@@ -82,7 +95,7 @@ export default async function (req, res) {
       for (let j in quizQuestions[i]) {
         if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
           if (quizSectionsOverlap[quizQuestions[i][j].sectionNumber]) {
-            throw new Error(`There can only one question per section number. On quiz question number ${i + 1}, section ${quizQuestions[i][j].sectionNumber} there is an overlap.`)
+            throw new Error(`There can only one question per section number.On quiz question number ${i + 1}, section ${quizQuestions[i][j].sectionNumber} there is an overlap.`)
           }
           quizSectionsOverlap[quizQuestions[i][j].sectionNumber] = true
         }
@@ -91,8 +104,8 @@ export default async function (req, res) {
 
     const imageFiles = []
     for (let i = 0; i < imageLength; i++) {
-      if (data.files && data.files[`image${i}`]) {
-        imageFiles.push(data.files[`image${i}`])
+      if (data.files && data.files[`image${i} `]) {
+        imageFiles.push(data.files[`image${i} `])
       }
     }
 
@@ -108,7 +121,7 @@ export default async function (req, res) {
       // Upload the file to Cloudinary
       await cloudinary.uploader.upload(image.path, (error, result) => {
         if (error) {
-          throw new Error(`Error uploading file: ${error}`);
+          throw new Error(`Error uploading file: ${error} `);
         } else {
           uploadedImages.push(result.secure_url)
         }
@@ -226,7 +239,7 @@ export default async function (req, res) {
     await Lesson.findByIdAndUpdate(lessonId, {
       sections: processedSections,
       quizQuestions: processedQuizQuestions,
-      latestAuthor: `${user.firstName} ${user.lastName}`,
+      latestAuthor: `${user.firstName} ${user.lastName} `,
     })
 
     const lesson = await Lesson.findById(lessonId)
