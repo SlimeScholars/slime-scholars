@@ -26,12 +26,14 @@ export default async function (req, res) {
     ) {
       return res.status(400).json({ message: "Rewards already claimed today" });
     }
-    await User.findByIdAndUpdate(user._id, {
-      lastSlimeRewards: new Date(),
-    });
 
     // Assuming you want to fetch rewards for the user's roster or perform some other logic
     const rewards = await fetchRewardsForUser(user);
+
+    await User.findByIdAndUpdate(user._id, {
+      lastSlimeRewards: new Date(),
+      slimeGel: user.slimeGel + rewards,
+    });
 
     // Send a successful response with the rewards
     res.status(200).json({ rewards });
