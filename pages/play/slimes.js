@@ -41,8 +41,12 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
       axios
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
-          const { rewards } = response.data;
-          console.log("rewards " + rewards);
+          const newUser = {
+            ...user,
+            lastSlimeReward: response.data.lastSlimeReward,
+            slimeGel: response.data.slimeGel,
+          };
+          setUser(newUser);
           setLoading(false);
         })
         .catch((error) => {
