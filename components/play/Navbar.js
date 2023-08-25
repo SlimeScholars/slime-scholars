@@ -76,6 +76,16 @@ export function Navbar({ current, user }) {
             </button>
           );
         })}
+        <div>
+          <button
+            className="p-2 bg-white"
+            onClick={() => {
+              router.push("/settings");
+            }}
+          >
+            Settings
+          </button>
+        </div>
       </div>
     </div>
   );
