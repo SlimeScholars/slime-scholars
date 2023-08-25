@@ -1,10 +1,13 @@
 import React, { useState, useRef } from "react";
 import UnitEditor from "./unitEditor";
 import Lesson from "./lesson";
+import axios from "axios";
 
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import { showToastError } from "../../utils/toast";
+import { set } from "mongoose";
 
 export default function Unit({ unit, setUnit, setLoading, }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +22,47 @@ export default function Unit({ unit, setUnit, setLoading, }) {
       setSelected(false);
     }
   });
+
+  const deleteLesson = (index) => {
+    try {
+      if (!unit?.lessons[index]?._id) {
+        throw new Error('Lesson not found')
+      }
+
+      const newLessons = [...unit.lessons]
+      const tempLesson = newLessons.splice(index, 1)[0]
+
+      setUnit({ ...unit, lessons: newLessons })
+
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        params: {
+          lessonId: tempLesson._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .delete("/api/admin/lesson/delete", config)
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message)
+          }
+          else {
+            showToastError(error.message)
+          }
+          newLessons.splice(index, 0, tempLesson)
+          setUnit({ ...unit, lessons: newLessons })
+        });
+
+    } catch (error) {
+      showToastError(error.message);
+    }
+  }
 
   return (
     <>
@@ -38,7 +82,7 @@ export default function Unit({ unit, setUnit, setLoading, }) {
             setIsOpen(!isOpen);
           }}
           ref={selectRef}
-          
+
         >
           {
             unit.unitName ? (
@@ -55,7 +99,7 @@ export default function Unit({ unit, setUnit, setLoading, }) {
         {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
-              <Lesson 
+              <Lesson
                 key={index}
                 lesson={lesson}
                 setLesson={(newLesson) => {
@@ -64,6 +108,7 @@ export default function Unit({ unit, setUnit, setLoading, }) {
                   unit.lessons = newLessons;
                   setUnit(unit);
                 }}
+                deleteLesson={() => deleteLesson(index)}
                 setLoading={setLoading}
               />
             ))}
