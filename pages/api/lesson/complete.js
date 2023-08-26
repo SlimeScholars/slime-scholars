@@ -168,6 +168,7 @@ export default async function (req, res) {
     // Has started the unit, need to check if this new lesson makes it completed
     if (newCompletedUnits[completedUnitIndex].tier === 1) {
       // Check if all lessons are completed
+      // TODO: Check if unit test is completed
       let flag = true
       for (let i in unit.lessons) {
         // No need to do unit.lessons[i].lesson since unit is not populated
@@ -200,6 +201,7 @@ export default async function (req, res) {
 
     // Has finished the unit, need to check if this lesson makes it so that all lessons are 3 starred
     if (newCompletedUnits[completedUnitIndex].tier === 2) {
+      // TODO: Check if unit test 3 starred
       // Check if all lessons are 3 starred
       let flag = false
       for (let i in newCompletedLessons) {
