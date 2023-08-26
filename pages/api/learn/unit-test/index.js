@@ -28,6 +28,10 @@ export default async function (req, res) {
 			createdAt: 0, updatedAt: 0, __v: 0, lessons: 0,
 		})
 
+		if (!unit) {
+			throw new Error('Could not find unit')
+		}
+
 		if (!unit.quizQuestions || unit.quizQuestions.length < 10) {
 			throw new Error('Unit does not have enough quiz questions')
 		}
@@ -53,4 +57,3 @@ export default async function (req, res) {
 		res.status(400).json({ message: error.message })
 	}
 }
-
