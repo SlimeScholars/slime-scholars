@@ -29,6 +29,10 @@ export default async function (req, res) {
       createdAt: 0, updatedAt: 0, __v: 0
     })
 
+    if (!lesson) {
+      throw new Error('Could not find lesson')
+    }
+
     if (!lesson.quizQuestions || lesson.quizQuestions.length < 4) {
       throw new Error('Lesson does not have enough quiz questions')
     }

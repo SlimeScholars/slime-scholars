@@ -31,6 +31,15 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
   const [unitName, setUnitName] = useState('Loading...')
 
   useEffect(() => {
+    if (loading) {
+      return
+    }
+    if (!user || user.userType !== 1) {
+      router.push('/')
+    }
+  }, [user, loading])
+
+  useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
       axios
