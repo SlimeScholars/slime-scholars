@@ -10,8 +10,8 @@ import Course from "../../../../models/courseModel"
 import { mongoose } from 'mongoose'
 
 /**
- * @desc    Completion of lesson
- * @route   POST /api/lesson/complete
+ * @desc    Completion of lesson for rewards and exp
+ * @route   POST /api/learn/lesson/complete
  * @access  Private - Students
  * @param   {string} req.body.lessonId - Id of lesson completed
  * @param   {string} req.body.unitId - Id of unit completed
@@ -328,4 +328,3 @@ export default async function (req, res) {
     res.status(400).json({ message: error.message })
   }
 }
-
