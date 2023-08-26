@@ -154,11 +154,11 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                         {
                             item.sellCurrency==1? (
                                 <div className="text-orange-300 px-1">
-                                    {item.sellPrice + " flowers each"}
+                                    {item.sellPrice + " FL each"}
                                 </div>
                             ) : (
                                 <div className="text-orange-300 px-1">
-                                    {item.sellPrice + " flowers each"}
+                                    {item.sellPrice + " SG each"}
                                 </div>
                             )
                         }
@@ -184,7 +184,7 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                         <div className="px-2">{sellItemsNum}</div>
                     </div>
                     <div className="flex flex-row">
-                        <div className="px-1">
+                        <div className="px-1 shrink">
                             <input
                                 type="text"
                                 className="p-2 border-2 border-red-300 bg-white rounded-lg"
@@ -194,9 +194,9 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                                 }}
                             ></input>
                         </div>
-                        <div className="shrink px-1">
+                        <div className="px-1">
                             <button
-                                className="bg-red-300 hover:bg-red-300/75 rounded-lg p-2"
+                                className="whitespcace-no-wrap bg-red-300 hover:bg-red-300/75 rounded-lg p-2"
                                 onClick={(e) => {
                                     setSellItemsNum(item.quantity-1);
                                 }}>
@@ -222,7 +222,13 @@ export default function ItemDetails({ item, user, pfpBg, setpfpBg, bg, setBg }) 
                             </button>
                         </div>
                         <div className="shrink px-1">
-                            <img src="/assets/icons/slimeGel.png" className="scale-75"></img>
+                            {
+                                item.sellCurrency===1? (
+                                    <img src="/assets/icons/flower.png" className="w-10 y-10 brightness-75"></img>
+                                ) : (
+                                    <img src="/assets/icons/slime-gel.png" className="scale-75"></img>
+                                )
+                            }
                         </div>
                         <div className="shrink p-3 text-center">
                             <p>{sellItemsNum * item.sellPrice}</p>

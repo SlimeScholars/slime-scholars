@@ -10,7 +10,11 @@ export default function ItemInventory({
     const classNameDefault="w-20 h-20 border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameClick="w-20 h-20 border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameDisplay="w-22 h-22 border-solid border-8 border-white rounded-lg relative overflow-visible";
-    const gradientBg=gameData.rarityColours[item.rarity].bg;
+    var gradientBg;
+
+    if (gameData.rarityColours[item.rarity]) {
+        gradientBg=gameData.rarityColours[item.rarity].bg;
+    }
 
     // for background
     if (item.isBg) {
