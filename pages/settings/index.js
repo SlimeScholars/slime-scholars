@@ -20,7 +20,6 @@ import { useEffect } from "react";
 
 export default function Settings({ loading, user, setUser }) {
   const router = useRouter();
-  console.log(user);
   if (!user) {
     return <></>;
   }
@@ -229,6 +228,7 @@ export default function Settings({ loading, user, setUser }) {
                   type="password"
                   placeholder="Verify old password"
                   value={oldPassword}
+                  autoComplete="current-password"
                   onChange={(e) => setOldPassword(e.target.value)}
                 />
               </div>

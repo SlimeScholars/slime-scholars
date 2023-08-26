@@ -15,7 +15,6 @@ export default function SlimeInventory({ slimes, loading, setSlime }) {
                 >
                   <button
                     onClick={() => {
-                      console.log(index);
                       setSlime(slime);
                     }}
                     className="mb-3"
