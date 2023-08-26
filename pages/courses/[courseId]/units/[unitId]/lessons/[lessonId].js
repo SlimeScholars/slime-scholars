@@ -35,7 +35,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
     if (lessonId && token) {
       axios
         .get(
-          "/api/lesson",
+          "/api/learn/lesson",
           {
             params: {
               lessonId,
@@ -195,7 +195,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
       };
       setLoading(true)
       axios
-        .post("/api/lesson/complete", { lessonId, score: quizScore }, config)
+        .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
           if (response.data) {
             console.log(response.data)
