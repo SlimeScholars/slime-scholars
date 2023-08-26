@@ -4,7 +4,7 @@ import { showToastError } from "../../../../utils/toast"
 import axios from "axios"
 import Unit from "../../../../components/learn/unit"
 
-export default function Units({ user, loading, setLoading }) {
+export default function Units({ user, loading, setLoading2 }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -41,21 +41,21 @@ export default function Units({ user, loading, setLoading }) {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading(true)
+			setLoading2(true)
 			axios
 				.get("/api/learn/units", config)
 				.then((response) => {
 					if (response?.data?.units) {
 						setCourseName(response.data.courseName)
 						setUnits(response.data.units)
-						setLoading(false);
+						setLoading2(false);
 					}
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading(false);
+					setLoading2(false);
 				})
 
 		} catch (error) {

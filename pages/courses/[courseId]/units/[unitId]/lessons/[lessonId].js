@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, setUser, loading, setLoading }) {
+export default function Lesson({ user, setUser, loading, setLoading, setLoading2 }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -42,7 +42,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
-      setLoading(true)
+      setLoading2(true)
       axios
         .get(
           "/api/learn/lesson",
@@ -85,9 +85,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
             }
             setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-            if (user) {
-              setLoading(false);
-            }
+            setLoading2(false);
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -203,7 +201,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setLoading2(true)
       axios
         .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
@@ -218,14 +216,14 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
             setStars(response.data.stars)
             setUpdatedUser(newUser)
             setCompleted(true)
-            setLoading(false);
+            setLoading2(false);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message)
           }
-          setLoading(false);
+          setLoading2(false);
         });
 
     } catch (error) {
