@@ -10,16 +10,16 @@ export default function Login({ loading, user, setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (loading) {
-      return
+      return;
     }
     if (user) {
-      router.push('/')
+      router.push("/");
     }
-  }, [loading, user])
+  }, [loading, user]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -35,8 +35,8 @@ export default function Login({ loading, user, setUser }) {
       .post("/api/user/login", { accountIdentifier, password })
       .then((response) => {
         if (response.data) {
-          localStorage.setItem("jwt", response.data.token)
-          setUser(response.data.user)
+          localStorage.setItem("jwt", response.data.token);
+          setUser(response.data.user);
         }
       })
       .catch((error) => {
@@ -52,7 +52,7 @@ export default function Login({ loading, user, setUser }) {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
-      <Back />
+      <Back to={"/"} />
       <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <form
           className="w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
@@ -89,7 +89,7 @@ export default function Login({ loading, user, setUser }) {
             <div className="w-full h-[2px] bg-bg-light/30 my-5" />
             <button
               className="w-full h-12 bg-fuchsia-950/40 rounded-md ring-2 ring-fuchsia-400/90 font-galindo text-xl text-fuchsia-300/90 placeholder:text-fuchsia-300/50 px-3 py-2 my-1 focus:outline-none hover:bg-fuchsia-900/50 hover:ring-fuchsia-300/80 duration-300 ease-in-out"
-              type='submit'
+              type="submit"
             >
               Start playing!
             </button>

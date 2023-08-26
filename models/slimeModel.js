@@ -1,7 +1,7 @@
 import { Schema, model, models, mongoose } from 'mongoose'
 
 const slimeSchema = Schema(
-  {
+	{
 		// All slimes have these properties
 		user: {
 			type: mongoose.Schema.Types.ObjectId,
@@ -21,11 +21,11 @@ const slimeSchema = Schema(
 			required: [true, 'Missing level'],
 			default: 1,
 		},
-    bonusLevel: {
-      type: Number,
-      required: [true, 'Missing bonusLevel'],
-      default: 0,
-    },
+		bonusLevel: {
+			type: Number,
+			required: [true, 'Missing bonusLevel'],
+			default: 0,
+		},
 		maxLevel: {
 			type: Number,
 			required: [true, 'Missing maxLevel'],
@@ -46,22 +46,22 @@ const slimeSchema = Schema(
 		},
 
 		// Only starable slimes can have these
-    starLevel: {
-      type: Number,
-      required: false,
-    },
-    maxStarLevel: {
-      type: Number,
-      required: false
-    },
-    starProgress: {
-      type: Number,
-      required: false,
-    },
-    maxStarProgress: {
-      type: Number,
-      required: false,
-    },
+		starLevel: {
+			type: Number,
+			required: false,
+		},
+		maxStarLevel: {
+			type: Number,
+			required: false
+		},
+		starProgress: {
+			type: Number,
+			required: false,
+		},
+		maxStarProgress: {
+			type: Number,
+			required: false,
+		},
 		abilityName: {
 			type: String,
 			required: false,
@@ -78,10 +78,10 @@ const slimeSchema = Schema(
 			required: false,
 			default: undefined,
 		},
-  },
-  {
-    timestamps: true,
-  },
+	},
+	{
+		timestamps: true,
+	},
 )
 
 const Slime = models.Slime || model('Slime', slimeSchema)

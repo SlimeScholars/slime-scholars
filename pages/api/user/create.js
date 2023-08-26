@@ -1,11 +1,17 @@
-import { verifyName, verifyUsername, verifyPassword, verifyHonorific, verifyEmail } from "../../../utils/verify"
-import { generateToken } from '../../../utils/generateToken'
-import connectDB from '../../../utils/connectDB'
-import User from '../../../models/userModel'
-import Slime from "../../../models/slimeModel"
-import { gameData } from "../../../data/gameData"
-const bcrypt = require('bcryptjs')
-const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
+import {
+  verifyName,
+  verifyUsername,
+  verifyPassword,
+  verifyHonorific,
+  verifyEmail,
+} from "../../../utils/verify";
+import { generateToken } from "../../../utils/generateToken";
+import connectDB from "../../../utils/connectDB";
+import User from "../../../models/userModel";
+import Slime from "../../../models/slimeModel";
+import { gameData } from "../../../data/gameData";
+const bcrypt = require("bcryptjs");
+const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
 
 /**
  * @desc    Create new user
@@ -21,15 +27,15 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  */
 export default async function (req, res) {
   try {
-    if (req.method !== 'POST') {
-      throw new Error(`${req.method} is an invalid request method`)
+    if (req.method !== "POST") {
+      throw new Error(`${req.method} is an invalid request method`);
     }
 
     // Connect to database
-    await connectDB()
+    await connectDB();
 
     // TODO: Get rid of the parse on the actual version
-    const userType = parseInt(req.body.userType)
+    const userType = parseInt(req.body.userType);
     const {
       password,
       firstName,
@@ -38,39 +44,42 @@ export default async function (req, res) {
       honorific,
       email,
       parentEmail,
-    } = req.body
+    } = req.body;
 
     if (!userType) {
-      throw new Error('Missing user type')
+      throw new Error("Missing user type");
     }
     if (userType !== 1 && userType !== 2 && userType !== 3) {
-      throw new Error('Invalid user type')
+      throw new Error("Invalid user type");
     }
 
     // Verify that the fields are not empty and valid
-    verifyName(firstName)
-    verifyName(lastName)
-    verifyPassword(password)
+    verifyName(firstName);
+    verifyName(lastName);
+    verifyPassword(password);
 
     if (userType === 2 || userType === 3) {
-      verifyHonorific(honorific)
+      verifyHonorific(honorific);
     }
 
     // Hash password
-    const salt = await bcrypt.genSalt(SALT_ROUNDS)
-    const hashedPassword = await bcrypt.hash(password, salt)
+    const salt = await bcrypt.genSalt(SALT_ROUNDS);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Parent or teacher sign up
     if (userType === 2 || userType === 3) {
       // Make sure email is not empty and valid
-      verifyEmail(email)
+      verifyEmail(email);
 
-      const lowercaseEmail = email.toLowerCase()
+      const lowercaseEmail = email.toLowerCase();
 
       // Make sure email is not already used
-      const userExists = await User.findOne({ email: lowercaseEmail }, { password: 0 })
+      const userExists = await User.findOne(
+        { email: lowercaseEmail },
+        { password: 0 }
+      );
       if (userExists) {
-        throw new Error('Email already used')
+        throw new Error("Email already used");
       }
 
       // Parent registration
@@ -83,17 +92,17 @@ export default async function (req, res) {
           honorific: honorific ? honorific : undefined,
           password: hashedPassword,
           email: lowercaseEmail,
-          students: []
-        })
-        user.password = undefined
+          students: [],
+        });
+        user.password = undefined;
 
         // Confirm parent creation
         if (user) {
           res.status(201).json({
             user: user,
             token: generateToken(user._id),
-          })
-          return
+          });
+          return;
         }
       }
 
@@ -108,16 +117,16 @@ export default async function (req, res) {
           password: hashedPassword,
           email: lowercaseEmail,
           classes: [],
-        })
-        user.password = undefined
+        });
+        user.password = undefined;
 
         // Confirm teacher creation
         if (user) {
           res.status(201).json({
             user: user,
             token: generateToken(user._id),
-          })
-          return
+          });
+          return;
         }
       }
     }
@@ -125,131 +134,151 @@ export default async function (req, res) {
     // Student account creation
     else if (userType === 1) {
       if (!email && !parentEmail) {
-        throw new Error('Must have either an email or parent email')
+        throw new Error("Must have either an email or parent email");
       }
 
       // Make sure username is not empty and valid
-      verifyUsername(username)
+      verifyUsername(username);
 
       // Make sure username is not taken
-      const usernameRegex = new RegExp(`^${username}$`, 'i')
-      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, { password: 0 })
+      const usernameRegex = new RegExp(`^${username}$`, "i");
+      const userExists = await User.findOne(
+        { username: { $regex: usernameRegex } },
+        { password: 0 }
+      );
       if (userExists) {
-        throw new Error('Username is taken')
+        throw new Error("Username is taken");
       }
 
       // Creating student with email
-      let lowercaseEmail
+      let lowercaseEmail;
       if (email) {
-        verifyEmail(email)
-        lowercaseEmail = email.toLowerCase()
+        verifyEmail(email);
+        lowercaseEmail = email.toLowerCase();
 
         // Make sure email is not taken
-        const emailInUse = await User.findOne({ email: lowercaseEmail }, { password: 0 })
+        const emailInUse = await User.findOne(
+          { email: lowercaseEmail },
+          { password: 0 }
+        );
         if (emailInUse) {
-          throw new Error('Email already used')
+          throw new Error("Email already used");
         }
       }
 
       // Creating student with parent email
-      let parent
-      let lowercaseParentEmail
+      let parent;
+      let lowercaseParentEmail;
       if (parentEmail) {
-        lowercaseParentEmail = parentEmail.toLowerCase()
+        lowercaseParentEmail = parentEmail.toLowerCase();
         // Make sure that the parent email is a registered parent
-        parent = await User.findOne({ email: lowercaseParentEmail }, { password: 0 })
+        parent = await User.findOne(
+          { email: lowercaseParentEmail },
+          { password: 0 }
+        );
         if (!parent) {
-          throw new Error('Parent email not found. Please tell your parent to register.')
+          throw new Error(
+            "Parent email not found. Please tell your parent to register."
+          );
         }
         if (parent.userType !== 2) {
-          throw new Error('The user with that email is not a parent')
+          throw new Error("The user with that email is not a parent");
         }
       }
 
-      const userId = (await User.create({
-        userType,
-        username,
-        password: hashedPassword,
-        firstName,
-        lastName,
+      const userId = (
+        await User.create({
+          userType,
+          username,
+          password: hashedPassword,
+          firstName,
+          lastName,
 
-        email: lowercaseEmail,
-        parent,
-        classes: [],
+          email: lowercaseEmail,
+          parent,
+          classes: [],
 
-        friends: [],
-        receivedFriendRequests: [],
-        sentFriendRequests: [],
+          friends: [],
+          receivedFriendRequests: [],
+          sentFriendRequests: [],
 
-        completedLessons: [],
-        completedUnits: [],
-        completedCourses: [],
+          completedLessons: [],
+          completedUnits: [],
+          completedCourses: [],
 
-        pfpSlime: 'Blue Slime',
-        pfpBg: 'Forest Mountains',
-        bg: 'Forest Mountains',
+          pfpSlime: "Blue Slime",
+          pfpBg: "Forest Mountains",
+          bg: "Forest Mountains",
 
-        slimeGel: 0,
-        flowers: 0,
-        exp: 0,
+          slimeGel: 0,
+          flowers: 0,
+          exp: 0,
 
-        roster: [null, null, null, null],
-        items: [
-          {
-            itemName: "Forest Mountains",
-            rarity: "Rare",
-            quantity: 1,
-            isBg: true,
-          },
-        ],
-        lastRewards: [0, 0],
-      }))._id
+          slimes: [],
+          roster: [null, null, null, null],
+          items: [
+            {
+              itemName: "Forest Mountains",
+              rarity: "Rare",
+              quantity: 1,
+              isBg: true,
+            },
+          ],
+          lastRewards: [0, 0],
+          lastSlimeRewards: new Date(),
+        })
+      )._id;
 
       // Create a blue slime
-      const slimeId = (await Slime.create({
-        user: userId,
-        slimeName: 'Blue Slime',
-        rarity: 'Common',
-        maxLevel: gameData.maxLevel['Common'],
-        baseProduction: gameData.baseProduction['Common'],
-        levelUpCost: gameData.levelUpCost['Common'][0],
-      }))._id
+      const slimeId = (
+        await Slime.create({
+          user: userId,
+          slimeName: "Blue Slime",
+          rarity: "Common",
+          maxLevel: gameData.maxLevel["Common"],
+          baseProduction: gameData.baseProduction["Common"],
+          levelUpCost: gameData.levelUpCost["Common"][0],
+        })
+      )._id;
 
       await User.findByIdAndUpdate(userId, {
-        slimes: [slimeId]
-      })
+        slimes: [slimeId],
+      });
 
       const user = await User.findById(userId, {
-        password: 0, createdAt: 0, updatedAt: 0, __v: 0
+        password: 0,
+        createdAt: 0,
+        updatedAt: 0,
+        __v: 0,
       })
         .populate({
-          path: 'parent',
-          select: '_id userType firstName lastName honorific email',
+          path: "parent",
+          select: "_id userType firstName lastName honorific email",
         })
         .populate({
-          path: 'slimes',
-          select: '-user -createdAt -updatedAt -__v',
+          path: "slimes",
+          select: "-user -createdAt -updatedAt -__v",
         })
-        .exec()
+        .exec();
       // No need to populate other things like friends, slime, class and roster because it's empty
 
       if (parent) {
-        parent.students.push(user._id)
-        await User.findByIdAndUpdate(parent._id, { students: parent.students })
+        parent.students.push(user._id);
+        await User.findByIdAndUpdate(parent._id, { students: parent.students });
       }
 
       if (user) {
         res.status(201).json({
           token: generateToken(user._id),
           user: user,
-        })
-        return
+        });
+        return;
       }
     }
 
     // If failed to create user
-    throw new Error('Failed to create user')
+    throw new Error("Failed to create user");
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message });
   }
 }

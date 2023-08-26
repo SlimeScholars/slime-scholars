@@ -8,7 +8,7 @@ import User from '../../../models/userModel'
  * @desc    Buy item
  * @route   POST /api/user/buy-item
  * @access  Private - Students
- * @param   {string} req.body.itemName - Name of item (must be the name of an item from gameData.json)
+ * @param   {string} req.body.itemName - Name of item (must be the name of an item from gameData)
  * @param   {string} req.body.quantity - Number of that item you want to purchase
  */
 export default async function (req, res) {

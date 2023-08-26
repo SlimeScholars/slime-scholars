@@ -1,10 +1,10 @@
-import { gameData } from '../../../data/gameData';
+import { gameData } from "../../../data/gameData";
 
 export default function ItemInventory({
-    handleItemClick,
-    itemOnClick,
-    item,
-    displayOnly
+  handleItemClick,
+  itemOnClick,
+  item,
+  displayOnly,
 }) {
 
     const classNameDefault="w-20 h-20 border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";

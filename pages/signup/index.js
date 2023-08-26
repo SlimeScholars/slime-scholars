@@ -45,21 +45,21 @@ const content = [
   },
 ];
 
-export default function Signup({loading, user}) {
-  const router = useRouter()
+export default function Signup({ loading, user }) {
+  const router = useRouter();
 
   useEffect(() => {
-    if(loading) {
-      return
+    if (loading) {
+      return;
     }
-    if(user) {
-      router.push('/')
+    if (user) {
+      router.push("/");
     }
-  }, [loading, user])
+  }, [loading, user]);
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
-      <Back />
+      <Back to={"/"} />
       <h1 className="text-7xl font-cabin font-bold text-bg-light mb-14">
         I am a...
       </h1>
