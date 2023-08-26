@@ -4,7 +4,6 @@ import SlimeDetails from "../../components/play/slimes/SlimeDetails";
 import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import axios from "axios";
 import { showToastError } from "../../utils/toast";
-import { set } from "mongoose";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 
 export default function Slimes({ loading, user, setLoading, setUser }) {
