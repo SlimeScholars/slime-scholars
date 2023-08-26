@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function Home({ user, setLoading, setUser, active }) {
+  const router = useRouter();
   const [bg, setBg] = useState(undefined);
 
   useEffect(() => {
@@ -14,7 +15,6 @@ export default function Home({ user, setLoading, setUser, active }) {
     return <></>;
   }
 
-  const router = useRouter();
   const handleNavHome = (event) => {
     if (event.target.classList.contains("home")) {
       router.push("/play");
@@ -25,13 +25,15 @@ export default function Home({ user, setLoading, setUser, active }) {
     <div
       className="w-full h-screen relative bg-bottom"
       style={{
-        backgroundImage: `url('/assets/backgrounds/${bg}')`,
+        backgroundImage:
+          bg === undefined ? "" : `url('/assets/backgrounds/${bg}')`,
         backgroundSize: "cover",
       }}
     >
       <div
-        className={`w-full h-full justify-center items-center ${!active ? "backdrop-brightness-[0.25] blur-sm" : ""
-          }`}
+        className={`w-full h-full justify-center items-center ${
+          !active ? "backdrop-brightness-[0.25] blur-sm" : ""
+        }`}
       >
         <div className={`w-full h-full ${active ? "" : "relative"}`}>
           <DisplaySlimes
