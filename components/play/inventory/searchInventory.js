@@ -1,20 +1,19 @@
-import SearchBar from '../searchBar';
-import React, { useState } from 'react';
+import SearchBar from "../searchBar";
+import React, { useState } from "react";
 
-export default function SearchInventoy() {
+export default function SearchInventoy({ searchContent, setSearchContent }) {
+  // const [searchContent, setSearchContent] = useState("");
 
-    const [searchContent, setSearchContent] = useState("");
+  const handleSubmit = (e) => {
+    // TODO
+  };
 
-    const handleSubmit = (e) => {
-        // TODO
-    }
-
-    return (
-        <SearchBar
-            placeHolder="Search Inventory"
-            searchContent={searchContent}
-            setSearchContent={setSearchContent}
-            handleSubmit={handleSubmit}
-        />
-    )
+  return (
+    <SearchBar
+      placeHolder="Search Inventory"
+      searchContent={searchContent}
+      setSearchContent={setSearchContent}
+      handleSubmit={handleSubmit}
+    />
+  );
 }
