@@ -156,8 +156,6 @@ export default function UnitTest({ user, setUser, loading, setLoading }) {
 			return
 		}
 		try {
-			// FIXEME: This is not implemented yet
-			throw new Error('Not implemented yet')
 			const token = localStorage.getItem('jwt')
 
 			// Set the authorization header
@@ -168,15 +166,12 @@ export default function UnitTest({ user, setUser, loading, setLoading }) {
 			};
 			setLoading(true)
 			axios
-				.post("/api/learn/unit/complete", { lessonId, score: quizScore }, config)
+				.post("/api/learn/unit-test/complete", { unitId: unit._id, score: quizScore }, config)
 				.then((response) => {
 					if (response.data) {
 						console.log(response.data)
 						const newUser = {
 							...user,
-							completedCourses: response.data.completedCourses,
-							completedUnits: response.data.completedUnits,
-							completedLessons: response.data.completedLessons,
 
 							exp: response.data.exp,
 							flowers: response.data.flowers,
