@@ -168,7 +168,7 @@ export default function UnitTest({ user, setUser, loading, setLoading }) {
 			};
 			setLoading(true)
 			axios
-				.post("/api/learn/unit/complete", { lessonId, score: quizScore }, config)
+				.post("/api/learn/unit-test/complete", { unitId: unit._id, score: quizScore }, config)
 				.then((response) => {
 					if (response.data) {
 						console.log(response.data)
