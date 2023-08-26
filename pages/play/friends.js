@@ -8,7 +8,7 @@ import { gameData } from "../../data/gameData";
 import axios from "axios";
 import Home from "../../components/play/Home";
 
-export default function Friends({ loading, user }) {
+export default function Friends({ loading, user, setUser }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -105,6 +105,7 @@ export default function Friends({ loading, user }) {
                 ) : (
                   <FriendRequestsEditor
                     currentUser={user}
+                    setUser={setUser}
                     sentFriendRequests={sentFriendRequests}
                     receivedFriendRequests={receivedFriendRequests}
                     setReceivedFriendRequests={setReceivedFriendRequests}
@@ -118,6 +119,7 @@ export default function Friends({ loading, user }) {
             <div className="basis-1/2 bg-white/50 rounded-lg h-full">
               <div className="flex flex-row">
                 <ManageFriends
+                  user={user}
                   userFriends={userFriends}
                   toDo={toDo}
                   setUserFriends={setUserFriends}
