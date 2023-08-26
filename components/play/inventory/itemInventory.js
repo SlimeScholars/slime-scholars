@@ -26,7 +26,7 @@ export default function ItemInventory({
                 displayOnly==="true"? (classNameDisplay) : (
                     itemOnClick.itemName !== item.itemName? (classNameDefault):(classNameClick)
                 )
-            }   key={item._id}
+            }   id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
                         setItemOnClick(item);
@@ -44,7 +44,7 @@ export default function ItemInventory({
                 displayOnly==="true"? (classNameDisplay+" "+gradientBg) : (
                     itemOnClick.itemName===item.itemName? (classNameClick+" "+gradientBg):(classNameDefault+" "+gradientBg)
                 )}   
-                key={item._id}
+                id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
                         setItemOnClick(item);
