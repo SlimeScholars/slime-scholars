@@ -56,25 +56,6 @@ export default function Friends({ loading, user }) {
       });
   }, [user, loading]);
 
-  const handleOutsideClick = (event) => {
-    console.log(event.target.classList);
-    if (event.target.classList.contains("home")) {
-      console.log("clicked outside");
-      // Clicked outside of components, navigate back to home
-      router.push("/play");
-    }
-  };
-
-  useEffect(() => {
-    // Add event listener for outside clicks
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      // Clean up the event listener when the component unmounts
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
-
   const handleNavHome = (event) => {
     if (event.target.classList.contains("home")) {
       router.push("/play");
