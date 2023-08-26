@@ -2,11 +2,11 @@ import React from "react";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
 
-export default function Back() {
+export default function Back({to}) {
   return (
     <nav className="w-screen h-32 flex justify-start items-center fixed top-0">
       <a
-        href="/"
+        href={to}
         className="h-full flex justify-start items-center px-10 stretch"
       >
         <FaChevronCircleLeft className="text-3xl text-bg-light/90" />
