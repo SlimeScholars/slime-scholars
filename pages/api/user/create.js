@@ -249,6 +249,9 @@ export default async function (req, res) {
         password: 0,
         createdAt: 0,
         updatedAt: 0,
+        completedLessons: 0,
+        completedUnits: 0,
+        completedCourses: 0,
         __v: 0,
       })
         .populate({

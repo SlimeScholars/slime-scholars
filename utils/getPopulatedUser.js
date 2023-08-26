@@ -4,7 +4,7 @@ import { getPopulatedRoster } from './getPopulatedRoster'
 
 export const getPopulatedUser = async (userId) => {
   const user = await User.findById(userId, {
-    password: 0, createdAt: 0, updatedAt: 0, __v: 0
+    password: 0, createdAt: 0, updatedAt: 0, __v: 0, completedLesson: 0, completedUnits: 0, completedCourses: 0,
   })
     .populate({
       path: 'parent',
@@ -56,7 +56,7 @@ export const getPopulatedUser = async (userId) => {
 
 export const getPopulatedPlayer = async (userId) => {
   const user = await User.findById(userId)
-    .select('_id username slimes roster exp pfpBg pfpSlime completedCourses completedLessons completedUnits')
+    .select('_id username slimes roster exp pfpBg pfpSlime')
     .populate({
       path: 'slimes',
       select: '-user -createdAt -updatedAt -__v',

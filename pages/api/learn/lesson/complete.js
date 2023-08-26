@@ -306,17 +306,12 @@ export default async function (req, res) {
     })
 
     const newUser = await User.findById(user._id)
-      .select('completedLessons lastRewards')
-    // TODO: Populate completedLessons
+      .select('lastRewards')
 
     res.status(200).json({
       stars: stars, // Most recent score
-      completedLesson: newCompletedLesson, // Lesson with high score
       flowers: newFlowers,
       exp: newExp,
-      completedLessons: newUser.completedLessons,
-      completedUnits: newCompletedUnits,
-      completedCourses: newCompletedCourses,
       lastRewards: newUser.lastRewards,
     })
 
