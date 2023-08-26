@@ -1,10 +1,10 @@
 import { gameData } from "../../../data/gameData";
-export default function SlimeInventory({ user, loading, setSlime }) {
+export default function SlimeInventory({ slimes, loading, setSlime }) {
   // console.log(user);
   return (
     <>
-      {Array.isArray(user.slimes) &&
-        user.slimes.map((slime, index) => {
+      {Array.isArray(slimes) &&
+        slimes.map((slime, index) => {
           return (
             <div className="relative" key={index}>
               <div className="overflow-hidden rounded-lg">
