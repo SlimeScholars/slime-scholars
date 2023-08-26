@@ -298,8 +298,7 @@ export default async function (req, res) {
       }
     }
 
-
-
+    // Update user
     await User.findByIdAndUpdate(user._id, {
       exp: newExp,
       completedUnits: newCompletedUnits,
