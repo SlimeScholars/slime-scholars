@@ -208,12 +208,8 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
         .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
           if (response.data) {
-            console.log(response.data)
             const newUser = {
               ...user,
-              completedCourses: response.data.completedCourses,
-              completedUnits: response.data.completedUnits,
-              completedLessons: response.data.completedLessons,
 
               exp: response.data.exp,
               flowers: response.data.flowers,
