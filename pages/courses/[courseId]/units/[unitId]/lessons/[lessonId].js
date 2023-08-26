@@ -61,7 +61,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
         )
         .then((res) => {
           if (res.status === 200) {
-            setLesson(res.data.lesson);
+            setLesson(res.data.lesson)
             setUnitName(res.data.unitName)
             setCourseName(res.data.courseName)
 

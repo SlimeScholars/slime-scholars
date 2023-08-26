@@ -3,9 +3,23 @@ import '../models/slimeModel'
 import { getPopulatedRoster } from './getPopulatedRoster'
 
 export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, courses: 0 }) => {
-  const user = await User.findById(userId, {
-    password: 0, createdAt: 0, updatedAt: 0, __v: 0, completedLessons: config.lessons, completedUnits: config.units, completedCourses: config.courses,
-  })
+  const modifiedConfig = {
+    password: 0,
+    createdAt: 0,
+    updatedAt: 0,
+    __v: 0,
+  }
+  if (!config.lessons) {
+    modifiedConfig.completedLessons = 0
+  }
+  if (!config.units) {
+    modifiedConfig.completedUnits = 0
+  }
+  if (!config.courses) {
+    modifiedConfig.completedCourses = 0
+  }
+
+  const user = await User.findById(userId, modifiedConfig)
     .populate({
       path: 'parent',
       select: '_id userType firstName lastName honorific email',

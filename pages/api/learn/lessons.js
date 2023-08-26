@@ -60,10 +60,20 @@ export default async function (req, res) {
       }
     }
 
+    let unitTestStars = -1
+    // Check for unit test completion
+    for (let i in user.completedUnits) {
+      if (user.completedUnits[i].unit == unitId) {
+        unitTestStars = user.completedUnits[i].stars
+        break
+      }
+    }
+
     res.json({
       courseName: course.courseName,
       unitName: unit.unitName,
       lessons: modifiedLessons,
+      unitTestStars,
     })
   } catch (error) {
     res.status(400).json({ message: error.message })

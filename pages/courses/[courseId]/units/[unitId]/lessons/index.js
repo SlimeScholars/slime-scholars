@@ -22,6 +22,7 @@ export default function Lessons({ user, loading, setLoading }) {
 	const [lessons, setLessons] = useState([])
 	const [courseName, setCourseName] = useState('Loading...')
 	const [unitName, setUnitName] = useState('Loading...')
+	const [unitTestStars, setUnitTestStars] = useState(-1)
 
 	useEffect(() => {
 		try {
@@ -47,9 +48,11 @@ export default function Lessons({ user, loading, setLoading }) {
 				},
 			};
 			setLoading(true)
+			console.log('bro')
 			axios
 				.get("/api/learn/lessons", config)
 				.then((response) => {
+					setUnitTestStars(response.data.unitTestStars)
 					if (response?.data?.lessons) {
 						setCourseName(response.data.courseName)
 						setUnitName(response.data.unitName)
@@ -108,7 +111,7 @@ export default function Lessons({ user, loading, setLoading }) {
 						courseId={courseId}
 						unitId={unitId}
 						unitName={unitName}
-						stars={-1 /* FIXME: Use actual high score stars*/}
+						stars={unitTestStars}
 					/>
 				</div>
 			</div>
