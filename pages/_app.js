@@ -69,7 +69,7 @@ function MyApp({ Component, pageProps }) {
   useEffect(() => {
     if (router.pathname.startsWith("/play")) {
       setOnPlay(router.pathname.startsWith("/play"));
-      const paths = ["shopping", "friends", "slimes", "inventory"];
+      const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
       if (router.pathname.split("/").length === 2) {
         setCurrent(0);
         return;
