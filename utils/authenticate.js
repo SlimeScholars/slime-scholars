@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken')
 import { getPopulatedUser } from './getPopulatedUser'
 
-export const authenticate = async(authorization) => {
+export const authenticate = async (authorization, config = { lessons: 0, units: 0, courses: 0 }) => {
   // authorization is req.headers.authorization
   let token
-  
+
   if (
     authorization &&
     authorization.startsWith('Bearer')
@@ -17,15 +17,15 @@ export const authenticate = async(authorization) => {
       const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
       // Get user from the token
-      const user = await getPopulatedUser(decoded.id)
+      const user = await getPopulatedUser(decoded.id, config)
 
-      if(user) {
+      if (user) {
         return user
       }
       else {
         throw new Error('User not found')
       }
-      
+
     } catch (error) {
       throw new Error(error.message)
     }
