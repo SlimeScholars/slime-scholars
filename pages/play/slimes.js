@@ -9,6 +9,7 @@ import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 
 export default function Slimes({ loading, user, setLoading, setUser }) {
   const [searchContent, setSearchContent] = useState("");
+  const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
   const [slime, setSlime] = useState("");
 
   const router = useRouter();
@@ -68,6 +69,16 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
       return;
     }
   };
+  useEffect(() => {
+    if (user) {
+      const searchSlimes = user.slimes.filter((slime) => {
+        return slime.slimeName
+          .toLowerCase()
+          .includes(searchContent.toLowerCase());
+      });
+      setFilterSlimes(searchSlimes);
+    }
+  }, [searchContent]);
 
   const handleClosePopup = () => {
     setShowRewardsPopup(false);
@@ -132,7 +143,9 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
                 {user && (
                   <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-4">
                     <SlimeInventory
-                      user={user}
+                      slimes={
+                        filterSlimes.length > 0 ? filterSlimes : user.slimes
+                      }
                       loading={loading}
                       setSlime={setSlime}
                     />
