@@ -14,6 +14,7 @@ export function Navbar({ current, user }) {
     { title: "friends", src: "friends", id: 2 },
     { title: "slimes", src: "slimes", id: 3 },
     { title: "inventory", src: "inventory", id: 4 },
+    { title: "roll", src: "egg", id: 5},
   ];
 
   const router = useRouter();
