@@ -42,6 +42,7 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
+      setLoading(true)
       axios
         .get(
           "/api/learn/lesson",
@@ -84,7 +85,9 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
             }
             setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-            setLoading(false);
+            if (user) {
+              setLoading(false);
+            }
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -166,10 +169,8 @@ export default function Lesson({ user, setUser, loading, setLoading }) {
     scrollToBottom()
   }, [sectionNumber, quizSectionNumber, curQuizQuestion])
 
-  const questionIncrement = (questionSectionNumber) => {
-    if (questionSectionNumber === sectionNumber) {
-      setDelayedIncrement(true)
-    }
+  const questionIncrement = () => {
+    setDelayedIncrement(true)
   }
 
   const quizQuestionIncrement = (questionSectionNumber) => {
