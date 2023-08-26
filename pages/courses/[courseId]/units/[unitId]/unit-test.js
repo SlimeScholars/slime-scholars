@@ -156,8 +156,6 @@ export default function UnitTest({ user, setUser, loading, setLoading }) {
 			return
 		}
 		try {
-			// FIXEME: This is not implemented yet
-			throw new Error('Not implemented yet')
 			const token = localStorage.getItem('jwt')
 
 			// Set the authorization header
@@ -174,9 +172,6 @@ export default function UnitTest({ user, setUser, loading, setLoading }) {
 						console.log(response.data)
 						const newUser = {
 							...user,
-							completedCourses: response.data.completedCourses,
-							completedUnits: response.data.completedUnits,
-							completedLessons: response.data.completedLessons,
 
 							exp: response.data.exp,
 							flowers: response.data.flowers,
