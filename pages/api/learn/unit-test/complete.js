@@ -110,17 +110,31 @@ export default async function (req, res) {
 			}
 		}
 
-		console.log(newCompletedUnits)
+		if (newCompletedUnits[completedIndex].tier === 2) {
+			// Check if all lessons are 3 starred
+			let flag = false
+			for (let i in user.completedLessons) {
+				if (
+					user.completedLessons[i].stars !== 3 &&
+					unit.lessons.includes(user.completedLessons[i].lesson)
+				) {
+					flag = true
+					break
+				}
+			}
+			// Up the unit tier if all lessons are 3 starred and unit test is 3 starred
+			if (!flag && newCompletedUnits[completedIndex].stars === 3) {
+				newCompletedUnits[completedIndex].tier = 3
+			}
+		}
 
 		// FIXME
-		throw new Error('test')
-
 		res.status(200).json({
-			stars: stars, // Most recent score
-			completedUnit: newCompletedUnit, // Unit test with high score
+			stars: stars,
+			completedUnit: newCompletedUnits[completedIndex],
 			flowers: newFlowers,
 			exp: newExp,
-			completedUnits: newUser.completedUnits,
+			completedUnits: newCompletedUnits,
 			//completedCourses: newCompletedCourses,
 		})
 
