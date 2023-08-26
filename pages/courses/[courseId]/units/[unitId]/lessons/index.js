@@ -107,4 +107,3 @@ export default function Lessons({ user, loading, setLoading }) {
 		</div >
 	)
 }
-

@@ -102,10 +102,7 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
         className="w-full h-12 bg-yellow-300 hover:bg-yellow-200"
       >
         <Link
-          href={{
-            pathname: "/admin/edit-unit-test/",
-            query: { unitId: unit._id }
-          }}
+          href={"/admin/edit-unit-test/" + unit._id}
           target="_blank"
         >
           Edit Unit Test

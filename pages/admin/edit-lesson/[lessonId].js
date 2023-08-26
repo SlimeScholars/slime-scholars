@@ -107,7 +107,7 @@ export default function EditLesson({ user, loading, setLoading }) {
       .get("/api/admin/lesson", config)
       .then((response) => {
         const resLesson = response?.data?.lesson
-        if (!lesson) {
+        if (!resLesson) {
           throw new Error("Lesson not found")
         }
         const newLesson = {
