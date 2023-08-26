@@ -17,8 +17,8 @@ export default async function (req, res) {
     // Connect to database
     await connectDB()
 
-    // Authenticate and get user
-    const user = await authenticate(req.headers.authorization)
+    // Authenticate and get user with completed lessons, units, courses
+    const user = await authenticate(req.headers.authorization, { lessons: 1, units: 1, courses: 1 })
 
     // Make sure user is a student
     checkUserType(user, 1)

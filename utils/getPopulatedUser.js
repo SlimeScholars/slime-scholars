@@ -2,9 +2,9 @@ import User from '../models/userModel'
 import '../models/slimeModel'
 import { getPopulatedRoster } from './getPopulatedRoster'
 
-export const getPopulatedUser = async (userId) => {
+export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, courses: 0 }) => {
   const user = await User.findById(userId, {
-    password: 0, createdAt: 0, updatedAt: 0, __v: 0, completedLesson: 0, completedUnits: 0, completedCourses: 0,
+    password: 0, createdAt: 0, updatedAt: 0, __v: 0, completedLessons: config.lessons, completedUnits: config.units, completedCourses: config.courses,
   })
     .populate({
       path: 'parent',
