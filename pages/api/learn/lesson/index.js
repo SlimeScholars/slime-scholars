@@ -4,8 +4,8 @@ import Unit from '../../../../models/unitModel'
 import Course from '../../../../models/courseModel'
 
 /**
- * @desc    Get information of all courses
- * @route   GET /api/lesson
+ * @desc    Get information of a lesson (for student), randomly selecting 4 quiz questions from the question bank
+ * @route   GET /api/learn/lesson
  * @access  Public
  * @param   {string} req.query.lessonId - Id of lesson you want to get information of
  */
@@ -63,4 +63,3 @@ export default async function (req, res) {
     res.status(400).json({ message: error.message })
   }
 }
-
