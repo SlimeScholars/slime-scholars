@@ -4,7 +4,12 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
 
-import { verifyEmail, verifyHonorific, verifyName, verifyPassword } from "../../utils/verify";
+import {
+  verifyEmail,
+  verifyHonorific,
+  verifyName,
+  verifyPassword,
+} from "../../utils/verify";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,16 +21,16 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Teacher({ loading, user, setUser }) {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (loading) {
-      return
+      return;
     }
     if (user) {
-      router.push('/')
+      router.push("/");
     }
-  }, [loading, user])
+  }, [loading, user]);
 
   const [honorific, setHonorific] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -44,9 +49,9 @@ export default function Teacher({ loading, user, setUser }) {
       if (password !== confirm) {
         throw new Error("Passwords do not match");
       }
-      verifyHonorific(honorific)
+      verifyHonorific(honorific);
       if (!honorific) {
-        setHonorific(undefined)
+        setHonorific(undefined);
       }
     } catch (error) {
       showToastError(error.message);
@@ -64,7 +69,7 @@ export default function Teacher({ loading, user, setUser }) {
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);
-          setUser(response.data.user)
+          setUser(response.data.user);
         }
       })
       .catch((error) => {
@@ -80,7 +85,7 @@ export default function Teacher({ loading, user, setUser }) {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
-      <Back />
+      <Back to={"/"} />
       <ToastContainer />
       <div className="w-1/3 relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
         <h1 className="text-center text-6xl font-cabin font-bold text-ink/90 mb-2 drop-shadow-sm">
@@ -100,10 +105,9 @@ export default function Teacher({ loading, user, setUser }) {
                 className="w-full h-8 bg-slate-300/40 ring-2 ring-ink/60 font-galindo text-sm text-ink/90 placeholder:text-ink/40 px-3 py-2 my-1 focus:outline-none focus:ring-ink/90 focus:bg-blue-200/20 hover:ring-ink/90 hover:bg-blue-200/20 duration-300 ease-in-out"
                 onChange={(e) => {
                   if (e.target.value) {
-                    setHonorific(e.target.value)
-                  }
-                  else {
-                    setHonorific(undefined)
+                    setHonorific(e.target.value);
+                  } else {
+                    setHonorific(undefined);
                   }
                 }}
               >
