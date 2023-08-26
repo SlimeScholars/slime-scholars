@@ -48,7 +48,6 @@ export default function Lessons({ user, loading, setLoading }) {
 				},
 			};
 			setLoading(true)
-			console.log('bro')
 			axios
 				.get("/api/learn/lessons", config)
 				.then((response) => {
