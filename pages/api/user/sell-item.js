@@ -77,7 +77,10 @@ export default async function (req, res) {
 		})
 
 		res.status(200).json({
-			flowers: newUser.flowers, slimeGel: newUser.slimeGel, items: newUser.items
+			flowers: newUser.flowers, 
+			slimeGel: newUser.slimeGel, 
+			items: newUser.items,
+			user:newUser
 		})
 
 	} catch (error) {

@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Navbar } from "../../components/play/Navbar";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
-import Home from "../../components/play/Home";
 
-export default function Backpack({ loading, user }) {
+export default function Backpack({ loading, user, setUser }) {
   const router = useRouter();
   const [items, setItems] = useState("empty for now");
   const [itemOnClick, setItemOnClick] = useState("empty for now");
@@ -31,10 +29,7 @@ export default function Backpack({ loading, user }) {
     setItems(user.items);
 
     setpfpBg(user.pfpBg);
-
-    if (Array.isArray(items)) {
-      setItemOnClick(items[0]);
-    }
+    
     if (user.bg && gameData.items[user.bg].bg) {
       setBg(gameData.items[user.bg].bg);
     }
@@ -104,6 +99,9 @@ export default function Backpack({ loading, user }) {
                 setpfpBg={setpfpBg}
                 bg={bg}
                 setBg={setBg}
+                setItems={setItems}
+                setItemOnClick={setItemOnClick}
+                setUser={setUser}
               />
             </div>
           </div>

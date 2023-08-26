@@ -1,7 +1,7 @@
 import { gameData } from "../../../data/gameData";
 
 export default function ItemInventory({
-  handleItemClick,
+  setItemOnClick,
   itemOnClick,
   item,
   displayOnly,
@@ -23,13 +23,13 @@ export default function ItemInventory({
         const imgPath = '/assets/pfp/backgrounds/'+gameData.items[itemName].pfp;
         return (
             <div className={
-                displayOnly=="true"? (classNameDisplay) : (
-                    itemOnClick._id==item._id? (classNameClick):(classNameDefault)
+                displayOnly==="true"? (classNameDisplay) : (
+                    itemOnClick.itemName !== item.itemName? (classNameDefault):(classNameClick)
                 )
             }   key={item._id}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
-                        handleItemClick(item);
+                        setItemOnClick(item);
                     }
                 }}>
                 <img src={imgPath}></img>
@@ -39,19 +39,17 @@ export default function ItemInventory({
     // eggs
     else if (item.quantity) {
         return (
-            <div className={
-                displayOnly=="true"? (classNameDisplay+" "+gradientBg) : (
-                    itemOnClick._id==item._id? (classNameClick+" "+gradientBg):(classNameDefault+" "+gradientBg)
-                )
-            }   
-            key={item._id}
+            <div 
+                className={
+                displayOnly==="true"? (classNameDisplay+" "+gradientBg) : (
+                    itemOnClick.itemName===item.itemName? (classNameClick+" "+gradientBg):(classNameDefault+" "+gradientBg)
+                )}   
+                key={item._id}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
-                        handleItemClick(item);
+                        setItemOnClick(item);
                     }
                 }}>
-                {/* <img src={imgPath}></img> */}
-                {/* TODO */}
                 <div className="absolute inset-x-0 bottom-0 translate-y-4 px-2">
                     <div className="rounded-full w-15 h-5 bg-amber-50 text-sm border-2 border-amber-300 text-center">
                         { item.quantity }
