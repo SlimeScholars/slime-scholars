@@ -5,10 +5,10 @@ import { Navbar } from "../../components/play/Navbar";
 import Home from "../../components/play/Home";
 import { gameData } from "../../data/gameData";
 import DisplaySlimes from "../../components/play/slimes/DisplaySlimes";
+import PopUpDetails from "../../components/play/slimes/PopUpDetails";
 
-export default function Play({ loading, user }) {
+export default function Play({ loading, user, setLoading, setUser }) {
   const router = useRouter();
-  const [bg, setBg] = useState(""); // Default background
 
   useEffect(() => {
     if (loading) {
@@ -16,32 +16,11 @@ export default function Play({ loading, user }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
-    } else {
-      if (user.bg && gameData.items[user.bg].bg) {
-        setBg(gameData.items[user.bg].bg);
-      }
     }
   }, [user, loading]);
 
+  // Home will be rendered via the Home component found on app. This is to prevent a rerendering of home when switching between pages
   return (
-    <div
-      className="p-8 w-screen h-screen"
-      style={{
-        backgroundImage: `url('/assets/backgrounds/${bg}')`,
-        backgroundSize: "cover",
-      }}
-    >
-      <Navbar current="0"></Navbar>
-      {/* slimes */}
-      <DisplaySlimes user={user} />
-    </div>
-  );
-  return (
-    <div>
-      <button onClick={() => console.log(user)}>
-        Click me to see the information on user (open console to see the
-        console.log)
-      </button>
-    </div>
-  );
+    <></>
+  )
 }

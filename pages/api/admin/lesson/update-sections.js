@@ -19,7 +19,8 @@ export const config = {
  * @access  Private - Admin
  * @param   {string} req.body.lessonId - Id of lesson you want to update
  * @param   {string} req.body.sections - Sections you want to update lesson to 
- * @param   {string} req.body.quizSections - Quiz sections you want to update lesson to 
+ * @param   {string} req.body.quizQuestions - Quiz sections you want to update lesson to 
+ * @param   {string} req.body.imageLength - Number of images being uploaded
  */
 export default async function (req, res) {
   try {
@@ -48,17 +49,37 @@ export default async function (req, res) {
       });
     });
 
-    const { lessonId, sections, quizSections, imageLength } = JSON.parse(data.fields.data)
+    const { lessonId, sections, quizQuestions, imageLength } = JSON.parse(data.fields.data)
 
-    // Make sure there are only 4 questions on the quiz
-    let maxScore = 0
-    for (let i in quizSections) {
-      if (quizSections[i].sectionType === 2 || quizSections[i].sectionType === 3) {
-        maxScore++
-      }
+    if (!sections) {
+      throw new Error('Please send sections')
     }
-    if (maxScore !== 4) {
-      throw new Error(`There must be exactly 4 quiz questions. There are currently ${maxScore}.`)
+    if (!quizQuestions) {
+      throw new Error('Please send quizQuestions')
+    }
+    if (imageLength === undefined) {
+      throw new Error('Please send imageLength')
+    }
+
+    // Make sure there are more than 4 questions on the quiz
+    if (quizQuestions.length < 4) {
+      throw new Error(`There must be more than 4 quiz questions. There are currently ${quizQuestions.length}.`)
+    }
+
+    // Make sure every quiz question has a question in it
+    for (let i in quizQuestions) {
+      let flag = true
+      for (let j in quizQuestions[i]) {
+        if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
+          if (!flag) {
+            throw new Error(`Every quiz question can only have one question in it. Question ${parseInt(i) + 1} does not.`)
+          }
+          flag = false
+        }
+      }
+      if (flag) {
+        throw new Error(`Every quiz question must have a question in it. Question ${parseInt(i) + 1} does not.`)
+      }
     }
 
     // Make sure there is only one question max section number
@@ -66,25 +87,28 @@ export default async function (req, res) {
     for (let i in sections) {
       if (sections.sectionType === 2 || sections.sectionType === 3) {
         if (sectionsOverlap[sections[i].sectionNumber]) {
-          throw new Error(`There can only one question max per section number. On lesson section number ${sections[i].sectionNumber} there is an overlap.`)
+          throw new Error(`There can only one question max per section number.On lesson section number ${sections[i].sectionNumber} there is an overlap.`)
         }
         sectionsOverlap[sections[i].sectionNumber] = true
       }
     }
-    const quizSectionsOverlap = {}
-    for (let i in quizSections) {
-      if (quizSections.sectionType === 2 || quizSections.sectionType === 3) {
-        if (quizSectionsOverlap[quizSections[i].sectionNumber]) {
-          throw new Error(`There can only one question per section number. On quiz section number ${quizSections[i].sectionNumber} there is an overlap.`)
+
+    for (let i in quizQuestions) {
+      const quizSectionsOverlap = {}
+      for (let j in quizQuestions[i]) {
+        if (quizQuestions[i][j].sectionType === 2 || quizQuestions[i][j].sectionType === 3) {
+          if (quizSectionsOverlap[quizQuestions[i][j].sectionNumber]) {
+            throw new Error(`There can only one question per section number.On quiz question number ${parseInt(i) + 1}, section ${quizQuestions[i][j].sectionNumber} there is an overlap.`)
+          }
+          quizSectionsOverlap[quizQuestions[i][j].sectionNumber] = true
         }
-        quizSectionsOverlap[quizSections[i].sectionNumber] = true
       }
     }
 
     const imageFiles = []
     for (let i = 0; i < imageLength; i++) {
-      if (data.files && data.files[`image${i}`]) {
-        imageFiles.push(data.files[`image${i}`])
+      if (data.files && data.files[`image${i} `]) {
+        imageFiles.push(data.files[`image${i} `])
       }
     }
 
@@ -100,8 +124,7 @@ export default async function (req, res) {
       // Upload the file to Cloudinary
       await cloudinary.uploader.upload(image.path, (error, result) => {
         if (error) {
-          console.log(error)
-          throw new Error(`Error uploading file: ${error}`);
+          throw new Error(`Error uploading file: ${error} `);
         } else {
           uploadedImages.push(result.secure_url)
         }
@@ -114,10 +137,13 @@ export default async function (req, res) {
         sections[i].image = uploadedImages[sections[i].image]
       }
     }
-    for (let i in quizSections) {
-      if (quizSections[i].sectionType === 1 &&
-        typeof quizSections[i].image !== 'string') {
-        quizSections[i].image = uploadedImages[quizSections[i].image]
+
+    for (let i in quizQuestions) {
+      for (let j in quizQuestions[i]) {
+        if (quizQuestions[i][j].sectionType === 1 &&
+          typeof quizQuestions[i][j].image !== 'string') {
+          quizQuestions[i][j].image = uploadedImages[quizQuestions[i][j].image]
+        }
       }
     }
 
@@ -158,6 +184,7 @@ export default async function (req, res) {
       //multiple choice
       else if (section.sectionType === 2) {
         processedSection.options = section.options
+        processedSection.explanation = section.explanation
       }
       //fill in the blank
       else if (section.sectionType === 3) {
@@ -165,54 +192,61 @@ export default async function (req, res) {
         processedSection.afterBlank = section.afterBlank
         const rawBlank = section.blank.split(',')
         processedSection.blank = rawBlank.map((str) => str.trim())
+        processedSection.explanation = section.explanation
       }
 
       processedSections.push(processedSection)
     }
 
-    const processedQuizSections = []
-    for (let quizSection of quizSections) {
-      if (!Number.isInteger(quizSection.sectionNumber) || quizSection.sectionNumber < 0) {
-        throw new Error('Section numbers must all be positive integers (you may have left a section number blank).')
-      }
-
-      const processedQuizSection = {
-        index: quizSection.index,
-        sectionType: quizSection.sectionType,
-        sectionNumber: quizSection.sectionNumber,
-      }
-
-      //text
-      if (quizSection.sectionType === 0) {
-        const processedText = processMarkdown(quizSection.text)
-        if (!verifyNesting(processedText)) {
-          throw new Error('Must close styles in correct order. eg. *b* bold *b* is correct, *b* bold *i* *b* *i* is not.')
+    const processedQuizQuestions = []
+    for (const quizSections of quizQuestions) {
+      const processedQuizSections = []
+      for (let quizSection of quizSections) {
+        if (!Number.isInteger(quizSection.sectionNumber) || quizSection.sectionNumber < 0) {
+          throw new Error('Section numbers must all be positive integers (you may have left a section number blank).')
         }
-        processedQuizSection.text = processedText
-      }
-      //img
-      else if (quizSection.sectionType === 1) {
-        processedQuizSection.image = quizSection.image
-      }
-      //multiple choice
-      else if (quizSection.sectionType === 2) {
-        processedQuizSection.options = quizSection.options
-      }
-      //fill in the blank
-      else if (quizSection.sectionType === 3) {
-        processedQuizSection.text = quizSection.text
-        processedQuizSection.afterBlank = quizSection.afterBlank
-        const rawBlank = quizSection.blank.split(',')
-        processedQuizSection.blank = rawBlank.map((str) => str.trim())
-      }
 
-      processedQuizSections.push(processedQuizSection)
+        const processedQuizSection = {
+          index: quizSection.index,
+          sectionType: quizSection.sectionType,
+          sectionNumber: quizSection.sectionNumber,
+        }
+
+        //text
+        if (quizSection.sectionType === 0) {
+          const processedText = processMarkdown(quizSection.text)
+          if (!verifyNesting(processedText)) {
+            throw new Error('Must close styles in correct order. eg. *b* bold *b* is correct, *b* bold *i* *b* *i* is not.')
+          }
+          processedQuizSection.text = processedText
+        }
+        //img
+        else if (quizSection.sectionType === 1) {
+          processedQuizSection.image = quizSection.image
+        }
+        //multiple choice
+        else if (quizSection.sectionType === 2) {
+          processedQuizSection.options = quizSection.options
+          processedQuizSection.explanation = quizSection.explanation
+        }
+        //fill in the blank
+        else if (quizSection.sectionType === 3) {
+          processedQuizSection.text = quizSection.text
+          processedQuizSection.afterBlank = quizSection.afterBlank
+          const rawBlank = quizSection.blank.split(',')
+          processedQuizSection.blank = rawBlank.map((str) => str.trim())
+          processedQuizSection.explanation = quizSection.explanation
+        }
+
+        processedQuizSections.push(processedQuizSection)
+      }
+      processedQuizQuestions.push(processedQuizSections)
     }
 
     await Lesson.findByIdAndUpdate(lessonId, {
       sections: processedSections,
-      quizSections: processedQuizSections,
-      latestAuthor: `${user.firstName} ${user.lastName}`,
+      quizQuestions: processedQuizQuestions,
+      latestAuthor: `${user.firstName} ${user.lastName} `,
     })
 
     const lesson = await Lesson.findById(lessonId)

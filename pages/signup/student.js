@@ -18,17 +18,16 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 
 export default function Student({ loading, user, setUser }) {
-  const router = useRouter()
+  const router = useRouter();
 
   useEffect(() => {
     if (loading) {
-      return
+      return;
     }
     if (user) {
-      router.push('/')
+      router.push("/");
     }
-  }, [loading, user])
-
+  }, [loading, user]);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -64,7 +63,7 @@ export default function Student({ loading, user, setUser }) {
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);
-          setUser(response.data.user)
+          setUser(response.data.user);
         }
       })
       .catch((error) => {
@@ -80,11 +79,9 @@ export default function Student({ loading, user, setUser }) {
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
-      <Back />
+      <Back to={"/"} />
       <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
-        <form
-          className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
-        >
+        <form className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
           <div className="rotate-[14deg] absolute -bottom-8 -left-11 opacity-100 z-0">
             <Image
               src="/assets/graphics/slimes/slime-cat.png"

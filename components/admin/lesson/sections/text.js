@@ -11,6 +11,9 @@ export default function TextSection({
   moveSection,
   active,
   sectionNumber,
+  questionIndex,
+  questionNumber,
+  curQuizQuestion,
 }) {
   const [parsedText, setParsedText] = useState(<></>);
 
@@ -22,7 +25,7 @@ export default function TextSection({
     }
   }, [text]);
   return (
-    (!active || sectionNumber >= section.sectionNumber) && (
+    (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
       <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
         {!active && (
           <Controls
@@ -30,6 +33,7 @@ export default function TextSection({
             changeSectionNumber={changeSectionNumber}
             deleteSection={deleteSection}
             moveSection={moveSection}
+            questionIndex={questionIndex}
           />
         )}
         <div className="text-xl w-full text-center py-3 font-averia text-pink-400">

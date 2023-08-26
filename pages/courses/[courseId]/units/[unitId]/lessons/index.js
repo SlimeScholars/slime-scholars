@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { showToastError } from "../../../../../../utils/toast"
 import axios from "axios"
 import Lesson from "../../../../../../components/learn/lesson"
+import UnitTest from "../../../../../../components/learn/unitTest"
 
 export default function Lessons({ user, loading, setLoading }) {
 	const router = useRouter()
@@ -102,9 +103,15 @@ export default function Lessons({ user, loading, setLoading }) {
 							stars={lesson.stars}
 						/>
 					))}
+					<UnitTest
+						key={unitId}
+						courseId={courseId}
+						unitId={unitId}
+						unitName={unitName}
+						stars={-1 /* FIXME: Use actual high score stars*/}
+					/>
 				</div>
 			</div>
 		</div >
 	)
 }
-
