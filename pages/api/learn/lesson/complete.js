@@ -1,12 +1,12 @@
-import { authenticate } from "../../../utils/authenticate"
-import { checkUserType } from '../../../utils/checkUserType'
-import connectDB from '../../../utils/connectDB'
-import User from '../../../models/userModel'
-import Lesson from '../../../models/lessonModel'
-import { calculateStars, getQuizRewards } from '../../../utils/stars'
-import { areDifferentDays } from '../../../utils/areDifferentDays'
-import Unit from "../../../models/unitModel"
-import Course from "../../../models/courseModel"
+import { authenticate } from "../../../../utils/authenticate"
+import { checkUserType } from '../../../../utils/checkUserType'
+import connectDB from '../../../../utils/connectDB'
+import User from '../../../../models/userModel'
+import Lesson from '../../../../models/lessonModel'
+import { calculateStars, getQuizRewards } from '../../../../utils/stars'
+import { areDifferentDays } from '../../../../utils/areDifferentDays'
+import Unit from "../../../../models/unitModel"
+import Course from "../../../../models/courseModel"
 import { mongoose } from 'mongoose'
 
 /**

@@ -1,7 +1,7 @@
-import connectDB from '../../../utils/connectDB'
-import Lesson from '../../../models/lessonModel'
-import Unit from '../../../models/unitModel'
-import Course from '../../../models/courseModel'
+import connectDB from '../../../../utils/connectDB'
+import Lesson from '../../../../models/lessonModel'
+import Unit from '../../../../models/unitModel'
+import Course from '../../../../models/courseModel'
 
 /**
  * @desc    Get information of all courses
