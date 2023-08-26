@@ -4,7 +4,7 @@ import { showToastError } from "../../utils/toast"
 import axios from "axios"
 import Course from "../../components/learn/course"
 
-export default function Courses({ user, loading, setLoading }) {
+export default function Courses({ user, loading, setLoading2 }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -31,20 +31,20 @@ export default function Courses({ user, loading, setLoading }) {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading(true)
+			setLoading2(true)
 			axios
 				.get("/api/learn/courses", config)
 				.then((response) => {
 					if (response?.data?.courses) {
 						setCourses(response.data.courses)
-						setLoading(false);
+						setLoading2(false);
 					}
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading(false);
+					setLoading2(false);
 				})
 
 		} catch (error) {

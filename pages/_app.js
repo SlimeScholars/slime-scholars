@@ -10,6 +10,7 @@ import Home from "../components/play/Home";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
+  const [loading2, setLoading2] = useState(false); // Used for axios loading
   const [user, setUser] = useState(null);
   const modifiedPageProps = {
     ...pageProps,
@@ -17,6 +18,8 @@ function MyApp({ Component, pageProps }) {
     setUser,
     loading,
     setLoading,
+    loading2,
+    setLoading2,
   }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -95,8 +98,8 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading ? <Spinner /> : <></>}
-      <div className={`relative ${loading ? "hidden" : ""}`}>
+      {loading || loading2 ? <Spinner /> : <></>}
+      <div className={`relative ${loading || loading2 ? "hidden" : ""}`}>
         <ToastContainer />
         {onPlay ? (
           <>
