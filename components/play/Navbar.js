@@ -14,7 +14,7 @@ export function Navbar({ current, user }) {
     { title: "friends", src: "friends", id: 2 },
     { title: "slimes", src: "slimes", id: 3 },
     { title: "inventory", src: "inventory", id: 4 },
-    { title: "roll", src: "egg", id: 5},
+    { title: "roll", src: "slime-egg", id: 5 },
   ];
 
   const router = useRouter();
@@ -68,9 +68,8 @@ export function Navbar({ current, user }) {
                 e.preventDefault();
                 router.push("/play/" + type.title);
               }}
-              className={`${
-                isActive ? "bg-red-300" : "bg-white/50"
-              } ${commonButtonClasses}`}
+              className={`${isActive ? "bg-red-300" : "bg-white/50"
+                } ${commonButtonClasses}`}
               key={type.id}
             >
               <img src={imgLink} className="h-10 w-10 md:h-14 md:w-14" alt="" />
