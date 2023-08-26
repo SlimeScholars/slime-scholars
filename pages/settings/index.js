@@ -138,7 +138,7 @@ export default function Settings({ loading, user, setUser }) {
               {username} Profile
             </h1>
             <div
-              className="relative h-32 w-48 rounded-full overflow-hidden  border-4 border-red-300"
+              className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-red-300"
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/play/inventory");
@@ -148,7 +148,7 @@ export default function Settings({ loading, user, setUser }) {
                 src={
                   "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
                 }
-                className="absolute  h-32 w-48 inset-0"
+                className="absolute  h-32 w-32 inset-0"
               ></img>
               <img
                 src={

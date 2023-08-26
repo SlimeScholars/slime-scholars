@@ -47,6 +47,18 @@ export default function Backpack({ loading, user }) {
     }
   };
 
+  const [searchContent, setSearchContent] = useState("");
+  useEffect(() => {
+    if (user) {
+      const searchItem = user.items.filter((item) => {
+        return item.itemName
+          .toLowerCase()
+          .includes(searchContent.toLowerCase());
+      });
+      setItems(searchItem);
+    }
+  }, [searchContent]);
+
   return (
     <div>
       <div className="pt-5 home" onClick={handleNavHome}>
@@ -63,7 +75,10 @@ export default function Backpack({ loading, user }) {
             <div className="shrink pr-6">
               {/* Search Bar */}
               {/* Handle Submit Function TODO */}
-              <SearchInventory />
+              <SearchInventory
+                searchContent={searchContent}
+                setSearchContent={setSearchContent}
+              />
             </div>
           </div>
 
