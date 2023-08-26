@@ -128,14 +128,99 @@ export default async function (req, res) {
 			}
 		}
 
-		// FIXME
+		// Check course tier
+		let course = await Course.findOne({ units: unitId })
+			.select('_id units')
+		if (!course) {
+			throw new Error('Could not find course that the unit belongs to')
+		}
+
+		const newCompletedCourses = [...user.completedCourses]
+		let completedCourseIndex = -1
+		for (let i in user.completedCourses) {
+			if (
+				user.completedCourses[i].course.equals(course._id) ||
+				user.completedCourses[i].course._id.equals(course._id)
+			) {
+				completedCourseIndex = i
+			}
+		}
+
+		// Has not completed any unit in this course yet
+		if (completedCourseIndex === -1) {
+			const newCompletedCourse = {
+				course: course._id,
+				tier: 1,
+			}
+			newCompletedCourses.push(newCompletedCourse)
+			// user.completedCourses.length did not increase, so no need to do a -1
+			completedCourseIndex = user.completedCourses.length
+		}
+
+		// Has started the course, need to check if this new unit makes it completed
+		if (newCompletedCourses[completedCourseIndex].tier === 1) {
+			// Check if all units are completed
+			let flag = true
+			for (let i in course.units) {
+				// No need to do course.units[i].unit since unit is not populated
+				let smallFlag = false
+
+				for (let j in newCompletedUnits) {
+					let curUnitId
+					if (!newCompletedUnits[j].unit._id) {
+						curUnitId = new mongoose.Types.ObjectId(newCompletedUnits[j].unit)
+					}
+
+					if (
+						(newCompletedUnits[j].unit._id && newCompletedUnits[j].unit._id.equals(course.units[i])) ||
+						(!newCompletedUnits[j].unit._id && curUnitId.equals(course.units[i]))
+					) {
+						smallFlag = true
+						break
+					}
+				}
+				if (!smallFlag) {
+					flag = false
+					break
+				}
+			}
+			// Up the course tier if all units are completed
+			if (flag) {
+				newCompletedCourses[completedCourseIndex].tier = 2
+			}
+		}
+
+		// Has finished the course, need to check if this unit makes it so that all unit are tier 3
+		if (newCompletedCourses[completedCourseIndex].tier === 2) {
+			// Check if all units are tier 3
+			let flag = false
+			for (let i in newCompletedUnits) {
+				if (
+					newCompletedUnits[i].tier !== 3 &&
+					course.units.includes(newCompletedUnits[i].unit)
+				) {
+					flag = true
+					break
+				}
+			}
+			// Up the course tier if all units are tier 3
+			if (!flag) {
+				newCompletedCourses[completedCourseIndex].tier = 3
+			}
+		}
+
+		// Update user
+		await User.findByIdAndUpdate(user._id, {
+			exp: newExp,
+			flowers: newFlowers,
+			completedUnits: newCompletedUnits,
+			completedCourses: newCompletedCourses,
+		})
+
 		res.status(200).json({
 			stars: stars,
-			completedUnit: newCompletedUnits[completedIndex],
 			flowers: newFlowers,
 			exp: newExp,
-			completedUnits: newCompletedUnits,
-			//completedCourses: newCompletedCourses,
 		})
 
 	} catch (error) {
