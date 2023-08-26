@@ -40,7 +40,7 @@ export const calculateTestStars = (score) => {
   if (score < 8) {
     return 2
   }
-  if (score === 10) {
+  if (score <= 10) {
     return 3
   }
   throw new Error('Invalid score')
