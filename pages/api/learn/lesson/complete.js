@@ -14,7 +14,6 @@ import { mongoose } from 'mongoose'
  * @route   POST /api/learn/lesson/complete
  * @access  Private - Students
  * @param   {string} req.body.lessonId - Id of lesson completed
- * @param   {string} req.body.unitId - Id of unit completed
  * @param   {string} req.body.score - Score achieved on the quiz section of the lesson
  */
 export default async function (req, res) {
@@ -138,7 +137,7 @@ export default async function (req, res) {
     // Check unit tier
     // TODO: Unit test impact on tier
     let unit = await Unit.findOne({ lessons: lessonId })
-      .select('_id lessons')
+      .select('_id lessons stars')
     if (!unit) {
       throw new Error('Could not find unit that the lesson belongs to')
     }
@@ -159,6 +158,7 @@ export default async function (req, res) {
       const newCompletedUnit = {
         unit: unit._id,
         tier: 1,
+        stars: -1,
       }
       newCompletedUnits.push(newCompletedUnit)
       // user.completedUnits.length did not increase, so no need to do a -1
@@ -168,7 +168,6 @@ export default async function (req, res) {
     // Has started the unit, need to check if this new lesson makes it completed
     if (newCompletedUnits[completedUnitIndex].tier === 1) {
       // Check if all lessons are completed
-      // TODO: Check if unit test is completed
       let flag = true
       for (let i in unit.lessons) {
         // No need to do unit.lessons[i].lesson since unit is not populated
@@ -193,15 +192,14 @@ export default async function (req, res) {
           break
         }
       }
-      // Up the unit tier if all lessons are completed
-      if (flag) {
+      // Up the unit tier if all lessons are completed and the unit test is completed
+      if (flag && newCompletedUnits[completedUnitIndex].stars > -1) {
         newCompletedUnits[completedUnitIndex].tier = 2
       }
     }
 
     // Has finished the unit, need to check if this lesson makes it so that all lessons are 3 starred
     if (newCompletedUnits[completedUnitIndex].tier === 2) {
-      // TODO: Check if unit test 3 starred
       // Check if all lessons are 3 starred
       let flag = false
       for (let i in newCompletedLessons) {
@@ -213,8 +211,8 @@ export default async function (req, res) {
           break
         }
       }
-      // Up the unit tier if all lessons are 3 starred
-      if (!flag) {
+      // Up the unit tier if all lessons are 3 starred and unit test is 3 starred
+      if (!flag && newCompletedUnits[completedUnitIndex].stars === 3) {
         newCompletedUnits[completedUnitIndex].tier = 3
       }
     }

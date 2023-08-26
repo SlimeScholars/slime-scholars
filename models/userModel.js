@@ -140,6 +140,11 @@ const userSchema = new Schema(
             type: Number,
             required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
           },
+          // Stars on the unit test
+          stars: {
+            type: Number,
+            required: false, // Stars can be 0
+          }
         },
       ],
       required: false,
