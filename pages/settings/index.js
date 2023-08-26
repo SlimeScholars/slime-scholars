@@ -137,26 +137,25 @@ export default function Settings({ loading, user, setUser }) {
             <h1 className="text-center text-6xl font-cabin font-bold text-bg-light/90 mb-3">
               {username} Profile
             </h1>
-            <div className="relative h-32 w-48 rounded-full overflow-hidden  border-4 border-red-300">
-              <button
-                onClick={() => {
-                  router.push("/play/inventory");
-                }}
-              >
-                <img
-                  src={
-                    "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
-                  }
-                  className="absolute  h-32 w-48 inset-0"
-                ></img>
-                <img
-                  src={
-                    "/assets/pfp/slimes/" +
-                    gameData.slimePfps[user.pfpSlime].pfp
-                  }
-                  className="relative z-10 translate-y-1/4 scale-125"
-                ></img>
-              </button>
+            <div
+              className="relative h-32 w-48 rounded-full overflow-hidden  border-4 border-red-300"
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/play/inventory");
+              }}
+            >
+              <img
+                src={
+                  "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                }
+                className="absolute  h-32 w-48 inset-0"
+              ></img>
+              <img
+                src={
+                  "/assets/pfp/slimes/" + gameData.slimePfps[user.pfpSlime].pfp
+                }
+                className="relative z-10 translate-y-1/4 scale-125"
+              ></img>
             </div>
           </div>
 
