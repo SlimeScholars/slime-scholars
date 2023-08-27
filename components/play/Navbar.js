@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import EarnFlwrBtn from "./earnFlwrBtn";
 import { useRouter } from "next/router";
-import axios from "axios";
+import { gameData } from "../../data/gameData";
 
 /*
 Parameter:
@@ -21,6 +21,9 @@ export function Navbar({ current, user }) {
   const current_id = parseInt(current, 10);
   const [numEggs, setNumEggs] = useState(0);
 
+  // Custom color palette
+  const [bg, setBg] = useState({})
+
   useEffect(() => {
 
     if (user && user.items) {
@@ -29,47 +32,87 @@ export function Navbar({ current, user }) {
           setNumEggs(item.quantity);
         }
       });
-    } 
-    
+    }
+
+    if (user && user.bg) {
+      const newBg = gameData.items[user.bg]
+      if (newBg) {
+        setBg(newBg)
+      }
+    }
   }, [user]);
 
+
   return (
-    <div className="flex flex-row items-center justify-between z-20 w-full">
+    <div
+      className="grid items-center justify-between z-20 w-full relative"
+      style={{
+        gridTemplateColumns: "14rem 1fr",
+      }}
+    >
       {/* earn flowers button */}
-      <div className=" bg-red-300 hover:bg-red-300/75 rounded text-lg">
-        <EarnFlwrBtn />
-      </div>
-      <div className="flex flex-row space-x-2">
-        <div className="flex flex-col justify-end p-4">
-          <div className="flex bg-white/50 opacity-60 rounded-md p-1">
+      <button
+        className="rounded hover:opacity-80 h-full font-galindo text-xl"
+        style={{
+          backgroundColor: bg.primary1,
+          color: bg.white,
+        }}
+        onClick={
+          (e) => {
+            e.preventDefault()
+            router.push("/courses")
+          }
+        }
+      >
+        Earn Flowers
+      </button>
+      <div className="flex flex-row items-center space-x-2 justify-end">
+        <div className="flex flex-col items-end">
+          <div
+            className="flex rounded-[5rem] py-2 px-6 w-fit"
+            style={{
+              backgroundColor: `${bg.black}55`,
+              color: bg.white,
+              boxShadow: `0px 0px 20px ${bg.white}0F`
+            }}
+          >
             {/* slime gel */}
             {user && (
               <div className="flex flex-row items-center">
                 <img
                   src="/assets/icons/slime-gel.png"
                   alt="Icon"
-                  className="h-4 w-4 ml-1 mr-2"
+                  className="h-6 w-6 ml-1 mr-3"
                 />
-                <p className="text-black text-sm">{user.slimeGel}</p>
+                <p className="">{user.slimeGel}</p>
               </div>
             )}
           </div>
-          <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
+          <div
+            className="flex rounded-[5rem] py-2 px-6 w-fit mt-3"
+            style={{
+              backgroundColor: `${bg.black}55`,
+              color: bg.white,
+              boxShadow: `0px 0px 20px ${bg.white}0F`
+            }}
+          >
             {/* flowers */}
             {user && (
               <div className="flex flex-row items-center">
                 <img
-                  src="/assets/icons/slime-gel.png"
+                  src="/assets/icons/flower.png"
                   alt="Icon"
-                  className="h-4 w-4 ml-1 mr-2"
+                  className="h-6 w-6 ml-1 mr-3"
                 />
-                <p className="text-black text-sm">{user.flowers}</p>
+                <p className="">{user.flowers}</p>
               </div>
             )}
           </div>
-          {/* Slime egg */}
+          {/*
+          FIXME
+          Slime Egg
           {
-            (user && current_id===5) && (
+            (user && current_id === 5) && (
               <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
                 {user && (
                   <div className="flex flex-row items-center">
@@ -84,12 +127,14 @@ export function Navbar({ current, user }) {
               </div>
             )
           }
+        */}
         </div>
+
         {/* buttons and icons */}
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
           const commonButtonClasses =
-            "p-2 md:p-8 rounded-full hover:bg-red-300/75";
+            "p-4 rounded-full";
           const isActive = type.id === current_id;
 
           return (
@@ -98,14 +143,22 @@ export function Navbar({ current, user }) {
                 e.preventDefault();
                 router.push("/play/" + type.title);
               }}
-              className={`${isActive ? "bg-red-300" : "bg-white/50"
-                } ${commonButtonClasses}`}
+              style={
+                isActive ? {
+                  backgroundColor: `${bg.primary1}`,
+                } : {
+                  backgroundColor: `${bg.white}88`,
+                }
+              }
+              className={`hover:opacity-60 ${commonButtonClasses}`}
               key={type.id}
             >
-              <img src={imgLink} className="h-10 w-10 md:h-14 md:w-14" alt="" />
+              <img src={imgLink} className="h-[4rem] w-[4rem]" alt={type.src} />
             </button>
           );
         })}
+        {/* settings
+        FIXME
         <div>
           <button
             className="p-2 bg-white"
@@ -116,7 +169,8 @@ export function Navbar({ current, user }) {
             Settings
           </button>
         </div>
+        */}
       </div>
-    </div>
+    </div >
   );
 }
