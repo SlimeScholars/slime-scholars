@@ -273,12 +273,20 @@ export default function ItemDetails({
 											// Update the number of flowers and slimeGels in Navbar
 											setUser(response.data.user);
 
+											// if all of the current item is sold, show details of the first item returned
+											let numItemsLeft = 0;
+
 											// Reset the current item to update the item quantity
 											response.data.items.map(returnedItem => {
 												if (returnedItem.itemName === item.itemName) {
+													numItemsLeft = returnedItem.quantity;
 													setItemOnClick(returnedItem);
 												}
 											});
+
+											if (numItemsLeft === 0) {
+												setItemOnClick(response.data.items[0]);
+											}
 
 											// Prompt message to gui
 											showToastError((sellItemsNum === 1 ? ("Item sold") : ("Items sold")), true);

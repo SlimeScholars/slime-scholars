@@ -141,6 +141,7 @@ export default async function (req, res) {
         res.status(200).json({
           items: newUser.items,
           flowers: newUser.flowers,
+          user: newUser
         })
         return
       }
