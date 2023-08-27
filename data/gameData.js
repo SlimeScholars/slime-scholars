@@ -153,6 +153,9 @@ export const gameData = {
       white: "#F8EBE6",
       grey: "#DCE0E5",
       black: "#0F0200",
+
+      earnFlowers: "#0F0200",
+      text: "#0F0200",
     },
 
     "Fence Garden": {

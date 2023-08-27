@@ -55,7 +55,7 @@ export function Navbar({ current, user }) {
         className="rounded hover:opacity-80 h-full font-galindo text-xl"
         style={{
           backgroundColor: bg.primary1,
-          color: bg.white,
+          color: bg.earnFlowers,
         }}
         onClick={
           (e) => {
