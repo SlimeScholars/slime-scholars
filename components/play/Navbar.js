@@ -19,6 +19,19 @@ export function Navbar({ current, user }) {
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
+  const [numEggs, setNumEggs] = useState(0);
+
+  useEffect(() => {
+
+    if (user && user.items) {
+      user.items.map(item => {
+        if (item.itemName === "Slime Egg") {
+          setNumEggs(item.quantity);
+        }
+      });
+    } 
+    
+  }, [user]);
 
   return (
     <div className="flex flex-row items-center justify-between z-20 w-full">
@@ -27,21 +40,21 @@ export function Navbar({ current, user }) {
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
-        <div className="flex flex-col justify-center p-4">
-          <div className="flex bg-white/50 opacity-60 h-8 w-24 rounded-md">
+        <div className="flex flex-col justify-end p-4">
+          <div className="flex bg-white/50 opacity-60 rounded-md p-1">
             {/* slime gel */}
             {user && (
-              <div className="flex flex-row items-center justify-center">
+              <div className="flex flex-row items-center">
                 <img
                   src="/assets/icons/slime-gel.png"
                   alt="Icon"
                   className="h-4 w-4 ml-1 mr-2"
                 />
-                <p className="text-black font-galindo">{user.slimeGel}</p>
+                <p className="text-black text-sm">{user.slimeGel}</p>
               </div>
             )}
           </div>
-          <div className="flex bg-white/50 opacity-60 h-8 w-16 rounded-md mt-1 ml-8">
+          <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
             {/* flowers */}
             {user && (
               <div className="flex flex-row items-center">
@@ -50,10 +63,27 @@ export function Navbar({ current, user }) {
                   alt="Icon"
                   className="h-4 w-4 ml-1 mr-2"
                 />
-                <p className="text-black font-galindo">{user.flowers}</p>
+                <p className="text-black text-sm">{user.flowers}</p>
               </div>
             )}
           </div>
+          {/* Slime egg */}
+          {
+            (user && current_id===5) && (
+              <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
+                {user && (
+                  <div className="flex flex-row items-center">
+                    <img
+                      src="/assets/icons/slime-egg.png"
+                      alt="Icon"
+                      className="h-4 w-4 ml-1 mr-2"
+                    />
+                    <p className="text-black text-sm">{numEggs}</p>
+                  </div>
+                )}
+              </div>
+            )
+          }
         </div>
         {/* buttons and icons */}
         {types.map((type) => {
