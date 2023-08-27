@@ -1,6 +1,6 @@
 import DisplaySlimes from "./slimes/DisplaySlimes";
 import { gameData } from "../../data/gameData";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function Home({ user, setLoading, setUser, active }) {
