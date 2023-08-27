@@ -125,7 +125,7 @@ function MyApp({ Component, pageProps }) {
             {/* Other pages */}
             <div className={`relative h-0`}>
               <div className={`absolute inset-0 p-10 px-20`}>
-                <div className="relative z-20">
+                <div className="relative z-20 mb-5">
                   <Navbar user={user} current={current} />
                 </div>
                 <Component {...modifiedPageProps} />
