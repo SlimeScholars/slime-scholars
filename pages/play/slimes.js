@@ -164,7 +164,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               <div className="items-center">
                 {/* loop through all slimes from user and display them */}
                 {user && (
-                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-4">
+                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8">
                     <SlimeInventory
                       slimes={
                         filterSlimes.length > 0 ? filterSlimes : user.slimes
