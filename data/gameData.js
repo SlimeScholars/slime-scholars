@@ -70,7 +70,7 @@ export const gameData = {
       black: "#0D1616",
     },
 
-    Castle: {
+    "Castle": {
       itemName: "Castle",
       rarity: "Rare",
       isBg: true,

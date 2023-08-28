@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import NewSlimePopup from '../../components/roll/newSlimePopup';
 import { gameData } from '../../data/gameData';
 import { showToastError } from '../../utils/toast';
 import axios from 'axios';
 
-export default function Roll({ loading, user, setUser }) {
+export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }) {
 
     const router = useRouter();
     const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
     const [eggsOwned, setEggsOwned] = useState(0);
     const [flowersOwned, setFlowersOwned] = useState(0);
+    const [afterRolling, setAfterRolling] = useState(0); // Flag used for showing rolling information
+    const [updatedSlime, setUpdatedSlime] = useState(null);
 
     useEffect(() => {
         if (loading) {
@@ -28,6 +31,10 @@ export default function Roll({ loading, user, setUser }) {
 
             // Set # flowers owned
             setFlowersOwned(user.flowers);
+        }
+
+        if (user) {
+            var numSlimes = user.slimes? user.slimes.length : 0;
         }
 
     }, [user, loading]);
@@ -60,12 +67,24 @@ export default function Roll({ loading, user, setUser }) {
                 quantity: numToPurchase
             }, config)
             .then(response => {
+
+                console.log(response.data.items);
                 
                 // Close popup dialog
                 setEggsLacked(0);
 
-                // Update user items and flowers
-                setUser(response.data.user);
+                // Update # slime eggs the user owns
+                response.data.items.map(returnedItem => {
+                    if (returnedItem.itemName === "Slime Egg") {
+                        setNumEggs(returnedItem.quantity);
+                    }
+                })
+
+                // Update # flowers
+                setFlowers(response.data.flowers);
+
+                // Update items
+                setItems(response.data.items);
 
                 showToastError("Purchased successfully.", true);
             })
@@ -79,7 +98,32 @@ export default function Roll({ loading, user, setUser }) {
             setEggsLacked(eggsNeed-eggsOwned);
         } else {
             // user does have enough
-            showToastError("Having enough eggs.", true);
+
+            // only 1 egg works for now
+            if (eggsNeed === 1) {
+                axios
+                    .post('/api/slime/open-egg', {
+                        itemName: 'Slime Egg'
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                        }
+                    })
+                    .then(response => {
+
+                        // Show popup
+                        if (response.data.slimes.length > numSlimes) {
+                            setUpdatedSlime(response.data.slime);
+                            setAfterRolling(1); // New slime is created
+                        } else {
+                            setAfterRolling(2); // Slime is updated
+                        }
+
+                    })
+                    .catch(error => showToastError(error.message));
+            } else {
+                showToastError("Having enough eggs.", true);
+            }
         }
     };
 
@@ -87,7 +131,7 @@ export default function Roll({ loading, user, setUser }) {
         <div 
             className="pt-5 home w-full h-full"
             onClick={handleNavHome}>
-            {/* Popup Message */}
+            {/* Popup Message for Lacking Eggs */}
             {
                 eggsLacked>0 && (
                     <div 
@@ -116,8 +160,15 @@ export default function Roll({ loading, user, setUser }) {
             }
             <div 
                 className={
-                    eggsLacked>0? ("w-full h-full brightness-75"): ("w-full h-full")
+                    (eggsLacked>0 || afterRolling)? ("w-full h-full brightness-75"): ("w-full h-full")
                 }>
+                {
+                    // Popup Message for Rolling Result
+                    afterRolling==1? (
+                        <NewSlimePopup 
+                            updatedSlime={updatedSlime}/>
+                    ) : ()
+                }
                 <div className="relative">
                     {/* Image as background */}
                     <img className="bg-cover w-full h-auto inset-0"

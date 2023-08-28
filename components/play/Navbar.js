@@ -8,7 +8,7 @@ Parameter:
   current: the id of the web page that the user is currently on
 */
 
-export function Navbar({ current, user }) {
+export function Navbar({ current, user, numEggs, setNumEggs, flowers }) {
   const types = [
     { title: "shopping", src: "shopping", id: 1 },
     { title: "friends", src: "friends", id: 2 },
@@ -19,7 +19,6 @@ export function Navbar({ current, user }) {
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
-  const [numEggs, setNumEggs] = useState(0);
 
   useEffect(() => {
 
@@ -40,7 +39,7 @@ export function Navbar({ current, user }) {
         <EarnFlwrBtn />
       </div>
       <div className="flex flex-row space-x-2">
-        <div className="flex flex-col justify-end p-4">
+        <div className="flex flex-col justify-end content-start p-4">
           <div className="flex bg-white/50 opacity-60 rounded-md p-1">
             {/* slime gel */}
             {user && (
@@ -63,7 +62,7 @@ export function Navbar({ current, user }) {
                   alt="Icon"
                   className="h-4 w-4 ml-1 mr-2"
                 />
-                <p className="text-black text-sm">{user.flowers}</p>
+                <p className="text-black text-sm">{flowers===null? (user.flowers) : (flowers)}</p>
               </div>
             )}
           </div>
