@@ -59,7 +59,7 @@ export default function ItemDetails({
 						<div className="basis-1/5">
 							<span className="text-red-300 material-symbols-outlined scale-150 p-10">
 								arrow_forward
-             				</span>
+							</span>
 						</div>
 						<div className="basis-1/5">
 							<div className="flex flex-col items-center">
@@ -86,72 +86,97 @@ export default function ItemDetails({
 							{pfpBg === item.itemName ? (
 								<button className="rounded-s-lg p-4 bg-black/20" disabled>
 									Equipped Already
-                				</button>
+								</button>
 							) : (
-									<button
-										className="rounded-s-lg p-4 bg-red-300 hover:bg-red-300/75 h-full"
-										onClick={(e) => {
-											axios
-												.put(
-													"/api/user/change-pfp",
-													{
-														pfpBg: item.itemName,
-														pfpSlime: user.pfpSlime,
+								<button
+									className="rounded-s-lg p-4 bg-red-300 hover:bg-red-300/75 h-full"
+									onClick={(e) => {
+										axios
+											.put(
+												"/api/user/change-pfp",
+												{
+													pfpBg: item.itemName,
+													pfpSlime: user.pfpSlime,
+												},
+												{
+													headers: {
+														Authorization: `Bearer ${localStorage.getItem(
+															"jwt"
+														)}`,
 													},
-													{
-														headers: {
-															Authorization: `Bearer ${localStorage.getItem(
-																"jwt"
-															)}`,
-														},
-													}
-												)
-												.then((response) => {
-													setpfpBg(item.itemName);
-													showToastError("Profile background was changed.", true);
-												})
-												.catch((error) => { });
-										}}
-									>
-										Equip as Profile Background
-                					</button>
-								)}
+												}
+											)
+											.then((response) => {
+												setpfpBg(item.itemName);
+												showToastError("Profile background was changed.", true);
+											})
+											.catch((error) => { });
+									}}
+								>
+									Equip as Profile Background
+								</button>
+							)}
 						</div>
 					</div>
+					{/* equip background button for color palette testing FIXME */}
+					<button
+						className='bg-white'
+						onClick={() => {
+							axios
+								.put(
+									"/api/user/change-bg",
+									{
+										bg: item.itemName,
+									},
+									{
+										headers: {
+											Authorization: `Bearer ${localStorage.getItem(
+												"jwt"
+											)}`,
+										},
+									}
+								)
+								.then((response) => {
+								})
+								.catch((error) => { });
+						}}
+					>
+						Equip as background
+					</button>
 				</div>
 				<div className="bg-black/40 rounded-lg p-8 col-span-3">
 					{gameData.items[item.itemName].bg === bg ? (
 						<button className="text-black" disabled>
 							Equipped as background
-            			</button>
+						</button>
 					) : (
-							<button
-								className="text-red-300 hover:text-red-300/75 p-4"
-								onClick={(e) => {
-									axios
-										.put(
-											"/api/user/change-bg",
-											{
-												bg: item.itemName,
+						<button
+							className="text-red-300 hover:text-red-300/75 p-4"
+							onClick={(e) => {
+								axios
+									.put(
+										"/api/user/change-bg",
+										{
+											bg: item.itemName,
+										},
+										{
+											headers: {
+												Authorization: `Bearer ${localStorage.getItem("jwt")}`,
 											},
-											{
-												headers: {
-													Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-												},
-											}
-										)
-										.then((response) => {
-											setBg(gameData.items[item.itemName].bg);
-										})
-										.catch((error) => {
-											console.log(error);
-											showToastError(error.message);
-										});
-								}}
-							>
-								Equip as background
-            				</button>
-						)}
+										}
+									)
+									.then((response) => {
+										setBg(gameData.items[item.itemName].bg);
+									})
+									.catch((error) => {
+										console.log(error);
+										showToastError(error.message);
+									});
+							}}
+						>
+							Equip as background
+						</button>
+					)}
 				</div>
 			</div>
 		);
@@ -197,10 +222,10 @@ export default function ItemDetails({
 									{item.sellPrice + " FL each"}
 								</div>
 							) : (
-									<div className="text-orange-300 px-1">
-										{item.sellPrice + " SG each"}
-									</div>
-								)
+								<div className="text-orange-300 px-1">
+									{item.sellPrice + " SG each"}
+								</div>
+							)
 						}
 
 					</div>
@@ -303,8 +328,8 @@ export default function ItemDetails({
 								item.sellCurrency === 1 ? (
 									<img src="/assets/icons/flower.png" className="w-10 y-10 brightness-75"></img>
 								) : (
-										<img src="/assets/icons/slime-gel.png" className="scale-75"></img>
-									)
+									<img src="/assets/icons/slime-gel.png" className="scale-75"></img>
+								)
 							}
 						</div>
 						<div className="shrink p-3 text-center">

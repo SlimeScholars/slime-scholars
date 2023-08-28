@@ -13,7 +13,7 @@ export default function Backpack({ loading, user, setUser }) {
 	// item.itemName => "Forest Mountains"
 	// bg => "forest-mountains.png"
 	const [bg, setBg] = useState("bg-beach.png"); // Default background
-	const [pfpBg, setpfpBg] = useState("empty for now");
+	const [pfpBg, setPfpBg] = useState("empty for now");
 
 	useEffect(() => {
 		if (loading) {
@@ -28,7 +28,7 @@ export default function Backpack({ loading, user, setUser }) {
 		// Set the items for displaying in inventory to user's items
 		setItems(user.items);
 
-		setpfpBg(user.pfpBg);
+		setPfpBg(user.pfpBg);
 
 		if (user.bg && gameData.items[user.bg].bg) {
 			setBg(gameData.items[user.bg].bg);
@@ -95,7 +95,7 @@ export default function Backpack({ loading, user, setUser }) {
 							item={itemOnClick}
 							user={user}
 							pfpBg={pfpBg}
-							setpfpBg={setpfpBg}
+							setPfpBg={setPfpBg}
 							bg={bg}
 							setBg={setBg}
 							setItems={setItems}
