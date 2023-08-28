@@ -118,27 +118,28 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
           <div
             style={{
               backgroundColor: `${bg.white}88`,
-              color: bg.text,
+              color: bg.text1,
             }}
-            className="flex flex-row rounded-lg items-center"
+            className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
           >
             <div className="grow-0 pl-4">
-              <img src="/assets/icons/slimes.png" className="h-20 w-20"></img>
+              <img src="/assets/icons/slimes.png" className="h-[4.5rem] w-[4.5rem]"></img>
             </div>
-            <div className="grow pl-4 font-galindo text-xl">Slimes</div>
+            <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
             <div className="grow-0 flex pr-4">
               <div
                 style={{
-                  border: `2px solid ${bg.text}88`,
-                  color: searchContent.length === 0 ? bg.grey : bg.text,
+                  border: `3px solid ${bg.primary1}`,
+                  color: bg.text1,
+                  backgroundColor: `${bg.white}88`,
                 }}
-                className="rounded-md flex flex-row"
+                className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
                 <input
                   type="text"
                   // value={"Search for a slime"}
                   placeholder={"Search for a slime"}
-                  className="p-1 grow bg-transparent text-md font-galindo ml-2 focus:outline-0"
+                  className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
                   onChange={(e) => setSearchContent(e.target.value)}
                 ></input>
                 <button className="h-full flex p-1 cursor-default">
@@ -150,10 +151,10 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
         </div>
         {/* Slimes inventory, all users slimes */}
         <div
-          className="pt-8 flex flex-row gap-4 items-start font-galindo home"
+          className="pt-9 flex flex-row gap-9 items-start font-galindo home"
           onClick={handleNavHome}
         >
-          <div className=" basis-1/2 ">
+          <div className="basis-1/2 ">
             <div
               className="rounded-lg"
               style={{
@@ -170,6 +171,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
                       }
                       loading={loading}
                       setSlime={setSlime}
+                      bg={bg}
                     />
                   </div>
                 )}
@@ -184,6 +186,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               setLoading={setLoading}
               slime={slime}
               setUser={setUser}
+              bg={bg}
             />
           </div>
         </div>

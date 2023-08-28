@@ -11,6 +11,7 @@ export default function SlimeDetails({
   setLoading,
   slime,
   setUser,
+  bg,
 }) {
   if (!slime) return <></>;
 
@@ -70,7 +71,12 @@ export default function SlimeDetails({
   const colour = gameData.rarityColours[slime.rarity].text;
   return (
     <div>
-      <div className="bg-white/50 rounded-lg h-full mb-2">
+      <div
+        className="rounded-lg h-full mb-2"
+        style={{
+          backgroundColor: `${bg.white}88`,
+        }}
+      >
         {showLevelUpPopup && (
           <PopUpDetails
             user={user}
@@ -79,56 +85,118 @@ export default function SlimeDetails({
             oldSlime={oldSlime}
           />
         )}
-        <div className="flex flex-row gap-2 p-2 justify-around">
-          <div className="flex">
-            <img
-              src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
-              alt="Slime"
-              className="h-48 w-full"
-            />
+        <div
+          className="grid"
+          style={{
+            gridTemplateColumns: "1fr 1.25fr",
+          }}
+        >
+          <div className="flex justify-center items-center">
+            <div className="w-[90%]">
+              <img
+                src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
+                alt="Slime"
+                className="h-auto w-full"
+              />
+            </div>
           </div>
-          <div className="flex flex-col flex-wrap justify-center">
-            <p className="text-lg" style={{ color: colour }}>
-              {rarity}
-            </p>
-            <p className="text-xl pb-1">{name}</p>
-            {level === maxLevel ? (
-              <p className="text-xs">Level MAX </p>
-            ) : (
-              <p className="text-xs">
-                Level {level}/{maxLevel}{" "}
-              </p>
-            )}
-            <p className="text-xs">Gel production: {gelProduction} SG</p>
-            <button
-              className="bg-pink-400 p-1 text-xs mt-2"
-              onClick={() => {
-                setOldSlime(slime);
-                handleClick(slime._id);
+          <div className="p-8">
+            <div
+              className="rounded-lg py-4 px-7"
+              style={{
+                backgroundColor: `${bg.black}88`,
               }}
             >
-              <div className="flex flex-row justify-center items-center">
-                <p className="">Level up</p>
-                <img
-                  src="/assets/icons/slime-gel.png"
-                  alt="Icon"
-                  className="h-3 w-3 m-1"
-                />
-                <p className="">{levelUpCost}</p>
+              <p
+                className="text-xl"
+                style={{ color: colour }}
+              >
+                {rarity}
+              </p>
+              <p
+                className="text-3xl pb-1"
+                style={{
+                  color: bg.text1,
+                }}
+              >{name}</p>
+              <div
+                className="text-lg"
+                style={{
+                  color: bg.text1,
+                }}
+              >
+                {slime.bonusLevel ? (
+                  <p>
+                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level} + {slime.bonusLevel}
+                  </p>
+                ) : (
+                  <p>
+                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level}
+                  </p>
+                )}
+                <p>Production: {gelProduction} SG</p>
               </div>
-            </button>
+            </div>
+            {slime.level === slime.maxLevel ? (
+              <></>
+            ) : (
+              <>
+                <div
+                  className="rounded-lg items-center py-4 px-7 mt-4 text-lg"
+                  style={{
+                    backgroundColor: `${bg.black}88`,
+                    color: bg.text1,
+                  }}
+                >
+                  <p>{gelProduction} SG {`->`} {gelProduction + gameData.baseLevelProduction[slime.rarity]} SG</p>
+                  <div className="flex flex-row justify-between mt-3">
+                    <button
+                      className="py-1 px-4 rounded-lg inline"
+                      style={{
+                        backgroundColor: bg.primary1,
+                      }}
+                      onClick={() => {
+                        setOldSlime(slime);
+                        handleClick(slime._id);
+                      }}
+                    >
+                      <div className="flex flex-row justify-center items-center">
+                        <p>Level up</p>
+                      </div>
+                    </button>
+                    <div
+                      className="inline-flex flex-row items-center"
+                    >
+                      <img
+                        src="/assets/icons/slime-gel.png"
+                        alt="Icon"
+                        className="h-8 w-8 m-1"
+                      />
+                      <p className="ml-2">{levelUpCost}</p>
+                    </div>
+
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
-      <div className="bg-white/75 rounded-lg h-full">
+      <div
+        className="rounded-lg h-full mt-8"
+        style={{
+          backgroundColor: `${bg.white}88`,
+        }}
+      >
         <AddToRoster
           user={user}
           loading={loading}
           setLoading={setLoading}
           slime={slime}
           setUser={setUser}
+          bg={bg}
         />
       </div>
-    </div>
+    </div >
   );
 }
