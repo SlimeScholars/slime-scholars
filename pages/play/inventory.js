@@ -5,9 +5,8 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
 
-export default function Backpack({ loading, user, setUser }) {
+export default function Backpack({ loading, user, setUser, setNumEggs, setFlowers, items, setItems }) {
 	const router = useRouter();
-	const [items, setItems] = useState("empty for now");
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
 
 	// item.itemName => "Forest Mountains"
@@ -23,15 +22,13 @@ export default function Backpack({ loading, user, setUser }) {
 			router.push("/");
 		} else if (user.bg && gameData.items[user.bg].bg) {
 			setBg(gameData.items[user.bg].bg);
-		}
+		} 
+		
+		if (user) {
+			// Set the items for displaying in inventory to user's items
+			setItems(user.items);
 
-		// Set the items for displaying in inventory to user's items
-		setItems(user.items);
-
-		setpfpBg(user.pfpBg);
-
-		if (user.bg && gameData.items[user.bg].bg) {
-			setBg(gameData.items[user.bg].bg);
+			setpfpBg(user.pfpBg);
 		}
 	}, [user, loading]);
 
@@ -101,6 +98,8 @@ export default function Backpack({ loading, user, setUser }) {
 							setItems={setItems}
 							setItemOnClick={setItemOnClick}
 							setUser={setUser}
+							setNumEggs={setNumEggs}
+							setFlowers={setFlowers}
 						/>
 					</div>
 				</div>

@@ -80,7 +80,6 @@ export default async function (req, res) {
 			flowers: newUser.flowers, 
 			slimeGel: newUser.slimeGel, 
 			items: newUser.items,
-			user:newUser
 		})
 
 	} catch (error) {

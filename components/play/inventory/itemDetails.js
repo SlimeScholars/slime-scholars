@@ -14,7 +14,9 @@ export default function ItemDetails({
 	setBg,
 	setItems,
 	setItemOnClick,
-	setUser
+	setUser,
+	setNumEggs,
+	setFlowers
 }) {
 
 	// for background
@@ -42,10 +44,14 @@ export default function ItemDetails({
 							<div className="flex flex-col items-center">
 								<p>Current</p>
 								<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
-									<img
-										src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-										className="absolute inset-0"
-									></img>
+									{
+										(pfpBg && gameData.items[pfpBg]) && (
+											<img
+											src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
+											className="absolute inset-0"
+										></img>
+										)
+									}
 									<img
 										src={
 											"/assets/pfp/slimes/" +
@@ -271,7 +277,7 @@ export default function ItemDetails({
 											// Inluding flowers, slimeGel, items
 
 											// Update the number of flowers and slimeGels in Navbar
-											setUser(response.data.user);
+											console.log(response.data);
 
 											// if all of the current item is sold, show details of the first item returned
 											let numItemsLeft = 0;
@@ -284,9 +290,17 @@ export default function ItemDetails({
 												}
 											});
 
+											// Sync # flowers and eggs data with navbar
+											setFlowers(response.data.flowers);
+											if (item.itemName === "Slime Egg") {
+												setNumEggs(numItemsLeft);
+											}
+
 											if (numItemsLeft === 0) {
 												setItemOnClick(response.data.items[0]);
 											}
+
+											setItems(response.data.items);
 
 											// Prompt message to gui
 											showToastError((sellItemsNum === 1 ? ("Item sold") : ("Items sold")), true);

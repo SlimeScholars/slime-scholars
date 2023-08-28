@@ -12,6 +12,10 @@ function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false); // Used for axios loading
   const [user, setUser] = useState(null);
+  const [numEggs, setNumEggs] = useState(0);
+  const [flowers, setFlowers] = useState(null);
+	const [items, setItems] = useState("empty for now");
+
   const modifiedPageProps = {
     ...pageProps,
     user,
@@ -20,6 +24,10 @@ function MyApp({ Component, pageProps }) {
     setLoading,
     loading2,
     setLoading2,
+    setNumEggs,
+    setFlowers,
+    items,
+    setItems
   }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -126,7 +134,7 @@ function MyApp({ Component, pageProps }) {
             <div className={`relative h-0`}>
               <div className={`absolute inset-0 p-8 `}>
                 <div className="relative z-20">
-                  <Navbar user={user} current={current}/>
+                  <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers}/>
                 </div>
                 <Component {...modifiedPageProps} />
               </div>
