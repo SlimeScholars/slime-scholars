@@ -55,7 +55,7 @@ export function Navbar({ current, user }) {
         className="rounded hover:opacity-80 h-full font-galindo text-xl"
         style={{
           backgroundColor: bg.primary1,
-          color: bg.earnFlowers,
+          color: bg.text1,
         }}
         onClick={
           (e) => {
@@ -66,13 +66,13 @@ export function Navbar({ current, user }) {
       >
         Earn Flowers
       </button>
-      <div className="flex flex-row items-center space-x-2 justify-end">
+      <div className="flex flex-row items-center space-x-2 justify-end font-galindo text-lg">
         <div className="flex flex-col items-end">
           <div
-            className="flex rounded-[5rem] py-2 px-6 w-fit"
+            className="flex rounded-[5rem] py-1 px-6 w-fit"
             style={{
               backgroundColor: `${bg.black}55`,
-              color: bg.white,
+              color: bg.text1,
               boxShadow: `0px 0px 20px ${bg.white}0F`
             }}
           >
@@ -82,18 +82,18 @@ export function Navbar({ current, user }) {
                 <img
                   src="/assets/icons/slime-gel.png"
                   alt="Icon"
-                  className="h-6 w-6 ml-1 mr-3"
+                  className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
                 <p className="">{user.slimeGel}</p>
               </div>
             )}
           </div>
           <div
-            className="flex rounded-[5rem] py-2 px-6 w-fit mt-3"
+            className="flex rounded-[5rem] py-1 px-6 w-fit mt-2"
             style={{
               backgroundColor: `${bg.black}55`,
-              color: bg.white,
-              boxShadow: `0px 0px 20px ${bg.white}0F`
+              color: bg.text1,
+              boxShadow: `0px 0px 20px ${bg.text1}0F`
             }}
           >
             {/* flowers */}
@@ -102,7 +102,7 @@ export function Navbar({ current, user }) {
                 <img
                   src="/assets/icons/flower.png"
                   alt="Icon"
-                  className="h-6 w-6 ml-1 mr-3"
+                  className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
                 <p className="">{user.flowers}</p>
               </div>

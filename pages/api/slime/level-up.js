@@ -52,7 +52,7 @@ export default async function (req, res) {
       // Future slime.level - 1 as index to adjust from level to index
       // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
       levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
-      basePower: slime.basePower + gameData.baseLevelProduction[slime.rarity],
+      baseProduction: slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
     })
 
     user.slimeGel -= slime.levelUpCost

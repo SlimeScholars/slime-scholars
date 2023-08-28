@@ -9,6 +9,7 @@ export default function AddToRoster({
   setLoading,
   slime,
   setUser,
+  bg,
 }) {
   const [inRoster, setInRoster] = useState(false);
   // console.log(slime);
@@ -68,16 +69,23 @@ export default function AddToRoster({
   };
 
   return (
-    <div className="flex flex-col px-8 py-4">
+    <div
+      className="flex flex-col px-9 py-5"
+      style={{
+        color: bg.text1,
+      }}
+    >
       {inRoster ? (
         <div className="flex flex-row justify-between">
           <div>
-            <p className="text-md mx-1"> Add to team</p>
-            <p className="text-xs mb-2 mx-1"> Choose a slime to replace</p>
+            <p className="text-2xl mx-1"> Add to team</p>
           </div>
           <div>
             <button
-              className="bg-pink-400 p-2 text-sm"
+              className="px-5 py-1 text-xl rounded-lg"
+              style={{
+                backgroundColor: bg.secondary1,
+              }}
               onClick={() => {
                 handleClick(slime._id);
               }}
@@ -89,9 +97,9 @@ export default function AddToRoster({
       ) : (
         <div>
           <p className="text-md mx-1"> Add to team</p>
-          <p className="text-xs mb-2 mx-1"> Choose a slime to add/replace</p>
         </div>
       )}
+      <p className="text-xl mb-2 mx-1 text-center mt-5"> Choose a slime to replace</p>
       <div className="flex flex-row justify-around items-center">
         <Roster
           user={user}
@@ -99,6 +107,7 @@ export default function AddToRoster({
           setLoading={setLoading}
           slime={slime}
           setUser={setUser}
+          bg={bg}
         />
       </div>
     </div>
