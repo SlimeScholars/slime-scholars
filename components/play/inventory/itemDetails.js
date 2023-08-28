@@ -118,31 +118,6 @@ export default function ItemDetails({
 							)}
 						</div>
 					</div>
-					{/* equip background button for color palette testing FIXME */}
-					<button
-						className='bg-white'
-						onClick={() => {
-							axios
-								.put(
-									"/api/user/change-bg",
-									{
-										bg: item.itemName,
-									},
-									{
-										headers: {
-											Authorization: `Bearer ${localStorage.getItem(
-												"jwt"
-											)}`,
-										},
-									}
-								)
-								.then((response) => {
-								})
-								.catch((error) => { });
-						}}
-					>
-						Equip as background
-					</button>
 				</div>
 				<div className="bg-black/40 rounded-lg p-8 col-span-3">
 					{gameData.items[item.itemName].bg === bg ? (
