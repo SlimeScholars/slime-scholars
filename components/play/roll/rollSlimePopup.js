@@ -66,25 +66,25 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
             <div className="grid grid-cols-1 place-content-start pb-4 gap-4">
                 <div>
                 {
-                    starLevel&& (
-                        <p>{ "Star Level: "+originalSlime.starLevel+" -> "+starLevel}</p>
+                    starLevel !== undefined && (
+                        <p>{ "Star Level: "+originalSlime.starLevel+"/"+originalSlime.maxStarLevel+" -> "+starLevel+"/"+updatedSlime.maxStarLevel}</p>
                     )
                 }
                 </div>
                 <div>
                     {
-                    starProgress&& (
-                        <p>{ "Star Progress: "+originalSlime.starProgress+" -> "+starProgress}</p>
+                    starProgress !== undefined && (
+                        <p>{ "Star Progress: "+originalSlime.starProgress+"/"+originalSlime.maxStarProgress+" -> "+starProgress+"/"+updatedSlime.maxStarLevel}</p>
                     )
                     }   
                 </div>
                 <div>
-                    {bonusLevel&& (
+                    {bonusLevel !== undefined && (
                         <p>{ "Bonus Level: "+originalSlime.bonusLevel+" -> "+bonusLevel }</p>
                     )}
                 </div>
                 <div>
-                    {bonusProduction&& (
+                    {bonusProduction !== undefined && (
                         <p>{ "Bonus Production: "+originalSlime.bonusProduction+" -> "+bonusProduction}</p>
                     )}
                 </div>

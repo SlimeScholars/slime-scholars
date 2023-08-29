@@ -1,6 +1,6 @@
 import User from '../models/userModel'
 import '../models/slimeModel'
-import { getPopulatedRoster } from './getPopulatedRoster'
+import { getSortedItems, getSortedSlimes } from './sort'
 
 export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, courses: 0 }) => {
   const modifiedConfig = {
@@ -41,31 +41,34 @@ export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, 
       path: 'slimes',
       select: '-user -createdAt -updatedAt -__v',
     })
+    .populate({
+      path: 'roster',
+      select: '-user -createdAt -updatedAt -__v',
+      options: { retainNullValues: true },
+    })
+    .lean()
     .exec()
 
-  // Duplicate user so that it can be editted
-  const modifiedUser = {
-    ...user.toJSON(),
+  // Populating friends and friend requests
+  for (let i in user.friends) {
+    const populatedFriend = await getPopulatedPlayer(user.friends[i]._id)
+    user.friends[i] = populatedFriend
   }
 
-  modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
-
-  for (let i in modifiedUser.friends) {
-    const populatedFriend = await getPopulatedPlayer(modifiedUser.friends[i]._id)
-    modifiedUser.friends[i] = populatedFriend
+  for (let i in user.receivedFriendRequests) {
+    const populatedRequest = await getPopulatedPlayer(user.receivedFriendRequests[i])
+    user.receivedFriendRequests[i] = populatedRequest
   }
 
-  for (let i in modifiedUser.receivedFriendRequests) {
-    const populatedRequest = await getPopulatedPlayer(modifiedUser.receivedFriendRequests[i])
-    modifiedUser.receivedFriendRequests[i] = populatedRequest
+  for (let i in user.sentFriendRequests) {
+    const populatedRequest = await getPopulatedPlayer(user.sentFriendRequests[i])
+    user.sentFriendRequests[i] = populatedRequest
   }
 
-  for (let i in modifiedUser.sentFriendRequests) {
-    const populatedRequest = await getPopulatedPlayer(modifiedUser.sentFriendRequests[i])
-    modifiedUser.sentFriendRequests[i] = populatedRequest
-  }
+  user.items = getSortedItems(user.items)
+  user.slimes = getSortedSlimes(user.slimes)
 
-  return modifiedUser
+  return user
 }
 
 export const getPopulatedPlayer = async (userId) => {
@@ -75,14 +78,15 @@ export const getPopulatedPlayer = async (userId) => {
       path: 'slimes',
       select: '-user -createdAt -updatedAt -__v',
     })
+    .populate({
+      path: 'roster',
+      select: '-user -createdAt -updatedAt -__v',
+      options: { retainNullValues: true },
+    })
+    .lean()
     .exec()
 
-  // Duplicate user so that it can be editted
-  const modifiedUser = {
-    ...user.toJSON(),
-  }
+  user.slimes = getSortedSlimes(user.slimes)
 
-  modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
-
-  return modifiedUser
+  return user
 }
