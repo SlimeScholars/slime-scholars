@@ -21,19 +21,10 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
     }
 
     useEffect(() => {
-
-        // Keep a flag indicating old slime found
-        let isDuplicate = false;
-
         // If is duplicate, reset originalSlime
-        originalSlimes.map((slime) => {
-            if (slime._id === updatedSlime._id) {
-                setOriginalSlime(slime);
-                isDuplicate = true;
-            }
-        })
-
-        if (isDuplicate === false) {
+        if (originalSlimes[index]) {
+            setOriginalSlime(originalSlimes[index]);
+        } else {
             setOriginalSlime(null);
         }
     }, [updatedSlime]);
