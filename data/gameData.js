@@ -643,11 +643,24 @@ export const gameData = {
       slimeName: "Puppy Slime",
       pfp: "puppy-slime.png",
     },
+    // FIXME: Update slime pictures to actual picture
+    "Mochi Slime": {
+      slimeName: "Mochi Slime",
+      pfp: 'puppy-slime.png',
+    },
+    "Lucky Slime": {
+      slimeName: "Lucky Slime",
+      pfp: 'puppy-slime.png',
+    },
+    "Scholar Slime": {
+      slimeName: "Scholar Slime",
+      pfp: 'puppy-slime.png',
+    },
+
   },
 
   // Slime data
   slimes: {
-    // TODO: Write pfps
     Common: [
       {
         slimeName: "Blue Slime",
