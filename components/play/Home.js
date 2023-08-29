@@ -3,13 +3,15 @@ import { gameData } from "../../data/gameData";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Home({ user, setLoading, setUser, active }) {
+export default function Home({ user, setLoading, setUser, active, colorPalette, setColorPalette }) {
   const router = useRouter();
-  const [bg, setBg] = useState(undefined);
 
   useEffect(() => {
-    if (user && user.bg) setBg(gameData.items[user.bg].bg);
-  }, [user]);
+    if (user && user.bg && gameData.items[user.bg] && setColorPalette) 
+    {
+      setColorPalette(gameData.items[user.bg]);
+    }
+  });
 
   if (!user) {
     return <></>;
@@ -26,7 +28,7 @@ export default function Home({ user, setLoading, setUser, active }) {
       className="w-full h-screen relative bg-bottom"
       style={{
         backgroundImage:
-          bg === undefined ? "" : `url('/assets/backgrounds/${bg}')`,
+          colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
         backgroundSize: "cover",
       }}
     >

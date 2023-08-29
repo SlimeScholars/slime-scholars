@@ -7,13 +7,12 @@ import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 import { gameData } from "../../data/gameData";
 
-export default function Slimes({ loading, user, setLoading, setUser }) {
+export default function Slimes({ loading, user, setLoading, setUser, colorPalette, setColorPalette }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
   const [slime, setSlime] = useState("");
 
   const router = useRouter();
-  const [bg, setBg] = useState({}); // Default background
   const [chanceSlimes, setChanceSlimes] = useState([]);
   const [showRewardsPopup, setShowRewardsPopup] = useState(false);
   const [rewards, setRewards] = useState(0);
@@ -25,11 +24,8 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     if (!user || user.userType !== 1) {
       router.push("/");
     }
-    if (user.bg) {
-      const newBg = gameData.items[user.bg];
-      if (newBg) {
-        setBg(newBg);
-      }
+    if (user) {
+      setColorPalette(gameData.items[user.bg]);
     }
   }, [user, loading]);
 
@@ -62,7 +58,6 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
-          console.log(response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -117,8 +112,10 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
           */}
           <div
             style={{
-              backgroundColor: `${bg.white}88`,
-              color: bg.text1,
+              backgroundColor: 
+                colorPalette === undefined? "":`${colorPalette.white}88`,
+              color: 
+                colorPalette === undefined? "":colorPalette.text1,
             }}
             className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
           >
@@ -129,9 +126,12 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
             <div className="grow-0 flex pr-4">
               <div
                 style={{
-                  border: `3px solid ${bg.primary1}`,
-                  color: bg.text1,
-                  backgroundColor: `${bg.white}88`,
+                  border: 
+                    colorPalette===undefined? "":`3px solid ${colorPalette.primary1}`,
+                  color: 
+                    colorPalette===undefined? "":colorPalette.text1,
+                  backgroundColor: 
+                    colorPalette===undefined? "":`${colorPalette.white}88`,
                 }}
                 className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
@@ -158,7 +158,8 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
             <div
               className="rounded-lg"
               style={{
-                backgroundColor: `${bg.white}88`,
+                backgroundColor: 
+                  colorPalette===undefined? "":`${colorPalette.white}88`,
               }}
             >
               <div className="items-center">
@@ -171,7 +172,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
                       }
                       loading={loading}
                       setSlime={setSlime}
-                      bg={bg}
+                      bg={colorPalette}
                     />
                   </div>
                 )}
@@ -186,7 +187,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               setLoading={setLoading}
               slime={slime}
               setUser={setUser}
-              bg={bg}
+              bg={colorPalette}
             />
           </div>
         </div>

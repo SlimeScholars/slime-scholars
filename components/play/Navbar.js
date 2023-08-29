@@ -8,7 +8,7 @@ Parameter:
   current: the id of the web page that the user is currently on
 */
 
-export function Navbar({ current, user }) {
+export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalette, setColorPalette }) {
   const types = [
     { title: "shopping", src: "shopping", id: 1 },
     { title: "friends", src: "friends", id: 2 },
@@ -19,10 +19,6 @@ export function Navbar({ current, user }) {
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
-  const [numEggs, setNumEggs] = useState(0);
-
-  // Custom color palette
-  const [bg, setBg] = useState({})
 
   useEffect(() => {
 
@@ -34,12 +30,10 @@ export function Navbar({ current, user }) {
       });
     }
 
-    if (user && user.bg) {
-      const newBg = gameData.items[user.bg]
-      if (newBg) {
-        setBg(newBg)
-      }
+    if (user) {
+      setColorPalette(gameData.items[user.pfpBbg]);
     }
+
   }, [user]);
 
 
@@ -54,8 +48,10 @@ export function Navbar({ current, user }) {
       <button
         className="rounded hover:opacity-80 h-full font-galindo text-xl"
         style={{
-          backgroundColor: bg.primary1,
-          color: bg.text1,
+          backgroundColor: 
+            colorPalette === undefined? "": colorPalette.primary1,
+          color: 
+            colorPalette === undefined? "":colorPalette.text1,
         }}
         onClick={
           (e) => {
@@ -71,9 +67,8 @@ export function Navbar({ current, user }) {
           <div
             className="flex rounded-[5rem] py-1 px-6 w-fit"
             style={{
-              backgroundColor: `${bg.black}55`,
-              color: bg.text1,
-              boxShadow: `0px 0px 20px ${bg.white}0F`
+              backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
+              color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
             }}
           >
             {/* slime gel */}
@@ -91,9 +86,9 @@ export function Navbar({ current, user }) {
           <div
             className="flex rounded-[5rem] py-1 px-6 w-fit mt-2"
             style={{
-              backgroundColor: `${bg.black}55`,
-              color: bg.text1,
-              boxShadow: `0px 0px 20px ${bg.white}0F`
+              backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
+              color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
+              boxShadow: `${colorPalette? "0px 0px 20px "+colorPalette.white+"0F" : ""}`
             }}
           >
             {/* flowers */}
@@ -104,7 +99,7 @@ export function Navbar({ current, user }) {
                   alt="Icon"
                   className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
-                <p className="">{user.flowers}</p>
+                <p className="text-black text-sm">{flowers===null? (user.flowers) : (flowers)}</p>
               </div>
             )}
           </div>
@@ -145,9 +140,9 @@ export function Navbar({ current, user }) {
               }}
               style={
                 isActive ? {
-                  backgroundColor: `${bg.primary1}`,
+                  backgroundColor: `${colorPalette? colorPalette.primary1:'#ffffff'}`,
                 } : {
-                  backgroundColor: `${bg.white}88`,
+                  backgroundColor: `${colorPalette? colorPalette.white:'#ffff'}88`,
                 }
               }
               className={`hover:opacity-60 ${commonButtonClasses}`}

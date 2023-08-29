@@ -76,7 +76,7 @@ export const gameData = {
 
     },
 
-    Castle: {
+    "Castle": {
       itemName: "Castle",
       rarity: "Rare",
       isBg: true,

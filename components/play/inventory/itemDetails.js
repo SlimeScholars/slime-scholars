@@ -10,12 +10,16 @@ export default function ItemDetails({
 	user,
 	pfpBg,
 	setpfpBg,
-	bg,
-	setBg,
 	setItems,
 	setItemOnClick,
-	setUser
+	setUser,
+	setNumEggs,
+	setFlowers,
+	colorPalette,
+	setColorPalette
 }) {
+
+	const router = useRouter();
 
 	// for background
 	if (item.isBg && gameData.items[item.itemName]) {
@@ -40,12 +44,15 @@ export default function ItemDetails({
 					<div className="flex flex-row w-full items-center flex-wrap">
 						<div className="basis-1/5">
 							<div className="flex flex-col items-center">
+								{/* Display current profile picture */}
 								<p>Current</p>
 								<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
-									<img
-										src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-										className="absolute inset-0"
-									></img>
+									{
+										<img
+											src={"/assets/pfp/backgrounds/" + pfpBg}
+											className="absolute inset-0"
+										></img>
+									}
 									<img
 										src={
 											"/assets/pfp/slimes/" +
@@ -110,7 +117,9 @@ export default function ItemDetails({
 												setpfpBg(item.itemName);
 												showToastError("Profile background was changed.", true);
 											})
-											.catch((error) => { });
+											.catch((error) => { 
+												showToastError(error.message);
+											});
 									}}
 								>
 									Equip as Profile Background
@@ -119,8 +128,9 @@ export default function ItemDetails({
 						</div>
 					</div>
 				</div>
+				{/* Background */}
 				<div className="bg-black/40 rounded-lg p-8 col-span-3">
-					{gameData.items[item.itemName].bg === bg ? (
+					{gameData.items[item.itemName].bg === colorPalette.bg ? (
 						<button className="text-black" disabled>
 							Equipped as background
 						</button>
@@ -141,10 +151,9 @@ export default function ItemDetails({
 										}
 									)
 									.then((response) => {
-										setBg(gameData.items[item.itemName].bg);
+										setColorPalette(gameData.items[item.itemName]);
 									})
 									.catch((error) => {
-										console.log(error);
 										showToastError(error.message);
 									});
 							}}
@@ -268,10 +277,8 @@ export default function ItemDetails({
 											quantity: sellItemsNum
 										}, config)
 										.then(response => {
-											// Inluding flowers, slimeGel, items
 
-											// Update the number of flowers and slimeGels in Navbar
-											setUser(response.data.user);
+											// Inluding flowers, slimeGel, items
 
 											// if all of the current item is sold, show details of the first item returned
 											let numItemsLeft = 0;
@@ -284,9 +291,17 @@ export default function ItemDetails({
 												}
 											});
 
+											// Sync # flowers and eggs data with navbar
+											setFlowers(response.data.flowers);
+											if (item.itemName === "Slime Egg") {
+												setNumEggs(numItemsLeft);
+											}
+
 											if (numItemsLeft === 0) {
 												setItemOnClick(response.data.items[0]);
 											}
+
+											setItems(response.data.items);
 
 											// Prompt message to gui
 											showToastError((sellItemsNum === 1 ? ("Item sold") : ("Items sold")), true);
@@ -317,7 +332,7 @@ export default function ItemDetails({
 					<p
 						className="text-red-300 hover:text-red-300/75"
 						onClick={(e) => {
-
+							router.push("/play/roll");
 						}}>
 						Open Egg
 					</p>

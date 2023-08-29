@@ -52,7 +52,6 @@ export default function Friends({ loading, user, setUser }) {
         setAllPlayers(response.data.leaderboard);
       })
       .catch((error) => {
-        console.log("playersListings", error.message);
       });
   }, [user, loading]);
 

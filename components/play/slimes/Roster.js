@@ -18,7 +18,6 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg }
       let swap = false;
       let cur_pos = -1;
       for (let i in user.roster) {
-        console.log(user.roster[i]);
         if (user.roster[i] === null) {
           roster[i] = null;
         } else {
