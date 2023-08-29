@@ -229,8 +229,9 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                   </div>
                   <img
                     src={
-                      "/assets/pfp/slimes/" +
-                      gameData.slimePfps[slime.slimeName].pfp
+                      (slime.slimeName && gameData.slimePfps && gameData.slimePfps[slime.slimeName] && gameData.slimePfps[slime.slimeName].pfp)? (
+                        "/assets/pfp/slimes/" + gameData.slimePfps[slime.slimeName].pfp
+                      ) : ("")
                     }
                     alt="Slime"
                     className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"

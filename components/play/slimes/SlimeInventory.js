@@ -22,8 +22,9 @@ export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
                 >
                   <img
                     src={
-                      "/assets/pfp/slimes/" +
-                      gameData.slimePfps[slime.slimeName].pfp
+                      gameData.slimePfps[slime.slimeName]? (
+                        "/assets/pfp/slimes/" + gameData.slimePfps[slime.slimeName].pfp
+                      ) : ("")
                     }
                     alt="Slime"
                     className="h-auto w-[80%] mx-auto"

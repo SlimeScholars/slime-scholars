@@ -105,8 +105,10 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
                   >
                     <img
                       src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimePfps[char.slimeName].pfp
+                        gameData.slimePfps[char.slimeName]? (
+                          "/assets/pfp/slimes/" + gameData.slimePfps[char.slimeName].pfp
+                        ) :
+                        ("")
                       }
                       alt="Slime"
                       className="h-20 w-20 mx-auto"

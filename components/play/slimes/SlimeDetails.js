@@ -70,7 +70,7 @@ export default function SlimeDetails({
   const maxLevel = slime.maxLevel;
   const colour = gameData.rarityColours[slime.rarity].text;
   return (
-    <div>
+    <div className="">
       <div
         className="rounded-lg h-full mb-2"
         style={{
@@ -107,10 +107,7 @@ export default function SlimeDetails({
                 backgroundColor: `${bg.black}88`,
               }}
             >
-              <p
-                className="text-xl"
-                style={{ color: colour }}
-              >
+              <p className="text-xl" style={{ color: colour }}>
                 {rarity}
               </p>
               <p
@@ -118,7 +115,9 @@ export default function SlimeDetails({
                 style={{
                   color: bg.text1,
                 }}
-              >{name}</p>
+              >
+                {name}
+              </p>
               <div
                 className="text-lg"
                 style={{
@@ -127,11 +126,12 @@ export default function SlimeDetails({
               >
                 {slime.bonusLevel ? (
                   <p>
-                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level} + {slime.bonusLevel}
+                    Lvl. {slime.level === slime.maxLevel ? "MAX" : slime.level}{" "}
+                    + {slime.bonusLevel}
                   </p>
                 ) : (
                   <p>
-                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level}
+                    Lvl. {slime.level === slime.maxLevel ? "MAX" : slime.level}
                   </p>
                 )}
                 <p>Production: {gelProduction} SG</p>
@@ -148,7 +148,11 @@ export default function SlimeDetails({
                     color: bg.text1,
                   }}
                 >
-                  <p>{gelProduction} SG {`->`} {gelProduction + gameData.baseLevelProduction[slime.rarity]} SG</p>
+                  <p>
+                    {gelProduction} SG {`->`}{" "}
+                    {gelProduction + gameData.baseLevelProduction[slime.rarity]}{" "}
+                    SG
+                  </p>
                   <div className="flex flex-row justify-between mt-3">
                     <button
                       className="py-1 px-4 rounded-lg inline"
@@ -164,9 +168,7 @@ export default function SlimeDetails({
                         <p>Level up</p>
                       </div>
                     </button>
-                    <div
-                      className="inline-flex flex-row items-center"
-                    >
+                    <div className="inline-flex flex-row items-center">
                       <img
                         src="/assets/icons/slime-gel.png"
                         alt="Icon"
@@ -174,7 +176,6 @@ export default function SlimeDetails({
                       />
                       <p className="ml-2">{levelUpCost}</p>
                     </div>
-
                   </div>
                 </div>
               </>
@@ -197,6 +198,6 @@ export default function SlimeDetails({
           bg={bg}
         />
       </div>
-    </div >
+    </div>
   );
 }

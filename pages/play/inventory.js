@@ -19,8 +19,6 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 		}
 		if (!user || user.userType !== 1) {
 			router.push("/");
-		} else if (user.bg && gameData.items[user.bg].bg) {
-			setColorPalette(gameData.items[user.bg]);
 		} 
 		
 		if (user) {
@@ -30,6 +28,13 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 			setPfpBg(user.pfpBg);
 		}
 	}, [user, loading]);
+
+	// Run only once after initial render
+	useEffect(() => {
+		if (user && user.bg && gameData.items[user.bg].bg) {
+			setColorPalette(gameData.items[user.bg]);
+		} 
+	}, [])
 
 	const handleNavHome = (event) => {
 		if (event.target.classList.contains("home")) {
