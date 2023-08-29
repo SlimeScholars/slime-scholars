@@ -3,6 +3,7 @@ import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
+import { getSortedItems } from "../../../utils/sort"
 
 /**
  * @desc    Buy item
@@ -84,7 +85,10 @@ export default async function (req, res) {
 
         const newUser = await User.findById(user._id)
           .select('items slimeGel')
+          .lean()
           .exec()
+
+        newUser.items = getSortedItems(newUser.items)
 
         res.status(200).json({
           items: newUser.items,
@@ -136,7 +140,10 @@ export default async function (req, res) {
 
         const newUser = await User.findById(user._id)
           .select('items flowers')
+          .lean()
           .exec()
+
+        newUser.items = getSortedItems(newUser.items)
 
         res.status(200).json({
           items: newUser.items,

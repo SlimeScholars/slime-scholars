@@ -4,6 +4,7 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
+import { getSortedSlimes } from "../../../utils/sort"
 
 /**
  * @desc    Open egg to get slime
@@ -172,18 +173,20 @@ export default async function (req, res) {
     })
 
     // Get the updated slimes
-    const newSlimes = (await User.findById(user._id)
+    const newUser = await User.findById(user._id)
       .select('slimes')
       .populate({
         path: 'slimes',
         select: '-user -createdAt -updatedAt -__v',
       })
+      .lean()
       .exec()
-    ).slimes
+
+    newUser.slimes = getSortedSlimes(newUser.slimes)
 
     res.status(200).json({
       slime,
-      slimes: newSlimes,
+      slimes: newUser.slimes,
       items: newItems,
     })
   } catch (error) {

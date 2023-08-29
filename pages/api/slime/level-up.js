@@ -4,6 +4,7 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
+import { getSortedSlimes } from "../../../utils/sort"
 
 /**
  * @desc    Level up a slime
@@ -75,7 +76,10 @@ export default async function (req, res) {
         select: '-user -createdAt -updatedAt -__v',
         retainNullValues: true,
       })
+      .lean()
       .exec()
+
+    newUser.slimes = getSortedSlimes(newUser.slimes)
 
     res.status(200).json({
       slime: newSlime,
