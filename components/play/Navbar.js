@@ -93,7 +93,7 @@ export function Navbar({ current, user }) {
             style={{
               backgroundColor: `${bg.black}55`,
               color: bg.text1,
-              boxShadow: `0px 0px 20px ${bg.text1}0F`
+              boxShadow: `0px 0px 20px ${bg.white}0F`
             }}
           >
             {/* flowers */}
