@@ -45,9 +45,8 @@ export default async function (req, res) {
 		}
 		unit.quizQuestions = quizQuestions
 
-		const course = (await Course.findById(courseId)
+		const course = await Course.findById(courseId)
 			.select('courseName')
-		)
 
 		res.status(200).json({
 			unit: unit,
