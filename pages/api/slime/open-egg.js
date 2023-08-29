@@ -71,10 +71,12 @@ export default async function (req, res) {
     const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
 
     const slimeExists = await Slime.findOne({ user: user._id, slimeName: chosenSlime.slimeName })
+    const originSlimeObjects = new Array(); // for Roll page use 
 
     let slime
     // If the new slime is duplicate
     if (slimeExists) {
+      originSlimeObjects.push(JSON.parse(JSON.stringify(slimeExists)));
       // If the slime can earn stars
       if (slimeExists.starProgress !== undefined && slimeExists.starLevel !== slimeExists.maxStarLevel) {
         // Increase star progress
@@ -117,6 +119,7 @@ export default async function (req, res) {
 
     // Create a starable slime if rarity is starable
     else if (gameData.canStar.includes(rarity)) {
+      originSlimeObjects.push({});
       const slimeId = (await Slime.create({
         user: user._id,
         slimeName: chosenSlime.slimeName,
@@ -150,6 +153,7 @@ export default async function (req, res) {
 
     // Create a non-starable slime
     else {
+      originSlimeObjects.push({});
       const slimeId = (await Slime.create({
         user: user._id,
         slimeName: chosenSlime.slimeName,
@@ -188,6 +192,7 @@ export default async function (req, res) {
       slime,
       slimes: newUser.slimes,
       items: newItems,
+      originSlimeObjects: originSlimeObjects
     })
   } catch (error) {
     res.status(400).json({ message: error.message })

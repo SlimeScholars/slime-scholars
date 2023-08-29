@@ -34,10 +34,6 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
             setFlowersOwned(user.flowers);
         }
 
-        if (user) {
-            setOriginalSlimes(user.slimes);
-        }
-
     }, [user, loading]);
 
     const handleNavHome = (event) => {
@@ -119,6 +115,7 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                         let newSlimes = new Array();
                         newSlimes.push(response.data.slime);
                         setSlimes(newSlimes);
+                        setOriginalSlimes(response.data.originSlimeObjects);
 
                     })
                     .catch(error => showToastError(error.message));
@@ -136,6 +133,7 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                     .then(response => {
 
                         setSlimes(response.data.slimeObjects);
+                        setOriginalSlimes(response.data.originSlimeObjects);
                         setAfterRolling(2);
                     })
                     .catch(error => showToastError(error.message));
