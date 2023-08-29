@@ -48,6 +48,7 @@ export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, 
     .lean()
     .exec()
 
+  // Populating friends and friend requests
   for (let i in user.friends) {
     const populatedFriend = await getPopulatedPlayer(user.friends[i]._id)
     user.friends[i] = populatedFriend
@@ -62,6 +63,33 @@ export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, 
     const populatedRequest = await getPopulatedPlayer(user.sentFriendRequests[i])
     user.sentFriendRequests[i] = populatedRequest
   }
+
+  // Sort items
+  // Priority 1: Non-backgrounds
+  // Priority 2: Alphabetical order
+  user.items.sort((a, b) => {
+    if (a.isBg === b.isBg) {
+      return a.itemName.localeCompare(b.itemName)
+    } else {
+      return a.isBg ? 1 : -1
+    }
+  })
+
+  // Sort the user's slimes
+  user.slimes.sort((a, b) => {
+    // Sort by rarity first
+    const rarityOrder = ['Legendary', 'Epic', 'Rare', 'Uncommon', 'Common']
+    const rarityComparison = rarityOrder.indexOf(a.rarity) - rarityOrder.indexOf(b.rarity)
+
+    if (rarityComparison !== 0) {
+      return rarityComparison
+    } else {
+      // If rarity is the same, sort by baseProduction + bonusProduction
+      const aTotalProduction = a.baseProduction + a.bonusProduction
+      const bTotalProduction = b.baseProduction + b.bonusProduction
+      return bTotalProduction - aTotalProduction // Sort in descending order
+    }
+  })
 
   return user
 }
