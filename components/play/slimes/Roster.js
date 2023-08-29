@@ -2,7 +2,7 @@ import axios from "axios";
 import { showToastError } from "../../../utils/toast";
 import { gameData } from "../../../data/gameData";
 
-export default function Roster({ user, loading, setLoading, slime, setUser }) {
+export default function Roster({ user, loading, setLoading, slime, setUser, bg }) {
   if (loading) {
     return;
   }
@@ -67,64 +67,70 @@ export default function Roster({ user, loading, setLoading, slime, setUser }) {
 
   return (
     // if slime not selected, don't allow user to add
-    <div className="flex flex-row gap-3">
+    <div className="grid grid-cols-4 gap-6">
       {Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
           // console.log(char);
           if (char === null) {
             return (
               <div className="relative" key={index}>
-                <div className="overflow-hidden rounded-lg">
-                  <div className="border-4 border-gray-400 rounded-md ">
-                    <button
-                      onClick={() => {
-                        handleClick(slime._id, index);
-                      }}
-                      className="h-20 mx-auto"
-                      style={{ width: "7vw", maxWidth: "5rem" }}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
+                <button
+                  onClick={() => {
+                    handleClick(slime._id, index);
+                  }}
+                  className="h-full mx-auto rounded-lg w-full"
+                  style={{
+                    border: `5px solid ${bg.primary1}`,
+                  }}
+                >
+                  +
+                </button>
               </div>
             );
           }
           return (
             <div className="relative" key={index}>
-              <div className="overflow-hidden rounded-lg">
-                <div
-                  className={`flex flex-col relative flex-wrap w-auto ${
-                    gameData.rarityColours[char.rarity].bg
-                  } ${gameData.rarityColours[char.rarity].bord}`}
-                >
-                  <button
-                    onClick={() => {
-                      handleClick(slime._id, index);
-                    }}
-                    className=""
-                  >
-                    <img
-                      src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimePfps[char.slimeName].pfp
-                      }
-                      alt="Slime"
-                      className="h-20 w-20 mx-auto"
-                    />
-                  </button>
-                </div>
-              </div>
-              <div className="absolute bg-gray-400 h-5 w-10 -bottom-2.5 inset-x-0 mx-auto rounded-md items-center mt-2">
-                {char.level === char.maxLevel ? (
-                  <p className="text-center text-xs mt-1">Lvl. MAX </p>
+              <button
+                onClick={() => {
+                  handleClick(slime._id, index);
+                }}
+                className={`relative rounded-lg ${gameData.rarityColours[char.rarity].bg}`}
+                style={{
+                  border: `5px solid ${bg.primary1}`,
+                }}
+              >
+                <img
+                  src={
+                    "/assets/pfp/slimes/" +
+                    gameData.slimePfps[char.slimeName].pfp
+                  }
+                  alt={char.slimeName}
+                  className="h-auto w-[80%] mx-auto mb-3"
+                />
+              </button>
+
+              <div
+                className="absolute -bottom-2.5 inset-x-0 mx-auto rounded-full items-center mt-2 w-fit justify-center px-3"
+                style={{
+                  backgroundColor: `${bg.primary1}`,
+                  border: `3px solid ${bg.primary2}`,
+                  color: bg.text2,
+                }}
+              >
+                {slime.bonusLevel ? (
+                  <p className="text-center text-sm mt-1">
+                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level} + {slime.bonusLevel}
+                  </p>
                 ) : (
-                  <p className="text-center text-xs mt-1">Lvl. {char.level}</p>
+                  <p className="text-center text-sm mt-1">
+                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level}
+                  </p>
                 )}
               </div>
+
             </div>
           );
         })}
-    </div>
+    </div >
   );
 }
