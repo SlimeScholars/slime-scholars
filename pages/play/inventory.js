@@ -5,14 +5,13 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
 
-export default function Backpack({ loading, user, setUser, setNumEggs, setFlowers, items, setItems }) {
+export default function Backpack({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette }) {
 	const router = useRouter();
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
 
 	// item.itemName => "Forest Mountains"
 	// bg => "forest-mountains.png"
-	const [bg, setBg] = useState("bg-beach.png"); // Default background
-	const [pfpBg, setpfpBg] = useState("empty for now");
+	const [pfpBg, setPfpBg] = useState("empty for now");
 
 	useEffect(() => {
 		if (loading) {
@@ -21,14 +20,14 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 		if (!user || user.userType !== 1) {
 			router.push("/");
 		} else if (user.bg && gameData.items[user.bg].bg) {
-			setBg(gameData.items[user.bg].bg);
+			setColorPalette(gameData.items[user.bg]);
 		} 
 		
 		if (user) {
 			// Set the items for displaying in inventory to user's items
 			setItems(user.items);
 
-			setpfpBg(user.pfpBg);
+			setPfpBg(user.pfpBg);
 		}
 	}, [user, loading]);
 
@@ -92,14 +91,14 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 							item={itemOnClick}
 							user={user}
 							pfpBg={pfpBg}
-							setpfpBg={setpfpBg}
-							bg={bg}
-							setBg={setBg}
+							setPfpBg={setPfpBg}
 							setItems={setItems}
 							setItemOnClick={setItemOnClick}
 							setUser={setUser}
 							setNumEggs={setNumEggs}
 							setFlowers={setFlowers}
+							colorPalette={colorPalette}
+							setColorPalette={setColorPalette}
 						/>
 					</div>
 				</div>

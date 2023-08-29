@@ -19,6 +19,7 @@ export default function Courses({ user, loading, setLoading2 }) {
 	const [courses, setCourses] = useState([])
 
 	useEffect(() => {
+		setLoading2(true)
 		try {
 			const token = localStorage.getItem('jwt')
 			if (!token) {
@@ -31,13 +32,11 @@ export default function Courses({ user, loading, setLoading2 }) {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading2(true)
 			axios
 				.get("/api/learn/courses", config)
 				.then((response) => {
 					if (response?.data?.courses) {
 						setCourses(response.data.courses)
-						setLoading2(false);
 					}
 				})
 				.catch((error) => {
@@ -52,6 +51,12 @@ export default function Courses({ user, loading, setLoading2 }) {
 			return;
 		}
 	}, [])
+
+	useEffect(() => {
+		if (courses.length > 0) {
+			setLoading2(false)
+		}
+	})
 
 	return (
 		<div className='w-full min-h-screen flex items-center justify-center bg-red-50'>

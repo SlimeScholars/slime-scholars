@@ -5,14 +5,14 @@ import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import axios from "axios";
 import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
+import { gameData } from "../../data/gameData";
 
-export default function Slimes({ loading, user, setLoading, setUser }) {
+export default function Slimes({ loading, user, setLoading, setUser, colorPalette, setColorPalette }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
   const [slime, setSlime] = useState("");
 
   const router = useRouter();
-  const [bg, setBg] = useState("bg-beach.png"); // Default background
   const [chanceSlimes, setChanceSlimes] = useState([]);
   const [showRewardsPopup, setShowRewardsPopup] = useState(false);
   const [rewards, setRewards] = useState(0);
@@ -23,6 +23,9 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
+    }
+    if (user) {
+      setColorPalette(gameData.items[user.bg]);
     }
   }, [user, loading]);
 
@@ -55,7 +58,6 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
-          console.log(response.data);
           setLoading(false);
         })
         .catch((error) => {
@@ -95,6 +97,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
       <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/* button here just to test the backend get-rewards */}
+          {/*}
           <div>
             <button
               className="p-2 bg-white"
@@ -106,47 +109,70 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               Click Me
             </button>
           </div>
-          <div className="flex flex-row bg-white/50 rounded-lg items-center">
+          */}
+          <div
+            style={{
+              backgroundColor: 
+                colorPalette === undefined? "":`${colorPalette.white}88`,
+              color: 
+                colorPalette === undefined? "":colorPalette.text1,
+            }}
+            className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
+          >
             <div className="grow-0 pl-4">
-              <img src="/assets/icons/slimes.png" className="h-20 w-20"></img>
+              <img src="/assets/icons/slimes.png" className="h-[4.5rem] w-[4.5rem]"></img>
             </div>
-            <div className="grow pl-4 font-galindo text-xl">Slimes</div>
+            <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
             <div className="grow-0 flex pr-4">
-              <form
-                className="border-2 border-black flex bg-transparent rounded"
-                onSubmit={(e) => handleSubmit(e)}
+              <div
+                style={{
+                  border: 
+                    colorPalette===undefined? "":`3px solid ${colorPalette.primary1}`,
+                  color: 
+                    colorPalette===undefined? "":colorPalette.text1,
+                  backgroundColor: 
+                    colorPalette===undefined? "":`${colorPalette.white}88`,
+                }}
+                className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
                 <input
                   type="text"
                   // value={"Search for a slime"}
                   placeholder={"Search for a slime"}
-                  className="p-1 grow bg-transparent text-m font-galindo ml-2"
+                  className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
                   onChange={(e) => setSearchContent(e.target.value)}
                 ></input>
-                <button type="submit" className="h-full flex p-1">
+                <button className="h-full flex p-1 cursor-default">
                   <span className="material-symbols-outlined">search</span>
                 </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
         {/* Slimes inventory, all users slimes */}
         <div
-          className="pt-8 flex flex-row gap-4 items-start font-galindo home"
+          className="pt-9 flex flex-row gap-9 items-start font-galindo home"
           onClick={handleNavHome}
         >
-          <div className=" basis-1/2 ">
-            <div className="bg-white/50 rounded-lg ">
+          <div className="basis-1/2 ">
+            <div
+              className="rounded-lg"
+              style={{
+                backgroundColor: 
+                  colorPalette===undefined? "":`${colorPalette.white}88`,
+              }}
+            >
               <div className="items-center">
                 {/* loop through all slimes from user and display them */}
                 {user && (
-                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-4">
+                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8">
                     <SlimeInventory
                       slimes={
                         filterSlimes.length > 0 ? filterSlimes : user.slimes
                       }
                       loading={loading}
                       setSlime={setSlime}
+                      bg={colorPalette}
                     />
                   </div>
                 )}
@@ -161,6 +187,7 @@ export default function Slimes({ loading, user, setLoading, setUser }) {
               setLoading={setLoading}
               slime={slime}
               setUser={setUser}
+              bg={colorPalette}
             />
           </div>
         </div>

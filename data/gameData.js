@@ -146,13 +146,17 @@ export const gameData = {
       bg: "fall-forest.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#DAEEFE",
-      primary2: "#FF9A13",
-      secondary1: "#53231D",
+      primary1: "#FF9A13",
+      primary2: "#dd8513",
+      secondary1: "#66b5ff",
       secondary2: "#AA1402",
-      white: "#F8EBE6",
+
+      white: "#fedecd",
       grey: "#DCE0E5",
       black: "#0F0200",
+
+      text1: "#F8EBE6",
+      text2: "#0F0200",
     },
 
     "Fence Garden": {
