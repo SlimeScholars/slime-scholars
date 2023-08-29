@@ -135,7 +135,7 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                     })
                     .then(response => {
 
-                        setSlimes(response.data.slimes);
+                        setSlimes(response.data.slimeObjects);
                         setAfterRolling(2);
                     })
                     .catch(error => showToastError(error.message));

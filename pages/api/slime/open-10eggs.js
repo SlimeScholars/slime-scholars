@@ -78,6 +78,7 @@ export default async function (req, res) {
 		}
 
 		const slimes = []
+		const slimeObjects = []
 		for (const i in rarities) {
 			const rarity = rarities[i]
 			const slimeList = gameData.slimes[rarity]
@@ -120,6 +121,7 @@ export default async function (req, res) {
 
 				// Save changes to database
 				await slimeExists.save()
+				slimeObjects.push(JSON.parse(JSON.stringify(slimeExists)))
 
 				// Set an appropriate value for the return statement
 				slime = slimeExists
@@ -160,6 +162,7 @@ export default async function (req, res) {
 				})
 
 				user.slimes.push(slime)
+				slimeObjects.push(JSON.parse(JSON.stringify(slime)))
 			}
 
 			// Create a non-starable slime
@@ -178,6 +181,7 @@ export default async function (req, res) {
 				})
 
 				user.slimes.push(slime)
+				slimeObjects.push(JSON.parse(JSON.stringify(slime)))
 			}
 
 			// Update user
@@ -204,6 +208,7 @@ export default async function (req, res) {
 
 		res.status(200).json({
 			rolledSlimes: slimes,
+			slimeObjects: slimeObjects,
 			slimes: newUser.slimes,
 			items: newItems,
 		})
