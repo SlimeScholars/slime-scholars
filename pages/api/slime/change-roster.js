@@ -4,7 +4,6 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
-import { getPopulatedRoster } from '../../../utils/getPopulatedRoster'
 
 /**
  * @desc    Change user's roster
@@ -60,15 +59,17 @@ export default async function (req, res) {
 			throw new Error('Roster must have unique slimes')
 		}
 
-		await User.findByIdAndUpdate(user._id, {
+		const newUser = await User.findByIdAndUpdate(user._id, {
 			roster: roster
 		})
-
-		// Populate roster
-		const populatedRoster = await getPopulatedRoster(roster)
+			.populate({
+				path: 'roster',
+				select: '-user -createdAt -updatedAt -__v',
+				options: { retainNullValues: true },
+			})
 
 		res.status(200).json({
-			roster: populatedRoster,
+			roster: newUser.roster,
 		})
 	}
 	catch (error) {
