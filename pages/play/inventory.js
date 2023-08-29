@@ -5,14 +5,12 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
 
-export default function Backpack({ loading, user, setUser }) {
+export default function Backpack({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette }) {
 	const router = useRouter();
-	const [items, setItems] = useState("empty for now");
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
 
 	// item.itemName => "Forest Mountains"
 	// bg => "forest-mountains.png"
-	const [bg, setBg] = useState("bg-beach.png"); // Default background
 	const [pfpBg, setPfpBg] = useState("empty for now");
 
 	useEffect(() => {
@@ -21,19 +19,22 @@ export default function Backpack({ loading, user, setUser }) {
 		}
 		if (!user || user.userType !== 1) {
 			router.push("/");
-		} else if (user.bg && gameData.items[user.bg].bg) {
-			setBg(gameData.items[user.bg].bg);
-		}
+		} 
+		
+		if (user) {
+			// Set the items for displaying in inventory to user's items
+			setItems(user.items);
 
-		// Set the items for displaying in inventory to user's items
-		setItems(user.items);
-
-		setPfpBg(user.pfpBg);
-
-		if (user.bg && gameData.items[user.bg].bg) {
-			setBg(gameData.items[user.bg].bg);
+			setPfpBg(user.pfpBg);
 		}
 	}, [user, loading]);
+
+	// Run only once after initial render
+	useEffect(() => {
+		if (user && user.bg && gameData.items[user.bg].bg) {
+			setColorPalette(gameData.items[user.bg]);
+		} 
+	}, [])
 
 	const handleNavHome = (event) => {
 		if (event.target.classList.contains("home")) {
@@ -96,11 +97,13 @@ export default function Backpack({ loading, user, setUser }) {
 							user={user}
 							pfpBg={pfpBg}
 							setPfpBg={setPfpBg}
-							bg={bg}
-							setBg={setBg}
 							setItems={setItems}
 							setItemOnClick={setItemOnClick}
 							setUser={setUser}
+							setNumEggs={setNumEggs}
+							setFlowers={setFlowers}
+							colorPalette={colorPalette}
+							setColorPalette={setColorPalette}
 						/>
 					</div>
 				</div>

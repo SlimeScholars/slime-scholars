@@ -12,6 +12,11 @@ function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [loading2, setLoading2] = useState(false); // Used for axios loading
   const [user, setUser] = useState(null);
+  const [numEggs, setNumEggs] = useState(0);
+  const [flowers, setFlowers] = useState(null);
+  const [items, setItems] = useState("empty for now");
+  const [colorPalette, setColorPalette] = useState({});
+
   const modifiedPageProps = {
     ...pageProps,
     user,
@@ -20,6 +25,12 @@ function MyApp({ Component, pageProps }) {
     setLoading,
     loading2,
     setLoading2,
+    setNumEggs,
+    setFlowers,
+    items,
+    setItems,
+    colorPalette,
+    setColorPalette
   }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -111,6 +122,8 @@ function MyApp({ Component, pageProps }) {
                 active={current === 0}
                 setLoading={current === 0 ? setLoading : () => null}
                 setUser={current === 0 ? setUser : () => null}
+                colorPalette={colorPalette}
+                setColorPalette={setColorPalette}
               />
             </div>
 
@@ -126,7 +139,7 @@ function MyApp({ Component, pageProps }) {
             <div className={`relative h-0`}>
               <div className={`absolute inset-0 p-10 px-20`}>
                 <div className="relative z-20 mb-5">
-                  <Navbar user={user} current={current} />
+                  <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers} colorPalette={colorPalette} setColorPalette={setColorPalette}/>
                 </div>
                 <Component {...modifiedPageProps} />
               </div>

@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import RollResult from '../../components/play/roll/rollResult';
 import { gameData } from '../../data/gameData';
 import { showToastError } from '../../utils/toast';
 import axios from 'axios';
 
-export default function Roll({ loading, user, setUser }) {
+export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, setItems }) {
 
     const router = useRouter();
     const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
     const [eggsOwned, setEggsOwned] = useState(0);
     const [flowersOwned, setFlowersOwned] = useState(0);
+    const [afterRolling, setAfterRolling] = useState(0); // Flag used for showing rolling information
+    const [slimes, setSlimes] = useState({});
+    const [originalSlimes, setOriginalSlimes] = useState({});
 
     useEffect(() => {
         if (loading) {
@@ -60,12 +64,24 @@ export default function Roll({ loading, user, setUser }) {
                 quantity: numToPurchase
             }, config)
             .then(response => {
-                
+
                 // Close popup dialog
                 setEggsLacked(0);
 
-                // Update user items and flowers
-                setUser(response.data.user);
+                // Update # slime eggs the user owns
+                response.data.items.map(returnedItem => {
+                    if (returnedItem.itemName === "Slime Egg") {
+                        setNumEggs(returnedItem.quantity);
+                    }
+                })
+
+                router.push("/play/roll");
+
+                // Update # flowers
+                setFlowers(response.data.flowers);
+
+                // Update items
+                setItems(response.data.items);
 
                 showToastError("Purchased successfully.", true);
             })
@@ -79,7 +95,49 @@ export default function Roll({ loading, user, setUser }) {
             setEggsLacked(eggsNeed-eggsOwned);
         } else {
             // user does have enough
-            showToastError("Having enough eggs.", true);
+
+            // only 1 egg works for now
+            if (eggsNeed === 1) {
+                axios
+                    .post('/api/slime/open-egg', {
+                        itemName: 'Slime Egg'
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                        }
+                    })
+                    .then(response => {
+
+                        // Show popup
+                        setAfterRolling(2);
+
+                        // Setup slimes for RollResult component
+                        let newSlimes = new Array();
+                        newSlimes.push(response.data.slime);
+                        setSlimes(newSlimes);
+                        setOriginalSlimes(response.data.originSlimeObjects);
+
+                    })
+                    .catch(error => showToastError(error.message));
+            } else {
+                
+                // Rolling 10 slimes
+                axios
+                    .post('/api/slime/open-10eggs', {
+                        itemName: 'Slime Egg'
+                    }, {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                        }
+                    })
+                    .then(response => {
+
+                        setSlimes(response.data.slimeObjects);
+                        setOriginalSlimes(response.data.originSlimeObjects);
+                        setAfterRolling(2);
+                    })
+                    .catch(error => showToastError(error.message));
+            }
         }
     };
 
@@ -87,11 +145,11 @@ export default function Roll({ loading, user, setUser }) {
         <div 
             className="pt-5 home w-full h-full"
             onClick={handleNavHome}>
-            {/* Popup Message */}
+            {/* Popup Message for Lacking Eggs */}
             {
                 eggsLacked>0 && (
                     <div 
-                        className="fixed inset-0 z-50 text-white flex items-center justify-center">
+                        className="fixed inset-0 z-40 text-white flex items-center justify-center">
                         <div className="grid grid-rows-2 place-content-center m-20 rounded-lg p-8 bg-slate-400">
                             <div className="flex flex-col p-4 w-full text-center">
                                 <h3 className="font-galindo text-black text-lg">{ "You need " + eggsLacked + " more slime egg" + ((eggsLacked!==1)? "s":"") +" to roll" }</h3>
@@ -114,9 +172,19 @@ export default function Roll({ loading, user, setUser }) {
                     </div>
                 )
             }
+            {
+                // Popup Message for Rolling Result
+                (afterRolling !== 0 && slimes) && (
+                    <RollResult
+                        setAfterRolling={setAfterRolling}
+                        slimes={slimes}
+                        originalSlimes={originalSlimes}
+                        router={router}></RollResult>
+                )
+            }
             <div 
                 className={
-                    eggsLacked>0? ("w-full h-full brightness-75"): ("w-full h-full")
+                    (eggsLacked>0 || afterRolling)? ("w-full h-full brightness-75"): ("w-full h-full")
                 }>
                 <div className="relative">
                     {/* Image as background */}

@@ -10,7 +10,8 @@ export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
               <div
                 className={`flex flex-col flex-wrap w-full rounded-2xl ${gameData.rarityColours[slime.rarity].bg}`}
                 style={{
-                  border: `5px solid ${bg.primary1}`,
+                  border: 
+                    bg===undefined? '':`5px solid ${bg.primary1}`,
                 }}
               >
                 <button
@@ -21,8 +22,9 @@ export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
                 >
                   <img
                     src={
-                      "/assets/pfp/slimes/" +
-                      gameData.slimePfps[slime.slimeName].pfp
+                      gameData.slimePfps[slime.slimeName]? (
+                        "/assets/pfp/slimes/" + gameData.slimePfps[slime.slimeName].pfp
+                      ) : ("")
                     }
                     alt="Slime"
                     className="h-auto w-[80%] mx-auto"
@@ -32,9 +34,12 @@ export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
               <div
                 className="absolute -bottom-2.5 inset-x-0 mx-auto rounded-full items-center mt-2 w-fit justify-center px-3"
                 style={{
-                  backgroundColor: `${bg.primary1}`,
-                  border: `3px solid ${bg.primary2}`,
-                  color: bg.text2,
+                  backgroundColor: 
+                    bg===undefined? '':`${bg.primary1}`,
+                  border: 
+                    bg===undefined? '':`3px solid ${bg.primary2}`,
+                  color: 
+                    bg===undefined? '':bg.text2,
                 }}
               >
                 {slime.bonusLevel ? (

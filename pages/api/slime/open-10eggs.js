@@ -78,6 +78,8 @@ export default async function (req, res) {
 		}
 
 		const slimes = []
+		const slimeObjects = []
+		const originSlimeObjects = []
 		for (const i in rarities) {
 			const rarity = rarities[i]
 			const slimeList = gameData.slimes[rarity]
@@ -89,6 +91,8 @@ export default async function (req, res) {
 			let slime
 			// If the new slime is duplicate
 			if (slimeExists) {
+				
+				originSlimeObjects.push(JSON.parse(JSON.stringify(slimeExists)))
 				// If the slime can earn stars
 				if (slimeExists.starProgress !== undefined && slimeExists.starLevel !== slimeExists.maxStarLevel) {
 					// Increase star progress
@@ -120,6 +124,7 @@ export default async function (req, res) {
 
 				// Save changes to database
 				await slimeExists.save()
+				slimeObjects.push(JSON.parse(JSON.stringify(slimeExists)))
 
 				// Set an appropriate value for the return statement
 				slime = slimeExists
@@ -131,6 +136,7 @@ export default async function (req, res) {
 
 			// Create a starable slime if rarity is starable
 			else if (gameData.canStar.includes(rarity)) {
+				originSlimeObjects.push({});
 				const slimeId = (await Slime.create({
 					user: user._id,
 					slimeName: chosenSlime.slimeName,
@@ -160,10 +166,12 @@ export default async function (req, res) {
 				})
 
 				user.slimes.push(slime)
+				slimeObjects.push(JSON.parse(JSON.stringify(slime)))
 			}
 
 			// Create a non-starable slime
 			else {
+				originSlimeObjects.push({});
 				const slimeId = (await Slime.create({
 					user: user._id,
 					slimeName: chosenSlime.slimeName,
@@ -178,6 +186,7 @@ export default async function (req, res) {
 				})
 
 				user.slimes.push(slime)
+				slimeObjects.push(JSON.parse(JSON.stringify(slime)))
 			}
 
 			// Update user
@@ -204,6 +213,8 @@ export default async function (req, res) {
 
 		res.status(200).json({
 			rolledSlimes: slimes,
+			slimeObjects: slimeObjects,
+			originSlimeObjects: originSlimeObjects,
 			slimes: newUser.slimes,
 			items: newItems,
 		})
