@@ -4,7 +4,7 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import Slime from '../../../models/slimeModel'
-import { getPopulatedRoster } from "../../../utils/getPopulatedRoster"
+import { getSortedSlimes } from "../../../utils/sort"
 
 /**
  * @desc    Level up a slime
@@ -71,18 +71,20 @@ export default async function (req, res) {
         path: 'slimes',
         select: '-user -createdAt -updatedAt -__v',
       })
+      .populate({
+        path: 'roster',
+        select: '-user -createdAt -updatedAt -__v',
+        retainNullValues: true,
+      })
+      .lean()
       .exec()
 
-    const modifiedUser = {
-      ...newUser.toJSON(),
-    }
-
-    modifiedUser.roster = await getPopulatedRoster(modifiedUser.roster)
+    newUser.slimes = getSortedSlimes(newUser.slimes)
 
     res.status(200).json({
       slime: newSlime,
-      slimes: modifiedUser.slimes,
-      roster: modifiedUser.roster,
+      slimes: newUser.slimes,
+      roster: newUser.roster,
       slimeGel: user.slimeGel,
     })
   }

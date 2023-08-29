@@ -46,13 +46,11 @@ export default async function (req, res) {
     }
     lesson.quizQuestions = quizQuestions
 
-    const unit = (await Unit.findById(unitId)
+    const unit = await Unit.findById(unitId)
       .select('unitName')
-    )
 
-    const course = (await Course.findById(courseId)
+    const course = await Course.findById(courseId)
       .select('courseName')
-    )
 
     if (!lesson) {
       throw new Error('Could not find lesson')
