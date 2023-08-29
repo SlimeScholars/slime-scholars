@@ -70,15 +70,16 @@ export default function ManageFriends({
               }
               setSearchContent={setSearchContent}
             /> */}
-            <div className="grow-0 flex pr-4">
+            <div className="grow-0 flex">
               <form
                 className="border-2 border-black flex bg-transparent rounded"
                 // onSubmit={() => {}}
               >
                 <input
                   type="text"
-                  // value={"Search for a slime"}
-                  placeholder={"Search for a username"}
+                  placeholder={
+                    toDo == "add" ? "Search username" : "Search friend username"
+                  }
                   className="p-1 grow bg-transparent text-m font-galindo ml-2"
                   onChange={(e) => setSearchContent(e.target.value)}
                 ></input>
