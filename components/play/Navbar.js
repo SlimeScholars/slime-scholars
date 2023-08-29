@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import EarnFlwrBtn from "./earnFlwrBtn";
 import { useRouter } from "next/router";
-import axios from "axios";
+import { gameData } from "../../data/gameData";
 
 /*
 Parameter:
   current: the id of the web page that the user is currently on
 */
 
-export function Navbar({ current, user, numEggs, setNumEggs, flowers }) {
+export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalette, setColorPalette }) {
   const types = [
     { title: "shopping", src: "shopping", id: 1 },
     { title: "friends", src: "friends", id: 2 },
@@ -28,47 +28,85 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers }) {
           setNumEggs(item.quantity);
         }
       });
-    } 
-    
+    }
+
+    if (user) {
+      setColorPalette(gameData.items[user.pfpBbg]);
+    }
+
   }, [user]);
 
+
   return (
-    <div className="flex flex-row items-center justify-between z-20 w-full">
+    <div
+      className="grid items-center justify-between z-20 w-full relative"
+      style={{
+        gridTemplateColumns: "14rem 1fr",
+      }}
+    >
       {/* earn flowers button */}
-      <div className=" bg-red-300 hover:bg-red-300/75 rounded text-lg">
-        <EarnFlwrBtn />
-      </div>
-      <div className="flex flex-row space-x-2">
-        <div className="flex flex-col justify-end content-start p-4">
-          <div className="flex bg-white/50 opacity-60 rounded-md p-1">
+      <button
+        className="rounded hover:opacity-80 h-full font-galindo text-xl"
+        style={{
+          backgroundColor: 
+            colorPalette === undefined? "": colorPalette.primary1,
+          color: 
+            colorPalette === undefined? "":colorPalette.text1,
+        }}
+        onClick={
+          (e) => {
+            e.preventDefault()
+            router.push("/courses")
+          }
+        }
+      >
+        Earn Flowers
+      </button>
+      <div className="flex flex-row items-center space-x-2 justify-end font-galindo text-lg">
+        <div className="flex flex-col items-end">
+          <div
+            className="flex rounded-[5rem] py-1 px-6 w-fit"
+            style={{
+              backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
+              color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
+            }}
+          >
             {/* slime gel */}
             {user && (
               <div className="flex flex-row items-center">
                 <img
                   src="/assets/icons/slime-gel.png"
                   alt="Icon"
-                  className="h-4 w-4 ml-1 mr-2"
+                  className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
-                <p className="text-black text-sm">{user.slimeGel}</p>
+                <p className="">{user.slimeGel}</p>
               </div>
             )}
           </div>
-          <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
+          <div
+            className="flex rounded-[5rem] py-1 px-6 w-fit mt-2"
+            style={{
+              backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
+              color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
+            }}
+          >
             {/* flowers */}
             {user && (
               <div className="flex flex-row items-center">
                 <img
-                  src="/assets/icons/slime-gel.png"
+                  src="/assets/icons/flower.png"
                   alt="Icon"
-                  className="h-4 w-4 ml-1 mr-2"
+                  className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
                 <p className="text-black text-sm">{flowers===null? (user.flowers) : (flowers)}</p>
               </div>
             )}
           </div>
-          {/* Slime egg */}
+          {/*
+          FIXME
+          Slime Egg
           {
-            (user && current_id===5) && (
+            (user && current_id === 5) && (
               <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
                 {user && (
                   <div className="flex flex-row items-center">
@@ -83,12 +121,14 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers }) {
               </div>
             )
           }
+        */}
         </div>
+
         {/* buttons and icons */}
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
           const commonButtonClasses =
-            "p-2 md:p-8 rounded-full hover:bg-red-300/75";
+            "p-4 rounded-full";
           const isActive = type.id === current_id;
 
           return (
@@ -97,14 +137,22 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers }) {
                 e.preventDefault();
                 router.push("/play/" + type.title);
               }}
-              className={`${isActive ? "bg-red-300" : "bg-white/50"
-                } ${commonButtonClasses}`}
+              style={
+                isActive ? {
+                  backgroundColor: `${colorPalette? colorPalette.primary1:'#ffffff'}`,
+                } : {
+                  backgroundColor: `${colorPalette? colorPalette.white:'#ffff'}88`,
+                }
+              }
+              className={`hover:opacity-60 ${commonButtonClasses}`}
               key={type.id}
             >
-              <img src={imgLink} className="h-10 w-10 md:h-14 md:w-14" alt="" />
+              <img src={imgLink} className="h-[4rem] w-[4rem]" alt={type.src} />
             </button>
           );
         })}
+        {/* settings
+        FIXME
         <div>
           <button
             className="p-2 bg-white"
@@ -115,7 +163,8 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers }) {
             Settings
           </button>
         </div>
+        */}
       </div>
-    </div>
+    </div >
   );
 }

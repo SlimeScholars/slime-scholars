@@ -50,6 +50,7 @@ export default function ItemInventory({
                         setItemOnClick(item);
                     }
                 }}>
+                <img src={ "/assets/items/" + gameData.items[item.itemName].icon } className="place-self-center p-4"></img>
                 <div className="absolute inset-x-0 bottom-0 translate-y-4 px-2">
                     <div className="rounded-full w-15 h-5 bg-amber-50 text-sm border-2 border-amber-300 text-center">
                         { item.quantity }

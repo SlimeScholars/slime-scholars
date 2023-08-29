@@ -15,7 +15,6 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
 
   //   handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
-    console.log(id);
     try {
       const token = localStorage.getItem("jwt");
 
@@ -28,7 +27,6 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          console.log(response.data);
           const newUser = {
             ...user,
             roster: response.data.roster,
@@ -190,9 +188,8 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                 return (
                   <button
                     key={index}
-                    className={`${
-                      offset ? "transform -translate-y-16" : ""
-                    } md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto border-2 border-gray-400 rounded-md items-center text-6xl`}
+                    className={`${offset ? "transform -translate-y-16" : ""
+                      } md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto border-2 border-gray-400 rounded-md items-center text-6xl`}
                     onClick={() => {
                       router.push("/play/slimes");
                     }}
@@ -204,9 +201,8 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
               return (
                 <div
                   key={index}
-                  className={`flex flex-col ${
-                    offset ? "transform -translate-y-16" : ""
-                  }`}
+                  className={`flex flex-col ${offset ? "transform -translate-y-16" : ""
+                    }`}
                 >
                   <div className="flex flex-row items-center mx-auto">
                     <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">

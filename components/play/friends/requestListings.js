@@ -58,7 +58,6 @@ export default function RequestListings({
         config
       )
       .then((response) => {
-        console.log(response.data);
         if (currentType === "received") {
           const newUser = {
             ...user,

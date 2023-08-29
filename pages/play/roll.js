@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import NewSlimePopup from '../../components/roll/newSlimePopup';
+import RollSlimePopup from '../../components/play/roll/rollSlimePopup';
 import { gameData } from '../../data/gameData';
 import { showToastError } from '../../utils/toast';
 import axios from 'axios';
 
-export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }) {
+export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, setItems }) {
 
     const router = useRouter();
     const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
@@ -13,6 +13,9 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
     const [flowersOwned, setFlowersOwned] = useState(0);
     const [afterRolling, setAfterRolling] = useState(0); // Flag used for showing rolling information
     const [updatedSlime, setUpdatedSlime] = useState(null);
+    const [originalSlime, setOriginalSlime] = useState(null);
+
+    var numSlimes;
 
     useEffect(() => {
         if (loading) {
@@ -34,7 +37,7 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
         }
 
         if (user) {
-            var numSlimes = user.slimes? user.slimes.length : 0;
+            numSlimes = user.slimes? user.slimes.length : 0;
         }
 
     }, [user, loading]);
@@ -68,8 +71,6 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
             }, config)
             .then(response => {
 
-                console.log(response.data.items);
-                
                 // Close popup dialog
                 setEggsLacked(0);
 
@@ -79,6 +80,8 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
                         setNumEggs(returnedItem.quantity);
                     }
                 })
+
+                router.push("/play/roll");
 
                 // Update # flowers
                 setFlowers(response.data.flowers);
@@ -116,6 +119,16 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
                             setUpdatedSlime(response.data.slime);
                             setAfterRolling(1); // New slime is created
                         } else {
+                            setUpdatedSlime(response.data.slime);
+
+                            // Get the original slime
+                            if (user) {
+                                user.slimes.map(slime => {
+                                    if (slime._id === response.data.slime._id){
+                                        setOriginalSlime(slime);
+                                    }
+                                });
+                            }
                             setAfterRolling(2); // Slime is updated
                         }
 
@@ -135,7 +148,7 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
             {
                 eggsLacked>0 && (
                     <div 
-                        className="fixed inset-0 z-50 text-white flex items-center justify-center">
+                        className="fixed inset-0 z-40 text-white flex items-center justify-center">
                         <div className="grid grid-rows-2 place-content-center m-20 rounded-lg p-8 bg-slate-400">
                             <div className="flex flex-col p-4 w-full text-center">
                                 <h3 className="font-galindo text-black text-lg">{ "You need " + eggsLacked + " more slime egg" + ((eggsLacked!==1)? "s":"") +" to roll" }</h3>
@@ -158,17 +171,27 @@ export default function Roll({ loading, user, setNumEggs, setFlowers, setItems }
                     </div>
                 )
             }
+            {
+                    // Popup Message for Rolling Result
+                    afterRolling !== 0 && (
+                        afterRolling === 1 ? (
+                            <RollSlimePopup 
+                            updatedSlime={updatedSlime}
+                            setAfterRolling={setAfterRolling}
+                            router={router}/>
+                        ) : (
+                            <RollSlimePopup
+                            updatedSlime={updatedSlime}
+                            originalSlime = {originalSlime}
+                            setAfterRolling={setAfterRolling}
+                            router={router}/>
+                        )
+                    )
+                }
             <div 
                 className={
                     (eggsLacked>0 || afterRolling)? ("w-full h-full brightness-75"): ("w-full h-full")
                 }>
-                {
-                    // Popup Message for Rolling Result
-                    afterRolling==1? (
-                        <NewSlimePopup 
-                            updatedSlime={updatedSlime}/>
-                    ) : ()
-                }
                 <div className="relative">
                     {/* Image as background */}
                     <img className="bg-cover w-full h-auto inset-0"

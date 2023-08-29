@@ -14,7 +14,8 @@ function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null);
   const [numEggs, setNumEggs] = useState(0);
   const [flowers, setFlowers] = useState(null);
-	const [items, setItems] = useState("empty for now");
+  const [items, setItems] = useState("empty for now");
+  const [colorPalette, setColorPalette] = useState({});
 
   const modifiedPageProps = {
     ...pageProps,
@@ -27,7 +28,9 @@ function MyApp({ Component, pageProps }) {
     setNumEggs,
     setFlowers,
     items,
-    setItems
+    setItems,
+    colorPalette,
+    setColorPalette
   }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -119,22 +122,24 @@ function MyApp({ Component, pageProps }) {
                 active={current === 0}
                 setLoading={current === 0 ? setLoading : () => null}
                 setUser={current === 0 ? setUser : () => null}
+                colorPalette={colorPalette}
+                setColorPalette={setColorPalette}
               />
             </div>
 
             {/* Navbar */}
             <div className={`relative h-0 z-10`}>
               <div
-                className={`absolute inset-0 p-8 home`}
+                className={`absolute inset-0 p-10 home px-20`}
                 onClick={handleNavHome}
               ></div>
             </div>
 
             {/* Other pages */}
             <div className={`relative h-0`}>
-              <div className={`absolute inset-0 p-8 `}>
-                <div className="relative z-20">
-                  <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers}/>
+              <div className={`absolute inset-0 p-10 px-20`}>
+                <div className="relative z-20 mb-5">
+                  <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers} colorPalette={colorPalette} setColorPalette={setColorPalette}/>
                 </div>
                 <Component {...modifiedPageProps} />
               </div>
