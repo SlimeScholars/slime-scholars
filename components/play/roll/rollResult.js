@@ -13,8 +13,6 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
     const [originalSlime, setOriginalSlime] = useState(null);
     const [index, setIndex] = useState(0); // index of slime in "slimes"
 
-    console.log(originalSlimes);
-
     if (updatedSlime === null) {
 
         // Display the first slime in default
@@ -46,7 +44,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
             <div className="grid grid-cols-3 place-content-center m-10 rounded-lg p-8 bg-slate-400  w-auto h-1/2">
                 { index === 0? (
                     <button disabled className="brightness-75">
-                        <span class="material-symbols-outlined">
+                        <span className="material-symbols-outlined">
                         arrow_back_ios
                         </span>
                     </button>
@@ -56,7 +54,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
                             setUpdatedSlime(slimes[index-1]);
                             setIndex(index-1);
                         }}>
-                        <span class="material-symbols-outlined">
+                        <span className="material-symbols-outlined">
                         arrow_back_ios
                         </span>
                     </button>
@@ -70,7 +68,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
                 {
                     index === slimes.length-1? (
                         <button disabled className="brightness-75">
-                            <span class="material-symbols-outlined">
+                            <span className="material-symbols-outlined">
                             arrow_forward_ios
                             </span>
                         </button>
@@ -80,7 +78,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
                                 setUpdatedSlime(slimes[index+1]);
                                 setIndex(index+1);
                             }}>
-                            <span class="material-symbols-outlined">
+                            <span className="material-symbols-outlined">
                             arrow_forward_ios
                             </span>
                         </button>

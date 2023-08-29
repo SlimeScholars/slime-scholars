@@ -3,8 +3,6 @@ import { gameData } from '../../../data/gameData';
 
 export default function RollSlimePopup({ updatedSlime, setAfterRolling, originalSlime, router }) {
 
-    console.log(updatedSlime);
-
     const maxLevel = updatedSlime.maxLevel;
     const baseProduction = updatedSlime.baseProduction;
     const levelUpCost= updatedSlime.levelUpCost;
@@ -20,7 +18,11 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
         // new slime is created
         <div className="flex flex-col p-4 w-full text-center items-center">
             <h3 className="font-galindo text-black text-lg">New Slime Unlocked</h3>
-            <img src={ "/assets/pfp/slimes/" + gameData.slimePfps[updatedSlime.slimeName].pfp}
+            <img src={ 
+                gameData.slimePfps[updatedSlime.slimeName]? (
+                    "/assets/pfp/slimes/" + gameData.slimePfps[updatedSlime.slimeName].pfp
+                ) : ("")
+                }
                 className="w-1/3 h-auto"></img>
             <div className="flex flex-row">
                 <p className="font-galindo text-white px-2">{ updatedSlime.slimeName }</p>
@@ -56,7 +58,11 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
         // Duplicate is created
         <div className="flex flex-col p-4 w-full text-center items-center">
             <h3 className="font-galindo text-black text-lg">Slime Upgraded</h3>
-            <img src={ "/assets/pfp/slimes/" + gameData.slimePfps[updatedSlime.slimeName].pfp}
+            <img src={ 
+                gameData.slimePfps[updatedSlime.slimeName]? (
+                    "/assets/pfp/slimes/" + gameData.slimePfps[updatedSlime.slimeName].pfp
+                ) : ("")
+                }
                 className="w-1/3 h-auto"></img>
             <div className="flex flex-row">
                 <p className="font-galindo text-white px-2">{ updatedSlime.slimeName }</p>
