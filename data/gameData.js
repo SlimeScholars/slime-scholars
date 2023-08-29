@@ -2,10 +2,11 @@ export const gameData = {
   rarities: ["Common", "Uncommon", "Rare", "Epic", "Legendary"],
   openingOdds: {
     // TODO: Reset slime egg rarity after getting spritesheets
-    "Slime Egg": [1, 0, 0, 0, 0],
+    //"Slime Egg": [1, 0, 0, 0, 0],
     // "Slime Egg": [0, 0, 0, 1, 0],
     // "Slime Egg": [0, 0, 0, 0, 1],
     // "Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
+    "Slime Egg": [0.25, 0.35, 0.25, 0.10, 0.05],
     // "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },
 

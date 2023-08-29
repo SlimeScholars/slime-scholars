@@ -69,7 +69,6 @@ export default async function (req, res) {
     const slimeList = gameData.slimes[rarity]
     const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
 
-    user.slimes
     const slimeExists = await Slime.findOne({ user: user._id, slimeName: chosenSlime.slimeName })
 
     let slime

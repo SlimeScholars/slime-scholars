@@ -19,6 +19,8 @@ export default function ItemDetails({
 	setColorPalette
 }) {
 
+	const router = useRouter();
+
 	// for background
 	if (item.isBg && gameData.items[item.itemName]) {
 		return (
@@ -330,7 +332,7 @@ export default function ItemDetails({
 					<p
 						className="text-red-300 hover:text-red-300/75"
 						onClick={(e) => {
-
+							router.push("/play/roll");
 						}}>
 						Open Egg
 					</p>

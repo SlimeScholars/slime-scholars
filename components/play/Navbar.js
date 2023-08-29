@@ -88,6 +88,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
             style={{
               backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
               color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
+              boxShadow: `${colorPalette? "0px 0px 20px "+colorPalette.white+"0F" : ""}`
             }}
           >
             {/* flowers */}
