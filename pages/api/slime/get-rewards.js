@@ -62,11 +62,22 @@ async function fetchRewardsForUser(user, rewardMessages) {
   return rewards;
 }
 
+// roster bonus, for each day/week if you have e.g 2 rares, 1 epic, 1 legendary in your active roster
+// you get a roster bonus. Check if the user has a roster bonus, if so, add it to res and give a message
+// if (rosterBonus) { rewardMessages.push({slimeName: "rosterBonus", message: "Roster bonus activated!" }); }
+// just check from the frontend, if slimeName === rosterBonus put an image of a star instead of slime
+var rosterBonus = false;
+var rainbowStarAbility = false;
+var rosterBonusPercent = 0;
+var rosterBonusGP = 100;
+//var rosterBonusReq = ["Uncommon", "Rare", "Epic", "Legendary"]; // will be a given value
+var rosterBonusReq = [0, 1, 1, 1, 1]; // converting it like this is easier
 async function fetchRewardsBasedOnRoster(roster, rewardMessages) {
   let res = 0;
   let slimes = [];
   let baseProd = []; // to handle abilities that increase the production
   let abilityProd = [0, 0, 0, 0]; // production from abilities so they don't stack
+  let rosterRarities = [0, 0, 0, 0, 0];
   for (let i = 0; i < roster.length; i++) {
     if (roster[i] === null) {
       continue;
@@ -74,10 +85,24 @@ async function fetchRewardsBasedOnRoster(roster, rewardMessages) {
     const slime = await Slime.findById(roster[i]._id);
     slimes[i] = slime;
     baseProd[i] = slime.baseProduction;
+    // handle roster rarities
+    if (slime.rarity === "Common") {
+      rosterRarities[0]++;
+    } else if (slime.rarity === "Uncommon") {
+      rosterRarities[1]++;
+    } else if (slime.rarity === "Rare") {
+      rosterRarities[2]++;
+    } else if (slime.rarity === "Epic") {
+      rosterRarities[3]++;
+    } else if (slime.rarity === "Legendary") {
+      rosterRarities[4]++;
+    }
   }
+
   checkNebula(slimes, rewardMessages);
   // check slimes for abilities give add ons
   for (let i = 0; i < slimes.length; i++) {
+    console.log(slimes[i].slimeName);
     abilityChangeBaseProd(
       slimes[i],
       slimes,
@@ -91,12 +116,39 @@ async function fetchRewardsBasedOnRoster(roster, rewardMessages) {
     res +=
       slimes[i].baseProduction + abilityProd[i] + slimes[i].bonusProduction;
   }
+  // check roster bonus with rainbow abilities
+  let flag = true;
+  let need = [0, 0, 0, 0, 0];
+  for (let i = 0; i < rosterRarities.length; i++) {
+    let diff = rosterRarities[i] - rosterBonusReq[i];
+    if (diff < 0) {
+      flag = false;
+    }
+    need[i] = -diff;
+  }
+  if (flag) {
+    rosterBonus = true;
+  } else if (!flag && rainbowStarAbility && need[3] < 0) {
+    let total_need = 0;
+    for (let i = 0; i < need.length; i++) {
+      total_need += need[i];
+    }
+    if (total_need > 1) {
+      rosterBonus = false;
+    } else {
+      rosterBonus = true;
+    }
+  }
+  if (rosterBonus) {
+    let totalRosterBonus = rosterBonusGP * (1 + rosterBonusPercent);
+    res += totalRosterBonus;
+    rewardMessages.push({
+      slimeName: "rosterBonus",
+      message: "Roster bonus activated! +" + totalRosterBonus + " GP!",
+    });
+  }
   return res;
 }
-
-// checking Rainbow ability, which rarity should Prismatic slime count as?
-// rarity only affects Iridescent Slime (Star Level 2: +50% GP production for each unique rarity)
-// maximizing GP:
 
 // Nebula Slime Star Level Abilities: Plus levels for all other active slimes are (2, 3, 5)x more effective
 // first check if this activated and get the multiplier
@@ -166,12 +218,12 @@ function abilityChangeBaseProd(
   switch (slime.slimeName) {
     case "Prismatic Slime":
       if (starLevel >= 1) {
-        // Rainbow: This slime can count as any rarity for roster bonuses
+        rainbowStarAbility = true;
       }
       if (starLevel === 2) {
-        // Roster bonus 10 percent more effective
+        rosterBonusPercent = 0.1;
       } else if (starLevel === 3) {
-        // Roster bonus 20 percent more effective
+        rosterBonusPercent = 0.2;
       }
       break;
     case "Lucky Slime":
@@ -425,7 +477,7 @@ function abilityChangeBaseProd(
         }
       }
       if (starLevel === 3) {
-        scholar = true;
+        let scholarPercent = 0;
         for (let i = 0; i < slimes.length; i++) {
           scholarPercent += slimes[i].bonusLevel * bonusLvlMultiplier;
         }
@@ -435,6 +487,8 @@ function abilityChangeBaseProd(
     case "Iridescent Slime":
       if (starLevel >= 1) {
         // Flex: All active slimes can count as any rarity for roster bonuses
+        // meaning get roster bonus no matter what
+        rosterBonus = true;
       }
       if (starLevel >= 2) {
         const uniqueRarities = new Set();
@@ -448,6 +502,14 @@ function abilityChangeBaseProd(
       }
       if (starLevel === 3) {
         // 50 percent for the roster bonus to be 80 percent more effective
+        if (rand <= 0.5) {
+          rosterBonusPercent = 0.8;
+          rewardMessages.push({
+            slimeName: "Iridescent Slime",
+            message:
+              "Iridescent Slime Star Level 3 chance ability activated! Roster bonus is 80% more effective!",
+          });
+        }
       }
       break;
   }
