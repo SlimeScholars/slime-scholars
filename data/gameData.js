@@ -327,7 +327,6 @@ export const gameData = {
       black: "#FFFFFF",
       text1: "#4b0239",
       text2: "#4b0239",
-
     },
 
     "Magma Caverns": {
@@ -338,13 +337,16 @@ export const gameData = {
       bg: "magma-caverns.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#66061D",
-      primary2: "#A72A29",
-      secondary1: "#ED2F18",
+      primary1: "#97022c",
+      primary2: "#e20343",
+      secondary1: "#97022c",
       secondary2: "#FF8A06",
       white: "#F9E7E7",
       grey: "#6F6262",
       black: "#070011",
+
+      text1: "#F9E7E7",
+      text2: "#ffcccc",
     },
 
     "Neon City": {
@@ -355,13 +357,16 @@ export const gameData = {
       bg: "neon-city.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#D944AA",
-      primary2: "#3B1E6E",
+      primary1: "#730099",
+      primary2: "#ac00e6",
       secondary1: "#A93FDB",
       secondary2: "#3D27B7",
       white: "#FBECF6",
       grey: "#968792",
       black: "#06030B",
+
+      text1: "#ffccff",
+      text2: "#ffccff",
     },
 
     "Night Sakura": {
@@ -373,12 +378,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#531068",
-      primary2: "#171C6C",
-      secondary1: "#FDC5E1",
+      primary2: "#7c189a",
+      secondary1: "#531068",
       secondary2: "#DE528A",
       white: "#FFF9FC",
       grey: "#3E3F47",
       black: "#09020B",
+
+      text1: "#ffccff",
+      text2: "#ffccff",
     },
 
     "Night View": {
@@ -390,12 +398,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#1A1440",
-      primary2: "#113374",
+      primary2: "#2f2574",
       secondary1: "#1A1C74",
       secondary2: "#2F64B5",
       white: "#FEFEFD",
       grey: "#C3BDE8",
       black: "#07071B",
+
+      text1: "#ccffff",
+      text2: "#ccffff",
     },
 
     "Ocean City": {
@@ -407,12 +418,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#6BA3F0",
-      primary2: "#00A1D2",
-      secondary1: "#A4DCEC",
+      primary2: "#a2c5f6",
+      secondary1: "#6BA3F0",
       secondary2: "#845D6F",
       white: "#F6FBFD",
       grey: "#A7ACB3",
       black: "#001217",
+
+      text1: "#ccffff",
+      text2: "#ccffff",
     },
 
     "Orange Desert": {
@@ -424,12 +438,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#E35B00",
-      primary2: "#8B2100",
-      secondary1: "#FEB300",
+      primary2: "#ff8533",
+      secondary1: "#E35B00",
       secondary2: "#581000",
       white: "#FFF0E6",
       grey: "#8C8573",
       black: "#0E0300",
+
+      text1: "#ffffcc",
+      text2: "#ffffcc",
     },
 
     "Orange Sunset": {
@@ -447,6 +464,9 @@ export const gameData = {
       white: "#FCF2EE",
       grey: "#A29995",
       black: "#110C07",
+
+      text1: "#ffffcc",
+      text2: "#ffffcc",
     },
 
     "Pillar Space": {
