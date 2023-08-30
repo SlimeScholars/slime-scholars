@@ -48,10 +48,10 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
       <button
         className="rounded hover:opacity-80 h-full font-galindo text-xl"
         style={{
-          backgroundColor: 
-            colorPalette === undefined? "": colorPalette.primary1,
-          color: 
-            colorPalette === undefined? "":colorPalette.text1,
+          backgroundColor:
+            colorPalette === undefined ? "" : colorPalette.primary1,
+          color:
+            colorPalette === undefined ? "" : colorPalette.text1,
         }}
         onClick={
           (e) => {
@@ -64,14 +64,16 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
       </button>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo text-lg">
         <div className="flex flex-col items-end">
+
+          {/* slime gel */}
           <div
             className="flex rounded-[5rem] py-1 px-6 w-fit"
             style={{
-              backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
-              color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
+              backgroundColor: `${colorPalette ? colorPalette.black + '55' : '#475569'}`,
+              color: `${colorPalette ? colorPalette.text1 : '#ffffff'}`,
+              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""}`
             }}
           >
-            {/* slime gel */}
             {user && (
               <div className="flex flex-row items-center">
                 <img
@@ -83,15 +85,16 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
               </div>
             )}
           </div>
+
+          {/* flowers */}
           <div
             className="flex rounded-[5rem] py-1 px-6 w-fit mt-2"
             style={{
-              backgroundColor: `${colorPalette? colorPalette.black+'55': '#475569'}`,
-              color: `${colorPalette? colorPalette.text1: '#ffffff'}`,
-              boxShadow: `${colorPalette? "0px 0px 20px "+colorPalette.white+"0F" : ""}`
+              backgroundColor: `${colorPalette ? colorPalette.black + '55' : '#475569'}`,
+              color: `${colorPalette ? colorPalette.text1 : '#ffffff'}`,
+              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""}`
             }}
           >
-            {/* flowers */}
             {user && (
               <div className="flex flex-row items-center">
                 <img
@@ -99,10 +102,11 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
                   alt="Icon"
                   className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
-                <p className="text-black text-sm">{flowers===null? (user.flowers) : (flowers)}</p>
+                <p className="">{flowers === null ? (user.flowers) : (flowers)}</p>
               </div>
             )}
           </div>
+
           {/*
           FIXME
           Slime Egg
@@ -140,9 +144,9 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
               }}
               style={
                 isActive ? {
-                  backgroundColor: `${colorPalette? colorPalette.primary1:'#ffffff'}`,
+                  backgroundColor: `${colorPalette ? colorPalette.primary1 : '#ffffff'}`,
                 } : {
-                  backgroundColor: `${colorPalette? colorPalette.white:'#ffff'}88`,
+                  backgroundColor: `${colorPalette ? colorPalette.white : '#ffff'}88`,
                 }
               }
               className={`hover:opacity-60 ${commonButtonClasses}`}
