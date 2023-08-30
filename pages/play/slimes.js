@@ -7,7 +7,14 @@ import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 import { gameData } from "../../data/gameData";
 
-export default function Slimes({ loading, user, setLoading, setUser, colorPalette, setColorPalette }) {
+export default function Slimes({
+  loading,
+  user,
+  setLoading,
+  setUser,
+  colorPalette,
+  setColorPalette,
+}) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
   const [slime, setSlime] = useState("");
@@ -97,7 +104,7 @@ export default function Slimes({ loading, user, setLoading, setUser, colorPalett
       <div className="pt-5 home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/* button here just to test the backend get-rewards */}
-          {/*}
+
           <div>
             <button
               className="p-2 bg-white"
@@ -109,29 +116,32 @@ export default function Slimes({ loading, user, setLoading, setUser, colorPalett
               Click Me
             </button>
           </div>
-          */}
+
           <div
             style={{
-              backgroundColor: 
-                colorPalette === undefined? "":`${colorPalette.white}88`,
-              color: 
-                colorPalette === undefined? "":colorPalette.text1,
+              backgroundColor:
+                colorPalette === undefined ? "" : `${colorPalette.white}88`,
+              color: colorPalette === undefined ? "" : colorPalette.text1,
             }}
             className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
           >
             <div className="grow-0 pl-4">
-              <img src="/assets/icons/slimes.png" className="h-[4.5rem] w-[4.5rem]"></img>
+              <img
+                src="/assets/icons/slimes.png"
+                className="h-[4.5rem] w-[4.5rem]"
+              ></img>
             </div>
             <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
             <div className="grow-0 flex pr-4">
               <div
                 style={{
-                  border: 
-                    colorPalette===undefined? "":`3px solid ${colorPalette.primary1}`,
-                  color: 
-                    colorPalette===undefined? "":colorPalette.text1,
-                  backgroundColor: 
-                    colorPalette===undefined? "":`${colorPalette.white}88`,
+                  border:
+                    colorPalette === undefined
+                      ? ""
+                      : `3px solid ${colorPalette.primary1}`,
+                  color: colorPalette === undefined ? "" : colorPalette.text1,
+                  backgroundColor:
+                    colorPalette === undefined ? "" : `${colorPalette.white}88`,
                 }}
                 className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
@@ -158,8 +168,8 @@ export default function Slimes({ loading, user, setLoading, setUser, colorPalett
             <div
               className="rounded-lg"
               style={{
-                backgroundColor: 
-                  colorPalette===undefined? "":`${colorPalette.white}88`,
+                backgroundColor:
+                  colorPalette === undefined ? "" : `${colorPalette.white}88`,
               }}
             >
               <div className="items-center">
