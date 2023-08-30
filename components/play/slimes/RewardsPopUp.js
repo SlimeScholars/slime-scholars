@@ -48,15 +48,24 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                       // console.log(index, slime);
                       return (
                         <div key={index} className={`flex flex-col`}>
-                          <img
-                            src={
-                              "/assets/pfp/slimes/" +
-                              gameData.slimePfps[slime.slimeName].pfp
-                            }
-                            alt="Slime"
-                            className="h-64 w-64 mx-auto"
-                            onClick={() => {}}
-                          />
+                          {slime.slimeName === "rosterBonus" ? (
+                            <img
+                              src="/assets/icons/slime-gel"
+                              alt="rosterBonus"
+                              className="h-64 w-64 mx-auto"
+                            />
+                          ) : (
+                            <img
+                              src={
+                                "/assets/pfp/slimes/" +
+                                gameData.slimePfps[slime.slimeName].pfp
+                              }
+                              alt="Slime"
+                              className="h-64 w-64 mx-auto"
+                              onClick={() => {}}
+                            />
+                          )}
+
                           <p className="text-xl text-center pb-4">
                             {slime.message}
                           </p>
