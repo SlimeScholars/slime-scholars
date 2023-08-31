@@ -457,16 +457,16 @@ export const gameData = {
       bg: "orange-sunset.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#B32D48",
-      primary2: "#6A3A53",
-      secondary1: "#F8BA67",
+      primary1: "#ff3300",
+      primary2: "#ff704d",
+      secondary1: "#ff3300",
       secondary2: "#E07F57",
       white: "#FCF2EE",
       grey: "#A29995",
       black: "#110C07",
 
-      text1: "#ffffcc",
-      text2: "#ffffcc",
+      text1: "#ffcccc",
+      text2: "#ffcccc",
     },
 
     "Pillar Space": {
@@ -477,13 +477,16 @@ export const gameData = {
       bg: "pillar-space.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#B970E9",
-      primary2: "#2C1C67",
-      secondary1: "#40059E",
+      primary1: "#bf00ff",
+      primary2: "#d24dff",
+      secondary1: "#bf00ff",
       secondary2: "#00D9FD",
       white: "#EEEBFE",
       grey: "#403E46",
       black: "#19063B",
+
+      text1: "#ccccff",
+      text2: "#ccccff",
     },
 
     "Pink Candy": {
@@ -495,12 +498,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#FEACC8",
-      primary2: "#FF5D68",
-      secondary1: "#9CB770",
+      primary2: "#fee6ee",
+      secondary1: "#FEACC8",
       secondary2: "#FE8593",
       white: "#F9E9F1",
       grey: "#C7BCBE",
       black: "#230002",
+
+      text1: "#ffccff",
+      text2: "#cc0099",
     },
 
     "Pink Pyramid": {
@@ -512,12 +518,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#F73F7B",
-      primary2: "#12BABE",
-      secondary1: "#624667",
+      primary2: "#fa85ac",
+      secondary1: "#F73F7B",
       secondary2: "#BB4487",
       white: "#F2D5C3",
       grey: "#585558",
       black: "#110E0F",
+
+      text1: "#ffccff",
+      text2: "#ffccff",
     },
 
     "Rainy City": {
@@ -528,13 +537,16 @@ export const gameData = {
       bg: "rainy-city.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#5F2D6D",
-      primary2: "#646DD3",
-      secondary1: "#632543",
+      primary1: "#7e3b91",
+      primary2: "#a85cbc",
+      secondary1: "#7e3b91",
       secondary2: "#4A42B2",
       white: "#EFF0FB",
       grey: "#9697A1",
       black: "#09040A",
+
+      text1: "#ccccff",
+      text2: "#ccccff",
     },
 
     "Rainy Forest": {
@@ -545,13 +557,16 @@ export const gameData = {
       bg: "rainy-forest.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#728148",
-      primary2: "#8097D3",
-      secondary1: "#B2816B",
+      primary1: "#738349",
+      primary2: "#9aac6c",
+      secondary1: "#738349",
       secondary2: "#3D282D",
       white: "#F1F3FA",
       grey: "#A4A6AD",
       black: "#0B0D07",
+
+      text1: "#ccffcc",
+      text2: "#ccffcc",
     },
 
     "Rainy Town": {
@@ -563,12 +578,15 @@ export const gameData = {
       buyPrice: 1000,
       buyCurrency: 0,
       primary1: "#82A2BD",
-      primary2: "#B7ACC1",
-      secondary1: "#E4E4EF",
+      primary2: "#abc1d3",
+      secondary1: "#82A2BD",
       secondary2: "#AEC8E4",
       white: "#E5F1F8",
       grey: "#6C7192",
       black: "#0A0A0D",
+
+      text1: "#ccffff",
+      text2: "#ccffff",
     },
 
     "Red Space": {
@@ -579,14 +597,17 @@ export const gameData = {
       bg: "red-space.png",
       buyPrice: 1000,
       buyCurrency: 0,
-      primary1: "#943737",
-      primary2: "#D44934",
-      secondary1: "#F13425",
+      primary1: "#a83e3e",
+      primary2: "#c86a6a",
+      secondary1: "#a83e3e",
       secondary2: "#692426",
       white: "#FEE2B5",
       grey: "#DDDAD4",
       black: "#1E111A",
-    },
+
+      text1: "#ffcccc",
+      text2: "#ffcccc",
+    }
   },
 
   baseProduction: {
