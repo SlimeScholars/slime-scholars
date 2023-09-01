@@ -101,11 +101,11 @@ export default function Slimes({
           rewards={rewards}
         />
       )}
-      <div className="pt-5 home" onClick={handleNavHome}>
+      <div className="home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/* button here just to test the backend get-rewards */}
 
-          <div>
+          {/* <div>
             <button
               className="p-2 bg-white"
               onClick={() => {
@@ -115,7 +115,7 @@ export default function Slimes({
               {" "}
               Click Me
             </button>
-          </div>
+          </div> */}
 
           <div
             style={{

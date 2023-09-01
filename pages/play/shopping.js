@@ -37,7 +37,7 @@ export default function Shopping({ loading, user, items, setItems }) {
 	}, [searchContent]);
 
 	return (
-		<div className="pt-5 home" onClick={handleNavHome}>
+		<div className="home" onClick={handleNavHome}>
 			<div className="items-center justify-between">
 				<div className="flex flex-row bg-white/50 rounded-lg items-center">
 					<div className="grow-0 pl-4">

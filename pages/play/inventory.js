@@ -19,8 +19,8 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 		}
 		if (!user || user.userType !== 1) {
 			router.push("/");
-		} 
-		
+		}
+
 		if (user) {
 			// Set the items for displaying in inventory to user's items
 			setItems(user.items);
@@ -33,7 +33,7 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 	useEffect(() => {
 		if (user && user.bg && gameData.items[user.bg].bg) {
 			setColorPalette(gameData.items[user.bg]);
-		} 
+		}
 	}, [])
 
 	const handleNavHome = (event) => {
@@ -55,8 +55,13 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 	}, [searchContent]);
 
 	return (
-		<div className="pt-5 home" onClick={handleNavHome}>
-			<div className="items-center justify-between">
+		<div
+			className="home" onClick={handleNavHome}
+			style={{
+				height: 'calc(100% - 11rem)'
+			}}
+		>
+			<div className="items-center justify-between h-full">
 				{/*  Inventory bar */}
 				<div className="flex flex-row bg-white/50 rounded-lg items-center">
 					<div className="grow-0 pl-4">
@@ -78,11 +83,11 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 
 				{/* Default: inventory lists and item details */}
 				<div
-					className="py-8 flex flex-row font-galindo w-full home"
+					className="py-8 flex flex-row font-galindo w-full home h-full"
 					onClick={handleNavHome}
 				>
 					{/* Inventory List */}
-					<div className="pr-4 basis-4/7">
+					<div className="pr-4 basis-1/2">
 						<ItemList
 							items={items}
 							itemOnClick={itemOnClick}
@@ -91,7 +96,7 @@ export default function Backpack({ loading, user, setUser, setNumEggs, setFlower
 					</div>
 
 					{/* Item details */}
-					<div className="basis-3/7 bg-white/50 rounded-lg">
+					<div className="basis-1/2 bg-white/50 rounded-lg">
 						<ItemDetails
 							item={itemOnClick}
 							user={user}
