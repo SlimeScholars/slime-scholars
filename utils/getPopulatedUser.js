@@ -65,8 +65,10 @@ export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, 
     user.sentFriendRequests[i] = populatedRequest
   }
 
-  user.items = getSortedItems(user.items)
-  user.slimes = getSortedSlimes(user.slimes)
+  if (user.items && user.slimes) {
+    user.items = getSortedItems(user.items)
+    user.slimes = getSortedSlimes(user.slimes)
+  }
 
   return user
 }
@@ -86,7 +88,9 @@ export const getPopulatedPlayer = async (userId) => {
     .lean()
     .exec()
 
-  user.slimes = getSortedSlimes(user.slimes)
+  if (user.slimes) {
+    user.slimes = getSortedSlimes(user.slimes)
+  }
 
   return user
 }
