@@ -130,18 +130,20 @@ function MyApp({ Component, pageProps }) {
             {/* Navbar */}
             <div className={`relative h-0 z-10`}>
               <div
-                className={`absolute inset-0 p-10 home px-20`}
+                className={`absolute inset-0 home`}
                 onClick={handleNavHome}
               ></div>
             </div>
 
             {/* Other pages */}
             <div className={`relative h-0`}>
-              <div className={`absolute inset-0 p-10 px-20`}>
-                <div className="relative z-20 mb-5">
-                  <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers} colorPalette={colorPalette} setColorPalette={setColorPalette}/>
+              <div className={`absolute inset-0 py-10 px-20 h-screen`}>
+                <div className="h-full relative">
+                  <div className="z-20 mb-10">
+                    <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers} colorPalette={colorPalette} setColorPalette={setColorPalette} />
+                  </div>
+                  <Component {...modifiedPageProps} />
                 </div>
-                <Component {...modifiedPageProps} />
               </div>
             </div>
           </>

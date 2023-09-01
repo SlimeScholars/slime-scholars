@@ -63,7 +63,7 @@ export default function Friends({ loading, user, setUser }) {
 
   return (
     <div>
-      <div className="pt-5 home" onClick={handleNavHome}>
+      <div className="home" onClick={handleNavHome}>
         <div className="items-center justify-between">
           {/*  Add Friend  and others */}
           <div className="flex flex-row bg-white/50 rounded-lg items-center">

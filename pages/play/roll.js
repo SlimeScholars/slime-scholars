@@ -49,12 +49,12 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
 
             setEggsLacked(0);
             showToastError("Sorry, you need to earn more flowers.");
-            return ;
+            return;
         }
 
         const config = {
             headers: {
-                Authorization : `Bearer ${localStorage.getItem('jwt')}`
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`
             }
         }
 
@@ -91,8 +91,8 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
     const handleRollBtnClick = (eggsNeed) => {
 
         // user does not have enough eggs
-        if (eggsNeed-eggsOwned > 0) {
-            setEggsLacked(eggsNeed-eggsOwned);
+        if (eggsNeed - eggsOwned > 0) {
+            setEggsLacked(eggsNeed - eggsOwned);
         } else {
             // user does have enough
 
@@ -120,7 +120,7 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                     })
                     .catch(error => showToastError(error.message));
             } else {
-                
+
                 // Rolling 10 slimes
                 axios
                     .post('/api/slime/open-10eggs', {
@@ -142,27 +142,27 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
     };
 
     return (
-        <div 
-            className="pt-5 home w-full h-full"
+        <div
+            className="home w-full h-full"
             onClick={handleNavHome}>
             {/* Popup Message for Lacking Eggs */}
             {
-                eggsLacked>0 && (
-                    <div 
+                eggsLacked > 0 && (
+                    <div
                         className="fixed inset-0 z-40 text-white flex items-center justify-center">
                         <div className="grid grid-rows-2 place-content-center m-20 rounded-lg p-8 bg-slate-400">
                             <div className="flex flex-col p-4 w-full text-center">
-                                <h3 className="font-galindo text-black text-lg">{ "You need " + eggsLacked + " more slime egg" + ((eggsLacked!==1)? "s":"") +" to roll" }</h3>
-                                <p className="text-sm">{ "Purchase " + eggsLacked + " slime egg" + ((eggsLacked!==1)? "s":"") + " with " + eggsLacked*gameData.items['Slime Egg'].buyPrice + " flowers." }</p>
+                                <h3 className="font-galindo text-black text-lg">{"You need " + eggsLacked + " more slime egg" + ((eggsLacked !== 1) ? "s" : "") + " to roll"}</h3>
+                                <p className="text-sm">{"Purchase " + eggsLacked + " slime egg" + ((eggsLacked !== 1) ? "s" : "") + " with " + eggsLacked * gameData.items['Slime Egg'].buyPrice + " flowers."}</p>
                             </div>
                             <div className="flex flex-row justify-center items-center">
-                                <button 
+                                <button
                                     className="rounded-sm bg-white text-black mr-2 p-2 hover:bg-white/75"
                                     onClick={(e) => {
                                         setEggsLacked(0);
                                     }}>
                                     Cancel</button>
-                                <button 
+                                <button
                                     className="rounded-sm bg-red-300 text-white p-2 hover:bg-red-300/75"
                                     onClick={() => {
                                         handlePurchaseEggs(eggsLacked);
@@ -182,9 +182,9 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                         router={router}></RollResult>
                 )
             }
-            <div 
+            <div
                 className={
-                    (eggsLacked>0 || afterRolling)? ("w-full h-full brightness-75"): ("w-full h-full")
+                    (eggsLacked > 0 || afterRolling) ? ("w-full h-full brightness-75") : ("w-full h-full")
                 }>
                 <div className="relative">
                     {/* Image as background */}
@@ -199,16 +199,16 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                                 <div className="flex flex-row font-galindo">
                                     <p>Roll with 1 </p>
                                     <img src="/assets/icons/slime-egg.png" className="h-6 w-auto px-2"></img>
-                                    <p>{ "( " + gameData.items['Slime Egg'].buyPrice + " FL )"}</p>
+                                    <p>{"( " + gameData.items['Slime Egg'].buyPrice + " FL )"}</p>
                                 </div>
                             </button>
-                            <button 
+                            <button
                                 className="rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
                                 onClick={() => handleRollBtnClick(10)}>
                                 <div className="flex flex-row font-galindo">
                                     <p>Roll with 10</p>
                                     <img src="/assets/icons/slime-egg.png" className="h-6 w-auto px-2"></img>
-                                    <p>{ "( " + gameData.items['Slime Egg'].buyPrice*10 + " FL )"}</p>
+                                    <p>{"( " + gameData.items['Slime Egg'].buyPrice * 10 + " FL )"}</p>
                                 </div>
                                 <div className="flex flex-row pt-1">
                                     <p className="pr-2">GUARANTEED</p>
@@ -220,5 +220,5 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                 </div>
             </div>
         </div>
-   );
+    );
 }  
