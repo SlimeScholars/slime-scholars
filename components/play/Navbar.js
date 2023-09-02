@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import EarnFlwrBtn from "./earnFlwrBtn";
 import { useRouter } from "next/router";
 import { gameData } from "../../data/gameData";
+import { FaChevronLeft } from "react-icons/fa";
+import { HiHome } from "react-icons/hi";
 
 /*
 Parameter:
@@ -19,6 +20,14 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
+
+  let onHome = true
+  for (let type of types) {
+    if (type.id === current_id) {
+      onHome = false
+      break
+    }
+  }
 
   useEffect(() => {
 
@@ -41,12 +50,33 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
     <div
       className="grid items-center justify-between z-20 w-full relative"
       style={{
-        gridTemplateColumns: "14rem 1fr",
+        gridTemplateColumns: onHome ? "12rem 1fr" : "9rem 12rem 1fr",
       }}
     >
+      {/* home button */}
+      {!onHome && (
+        <button
+          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem]"
+          style={{
+            backgroundColor:
+              colorPalette === undefined ? "" : colorPalette.primary1,
+            color:
+              colorPalette === undefined ? "" : colorPalette.text1,
+          }}
+          onClick={
+            (e) => {
+              e.preventDefault()
+              router.push("/play")
+            }
+          }
+        >
+          <FaChevronLeft className="inline text-lg" />
+          <HiHome className="inline text-3xl ml-1 -mt-0.5 mr-3" />
+        </button>
+      )}
       {/* earn flowers button */}
       <button
-        className="rounded hover:opacity-80 h-full font-galindo text-xl"
+        className="rounded hover:opacity-80 font-galindo text-lg h-[4rem]"
         style={{
           backgroundColor:
             colorPalette === undefined ? "" : colorPalette.primary1,
@@ -62,12 +92,12 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
       >
         Earn Flowers
       </button>
-      <div className="flex flex-row items-center space-x-2 justify-end font-galindo text-lg">
-        <div className="flex flex-col items-end">
+      <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md">
+        <div className="flex flex-col items-end mr-5">
 
           {/* slime gel */}
           <div
-            className="flex rounded-[5rem] py-1 px-6 w-fit"
+            className="flex rounded-full py-1 px-6 w-fit"
             style={{
               backgroundColor: `${colorPalette ? colorPalette.black + '55' : '#475569'}`,
               color: `${colorPalette ? colorPalette.text1 : '#ffffff'}`,
@@ -79,7 +109,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
                 <img
                   src="/assets/icons/slime-gel.png"
                   alt="Icon"
-                  className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
+                  className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
                 <p className="">{user.slimeGel}</p>
               </div>
@@ -88,7 +118,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
 
           {/* flowers */}
           <div
-            className="flex rounded-[5rem] py-1 px-6 w-fit mt-2"
+            className="flex rounded-full py-1 px-6 w-fit mt-1.5"
             style={{
               backgroundColor: `${colorPalette ? colorPalette.black + '55' : '#475569'}`,
               color: `${colorPalette ? colorPalette.text1 : '#ffffff'}`,
@@ -100,7 +130,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
                 <img
                   src="/assets/icons/flower.png"
                   alt="Icon"
-                  className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
+                  className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
                 <p className="">{flowers === null ? (user.flowers) : (flowers)}</p>
               </div>
@@ -132,8 +162,6 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
         {/* buttons and icons */}
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
-          const commonButtonClasses =
-            "p-4 rounded-full";
           const isActive = type.id === current_id;
 
           return (
@@ -149,10 +177,10 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
                   backgroundColor: `${colorPalette ? colorPalette.white : '#ffff'}88`,
                 }
               }
-              className={`hover:opacity-60 ${commonButtonClasses}`}
+              className='hover:opacity-60 rounded-full 2xl:p-4 p-3'
               key={type.id}
             >
-              <img src={imgLink} className="h-[4rem] w-[4rem]" alt={type.src} />
+              <img src={imgLink} className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]" alt={type.src} />
             </button>
           );
         })}
