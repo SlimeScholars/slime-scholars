@@ -183,3 +183,29 @@ a {
   -webkit-background-clip: content-box;
   background-clip: content-box;
 }
+
+.slime-animate {
+  background-size: 64rem 48rem;
+  animation: playv 0.8s steps(4) infinite, playh 2.4s steps(3) infinite;
+  background-position: 0 0;
+}
+
+@keyframes playv {
+  0% {
+    background-position-x: 0;
+  }
+
+  100% {
+    background-position-x: -64rem;
+  }
+}
+
+@keyframes playh {
+  0% {
+    background-position-y: 0;
+  }
+
+  100% {
+    background-position-y: -48rem;
+  }
+}

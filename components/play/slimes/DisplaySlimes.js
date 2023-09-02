@@ -238,7 +238,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                     style={{
                       backgroundImage: `url(${slimeImg})`,
                     }}
-                    className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 md:bg-[length:16rem_16rem]"
+                    className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 slime-animate"
                     onClick={() => {
                       router.push("/play/slimes");
                     }}
