@@ -36,7 +36,7 @@ export default function RequestListings({
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
       })
-      .catch((error) => {});
+      .catch((error) => { });
   }
 
   function handleDeleteRequest(friendId) {
@@ -100,7 +100,7 @@ export default function RequestListings({
                   <img
                     src={
                       "/assets/pfp/slimes/" +
-                      gameData.slimePfps[user.pfpSlime].pfp
+                      gameData.slimeImgs[user.pfpSlime].pfp
                     }
                     className="relative z-10 translate-y-1/4 scale-125"
                   ></img>
@@ -149,7 +149,7 @@ export default function RequestListings({
                 <img
                   src={
                     "/assets/pfp/slimes/" +
-                    gameData.slimePfps[user.pfpSlime].pfp
+                    gameData.slimeImgs[user.pfpSlime].pfp
                   }
                   className="relative z-10 translate-y-1/4 scale-125"
                 ></img>

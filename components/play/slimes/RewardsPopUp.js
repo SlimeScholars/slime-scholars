@@ -58,11 +58,11 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                             <img
                               src={
                                 "/assets/pfp/slimes/" +
-                                gameData.slimePfps[slime.slimeName].pfp
+                                gameData.slimeImgs[slime.slimeName].pfp
                               }
                               alt="Slime"
                               className="h-64 w-64 mx-auto"
-                              onClick={() => {}}
+                              onClick={() => { }}
                             />
                           )}
 

@@ -14,7 +14,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
         <div>
           <img
             src={
-              "/assets/pfp/slimes/" + gameData.slimePfps[newSlime.slimeName].pfp
+              "/assets/pfp/slimes/" + gameData.slimeImgs[newSlime.slimeName].pfp
             }
             alt="Slime"
             className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
