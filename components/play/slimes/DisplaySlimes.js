@@ -237,6 +237,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                   <div
                     style={{
                       backgroundImage: `url(${slimeImg})`,
+                      // backgroundImage: `url('https://i.imgur.com/k05MBba.png')`
                     }}
                     className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 slime-animate"
                     onClick={() => {
