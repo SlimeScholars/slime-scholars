@@ -24,7 +24,7 @@ export default function LeadboardListing({ users, userId }) {
                     <img
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimePfps[user.pfpSlime].pfp
+                        gameData.slimeImgs[user.pfpSlime].pfp
                       }
                       className="relative z-10 translate-y-1/4 scale-125"
                     ></img>
@@ -50,7 +50,7 @@ export default function LeadboardListing({ users, userId }) {
                     <img
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimePfps[user.pfpSlime].pfp
+                        gameData.slimeImgs[user.pfpSlime].pfp
                       }
                       className="relative z-10 translate-y-1/4 scale-125"
                     ></img>
