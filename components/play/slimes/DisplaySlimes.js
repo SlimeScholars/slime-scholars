@@ -145,7 +145,7 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                       <img
                         src={
                           "/assets/pfp/slimes/" +
-                          gameData.slimePfps[slime.slimeName].pfp
+                          gameData.slimeImgs[slime.slimeName].pfp
                         }
                         alt="Slime"
                         className="h-64 w-64 mx-auto"
@@ -198,6 +198,12 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                   </button>
                 );
 
+              const slimeImg = (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].spritesheet) ? (
+                "/assets/slimes/slime-spritesheet/" + gameData.slimeImgs[slime.slimeName].spritesheet
+              ) : (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].static) ? (
+                "/assets/slimes/slime-static/" + gameData.slimeImgs[slime.slimeName].static
+              ) : ""
+
               return (
                 <div
                   key={index}
@@ -227,14 +233,12 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                       &nbsp;^&nbsp;
                     </button>
                   </div>
-                  <img
-                    src={
-                      (slime.slimeName && gameData.slimePfps && gameData.slimePfps[slime.slimeName] && gameData.slimePfps[slime.slimeName].pfp)? (
-                        "/assets/pfp/slimes/" + gameData.slimePfps[slime.slimeName].pfp
-                      ) : ("")
-                    }
-                    alt="Slime"
-                    className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
+
+                  <div
+                    style={{
+                      backgroundImage: `url(${slimeImg})`,
+                    }}
+                    className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 md:bg-[length:16rem_16rem]"
                     onClick={() => {
                       router.push("/play/slimes");
                     }}
