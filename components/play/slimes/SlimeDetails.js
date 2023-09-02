@@ -94,7 +94,7 @@ export default function SlimeDetails({
           <div className="flex justify-center items-center">
             <div className="w-[90%]">
               <img
-                src={"/assets/pfp/slimes/" + gameData.slimePfps[name].pfp}
+                src={"/assets/pfp/slimes/" + gameData.slimeImgs[name].static}
                 alt="Slime"
                 className="h-auto w-full"
               />
