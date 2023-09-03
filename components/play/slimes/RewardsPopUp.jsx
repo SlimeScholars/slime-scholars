@@ -39,7 +39,8 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                 className="p-2 bg-gray-200 rounded-full my-auto"
                 onClick={handlePrevClick}
               >
-                {'<'}
+                {/* FIXME: Uncomment this later */}
+                {/* {'<'} */}
               </button>
               <div className="flex flex-row mt-4">
                 {Array.isArray(rewardMessages) &&
@@ -78,7 +79,8 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                 className="p-2 bg-gray-200 rounded-full my-auto"
                 onClick={handleNextClick}
               >
-                {'>'}
+                {/* FIXME: Uncomment this later */}
+                {/* {'>'} */}
               </button>
             </div>
           )}
