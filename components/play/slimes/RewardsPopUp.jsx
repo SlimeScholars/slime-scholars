@@ -33,57 +33,6 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
               className="h-6 w-6 mx-1"
             />
           </div>
-          {rewardMessages.length > 0 && (
-            <div className="flex flex-row">
-              <button
-                className="p-2 bg-gray-200 rounded-full my-auto"
-                onClick={handlePrevClick}
-              >
-                {/* FIXME: Uncomment this later */}
-                {/* {'<'} */}
-              </button>
-              <div className="flex flex-row mt-4">
-                {Array.isArray(rewardMessages) &&
-                  rewardMessages.map((slime, index) => {
-                    if (index === currentSlimeIndex) {
-                      // console.log(index, slime);
-                      return (
-                        <div key={index} className='flex flex-col'>
-                          {slime.slimeName === "rosterBonus" ? (
-                            <img
-                              src="/assets/icons/slime-gel"
-                              alt="rosterBonus"
-                              className="h-64 w-64 mx-auto"
-                            />
-                          ) : (
-                            <img
-                              src={
-                                "/assets/pfp/slimes/" +
-                                gameData.slimeImgs[slime.slimeName].pfp
-                              }
-                              alt="Slime"
-                              className="h-64 w-64 mx-auto"
-                              onClick={() => { }}
-                            />
-                          )}
-
-                          <p className="text-xl text-center pb-4">
-                            {slime.message}
-                          </p>
-                        </div>
-                      );
-                    }
-                  })}
-              </div>
-              <button
-                className="p-2 bg-gray-200 rounded-full my-auto"
-                onClick={handleNextClick}
-              >
-                {/* FIXME: Uncomment this later */}
-                {/* {'>'} */}
-              </button>
-            </div>
-          )}
         </div>
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"
