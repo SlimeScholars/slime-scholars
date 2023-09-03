@@ -30,7 +30,7 @@ const emptyMC = [
 	},
 ];
 
-export default function EditLesson({ user, loading, setLoading }) {
+export default function EditUnitTest({ user, loading, setLoading }) {
 	// 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
 	const router = useRouter();
 	const [unitId, setUnitId] = useState(router.query.unitId);
@@ -520,4 +520,3 @@ export default function EditLesson({ user, loading, setLoading }) {
 		</div>
 	);
 }
-

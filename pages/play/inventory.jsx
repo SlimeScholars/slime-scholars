@@ -5,7 +5,7 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
 
-export default function Backpack({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette }) {
+export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette }) {
 	const router = useRouter();
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
 

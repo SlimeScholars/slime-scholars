@@ -20,14 +20,11 @@ import { useEffect } from "react";
 
 export default function Settings({ loading, user, setUser }) {
   const router = useRouter();
-  if (!user) {
-    return <></>;
-  }
 
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [username, setUsername] = useState(user.username);
-  const [email, setEmail] = useState(user.email);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
 
@@ -37,6 +34,12 @@ export default function Settings({ loading, user, setUser }) {
     }
     if (!user || user.userType !== 1) {
       router.push("/");
+    }
+    else {
+      setFirstName(user.firstName)
+      setLastName(user.lastName)
+      setUsername(user.username)
+      setEmail(user.email)
     }
   }, [user, loading]);
 
@@ -118,6 +121,10 @@ export default function Settings({ loading, user, setUser }) {
     router.push("/");
     setUser(null);
   };
+
+  if (!user) {
+    return <></>;
+  }
 
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">

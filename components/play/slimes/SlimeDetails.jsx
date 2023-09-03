@@ -13,8 +13,6 @@ export default function SlimeDetails({
   setUser,
   bg,
 }) {
-  if (!slime) return <></>;
-
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
   const [oldSlime, setOldSlime] = useState(null);
@@ -61,6 +59,7 @@ export default function SlimeDetails({
     setShowLevelUpPopup(false); // Set showLevelUpPopup to false to close the popup
   };
 
+  if (!slime) return <></>;
   //   console.log(slime);
   const rarity = slime.rarity.toUpperCase();
   const name = slime.slimeName;
