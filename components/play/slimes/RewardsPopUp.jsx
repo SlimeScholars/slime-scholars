@@ -47,7 +47,7 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                     if (index === currentSlimeIndex) {
                       // console.log(index, slime);
                       return (
-                        <div key={index} className={`flex flex-col`}>
+                        <div key={index} className='flex flex-col'>
                           {slime.slimeName === "rosterBonus" ? (
                             <img
                               src="/assets/icons/slime-gel"

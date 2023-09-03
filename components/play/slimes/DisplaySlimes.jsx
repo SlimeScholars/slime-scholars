@@ -6,9 +6,8 @@ import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 
 export default function DisplaySlimes({ user, setLoading, setUser }) {
-  if (!user) return <></>;
-
   const router = useRouter();
+
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
   const [oldSlime, setOldSlime] = useState(null);
@@ -81,6 +80,8 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
       setCurrentSlimeIndex(0);
     }
   };
+
+  if (!user) return <></>;
 
   if (isMobileView) {
     return (
