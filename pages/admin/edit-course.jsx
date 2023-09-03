@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
-export default function editCourse({ user, loading, setLoading }) {
+function EditCourse({ user, loading, setLoading }) {
   const router = useRouter()
 
   useEffect(() => {
@@ -117,3 +117,5 @@ export default function editCourse({ user, loading, setLoading }) {
     </div>
   );
 }
+
+export default EditCourse
