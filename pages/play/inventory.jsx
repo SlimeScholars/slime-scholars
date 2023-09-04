@@ -5,13 +5,12 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
 
-export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette }) {
+export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette, pfpBg, setPfpBg }) {
 	const router = useRouter();
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
 
 	// item.itemName => "Forest Mountains"
 	// bg => "forest-mountains.png"
-	const [pfpBg, setPfpBg] = useState("empty for now");
 
 	useEffect(() => {
 		if (loading) {
@@ -24,17 +23,8 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 		if (user) {
 			// Set the items for displaying in inventory to user's items
 			setItems(user.items);
-
-			setPfpBg(user.pfpBg);
 		}
 	}, [user, loading]);
-
-	// Run only once after initial render
-	useEffect(() => {
-		if (user && user.bg && gameData.items[user.bg].bg) {
-			setColorPalette(gameData.items[user.bg]);
-		}
-	}, [])
 
 	const handleNavHome = (event) => {
 		if (event.target.classList.contains("home")) {
