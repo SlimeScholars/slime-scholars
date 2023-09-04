@@ -9,7 +9,7 @@ export default function ItemDetails({
 	item,
 	user,
 	pfpBg,
-	setpfpBg,
+	setPfpBg,
 	setItems,
 	setItemOnClick,
 	setUser,
@@ -115,7 +115,9 @@ export default function ItemDetails({
 													}
 												)
 												.then((response) => {
-													setpfpBg(item.itemName);
+													setPfpBg(item.itemName);
+													const newUser = { ...user, pfpBg: item.itemName }
+													setUser(newUser)
 													showToastError("Profile background was changed.", true);
 												})
 												.catch((error) => {
