@@ -69,13 +69,11 @@ export default function SlimeDetails({
   const maxLevel = slime.maxLevel;
   const colour = gameData.rarityColours[slime.rarity].text;
   return (
-    <div className="">
-      <div
-        className="rounded-lg h-full mb-2"
-        style={{
-          backgroundColor: `${bg.white}88`,
-        }}
-      >
+    <div className="rounded-lg"
+      style={{
+        backgroundColor: `${bg.white}88`,
+      }}>
+      <div>
         {showLevelUpPopup && (
           <PopUpDetails
             user={user}
@@ -182,21 +180,14 @@ export default function SlimeDetails({
           </div>
         </div>
       </div>
-      <div
-        className="rounded-lg h-full mt-8"
-        style={{
-          backgroundColor: `${bg.white}88`,
-        }}
-      >
-        <AddToRoster
-          user={user}
-          loading={loading}
-          setLoading={setLoading}
-          slime={slime}
-          setUser={setUser}
-          bg={bg}
-        />
-      </div>
+      <AddToRoster
+        user={user}
+        loading={loading}
+        setLoading={setLoading}
+        slime={slime}
+        setUser={setUser}
+        bg={bg}
+      />
     </div>
   );
 }
