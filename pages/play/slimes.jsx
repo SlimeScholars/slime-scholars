@@ -175,7 +175,9 @@ export default function Slimes({
               <div className="items-center">
                 {/* loop through all slimes from user and display them */}
                 {user && (
-                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8">
+                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
+                    height: 'calc(100vh - 20rem)', overflowY: 'auto'
+                  }}>
                     <SlimeInventory
                       slimes={
                         filterSlimes.length > 0 ? filterSlimes : user.slimes
@@ -189,7 +191,9 @@ export default function Slimes({
               </div>
             </div>
           </div>
-          <div className=" basis-1/2 ">
+          <div className=" basis-1/2 " style={{
+            height: 'calc(100vh - 20rem)', overflowY: 'auto'
+          }}>
             {/* Get Slime details */}
             <SlimeDetails
               user={user}
