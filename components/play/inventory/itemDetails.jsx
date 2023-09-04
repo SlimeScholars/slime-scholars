@@ -50,7 +50,7 @@ export default function ItemDetails({
 									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
 										{
 											<img
-												src={"/assets/pfp/backgrounds/" + pfpBg}
+												src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
 												className="absolute inset-0"
 											></img>
 										}

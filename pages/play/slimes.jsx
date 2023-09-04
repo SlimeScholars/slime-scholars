@@ -13,7 +13,6 @@ export default function Slimes({
   setLoading,
   setUser,
   colorPalette,
-  setColorPalette,
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -30,9 +29,6 @@ export default function Slimes({
     }
     if (!user || user.userType !== 1) {
       router.push("/");
-    }
-    if (user) {
-      setColorPalette(gameData.items[user.bg]);
     }
   }, [user, loading]);
 
