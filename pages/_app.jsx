@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { gameData } from "../data/gameData";
 import "../styles/styles.css";
 import axios from "axios";
 import Spinner from "../components/spinner";
@@ -16,6 +17,7 @@ function MyApp({ Component, pageProps }) {
   const [flowers, setFlowers] = useState(null);
   const [items, setItems] = useState("empty for now");
   const [colorPalette, setColorPalette] = useState({});
+  const [pfpBg, setPfpBg] = useState(null);
 
   const modifiedPageProps = {
     ...pageProps,
@@ -30,7 +32,9 @@ function MyApp({ Component, pageProps }) {
     items,
     setItems,
     colorPalette,
-    setColorPalette
+    setColorPalette,
+    pfpBg,
+    setPfpBg
   }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -97,6 +101,16 @@ function MyApp({ Component, pageProps }) {
       setCurrent(0);
     }
   }, [router.pathname]);
+  
+  useEffect(() => {
+    if (user && user.pfpBg) {
+      setPfpBg(user.pfpBg);
+    }
+
+    if (user && user.bg && gameData.items[user.bg].bg) {
+      setColorPalette(gameData.items[user.bg]);
+		}
+  }, [user]);
 
   // navigate back home when clicking empty space above navbar
   const handleNavHome = (event) => {
