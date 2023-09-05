@@ -47,7 +47,7 @@ export default function Nav({ user, setUser }) {
           height={0}
           width={0}
           sizes='100vw'
-          className="mb-2 h-auto w-auto w-[270px] h-[300px]"
+          className="mb-2 w-[270px] h-[300px]"
         />
       </a>
       <ul className="flex flex-row justify-evenly items-center w-[30%]">
