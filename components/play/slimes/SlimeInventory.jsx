@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
   // console.log(user);
@@ -20,13 +21,16 @@ export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
                   }}
                   className="mb-3"
                 >
-                  <img
+                  <Image
                     src={
                       gameData.slimeImgs[slime.slimeName] ? (
                         "/assets/pfp/slimes/" + gameData.slimeImgs[slime.slimeName].static
                       ) : ("")
                     }
-                    alt="Slime"
+                    alt={slime.slimeName}
+                    width={0}
+                    height={0}
+                    sizes='100vw'
                     className="h-auto w-[80%] mx-auto"
                   />
                 </button>

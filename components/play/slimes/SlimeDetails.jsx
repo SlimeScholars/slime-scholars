@@ -4,6 +4,7 @@ import { useState } from "react";
 import PopUpDetails from "./PopUpDetails";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
+import Image from "next/image";
 
 export default function SlimeDetails({
   user,
@@ -90,9 +91,12 @@ export default function SlimeDetails({
         >
           <div className="flex justify-center items-center">
             <div className="w-[90%]">
-              <img
+              <Image
                 src={"/assets/pfp/slimes/" + gameData.slimeImgs[name].static}
-                alt="Slime"
+                alt={name}
+                width={0}
+                height={0}
+                sizes={"100vw"}
                 className="h-auto w-full"
               />
             </div>
@@ -166,10 +170,12 @@ export default function SlimeDetails({
                       </div>
                     </button>
                     <div className="inline-flex flex-row items-center">
-                      <img
+                      <Image
                         src="/assets/icons/slime-gel.png"
-                        alt="Icon"
-                        className="h-8 w-8 m-1"
+                        alt="slime gel"
+                        width={32}
+                        height={32}
+                        className="m-1"
                       />
                       <p className="ml-2">{levelUpCost}</p>
                     </div>
