@@ -173,9 +173,10 @@ export default function SlimeDetails({
                       <Image
                         src="/assets/icons/slime-gel.png"
                         alt="slime gel"
-                        width={32}
-                        height={32}
-                        className="m-1"
+                        width={0}
+                        height={0}
+                        sizes={"100vw"}
+                        className="m-1 w-8 h-8"
                       />
                       <p className="ml-2">{levelUpCost}</p>
                     </div>
