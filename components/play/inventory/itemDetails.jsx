@@ -56,18 +56,26 @@ export default function ItemDetails({
 									<p>Current</p>
 									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
 										{
-											<img
+											<Image
 												src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-												className="absolute inset-0"
-											></img>
+												alt={pfpBg}
+												height={0}
+												width={0}
+												sizes='100vw'
+												className="absolute inset-0 w-full h-full"
+											/>
 										}
-										<img
+										<Image
 											src={
 												"/assets/pfp/slimes/" +
 												gameData.slimeImgs[user.pfpSlime].pfp
 											}
-											className="relative z-10 translate-y-1/4 scale-125"
-										></img>
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+										/>
 									</div>
 								</div>
 							</div>
@@ -80,20 +88,28 @@ export default function ItemDetails({
 								<div className="flex flex-col items-center">
 									<p>Updated</p>
 									<div className="relative rounded-full overflow-hidden border-4 border-red-300">
-										<img
+										<Image
 											src={
 												"/assets/pfp/backgrounds/" +
 												gameData.items[item.itemName].pfp
 											}
-											className="absolute inset-0"
-										></img>
+											alt={item.itemName}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="absolute inset-0 w-full h-full"
+										/>
 										<img
 											src={
 												"/assets/pfp/slimes/" +
 												gameData.slimeImgs[user.pfpSlime].pfp
 											}
-											className="relative z-10 translate-y-1/4 scale-125"
-										></img>
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+										/>
 									</div>
 								</div>
 							</div>

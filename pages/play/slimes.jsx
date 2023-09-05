@@ -126,8 +126,10 @@ export default function Slimes({
               <Image
                 src="/assets/icons/slimes.png"
                 alt='slimes'
-                width={72}
-                height={72}
+                height={0}
+                width={0}
+                sizes='100vw'
+                className="w-[4.5rem] h-[4.5rem]"
               />
             </div>
             <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>

@@ -85,8 +85,10 @@ export default function Student({ loading, user, setUser }) {
           <div className="rotate-[14deg] absolute -bottom-8 -left-11 opacity-100 z-0">
             <Image
               src="/assets/graphics/slimes/slime-cat.png"
-              width={200}
-              height={200}
+              width={0}
+              height={0}
+              sizes='100vw'
+              className="h-[200px] w-[200px]"
               alt="Cat slime"
             />
           </div>
