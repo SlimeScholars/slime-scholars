@@ -14,27 +14,51 @@ export default function ItemInventory({
     const classNameClick = "border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameDisplay = "border-solid border-8 border-white rounded-lg relative overflow-visible";
 
-    const classNameDefaultOwned = "border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible brightness-75";
-    const classNameClickOwned = "border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible brightness-75";
-    const classNameDisplayOwned = "border-solid border-8 border-white rounded-lg relative overflow-visible brightness-75";
+    const classNameDefaultOwned = "border-solid border-8 border-slate-300 rounded-lg hover:border-white/75 relative overflow-visible";
+    const classNameClickOwned = "border-solid border-8 border-slate-700 rounded-lg hover:border-white/75 relative overflow-visible";
     var gradientBg;
 
     if (gameData.rarityColours[item.rarity]) {
         gradientBg = gameData.rarityColours[item.rarity].bg;
     }
 
+    // for shopping page
+    if (shopping && owned) {
+        const imgPath = item? '/assets/pfp/backgrounds/' + item.pfp : "";
+
+        console.log(item);
+        if (item.isBg) {
+            return (
+                <div className={
+                    displayOnly === "true" ? (classNameDisplay) : (
+                        (itemOnClick && itemOnClick.itemName === item.itemName) ?  (classNameClickOwned) : (classNameDefaultOwned))
+                } id={crypto.randomUUID()}
+                    onClick={(e) => {
+                        if (displayOnly !== "true") {
+                            setItemOnClick(item);
+                        }
+                    }}>
+                    <Image
+                        src={imgPath}
+                        alt={item.itemName}
+                        height={0}
+                        width={0}
+                        sizes='100vw'
+                        className="h-auto w-full"
+                    />
+                </div>
+            )
+        }
+    }
+
     // for background
     if (item.isBg && item.itemName) {
 
-        const itemName = item.itemName;
-        const imgPath = '/assets/pfp/backgrounds/' + item.pfp;
+        const imgPath = item? '/assets/pfp/backgrounds/' + item.pfp : "";
         return (
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (
-                    itemOnClick.itemName !== item.itemName ? (
-                        owned ? (classNameDefaultOwned) : (classNameDefault)) : (
-                        owned ? (classNameClickOwned) : (classNameClick))
-                )
+                    (itemOnClick&&itemOnClick.itemName === item.itemName) ?  (classNameClick) : (classNameDefault))
             } id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {

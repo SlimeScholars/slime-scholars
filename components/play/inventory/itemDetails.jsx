@@ -1,6 +1,6 @@
 import ItemInventory from './itemInventory';
 import { useRouter } from 'next/router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { gameData } from '../../../data/gameData';
 import { showToastError } from '../../../utils/toast';
 import axios from 'axios';
@@ -18,14 +18,146 @@ export default function ItemDetails({
 	setFlowers,
 	colorPalette,
 	setColorPalette,
-	shopping
+	shopping,
 }) {
+
+	const [owned, setOwned] = useState(null);
+
+	// Check if item is purchase everytime itemOnClick changes
+	useEffect(() => {
+		if (user) {
+			if (user.items.find(userItem => userItem.itemName === item.itemName)) {
+				setOwned(true);
+			} else {
+				setOwned(false);
+			}
+		}
+	}, [item, user])
 
 	const router = useRouter();
 
-	// for shopping page
+
+	// for shopping page,only backgrounds would be displayed
 	if (shopping) {
-		return ;
+
+		return (
+			<div className='w-full h-auto'>
+				<div className="grid grid-cols-3 p-4 gap-4 h-full overflow-y-auto">
+					<ItemInventory item={item} displayOnly="true" />
+					{/* Item description */}
+					<div className="col-span-2 bg-black/40 rounded-lg p-8">
+						<div className="flex flex-row items-center">
+							<img src="/assets/icons/slime-gel.png" className="w-8 h-8"></img>
+							<p>{item.buyPrice}</p>
+						</div>
+
+						<p
+							style={{ color: gameData.rarityColours[item.rarity].text }}
+							className={`text-2xl font-thin`}
+						>
+							{item&&item.rarity}
+						</p>
+						<p className="text-white text-2xl font-bold">{item.itemName}</p>
+						{item.description && (
+							<p className="text-grey text-sm">{item.description}</p>
+						)}
+					</div>
+					{/* Change pfp comparison */}
+					<div className="col-span-3 bg-black/40 rounded-lg p-6">
+						<div className="flex flex-row w-full items-center flex-wrap">
+							<div className="basis-1/5">
+								<div className="flex flex-col items-center">
+									{/* Display current profile picture */}
+									<p>Current</p>
+									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
+										{
+											<Image
+												src={"/assets/pfp/backgrounds/" + item.pfp}
+												alt={pfpBg}
+												height={0}
+												width={0}
+												sizes='100vw'
+												className="absolute inset-0 w-full h-full"
+											/>
+										}
+									</div>
+								</div>
+							</div>
+							<div className="basis-1/5">
+								<span className="text-red-300 material-symbols-outlined scale-150 p-10">
+									arrow_forward
+								</span>
+							</div>
+							<div className="basis-1/5">
+								<div className="flex flex-col items-center">
+									<p>Updated</p>
+									<div className="relative rounded-full overflow-hidden border-4 border-red-300">
+										<Image
+											src={
+												"/assets/pfp/backgrounds/" +
+												item.pfp
+											}
+											alt={item.itemName}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="absolute inset-0 w-full h-full"
+										/>
+									</div>
+								</div>
+							</div>
+							<div className="basis-2/5 p-4" dir="rtl">
+								{owned? (
+									<button className="rounded-s-lg p-4 bg-black/20" disabled>
+										Purchased Already
+									</button>
+								) : (
+									<button
+										className="rounded-s-lg p-4 bg-red-300 hover:bg-red-300/75 h-full"
+										onClick={(e) => {
+
+											// Check if user has enough slime gels
+											if (user) {
+												if (user.slimeGel < item.buyPrice) {
+													showToastError("You do not have enough slime gels.");
+													return;
+												}
+											}
+											axios
+												.post(
+													"/api/user/buy-item",
+													{
+														itemName: item.itemName,
+														quantity: 1
+													},
+													{
+														headers: {
+															Authorization: `Bearer ${localStorage.getItem(
+																"jwt"
+															)}`,
+														},
+													}
+												)
+												.then((response) => {
+													
+													const newUser = { ...user, items: response.items, flowers:response.flowers }
+													setUser(newUser)
+													showToastError("Picture purchased successfully.", true);
+												})
+												.catch((error) => {
+													showToastError(error.message);
+												});
+										}}
+									>
+										Purchase Picture
+									</button>
+								)}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		)
 	}
 
 	// for background
