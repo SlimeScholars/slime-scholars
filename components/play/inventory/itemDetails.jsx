@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { gameData } from '../../../data/gameData';
 import { showToastError } from '../../../utils/toast';
 import axios from 'axios';
+import Image from 'next/image';
 
 export default function ItemDetails({
 	item,
@@ -16,10 +17,14 @@ export default function ItemDetails({
 	setNumEggs,
 	setFlowers,
 	colorPalette,
-	setColorPalette
+	setColorPalette,
+	shopping
 }) {
 
 	const router = useRouter();
+
+	// for shopping page
+	
 
 	// for background
 	if (item.isBg && gameData.items[item.itemName]) {
