@@ -15,7 +15,7 @@ function MyApp({ Component, pageProps }) {
   const [user, setUser] = useState(null);
   const [numEggs, setNumEggs] = useState(0);
   const [flowers, setFlowers] = useState(null);
-  const [items, setItems] = useState("empty for now");
+  const [items, setItems] = useState([]);
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
 
@@ -58,6 +58,7 @@ function MyApp({ Component, pageProps }) {
         if (response.data && response.data.user) {
           setUser(response.data.user);
           if (response.data.user.userType === 1) {
+            setItems(response.data.user.items)
           }
           setLoading(false);
         }
@@ -101,7 +102,7 @@ function MyApp({ Component, pageProps }) {
       setCurrent(0);
     }
   }, [router.pathname]);
-  
+
   useEffect(() => {
     if (user && user.pfpBg) {
       setPfpBg(user.pfpBg);
@@ -109,7 +110,7 @@ function MyApp({ Component, pageProps }) {
 
     if (user && user.bg && gameData.items[user.bg].bg) {
       setColorPalette(gameData.items[user.bg]);
-		}
+    }
   }, [user]);
 
   // navigate back home when clicking empty space above navbar
