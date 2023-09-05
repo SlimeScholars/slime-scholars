@@ -44,9 +44,10 @@ export default function Nav({ user, setUser }) {
         <Image
           src="/assets/icons/logo.png"
           alt="Slime Scholars Logo"
-          className="mb-2 h-auto w-auto"
-          width={270}
-          height={300}
+          height={0}
+          width={0}
+          sizes='100vw'
+          className="mb-2 w-[270px] h-[300px]"
         />
       </a>
       <ul className="flex flex-row justify-evenly items-center w-[30%]">

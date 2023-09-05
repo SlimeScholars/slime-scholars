@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import { gameData } from "../../data/gameData";
+import Image from "next/image";
 
 export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette, pfpBg, setPfpBg }) {
 	const router = useRouter();
@@ -18,11 +19,6 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 		}
 		if (!user || user.userType !== 1) {
 			router.push("/");
-		}
-
-		if (user) {
-			// Set the items for displaying in inventory to user's items
-			setItems(user.items);
 		}
 	}, [user, loading]);
 
@@ -40,7 +36,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 
 	return (
 		<div
-			className="home" onClick={handleNavHome}
+			className="home"
 			style={{
 				height: 'calc(100% - 11rem)'
 			}}
@@ -49,10 +45,14 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 				{/*  Inventory bar */}
 				<div className="flex flex-row bg-white/50 rounded-lg items-center">
 					<div className="grow-0 pl-4">
-						<img
+						<Image
 							src="/assets/icons/inventory.png"
+							alt='inventory'
+							height={0}
+							width={0}
+							sizes='100vw'
 							className="p-4 h-20 w-20"
-						></img>
+						/>
 					</div>
 					<div className="grow pl-4 font-galindo text-xl">Inventory</div>
 					<div className="shrink pr-6">

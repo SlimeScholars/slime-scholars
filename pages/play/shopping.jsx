@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import SearchInventory from "../../components/play/inventory/searchInventory";
-import { Navbar } from "../../components/play/Navbar";
 import { gameData } from "../../data/gameData";
-import Home from "../../components/play/Home";
 import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
+import Image from "next/image";
 
-export default function Shopping({ loading, user, items, setItems, pfpBg, setPfpBg, colorPalette, setColorPalette, setUser }) {
+export default function Shopping({ loading, user, pfpBg, setPfpBg, 
+	colorPalette, setColorPalette, setUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
+	const [ownedItems, setOwnedItems] = useState("empty");
 	const router = useRouter();
+
+	// Shopping has a different "items" list than other pages like inventory (All items in game data)
+	const [gameItems, setGameItems] = useState();
 
 	useEffect(() => {
 		if (loading) {
@@ -20,17 +24,24 @@ export default function Shopping({ loading, user, items, setItems, pfpBg, setPfp
 		if (!user || user.userType !== 1) {
 			router.push("/");
 		}
+
+		if (user) {
+			setOwnedItems(user.items);
+		}
+
 	}, [user, loading]);
 
 	useEffect(() => {
-		if (user) {
-			const searchItem = user.items.filter((item) => {
+
+		if (gameData && gameData.items) {
+			const searchItem = Object.values(gameData.items).filter((item) => {
 				return item.itemName
 					.toLowerCase()
 					.includes(searchContent.toLowerCase());
 			});
-			setItems(searchItem);
+			setGameItems(searchItem);
 		}
+		
 	}, [searchContent]);
 
 	return (
@@ -40,8 +51,14 @@ export default function Shopping({ loading, user, items, setItems, pfpBg, setPfp
 			<div className="items-center justify-between">
 				<div className="flex flex-row bg-white/50 rounded-lg items-center">
 					<div className="grow-0 pl-4">
-						<img src="/assets/icons/shopping.png" className="p-4 h-20 w-20">
-						</img>
+						<Image
+							src="/assets/icons/shopping.png"
+							alt='shopping'
+							height={0}
+							width={0}
+							sizes='100vw'
+							className="p-4 h-20 w-20"
+						/>
 					</div>
 					<div className="grow pl-4 font-galindo text-xl">Shopping</div>
 					<div className="shrink pr-6">
@@ -58,14 +75,16 @@ export default function Shopping({ loading, user, items, setItems, pfpBg, setPfp
 			{/* Lists and details */}
 			<div className="py-8 flex flex-row font-galindo w-full home h-full">
 				{/* Shopping List */}
-				<div className="pr-4 basis-1/2">
+				<div className="pr-4 basis-1/2">{
 					<ItemList
-						items={Array.isArray(items)? items:gameData.items}
+						gameItems={gameItems}
+						items={ownedItems}
 						itemOnClick={itemOnClick}
 						setItemOnClick={setItemOnClick}
 						shopping="true"
 						user={user}
 					></ItemList>
+				}
 				</div>
 
 				{/* Item details */}
@@ -75,14 +94,12 @@ export default function Shopping({ loading, user, items, setItems, pfpBg, setPfp
 						user={user}
 						pfpBg={pfpBg}
 						setPfpBg={setPfpBg}
-						setItems={setItems}
-						setItemOnClick={setItemOnClick}
 						setUser={setUser}
 						colorPalette={colorPalette}
 						setColorPalette={setColorPalette}
 						shopping="true"
 					/>
-					</div>
+				</div>
 			</div>
 		</div>
 	);

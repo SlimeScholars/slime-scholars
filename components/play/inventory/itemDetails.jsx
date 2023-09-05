@@ -24,7 +24,9 @@ export default function ItemDetails({
 	const router = useRouter();
 
 	// for shopping page
-	
+	if (shopping) {
+		return ;
+	}
 
 	// for background
 	if (item.isBg && gameData.items[item.itemName]) {
@@ -54,18 +56,26 @@ export default function ItemDetails({
 									<p>Current</p>
 									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
 										{
-											<img
+											<Image
 												src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-												className="absolute inset-0"
-											></img>
+												alt={pfpBg}
+												height={0}
+												width={0}
+												sizes='100vw'
+												className="absolute inset-0 w-full h-full"
+											/>
 										}
-										<img
+										<Image
 											src={
 												"/assets/pfp/slimes/" +
 												gameData.slimeImgs[user.pfpSlime].pfp
 											}
-											className="relative z-10 translate-y-1/4 scale-125"
-										></img>
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+										/>
 									</div>
 								</div>
 							</div>
@@ -78,20 +88,28 @@ export default function ItemDetails({
 								<div className="flex flex-col items-center">
 									<p>Updated</p>
 									<div className="relative rounded-full overflow-hidden border-4 border-red-300">
-										<img
+										<Image
 											src={
 												"/assets/pfp/backgrounds/" +
 												gameData.items[item.itemName].pfp
 											}
-											className="absolute inset-0"
-										></img>
-										<img
+											alt={item.itemName}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="absolute inset-0 w-full h-full"
+										/>
+										<Image
 											src={
 												"/assets/pfp/slimes/" +
 												gameData.slimeImgs[user.pfpSlime].pfp
 											}
-											className="relative z-10 translate-y-1/4 scale-125"
-										></img>
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+										/>
 									</div>
 								</div>
 							</div>
@@ -326,9 +344,23 @@ export default function ItemDetails({
 						<div className="shrink px-1">
 							{
 								item.sellCurrency === 1 ? (
-									<img src="/assets/icons/flower.png" className="w-10 y-10 brightness-75"></img>
+									<Image
+										src="/assets/icons/flower.png"
+										alt="flowers"
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="w-10 h-10 y-10 brightness-75"
+									/>
 								) : (
-									<img src="/assets/icons/slime-gel.png" className="scale-75"></img>
+									<Image
+										src="/assets/icons/slime-gel.png"
+										alt='slime gel'
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="w-10 h-10 y-10 brightness-75"
+									/>
 								)
 							}
 						</div>

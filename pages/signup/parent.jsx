@@ -232,9 +232,10 @@ export default function Parent({ loading, user, setUser }) {
         <div className="w-1/3 h-full relative">
           <Image
             src="/assets/graphics/slimes/slime-special.png"
-            width={200}
-            height={200}
-            className="absolute -top-12 -left-8 w-full drop-shadow-xl"
+            width={0}
+            height={0}
+            sizes='100vw'
+            className="absolute -top-12 -left-8 drop-shadow-xl h-[200px] w-[200px]"
             alt="Slime"
           />
         </div>
