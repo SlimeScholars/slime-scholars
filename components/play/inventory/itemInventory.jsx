@@ -5,7 +5,8 @@ export default function ItemInventory({
     itemOnClick,
     item,
     displayOnly,
-    owned
+    owned,
+    shopping
 }) {
 
     const classNameDefault = "border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";
@@ -22,10 +23,10 @@ export default function ItemInventory({
     }
 
     // for background
-    if (item.isBg) {
+    if (item.isBg && item.itemName) {
 
         const itemName = item.itemName;
-        const imgPath = '/assets/pfp/backgrounds/' + gameData.items[itemName].pfp;
+        const imgPath = '/assets/pfp/backgrounds/' + item.pfp;
         return (
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (

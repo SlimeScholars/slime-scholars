@@ -24,7 +24,9 @@ export default function ItemDetails({
 	const router = useRouter();
 
 	// for shopping page
-	
+	if (shopping) {
+		return ;
+	}
 
 	// for background
 	if (item.isBg && gameData.items[item.itemName]) {

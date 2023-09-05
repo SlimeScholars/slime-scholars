@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import { useRouter } from "next/router";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
@@ -19,11 +19,6 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 		if (!user || user.userType !== 1) {
 			router.push("/");
 		}
-
-		if (user) {
-			// Set the items for displaying in inventory to user's items
-			setItems(user.items);
-		}
 	}, [user, loading]);
 
 	const [searchContent, setSearchContent] = useState("");
@@ -40,7 +35,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 
 	return (
 		<div
-			className="home" onClick={handleNavHome}
+			className="home"
 			style={{
 				height: 'calc(100% - 11rem)'
 			}}
