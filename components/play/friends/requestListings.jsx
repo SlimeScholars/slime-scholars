@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
-import { set } from "mongoose";
 
 export default function RequestListings({
   currentType,
@@ -90,20 +89,27 @@ export default function RequestListings({
             <div className="flex flex-row items-center py-4" key={index}>
               <div className="w-10 h-10 rounded-full overflow-hidden">
                 <div className="relative">
-                  <img
+                  <Image
                     src={
                       "/assets/pfp/backgrounds/" +
                       gameData.items[user.pfpBg].pfp
                     }
-                    className="absolute inset-0"
-                  ></img>
-                  <img
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="absolute inset-0 w-full h-full"
+                  />
+                  <Image
                     src={
                       "/assets/pfp/slimes/" +
                       gameData.slimeImgs[user.pfpSlime].pfp
                     }
-                    className="relative z-10 translate-y-1/4 scale-125"
-                  ></img>
+                    alt={user.pfpSlime}
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
+                  />
                 </div>
               </div>
               <div className="grow px-4">
@@ -140,19 +146,25 @@ export default function RequestListings({
           <div className="flex flex-row items-center py-4" key={index}>
             <div className="w-10 h-10 rounded-full overflow-hidden">
               <div className="relative">
-                <img
+                <Image
                   src={
                     "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
                   }
-                  className="absolute inset-0"
-                ></img>
-                <img
+                  height={0}
+                  width={0}
+                  sizes='100vw'
+                  className="absolute inset-0 w-full h-full"
+                />
+                <Image
                   src={
                     "/assets/pfp/slimes/" +
                     gameData.slimeImgs[user.pfpSlime].pfp
                   }
-                  className="relative z-10 translate-y-1/4 scale-125"
-                ></img>
+                  height={0}
+                  width={0}
+                  sizes='100vw'
+                  className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
+                />
               </div>
             </div>
             <div className="grow px-4">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { gameData } from '../../../data/gameData';
+import Image from 'next/image';
 
 export default function RollSlimePopup({ updatedSlime, setAfterRolling, originalSlime, router }) {
 
@@ -18,12 +19,18 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
             // new slime is created
             <div className="flex flex-col p-4 w-full text-center items-center">
                 <h3 className="font-galindo text-black text-lg">New Slime Unlocked</h3>
-                <img src={
-                    gameData.slimeImgs[updatedSlime.slimeName] ? (
-                        "/assets/pfp/slimes/" + gameData.slimeImgs[updatedSlime.slimeName].pfp
-                    ) : ("")
-                }
-                    className="w-1/3 h-auto"></img>
+                <Image
+                    src={
+                        gameData.slimeImgs[updatedSlime.slimeName] ? (
+                            "/assets/pfp/slimes/" + gameData.slimeImgs[updatedSlime.slimeName].pfp
+                        ) : ("")
+                    }
+                    alt={updatedSlime.slimeName}
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="w-1/3 h-auto"
+                />
                 <div className="flex flex-row">
                     <p className="font-galindo text-white px-2">{updatedSlime.slimeName}</p>
                     <p className=""
@@ -58,12 +65,18 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
             // Duplicate is created
             <div className="flex flex-col p-4 w-full text-center items-center">
                 <h3 className="font-galindo text-black text-lg">Slime Upgraded</h3>
-                <img src={
-                    gameData.slimeImgs[updatedSlime.slimeName] ? (
-                        "/assets/pfp/slimes/" + gameData.slimeImgs[updatedSlime.slimeName].pfp
-                    ) : ("")
-                }
-                    className="w-1/3 h-auto"></img>
+                <Image
+                    src={
+                        gameData.slimeImgs[updatedSlime.slimeName] ? (
+                            "/assets/pfp/slimes/" + gameData.slimeImgs[updatedSlime.slimeName].pfp
+                        ) : ("")
+                    }
+                    alt={updatedSlime.slimeName}
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="w-1/3 h-auto"
+                />
                 <div className="flex flex-row">
                     <p className="font-galindo text-white px-2">{updatedSlime.slimeName}</p>
                     <p className=""

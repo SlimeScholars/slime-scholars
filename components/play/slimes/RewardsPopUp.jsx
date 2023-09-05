@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { useState } from "react";
 export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
@@ -27,9 +28,12 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
             <p className="text-2xl font-semibold font-galindo">
               Today's rewards: {rewards}
             </p>
-            <img
+            <Image
               src="/assets/icons/slime-gel.png"
-              alt="Icon"
+              alt="slime gel"
+              height={0}
+              width={0}
+              sizes='100vw'
               className="h-6 w-6 mx-1"
             />
           </div>
@@ -51,18 +55,24 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                     return (
                       <div key={index} className='flex flex-col'>
                         {slime.slimeName === "rosterBonus" ? (
-                          <img
+                          <Image
                             src="/assets/icons/slime-gel"
-                            alt="rosterBonus"
+                            alt="slime gel"
+                            height={0}
+                            width={0}
+                            sizes='100vw'
                             className="h-64 w-64 mx-auto"
                           />
                         ) : (
-                          <img
+                          <Image
                             src={
                               "/assets/pfp/slimes/" +
                               gameData.slimeImgs[slime.slimeName].pfp
                             }
-                            alt="Slime"
+                            alt={slime.slimeName}
+                            height={0}
+                            width={0}
+                            sizes='100vw'
                             className="h-64 w-64 mx-auto"
                             onClick={() => { }}
                           />

@@ -7,6 +7,7 @@ import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEd
 import { gameData } from "../../data/gameData";
 import axios from "axios";
 import Home from "../../components/play/Home";
+import Image from "next/image";
 
 export default function Friends({ loading, user, setUser }) {
   const router = useRouter();
@@ -68,7 +69,14 @@ export default function Friends({ loading, user, setUser }) {
           {/*  Add Friend  and others */}
           <div className="flex flex-row bg-white/50 rounded-lg items-center">
             <div className="grow-0 pl-4">
-              <img src="/assets/icons/friends.png" className="h-20 w-20"></img>
+              <Image
+                src="/assets/icons/friends.png"
+                alt='friends'
+                height={0}
+                width={0}
+                sizes='100vw'
+                className="h-20 w-20"
+              />
             </div>
             <div className="grow pl-4 font-galindo text-xl">Friends</div>
             <div className="grow-0 flex pr-4">
