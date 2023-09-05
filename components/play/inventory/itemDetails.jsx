@@ -99,7 +99,7 @@ export default function ItemDetails({
 											sizes='100vw'
 											className="absolute inset-0 w-full h-full"
 										/>
-										<img
+										<Image
 											src={
 												"/assets/pfp/slimes/" +
 												gameData.slimeImgs[user.pfpSlime].pfp
@@ -344,9 +344,23 @@ export default function ItemDetails({
 						<div className="shrink px-1">
 							{
 								item.sellCurrency === 1 ? (
-									<img src="/assets/icons/flower.png" className="w-10 y-10 brightness-75"></img>
+									<Image
+										src="/assets/icons/flower.png"
+										alt="flowers"
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="w-10 h-10 y-10 brightness-75"
+									/>
 								) : (
-									<img src="/assets/icons/slime-gel.png" className="scale-75"></img>
+									<Image
+										src="/assets/icons/slime-gel.png"
+										alt='slime gel'
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="w-10 h-10 y-10 brightness-75"
+									/>
 								)
 							}
 						</div>
