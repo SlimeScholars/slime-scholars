@@ -10,7 +10,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 	colorPalette, setColorPalette, setUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
-	const [itemOnClick, setItemOnClick] = useState("empty for now");
+	const [itemOnClick, setItemOnClick] = useState(null);
 	const [ownedItems, setOwnedItems] = useState("empty");
 	const router = useRouter();
 
@@ -26,7 +26,20 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 		}
 
 		if (user) {
-			setOwnedItems(user.items);
+
+			// Set items up so that it only includes item names
+			const newList = user.items.map(item => {
+				return item.itemName;
+			})
+			setOwnedItems(newList);
+		}
+
+		if (gameData && gameData.items) {
+			setGameItems(gameData.items)
+		}
+
+		if (itemOnClick === null && gameData) {
+			setItemOnClick(gameData.items[0]);
 		}
 
 	}, [user, loading]);
@@ -73,7 +86,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			</div>
 
 			{/* Lists and details */}
-			<div className="py-8 flex flex-row font-galindo w-full home h-full">
+			<div className="py-8 flex flex-row font-galindo w-full home h-auto">
 				{/* Shopping List */}
 				<div className="pr-4 basis-1/2">{
 					<ItemList
@@ -89,7 +102,8 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 
 				{/* Item details */}
 				<div className="basis-1/2 bg-white/50 rounded-lg">
-					<ItemDetails
+					{itemOnClick&&(
+						<ItemDetails
 						item={itemOnClick}
 						user={user}
 						pfpBg={pfpBg}
@@ -99,6 +113,8 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 						setColorPalette={setColorPalette}
 						shopping="true"
 					/>
+					)
+					}
 				</div>
 			</div>
 		</div>
