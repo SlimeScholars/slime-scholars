@@ -41,8 +41,11 @@ export default function Shopping({ loading, user, items, setItems }) {
 			<div className="items-center justify-between">
 				<div className="flex flex-row bg-white/50 rounded-lg items-center">
 					<div className="grow-0 pl-4">
-						<img src="/assets/icons/shopping.png" className="p-4 h-20 w-20">
-						</img>
+						<img
+							src="/assets/icons/shopping.png"
+							alt='shopping'
+							className="p-4 h-20 w-20"
+						/>
 					</div>
 					<div className="grow pl-4 font-galindo text-xl">Shopping</div>
 					<div className="shrink pr-6">
