@@ -3,7 +3,6 @@ import gameData from "../../../data/gameData";
 
 export default function ItemList({ items, itemOnClick, setItemOnClick, shopping, user }) {
 
-  console.log(items);
   return (
     <div className="h-full w-full">
       <div className="bg-white/50 rounded-lg grid xl:grid-cols-5 gap-7 p-7 h-full overflow-y-auto">
