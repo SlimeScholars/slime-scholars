@@ -67,6 +67,7 @@ export default function ItemInventory({
                 }}>
                 <Image
                     src={"/assets/items/" + gameData.items[item.itemName].icon}
+                    alt={item.itemName}
                     height={0}
                     width={0}
                     sizes='100vw'
