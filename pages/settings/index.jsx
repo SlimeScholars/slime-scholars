@@ -150,18 +150,26 @@ export default function Settings({ loading, user, setUser }) {
                 router.push("/play/inventory");
               }}
             >
-              <img
+              <Image
                 src={
                   "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
                 }
-                className="absolute  h-32 w-32 inset-0"
-              ></img>
-              <img
+                alt={user.pfpBg}
+                height={0}
+                width={0}
+                sizes='100vw'
+                className="absolute h-32 w-32 inset-0"
+              />
+              <Image
                 src={
                   "/assets/pfp/slimes/" + gameData.slimeImgs[user.pfpSlime].pfp
                 }
-                className="relative z-10 translate-y-1/4 scale-125"
-              ></img>
+                alt={user.pfpSlime}
+                height={0}
+                width={0}
+                sizes='100vw'
+                className="relative z-10 translate-y-1/4 scale-125 h-full w-full"
+              />
             </div>
           </div>
 

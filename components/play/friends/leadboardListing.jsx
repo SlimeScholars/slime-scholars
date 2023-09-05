@@ -33,7 +33,7 @@ export default function LeadboardListing({ users, userId }) {
                       height={0}
                       width={0}
                       sizes='100vw'
-                      className="relative z-10 translate-y-1/4 scale-125"
+                      className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
                     />
                   </div>
                 </div>
@@ -65,7 +65,7 @@ export default function LeadboardListing({ users, userId }) {
                       height={0}
                       width={0}
                       sizes='100vw'
-                      className="relative z-10 translate-y-1/4 scale-125"
+                      className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
                     />
                   </div>
                 </div>

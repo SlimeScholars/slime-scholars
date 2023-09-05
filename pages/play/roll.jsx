@@ -4,6 +4,7 @@ import RollResult from '../../components/play/roll/rollResult';
 import { gameData } from '../../data/gameData';
 import { showToastError } from '../../utils/toast';
 import axios from 'axios';
+import Image from 'next/image';
 
 export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, setItems }) {
 
@@ -188,8 +189,14 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                 }>
                 <div className="relative">
                     {/* Image as background */}
-                    <img className="bg-cover w-full h-auto inset-0"
-                        src="/assets/roll-bg/genshin.png"></img>
+                    <Image
+                        src="/assets/roll-bg/genshin.png"
+                        alt='slime banner'
+                        height={0}
+                        width={0}
+                        sizes='100vw'
+                        className="bg-cover w-full h-auto inset-0"
+                    />
                     {/* Buttons to roll */}
                     <div className="absolute bottom-0 z-3 p-20">
                         <div className="grid grid-cols-1 gap-4 content-end">
@@ -198,7 +205,14 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                                 onClick={() => handleRollBtnClick(1)}>
                                 <div className="flex flex-row font-galindo">
                                     <p>Roll with 1 </p>
-                                    <img src="/assets/icons/slime-egg.png" className="h-6 w-auto px-2"></img>
+                                    <Image
+                                        src="/assets/icons/slime-egg.png"
+                                        alt='slime egg'
+                                        height={0}
+                                        width={0}
+                                        sizes='100vw'
+                                        className="h-6 w-auto px-2"
+                                    />
                                     <p>{"( " + gameData.items['Slime Egg'].buyPrice + " FL )"}</p>
                                 </div>
                             </button>
@@ -207,7 +221,14 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                                 onClick={() => handleRollBtnClick(10)}>
                                 <div className="flex flex-row font-galindo">
                                     <p>Roll with 10</p>
-                                    <img src="/assets/icons/slime-egg.png" className="h-6 w-auto px-2"></img>
+                                    <Image
+                                        src="/assets/icons/slime-egg.png"
+                                        alt='slime egg'
+                                        height={0}
+                                        width={0}
+                                        sizes='100vw'
+                                        className="h-6 w-auto px-2"
+                                    />
                                     <p>{"( " + gameData.items['Slime Egg'].buyPrice * 10 + " FL )"}</p>
                                 </div>
                                 <div className="flex flex-row pt-1">
