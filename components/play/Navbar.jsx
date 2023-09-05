@@ -187,7 +187,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
               className='hover:opacity-60 rounded-full 2xl:p-4 p-3'
               key={type.id}
             >
-              <img
+              <Image
                 src={imgLink}
                 alt={type.src}
                 height={0}
