@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
@@ -97,20 +98,28 @@ export default function FriendsEditor({
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
-                    <img
+                    <Image
                       src={
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
-                      className="absolute inset-0"
-                    ></img>
-                    <img
+                      alt={user.pfpBg}
+                      height={0}
+                      width={0}
+                      sizes='100vw'
+                      className="absolute inset-0 w-full h-full"
+                    />
+                    <Image
                       src={
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      alt={user.pfpSlime}
+                      height={0}
+                      width={0}
+                      sizes='100vw'
                       className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
-                    ></img>
+                    />
                   </div>
                 </div>
                 <div className="grow px-4">{user.username}</div>
@@ -140,20 +149,26 @@ export default function FriendsEditor({
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
-                    <img
+                    <Image
                       src={
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
-                      className="absolute inset-0"
-                    ></img>
-                    <img
+                      height={0}
+                      width={0}
+                      sizes='100vw'
+                      className="absolute inset-0 w-full h-full"
+                    />
+                    <Image
                       src={
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      height={0}
+                      width={0}
+                      sizes='100vw'
                       className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
-                    ></img>
+                    />
                   </div>
                 </div>
                 <div className="grow px-4">{user.username}</div>

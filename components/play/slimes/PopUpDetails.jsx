@@ -1,4 +1,5 @@
 // when you level up a slime, show details of previous stats and new stats
+import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
 
@@ -12,11 +13,14 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
       {/* TODO backgorund should match colour palette */}
       <div className="bg-gray-400 p-8 rounded-lg shadow-lg">
         <div>
-          <img
+          <Image
             src={
               "/assets/pfp/slimes/" + gameData.slimeImgs[newSlime.slimeName].pfp
             }
-            alt="Slime"
+            alt={slime.slimeName}
+            height={0}
+            width={0}
+            sizes='100vw'
             className="md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto"
             onClick={() => {
               router.push("/play/slimes");
@@ -30,15 +34,21 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
           <p className="text-lg font-semibold">
             Base production: {oldSlime.baseProduction}
           </p>
-          <img
+          <Image
             src="/assets/icons/slime-gel.png"
-            alt="Icon"
+            alt="slime gel"
+            height={0}
+            width={0}
+            sizes='100vw'
             className="h-4 w-4 mx-1"
           />
           <p className="text-lg font-semibold"> → {newSlime.baseProduction} </p>
-          <img
+          <Image
             src="/assets/icons/slime-gel.png"
-            alt="Icon"
+            alt="slime gel"
+            height={0}
+            width={0}
+            sizes='100vw'
             className="h-4 w-4 mx-1"
           />
         </div>
@@ -46,15 +56,21 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
           <p className="text-lg font-semibold">
             Level up cost: {oldSlime.levelUpCost}
           </p>
-          <img
+          <Image
             src="/assets/icons/slime-gel.png"
-            alt="Icon"
+            alt="slime gel"
+            height={0}
+            width={0}
+            sizes='100vw'
             className="h-4 w-4 mx-1"
           />
           <p className="text-lg font-semibold"> → {newSlime.levelUpCost} </p>
-          <img
+          <Image
             src="/assets/icons/slime-gel.png"
-            alt="Icon"
+            alt="slime gel"
+            height={0}
+            width={0}
+            sizes='100vw'
             className="h-4 w-4 mx-1"
           />
         </div>

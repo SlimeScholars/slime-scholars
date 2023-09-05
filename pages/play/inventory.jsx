@@ -19,6 +19,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 		}
 		if (!user || user.userType !== 1) {
 			router.push("/");
+			return
 		}
 	}, [user, loading]);
 
