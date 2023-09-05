@@ -26,12 +26,6 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 		}
 	}, [user, loading]);
 
-	const handleNavHome = (event) => {
-		if (event.target.classList.contains("home")) {
-			router.push("/play");
-		}
-	};
-
 	const [searchContent, setSearchContent] = useState("");
 	useEffect(() => {
 		if (user) {
@@ -74,7 +68,6 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 				{/* Default: inventory lists and item details */}
 				<div
 					className="py-8 flex flex-row font-galindo w-full home h-full"
-					onClick={handleNavHome}
 				>
 					{/* Inventory List */}
 					<div className="pr-4 basis-1/2">
