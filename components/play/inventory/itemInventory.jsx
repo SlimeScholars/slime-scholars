@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 
 export default function ItemInventory({
@@ -31,8 +32,8 @@ export default function ItemInventory({
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (
                     itemOnClick.itemName !== item.itemName ? (
-                        owned? (classNameDefaultOwned) : (classNameDefault)) : (
-                            owned? (classNameClickOwned) : (classNameClick))
+                        owned ? (classNameDefaultOwned) : (classNameDefault)) : (
+                        owned ? (classNameClickOwned) : (classNameClick))
                 )
             } id={crypto.randomUUID()}
                 onClick={(e) => {
@@ -40,7 +41,14 @@ export default function ItemInventory({
                         setItemOnClick(item);
                     }
                 }}>
-                <img src={imgPath}></img>
+                <Image
+                    src={imgPath}
+                    alt={item.itemName}
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="h-auto w-full"
+                />
             </div>
         )
     }
@@ -49,7 +57,7 @@ export default function ItemInventory({
         return (
             <div
                 className={
-                    displayOnly === "true" ? ((owned? (classNameDisplayOwned):(classNameDisplay)) + " " + gradientBg) : (
+                    displayOnly === "true" ? ((owned ? (classNameDisplayOwned) : (classNameDisplay)) + " " + gradientBg) : (
                         itemOnClick.itemName === item.itemName ? (classNameClick + " " + gradientBg) : (classNameDefault + " " + gradientBg)
                     )}
                 id={crypto.randomUUID()}
@@ -58,7 +66,14 @@ export default function ItemInventory({
                         setItemOnClick(item);
                     }
                 }}>
-                <img src={"/assets/items/" + gameData.items[item.itemName].icon} className="place-self-center p-4"></img>
+                <Image
+                    src={"/assets/items/" + gameData.items[item.itemName].icon}
+                    alt={item.itemName}
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="place-self-center p-4 w-full h-auto"
+                />
                 <div className="absolute inset-x-0 bottom-0 translate-y-4 px-2">
                     <div className="rounded-full w-15 h-5 bg-amber-50 text-sm border-2 border-amber-300 text-center">
                         {item.quantity}
