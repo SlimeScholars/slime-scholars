@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../utils/toast";
 import Modal from "../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function UnitTest({ user, setUser, loading, setLoading, setLoading2 }) {
+export default function UnitTest({ user, setUser, loading, setLoading, setLoading2, colorPalette }) {
 	const router = useRouter();
 	const [unit, setUnit] = useState({});
 
@@ -197,7 +197,11 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 	}
 
 	return (
-		<div className='w-full min-h-screen flex items-center justify-center bg-red-50'
+		<div className='w-full min-h-screen flex items-center justify-center' style={{
+			backgroundImage:
+				colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+			backgroundSize: "cover",
+		}}
 			onClick={clickIncrement}
 		>
 			<Head></Head>

@@ -4,7 +4,7 @@ import { showToastError } from "../../../../utils/toast"
 import axios from "axios"
 import Unit from "../../../../components/learn/unit"
 
-export default function Units({ user, loading, setLoading2 }) {
+export default function Units({ user, loading, setLoading2, colorPalette }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -65,7 +65,11 @@ export default function Units({ user, loading, setLoading2 }) {
 	}, [router.query.courseId])
 
 	return (
-		<div className='w-full min-h-screen flex items-center justify-center bg-red-50'>
+		<div className='w-full min-h-screen flex items-center justify-center' style={{
+			backgroundImage:
+				colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+			backgroundSize: "cover",
+		}}>
 			<div className='flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50'>
 				<header className="w-full h-30 text-pink-400 flex items-center justify-start flex-col font-galindo">
 					<div className="w-full h-15 flex items-center justify-between px-6 py-3 bg-pink-200">

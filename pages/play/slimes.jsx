@@ -6,6 +6,7 @@ import axios from "axios";
 import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 import { gameData } from "../../data/gameData";
+import Image from "next/image";
 
 export default function Slimes({
   loading,
@@ -122,10 +123,12 @@ export default function Slimes({
             className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
           >
             <div className="grow-0 pl-4">
-              <img
+              <Image
                 src="/assets/icons/slimes.png"
-                className="h-[4.5rem] w-[4.5rem]"
-              ></img>
+                alt='slimes'
+                width={72}
+                height={72}
+              />
             </div>
             <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
             <div className="grow-0 flex pr-4">
@@ -171,7 +174,9 @@ export default function Slimes({
               <div className="items-center">
                 {/* loop through all slimes from user and display them */}
                 {user && (
-                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8">
+                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
+                    height: 'calc(100vh - 20rem)', overflowY: 'auto'
+                  }}>
                     <SlimeInventory
                       slimes={
                         filterSlimes.length > 0 ? filterSlimes : user.slimes
@@ -185,7 +190,9 @@ export default function Slimes({
               </div>
             </div>
           </div>
-          <div className=" basis-1/2 ">
+          <div className=" basis-1/2 " style={{
+            height: 'calc(100vh - 20rem)', overflowY: 'auto'
+          }}>
             {/* Get Slime details */}
             <SlimeDetails
               user={user}
