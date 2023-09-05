@@ -47,7 +47,14 @@ export default function ItemDetails({
 					{/* Item description */}
 					<div className="col-span-2 bg-black/40 rounded-lg p-8">
 						<div className="flex flex-row items-center">
-							<img src="/assets/icons/slime-gel.png" className="w-8 h-8"></img>
+							<Image
+								src="/assets/icons/slime-gel.png"
+								alt='slime gel'
+								width={0}
+								height={0}
+								sizes='100vw'
+								className="w-8 h-8"
+							/>
 							<p>{item.buyPrice}</p>
 						</div>
 
@@ -55,7 +62,7 @@ export default function ItemDetails({
 							style={{ color: gameData.rarityColours[item.rarity].text }}
 							className={`text-2xl font-thin`}
 						>
-							{item&&item.rarity}
+							{item && item.rarity}
 						</p>
 						<p className="text-white text-2xl font-bold">{item.itemName}</p>
 						{item.description && (
@@ -107,7 +114,7 @@ export default function ItemDetails({
 								</div>
 							</div>
 							<div className="basis-2/5 p-4" dir="rtl">
-								{owned? (
+								{owned ? (
 									<button className="rounded-s-lg p-4 bg-black/20" disabled>
 										Purchased Already
 									</button>
@@ -139,8 +146,8 @@ export default function ItemDetails({
 													}
 												)
 												.then((response) => {
-													
-													const newUser = { ...user, items: response.items, flowers:response.flowers }
+
+													const newUser = { ...user, items: response.items, flowers: response.flowers }
 													setUser(newUser)
 													showToastError("Picture purchased successfully.", true);
 												})
