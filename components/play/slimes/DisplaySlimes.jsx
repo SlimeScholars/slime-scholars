@@ -4,6 +4,7 @@ import axios from "axios";
 import { showToastError } from "../../../utils/toast";
 import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
+import Image from "next/image";
 
 export default function DisplaySlimes({ user, setLoading, setUser }) {
   const router = useRouter();
@@ -126,9 +127,12 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                               Lv. {slime.level} &nbsp;|&nbsp;{" "}
                               {slime.levelUpCost}
                             </p>
-                            <img
+                            <Image
                               src="/assets/icons/slime-gel.png"
-                              alt="Icon"
+                              alt="slime gel"
+                              height={0}
+                              width={0}
+                              sizes='100vw'
                               className="h-4 w-4 ml-1 mr-2"
                             />
                           </div>
@@ -143,12 +147,15 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                           &nbsp;^&nbsp;
                         </button>
                       </div>
-                      <img
+                      <Image
                         src={
                           "/assets/pfp/slimes/" +
                           gameData.slimeImgs[slime.slimeName].pfp
                         }
                         alt="Slime"
+                        height={0}
+                        width={0}
+                        sizes='100vw'
                         className="h-64 w-64 mx-auto"
                         onClick={() => {
                           router.push("/play/slimes");
@@ -217,9 +224,12 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                         <p>
                           Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
                         </p>
-                        <img
+                        <Image
                           src="/assets/icons/slime-gel.png"
-                          alt="Icon"
+                          alt="slime gel"
+                          height={0}
+                          width={0}
+                          sizes='100vw'
                           className="h-4 w-4 ml-1 mr-2"
                         />
                       </div>

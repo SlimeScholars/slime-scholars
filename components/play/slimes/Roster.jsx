@@ -1,6 +1,7 @@
 import axios from "axios";
 import { showToastError } from "../../../utils/toast";
 import { gameData } from "../../../data/gameData";
+import Image from "next/image";
 
 export default function Roster({ user, loading, setLoading, slime, setUser, bg }) {
   if (loading) {
@@ -98,12 +99,15 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg }
                   border: `5px solid ${bg.primary1}`,
                 }}
               >
-                <img
+                <Image
                   src={
                     "/assets/pfp/slimes/" +
                     gameData.slimeImgs[char.slimeName].static
                   }
                   alt={char.slimeName}
+                  height={0}
+                  width={0}
+                  sizes='100vw'
                   className="h-auto w-[80%] mx-auto mb-3"
                 />
               </button>

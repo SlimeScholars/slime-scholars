@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Controls from "../controls";
 import { showToastError } from "../../../../utils/toast";
+import Image from "next/image";
 
 export default function ImgSection({
   image,
@@ -44,7 +45,14 @@ export default function ImgSection({
         )}
         <div className="w-full flex justify-center items-center mt-5">
           {img && (
-            <img src={img} alt="img" className="w-full h-full object-contain" />
+            <Image
+              src={img}
+              alt="img"
+              height={0}
+              width={0}
+              sizes='100vw'
+              className="w-full h-full object-contain"
+            />
           )}
         </div>
       </div>
