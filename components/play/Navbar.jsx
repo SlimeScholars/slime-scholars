@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { gameData } from "../../data/gameData";
 import { FaChevronLeft } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
+import Image from "next/image";
 
 /*
 Parameter:
@@ -106,9 +107,12 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
           >
             {user && (
               <div className="flex flex-row items-center">
-                <img
+                <Image
                   src="/assets/icons/slime-gel.png"
-                  alt="Icon"
+                  alt="slime gel"
+                  height={0}
+                  width={0}
+                  sizes='100vw'
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
                 <p className="">{user.slimeGel}</p>
@@ -127,9 +131,12 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
           >
             {user && (
               <div className="flex flex-row items-center">
-                <img
+                <Image
                   src="/assets/icons/flower.png"
-                  alt="Icon"
+                  alt="flowers"
+                  height={0}
+                  width={0}
+                  sizes='100vw'
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
                 <p className="">{flowers === null ? (user.flowers) : (flowers)}</p>
@@ -180,7 +187,14 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
               className='hover:opacity-60 rounded-full 2xl:p-4 p-3'
               key={type.id}
             >
-              <img src={imgLink} className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]" alt={type.src} />
+              <img
+                src={imgLink}
+                alt={type.src}
+                height={0}
+                width={0}
+                sizes='100vw'
+                className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
+              />
             </button>
           );
         })}
