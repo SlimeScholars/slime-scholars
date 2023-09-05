@@ -27,7 +27,7 @@ export default function ItemInventory({
     if (item.isBg && item.itemName) {
 
         const itemName = item.itemName;
-        const imgPath = '/assets/pfp/backgrounds/' + item.pfp;
+        const imgPath = '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp;
         return (
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (

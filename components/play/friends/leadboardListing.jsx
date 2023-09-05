@@ -1,3 +1,4 @@
+import Image from "next/image.js";
 import { gameData } from "../../../data/gameData.js";
 
 export default function LeadboardListing({ users, userId }) {
@@ -14,20 +15,26 @@ export default function LeadboardListing({ users, userId }) {
                 <div className="grow-0 px-4">{index + 1}</div>
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
-                    <img
+                    <Image
                       src={
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
-                      className="absolute inset-0"
-                    ></img>
-                    <img
+                      height={0}
+                      width={0}
+                      sizes='100vw'
+                      className="absolute inset-0 w-full h-full"
+                    />
+                    <Image
                       src={
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      height={0}
+                      width={0}
+                      sizes='100vw'
                       className="relative z-10 translate-y-1/4 scale-125"
-                    ></img>
+                    />
                   </div>
                 </div>
                 <div className="grow px-4">{user.username}</div>
@@ -40,20 +47,26 @@ export default function LeadboardListing({ users, userId }) {
                 <div className="grow-0 px-4">{index + 1}</div>
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
-                    <img
+                    <Image
                       src={
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
-                      className="absolute inset-0"
-                    ></img>
-                    <img
+                      height={0}
+                      width={0}
+                      sizes='100vw'
+                      className="absolute inset-0 w-full h-full"
+                    />
+                    <Image
                       src={
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      height={0}
+                      width={0}
+                      sizes='100vw'
                       className="relative z-10 translate-y-1/4 scale-125"
-                    ></img>
+                    />
                   </div>
                 </div>
                 <div className="grow px-4">{user.username}</div>
