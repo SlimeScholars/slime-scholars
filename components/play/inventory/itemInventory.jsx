@@ -7,7 +7,7 @@ export default function ItemInventory({
     item,
     displayOnly,
     owned,
-    shopping
+    shopping,
 }) {
 
     const classNameDefault = "border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";

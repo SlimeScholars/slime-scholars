@@ -22,6 +22,7 @@ export default function ItemDetails({
 }) {
 
 	const [owned, setOwned] = useState(null);
+	const [sellItemsNum, setSellItemsNum] = useState(item && item.quantity !== undefined ? item.quantity : 0)
 
 	// Check if item is purchase everytime itemOnClick changes
 	useEffect(() => {
@@ -335,7 +336,6 @@ export default function ItemDetails({
 
 	// for eggs
 	if (gameData.items[item.itemName] && gameData.rarityColours[item.rarity].text) {
-		const [sellItemsNum, setSellItemsNum] = useState(item.quantity);
 
 		return (
 			<div className="grid grid-cols-3 p-4 gap-4">
@@ -396,7 +396,7 @@ export default function ItemDetails({
 								}
 							/>
 						</div>
-						<div className="px-2">{sellItemsNum}</div>
+						<div className="px-2">{item.quantity}</div>
 					</div>
 					<div className="flex flex-row flex-wrap">
 						<div className="px-1 shrink">
