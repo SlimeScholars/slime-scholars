@@ -24,14 +24,14 @@ export default function ItemInventory({
 
     // for shopping page
     if (shopping && owned) {
-        const imgPath = item? '/assets/pfp/backgrounds/' + item.pfp : "";
+        const imgPath = item ? '/assets/pfp/backgrounds/' + item.pfp : "";
 
         console.log(item);
         if (item.isBg) {
             return (
                 <div className={
                     displayOnly === "true" ? (classNameDisplay) : (
-                        (itemOnClick && itemOnClick.itemName === item.itemName) ?  (classNameClickOwned) : (classNameDefaultOwned))
+                        (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClickOwned) : (classNameDefaultOwned))
                 } id={crypto.randomUUID()}
                     onClick={(e) => {
                         if (displayOnly !== "true") {
@@ -54,11 +54,11 @@ export default function ItemInventory({
     // for background
     if (item.isBg && item.itemName) {
 
-        const imgPath = item? '/assets/pfp/backgrounds/' + item.pfp : "";
+        const imgPath = item ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
         return (
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (
-                    (itemOnClick&&itemOnClick.itemName === item.itemName) ?  (classNameClick) : (classNameDefault))
+                    (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClick) : (classNameDefault))
             } id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
@@ -71,7 +71,7 @@ export default function ItemInventory({
                     height={0}
                     width={0}
                     sizes='100vw'
-                    className="h-auto w-full"
+                    className="w-full h-auto"
                 />
             </div>
         )
