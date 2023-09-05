@@ -4,10 +4,13 @@ import SearchInventory from "../../components/play/inventory/searchInventory";
 import { Navbar } from "../../components/play/Navbar";
 import { gameData } from "../../data/gameData";
 import Home from "../../components/play/Home";
+import ItemList from "../../components/play/inventory/itemList";
+import ItemDetails from "../../components/play/inventory/itemDetails";
 
-export default function Shopping({ loading, user, items, setItems }) {
+export default function Shopping({ loading, user, items, setItems, pfpBg, setPfpBg, colorPalette, setColorPalette, setUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
+	const [itemOnClick, setItemOnClick] = useState("empty for now");
 	const router = useRouter();
 
 	useEffect(() => {
@@ -18,12 +21,6 @@ export default function Shopping({ loading, user, items, setItems }) {
 			router.push("/");
 		}
 	}, [user, loading]);
-
-	const handleNavHome = (event) => {
-		if (event.target.classList.contains("home")) {
-			router.push("/play");
-		}
-	};
 
 	useEffect(() => {
 		if (user) {
@@ -37,7 +34,9 @@ export default function Shopping({ loading, user, items, setItems }) {
 	}, [searchContent]);
 
 	return (
-		<div className="home" onClick={handleNavHome}>
+		<div className="home">
+
+			{/* Shopping bar */}
 			<div className="items-center justify-between">
 				<div className="flex flex-row bg-white/50 rounded-lg items-center">
 					<div className="grow-0 pl-4">
@@ -57,6 +56,36 @@ export default function Shopping({ loading, user, items, setItems }) {
 						/>
 					</div>
 				</div>
+			</div>
+
+			{/* Lists and details */}
+			<div className="py-8 flex flex-row font-galindo w-full home h-full">
+				{/* Shopping List */}
+				<div className="pr-4 basis-1/2">
+					<ItemList
+						items={Array.isArray(items)? items:gameData.items}
+						itemOnClick={itemOnClick}
+						setItemOnClick={setItemOnClick}
+						shopping="true"
+						user={user}
+					></ItemList>
+				</div>
+
+				{/* Item details */}
+				<div className="basis-1/2 bg-white/50 rounded-lg">
+					<ItemDetails
+						item={itemOnClick}
+						user={user}
+						pfpBg={pfpBg}
+						setPfpBg={setPfpBg}
+						setItems={setItems}
+						setItemOnClick={setItemOnClick}
+						setUser={setUser}
+						colorPalette={colorPalette}
+						setColorPalette={setColorPalette}
+						shopping="true"
+					/>
+					</div>
 			</div>
 		</div>
 	);

@@ -5,11 +5,16 @@ export default function ItemInventory({
     itemOnClick,
     item,
     displayOnly,
+    owned
 }) {
 
     const classNameDefault = "border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameClick = "border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameDisplay = "border-solid border-8 border-white rounded-lg relative overflow-visible";
+
+    const classNameDefaultOwned = "border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible brightness-75";
+    const classNameClickOwned = "border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible brightness-75";
+    const classNameDisplayOwned = "border-solid border-8 border-white rounded-lg relative overflow-visible brightness-75";
     var gradientBg;
 
     if (gameData.rarityColours[item.rarity]) {
@@ -24,7 +29,9 @@ export default function ItemInventory({
         return (
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (
-                    itemOnClick.itemName !== item.itemName ? (classNameDefault) : (classNameClick)
+                    itemOnClick.itemName !== item.itemName ? (
+                        owned? (classNameDefaultOwned) : (classNameDefault)) : (
+                            owned? (classNameClickOwned) : (classNameClick))
                 )
             } id={crypto.randomUUID()}
                 onClick={(e) => {
@@ -41,7 +48,7 @@ export default function ItemInventory({
         return (
             <div
                 className={
-                    displayOnly === "true" ? (classNameDisplay + " " + gradientBg) : (
+                    displayOnly === "true" ? ((owned? (classNameDisplayOwned):(classNameDisplay)) + " " + gradientBg) : (
                         itemOnClick.itemName === item.itemName ? (classNameClick + " " + gradientBg) : (classNameDefault + " " + gradientBg)
                     )}
                 id={crypto.randomUUID()}
