@@ -67,7 +67,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 									colorPalette === undefined
 										? ""
 										: `3px solid ${colorPalette.primary1}`,
-								color: colorPalette === undefined ? "" : colorPalette.text1,
+								color: colorPalette === undefined ? "" : colorPalette.primary1,
 								backgroundColor:
 									colorPalette === undefined ? "" : `${colorPalette.white}88`,
 							}}
@@ -78,7 +78,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 								placeholder={"Search for an item"}
 								className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
 								onChange={(e) => setSearchContent(e.target.value)}
-							></input>
+							/>
 							<button className="h-full flex p-1 cursor-default">
 								<span className="material-symbols-outlined">Search</span>
 							</button>

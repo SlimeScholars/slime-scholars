@@ -135,7 +135,7 @@ export default function Slimes({
                     colorPalette === undefined
                       ? ""
                       : `3px solid ${colorPalette.primary1}`,
-                  color: colorPalette === undefined ? "" : colorPalette.text1,
+                  color: colorPalette === undefined ? "" : colorPalette.primary1,
                   backgroundColor:
                     colorPalette === undefined ? "" : `${colorPalette.white}88`,
                 }}
@@ -143,7 +143,6 @@ export default function Slimes({
               >
                 <input
                   type="text"
-                  // value={"Search for a slime"}
                   placeholder={"Search for a slime"}
                   className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
                   onChange={(e) => setSearchContent(e.target.value)}
