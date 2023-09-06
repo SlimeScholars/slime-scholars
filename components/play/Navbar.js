@@ -2,13 +2,22 @@ import React, { useState, useEffect } from "react";
 import EarnFlwrBtn from "./earnFlwrBtn";
 import { useRouter } from "next/router";
 import { gameData } from "../../data/gameData";
+import { Tooltip } from "react-tooltip";
 
 /*
 Parameter:
   current: the id of the web page that the user is currently on
 */
 
-export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalette, setColorPalette }) {
+export function Navbar({
+  current,
+  user,
+  numEggs,
+  setNumEggs,
+  flowers,
+  colorPalette,
+  setColorPalette,
+}) {
   const types = [
     { title: "shopping", src: "shopping", id: 1 },
     { title: "friends", src: "friends", id: 2 },
@@ -21,9 +30,8 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
   const current_id = parseInt(current, 10);
 
   useEffect(() => {
-
     if (user && user.items) {
-      user.items.map(item => {
+      user.items.map((item) => {
         if (item.itemName === "Slime Egg") {
           setNumEggs(item.quantity);
         }
@@ -33,9 +41,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
     if (user) {
       setColorPalette(gameData.items[user.pfpBbg]);
     }
-
   }, [user]);
-
 
   return (
     <div
@@ -50,28 +56,28 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
         style={{
           backgroundColor:
             colorPalette === undefined ? "" : colorPalette.primary1,
-          color:
-            colorPalette === undefined ? "" : colorPalette.text1,
+          color: colorPalette === undefined ? "" : colorPalette.text1,
         }}
-        onClick={
-          (e) => {
-            e.preventDefault()
-            router.push("/courses")
-          }
-        }
+        onClick={(e) => {
+          e.preventDefault();
+          router.push("/courses");
+        }}
       >
         Earn Flowers
       </button>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo text-lg">
         <div className="flex flex-col items-end">
-
           {/* slime gel */}
           <div
             className="flex rounded-[5rem] py-1 px-6 w-fit"
             style={{
-              backgroundColor: `${colorPalette ? colorPalette.black + '55' : '#475569'}`,
-              color: `${colorPalette ? colorPalette.text1 : '#ffffff'}`,
-              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""}`
+              backgroundColor: `${
+                colorPalette ? colorPalette.black + "55" : "#475569"
+              }`,
+              color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
+              boxShadow: `${
+                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+              }`,
             }}
           >
             {user && (
@@ -90,9 +96,13 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
           <div
             className="flex rounded-[5rem] py-1 px-6 w-fit mt-2"
             style={{
-              backgroundColor: `${colorPalette ? colorPalette.black + '55' : '#475569'}`,
-              color: `${colorPalette ? colorPalette.text1 : '#ffffff'}`,
-              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""}`
+              backgroundColor: `${
+                colorPalette ? colorPalette.black + "55" : "#475569"
+              }`,
+              color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
+              boxShadow: `${
+                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+              }`,
             }}
           >
             {user && (
@@ -102,7 +112,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
                   alt="Icon"
                   className="h-[1.7rem] w-[1.7rem] ml-1 mr-3"
                 />
-                <p className="">{flowers === null ? (user.flowers) : (flowers)}</p>
+                <p className="">{flowers === null ? user.flowers : flowers}</p>
               </div>
             )}
           </div>
@@ -132,8 +142,7 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
         {/* buttons and icons */}
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
-          const commonButtonClasses =
-            "p-4 rounded-full";
+          const commonButtonClasses = "p-4 rounded-full";
           const isActive = type.id === current_id;
 
           return (
@@ -143,16 +152,34 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
                 router.push("/play/" + type.title);
               }}
               style={
-                isActive ? {
-                  backgroundColor: `${colorPalette ? colorPalette.primary1 : '#ffffff'}`,
-                } : {
-                  backgroundColor: `${colorPalette ? colorPalette.white : '#ffff'}88`,
-                }
+                isActive
+                  ? {
+                      backgroundColor: `${
+                        colorPalette ? colorPalette.primary1 : "#ffffff"
+                      }`,
+                    }
+                  : {
+                      backgroundColor: `${
+                        colorPalette ? colorPalette.white : "#ffff"
+                      }88`,
+                    }
               }
               className={`hover:opacity-60 ${commonButtonClasses}`}
               key={type.id}
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content={type.title}
             >
               <img src={imgLink} className="h-[4rem] w-[4rem]" alt={type.src} />
+              <Tooltip
+                id="my-tooltip"
+                delayShow={200}
+                place="bottom"
+                pffset={20}
+                style={{
+                  backgroundColor: "#2c374240",
+                  fontSize: "14px",
+                }}
+              />
             </button>
           );
         })}
@@ -170,6 +197,6 @@ export function Navbar({ current, user, numEggs, setNumEggs, flowers, colorPalet
         </div>
         */}
       </div>
-    </div >
+    </div>
   );
 }

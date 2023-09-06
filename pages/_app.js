@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/styles.css";
 import axios from "axios";
-import Spinner from "../components/spinner";
+import Spinner from "../components/misc/spinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
@@ -30,7 +30,7 @@ function MyApp({ Component, pageProps }) {
     items,
     setItems,
     colorPalette,
-    setColorPalette
+    setColorPalette,
   }; // Include user in modifiedPageProps
 
   const fetchUser = async (token) => {
@@ -140,7 +140,15 @@ function MyApp({ Component, pageProps }) {
               <div className={`absolute inset-0 py-10 px-20 h-screen`}>
                 <div className="h-full relative">
                   <div className="z-20 mb-10">
-                    <Navbar user={user} current={current} numEggs={numEggs} setNumEggs={setNumEggs} flowers={flowers} colorPalette={colorPalette} setColorPalette={setColorPalette} />
+                    <Navbar
+                      user={user}
+                      current={current}
+                      numEggs={numEggs}
+                      setNumEggs={setNumEggs}
+                      flowers={flowers}
+                      colorPalette={colorPalette}
+                      setColorPalette={setColorPalette}
+                    />
                   </div>
                   <Component {...modifiedPageProps} />
                 </div>
