@@ -4,6 +4,7 @@ import { gameData } from "../../data/gameData";
 import { FaChevronLeft } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
 import Image from "next/image";
+import { Tooltip } from "react-tooltip";
 
 /*
 Parameter:
@@ -198,6 +199,8 @@ export function Navbar({
               }
               className="hover:opacity-60 rounded-full 2xl:p-4 p-3"
               key={type.id}
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content={type.title}
             >
               <Image
                 src={imgLink}
@@ -206,6 +209,16 @@ export function Navbar({
                 width={0}
                 sizes="100vw"
                 className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
+              />
+              <Tooltip
+                id="my-tooltip"
+                delayShow={200}
+                place="bottom"
+                pffset={20}
+                style={{
+                  backgroundColor: "#2c374240",
+                  fontSize: "14px",
+                }}
               />
             </button>
           );
