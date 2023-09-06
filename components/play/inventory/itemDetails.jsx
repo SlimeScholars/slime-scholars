@@ -21,6 +21,7 @@ export default function ItemDetails({
 	shopping,
 }) {
 
+	console.log(user);
 	const [owned, setOwned] = useState(null);
 
 	// Check if item is purchase everytime itemOnClick changes
@@ -46,11 +47,6 @@ export default function ItemDetails({
 					<ItemInventory item={item} displayOnly="true" />
 					{/* Item description */}
 					<div className="col-span-2 bg-black/40 rounded-lg p-8">
-						<div className="flex flex-row items-center">
-							<img src="/assets/icons/slime-gel.png" className="w-8 h-8"></img>
-							<p>{item.buyPrice}</p>
-						</div>
-
 						<p
 							style={{ color: gameData.rarityColours[item.rarity].text }}
 							className={`text-2xl font-thin`}
@@ -61,6 +57,10 @@ export default function ItemDetails({
 						{item.description && (
 							<p className="text-grey text-sm">{item.description}</p>
 						)}
+						<div className="flex flex-row items-center p-4">
+							<img src="/assets/icons/slime-gel.png" className="w-6 h-6 m-2"></img>
+							<p>{item.buyPrice}</p>
+						</div>
 					</div>
 					{/* Change pfp comparison */}
 					<div className="col-span-3 bg-black/40 rounded-lg p-6">
@@ -72,7 +72,7 @@ export default function ItemDetails({
 									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
 										{
 											<Image
-												src={"/assets/pfp/backgrounds/" + item.pfp}
+												src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].bg}
 												alt={pfpBg}
 												height={0}
 												width={0}
@@ -80,6 +80,17 @@ export default function ItemDetails({
 												className="absolute inset-0 w-full h-full"
 											/>
 										}
+										<Image
+											src={
+												"/assets/pfp/slimes/" +
+												gameData.slimeImgs[user.pfpSlime].pfp
+											}
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+										/>
 									</div>
 								</div>
 							</div>
@@ -102,6 +113,17 @@ export default function ItemDetails({
 											width={0}
 											sizes='100vw'
 											className="absolute inset-0 w-full h-full"
+										/>
+										<Image
+											src={
+												"/assets/pfp/slimes/" +
+												gameData.slimeImgs[user.pfpSlime].pfp
+											}
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
 										/>
 									</div>
 								</div>
