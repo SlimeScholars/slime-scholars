@@ -23,6 +23,7 @@ export default function ItemDetails({
 
 	console.log(user);
 	const [owned, setOwned] = useState(null);
+	const [sellItemsNum, setSellItemsNum] = useState(item && item.quantity !== undefined ? item.quantity : 0)
 
 	// Check if item is purchase everytime itemOnClick changes
 	useEffect(() => {
@@ -51,7 +52,7 @@ export default function ItemDetails({
 							style={{ color: gameData.rarityColours[item.rarity].text }}
 							className={`text-2xl font-thin`}
 						>
-							{item&&item.rarity}
+							{item && item.rarity}
 						</p>
 						<p className="text-white text-2xl font-bold">{item.itemName}</p>
 						{item.description && (
@@ -129,7 +130,7 @@ export default function ItemDetails({
 								</div>
 							</div>
 							<div className="basis-2/5 p-4" dir="rtl">
-								{owned? (
+								{owned ? (
 									<button className="rounded-s-lg p-4 bg-black/20" disabled>
 										Purchased Already
 									</button>
@@ -161,8 +162,8 @@ export default function ItemDetails({
 													}
 												)
 												.then((response) => {
-													
-													const newUser = { ...user, items: response.items, flowers:response.flowers }
+
+													const newUser = { ...user, items: response.items, flowers: response.flowers }
 													setUser(newUser)
 													showToastError("Picture purchased successfully.", true);
 												})
@@ -350,7 +351,6 @@ export default function ItemDetails({
 
 	// for eggs
 	if (gameData.items[item.itemName] && gameData.rarityColours[item.rarity].text) {
-		const [sellItemsNum, setSellItemsNum] = useState(item.quantity);
 
 		return (
 			<div className="grid grid-cols-3 p-4 gap-4">
@@ -411,7 +411,7 @@ export default function ItemDetails({
 								}
 							/>
 						</div>
-						<div className="px-2">{sellItemsNum}</div>
+						<div className="px-2">{item.quantity}</div>
 					</div>
 					<div className="flex flex-row flex-wrap">
 						<div className="px-1 shrink">
