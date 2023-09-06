@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
 import "../styles/styles.css";
 import axios from "axios";
-import Spinner from "../components/spinner";
+import Spinner from "../components/misc/spinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
