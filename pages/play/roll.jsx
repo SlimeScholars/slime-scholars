@@ -37,12 +37,6 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
 
     }, [user, loading]);
 
-    const handleNavHome = (event) => {
-        if (event.target.classList.contains("home")) {
-            router.push("/play");
-        }
-    };
-
     const handlePurchaseEggs = (numToPurchase) => {
 
         // Check if user has enough flowers
@@ -145,7 +139,7 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
     return (
         <div
             className="home w-full h-full"
-            onClick={handleNavHome}>
+        >
             {/* Popup Message for Lacking Eggs */}
             {
                 eggsLacked > 0 && (
