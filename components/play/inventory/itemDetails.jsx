@@ -20,14 +20,12 @@ export default function ItemDetails({
 	setColorPalette,
 	shopping,
 }) {
-
-	console.log(user);
 	const [owned, setOwned] = useState(null);
 	const [sellItemsNum, setSellItemsNum] = useState(item && item.quantity !== undefined ? item.quantity : 0)
 
 	// Check if item is purchase everytime itemOnClick changes
 	useEffect(() => {
-		if (user) {
+		if (user && user.items) {
 			if (user.items.find(userItem => userItem.itemName === item.itemName)) {
 				setOwned(true);
 			} else {
@@ -63,7 +61,7 @@ export default function ItemDetails({
 							<p>{item.buyPrice}</p>
 						</div>
 					</div>
-					{/* Change pfp comparison */}
+					{/* pfp comparison */}
 					<div className="col-span-3 bg-black/40 rounded-lg p-6">
 						<div className="flex flex-row w-full items-center flex-wrap">
 							<div className="basis-1/5">
@@ -165,6 +163,7 @@ export default function ItemDetails({
 
 													const newUser = { ...user, items: response.items, flowers: response.flowers }
 													setUser(newUser)
+													setOwned(true)
 													showToastError("Picture purchased successfully.", true);
 												})
 												.catch((error) => {

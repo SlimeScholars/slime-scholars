@@ -215,7 +215,7 @@ export const gameData = {
     },
 
     "Forest Jungle": {
-      itemName: "Florest Jungle",
+      itemName: "Forest Jungle",
       rarity: "Rare",
       isBg: true,
       pfp: "forest-jungle.png",

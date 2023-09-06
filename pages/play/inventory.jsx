@@ -25,7 +25,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 
 	const [searchContent, setSearchContent] = useState("");
 	useEffect(() => {
-		if (user) {
+		if (user && user.items) {
 			const searchItem = user.items.filter((item) => {
 				return item.itemName
 					.toLowerCase()
