@@ -10,7 +10,7 @@ export default function Lesson({ courseId, unitId, lessonId, lessonName, looted,
 
 	return (
 		<button
-			className='w-[80%] h-[7rem] text-2xl flex justify-start items-center bg-slate-200 px-[4rem]'
+			className='w-[80%] h-[7rem] text-2xl flex justify-start items-center bg-slate-200 px-[4rem] mb-7'
 			onClick={() => {
 				router.push(`/courses/${courseId}/units/${unitId}/lessons/${lessonId}`)
 			}}
