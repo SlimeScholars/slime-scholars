@@ -33,12 +33,14 @@ export default function ItemInventory({
                 <div className={
                     displayOnly === "true" ? (classNameDisplay) : (
                         (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClickOwned) : (classNameDefaultOwned))
-                } id={crypto.randomUUID()}
+                }
+                    id={crypto.randomUUID()}
                     onClick={(e) => {
                         if (displayOnly !== "true") {
                             setItemOnClick(item);
                         }
-                    }}>
+                    }}
+                >
                     <Image
                         src={imgPath}
                         alt={item.itemName}
@@ -55,7 +57,7 @@ export default function ItemInventory({
     // for background
     if (item.isBg && item.itemName) {
 
-        const imgPath = item&&gameData.items[item.itemName] ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
+        const imgPath = item && gameData.items[item.itemName] ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
         return (
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (

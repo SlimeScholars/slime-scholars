@@ -202,10 +202,15 @@ export default function ItemDetails({
 				}}
 				className='rounded-lg p-8'
 			>
-				<div className="grid-cols-2 grid gap-8 h-full mb-8">
-					<ItemInventory item={item} displayOnly="true" />
+				<div className="grid-cols-3 grid gap-8 h-full mb-8">
+					<ItemInventory item={item} displayOnly="true" colorPalette={colorPalette} />
 					{/* Item description */}
-					<div className="bg-black/40 rounded-lg p-8">
+					<div
+						className="col-span-2 rounded-lg px-8 py-4"
+						style={{
+							backgroundColor: `${colorPalette.black}88`,
+						}}
+					>
 						<p
 							className={`text-2xl font-thin`}
 							style={{ color: gameData.rarityColours[item.rarity].text }}
@@ -225,7 +230,12 @@ export default function ItemDetails({
 
 				</div>
 				{/* Change pfp comparison */}
-				<div className="col-span-3 bg-black/40 rounded-lg p-6">
+				<div
+					className="col-span-3 rounded-lg p-6"
+					style={{
+						backgroundColor: `${colorPalette.black}88`,
+					}}
+				>
 					<div className="flex flex-row w-full items-center flex-wrap justify-center">
 						<div className="flex flex-col items-center">
 							{/* Display current profile picture */}
@@ -409,20 +419,34 @@ export default function ItemDetails({
 	if (gameData.items[item.itemName] && gameData.rarityColours[item.rarity].text) {
 
 		return (
-			<div className="grid grid-cols-3 p-4 gap-4">
+			<div
+				className="grid grid-cols-3 p-8 gap-8 rounded-lg"
+				style={{
+					backgroundColor: colorPalette ? `${colorPalette.white}88` : '',
+				}}
+			>
 				<ItemInventory
 					item={item}
 					displayOnly="true"
+					colorPalette={colorPalette}
 				/>
 				{/* Item description */}
-				<div className="col-span-2 bg-black/40 rounded-lg p-8">
+				<div
+					className="col-span-2 rounded-lg px-8 py-4"
+					style={{
+						backgroundColor: colorPalette ? `${colorPalette.black}88` : '',
+					}}
+				>
 					<p
 						className={`text-2xl font-thin`}
 						style={{ color: gameData.rarityColours[item.rarity].text }}
 					>
 						{item.rarity}
 					</p>
-					<p className="text-white text-2xl font-bold">
+					<p
+						className="text-2xl font-bold"
+						style={{ color: colorPalette ? colorPalette.text1 : '' }}
+					>
 						{item.itemName}
 					</p>
 					{
@@ -432,10 +456,22 @@ export default function ItemDetails({
 					}
 				</div>
 				{/* Sell Item */}
-				<div className="col-span-3 bg-black/40 rounded-lg p-6">
+				<div
+					className="col-span-3 rounded-lg p-6"
+					style={{
+						backgroundColor: colorPalette ? `${colorPalette.black}88` : '',
+						color: colorPalette ? colorPalette.text1 : '',
+					}}
+				>
 					<div className="flex flex-row w-full items-center">
-						<div className="grow">Sell Item</div>
-						<div className="shrink text-white px-1">
+						<div
+							className="grow"
+						>
+							Sell Item
+						</div>
+						<div
+							className="shrink px-1"
+						>
 							Sell for:
 						</div>
 						{
@@ -452,7 +488,11 @@ export default function ItemDetails({
 
 					</div>
 					<div className="flex flex-row w-full items-center p-2">
-						<div className="shrink px-2">0</div>
+						<div
+							className="shrink px-2"
+						>
+							{sellItemsNum}
+						</div>
 						<div className="grow">
 							<input
 								type="range"
@@ -469,13 +509,15 @@ export default function ItemDetails({
 						</div>
 						<div className="px-2">{item.quantity}</div>
 					</div>
-					<div className="flex flex-row flex-wrap">
-						<div className="px-1 shrink">
+					<div className="flex flex-row w-full">
+						<div className="mx-1 shrink">
 							<input
-								type="text"
-								className="p-2 bg-white rounded-lg"
+								type="number"
+								className="p-2 rounded-lg w-[7rem]"
 								style={{
 									border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+									backgroundColor: colorPalette ? `${colorPalette.white}88` : '',
+									color: colorPalette ? colorPalette.primary1 : '',
 								}}
 								value={sellItemsNum}
 								onChange={(e) => {
@@ -485,7 +527,10 @@ export default function ItemDetails({
 						</div>
 						<div className="px-1">
 							<button
-								className="whitespcace-no-wrap bg-red-300 hover:bg-red-300/75 rounded-lg p-2"
+								className="whitespcace-no-wrap rounded-lg px-4 h-full"
+								style={{
+									backgroundColor: colorPalette ? colorPalette.primary1 : '',
+								}}
 								onClick={(e) => {
 									setSellItemsNum(item.quantity - 1);
 								}}>
@@ -494,91 +539,100 @@ export default function ItemDetails({
 						</div>
 						<div className="shrink px-1">
 							<button
-								className="bg-red-300 hover:bg-red-300/75 rounded-lg p-2"
+								className="rounded-lg px-4 h-full"
+								style={{
+									backgroundColor: colorPalette ? colorPalette.primary1 : '',
+								}}
 								onClick={(e) => {
 									setSellItemsNum(item.quantity);
 								}}>
 								All
 							</button>
 						</div>
-						{/* Sell button */}
-						<div className="shrink px-1">
-							<button
-								className="bg-red-300 hover:bg-red-300/75 rounded-lg p-2"
-								onClick={(e) => {
+						<div className='flex-row flex ml-auto'>
+							{/* Sell button */}
+							<div className="shrink px-1">
+								<button
+									className="rounded-lg px-4 h-full"
+									style={{
+										backgroundColor: colorPalette ? colorPalette.secondary1 : '',
+									}}
+									onClick={(e) => {
 
-									const config = {
-										headers: {
-											Authorization: `Bearer ${localStorage.getItem('jwt')}`
+										const config = {
+											headers: {
+												Authorization: `Bearer ${localStorage.getItem('jwt')}`
+											}
 										}
-									}
-									axios
-										.post('/api/user/sell-item', {
-											itemName: item.itemName,
-											quantity: sellItemsNum
-										}, config)
-										.then(response => {
+										axios
+											.post('/api/user/sell-item', {
+												itemName: item.itemName,
+												quantity: sellItemsNum
+											}, config)
+											.then(response => {
 
-											// Inluding flowers, slimeGel, items
+												// Inluding flowers, slimeGel, items
 
-											// if all of the current item is sold, show details of the first item returned
-											let numItemsLeft = 0;
+												// if all of the current item is sold, show details of the first item returned
+												let numItemsLeft = 0;
 
-											// Reset the current item to update the item quantity
-											response.data.items.map(returnedItem => {
-												if (returnedItem.itemName === item.itemName) {
-													numItemsLeft = returnedItem.quantity;
-													setItemOnClick(returnedItem);
+												// Reset the current item to update the item quantity
+												response.data.items.map(returnedItem => {
+													if (returnedItem.itemName === item.itemName) {
+														numItemsLeft = returnedItem.quantity;
+														setItemOnClick(returnedItem);
+													}
+												});
+
+												// Sync # flowers and eggs data with navbar
+												setFlowers(response.data.flowers);
+												if (item.itemName === "Slime Egg") {
+													setNumEggs(numItemsLeft);
 												}
-											});
 
-											// Sync # flowers and eggs data with navbar
-											setFlowers(response.data.flowers);
-											if (item.itemName === "Slime Egg") {
-												setNumEggs(numItemsLeft);
-											}
+												if (numItemsLeft === 0) {
+													setItemOnClick(response.data.items[0]);
+												}
 
-											if (numItemsLeft === 0) {
-												setItemOnClick(response.data.items[0]);
-											}
+												setItems(response.data.items);
 
-											setItems(response.data.items);
+												// Prompt message to gui
+												showToastError((sellItemsNum === 1 ? ("Item sold") : ("Items sold")), true);
 
-											// Prompt message to gui
-											showToastError((sellItemsNum === 1 ? ("Item sold") : ("Items sold")), true);
+											})
+											.catch(error => showToastError(error.message));
+									}}>
+									Sell
+								</button>
+							</div>
+							{/* Flower or Gel icon */}
+							<div className="shrink px-1">
+								{
+									item.sellCurrency === 1 ? (
+										<Image
+											src="/assets/icons/flower.png"
+											alt="flowers"
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="w-10 h-10 y-10 brightness-75"
+										/>
+									) : (
+										<Image
+											src="/assets/icons/slime-gel.png"
+											alt='slime gel'
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="w-10 h-10 y-10 brightness-75"
+										/>
+									)
+								}
+							</div>
+							<div className="shrink p-3 text-center">
+								<p>{sellItemsNum * item.sellPrice}</p>
+							</div>
 
-										})
-										.catch(error => showToastError(error.message));
-								}}>
-								Sell
-							</button>
-						</div>
-						{/* Flower or Gel icon */}
-						<div className="shrink px-1">
-							{
-								item.sellCurrency === 1 ? (
-									<Image
-										src="/assets/icons/flower.png"
-										alt="flowers"
-										height={0}
-										width={0}
-										sizes='100vw'
-										className="w-10 h-10 y-10 brightness-75"
-									/>
-								) : (
-									<Image
-										src="/assets/icons/slime-gel.png"
-										alt='slime gel'
-										height={0}
-										width={0}
-										sizes='100vw'
-										className="w-10 h-10 y-10 brightness-75"
-									/>
-								)
-							}
-						</div>
-						<div className="shrink p-3 text-center">
-							<p>{sellItemsNum * item.sellPrice}</p>
 						</div>
 					</div>
 				</div>
@@ -592,7 +646,7 @@ export default function ItemDetails({
 						Open Egg
 					</p>
 				</div>
-			</div>
+			</div >
 		);
 	}
 }
