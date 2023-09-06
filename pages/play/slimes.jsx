@@ -33,12 +33,6 @@ export default function Slimes({
     }
   }, [user, loading]);
 
-  const handleNavHome = (event) => {
-    if (event.target.classList.contains("home")) {
-      router.push("/play");
-    }
-  };
-
   const handleClick = () => {
     try {
       const token = localStorage.getItem("jwt");
@@ -74,6 +68,7 @@ export default function Slimes({
       return;
     }
   };
+
   useEffect(() => {
     if (user) {
       const searchSlimes = user.slimes.filter((slime) => {
@@ -98,7 +93,7 @@ export default function Slimes({
           rewards={rewards}
         />
       )}
-      <div className="home" onClick={handleNavHome}>
+      <div className="home">
         <div className="items-center justify-between">
           {/* button here just to test the backend get-rewards */}
 
@@ -160,40 +155,36 @@ export default function Slimes({
             </div>
           </div>
         </div>
+
         {/* Slimes inventory, all users slimes */}
         <div
           className="pt-9 flex flex-row gap-9 items-start font-galindo home"
-          onClick={handleNavHome}
         >
-          <div className="basis-1/2 ">
-            <div
-              className="rounded-lg"
-              style={{
-                backgroundColor:
-                  colorPalette === undefined ? "" : `${colorPalette.white}88`,
-              }}
-            >
-              <div className="items-center">
-                {/* loop through all slimes from user and display them */}
-                {user && (
-                  <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
-                    height: 'calc(100vh - 20rem)', overflowY: 'auto'
-                  }}>
-                    <SlimeInventory
-                      slimes={
-                        filterSlimes.length > 0 ? filterSlimes : user.slimes
-                      }
-                      loading={loading}
-                      setSlime={setSlime}
-                      bg={colorPalette}
-                    />
-                  </div>
-                )}
-              </div>
+          <div
+            className="basis-1/2 rounded-lg"
+            style={{
+              backgroundColor:
+                colorPalette === undefined ? "" : `${colorPalette.white}88`,
+            }}
+          >
+            <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
+              // height: 'calc(100vh - 22rem)',
+            }}>
+              {/* loop through all slimes from user and display them */}
+              {user && (
+                <SlimeInventory
+                  slimes={
+                    filterSlimes.length > 0 ? filterSlimes : user.slimes
+                  }
+                  loading={loading}
+                  setSlime={setSlime}
+                  bg={colorPalette}
+                />
+              )}
             </div>
           </div>
-          <div className=" basis-1/2 " style={{
-            height: 'calc(100vh - 20rem)', overflowY: 'auto'
+          <div className=" basis-1/2 rounded-lg" style={{
+            // height: 'calc(100vh - 22rem)',
           }}>
             {/* Get Slime details */}
             <SlimeDetails

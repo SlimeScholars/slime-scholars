@@ -7,12 +7,22 @@
  **/
 
 export default function SearchBar(props) {
+  const colorPalette = props.colorPalette
+
+  if (!colorPalette) {
+    return <></>
+  }
   return (
     <form
-      className="border-2 border-red-300 flex bg-transparent rounded font-galindo"
+      className="border-2 flex bg-transparent rounded font-galindo"
       onSubmit={(e) => {
         e.preventDefault();
         props.handleSubmit(e);
+      }}
+      style={{
+        backgroundColor:
+          colorPalette === undefined ? "" : `${colorPalette.white}88`,
+        color: colorPalette === undefined ? "" : colorPalette.text1,
       }}
     >
       <input

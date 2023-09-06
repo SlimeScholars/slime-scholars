@@ -38,13 +38,17 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 	return (
 		<div
 			className="home"
-			style={{
-				height: 'calc(100% - 11rem)'
-			}}
 		>
 			<div className="items-center justify-between h-full">
 				{/*  Inventory bar */}
-				<div className="flex flex-row bg-white/50 rounded-lg items-center">
+				<div
+					style={{
+						backgroundColor:
+							colorPalette === undefined ? "" : `${colorPalette.white}88`,
+						color: colorPalette === undefined ? "" : colorPalette.text1,
+					}}
+					className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
+				>
 					<div className="grow-0 pl-4">
 						<Image
 							src="/assets/icons/inventory.png"
@@ -52,35 +56,54 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 							height={0}
 							width={0}
 							sizes='100vw'
-							className="p-4 h-20 w-20"
+							className="w-[4.5rem] h-[4.5rem]"
 						/>
 					</div>
-					<div className="grow pl-4 font-galindo text-xl">Inventory</div>
-					<div className="shrink pr-6">
-						{/* Search Bar */}
-						{/* Handle Submit Function */}
-						<SearchInventory
-							searchContent={searchContent}
-							setSearchContent={setSearchContent}
-						/>
+					<h2 className="grow pl-4 font-galindo text-2xl">Inventory</h2>
+					<div className="grow-0 flex pr-4">
+						<div
+							style={{
+								border:
+									colorPalette === undefined
+										? ""
+										: `3px solid ${colorPalette.primary1}`,
+								color: colorPalette === undefined ? "" : colorPalette.text1,
+								backgroundColor:
+									colorPalette === undefined ? "" : `${colorPalette.white}88`,
+							}}
+							className="rounded-md flex flex-row py-1 px-3 text-lg"
+						>
+							<input
+								type="text"
+								placeholder={"Search for an item"}
+								className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
+								onChange={(e) => setSearchContent(e.target.value)}
+							></input>
+							<button className="h-full flex p-1 cursor-default">
+								<span className="material-symbols-outlined">Search</span>
+							</button>
+						</div>
 					</div>
 				</div>
 
 				{/* Default: inventory lists and item details */}
 				<div
-					className="py-8 flex flex-row font-galindo w-full home h-full"
+					className="pt-9 flex flex-row gap-9 items-start font-galindo home"
 				>
 					{/* Inventory List */}
-					<div className="pr-4 basis-1/2">
+					<div
+						className="basis-1/2 rounded-lg"
+					>
 						<ItemList
 							items={items}
 							itemOnClick={itemOnClick}
 							setItemOnClick={setItemOnClick}
+							colorPalette={colorPalette}
 						/>
 					</div>
 
 					{/* Item details */}
-					<div className="basis-1/2 bg-white/50 rounded-lg">
+					<div className="basis-1/2 rounded-lg">
 						<ItemDetails
 							item={itemOnClick}
 							user={user}
@@ -97,6 +120,6 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 					</div>
 				</div>
 			</div>
-		</div>
+		</div >
 	);
 }
