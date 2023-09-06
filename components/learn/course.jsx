@@ -13,7 +13,7 @@ export default function Course({ courseId, courseName, courseBadge, tier }) {
 
 	return (
 		<button
-			className={`w-[80%] h-[7rem] text-3xl flex justify-start items-center ${tierClass[tier]}`}
+			className={`w-[80%] h-[7rem] text-3xl flex justify-start items-center ${tierClass[tier]} mb-7`}
 			onClick={() => {
 				router.push(`/courses/${courseId}/units`)
 			}}
