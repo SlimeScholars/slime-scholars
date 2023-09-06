@@ -25,7 +25,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			router.push("/");
 		}
 
-		if (user) {
+		if (user && user.items) {
 
 			// Set items up so that it only includes item names
 			const newList = user.items.map(item => {
