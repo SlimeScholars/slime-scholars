@@ -144,7 +144,7 @@ function MyApp({ Component, pageProps }) {
 
             {/* Other play pages */}
             <div className={`relative h-0`}>
-              <div className={`absolute inset-0 py-10 px-20 h-screen`}>
+              <div className={`absolute inset-0 py-10 px-20 h-screen overflow-y-scroll`}>
                 <div className="h-full relative">
                   <div className="z-20 mb-10">
                     <Navbar
