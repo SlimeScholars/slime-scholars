@@ -20,13 +20,12 @@ export default function ItemDetails({
 	setColorPalette,
 	shopping,
 }) {
-
 	const [owned, setOwned] = useState(null);
 	const [sellItemsNum, setSellItemsNum] = useState(item && item.quantity !== undefined ? item.quantity : 0)
 
 	// Check if item is purchase everytime itemOnClick changes
 	useEffect(() => {
-		if (user) {
+		if (user && user.items) {
 			if (user.items.find(userItem => userItem.itemName === item.itemName)) {
 				setOwned(true);
 			} else {
@@ -47,18 +46,6 @@ export default function ItemDetails({
 					<ItemInventory item={item} displayOnly="true" />
 					{/* Item description */}
 					<div className="col-span-2 bg-black/40 rounded-lg p-8">
-						<div className="flex flex-row items-center">
-							<Image
-								src="/assets/icons/slime-gel.png"
-								alt='slime gel'
-								width={0}
-								height={0}
-								sizes='100vw'
-								className="w-8 h-8"
-							/>
-							<p>{item.buyPrice}</p>
-						</div>
-
 						<p
 							style={{ color: gameData.rarityColours[item.rarity].text }}
 							className={`text-2xl font-thin`}
@@ -69,8 +56,12 @@ export default function ItemDetails({
 						{item.description && (
 							<p className="text-grey text-sm">{item.description}</p>
 						)}
+						<div className="flex flex-row items-center p-4">
+							<img src="/assets/icons/slime-gel.png" className="w-6 h-6 m-2"></img>
+							<p>{item.buyPrice}</p>
+						</div>
 					</div>
-					{/* Change pfp comparison */}
+					{/* pfp comparison */}
 					<div className="col-span-3 bg-black/40 rounded-lg p-6">
 						<div className="flex flex-row w-full items-center flex-wrap">
 							<div className="basis-1/5">
@@ -84,7 +75,7 @@ export default function ItemDetails({
 									>
 										{
 											<Image
-												src={"/assets/pfp/backgrounds/" + item.pfp}
+												src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].bg}
 												alt={pfpBg}
 												height={0}
 												width={0}
@@ -92,6 +83,17 @@ export default function ItemDetails({
 												className="absolute inset-0 w-full h-full"
 											/>
 										}
+										<Image
+											src={
+												"/assets/pfp/slimes/" +
+												gameData.slimeImgs[user.pfpSlime].pfp
+											}
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+										/>
 									</div>
 								</div>
 							</div>
@@ -121,6 +123,17 @@ export default function ItemDetails({
 											width={0}
 											sizes='100vw'
 											className="absolute inset-0 w-full h-full"
+										/>
+										<Image
+											src={
+												"/assets/pfp/slimes/" +
+												gameData.slimeImgs[user.pfpSlime].pfp
+											}
+											alt={user.pfpSlime}
+											height={0}
+											width={0}
+											sizes='100vw'
+											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
 										/>
 									</div>
 								</div>
@@ -161,6 +174,7 @@ export default function ItemDetails({
 
 													const newUser = { ...user, items: response.items, flowers: response.flowers }
 													setUser(newUser)
+													setOwned(true)
 													showToastError("Picture purchased successfully.", true);
 												})
 												.catch((error) => {
