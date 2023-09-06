@@ -70,10 +70,12 @@ export default function SlimeDetails({
   const maxLevel = slime.maxLevel;
   const colour = gameData.rarityColours[slime.rarity].text;
   return (
-    <div className="rounded-lg"
+    <div
       style={{
         backgroundColor: `${bg.white}88`,
-      }}>
+      }}
+      className="rounded-lg"
+    >
       <div>
         {showLevelUpPopup && (
           <PopUpDetails

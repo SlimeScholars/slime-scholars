@@ -43,7 +43,7 @@ export default function ItemDetails({
 
 		return (
 			<div className='w-full h-auto'>
-				<div className="grid grid-cols-3 p-4 gap-4 h-full overflow-y-auto">
+				<div className="grid grid-cols-3 p-4 gap-4 h-full">
 					<ItemInventory item={item} displayOnly="true" />
 					{/* Item description */}
 					<div className="col-span-2 bg-black/40 rounded-lg p-8">
@@ -77,7 +77,11 @@ export default function ItemDetails({
 								<div className="flex flex-col items-center">
 									{/* Display current profile picture */}
 									<p>Current</p>
-									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
+									<div className="relative rounded-full overflow-hidden"
+										style={{
+											border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+										}}
+									>
 										{
 											<Image
 												src={"/assets/pfp/backgrounds/" + item.pfp}
@@ -91,15 +95,22 @@ export default function ItemDetails({
 									</div>
 								</div>
 							</div>
-							<div className="basis-1/5">
-								<span className="text-red-300 material-symbols-outlined scale-150 p-10">
+							<div>
+								<span
+									className="material-symbols-outlined scale-150 mx-6"
+									style={{ color: colorPalette ? colorPalette.text1 : '' }}
+								>
 									arrow_forward
 								</span>
 							</div>
 							<div className="basis-1/5">
 								<div className="flex flex-col items-center">
 									<p>Updated</p>
-									<div className="relative rounded-full overflow-hidden border-4 border-red-300">
+									<div className="relative rounded-full overflow-hidden"
+										style={{
+											border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+										}}
+									>
 										<Image
 											src={
 												"/assets/pfp/backgrounds/" +
@@ -171,96 +182,133 @@ export default function ItemDetails({
 	// for background
 	if (item.isBg && gameData.items[item.itemName]) {
 		return (
-			<div className='h-full w-full'>
-				<div className="grid grid-cols-3 p-4 gap-4 h-full overflow-y-auto">
+			<div
+				style={{
+					backgroundColor: colorPalette ? `${colorPalette.white}88` : '',
+				}}
+				className='rounded-lg'
+			>
+				<div className="grid-cols-2 grid p-8 gap-4 h-full overflow-y-auto">
 					<ItemInventory item={item} displayOnly="true" />
 					{/* Item description */}
-					<div className="col-span-2 bg-black/40 rounded-lg p-8">
+					<div className="bg-black/40 rounded-lg p-8">
 						<p
 							className={`text-2xl font-thin`}
 							style={{ color: gameData.rarityColours[item.rarity].text }}
 						>
 							{item.rarity}
 						</p>
-						<p className="text-white text-2xl font-bold">{item.itemName}</p>
+						<p
+							className="text-2xl font-bold"
+							style={{ color: colorPalette ? colorPalette.text1 : '' }}
+						>
+							{item.itemName}
+						</p>
 						{item.description && (
 							<p className="text-grey text-sm">{item.description}</p>
 						)}
 					</div>
+
 					{/* Change pfp comparison */}
 					<div className="col-span-3 bg-black/40 rounded-lg p-6">
-						<div className="flex flex-row w-full items-center flex-wrap">
-							<div className="basis-1/5">
-								<div className="flex flex-col items-center">
-									{/* Display current profile picture */}
-									<p>Current</p>
-									<div className="relative rounded-full overflow-hidden  border-4 border-red-300">
-										{
-											<Image
-												src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-												alt={pfpBg}
-												height={0}
-												width={0}
-												sizes='100vw'
-												className="absolute inset-0 w-full h-full"
-											/>
-										}
+						<div className="flex flex-row w-full items-center flex-wrap justify-center">
+							<div className="flex flex-col items-center">
+								{/* Display current profile picture */}
+								<p
+									style={{ color: colorPalette ? colorPalette.text1 : '' }}
+								>
+									Current
+								</p>
+								<div
+									className="relative rounded-full overflow-hidden"
+									style={{
+										border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+									}}
+								>
+									{
 										<Image
-											src={
-												"/assets/pfp/slimes/" +
-												gameData.slimeImgs[user.pfpSlime].pfp
-											}
-											alt={user.pfpSlime}
-											height={0}
-											width={0}
-											sizes='100vw'
-											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
-										/>
-									</div>
-								</div>
-							</div>
-							<div className="basis-1/5">
-								<span className="text-red-300 material-symbols-outlined scale-150 p-10">
-									arrow_forward
-								</span>
-							</div>
-							<div className="basis-1/5">
-								<div className="flex flex-col items-center">
-									<p>Updated</p>
-									<div className="relative rounded-full overflow-hidden border-4 border-red-300">
-										<Image
-											src={
-												"/assets/pfp/backgrounds/" +
-												gameData.items[item.itemName].pfp
-											}
-											alt={item.itemName}
+											src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
+											alt={pfpBg}
 											height={0}
 											width={0}
 											sizes='100vw'
 											className="absolute inset-0 w-full h-full"
 										/>
-										<Image
-											src={
-												"/assets/pfp/slimes/" +
-												gameData.slimeImgs[user.pfpSlime].pfp
-											}
-											alt={user.pfpSlime}
-											height={0}
-											width={0}
-											sizes='100vw'
-											className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
-										/>
-									</div>
+									}
+									<Image
+										src={
+											"/assets/pfp/slimes/" +
+											gameData.slimeImgs[user.pfpSlime].pfp
+										}
+										alt={user.pfpSlime}
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+									/>
 								</div>
 							</div>
-							<div className="basis-2/5 p-4" dir="rtl">
+							<span
+								className="material-symbols-outlined scale-150 mx-6"
+								style={{ color: colorPalette ? colorPalette.text1 : '' }}
+							>
+								arrow_forward
+							</span>
+							<div className="flex flex-col items-center">
+								<p
+									style={{ color: colorPalette ? colorPalette.text1 : '' }}
+								>
+									Updated
+								</p>
+								<div
+									className="relative rounded-full overflow-hidden"
+									style={{
+										border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+									}}
+								>
+									<Image
+										src={
+											"/assets/pfp/backgrounds/" +
+											gameData.items[item.itemName].pfp
+										}
+										alt={item.itemName}
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="absolute inset-0 w-full h-full"
+									/>
+									<Image
+										src={
+											"/assets/pfp/slimes/" +
+											gameData.slimeImgs[user.pfpSlime].pfp
+										}
+										alt={user.pfpSlime}
+										height={0}
+										width={0}
+										sizes='100vw'
+										className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+									/>
+								</div>
+							</div>
+							<div className='flex flex-col ml-5'>
 								{pfpBg === item.itemName ? (
-									<button className="rounded-s-lg p-4 bg-black/20" disabled>
-										Equipped Already
+									<button
+										disabled
+										className="rounded-lg py-4 h-full w-[15rem]"
+										style={{
+											backgroundColor: colorPalette ? `${colorPalette.black}66` : '',
+											color: colorPalette ? colorPalette.black : '',
+										}}
+									>
+										Equipped as Profile
 									</button>
 								) : (
 									<button
-										className="rounded-s-lg p-4 bg-red-300 hover:bg-red-300/75 h-full"
+										className="rounded-lg py-4 h-full w-[15rem]"
+										style={{
+											backgroundColor: colorPalette ? colorPalette.primary1 : '',
+											color: colorPalette ? colorPalette.text1 : '',
+										}}
 										onClick={(e) => {
 											axios
 												.put(
@@ -288,49 +336,58 @@ export default function ItemDetails({
 												});
 										}}
 									>
-										Equip as Profile Background
+										Equip to Profile
+									</button>
+								)}
+
+								{gameData.items[item.itemName].bg === colorPalette.bg ? (
+									<button
+										disabled
+										className="rounded-lg py-4 h-full w-[15rem] mt-4"
+										style={{
+											backgroundColor: colorPalette ? `${colorPalette.black}66` : '',
+											color: colorPalette ? colorPalette.black : '',
+										}}
+									>
+										Equipped as Background
+									</button>
+								) : (
+									<button
+										className="rounded-lg py-4 h-full w-[15rem] mt-4"
+										style={{
+											backgroundColor: colorPalette ? colorPalette.primary1 : '',
+											color: colorPalette ? colorPalette.text1 : '',
+										}}
+										onClick={(e) => {
+											axios
+												.put(
+													"/api/user/change-bg",
+													{
+														bg: item.itemName,
+													},
+													{
+														headers: {
+															Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+														},
+													}
+												)
+												.then((response) => {
+													setColorPalette(gameData.items[item.itemName]);
+												})
+												.catch((error) => {
+													showToastError(error.message);
+												});
+										}}
+									>
+										Equip as background
 									</button>
 								)}
 							</div>
 						</div>
 					</div>
-					{/* Background */}
-					<div className="bg-black/40 rounded-lg p-8 col-span-3">
-						{gameData.items[item.itemName].bg === colorPalette.bg ? (
-							<button className="text-black" disabled>
-								Equipped as background
-							</button>
-						) : (
-							<button
-								className="text-red-300 hover:text-red-300/75 p-4"
-								onClick={(e) => {
-									axios
-										.put(
-											"/api/user/change-bg",
-											{
-												bg: item.itemName,
-											},
-											{
-												headers: {
-													Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-												},
-											}
-										)
-										.then((response) => {
-											setColorPalette(gameData.items[item.itemName]);
-										})
-										.catch((error) => {
-											showToastError(error.message);
-										});
-								}}
-							>
-								Equip as background
-							</button>
-						)}
-					</div>
 				</div>
 
-			</div>
+			</div >
 		);
 	}
 
@@ -402,7 +459,10 @@ export default function ItemDetails({
 						<div className="px-1 shrink">
 							<input
 								type="text"
-								className="p-2 border-2 border-red-300 bg-white rounded-lg"
+								className="p-2 bg-white rounded-lg"
+								style={{
+									border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+								}}
 								value={sellItemsNum}
 								onChange={(e) => {
 									setSellItemsNum(e.target.value);

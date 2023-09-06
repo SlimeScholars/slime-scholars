@@ -8,11 +8,12 @@ export default function ItemInventory({
     displayOnly,
     owned,
     shopping,
+    colorPalette,
 }) {
 
-    const classNameDefault = "border-solid border-8 border-white rounded-lg hover:border-white/75 relative overflow-visible";
-    const classNameClick = "border-solid border-8 border-red-300 rounded-lg hover:border-white/75 relative overflow-visible";
-    const classNameDisplay = "border-solid border-8 border-white rounded-lg relative overflow-visible";
+    const classNameDefault = "rounded-2xl relative overflow-visible cursor-pointer"
+    const classNameClick = "rounded-2xl relative overflow-visible cursor-pointer"
+    const classNameDisplay = "rounded-2xl relative overflow-visible"
 
     const classNameDefaultOwned = "border-solid border-8 border-slate-300 rounded-lg hover:border-white/75 relative overflow-visible";
     const classNameClickOwned = "border-solid border-8 border-slate-700 rounded-lg hover:border-white/75 relative overflow-visible";
@@ -59,19 +60,24 @@ export default function ItemInventory({
             <div className={
                 displayOnly === "true" ? (classNameDisplay) : (
                     (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClick) : (classNameDefault))
-            } id={crypto.randomUUID()}
+            }
+                id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
                         setItemOnClick(item);
                     }
-                }}>
+                }}
+                style={{
+                    border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+                }}
+            >
                 <Image
                     src={imgPath}
                     alt={item.itemName}
                     height={0}
                     width={0}
                     sizes='100vw'
-                    className="w-full h-auto"
+                    className="w-full h-auto rounded-[11px]"
                 />
             </div>
         )
@@ -89,7 +95,11 @@ export default function ItemInventory({
                     if (displayOnly !== "true") {
                         setItemOnClick(item);
                     }
-                }}>
+                }}
+                style={{
+                    border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+                }}
+            >
                 <Image
                     src={"/assets/items/" + gameData.items[item.itemName].icon}
                     alt={item.itemName}
@@ -98,10 +108,22 @@ export default function ItemInventory({
                     sizes='100vw'
                     className="place-self-center p-4 w-full h-auto"
                 />
-                <div className="absolute inset-x-0 bottom-0 translate-y-4 px-2">
-                    <div className="rounded-full w-15 h-5 bg-amber-50 text-sm border-2 border-amber-300 text-center">
+                <div
+                    className="absolute -bottom-2.5 inset-x-0 mx-auto rounded-full items-center mt-2 w-fit justify-center px-3"
+                    style={{
+                        backgroundColor:
+                            colorPalette === undefined ? '' : `${colorPalette.primary1}`,
+                        border:
+                            colorPalette === undefined ? '' : `3px solid ${colorPalette.primary2}`,
+                        color:
+                            colorPalette === undefined ? '' : colorPalette.text2,
+                    }}
+                >
+                    <p
+                        className="text-sm text-center mt-1"
+                    >
                         {item.quantity}
-                    </div>
+                    </p>
                 </div>
             </div>
         )
