@@ -88,7 +88,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 
 				{/* Default: inventory lists and item details */}
 				<div
-					className="pt-9 flex flex-row gap-9 items-start font-galindo home"
+					className="pt-9 flex flex-row gap-8 items-start font-galindo home"
 				>
 					{/* Inventory List */}
 					<div

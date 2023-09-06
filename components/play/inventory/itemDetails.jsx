@@ -42,10 +42,10 @@ export default function ItemDetails({
 
 		return (
 			<div className='w-full h-auto'>
-				<div className="grid grid-cols-3 p-4 gap-4 h-full">
+				<div className="grid grid-cols-2 gap-4 h-full">
 					<ItemInventory item={item} displayOnly="true" />
 					{/* Item description */}
-					<div className="col-span-2 bg-black/40 rounded-lg p-8">
+					<div className="bg-black/40 rounded-lg p-8">
 						<p
 							style={{ color: gameData.rarityColours[item.rarity].text }}
 							className={`text-2xl font-thin`}
@@ -200,9 +200,9 @@ export default function ItemDetails({
 				style={{
 					backgroundColor: colorPalette ? `${colorPalette.white}88` : '',
 				}}
-				className='rounded-lg'
+				className='rounded-lg p-8'
 			>
-				<div className="grid-cols-2 grid p-8 gap-4 h-full overflow-y-auto">
+				<div className="grid-cols-2 grid gap-8 h-full mb-8">
 					<ItemInventory item={item} displayOnly="true" />
 					{/* Item description */}
 					<div className="bg-black/40 rounded-lg p-8">
@@ -223,180 +223,180 @@ export default function ItemDetails({
 						)}
 					</div>
 
-					{/* Change pfp comparison */}
-					<div className="col-span-3 bg-black/40 rounded-lg p-6">
-						<div className="flex flex-row w-full items-center flex-wrap justify-center">
-							<div className="flex flex-col items-center">
-								{/* Display current profile picture */}
-								<p
-									style={{ color: colorPalette ? colorPalette.text1 : '' }}
-								>
-									Current
-								</p>
-								<div
-									className="relative rounded-full overflow-hidden"
-									style={{
-										border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
-									}}
-								>
-									{
-										<Image
-											src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-											alt={pfpBg}
-											height={0}
-											width={0}
-											sizes='100vw'
-											className="absolute inset-0 w-full h-full"
-										/>
-									}
-									<Image
-										src={
-											"/assets/pfp/slimes/" +
-											gameData.slimeImgs[user.pfpSlime].pfp
-										}
-										alt={user.pfpSlime}
-										height={0}
-										width={0}
-										sizes='100vw'
-										className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
-									/>
-								</div>
-							</div>
-							<span
-								className="material-symbols-outlined scale-150 mx-6"
+				</div>
+				{/* Change pfp comparison */}
+				<div className="col-span-3 bg-black/40 rounded-lg p-6">
+					<div className="flex flex-row w-full items-center flex-wrap justify-center">
+						<div className="flex flex-col items-center">
+							{/* Display current profile picture */}
+							<p
 								style={{ color: colorPalette ? colorPalette.text1 : '' }}
 							>
-								arrow_forward
-							</span>
-							<div className="flex flex-col items-center">
-								<p
-									style={{ color: colorPalette ? colorPalette.text1 : '' }}
-								>
-									Updated
-								</p>
-								<div
-									className="relative rounded-full overflow-hidden"
-									style={{
-										border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
-									}}
-								>
+								Current
+							</p>
+							<div
+								className="relative rounded-full overflow-hidden"
+								style={{
+									border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+								}}
+							>
+								{
 									<Image
-										src={
-											"/assets/pfp/backgrounds/" +
-											gameData.items[item.itemName].pfp
-										}
-										alt={item.itemName}
+										src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
+										alt={pfpBg}
 										height={0}
 										width={0}
 										sizes='100vw'
 										className="absolute inset-0 w-full h-full"
 									/>
-									<Image
-										src={
-											"/assets/pfp/slimes/" +
-											gameData.slimeImgs[user.pfpSlime].pfp
-										}
-										alt={user.pfpSlime}
-										height={0}
-										width={0}
-										sizes='100vw'
-										className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
-									/>
-								</div>
+								}
+								<Image
+									src={
+										"/assets/pfp/slimes/" +
+										gameData.slimeImgs[user.pfpSlime].pfp
+									}
+									alt={user.pfpSlime}
+									height={0}
+									width={0}
+									sizes='100vw'
+									className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+								/>
 							</div>
-							<div className='flex flex-col ml-5'>
-								{pfpBg === item.itemName ? (
-									<button
-										disabled
-										className="rounded-lg py-4 h-full w-[15rem]"
-										style={{
-											backgroundColor: colorPalette ? `${colorPalette.black}66` : '',
-											color: colorPalette ? colorPalette.black : '',
-										}}
-									>
-										Equipped as Profile
-									</button>
-								) : (
-									<button
-										className="rounded-lg py-4 h-full w-[15rem]"
-										style={{
-											backgroundColor: colorPalette ? colorPalette.primary1 : '',
-											color: colorPalette ? colorPalette.text1 : '',
-										}}
-										onClick={(e) => {
-											axios
-												.put(
-													"/api/user/change-pfp",
-													{
-														pfpBg: item.itemName,
-														pfpSlime: user.pfpSlime,
+						</div>
+						<span
+							className="material-symbols-outlined scale-150 mx-6"
+							style={{ color: colorPalette ? colorPalette.text1 : '' }}
+						>
+							arrow_forward
+						</span>
+						<div className="flex flex-col items-center">
+							<p
+								style={{ color: colorPalette ? colorPalette.text1 : '' }}
+							>
+								Updated
+							</p>
+							<div
+								className="relative rounded-full overflow-hidden"
+								style={{
+									border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+								}}
+							>
+								<Image
+									src={
+										"/assets/pfp/backgrounds/" +
+										gameData.items[item.itemName].pfp
+									}
+									alt={item.itemName}
+									height={0}
+									width={0}
+									sizes='100vw'
+									className="absolute inset-0 w-full h-full"
+								/>
+								<Image
+									src={
+										"/assets/pfp/slimes/" +
+										gameData.slimeImgs[user.pfpSlime].pfp
+									}
+									alt={user.pfpSlime}
+									height={0}
+									width={0}
+									sizes='100vw'
+									className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+								/>
+							</div>
+						</div>
+						<div className='flex flex-col ml-5'>
+							{pfpBg === item.itemName ? (
+								<button
+									disabled
+									className="rounded-lg py-4 h-full w-[15rem]"
+									style={{
+										backgroundColor: colorPalette ? `${colorPalette.black}66` : '',
+										color: colorPalette ? colorPalette.black : '',
+									}}
+								>
+									Equipped as Profile
+								</button>
+							) : (
+								<button
+									className="rounded-lg py-4 h-full w-[15rem]"
+									style={{
+										backgroundColor: colorPalette ? colorPalette.primary1 : '',
+										color: colorPalette ? colorPalette.text1 : '',
+									}}
+									onClick={(e) => {
+										axios
+											.put(
+												"/api/user/change-pfp",
+												{
+													pfpBg: item.itemName,
+													pfpSlime: user.pfpSlime,
+												},
+												{
+													headers: {
+														Authorization: `Bearer ${localStorage.getItem(
+															"jwt"
+														)}`,
 													},
-													{
-														headers: {
-															Authorization: `Bearer ${localStorage.getItem(
-																"jwt"
-															)}`,
-														},
-													}
-												)
-												.then((response) => {
-													setPfpBg(item.itemName);
-													const newUser = { ...user, pfpBg: item.itemName }
-													setUser(newUser)
-													showToastError("Profile background was changed.", true);
-												})
-												.catch((error) => {
-													showToastError(error.message);
-												});
-										}}
-									>
-										Equip to Profile
-									</button>
-								)}
+												}
+											)
+											.then((response) => {
+												setPfpBg(item.itemName);
+												const newUser = { ...user, pfpBg: item.itemName }
+												setUser(newUser)
+												showToastError("Profile background was changed.", true);
+											})
+											.catch((error) => {
+												showToastError(error.message);
+											});
+									}}
+								>
+									Equip to Profile
+								</button>
+							)}
 
-								{gameData.items[item.itemName].bg === colorPalette.bg ? (
-									<button
-										disabled
-										className="rounded-lg py-4 h-full w-[15rem] mt-4"
-										style={{
-											backgroundColor: colorPalette ? `${colorPalette.black}66` : '',
-											color: colorPalette ? colorPalette.black : '',
-										}}
-									>
-										Equipped as Background
-									</button>
-								) : (
-									<button
-										className="rounded-lg py-4 h-full w-[15rem] mt-4"
-										style={{
-											backgroundColor: colorPalette ? colorPalette.primary1 : '',
-											color: colorPalette ? colorPalette.text1 : '',
-										}}
-										onClick={(e) => {
-											axios
-												.put(
-													"/api/user/change-bg",
-													{
-														bg: item.itemName,
+							{gameData.items[item.itemName].bg === colorPalette.bg ? (
+								<button
+									disabled
+									className="rounded-lg py-4 h-full w-[15rem] mt-4"
+									style={{
+										backgroundColor: colorPalette ? `${colorPalette.black}66` : '',
+										color: colorPalette ? colorPalette.black : '',
+									}}
+								>
+									Equipped as Background
+								</button>
+							) : (
+								<button
+									className="rounded-lg py-4 h-full w-[15rem] mt-4"
+									style={{
+										backgroundColor: colorPalette ? colorPalette.primary1 : '',
+										color: colorPalette ? colorPalette.text1 : '',
+									}}
+									onClick={(e) => {
+										axios
+											.put(
+												"/api/user/change-bg",
+												{
+													bg: item.itemName,
+												},
+												{
+													headers: {
+														Authorization: `Bearer ${localStorage.getItem("jwt")}`,
 													},
-													{
-														headers: {
-															Authorization: `Bearer ${localStorage.getItem("jwt")}`,
-														},
-													}
-												)
-												.then((response) => {
-													setColorPalette(gameData.items[item.itemName]);
-												})
-												.catch((error) => {
-													showToastError(error.message);
-												});
-										}}
-									>
-										Equip as background
-									</button>
-								)}
-							</div>
+												}
+											)
+											.then((response) => {
+												setColorPalette(gameData.items[item.itemName]);
+											})
+											.catch((error) => {
+												showToastError(error.message);
+											});
+									}}
+								>
+									Equip as background
+								</button>
+							)}
 						</div>
 					</div>
 				</div>
