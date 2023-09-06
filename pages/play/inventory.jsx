@@ -92,7 +92,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 				>
 					{/* Inventory List */}
 					<div
-						className="basis-1/2 rounded-lg"
+						className="basis-1/2 rounded-lg mb-10"
 					>
 						<ItemList
 							items={items}
@@ -103,7 +103,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 					</div>
 
 					{/* Item details */}
-					<div className="basis-1/2 rounded-lg">
+					<div className="basis-1/2 rounded-lg mb-10">
 						<ItemDetails
 							item={itemOnClick}
 							user={user}

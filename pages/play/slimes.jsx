@@ -161,14 +161,14 @@ export default function Slimes({
           className="pt-9 flex flex-row gap-9 items-start font-galindo home"
         >
           <div
-            className="basis-1/2 rounded-lg"
+            className="basis-1/2 rounded-lg mb-10"
             style={{
               backgroundColor:
                 colorPalette === undefined ? "" : `${colorPalette.white}88`,
             }}
           >
             <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
-              // height: 'calc(100vh - 22rem)',
+              minHeight: 'calc(100vh - 22rem)',
             }}>
               {/* loop through all slimes from user and display them */}
               {user && (
@@ -183,9 +183,11 @@ export default function Slimes({
               )}
             </div>
           </div>
-          <div className=" basis-1/2 rounded-lg" style={{
-            // height: 'calc(100vh - 22rem)',
-          }}>
+          <div className=" basis-1/2 rounded-lg mb-10"
+            style={{
+              minHeight: 'calc(100vh - 22rem)',
+            }}
+          >
             {/* Get Slime details */}
             <SlimeDetails
               user={user}
