@@ -215,7 +215,7 @@ export const gameData = {
     },
 
     "Forest Jungle": {
-      itemName: "Florest Jungle",
+      itemName: "Forest Jungle",
       rarity: "Rare",
       isBg: true,
       pfp: "forest-jungle.png",
@@ -673,65 +673,92 @@ export const gameData = {
     Legendary: [1, 2],
   },
 
-  slimePfps: {
+  slimeImgs: {
     "Blue Slime": {
       slimeName: "Blue Slime",
       pfp: "blue-slime.png",
+      spritesheet: "blue-slime.png",
+      static: "blue-slime.png",
     },
     "Green Slime": {
       slimeName: "Green Slime",
       pfp: "green-slime.png",
+      spritesheet: "green-slime.png",
+      static: "green-slime.png",
     },
     "Grey Slime": {
       slimeName: "Grey Slime",
       pfp: "grey-slime.png",
+      spritesheet: "grey-slime.png",
+      static: "grey-slime.png",
     },
     "Orange Slime": {
       slimeName: "Orange Slime",
       pfp: "orange-slime.png",
+      spritesheet: "orange-slime.png",
+      static: "orange-slime.png",
     },
     "Pink Slime": {
       slimeName: "Pink Slime",
       pfp: "pink-slime.png",
+      spritesheet: "pink-slime.png",
+      static: "pink-slime.png",
     },
     "Purple Slime": {
       slimeName: "Purple Slime",
       pfp: "purple-slime.png",
+      spritesheet: "purple-slime.png",
+      static: "purple-slime.png",
     },
     "Red Slime": {
       slimeName: "Red Slime",
       pfp: "red-slime.png",
+      spritesheet: "red-slime.png",
+      static: "red-slime.png",
     },
     "Turquoise Slime": {
       slimeName: "Turquoise Slime",
       pfp: "turquoise-slime.png",
+      spritesheet: "turquoise-slime.png",
+      static: "turquoise-slime.png",
     },
     "White Slime": {
       slimeName: "White Slime",
       pfp: "white-slime.png",
+      spritesheet: "white-slime.png",
+      static: "white-slime.png",
     },
     "Yellow Slime": {
       slimeName: "Yellow Slime",
       pfp: "yellow-slime.png",
+      spritesheet: "yellow-slime.png",
+      static: "yellow-slime.png",
     },
     "Puppy Slime": {
       slimeName: "Puppy Slime",
       pfp: "puppy-slime.png",
+      spritesheet: "puppy-slime.png",
+      static: "puppy-slime.png",
     },
     // FIXME: Update slime pictures to actual picture
-    "Mochi Slime": {
-      slimeName: "Mochi Slime",
-      pfp: 'puppy-slime.png',
+    "Ice Cream Slime": {
+      slimeName: "Ice Cream Slime",
+      pfp: 'ice-cream-slime.png',
+      spritesheet: "ice-cream-slime.png",
+      static: "ice-cream-slime.png",
     },
     "Lucky Slime": {
       slimeName: "Lucky Slime",
-      pfp: 'puppy-slime.png',
+      pfp: 'lucky-slime.png',
+      spritesheet: "lucky-slime.png",
+      static: "lucky-slime.png",
     },
-    "Scholar Slime": {
-      slimeName: "Scholar Slime",
-      pfp: 'puppy-slime.png',
+    "Nebula Slime": {
+      slimeName: "Nebula Slime",
+      pfp: 'nebula-slime.png',
+      spritesheet: "nebula-slime.png",
+      static: "nebula-slime.png",
     },
-
   },
 
   // Slime data
@@ -777,7 +804,7 @@ export const gameData = {
 
     Rare: [
       {
-        slimeName: "Mochi Slime",
+        slimeName: "Ice Cream Slime",
       },
     ],
     Epic: [
@@ -787,22 +814,32 @@ export const gameData = {
         abilityDescriptions: [
           "25% chance to produce double this slime's GP.",
           "50% chance to produce double this slime's GP.",
-          "50% chance to produce double this slime's GP plus 25% chance to double the GP of all other active slimes.",
+          "50% chance to produce double this slime's GP. 25% chance to double the GP of all other active slimes.",
         ],
       },
     ],
     Legendary: [
       {
-        slimeName: "Scholar Slime",
-        effects: ["Max level is level 25"],
-        abilityName: "Wisdom",
+        slimeName: "Nebula Slime",
+        abilityName: "Cosmic",
         abilityDescription: [
-          "All other active slimes gain 2 extra GP per level (1 for commons).",
-          "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +3 GP/level itself.",
-          "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +7 GP/level itself.",
+          "Bonus levels for all other active slimes are 2x more effective.",
+          "Bonus levels for all other active slimes are 3x more effective.",
+          "Bonus levels for all other active slimes are 3x more effective. 42% chance for bonus levels for all other active slimes to be 5x more effective instead of 3x.",
         ],
         maxLevel: 25,
       },
+      // {
+      //   slimeName: "Scholar Slime",
+      //   effects: ["Max level is level 25"],
+      //   abilityName: "Wisdom",
+      //   abilityDescription: [
+      //     "All other active slimes gain 2 extra GP per level (1 for commons).",
+      //     "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +3 GP/level itself.",
+      //     "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +7 GP/level itself.",
+      //   ],
+      //   maxLevel: 25,
+      // },
     ],
   },
 
