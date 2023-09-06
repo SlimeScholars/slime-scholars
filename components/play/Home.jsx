@@ -7,8 +7,7 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
   const router = useRouter();
 
   useEffect(() => {
-    if (user && user.bg && gameData.items[user.bg] && setColorPalette) 
-    {
+    if (user && user.bg && gameData.items[user.bg] && setColorPalette) {
       setColorPalette(gameData.items[user.bg]);
     }
   });
@@ -16,12 +15,6 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
   if (!user) {
     return <></>;
   }
-
-  const handleNavHome = (event) => {
-    if (event.target.classList.contains("home")) {
-      router.push("/play");
-    }
-  };
 
   return (
     <div
@@ -45,7 +38,6 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
           {!active && (
             <div
               className="fixed inset-0 backdrop-filter backdrop-brightness-[0.25] home"
-              onClick={handleNavHome}
             />
           )}
         </div>

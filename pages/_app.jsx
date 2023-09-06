@@ -113,13 +113,6 @@ function MyApp({ Component, pageProps }) {
     }
   }, [user]);
 
-  // navigate back home when clicking empty space above navbar
-  const handleNavHome = (event) => {
-    if (event.target.classList.contains("home")) {
-      router.push("/play");
-    }
-  };
-
   // Return loading on the component instead of home. This way, state variables don't get reset
 
   return (
@@ -146,11 +139,10 @@ function MyApp({ Component, pageProps }) {
             <div className={`relative h-0 z-10`}>
               <div
                 className={`absolute inset-0 home`}
-                onClick={handleNavHome}
               ></div>
             </div>
 
-            {/* Other pages */}
+            {/* Other play pages */}
             <div className={`relative h-0`}>
               <div className={`absolute inset-0 py-10 px-20 h-screen`}>
                 <div className="h-full relative">
