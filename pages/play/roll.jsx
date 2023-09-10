@@ -63,20 +63,12 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                 // Close popup dialog
                 setEggsLacked(0);
 
-                // Update # slime eggs the user owns
-                response.data.items.map(returnedItem => {
-                    if (returnedItem.itemName === "Slime Egg") {
-                        setNumEggs(returnedItem.quantity);
-                    }
-                })
+                if (user) {
+                    setOriginalSlimes(user.slimes);
+                }
 
-                router.push("/play/roll");
-
-                // Update # flowers
-                setFlowers(response.data.flowers);
-
-                // Update items
-                setItems(response.data.items);
+                const newUser = {...user, items:response.data.items, flowers:response.data.flowers}
+                setUser(newUser);
 
                 showToastError("Purchased successfully.", true);
             })
