@@ -14,6 +14,7 @@ import axios from "axios";
 export default function ManageFriends({
   user,
   userFriends,
+  setUserFriends,
   toDo,
   setUser,
   setSentFriendRequests,
@@ -103,7 +104,7 @@ export default function ManageFriends({
       </div>
       {toDo == "manage" ? (
         <div className="pt-8">
-          You have {userFriends.length - 1} friends in total
+          You have {userFriends.length-1} friends in total
         </div>
       ) : (
         <></>
@@ -111,6 +112,7 @@ export default function ManageFriends({
       <div className="flex flex-col pt-8">
         <FriendsEditor
           userFriends={userFriends}
+          setUserFriends={setUserFriends}
           usersOnlist={foundUsers}
           toDo={toDo}
           setUser={setUser}

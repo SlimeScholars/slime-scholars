@@ -51,11 +51,39 @@ export default function ItemInventory({
                     />
                 </div>
             )
+        } else {
+            // Eggs are set to owned (even if not)
+            return (
+                <div
+                    className={
+                        displayOnly === "true" ? ((owned ? (classNameDisplayOwned) : (classNameDisplay)) + " " + gradientBg) : (
+                            itemOnClick && itemOnClick.itemName === item.itemName ? (classNameClick + " " + gradientBg) : (classNameDefault + " " + gradientBg)
+                        )}
+                    id={crypto.randomUUID()}
+                    onClick={(e) => {
+                        if (displayOnly !== "true") {
+                            setItemOnClick(item);
+                        }
+                    }}
+                    style={{
+                        border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
+                    }}
+                >
+                    <Image
+                        src={"/assets/items/" + gameData.items[item.itemName].icon}
+                        alt={item.itemName}
+                        height={0}
+                        width={0}
+                        sizes='100vw'
+                        className="place-self-center p-4 w-full h-auto"
+                    />
+                </div>
+            )
         }
     }
 
     // for background
-    if (item.isBg && item.itemName) {
+    if (item.isBg) {
 
         const imgPath = item && gameData.items[item.itemName] ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
         return (

@@ -14,6 +14,7 @@ import axios from "axios";
 
 export default function FriendsEditor({
   userFriends,
+  setUserFriends,
   usersOnlist,
   toDo,
   setUser,
@@ -41,8 +42,8 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          const newFriends = { ...user, friends: response.data.friends };
-          setUser(newFriends);
+          const newFriends = { ...user, friends: response.data.friends }
+          setUser(newFriends)
           showToastError("Friend removed", true);
         })
         .catch((error) => {
@@ -65,7 +66,8 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          userFriends = response.data.friends;
+          setUserFriends(response.data.friends)
+
           const updatedRequestListing = response.data.sentFriendRequests;
           setSentFriendRequests(updatedRequestListing);
           showToastError("Friend request sent", true);
@@ -84,12 +86,12 @@ export default function FriendsEditor({
   };
   if (toDo === "manage") {
     let friends = [];
-    if (usersOnlist === "empty for now" || !Array.isArray(usersOnlist)) {
-      friends = userFriends;
+    if (usersOnlist === "empty for now" || usersOnlist.length === 0) {
+      friends = userFriends ? userFriends : [];
     } else {
-      friends = usersOnlist;
+      friends = usersOnlist ? usersOnlist : [];
     }
-    if (friends.length !== 0) {
+    if (Array.isArray(friends)) {
       friends = friends.filter((friend) => {
         return friend._id !== user._id;
       });
