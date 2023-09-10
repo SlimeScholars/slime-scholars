@@ -15,7 +15,7 @@ export default function SwitchButton({
                     changeType(leftType);
                 }}
                 style={{
-                    backgroundColor: currentType === leftType ? colorPalette ? colorPalette.primary1 : "" : "",
+                    backgroundColor: currentType === leftType && colorPalette ? colorPalette.primary1 : "",
                 }}
                 className={`py-2 pl-3 rounded-full text-center ${currentType === leftType ? 'pr-4' : 'pr-2'}`}
             >
@@ -26,7 +26,7 @@ export default function SwitchButton({
                     changeType(rightType);
                 }}
                 style={{
-                    backgroundColor: currentType === rightType ? colorPalette ? colorPalette.primary1 : "" : "",
+                    backgroundColor: currentType === rightType && colorPalette ? colorPalette.primary1 : "",
                 }}
                 className={`py-2 pr-3 rounded-full text-center ${currentType === rightType ? 'pl-4' : 'pl-2'}`}
             >

@@ -12,7 +12,7 @@ export default function Leaderbaord({ userFriends, allPlayers, userId, colorPale
       }}
     >
       <div className="flex flex-col">
-        <div className="flex flex-row">
+        <div className="flex flex-row items-center">
           <div className="grow text-2xl">
             Leaderboard
           </div>
