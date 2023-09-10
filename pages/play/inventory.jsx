@@ -1,9 +1,7 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import SearchInventory from "../../components/play/inventory/searchInventory";
 import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
-import { gameData } from "../../data/gameData";
 import Image from "next/image";
 
 export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette, pfpBg, setPfpBg }) {

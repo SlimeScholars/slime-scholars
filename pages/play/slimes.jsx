@@ -5,7 +5,6 @@ import SlimeInventory from "../../components/play/slimes/SlimeInventory";
 import axios from "axios";
 import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
-import { gameData } from "../../data/gameData";
 import Image from "next/image";
 
 export default function Slimes({
