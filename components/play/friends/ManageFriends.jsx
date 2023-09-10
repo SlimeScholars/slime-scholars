@@ -15,8 +15,7 @@ export default function ManageFriends({
   user,
   userFriends,
   toDo,
-  setUserFriends,
-  setCurrentUser,
+  setUser,
   setSentFriendRequests,
   colorPalette,
 }) {
@@ -25,9 +24,8 @@ export default function ManageFriends({
   useEffect(() => {
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
-        return friend.username
-          .toLowerCase()
-          .includes(searchContent.toLowerCase());
+        const usernameMatches = friend.username.toLowerCase().includes(searchContent.toLowerCase());
+        return usernameMatches
       });
       setFoundUsers(searchUsers);
     } else if (user && toDo == "add") {
@@ -105,7 +103,7 @@ export default function ManageFriends({
       </div>
       {toDo == "manage" ? (
         <div className="pt-8">
-          You have {userFriends.length} friends in total
+          You have {userFriends.length - 1} friends in total
         </div>
       ) : (
         <></>
@@ -115,8 +113,8 @@ export default function ManageFriends({
           userFriends={userFriends}
           usersOnlist={foundUsers}
           toDo={toDo}
-          setCurrentUser={setCurrentUser}
-          setUserFriends={setUserFriends}
+          setUser={setUser}
+          user={user}
           setSentFriendRequests={setSentFriendRequests}
           colorPalette={colorPalette}
         />
