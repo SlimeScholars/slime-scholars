@@ -116,7 +116,19 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                         router.push("/play/slimes");
                       }}
                     >
-                      +
+                      <Image
+                        src={
+                          "/assets/pfp/slimes/shadow-slime.png"
+                        }
+                        alt="Slime"
+                        height={0}
+                        width={0}
+                        sizes='100vw'
+                        className="h-64 w-64 mx-auto"
+                        onClick={() => {
+                          router.push("/play/slimes");
+                        }}
+                      />
                     </button>
                   ) : (
                     <div key={index} className={`flex flex-col`}>
@@ -197,12 +209,16 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
                   <button
                     key={index}
                     className={`${offset ? "transform -translate-y-16" : ""
-                      } md:h-64 md:w-64 sm:h-32 sm:w-32 mx-auto border-2 border-gray-400 rounded-md items-center text-6xl`}
+                      } mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 `}
+                    style={{
+                      backgroundImage: `url('/assets/pfp/slimes/shadow-slime.png')`,
+                      // backgroundImage: `url('https://i.imgur.com/k05MBba.png')`
+                    }}
                     onClick={() => {
                       router.push("/play/slimes");
                     }}
                   >
-                    +
+                    
                   </button>
                 );
 

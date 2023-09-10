@@ -41,25 +41,37 @@ export default function ItemDetails({
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
     return (
-      <div className="rounded-lg p-8"
-	  style={{
-		backgroundColor: colorPalette ? `${colorPalette.white}88` : "",
-	  }}>
+      <div
+        className="rounded-lg p-8"
+        style={{
+          backgroundColor: colorPalette ? `${colorPalette.white}88` : "",
+        }}
+      >
         <div className="grid grid-cols-3 gap-8 h-full mb-8">
-          <ItemInventory item={item} displayOnly="true" colorPalette={colorPalette}/>
+          <ItemInventory
+            item={item}
+            displayOnly="true"
+            colorPalette={colorPalette}
+          />
           {/* Item description */}
-          <div className="col-span-2 rounded-lg px-8 py-4"
-		  	style={{
-				backgroundColor: `${colorPalette.black}88`,
-			  }}>
+          <div
+            className="col-span-2 rounded-lg px-8 py-4"
+            style={{
+              backgroundColor: `${colorPalette.black}88`,
+            }}
+          >
             <p
               style={{ color: gameData.rarityColours[item.rarity].text }}
               className={`text-2xl font-thin`}
             >
               {item && item.rarity}
             </p>
-            <p className="text-2xl font-bold"
-				style={{ color: colorPalette ? colorPalette.text1 : "" }}>{item.itemName}</p>
+            <p
+              className="text-2xl font-bold"
+              style={{ color: colorPalette ? colorPalette.text1 : "" }}
+            >
+              {item.itemName}
+            </p>
             {item.description && (
               <p className="text-grey text-sm">{item.description}</p>
             )}
@@ -69,55 +81,62 @@ export default function ItemDetails({
                 className="w-6 h-6 m-2"
               ></img>
               <p
-			  	style={{ color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`}}>
-					  {item.buyPrice}</p>
+                style={{
+                  color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
+                }}
+              >
+                {item.buyPrice}
+              </p>
             </div>
           </div>
           {/* pfp comparison */}
-          <div className="col-span-3 rounded-lg p-6"
-			style={{
-				backgroundColor: `${colorPalette.black}88`,
-			}}>
+          <div
+            className="col-span-3 rounded-lg p-6"
+            style={{
+              backgroundColor: `${colorPalette.black}88`,
+            }}
+          >
             <div className="flex flex-row w-full items-center flex-wrap justify-center">
-                <div className="flex flex-col items-center">
-                  {/* Display current profile picture */}
-              		<p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
-					  Current</p>
-                  <div
-                    className="relative rounded-full overflow-hidden"
-                    style={{
-                      border:
-                        colorPalette === undefined
-                          ? ""
-                          : `5px solid ${colorPalette.primary1}`,
-                    }}
-                  >
-                    {
-                      <Image
-                        src={
-                          "/assets/pfp/backgrounds/" +
-                          gameData.items[user.pfpBg].bg
-                        }
-                        alt={pfpBg}
-                        height={0}
-                        width={0}
-                        sizes="100vw"
-                        className="absolute inset-0 w-full h-full"
-                      />
-                    }
+              <div className="flex flex-col items-center">
+                {/* Display current profile picture */}
+                <p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
+                  Current
+                </p>
+                <div
+                  className="relative rounded-full overflow-hidden"
+                  style={{
+                    border:
+                      colorPalette === undefined
+                        ? ""
+                        : `5px solid ${colorPalette.primary1}`,
+                  }}
+                >
+                  {
                     <Image
                       src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[user.pfpSlime].pfp
+                        "/assets/pfp/backgrounds/" +
+                        gameData.items[user.pfpBg].bg
                       }
-                      alt={user.pfpSlime}
+                      alt={pfpBg}
                       height={0}
                       width={0}
                       sizes="100vw"
-                      className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+                      className="absolute inset-0 w-full h-full"
                     />
-                  </div>
+                  }
+                  <Image
+                    src={
+                      "/assets/pfp/slimes/" +
+                      gameData.slimeImgs[user.pfpSlime].pfp
+                    }
+                    alt={user.pfpSlime}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+                  />
                 </div>
+              </div>
               <div>
                 <span
                   className="material-symbols-outlined scale-150 mx-6"
@@ -126,57 +145,63 @@ export default function ItemDetails({
                   arrow_forward
                 </span>
               </div>
-                <div className="flex flex-col items-center">
-              		<p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
-					  Updated</p>
-                  <div
-                    className="relative rounded-full overflow-hidden"
-                    style={{
-                      border:
-                        colorPalette === undefined
-                          ? ""
-                          : `5px solid ${colorPalette.primary1}`,
-                    }}
-                  >
-                    <Image
-                      src={"/assets/pfp/backgrounds/" + item.pfp}
-                      alt={item.itemName}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="absolute inset-0 w-full h-full"
-                    />
-                    <Image
-                      src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[user.pfpSlime].pfp
-                      }
-                      alt={user.pfpSlime}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
-                    />
-                  </div>
+              <div className="flex flex-col items-center">
+                <p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
+                  Updated
+                </p>
+                <div
+                  className="relative rounded-full overflow-hidden"
+                  style={{
+                    border:
+                      colorPalette === undefined
+                        ? ""
+                        : `5px solid ${colorPalette.primary1}`,
+                  }}
+                >
+                  <Image
+                    src={"/assets/pfp/backgrounds/" + item.pfp}
+                    alt={item.itemName}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="absolute inset-0 w-full h-full"
+                  />
+                  <Image
+                    src={
+                      "/assets/pfp/slimes/" +
+                      gameData.slimeImgs[user.pfpSlime].pfp
+                    }
+                    alt={user.pfpSlime}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+                  />
                 </div>
+              </div>
               <div className="flex flex-col ml-5">
                 {owned ? (
-                  <button className="rounded-s-lg py-4 h-full w-[15rem]" disabled
-				  style={{
-                    backgroundColor: colorPalette
-                      ? `${colorPalette.black}66`
-                      : "",
-                    color: colorPalette ? colorPalette.black : "",
-                  }}>
+                  <button
+                    className="rounded-s-lg py-4 h-full w-[15rem]"
+                    disabled
+                    style={{
+                      backgroundColor: colorPalette
+                        ? `${colorPalette.black}66`
+                        : "",
+                      color: colorPalette ? colorPalette.black : "",
+                    }}
+                  >
                     Purchased Already
                   </button>
                 ) : (
                   <button
-					className="rounded-s-lg py-4 h-full w-[15rem]"
-					style={{
-						backgroundColor: colorPalette ? colorPalette.primary1 : "",
-						color: colorPalette ? colorPalette.text1 : "",
-					  }}
+                    className="rounded-s-lg py-4 h-full w-[15rem]"
+                    style={{
+                      backgroundColor: colorPalette
+                        ? colorPalette.primary1
+                        : "",
+                      color: colorPalette ? colorPalette.text1 : "",
+                    }}
                     onClick={(e) => {
                       // Check if user has enough slime gels
                       if (user) {
@@ -209,17 +234,17 @@ export default function ItemDetails({
                           if (response.data.flowers !== undefined) {
                             newUser = {
                               ...user,
-							  items: response.data.items,
+                              items: response.data.items,
                               flowers: response.data.flowers,
                             };
                           }
-						  if (response.data.slimeGel !== undefined) {
-							newUser = {
-								...user,
-								items: response.data.items,
-								slimeGel: response.data.slimeGel,
-							  };
-						  }
+                          if (response.data.slimeGel !== undefined) {
+                            newUser = {
+                              ...user,
+                              items: response.data.items,
+                              slimeGel: response.data.slimeGel,
+                            };
+                          }
                           setUser(newUser);
                           setOwned(true);
                           showToastError(
