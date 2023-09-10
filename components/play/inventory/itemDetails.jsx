@@ -181,10 +181,12 @@ export default function ItemDetails({
                           }
                         )
                         .then((response) => {
+							console.log(response.data);
                           const newUser = {
                             ...user,
-                            items: response.items,
-                            flowers: response.flowers,
+                            items: response.data.items,
+							slimeGel: response.data.slimeGel,
+                            flowers: response.data.flowers,
                           };
                           setUser(newUser);
                           setOwned(true);
