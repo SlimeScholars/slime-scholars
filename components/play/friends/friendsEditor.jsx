@@ -18,6 +18,7 @@ export default function FriendsEditor({
   toDo,
   setUserFriends,
   setSentFriendRequests,
+  colorPalette,
 }) {
   const handleManageFriend = (friendId) => {
     const token = localStorage.getItem("jwt");
@@ -94,7 +95,10 @@ export default function FriendsEditor({
             return (
               <div
                 key={index}
-                className="bg-red-200 rounded-xl flex flex-row items-center p-4"
+                className="rounded-xl flex flex-row items-center p-4"
+                style={{
+                  background: colorPalette ? colorPalette.primary1 : "none",
+                }}
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
@@ -124,10 +128,13 @@ export default function FriendsEditor({
                 </div>
                 <div className="grow px-4">{user.username}</div>
                 <button
-                  className="bg-red-400 rounded-lg p-2 hover:bg-red-300"
+                  className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
+                  style={{
+                    background: colorPalette ? colorPalette.primary2 : "none",
+                  }}
                   onClick={() => handleManageFriend(user._id)}
                 >
-                  X
+                  x
                 </button>
               </div>
             );
@@ -145,7 +152,10 @@ export default function FriendsEditor({
             return (
               <div
                 key={index}
-                className="bg-red-200 rounded-xl flex flex-row items-center p-4"
+                className="rounded-xl flex flex-row items-center p-4"
+                style={{
+                  background: colorPalette ? colorPalette.primary1 : "none",
+                }}
               >
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
@@ -174,19 +184,25 @@ export default function FriendsEditor({
                 <div className="grow px-4">{user.username}</div>
                 {toDo == "manage" ? (
                   <button
-                    className="bg-red-400 rounded-lg p-2 hover:bg-red-300"
+                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
+                    style={{
+                      background: colorPalette ? colorPalette.primary2 : "none",
+                    }}
                     onClick={() => handleManageFriend(user._id)}
                   >
-                    X
+                    x
                   </button>
                 ) : (
                   <button
-                    className="bg-red-400 rounded-lg p-2 w-10 h-10 hover:bg-red-300"
+                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
+                    style={{
+                      background: colorPalette ? colorPalette.primary2 : "none",
+                    }}
                     onClick={() => handleManageFriend(user._id)}
                   >
-                    <span className="h-full material-symbols-outlined">
-                      add
-                    </span>
+                    <div className="mt-1">
+                      +
+                    </div>
                   </button>
                 )}
               </div>

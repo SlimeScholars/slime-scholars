@@ -61,8 +61,13 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 		<div className="home">
 
 			{/* Shopping bar */}
-			<div className="items-center justify-between">
-				<div className="flex flex-row bg-white/50 rounded-lg items-center">
+			<div className="items-center justify-between h-full">
+				<div className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
+					style={{
+						backgroundColor:
+							colorPalette === undefined ? "" : `${colorPalette.white}88`,
+						color: colorPalette === undefined ? "" : colorPalette.text1,
+					}}>
 					<div className="grow-0 pl-4">
 						<Image
 							src="/assets/icons/shopping.png"
@@ -70,11 +75,11 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 							height={0}
 							width={0}
 							sizes='100vw'
-							className="p-4 h-20 w-20"
+							className="w-[4.5rem] h-[4.5rem]"
 						/>
 					</div>
-					<div className="grow pl-4 font-galindo text-xl">Shopping</div>
-					<div className="shrink pr-6">
+					<h2 className="grow pl-4 font-galindo text-2xl">Shopping</h2>
+					<div className="grow-0 flex pr-4">
 						{/* Search Bar */}
 						{/* Handle Submit Function */}
 						<SearchInventory
@@ -86,9 +91,9 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			</div>
 
 			{/* Lists and details */}
-			<div className="py-8 flex flex-row font-galindo w-full home h-auto">
+			<div className="pt-9 flex flex-row gap-8 items-start font-galindo home">
 				{/* Shopping List */}
-				<div className="pr-4 basis-1/2">{
+				<div className="rounded-lg mb-10 basis-1/2">{
 					<ItemList
 						gameItems={gameItems}
 						items={ownedItems}
@@ -96,12 +101,13 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 						setItemOnClick={setItemOnClick}
 						shopping="true"
 						user={user}
+						colorPalette={colorPalette}
 					></ItemList>
 				}
 				</div>
 
 				{/* Item details */}
-				<div className="basis-1/2 bg-white/50 rounded-lg">
+				<div className="basis-1/2 rounded-lg mb-10">
 					{itemOnClick&&(
 						<ItemDetails
 						item={itemOnClick}
