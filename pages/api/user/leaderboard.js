@@ -24,12 +24,10 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1);
 
-    // Find the top 10 users with the highest experience, sorted in descending order
     const leaderboard = await User.find({ userType: 1 })
       .sort({ exp: -1 })
       .select("_id");
 
-    // Find the user's rank in the sorted leaderboard
     const userRank = leaderboard.findIndex(
       (leader) => leader._id.toString() === user._id.toString()
     );
@@ -37,20 +35,16 @@ export default async function (req, res) {
 
     const sortedLeaderboard = await User.find({ userType: 1 })
       .sort({ exp: -1 })
-      .limit(10)
+      .limit(20)
       .select("_id");
     const populatedLeaderboard = [];
-
-    // Loop through the leaderboard and populate each player
     for (let i = 0; i < sortedLeaderboard.length; i++) {
       const populatedPlayer = await getPopulatedPlayer(
         sortedLeaderboard[i]._id
       );
       populatedLeaderboard.push(populatedPlayer);
     }
-
-    // If the user is not in the top 10, populate the user's data and add it to the leaderboard
-    if (actualUserRank >= 10) {
+    if (actualUserRank >= 20) {
       const populatedPlayer = await getPopulatedPlayer(user._id);
       populatedLeaderboard.push(populatedPlayer);
     }
