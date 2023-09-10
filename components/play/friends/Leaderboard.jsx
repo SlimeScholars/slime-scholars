@@ -41,12 +41,14 @@ export default function Leaderbaord({ userFriends, allPlayers, userId, colorPale
             users={userFriends}
             currentType={currentType}
             userId={userId}
+            colorPalette={colorPalette}
           />
         ) : (
           <LeadboardListing
             users={allPlayers}
             currentType={currentType}
             userId={userId}
+            colorPalette={colorPalette}
           />
         )}
       </div>
