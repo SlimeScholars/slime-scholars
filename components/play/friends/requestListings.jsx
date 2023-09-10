@@ -6,7 +6,6 @@ import Image from "next/image";
 
 export default function RequestListings({
   currentType,
-  currentUser,
   setUser,
   sentFriendRequests,
   receivedFriendRequests,
