@@ -6,7 +6,7 @@ import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEd
 import axios from "axios";
 import Image from "next/image";
 
-export default function Friends({ loading, user, setUser }) {
+export default function Friends({ loading, user, setUser, colorPalette }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -54,79 +54,99 @@ export default function Friends({ loading, user, setUser }) {
   }, [user, loading]);
 
   return (
-    <div>
-      <div className="home">
-        <div className="items-center justify-between">
-          {/*  Add Friend  and others */}
-          <div className="flex flex-row bg-white/50 rounded-lg items-center">
-            <div className="grow-0 pl-4">
-              <Image
-                src="/assets/icons/friends.png"
-                alt='friends'
-                height={0}
-                width={0}
-                sizes='100vw'
-                className="h-20 w-20"
-              />
-            </div>
-            <div className="grow pl-4 font-galindo text-xl">Friends</div>
-            <div className="grow-0 flex pr-4">
-              <button
-                className="p-2 text-xl bg-red-300 hover:bg-red-300/50 rounded-lg font-galindo"
-                onClick={() => {
-                  if (toDo === "manage") {
-                    setToDo("add");
-                  } else {
-                    setToDo("manage");
-                  }
-                }}
-              >
-                {toDo == "manage" ? "Add Friends" : "Manage Friends"}
-              </button>
-            </div>
-          </div>
-
-          {/* Default: leaderboard and managing friends */}
-          <div
-            className="pt-8 flex flex-row gap-4 items-start font-galindo home"
+    <>
+      {/* Header */}
+      <div
+        style={{
+          backgroundColor:
+            colorPalette === undefined ? "" : `${colorPalette.white}88`,
+          color: colorPalette === undefined ? "" : colorPalette.text1,
+        }}
+        className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
+      >
+        <div className="grow-0 pl-4">
+          <Image
+            src="/assets/icons/friends.png"
+            alt='slimes'
+            height={0}
+            width={0}
+            sizes='100vw'
+            className="w-[4.5rem] h-[4.5rem]"
+          />
+        </div>
+        <h2 className="grow pl-4 font-galindo text-2xl">Friends</h2>
+        <div className="grow-0 flex pr-4">
+          <button
+            style={{
+              border:
+                colorPalette === undefined
+                  ? ""
+                  : `3px solid ${colorPalette.primary1}`,
+              color: colorPalette === undefined ? "" : colorPalette.text1,
+              backgroundColor:
+                colorPalette === undefined ? "" : colorPalette.primary1,
+            }}
+            className="rounded-md flex flex-row py-[5.5px] px-3 text-lg font-galindo grow"
+            onClick={() => {
+              if (toDo === "manage") {
+                setToDo("add");
+              } else {
+                setToDo("manage");
+              }
+            }}
           >
-            {/* Leaderboard */}
-            <div className="pr-4 basis-1/2 ">
-              <div className="bg-white/50 rounded-lg">
-                {toDo == "manage" ? (
-                  <Leaderboard
-                    userFriends={userFriends}
-                    allPlayers={allPlayers}
-                    userId={userId}
-                  />
-                ) : (
-                  <FriendRequestsEditor
-                    currentUser={user}
-                    setUser={setUser}
-                    sentFriendRequests={sentFriendRequests}
-                    receivedFriendRequests={receivedFriendRequests}
-                    setReceivedFriendRequests={setReceivedFriendRequests}
-                    setSentFriendRequests={setSentFriendRequests}
-                  />
-                )}
-              </div>
-            </div>
+            {toDo == "manage" ? "Add Friends" : "Manage Friends"}
+          </button>
+        </div>
+      </div>
 
-            {/* Manage Friends */}
-            <div className="basis-1/2 bg-white/50 rounded-lg h-full">
-              <div className="flex flex-row">
-                <ManageFriends
-                  user={user}
-                  userFriends={userFriends}
-                  toDo={toDo}
-                  setUserFriends={setUserFriends}
-                  setSentFriendRequests={setSentFriendRequests}
-                />
-              </div>
-            </div>
+      {/* Default: leaderboard and managing friends */}
+      <div
+        className="pt-8 flex flex-row gap-4 items-start font-galindo"
+      >
+        {/* Leaderboard */}
+        <div className="pr-4 basis-1/2 ">
+          <div
+            className="basis-1/2 rounded-lg mb-10"
+            style={{
+              backgroundColor:
+                colorPalette === undefined ? "" : `${colorPalette.white}88`,
+            }}
+          >
+            {toDo == "manage" ? (
+              <Leaderboard
+                userFriends={userFriends}
+                allPlayers={allPlayers}
+                userId={userId}
+                colorPalette={colorPalette}
+              />
+            ) : (
+              <FriendRequestsEditor
+                currentUser={user}
+                setUser={setUser}
+                sentFriendRequests={sentFriendRequests}
+                receivedFriendRequests={receivedFriendRequests}
+                setReceivedFriendRequests={setReceivedFriendRequests}
+                setSentFriendRequests={setSentFriendRequests}
+                colorPalette={colorPalette}
+              />
+            )}
+          </div>
+        </div>
+
+        {/* Manage Friends */}
+        <div className="basis-1/2 bg-white/50 rounded-lg h-full">
+          <div className="flex flex-row">
+            <ManageFriends
+              user={user}
+              userFriends={userFriends}
+              toDo={toDo}
+              setUserFriends={setUserFriends}
+              setSentFriendRequests={setSentFriendRequests}
+            />
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

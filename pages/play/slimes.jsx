@@ -93,7 +93,6 @@ export default function Slimes({
         />
       )}
       <div className="home">
-        <div className="items-center justify-between">
           {/* button here just to test the backend get-rewards */}
 
           {/* <div>
@@ -152,7 +151,6 @@ export default function Slimes({
               </div>
             </div>
           </div>
-        </div>
 
         {/* Slimes inventory, all users slimes */}
         <div
