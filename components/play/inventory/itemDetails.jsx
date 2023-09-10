@@ -41,18 +41,25 @@ export default function ItemDetails({
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
     return (
-      <div className="w-full h-auto">
-        <div className="grid grid-cols-2 gap-4 h-full">
-          <ItemInventory item={item} displayOnly="true" />
+      <div className="rounded-lg p-8"
+	  style={{
+		backgroundColor: colorPalette ? `${colorPalette.white}88` : "",
+	  }}>
+        <div className="grid grid-cols-3 gap-8 h-full mb-8">
+          <ItemInventory item={item} displayOnly="true" colorPalette={colorPalette}/>
           {/* Item description */}
-          <div className="bg-black/40 rounded-lg p-8">
+          <div className="col-span-2 rounded-lg px-8 py-4"
+		  	style={{
+				backgroundColor: `${colorPalette.black}88`,
+			  }}>
             <p
               style={{ color: gameData.rarityColours[item.rarity].text }}
               className={`text-2xl font-thin`}
             >
               {item && item.rarity}
             </p>
-            <p className="text-white text-2xl font-bold">{item.itemName}</p>
+            <p className="text-2xl font-bold"
+				style={{ color: colorPalette ? colorPalette.text1 : "" }}>{item.itemName}</p>
             {item.description && (
               <p className="text-grey text-sm">{item.description}</p>
             )}
@@ -61,16 +68,21 @@ export default function ItemDetails({
                 src="/assets/icons/slime-gel.png"
                 className="w-6 h-6 m-2"
               ></img>
-              <p>{item.buyPrice}</p>
+              <p
+			  	style={{ color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`}}>
+					  {item.buyPrice}</p>
             </div>
           </div>
           {/* pfp comparison */}
-          <div className="col-span-3 bg-black/40 rounded-lg p-6">
-            <div className="flex flex-row w-full items-center flex-wrap">
-              <div className="basis-1/5">
+          <div className="col-span-3 rounded-lg p-6"
+			style={{
+				backgroundColor: `${colorPalette.black}88`,
+			}}>
+            <div className="flex flex-row w-full items-center flex-wrap justify-center">
                 <div className="flex flex-col items-center">
                   {/* Display current profile picture */}
-                  <p>Current</p>
+              		<p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
+					  Current</p>
                   <div
                     className="relative rounded-full overflow-hidden"
                     style={{
@@ -106,7 +118,6 @@ export default function ItemDetails({
                     />
                   </div>
                 </div>
-              </div>
               <div>
                 <span
                   className="material-symbols-outlined scale-150 mx-6"
@@ -115,9 +126,9 @@ export default function ItemDetails({
                   arrow_forward
                 </span>
               </div>
-              <div className="basis-1/5">
                 <div className="flex flex-col items-center">
-                  <p>Updated</p>
+              		<p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
+					  Updated</p>
                   <div
                     className="relative rounded-full overflow-hidden"
                     style={{
@@ -148,15 +159,24 @@ export default function ItemDetails({
                     />
                   </div>
                 </div>
-              </div>
-              <div className="basis-2/5 p-4" dir="rtl">
+              <div className="flex flex-col ml-5">
                 {owned ? (
-                  <button className="rounded-s-lg p-4 bg-black/20" disabled>
+                  <button className="rounded-s-lg py-4 h-full w-[15rem]" disabled
+				  style={{
+                    backgroundColor: colorPalette
+                      ? `${colorPalette.black}66`
+                      : "",
+                    color: colorPalette ? colorPalette.black : "",
+                  }}>
                     Purchased Already
                   </button>
                 ) : (
                   <button
-                    className="rounded-s-lg p-4 bg-red-300 hover:bg-red-300/75 h-full"
+					className="rounded-s-lg py-4 h-full w-[15rem]"
+					style={{
+						backgroundColor: colorPalette ? colorPalette.primary1 : "",
+						color: colorPalette ? colorPalette.text1 : "",
+					  }}
                     onClick={(e) => {
                       // Check if user has enough slime gels
                       if (user) {
