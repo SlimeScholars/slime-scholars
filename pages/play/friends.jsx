@@ -102,36 +102,34 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
 
       {/* Default: leaderboard and managing friends */}
       <div
-        className="pt-8 flex flex-row gap-4 items-start font-galindo"
+        className="pt-8 flex flex-row gap-8 items-start font-galindo"
       >
         {/* Leaderboard */}
-        <div className="pr-4 basis-1/2 ">
-          <div
-            className="basis-1/2 rounded-lg mb-10"
-            style={{
-              backgroundColor:
-                colorPalette === undefined ? "" : `${colorPalette.white}88`,
-            }}
-          >
-            {toDo == "manage" ? (
-              <Leaderboard
-                userFriends={userFriends}
-                allPlayers={allPlayers}
-                userId={userId}
-                colorPalette={colorPalette}
-              />
-            ) : (
-              <FriendRequestsEditor
-                currentUser={user}
-                setUser={setUser}
-                sentFriendRequests={sentFriendRequests}
-                receivedFriendRequests={receivedFriendRequests}
-                setReceivedFriendRequests={setReceivedFriendRequests}
-                setSentFriendRequests={setSentFriendRequests}
-                colorPalette={colorPalette}
-              />
-            )}
-          </div>
+        <div
+          className="basis-1/2 rounded-lg mb-10"
+          style={{
+            backgroundColor:
+              colorPalette === undefined ? "" : `${colorPalette.white}88`,
+          }}
+        >
+          {toDo == "manage" ? (
+            <Leaderboard
+              userFriends={userFriends}
+              allPlayers={allPlayers}
+              userId={userId}
+              colorPalette={colorPalette}
+            />
+          ) : (
+            <FriendRequestsEditor
+              currentUser={user}
+              setUser={setUser}
+              sentFriendRequests={sentFriendRequests}
+              receivedFriendRequests={receivedFriendRequests}
+              setReceivedFriendRequests={setReceivedFriendRequests}
+              setSentFriendRequests={setSentFriendRequests}
+              colorPalette={colorPalette}
+            />
+          )}
         </div>
 
         {/* Manage Friends */}
