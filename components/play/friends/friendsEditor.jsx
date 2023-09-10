@@ -41,8 +41,8 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          const newFriends = {...user, friends:response.data.friends}
-          setUser(newFriends)
+          const newFriends = { ...user, friends: response.data.friends };
+          setUser(newFriends);
           showToastError("Friend removed", true);
         })
         .catch((error) => {
@@ -84,14 +84,16 @@ export default function FriendsEditor({
   };
   if (toDo === "manage") {
     let friends = [];
-    if (usersOnlist === "empty for now" || usersOnlist.length === 0) {
+    if (usersOnlist === "empty for now" || !Array.isArray(usersOnlist)) {
       friends = userFriends;
     } else {
       friends = usersOnlist;
     }
-    friends = friends.filter((friend) => {
-      return friend._id !== user._id;
-    });
+    if (friends.length !== 0) {
+      friends = friends.filter((friend) => {
+        return friend._id !== user._id;
+      });
+    }
     // may need a loading screen here
     return (
       <div className="grid grid-cols-2 gap-4">
@@ -115,7 +117,7 @@ export default function FriendsEditor({
                       alt={user.pfpBg}
                       height={0}
                       width={0}
-                      sizes='100vw'
+                      sizes="100vw"
                       className="absolute inset-0 w-full h-full"
                     />
                     <Image
@@ -126,7 +128,7 @@ export default function FriendsEditor({
                       alt={user.pfpSlime}
                       height={0}
                       width={0}
-                      sizes='100vw'
+                      sizes="100vw"
                       className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
                     />
                   </div>
@@ -171,7 +173,7 @@ export default function FriendsEditor({
                       }
                       height={0}
                       width={0}
-                      sizes='100vw'
+                      sizes="100vw"
                       className="absolute inset-0 w-full h-full"
                     />
                     <Image
@@ -181,7 +183,7 @@ export default function FriendsEditor({
                       }
                       height={0}
                       width={0}
-                      sizes='100vw'
+                      sizes="100vw"
                       className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
                     />
                   </div>
@@ -205,9 +207,7 @@ export default function FriendsEditor({
                     }}
                     onClick={() => handleManageFriend(user._id)}
                   >
-                    <div className="mt-1">
-                      +
-                    </div>
+                    <div className="mt-1">+</div>
                   </button>
                 )}
               </div>
