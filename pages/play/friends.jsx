@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Navbar } from "../../components/play/Navbar";
 import Leaderboard from "../../components/play/friends/Leaderboard";
 import ManageFriends from "../../components/play/friends/ManageFriends";
 import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEditor";
-import { gameData } from "../../data/gameData";
 import axios from "axios";
-import Home from "../../components/play/Home";
 import Image from "next/image";
 
 export default function Friends({ loading, user, setUser }) {
