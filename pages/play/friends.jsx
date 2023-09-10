@@ -27,7 +27,9 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
     }
 
     // Get userfriends for userfriendListings in leaderboard
-    setUserFriends(user.friends);
+    const friends = [...user.friends];
+    friends.push(user)
+    setUserFriends(friends);
 
     // Record user id for leaderboard listing background highlight
     setUserId(user._id);

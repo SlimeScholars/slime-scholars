@@ -92,7 +92,7 @@ export default function Slimes({
           rewards={rewards}
         />
       )}
-      <div className="home">
+      <div className="">
           {/* button here just to test the backend get-rewards */}
 
           {/* <div>
@@ -154,7 +154,7 @@ export default function Slimes({
 
         {/* Slimes inventory, all users slimes */}
         <div
-          className="pt-9 flex flex-row gap-9 items-start font-galindo home"
+          className="pt-9 flex flex-row gap-9 items-start font-galindo"
         >
           <div
             className="basis-1/2 rounded-lg mb-10"

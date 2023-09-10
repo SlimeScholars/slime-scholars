@@ -130,7 +130,7 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
 
     return (
         <div
-            className="home w-full h-full"
+            className="w-full h-full"
         >
             {/* Popup Message for Lacking Eggs */}
             {

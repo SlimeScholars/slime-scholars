@@ -2,25 +2,12 @@ import Image from "next/image.js";
 import { gameData } from "../../../data/gameData.js";
 
 export default function LeadboardListing({ user, userRank, users, userId, colorPalette }) {
-  // const friends = [...users]; 
-  // let flag = false;
-  // for (let i = 0; i < friends.length; i++) {
-  //   console.log(friends[i]._id + " " + userId)
-  //   if (friends[i]._id === userId) {
-  //     flag = true;
-  //   }
-  // }
-  // if (!flag) {
-  //   friends.push(user)
-  // }
-  // friends.sort((a, b) => b.exp - a.exp); 
   return (
     <div id="friends-listing">
       {Array.isArray(users) ? (
         users.map((user, index) => {
           const pfpBg = user.pfpBg || ''; // Ensure pfpBg has a default value
           const pfpSlime = user.pfpSlime || ''; // Ensure pfpSlime has a default value
-          console.log(index)
           if (user._id === userId) {
             return (
               <div
@@ -30,7 +17,7 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                 }}
                 key={index}
               >
-                <div className="grow-0 px-4">{userRank}</div>
+                <div className="grow-0 px-4">{userRank === undefined ? index + 1 : userRank}</div>
                 <div className="w-10 h-10 rounded-full overflow-hidden">
                   <div className="relative">
                     <Image

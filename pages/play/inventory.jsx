@@ -35,7 +35,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 
 	return (
 		<div
-			className="home"
+			className=""
 		>
 			<div className="items-center justify-between h-full">
 				{/*  Inventory bar */}
@@ -86,7 +86,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 
 				{/* Default: inventory lists and item details */}
 				<div
-					className="pt-9 flex flex-row gap-8 items-start font-galindo home"
+					className="pt-9 flex flex-row gap-8 items-start font-galindo"
 				>
 					{/* Inventory List */}
 					<div
