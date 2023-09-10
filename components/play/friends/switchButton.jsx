@@ -1,10 +1,3 @@
-import { useState } from "react";
-
-/*
-* @param {string} currentType - default state of variable initialized in upper level
-* @param {function} changeType - setState function of the var above
-*/
-
 export default function SwitchButton({
     currentType,
     changeType,
@@ -15,22 +8,16 @@ export default function SwitchButton({
     colorPalette,
 }) {
 
-    const activeStyle = {
-        backgroundColor: colorPalette ? colorPalette.primary1 : "",
-    }
-
-    const inactiveStyle = {
-        backgroundColor: 'none',
-    }
-
     return (
-        <div className="grid grid-cols-2">
+        <div className="flex flex-row cursor-pointer">
             <div
                 onClick={() => {
                     changeType(leftType);
                 }}
-                style={currentType === leftType ? activeStyle : inactiveStyle}
-                className="p-2 rounded-full"
+                style={{
+                    backgroundColor: currentType === leftType ? colorPalette ? colorPalette.primary1 : "" : "",
+                }}
+                className={`py-2 pl-3 rounded-full text-center ${currentType === leftType ? 'pr-4' : 'pr-2'}`}
             >
                 {leftText}
             </div>
@@ -38,8 +25,10 @@ export default function SwitchButton({
                 onClick={() => {
                     changeType(rightType);
                 }}
-                style={currentType === rightType ? activeStyle : inactiveStyle}
-                className="p-1 rounded-full"
+                style={{
+                    backgroundColor: currentType === rightType ? colorPalette ? colorPalette.primary1 : "" : "",
+                }}
+                className={`py-2 pr-3 rounded-full text-center ${currentType === rightType ? 'pl-4' : 'pl-2'}`}
             >
                 {rightText}
             </div>
