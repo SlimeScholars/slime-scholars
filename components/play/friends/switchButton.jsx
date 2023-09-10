@@ -5,43 +5,44 @@ import { useState } from "react";
 * @param {function} changeType - setState function of the var above
 */
 
-export default function SwitchButton({ 
-    currentType, 
-    changeType, 
-    leftType, 
+export default function SwitchButton({
+    currentType,
+    changeType,
+    leftType,
     rightType,
     leftText,
-    rightText }) {
+    rightText,
+    colorPalette,
+}) {
 
-    const leftOnClick = {
-        leftClassName: "bg-red-200 rounded-full p-2",
-        rightClassName: "rounded-full p-2"
-    };
-    const rightOnClick = {
-        leftClassName: "rounded-full p-2",
-        rightClassName: "bg-red-200 rounded-full p-2"
-    };
+    const activeStyle = {
+        backgroundColor: colorPalette ? colorPalette.primary1 : "",
+    }
 
-    const [switchBtn, setSwitchBtn] = useState(leftOnClick);
+    const inactiveStyle = {
+        backgroundColor: 'none',
+    }
 
     return (
-        <button className="grid grid-cols-2"
-            onClick={() => {
-
-                if (currentType === leftType) {
-                    // Change bg
-                    setSwitchBtn(rightOnClick);
-
-                    // Defer currentType change to upper level (Leaderboard)
-                    changeType(rightType);
-
-                } else {
-                    setSwitchBtn(leftOnClick);
+        <div className="grid grid-cols-2">
+            <div
+                onClick={() => {
                     changeType(leftType);
-                }
-            }}>
-            <div className={switchBtn.leftClassName}>{ leftText }</div>
-            <div className={switchBtn.rightClassName}>{ rightText }</div>
-        </button>
+                }}
+                style={currentType === leftType ? activeStyle : inactiveStyle}
+                className="p-2 rounded-full"
+            >
+                {leftText}
+            </div>
+            <div
+                onClick={() => {
+                    changeType(rightType);
+                }}
+                style={currentType === rightType ? activeStyle : inactiveStyle}
+                className="p-1 rounded-full"
+            >
+                {rightText}
+            </div>
+        </div >
     );
 }
