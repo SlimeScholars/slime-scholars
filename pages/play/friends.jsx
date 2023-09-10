@@ -10,7 +10,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
-  const [userRank, setUserRank] = useState(0); 
+  const [userRank, setUserRank] = useState(0);
   const [allPlayers, setAllPlayers] = useState("empty for now");
   const [toDo, setToDo] = useState("manage");
   const [userId, setUserId] = useState("empty for now");
@@ -156,6 +156,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
             <ManageFriends
               user={user}
               userFriends={userFriends}
+              setUserFriends={setUserFriends}
               toDo={toDo}
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
