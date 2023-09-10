@@ -21,9 +21,11 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
     }
 
     useEffect(() => {
+
         // If is duplicate, reset originalSlime
-        if (originalSlimes[index]) {
-            setOriginalSlime(originalSlimes[index]);
+        if (originalSlimes.find(slime => slime.slimeName === updatedSlime.slimeName)) {
+            const newOriginalSlime = originalSlimes.find(slime => slime.slimeName === updatedSlime.slimeName)
+            setOriginalSlime(newOriginalSlime);
         } else {
             setOriginalSlime(null);
         }
@@ -33,13 +35,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
         <div 
             className="fixed inset-0 z-50 text-white flex items-center justify-center brightness-100">
             <div className="grid grid-cols-3 place-content-center m-10 rounded-lg p-8 bg-slate-400  w-auto h-1/2">
-                { index === 0? (
-                    <button disabled className="brightness-75">
-                        <span className="material-symbols-outlined">
-                        arrow_back_ios
-                        </span>
-                    </button>
-                ) : (
+                { index === 0&& (
                     <button className="brightness-125"
                         onClick={(e) => {
                             setUpdatedSlime(slimes[index-1]);
@@ -57,13 +53,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
                     originalSlime={originalSlime}
                     router={router}></RollSlimePopup>
                 {
-                    index === slimes.length-1? (
-                        <button disabled className="brightness-75">
-                            <span className="material-symbols-outlined">
-                            arrow_forward_ios
-                            </span>
-                        </button>
-                    ) : (
+                    index === slimes.length-1&&(
                         <button className="brightness-125"
                             onClick={(e) => {
                                 setUpdatedSlime(slimes[index+1]);
