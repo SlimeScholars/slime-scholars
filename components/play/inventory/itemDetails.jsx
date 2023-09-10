@@ -351,9 +351,11 @@ export default function ItemDetails({
 												}
 											)
 											.then((response) => {
+												console.log(response)
 												setPfpBg(item.itemName);
 												const newUser = { ...user, pfpBg: item.itemName }
 												setUser(newUser)
+												console.log(user)
 												showToastError("Profile background was changed.", true);
 											})
 											.catch((error) => {

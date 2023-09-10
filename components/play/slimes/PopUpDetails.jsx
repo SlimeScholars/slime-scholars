@@ -17,7 +17,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
             src={
               "/assets/pfp/slimes/" + gameData.slimeImgs[newSlime.slimeName].pfp
             }
-            alt={slime.slimeName}
+            alt={newSlime.slimeName}
             height={0}
             width={0}
             sizes='100vw'
