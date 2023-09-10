@@ -89,6 +89,9 @@ export default function FriendsEditor({
     } else {
       friends = usersOnlist;
     }
+    friends = friends.filter((friend) => {
+      return friend._id !== user._id;
+    });
     // may need a loading screen here
     return (
       <div className="grid grid-cols-2 gap-4">
