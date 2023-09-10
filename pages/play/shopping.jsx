@@ -58,7 +58,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 	}, [searchContent]);
 
 	return (
-		<div className="home">
+		<div className="">
 
 			{/* Shopping bar */}
 			<div className="items-center justify-between h-full">
@@ -91,7 +91,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			</div>
 
 			{/* Lists and details */}
-			<div className="pt-9 flex flex-row gap-8 items-start font-galindo home">
+			<div className="pt-9 flex flex-row gap-8 items-start font-galindo">
 				{/* Shopping List */}
 				<div className="rounded-lg mb-10 basis-1/2">{
 					<ItemList
