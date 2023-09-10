@@ -11,12 +11,10 @@ export default function ItemInventory({
     colorPalette,
 }) {
 
+
     const classNameDefault = "rounded-2xl relative overflow-visible cursor-pointer"
     const classNameClick = "rounded-2xl relative overflow-visible cursor-pointer"
-    const classNameDisplay = "rounded-2xl relative overflow-visible"
-
-    const classNameDefaultOwned = "border-solid border-8 border-slate-300 rounded-lg hover:border-white/75 relative overflow-visible";
-    const classNameClickOwned = "border-solid border-8 border-slate-700 rounded-lg hover:border-white/75 relative overflow-visible";
+    const classNameDisplay = "rounded-2xl relative overflow-visible cursor-pointer"
     var gradientBg;
 
     if (gameData.rarityColours[item.rarity]) {
@@ -27,18 +25,20 @@ export default function ItemInventory({
     if (shopping && owned) {
         const imgPath = item ? '/assets/pfp/backgrounds/' + item.pfp : "";
 
-        console.log(item);
         if (item.isBg) {
             return (
                 <div className={
                     displayOnly === "true" ? (classNameDisplay) : (
-                        (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClickOwned) : (classNameDefaultOwned))
+                        (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClick) : (classNameDefault))
                 }
                     id={crypto.randomUUID()}
                     onClick={(e) => {
                         if (displayOnly !== "true") {
                             setItemOnClick(item);
                         }
+                    }}
+                    style={{
+                        border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary2}`,
                     }}
                 >
                     <Image
@@ -47,7 +47,7 @@ export default function ItemInventory({
                         height={0}
                         width={0}
                         sizes='100vw'
-                        className="h-auto w-full"
+                        className="h-auto w-full rounded-[11px]"
                     />
                 </div>
             )
