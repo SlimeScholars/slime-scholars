@@ -190,6 +190,7 @@ export default function Slimes({
               loading={loading}
               setLoading={setLoading}
               slime={slime}
+              setSlime={setSlime}
               setUser={setUser}
               bg={colorPalette}
             />
