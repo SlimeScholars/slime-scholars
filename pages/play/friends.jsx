@@ -141,6 +141,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
               toDo={toDo}
               setUserFriends={setUserFriends}
               setSentFriendRequests={setSentFriendRequests}
+              colorPalette={colorPalette}
             />
           </div>
         </div>

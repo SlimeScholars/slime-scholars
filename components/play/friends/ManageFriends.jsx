@@ -18,6 +18,7 @@ export default function ManageFriends({
   setUserFriends,
   setCurrentUser,
   setSentFriendRequests,
+  colorPalette,
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
@@ -54,7 +55,12 @@ export default function ManageFriends({
   }, [searchContent, userFriends, toDo]);
 
   return (
-    <div className="p-8 w-full">
+    <div
+      className="p-8 w-full"
+      style={{
+        color: colorPalette ? colorPalette.text1 : "",
+      }}
+    >
       <div className="flex flex-col">
         <div className="flex flex-row items-center">
           <div className="grow text-xl">
@@ -71,22 +77,28 @@ export default function ManageFriends({
               setSearchContent={setSearchContent}
             /> */}
             <div className="grow-0 flex">
-              <form
-                className="border-2 border-black flex bg-transparent rounded"
-                // onSubmit={() => {}}
+              <div
+                style={{
+                  border:
+                    colorPalette === undefined
+                      ? ""
+                      : `3px solid ${colorPalette.primary1}`,
+                  color: colorPalette === undefined ? "" : colorPalette.primary1,
+                  backgroundColor:
+                    colorPalette === undefined ? "" : `${colorPalette.white}88`,
+                }}
+                className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
                 <input
                   type="text"
-                  placeholder={
-                    toDo == "add" ? "Search username" : "Search friend username"
-                  }
-                  className="p-1 grow bg-transparent text-m font-galindo ml-2"
+                  placeholder={"Search for a friend"}
+                  className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
                   onChange={(e) => setSearchContent(e.target.value)}
                 ></input>
-                <button type="submit" className="h-full flex p-1">
+                <button className="h-full flex p-1 cursor-default">
                   <span className="material-symbols-outlined">search</span>
                 </button>
-              </form>
+              </div>
             </div>
           </div>
         </div>
@@ -106,6 +118,7 @@ export default function ManageFriends({
           setCurrentUser={setCurrentUser}
           setUserFriends={setUserFriends}
           setSentFriendRequests={setSentFriendRequests}
+          colorPalette={colorPalette}
         />
       </div>
     </div>
