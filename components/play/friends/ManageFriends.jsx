@@ -24,9 +24,8 @@ export default function ManageFriends({
   useEffect(() => {
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
-        return friend.username
-          .toLowerCase()
-          .includes(searchContent.toLowerCase());
+        const usernameMatches = friend.username.toLowerCase().includes(searchContent.toLowerCase());
+        return usernameMatches
       });
       setFoundUsers(searchUsers);
     } else if (user && toDo == "add") {

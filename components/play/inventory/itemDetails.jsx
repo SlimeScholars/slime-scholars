@@ -308,7 +308,7 @@ export default function ItemDetails({
 					<input
 					  type="range"
 					  min="0"
-					  max={item.quantity}
+					  max={user? user.flowers:0}
 					  step="1"
 					  className="w-full"
 					  value={buyItemsNum}
@@ -317,7 +317,6 @@ export default function ItemDetails({
 					  }}
 					/>
 				  </div>
-				  <div className="px-2">{item.quantity}</div>
 				</div>
 				<div className="flex flex-row w-full">
 				  <div className="mx-1 shrink">
@@ -334,40 +333,14 @@ export default function ItemDetails({
 						  : "",
 						color: colorPalette ? colorPalette.primary1 : "",
 					  }}
-					  value={sellItemsNum}
+					  value={buyItemsNum}
 					  onChange={(e) => {
-						setSellItemsNum(e.target.value);
+						setBuyItemsNum(e.target.value);
 					  }}
 					></input>
 				  </div>
-				  <div className="px-1">
-					<button
-					  className="whitespcace-no-wrap rounded-lg px-4 h-full"
-					  style={{
-						backgroundColor: colorPalette ? colorPalette.primary1 : "",
-					  }}
-					  onClick={(e) => {
-						setSellItemsNum(item.quantity - 1);
-					  }}
-					>
-					  All but 1
-					</button>
-				  </div>
-				  <div className="shrink px-1">
-					<button
-					  className="rounded-lg px-4 h-full"
-					  style={{
-						backgroundColor: colorPalette ? colorPalette.primary1 : "",
-					  }}
-					  onClick={(e) => {
-						setSellItemsNum(item.quantity);
-					  }}
-					>
-					  All
-					</button>
-				  </div>
 				  <div className="flex-row flex ml-auto">
-					{/* Sell button */}
+					{/* Buy button */}
 					<div className="shrink px-1">
 					  <button
 						className="rounded-lg px-4 h-full"
@@ -384,54 +357,33 @@ export default function ItemDetails({
 						  };
 						  axios
 							.post(
-							  "/api/user/sell-item",
+							  "/api/user/buy-item",
 							  {
 								itemName: item.itemName,
-								quantity: sellItemsNum,
+								quantity: buyItemsNum,
 							  },
 							  config
 							)
 							.then((response) => {
-							  // Inluding flowers, slimeGel, items
 	  
-							  // if all of the current item is sold, show details of the first item returned
-							  let numItemsLeft = 0;
-	  
-							  // Reset the current item to update the item quantity
-							  response.data.items.map((returnedItem) => {
-								if (returnedItem.itemName === item.itemName) {
-								  numItemsLeft = returnedItem.quantity;
-								  setItemOnClick(returnedItem);
-								}
-							  });
-	  
-							  // Sync # flowers and eggs data with navbar
-							  setFlowers(response.data.flowers);
-							  if (item.itemName === "Slime Egg") {
-								setNumEggs(numItemsLeft);
-							  }
-	  
-							  if (numItemsLeft === 0) {
-								setItemOnClick(response.data.items[0]);
-							  }
-	  
-							  setItems(response.data.items);
+							  const newUser = {...user, flowers:response.data.flowers, items:response.data.items}
+							  setUser(newUser);
 	  
 							  // Prompt message to gui
 							  showToastError(
-								sellItemsNum === 1 ? "Item sold" : "Items sold",
+								buyItemsNum === 1 ? "Item purchased" : "Items purchased",
 								true
 							  );
 							})
 							.catch((error) => showToastError(error.message));
 						}}
 					  >
-						Sell
+						Buy
 					  </button>
 					</div>
 					{/* Flower or Gel icon */}
 					<div className="shrink px-1">
-					  {item.sellCurrency === 1 ? (
+					  {item.buyCurrency === 1 ? (
 						<Image
 						  src="/assets/icons/flower.png"
 						  alt="flowers"
@@ -452,21 +404,10 @@ export default function ItemDetails({
 					  )}
 					</div>
 					<div className="shrink p-3 text-center">
-					  <p>{sellItemsNum * item.sellPrice}</p>
+					  <p>{buyItemsNum * item.buyPrice}</p>
 					</div>
 				  </div>
 				</div>
-			  </div>
-			  {/* Open eggs */}
-			  <div className="col-span-3 bg-black/40 rounded-lg p-6">
-				<p
-				  className="text-red-300 hover:text-red-300/75"
-				  onClick={(e) => {
-					router.push("/play/roll");
-				  }}
-				>
-				  Open Egg
-				</p>
 			  </div>
 			</div>
 		  );
