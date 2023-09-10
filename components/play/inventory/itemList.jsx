@@ -1,6 +1,4 @@
 import ItemInventory from "./itemInventory";
-import gameData from "../../../data/gameData";
-import { Fragment, useEffect } from "react";
 
 export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, user, colorPalette }) {
 
@@ -19,7 +17,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
           gameItems && (
             Object.values(gameItems).map(item => {
               // Put an array of owned items
-              if (items.includes(item.itemName)) {
+              if (items.includes(item.itemName) || item.isBg === false) {
                 return (
                   <ItemInventory
                     key={item.itemName}

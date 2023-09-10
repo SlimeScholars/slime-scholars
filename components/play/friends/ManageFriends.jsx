@@ -104,7 +104,7 @@ export default function ManageFriends({
       </div>
       {toDo == "manage" ? (
         <div className="pt-8">
-          You have {userFriends.length} friends in total
+          You have {userFriends.length-1} friends in total
         </div>
       ) : (
         <></>
