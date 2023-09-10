@@ -16,7 +16,8 @@ export default function FriendsEditor({
   userFriends,
   usersOnlist,
   toDo,
-  setUserFriends,
+  setUser,
+  user,
   setSentFriendRequests,
   colorPalette,
 }) {
@@ -40,7 +41,8 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          setUserFriends(response.data.friends);
+          const newFriends = {...user, friends:response.data.friends}
+          setUser(newFriends)
           showToastError("Friend removed", true);
         })
         .catch((error) => {

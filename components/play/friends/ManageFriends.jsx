@@ -15,8 +15,7 @@ export default function ManageFriends({
   user,
   userFriends,
   toDo,
-  setUserFriends,
-  setCurrentUser,
+  setUser,
   setSentFriendRequests,
   colorPalette,
 }) {
@@ -115,8 +114,8 @@ export default function ManageFriends({
           userFriends={userFriends}
           usersOnlist={foundUsers}
           toDo={toDo}
-          setCurrentUser={setCurrentUser}
-          setUserFriends={setUserFriends}
+          setUser={setUser}
+          user={user}
           setSentFriendRequests={setSentFriendRequests}
           colorPalette={colorPalette}
         />
