@@ -83,7 +83,7 @@ export default function RequestListings({
 
   return (
     <div className="overflow-y-auto max-h-96">
-      {currentType == "received" ? (
+      {currentType === "received" && (
         Array.isArray(receivedFriendRequests) ? (
           receivedFriendRequests.map((user, index) => (
             <div className="flex flex-row items-center py-4" key={index}>
@@ -141,7 +141,9 @@ export default function RequestListings({
         ) : (
           <p>No friend requests received.</p>
         )
-      ) : Array.isArray(sentFriendRequests) ? (
+      )}
+
+      {currentType === 'sent' && Array.isArray(sentFriendRequests) ? (
         sentFriendRequests.map((user, index) => (
           <div className="flex flex-row items-center py-4" key={index}>
             <div className="w-10 h-10 rounded-full overflow-hidden">
