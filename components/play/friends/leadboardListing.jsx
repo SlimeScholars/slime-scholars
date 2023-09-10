@@ -20,6 +20,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -30,6 +31,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -52,6 +54,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -62,6 +65,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes='100vw'
