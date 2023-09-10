@@ -11,6 +11,7 @@ export default function SlimeDetails({
   loading,
   setLoading,
   slime,
+  setSlime,
   setUser,
   bg,
 }) {
@@ -38,10 +39,12 @@ export default function SlimeDetails({
           const newUser = {
             ...user,
             roster: response.data.roster,
+            slime: response.data.slime,
             slimeGel: response.data.slimeGel,
             slimes: response.data.slimes,
           };
           setUser(newUser);
+          setSlime(response.data.slime);
           setShowLevelUpPopup(true);
           setRes(response.data);
           setLoading(false);
