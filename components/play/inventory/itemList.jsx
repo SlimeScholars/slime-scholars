@@ -8,7 +8,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
     <div className="w-full"
     >
       <div
-        className="rounded-lg grid xl:grid-cols-4 gap-4 p-8 h-full w-full"
+        className="rounded-lg grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8 h-full w-full"
         style={{
           backgroundColor:
             colorPalette === undefined ? "" : `${colorPalette.white}88`,

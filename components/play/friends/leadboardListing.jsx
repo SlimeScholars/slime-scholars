@@ -1,15 +1,18 @@
 import Image from "next/image.js";
 import { gameData } from "../../../data/gameData.js";
 
-export default function LeadboardListing({ users, userId }) {
+export default function LeadboardListing({ users, userId, colorPalette }) {
   return (
-    <div className="overflow-y-auto max-h-80" id="friends-listing">
+    <div id="friends-listing">
       {Array.isArray(users) ? (
         users.map((user, index) => {
           if (user._id === userId) {
             return (
               <div
-                className="flex flex-row items-center py-4 bg-red-300"
+                className="flex flex-row items-center py-4 "
+                style={{
+                  background: colorPalette ? colorPalette.primary1 : "none",
+                }}
                 key={index}
               >
                 <div className="grow-0 px-4">{index + 1}</div>
@@ -20,6 +23,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -30,6 +34,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -52,6 +57,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -62,6 +68,7 @@ export default function LeadboardListing({ users, userId }) {
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes='100vw'
