@@ -181,13 +181,25 @@ export default function ItemDetails({
                           }
                         )
                         .then((response) => {
-							console.log(response.data);
-                          const newUser = {
+                          console.log(response.data);
+                          let newUser = {
                             ...user,
                             items: response.data.items,
-							slimeGel: response.data.slimeGel,
-                            flowers: response.data.flowers,
                           };
+                          if (response.data.flowers !== undefined) {
+                            newUser = {
+                              ...user,
+							  items: response.data.items,
+                              flowers: response.data.flowers,
+                            };
+                          }
+						  if (response.data.slimeGel !== undefined) {
+							newUser = {
+								...user,
+								items: response.data.items,
+								slimeGel: response.data.slimeGel,
+							  };
+						  }
                           setUser(newUser);
                           setOwned(true);
                           showToastError(
@@ -427,8 +439,8 @@ export default function ItemDetails({
                         }
                       )
                       .then((response) => {
-						const newUser = { ...user, bg: response.data.bg };
-						setUser(newUser);
+                        const newUser = { ...user, bg: response.data.bg };
+                        setUser(newUser);
                         setColorPalette(gameData.items[item.itemName]);
                       })
                       .catch((error) => {
