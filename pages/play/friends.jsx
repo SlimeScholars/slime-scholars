@@ -76,27 +76,38 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
         </div>
         <h2 className="grow pl-4 font-galindo text-2xl">Friends</h2>
         <div className="grow-0 flex pr-4">
-          <button
+          <div
+            className="shrink rounded-full font-galindo"
             style={{
-              border:
-                colorPalette === undefined
-                  ? ""
-                  : `3px solid ${colorPalette.primary1}`,
-              color: colorPalette === undefined ? "" : colorPalette.text1,
-              backgroundColor:
-                colorPalette === undefined ? "" : colorPalette.primary1,
-            }}
-            className="rounded-md flex flex-row py-[5.5px] px-3 text-lg font-galindo grow"
-            onClick={() => {
-              if (toDo === "manage") {
-                setToDo("add");
-              } else {
-                setToDo("manage");
-              }
+              border: `3px solid ${colorPalette ? colorPalette.primary2 : ""}`,
             }}
           >
-            {toDo == "manage" ? "Add Friends" : "Manage Friends"}
-          </button>
+            <div className="flex flex-row cursor-pointer">
+              <div
+                onClick={() => {
+                  setToDo('manage')
+                }}
+                style={{
+                  background: toDo === 'manage' && colorPalette ? colorPalette.primary1 : "none",
+                }}
+                className={`py-2 pl-3 rounded-full text-center ${toDo === 'manage' ? 'pr-4' : 'pr-2'}`}
+              >
+                Manage Friends
+              </div>
+              <div
+                onClick={() => {
+                  setToDo('add')
+                }}
+                style={{
+                  background: toDo === 'add' && colorPalette ? colorPalette.primary1 : "none",
+                }}
+                className={`py-2 pr-3 rounded-full text-center ${toDo === 'add' ? 'pl-4' : 'pl-2'}`}
+              >
+                Add Friends
+              </div>
+            </div >
+          </div>
+
         </div>
       </div>
 
