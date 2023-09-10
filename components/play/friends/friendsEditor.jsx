@@ -16,7 +16,8 @@ export default function FriendsEditor({
   userFriends,
   usersOnlist,
   toDo,
-  setUserFriends,
+  setUser,
+  user,
   setSentFriendRequests,
   colorPalette,
 }) {
@@ -40,7 +41,8 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          setUserFriends(response.data.friends);
+          const newFriends = {...user, friends:response.data.friends}
+          setUser(newFriends)
           showToastError("Friend removed", true);
         })
         .catch((error) => {
@@ -87,6 +89,9 @@ export default function FriendsEditor({
     } else {
       friends = usersOnlist;
     }
+    friends = friends.filter((friend) => {
+      return friend._id !== user._id;
+    });
     // may need a loading screen here
     return (
       <div className="grid grid-cols-2 gap-4">
