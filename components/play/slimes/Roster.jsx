@@ -79,20 +79,20 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg }
                     handleClick(slime._id, index);
                   }}
                   className={`relative rounded-lg`}
-                style={{
-                  border: `5px solid ${bg.primary1}`,
-                }}
+                  style={{
+                    border: `5px solid ${bg.primary1}`,
+                  }}
                 >
                   <Image
-                        src={
-                          "/assets/pfp/slimes/shadow-slime.png"
-                        }
-                        alt="Slime"
-                        height={0}
-                        width={0}
-                        sizes='100vw'
-                        className="h-auto w-[80%] mx-auto mb-3"
-                      />
+                    src={
+                      "/assets/pfp/slimes/shadow-slime.png"
+                    }
+                    alt="Slime"
+                    height={0}
+                    width={0}
+                    sizes='100vw'
+                    className="h-auto w-[80%] mx-auto mb-3"
+                  />
                 </button>
               </div>
             );
