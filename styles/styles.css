@@ -184,8 +184,15 @@ a {
   background-clip: content-box;
 }
 
-.slime-animate {
+.slime-size {
   background-size: 64rem 48rem;
+}
+
+.no-animate-size {
+  background-size: 16rem 16rem;
+}
+
+.slime-animate {
   animation: playv 0.5s steps(4) infinite, playh 1.5s steps(3) infinite;
   background-position: 0 0;
 }

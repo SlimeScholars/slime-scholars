@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
 
-export default function DisplaySlimes({ user, setLoading, setUser }) {
+export default function DisplaySlimes({ user, setLoading, setUser, colorPalette }) {
   const router = useRouter();
 
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
@@ -84,198 +84,98 @@ export default function DisplaySlimes({ user, setLoading, setUser }) {
 
   if (!user) return <></>;
 
-  if (isMobileView) {
-    return (
-      <div className="flex flex-col items-center justify-center w-full h-screen">
-        {/* Arrow buttons for mobile navigation */}
-        <div className="flex flex-row fixed bottom-4">
-          <button
-            className="p-2 bg-gray-200 rounded-full my-auto"
-            onClick={handlePrevClick}
-          >
-            &lt;
-          </button>
-          <div className="flex flex-row mt-4">
-            {showLevelUpPopup && (
-              <PopUpDetails
-                user={user}
-                res={res}
-                onClose={handleClosePopup}
-                oldSlime={oldSlime}
-              />
-            )}
-            {Array.isArray(user.roster) &&
-              user.roster.map((slime, index) => {
-                if (index === currentSlimeIndex) {
-                  // console.log(index, slime);
-                  return slime === null ? (
-                    <button
-                      key={index}
-                      className={`h-48 w-48 mx-2 border-2 border-gray-400 rounded-md items-center text-6xl`}
-                      onClick={() => {
-                        router.push("/play/slimes");
-                      }}
-                    >
+  return (
+    <div className="flex flex-row fixed bottom-0 items-center justify-center w-full">
+      <div className="flex flex-row ">
+        {showLevelUpPopup && (
+          <PopUpDetails
+            user={user}
+            res={res}
+            onClose={handleClosePopup}
+            oldSlime={oldSlime}
+          />
+        )}
+        {Array.isArray(user.roster) &&
+          user.roster.map((slime, index) => {
+            // console.log(slime._id);
+            const offset = index === 1 || index === 3;
+
+            if (slime === null)
+              return (
+                <button
+                  key={index}
+                  className={`${offset ? "transform -translate-y-16" : ""
+                    } mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 no-animate-size`}
+                  style={{
+                    backgroundImage: `url('/assets/pfp/slimes/shadow-slime.png')`,
+                    backgroundPosition: '0 0',
+                    color: colorPalette ? colorPalette.text1 : "",
+                  }}
+                  onClick={() => {
+                    router.push("/play/slimes");
+                  }}
+                >
+                  +
+                </button>
+              );
+
+            const slimeImg = (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].spritesheet) ? (
+              "/assets/slimes/slime-spritesheet/" + gameData.slimeImgs[slime.slimeName].spritesheet
+            ) : (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].static) ? (
+              "/assets/slimes/slime-static/" + gameData.slimeImgs[slime.slimeName].static
+            ) : ""
+
+            return (
+              <div
+                key={index}
+                className={`flex flex-col relative ${offset ? "transform -translate-y-16" : ""
+                  }`}
+              >
+                <div
+                  className="flex flex-row items-center mx-auto absolute top-0 left-[50%]"
+                  style={{
+                    transform: "translateX(-50%)",
+                  }}
+                >
+                  <div className="bg-[#5A5A5A] opacity-60 h-5 w-[8rem] pb-6 rounded-md mx-auto text-white text-center">
+                    <div className="flex flex-row justify-center items-center pl-2">
+                      <p>
+                        Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
+                      </p>
                       <Image
-                        src={
-                          "/assets/pfp/slimes/shadow-slime.png"
-                        }
-                        alt="Slime"
+                        src="/assets/icons/slime-gel.png"
+                        alt="slime gel"
                         height={0}
                         width={0}
                         sizes='100vw'
-                        className="h-64 w-64 mx-auto"
-                        onClick={() => {
-                          router.push("/play/slimes");
-                        }}
-                      />
-                    </button>
-                  ) : (
-                    <div key={index} className={`flex flex-col`}>
-                      <div className="flex flex-row items-center mx-auto">
-                        <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
-                          <div className="flex flex-row justify-center items-center pl-2">
-                            <p>
-                              Lv. {slime.level} &nbsp;|&nbsp;{" "}
-                              {slime.levelUpCost}
-                            </p>
-                            <Image
-                              src="/assets/icons/slime-gel.png"
-                              alt="slime gel"
-                              height={0}
-                              width={0}
-                              sizes='100vw'
-                              className="h-4 w-4 ml-1 mr-2"
-                            />
-                          </div>
-                        </div>
-                        <button
-                          className="p-1 rounded-full bg-red-300"
-                          onClick={() => {
-                            setOldSlime(slime);
-                            handleClick(slime._id, index);
-                          }}
-                        >
-                          &nbsp;^&nbsp;
-                        </button>
-                      </div>
-                      <Image
-                        src={
-                          "/assets/pfp/slimes/" +
-                          gameData.slimeImgs[slime.slimeName].pfp
-                        }
-                        alt="Slime"
-                        height={0}
-                        width={0}
-                        sizes='100vw'
-                        className="h-64 w-64 mx-auto"
-                        onClick={() => {
-                          router.push("/play/slimes");
-                        }}
+                        className="h-4 w-4 ml-1 mr-2"
                       />
                     </div>
-                  );
-                }
-              })}
-          </div>
-          <button
-            className="p-2 bg-gray-200 rounded-full my-auto"
-            onClick={handleNextClick}
-          >
-            &gt;
-          </button>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="flex flex-row fixed bottom-0 items-center justify-center w-full">
-        <div className="flex flex-row ">
-          {showLevelUpPopup && (
-            <PopUpDetails
-              user={user}
-              res={res}
-              onClose={handleClosePopup}
-              oldSlime={oldSlime}
-            />
-          )}
-          {Array.isArray(user.roster) &&
-            user.roster.map((slime, index) => {
-              // console.log(slime._id);
-              const offset = index === 1 || index === 3;
-
-              if (slime === null)
-                return (
+                  </div>
                   <button
-                    key={index}
-                    className={`${offset ? "transform -translate-y-16" : ""
-                      } mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 `}
-                    style={{
-                      backgroundImage: `url('/assets/pfp/slimes/shadow-slime.png')`,
-                      // backgroundImage: `url('https://i.imgur.com/k05MBba.png')`
-                    }}
+                    className="p-1 rounded-full bg-red-300"
                     onClick={() => {
-                      router.push("/play/slimes");
+                      setOldSlime(slime);
+                      handleClick(slime._id, index);
                     }}
                   >
-                    
+                    &nbsp;^&nbsp;
                   </button>
-                );
-
-              const slimeImg = (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].spritesheet) ? (
-                "/assets/slimes/slime-spritesheet/" + gameData.slimeImgs[slime.slimeName].spritesheet
-              ) : (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].static) ? (
-                "/assets/slimes/slime-static/" + gameData.slimeImgs[slime.slimeName].static
-              ) : ""
-
-              return (
-                <div
-                  key={index}
-                  className={`flex flex-col ${offset ? "transform -translate-y-16" : ""
-                    }`}
-                >
-                  <div className="flex flex-row items-center mx-auto">
-                    <div className="bg-[#5A5A5A] opacity-60 h-5 w-auto pb-6 rounded-md mx-auto text-white text-center">
-                      <div className="flex flex-row justify-center items-center pl-2">
-                        <p>
-                          Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
-                        </p>
-                        <Image
-                          src="/assets/icons/slime-gel.png"
-                          alt="slime gel"
-                          height={0}
-                          width={0}
-                          sizes='100vw'
-                          className="h-4 w-4 ml-1 mr-2"
-                        />
-                      </div>
-                    </div>
-                    <button
-                      className="p-1 rounded-full bg-red-300"
-                      onClick={() => {
-                        setOldSlime(slime);
-                        handleClick(slime._id, index);
-                      }}
-                    >
-                      &nbsp;^&nbsp;
-                    </button>
-                  </div>
-
-                  <div
-                    style={{
-                      backgroundImage: `url(${slimeImg})`,
-                      // backgroundImage: `url('https://i.imgur.com/k05MBba.png')`
-                    }}
-                    className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 slime-animate"
-                    onClick={() => {
-                      router.push("/play/slimes");
-                    }}
-                  />
                 </div>
-              );
-            })}
-        </div>
+
+                <div
+                  style={{
+                    backgroundImage: `url(${slimeImg})`,
+                  }}
+                  className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 slime-animate slime-size"
+                  onClick={() => {
+                    router.push("/play/slimes");
+                  }}
+                />
+              </div>
+            );
+          })}
       </div>
-    );
-  }
+    </div>
+  );
 }

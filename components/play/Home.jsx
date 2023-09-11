@@ -34,6 +34,7 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
             user={user}
             setLoading={active ? setLoading : undefined}
             setUser={active ? setUser : undefined}
+            colorPalette={colorPalette}
           />
           {!active && (
             <div
