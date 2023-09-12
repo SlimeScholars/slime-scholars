@@ -2,15 +2,19 @@ import axios from "axios";
 import { showToastError } from "../../../utils/toast";
 import { gameData } from "../../../data/gameData";
 import Image from "next/image";
+import { useEffect } from "react";
 
-export default function Roster({ user, loading, setLoading, slime, setUser, bg }) {
+export default function Roster({ user, loading, setLoading, slime, setUser, bg, refetch }) {
   if (loading) {
     return;
   }
+  useEffect(() => {
+    console.log(user.roster)
+  }, [user])
   // console.log(user);
   // console.log(slime._id);
-
   const handleClick = (id, index) => {
+    setLoading(true);
     try {
       if (id === null) {
         return;
@@ -46,13 +50,12 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg }
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true);
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          const newUser = { ...user, roster: response.data.roster };
-          setUser(newUser);
+          console.log(response)
           setLoading(false);
+          refetch()
         })
         .catch((error) => {
           showToastError(error.response.data.message);
@@ -68,7 +71,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg }
   return (
     // if slime not selected, don't allow user to add
     <div className="grid grid-cols-4 gap-6">
-      {Array.isArray(user.roster) &&
+      {user && Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
           // console.log(char);
           if (char === null) {

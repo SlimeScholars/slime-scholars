@@ -10,6 +10,7 @@ export default function AddToRoster({
   slime,
   setUser,
   bg,
+  refetch
 }) {
   const [inRoster, setInRoster] = useState(false);
   // console.log(slime);
@@ -26,6 +27,7 @@ export default function AddToRoster({
   }, [slime, user]);
 
   const handleClick = (id) => {
+    setLoading(true);
     try {
       if (id === null) {
         return;
@@ -49,13 +51,12 @@ export default function AddToRoster({
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true);
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          const newUser = { ...user, roster: response.data.roster };
-          setUser(newUser);
+          console.log(response)
           setLoading(false);
+          refetch()
         })
         .catch((error) => {
           showToastError(error.response.data.message);
@@ -110,6 +111,7 @@ export default function AddToRoster({
           slime={slime}
           setUser={setUser}
           bg={bg}
+          refetch={refetch}
         />
       </div>
     </div>

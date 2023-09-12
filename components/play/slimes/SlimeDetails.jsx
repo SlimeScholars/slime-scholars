@@ -14,6 +14,7 @@ export default function SlimeDetails({
   setSlime,
   setUser,
   bg,
+  refetch
 }) {
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
@@ -199,6 +200,7 @@ export default function SlimeDetails({
         slime={slime}
         setUser={setUser}
         bg={bg}
+        refetch={refetch}
       />
     </div>
   );
