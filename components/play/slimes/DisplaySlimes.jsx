@@ -28,7 +28,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
           console.log(response)
-          refetch()
+          refetchUser()
           setShowLevelUpPopup(true);
           setRes(response.data);
         })

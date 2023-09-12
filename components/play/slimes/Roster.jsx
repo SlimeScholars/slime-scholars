@@ -4,7 +4,7 @@ import { gameData } from "../../../data/gameData";
 import Image from "next/image";
 import { useEffect } from "react";
 
-export default function Roster({ user, loading, setLoading, slime, setUser, bg, refetch }) {
+export default function Roster({ user, loading, setLoading, slime, setUser, bg, refetchUser }) {
   if (loading) {
     return;
   }
@@ -55,7 +55,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
         .then((response) => {
           console.log(response)
           setLoading(false);
-          refetch()
+          refetchUser()
         })
         .catch((error) => {
           showToastError(error.response.data.message);

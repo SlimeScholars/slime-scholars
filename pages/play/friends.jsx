@@ -18,7 +18,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
   const [receivedFriendRequests, setReceivedFriendRequests] =
     useState("empty for now");
 
-  const refetch = async() => {
+  const refetchUser = async() => {
     setLoading(true)
     try{
       const token = localStorage.getItem('jwt')
@@ -180,7 +180,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setReceivedFriendRequests={setReceivedFriendRequests}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              refetch={refetch}
+              refetchUser={refetchUser}
             />
           )}
         </div>
@@ -196,7 +196,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              refetch={refetch}
+              refetchUser={refetchUser}
             />
           </div>
         </div>

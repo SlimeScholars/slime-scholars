@@ -3,7 +3,7 @@ import { gameData } from "../../data/gameData";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Home({ user, setLoading, setUser, active, colorPalette, setColorPalette, refetch }) {
+export default function Home({ user, setLoading, setUser, active, colorPalette, setColorPalette, refetchUser }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
             setLoading={active ? setLoading : undefined}
             setUser={active ? setUser : undefined}
             colorPalette={colorPalette}
-            refetch={refetch}
+            refetchUser={refetchUser}
           />
           {!active && (
             <div

@@ -14,7 +14,7 @@ export default function SlimeDetails({
   setSlime,
   setUser,
   bg,
-  refetch
+  refetchUser
 }) {
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
@@ -37,7 +37,7 @@ export default function SlimeDetails({
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
           console.log(response)
-          refetch()
+          refetchUser()
           setSlime(response.data.slime);
           setShowLevelUpPopup(true);
           setRes(response.data);
@@ -193,7 +193,7 @@ export default function SlimeDetails({
         slime={slime}
         setUser={setUser}
         bg={bg}
-        refetch={refetch}
+        refetchUser={refetchUser}
       />
     </div>
   );
