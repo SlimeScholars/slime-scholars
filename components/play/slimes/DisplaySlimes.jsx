@@ -12,7 +12,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
   const [oldSlime, setOldSlime] = useState(null);
-
+  
   //   handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
     try {
@@ -33,7 +33,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
             slimeGel: response.data.slimeGel,
             slimes: response.data.slimes,
           };
-          setUser(newUser);
+          setUser({...newUser});
           setShowLevelUpPopup(true);
           setRes(response.data);
         })

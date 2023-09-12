@@ -12,7 +12,7 @@ export default function Slimes({
   user,
   setLoading,
   setUser,
-  colorPalette,
+  colorPalette
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -67,6 +67,40 @@ export default function Slimes({
       return;
     }
   };
+
+  const refetch = async() => {
+    setLoading(true)
+    try{
+      const token = localStorage.getItem('jwt')
+
+			const config = {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			};
+
+      axios
+      .get("/api/user", config)
+      .then((response) => {
+        console.log(response)
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        // If the json web token is invalid, remove it so no more requests will be made with the same token
+        localStorage.removeItem("jwt");
+        setUser(null);
+        setLoading(false);
+      });
+    }
+    catch(err){
+      console.log(err)
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     if (user) {
@@ -193,6 +227,7 @@ export default function Slimes({
               setSlime={setSlime}
               setUser={setUser}
               bg={colorPalette}
+              refetch={refetch}
             />
           </div>
         </div>
