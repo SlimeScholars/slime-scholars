@@ -3,6 +3,9 @@ import { gameData } from '../../../data/gameData';
 import Image from 'next/image';
 
 export default function RollSlimePopup({ updatedSlime, setAfterRolling, originalSlime, router }) {
+    if(!updatedSlime){
+        return
+    }
 
     const maxLevel = updatedSlime.maxLevel;
     const baseProduction = updatedSlime.baseProduction;
