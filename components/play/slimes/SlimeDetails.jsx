@@ -36,15 +36,8 @@ export default function SlimeDetails({
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          console.log(response.data);
-          const newUser = {
-            ...user,
-            roster: response.data.roster,
-            slime: response.data.slime,
-            slimeGel: response.data.slimeGel,
-            slimes: response.data.slimes,
-          };
-          setUser(newUser);
+          console.log(response)
+          refetch()
           setSlime(response.data.slime);
           setShowLevelUpPopup(true);
           setRes(response.data);

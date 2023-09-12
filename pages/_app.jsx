@@ -37,44 +37,49 @@ function MyApp({ Component, pageProps }) {
     setPfpBg,
   }; // Include user in modifiedPageProps
 
-  const fetchUser = async (token) => {
-    // If no token, no need to make a request for authentication
-    if (!token) {
-      setUser(null);
-      setLoading(false);
-      return;
-    }
+  const refetch = async() => {
 
-    // Set the authorization header
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
+    setLoading(true)
+    try{
+      const token = localStorage.getItem('jwt')
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
 
-    axios
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
       .get("/api/user", config)
       .then((response) => {
+        console.log(response)
         if (response.data && response.data.user) {
           setUser(response.data.user);
-          if (response.data.user.userType === 1) {
-            setItems(response.data.user.items);
-          }
           setLoading(false);
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log(err)
         // If the json web token is invalid, remove it so no more requests will be made with the same token
         localStorage.removeItem("jwt");
         setUser(null);
         setLoading(false);
       });
-  };
+    }
+    catch(err){
+      console.log(err)
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("jwt");
-      fetchUser(token);
+      refetch()
     }
   }, []);
 
@@ -132,6 +137,7 @@ function MyApp({ Component, pageProps }) {
                 setUser={current === 0 ? setUser : () => null}
                 colorPalette={colorPalette}
                 setColorPalette={setColorPalette}
+                refetch={refetch}
               />
             </div>
 
