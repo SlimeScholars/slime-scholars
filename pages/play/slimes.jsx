@@ -46,12 +46,8 @@ export default function Slimes({
       axios
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
-          const newUser = {
-            ...user,
-            lastSlimeReward: response.data.lastSlimeReward,
-            slimeGel: response.data.slimeGel,
-          };
-          setUser(newUser);
+          console.log(response)
+          refetch()
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);

@@ -6,7 +6,7 @@ import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEd
 import axios from "axios";
 import Image from "next/image";
 
-export default function Friends({ loading, user, setUser, colorPalette }) {
+export default function Friends({ loading, setLoading, user, setUser, colorPalette }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -17,6 +17,40 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
   const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
   const [receivedFriendRequests, setReceivedFriendRequests] =
     useState("empty for now");
+
+  const refetch = async() => {
+    setLoading(true)
+    try{
+      const token = localStorage.getItem('jwt')
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+      .get("/api/user", config)
+      .then((response) => {
+        console.log(response)
+        if (response.data && response.data.user) {
+          setUser(response.data.user);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err)
+        // If the json web token is invalid, remove it so no more requests will be made with the same token
+        localStorage.removeItem("jwt");
+        setUser(null);
+        setLoading(false);
+      });
+    }
+    catch(err){
+      console.log(err)
+      setLoading(false)
+    }
+  }
 
   useEffect(() => {
     if (loading) {
@@ -146,6 +180,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
               setReceivedFriendRequests={setReceivedFriendRequests}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
+              refetch={refetch}
             />
           )}
         </div>
@@ -161,6 +196,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
+              refetch={refetch}
             />
           </div>
         </div>
