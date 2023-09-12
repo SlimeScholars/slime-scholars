@@ -80,11 +80,12 @@ export function Navbar({
       )}
       {/* earn flowers button */}
       <button
-        className="rounded hover:opacity-80 font-galindo text-lg h-[4rem] transition-opacity duration-150"
+        className="rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150"
         style={{
           backgroundColor:
             colorPalette === undefined ? "" : colorPalette.primary1,
           color: colorPalette === undefined ? "" : colorPalette.text1,
+          boxShadow: colorPalette === undefined ? "" : `0 0 2px ${colorPalette.primary2}`
         }}
         onClick={(e) => {
           e.preventDefault();
