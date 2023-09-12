@@ -23,7 +23,7 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
     useEffect(() => {
 
         // If is duplicate, reset originalSlime
-        if (originalSlimes.find(slime => slime.slimeName === updatedSlime.slimeName)) {
+        if (originalSlimes.find(slime => slime.slimeName === updatedSlime?.slimeName)) {
             const newOriginalSlime = originalSlimes.find(slime => slime.slimeName === updatedSlime.slimeName)
             setOriginalSlime(newOriginalSlime);
         } else {
