@@ -19,7 +19,7 @@ export default function ItemDetails({
   colorPalette,
   setColorPalette,
   shopping,
-  refetch,
+  refetchUser,
 }) {
   const [owned, setOwned] = useState(null);
   const [sellItemsNum, setSellItemsNum] = useState(
@@ -207,7 +207,7 @@ export default function ItemDetails({
 							  )
 							  .then((response) => {
 								console.log(response)
-                refetch()
+                refetchUser()
 								setOwned(true);
 								showToastError(
 								  "Picture purchased successfully.",
@@ -350,7 +350,7 @@ export default function ItemDetails({
 							.then((response) => {
 	  
 							  console.log(response)
-                refetch()
+                refetchUser()
 	  
 							  // Prompt message to gui
 							  showToastError(
@@ -564,7 +564,7 @@ export default function ItemDetails({
                       )
                       .then((response) => {
                         console.log(response)
-                        refetch()
+                        refetchUser()
                         setPfpBg(response.data.pfpBg);
                         showToastError("Profile background was changed.", true);
                       })
@@ -614,7 +614,7 @@ export default function ItemDetails({
                       )
                       .then((response) => {
                         console.log(response)
-                        refetch()
+                        refetchUser()
                         setColorPalette(gameData.items[item.itemName]);
                       })
                       .catch((error) => {

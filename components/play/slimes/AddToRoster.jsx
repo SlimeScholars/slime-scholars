@@ -10,7 +10,7 @@ export default function AddToRoster({
   slime,
   setUser,
   bg,
-  refetch
+  refetchUser
 }) {
   const [inRoster, setInRoster] = useState(false);
   // console.log(slime);
@@ -56,7 +56,7 @@ export default function AddToRoster({
         .then((response) => {
           console.log(response)
           setLoading(false);
-          refetch()
+          refetchUser()
         })
         .catch((error) => {
           showToastError(error.response.data.message);
@@ -111,7 +111,7 @@ export default function AddToRoster({
           slime={slime}
           setUser={setUser}
           bg={bg}
-          refetch={refetch}
+          refetchUser={refetchUser}
         />
       </div>
     </div>

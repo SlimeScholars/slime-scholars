@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
 import "../styles/styles.css";
 import axios from "axios";
-import Spinner from "../components/misc/spinner";
+import MainSpinner from "../components/misc/mainSpinner";
+//import AxiosSpinner from "../components/misc/axiosSpinner";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
@@ -11,7 +12,7 @@ import Home from "../components/play/Home";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
-  const [loading2, setLoading2] = useState(false); // Used for axios loading
+  const [axiosLoading, setAxiosLoading] = useState(false); // Used for axios loading
   const [user, setUser] = useState(null);
   const [numEggs, setNumEggs] = useState(0);
   const [flowers, setFlowers] = useState(null);
@@ -25,8 +26,8 @@ function MyApp({ Component, pageProps }) {
     setUser,
     loading,
     setLoading,
-    loading2,
-    setLoading2,
+    axiosLoading,
+    setAxiosLoading,
     setNumEggs,
     setFlowers,
     items,
@@ -37,10 +38,10 @@ function MyApp({ Component, pageProps }) {
     setPfpBg,
   }; // Include user in modifiedPageProps
 
-  const refetch = async() => {
+  const refetchUser = async () => {
 
     setLoading(true)
-    try{
+    try {
       const token = localStorage.getItem('jwt')
       if (!token) {
         setUser(null);
@@ -55,23 +56,23 @@ function MyApp({ Component, pageProps }) {
       };
 
       axios
-      .get("/api/user", config)
-      .then((response) => {
-        console.log(response)
-        if (response.data && response.data.user) {
-          setUser(response.data.user);
+        .get("/api/user", config)
+        .then((response) => {
+          console.log(response)
+          if (response.data && response.data.user) {
+            setUser(response.data.user);
+            setLoading(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          // If the json web token is invalid, remove it so no more requests will be made with the same token
+          localStorage.removeItem("jwt");
+          setUser(null);
           setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        // If the json web token is invalid, remove it so no more requests will be made with the same token
-        localStorage.removeItem("jwt");
-        setUser(null);
-        setLoading(false);
-      });
+        });
     }
-    catch(err){
+    catch (err) {
       console.log(err)
       setLoading(false)
     }
@@ -79,7 +80,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      refetch()
+      refetchUser()
     }
   }, []);
 
@@ -122,8 +123,8 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading || loading2 ? <Spinner /> : <></>}
-      <div className={`relative ${loading || loading2 ? "hidden" : ""}`}>
+      {loading ? <MainSpinner /> : <></>}
+      <div className={`relative ${loading ? "hidden" : ""}`}>
         <ToastContainer />
         {onPlay ? (
           <>
@@ -137,7 +138,7 @@ function MyApp({ Component, pageProps }) {
                 setUser={current === 0 ? setUser : () => null}
                 colorPalette={colorPalette}
                 setColorPalette={setColorPalette}
-                refetch={refetch}
+                refetchUser={refetchUser}
               />
             </div>
 

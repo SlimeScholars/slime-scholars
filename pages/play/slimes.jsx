@@ -12,7 +12,7 @@ export default function Slimes({
   user,
   setLoading,
   setUser,
-  colorPalette
+  colorPalette,
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -47,7 +47,7 @@ export default function Slimes({
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
           console.log(response)
-          refetch()
+          refetchUser()
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
@@ -64,7 +64,7 @@ export default function Slimes({
     }
   };
 
-  const refetch = async() => {
+  const refetchUser = async() => {
     setLoading(true)
     try{
       const token = localStorage.getItem('jwt')
@@ -223,7 +223,7 @@ export default function Slimes({
               setSlime={setSlime}
               setUser={setUser}
               bg={colorPalette}
-              refetch={refetch}
+              refetchUser={refetchUser}
             />
           </div>
         </div>

@@ -21,7 +21,7 @@ export default function FriendsEditor({
   user,
   setSentFriendRequests,
   colorPalette,
-  refetch
+  refetchUser
 }) {
   const handleManageFriend = (friendId) => {
     const token = localStorage.getItem("jwt");
@@ -44,7 +44,7 @@ export default function FriendsEditor({
         )
         .then((response) => {
           console.log(response)
-          refetch()
+          refetchUser()
           showToastError("Friend removed", true);
         })
         .catch((error) => {

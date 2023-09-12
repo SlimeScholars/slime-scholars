@@ -11,7 +11,7 @@ export default function RequestListings({
   receivedFriendRequests,
   setReceivedFriendRequests,
   setSentFriendRequests,
-  refetch
+  refetchUser
 }) {
   function handleAcceptRequest(friendId) {
     axios
@@ -28,7 +28,7 @@ export default function RequestListings({
       )
       .then((response) => {
         console.log(response)
-        refetch()
+        refetchUser()
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
       })
@@ -55,7 +55,7 @@ export default function RequestListings({
       )
       .then((response) => {
         console.log(response)
-        refetch()
+        refetchUser()
         if (currentType === "received") {
           const updatedRequestListing = response.data.receivedFriendRequests;
           setReceivedFriendRequests(updatedRequestListing);

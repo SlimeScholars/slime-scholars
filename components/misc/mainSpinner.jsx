@@ -5,7 +5,7 @@ const override = {
   margin: "0 auto",
 };
 
-export default function Spinner() {
+export default function MainSpinner() {
   return (
     <div className="flex flex-col justify-center items-center w-screen h-screen">
       <PuffLoader
