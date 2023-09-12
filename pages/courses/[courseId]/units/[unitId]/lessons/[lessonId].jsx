@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, setUser, loading, setLoading, setLoading2, colorPalette }) {
+export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoading, colorPalette }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -42,7 +42,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
-      setLoading2(true)
+      setAxiosLoading(true)
       axios
         .get(
           "/api/learn/lesson",
@@ -85,7 +85,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             }
             setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-            setLoading2(false);
+            setAxiosLoading(false);
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -201,7 +201,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading2(true)
+      setAxiosLoading(true)
       axios
         .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
@@ -216,14 +216,14 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             setStars(response.data.stars)
             setUpdatedUser(newUser)
             setCompleted(true)
-            setLoading2(false);
+            setAxiosLoading(false);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message)
           }
-          setLoading2(false);
+          setAxiosLoading(false);
         });
 
     } catch (error) {

@@ -5,7 +5,7 @@ import axios from "axios"
 import Lesson from "../../../../../../components/learn/lesson"
 import UnitTest from "../../../../../../components/learn/unitTest"
 
-export default function Lessons({ user, loading, setLoading2, colorPalette }) {
+export default function Lessons({ user, loading, setAxiosLoading, colorPalette }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -47,7 +47,7 @@ export default function Lessons({ user, loading, setLoading2, colorPalette }) {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading2(true)
+			setAxiosLoading(true)
 			axios
 				.get("/api/learn/lessons", config)
 				.then((response) => {
@@ -56,14 +56,14 @@ export default function Lessons({ user, loading, setLoading2, colorPalette }) {
 						setCourseName(response.data.courseName)
 						setUnitName(response.data.unitName)
 						setLessons(response.data.lessons)
-						setLoading2(false);
+						setAxiosLoading(false);
 					}
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading2(false);
+					setAxiosLoading(false);
 				})
 
 		} catch (error) {

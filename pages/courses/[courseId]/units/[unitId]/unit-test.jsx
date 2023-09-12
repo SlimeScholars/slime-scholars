@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../utils/toast";
 import Modal from "../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function UnitTest({ user, setUser, loading, setLoading, setLoading2, colorPalette }) {
+export default function UnitTest({ user, setUser, loading, setLoading, setAxiosLoading, colorPalette }) {
 	const router = useRouter();
 	const [unit, setUnit] = useState({});
 
@@ -38,7 +38,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 
 	useEffect(() => {
 		const token = localStorage.getItem("jwt");
-		setLoading2(true)
+		setAxiosLoading(true)
 		if (router.query.unitId && token) {
 			axios
 				.get(
@@ -74,7 +74,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 						setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
 						if (user) {
-							setLoading2(false);
+							setAxiosLoading(false);
 						}
 					} else {
 						throw new Error("Failed to fetch unit test");
@@ -164,7 +164,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading2(true)
+			setAxiosLoading(true)
 			axios
 				.post("/api/learn/unit-test/complete", { unitId: unit._id, score: quizScore }, config)
 				.then((response) => {
@@ -180,14 +180,14 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 						setStars(response.data.stars)
 						setUpdatedUser(newUser)
 						setCompleted(true)
-						setLoading2(false);
+						setAxiosLoading(false);
 					}
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading2(false);
+					setAxiosLoading(false);
 				});
 
 		} catch (error) {

@@ -4,7 +4,7 @@ import { showToastError } from "../../utils/toast"
 import axios from "axios"
 import Course from "../../components/learn/course"
 
-export default function Courses({ user, loading, setLoading2, colorPalette }) {
+export default function Courses({ user, loading, setAxiosLoading, colorPalette }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -20,7 +20,7 @@ export default function Courses({ user, loading, setLoading2, colorPalette }) {
 	const [courses, setCourses] = useState([])
 
 	useEffect(() => {
-		setLoading2(true)
+		setAxiosLoading(true)
 		try {
 			const token = localStorage.getItem('jwt')
 			if (!token) {
@@ -44,7 +44,7 @@ export default function Courses({ user, loading, setLoading2, colorPalette }) {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading2(false);
+					setAxiosLoading(false);
 				})
 
 		} catch (error) {
@@ -55,7 +55,7 @@ export default function Courses({ user, loading, setLoading2, colorPalette }) {
 
 	useEffect(() => {
 		if (courses.length > 0) {
-			setLoading2(false)
+			setAxiosLoading(false)
 		}
 	})
 
