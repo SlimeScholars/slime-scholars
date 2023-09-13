@@ -27,8 +27,8 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
   const [maxQuizSectionNumbers, setMaxQuizSectionNumbers] = useState(Number.MAX_SAFE_INTEGER)
   const [curQuizQuestion, setCurQuizQuestion] = useState(-1)
 
-  const [courseName, setCourseName] = useState('Loading...')
-  const [unitName, setUnitName] = useState('Loading...')
+  const [courseName, setCourseName] = useState(null)
+  const [unitName, setUnitName] = useState(null)
 
   useEffect(() => {
     if (loading) {
@@ -340,7 +340,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
             </p>
           </div>
           <h1 className="text-3xl mt-3 mb-1">
-            {lesson ? lesson.lessonName : "Loading..."}
+            {lesson?.lessonName}
           </h1>
           <div className="w-full h-[1px] mt-3" 
           style={{

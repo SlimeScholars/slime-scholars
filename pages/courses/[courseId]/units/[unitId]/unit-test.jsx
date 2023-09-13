@@ -169,16 +169,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 				.post("/api/learn/unit-test/complete", { unitId: unit._id, score: quizScore }, config)
 				.then((response) => {
 					if (response.data) {
-						console.log(response.data)
-						const newUser = {
-							...user,
-
-							exp: response.data.exp,
-							flowers: response.data.flowers,
-							lastRewards: response.data.lastRewards,
-						}
 						setStars(response.data.stars)
-						setUpdatedUser(newUser)
 						setCompleted(true)
 					}
 					refetchUser()
@@ -273,41 +264,61 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 				</div>
 			}
 			<form
-				className={`flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
+				className={`flex flex-col items-center justify-start w-[60%] min-h-screen ${completed ? 'hidden' : ''}`}
 				onSubmit={(e) => submitQuiz(e)}
+				style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+				color:!colorPalette ? "" : colorPalette.text1
+				}}
 			>
-				<header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
-					<div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
-						<p className="text-lg cursor-pointer"
-							onClick={(e) => {
-								if (!completed) {
-									e.stopPropagation()
-									const confirmed = window.confirm('Are you sure you want to exit the lesson. Your question responses will NOT be saved.')
-									if (confirmed) {
-										router.push('/play')
-									}
-								}
-								else {
-									router.push('/play')
-								}
-							}}
-						>
-							Back
-						</p>
-						<p className="text-lg text-right">
-							{courseName}
-						</p>
-					</div>
-					<h1 className="text-3xl mt-3 mb-1">
-						{unit ? unit.unitName : "Loading..."}
-					</h1>
-					<div className="w-full h-[1px] bg-pink-200 mt-3" />
+				<header className="w-full flex items-center justify-start flex-col font-galindo"
+				style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1
+				}}>
+				<div className="w-full h-20 flex items-center justify-between px-6 py-3"
+				style={{
+					backgroundColor:!colorPalette ? "" : colorPalette.black
+				}}>
+					<p className="text-lg cursor-pointer"
+					onClick={(e) => {
+						if (!completed) {
+						e.stopPropagation()
+						const confirmed = window.confirm('Are you sure you want to exit the unit test. Your question responses will NOT be saved.')
+						if (confirmed) {
+							router.push('/play')
+						}
+						}
+						else {
+						router.push('/play')
+						}
+					}}
+					>
+					Back
+					</p>
+					<p className="text-lg text-right">
+					{courseName}
+					</p>
+				</div>
+				<h1 className="text-3xl mt-3 mb-1">
+					Unit Test
+				</h1>
+				<div className="w-full h-[1px] mt-3" 
+				style={{
+					backgroundColor:!colorPalette ? "" : colorPalette.primary2,
+				}}/>
 				</header>
-				<div className="w-full h-full flex flex-col justify-start items-start bg-purple-50 pb-[20vh]">
+				<div className="w-full h-full flex flex-col justify-start items-start pb-[20vh]"
+				style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+				color:!colorPalette ? "" : colorPalette.text1
+				}}>
 					{unit && unit.quizQuestions && unit.quizQuestions.map((quizQuestion, questionIndex) => (
 						<Fragment key={`quiz-question-${questionIndex}`}>
 							{curQuizQuestion >= questionIndex ?
-								<div className='w-full flex items-center justify-start flex-col font-galindo mt-10 text-pink-400'>
+								<div className='w-full flex items-center justify-start flex-col font-galindo mt-10'
+								style={{
+									color:!colorPalette ? "" : colorPalette.text1,
+								}}>
 									<h3 className="text-2xl mt-2 mb-0.5">
 										Question {questionIndex + 1}.
 									</h3>
@@ -326,6 +337,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 												sectionNumber={quizSectionNumber}
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
+												colorPalette={colorPalette}
 											/>
 										);
 									case 1:
@@ -338,6 +350,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 												sectionNumber={quizSectionNumber}
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
+												colorPalette={colorPalette}
 											/>
 										);
 									case 2:
@@ -354,6 +367,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
 												explanation={quizSection.explanation}
+												colorPalette={colorPalette}
 											/>
 										);
 									case 3:
@@ -371,6 +385,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
 												explanation={quizSection.explanation}
+												colorPalette={colorPalette}
 											/>
 										);
 									default:
@@ -384,9 +399,13 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 					{
 						unit && unit.quizQuestions && curQuizQuestion === unit.quizQuestions.length ?
 							<div className="w-full flex justify-center mt-5 font-bold">
-								<button
-									className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"
-									type='submit'
+								 <button
+								className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
+								type='submit'
+								style={{
+									backgroundColor:!colorPalette ? "" : colorPalette.primary2,
+									color:!colorPalette ? "" : colorPalette.primary1
+								}}
 								>
 									Complete Unit Test
 								</button>
