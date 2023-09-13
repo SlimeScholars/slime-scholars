@@ -69,6 +69,10 @@ a {
   }
 }
 
+input{
+  color:gray
+}
+
 .shake:hover {
   animation: shake 2s infinite;
 }

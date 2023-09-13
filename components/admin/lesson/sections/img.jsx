@@ -14,6 +14,7 @@ export default function ImgSection({
   questionIndex,
   questionNumber,
   curQuizQuestion,
+  colorPalette
 }) {
   const [img, setImg] = useState(null);
   useEffect(() => {
@@ -33,7 +34,10 @@ export default function ImgSection({
 
   return (
     (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
-      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
+      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start"
+      style={{
+        backgroundColor:!colorPalette ? "" : colorPalette.primary1
+      }}>
         {!active && (
           <Controls
             section={section}

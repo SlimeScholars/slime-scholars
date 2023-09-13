@@ -18,6 +18,7 @@ export default function FBSection({
   questionNumber,
   curQuizQuestion,
   explanation,
+  colorPalette
 }) {
   const [selected, setSelected] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -37,7 +38,10 @@ export default function FBSection({
 
   return (
     (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
-      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
+      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start"
+      style={{
+        backgroundColor:!colorPalette ? "" : colorPalette.primary1
+      }}>
         {!active && (
           <Controls
             section={section}
@@ -48,8 +52,11 @@ export default function FBSection({
           />
         )}
         <div className="w-full flex flex-row flex-wrap items-center justify-center gap-3 mt-5">
-          <p className="font-averia text-lg text-pink-400">{text}</p>
-          <input
+          <p className="font-averia text-lg"
+          style={{
+            color:!colorPalette ? "" : colorPalette.primary1
+          }}>{text}</p>
+          <input 
             onClick={(e) => e.stopPropagation()}
             className={
               "w-32 ring-1 rounded-md py-1 px-2 font-averia " +
@@ -57,8 +64,12 @@ export default function FBSection({
                 ? correct
                   ? "bg-green-100 text-green-400 ring-green-400"
                   : "bg-red-100 text-red-400 ring-red-400"
-                : "bg-pink-100  text-pink-400 ring-pink-400 hover:bg-pink-200 ")
+                : "")
             }
+            style={colorPalette && !selected ? {
+              backgroundColor:colorPalette.primary1,
+              color:colorPalette.text1,
+            } : {}}
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
             onKeyDown={(e) => {
@@ -66,7 +77,10 @@ export default function FBSection({
             }}
             disabled={selected}
           />
-          <p className="font-averia text-lg text-pink-400">{afterBlank}</p>
+          <p className="font-averia text-lg"
+          style={{
+            color:!colorPalette ? "" : colorPalette.text1
+          }}>{afterBlank}</p>
         </div>
         {((selected && active) || (!active)) && (
           <div className={`flex justify-center w-full mt-8 flex-col select-none ${active ? 'cursor-pointer' : ''}`}
