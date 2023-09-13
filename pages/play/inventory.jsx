@@ -4,7 +4,7 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import Image from "next/image";
 
-export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette, pfpBg, setPfpBg }) {
+export default function Inventory({ loading, user, setUser, setNumEggs, setFlowers, items, setItems, colorPalette, setColorPalette, pfpBg, setPfpBg, refetchUser }) {
 	const router = useRouter();
 	const [itemOnClick, setItemOnClick] = useState("empty for now");
 
@@ -42,8 +42,8 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 				<div
 					style={{
 						backgroundColor:
-							colorPalette === undefined ? "" : `${colorPalette.white}88`,
-						color: colorPalette === undefined ? "" : colorPalette.text1,
+							!colorPalette ? "" : `${colorPalette.white}88`,
+						color: !colorPalette ? "" : colorPalette.text1,
 					}}
 					className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
 				>
@@ -65,9 +65,9 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 									colorPalette === undefined
 										? ""
 										: `3px solid ${colorPalette.primary1}`,
-								color: colorPalette === undefined ? "" : colorPalette.primary1,
+								color: !colorPalette ? "" : colorPalette.primary1,
 								backgroundColor:
-									colorPalette === undefined ? "" : `${colorPalette.white}88`,
+									!colorPalette ? "" : `${colorPalette.white}88`,
 							}}
 							className="rounded-md flex flex-row py-1 px-3 text-lg"
 						>
@@ -97,6 +97,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 							itemOnClick={itemOnClick}
 							setItemOnClick={setItemOnClick}
 							colorPalette={colorPalette}
+							refetchUser={refetchUser}
 						/>
 					</div>
 
@@ -114,6 +115,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 							setFlowers={setFlowers}
 							colorPalette={colorPalette}
 							setColorPalette={setColorPalette}
+							refetchUser={refetchUser}
 						/>
 					</div>
 				</div>

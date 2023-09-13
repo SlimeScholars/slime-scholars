@@ -7,7 +7,7 @@ import ItemDetails from "../../components/play/inventory/itemDetails";
 import Image from "next/image";
 
 export default function Shopping({ loading, user, pfpBg, setPfpBg, 
-	colorPalette, setColorPalette, setUser }) {
+	colorPalette, setColorPalette, setUser, refetchUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
 	const [itemOnClick, setItemOnClick] = useState(null);
@@ -65,8 +65,8 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 				<div className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
 					style={{
 						backgroundColor:
-							colorPalette === undefined ? "" : `${colorPalette.white}88`,
-						color: colorPalette === undefined ? "" : colorPalette.text1,
+							!colorPalette ? "" : `${colorPalette.white}88`,
+						color: !colorPalette ? "" : colorPalette.text1,
 					}}>
 					<div className="grow-0 pl-4">
 						<Image
@@ -118,6 +118,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 						colorPalette={colorPalette}
 						setColorPalette={setColorPalette}
 						shopping="true"
+						refetchUser={refetchUser}
 					/>
 					)
 					}

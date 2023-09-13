@@ -14,6 +14,7 @@ export default function SlimeDetails({
   setSlime,
   setUser,
   bg,
+  refetchUser
 }) {
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
@@ -35,15 +36,8 @@ export default function SlimeDetails({
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          console.log(response.data);
-          const newUser = {
-            ...user,
-            roster: response.data.roster,
-            slime: response.data.slime,
-            slimeGel: response.data.slimeGel,
-            slimes: response.data.slimes,
-          };
-          setUser(newUser);
+          console.log(response)
+          refetchUser()
           setSlime(response.data.slime);
           setShowLevelUpPopup(true);
           setRes(response.data);
@@ -199,6 +193,7 @@ export default function SlimeDetails({
         slime={slime}
         setUser={setUser}
         bg={bg}
+        refetchUser={refetchUser}
       />
     </div>
   );
