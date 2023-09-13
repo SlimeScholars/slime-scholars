@@ -9,8 +9,8 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
         className="rounded-lg grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8 h-full w-full"
         style={{
           backgroundColor:
-            colorPalette === undefined ? "" : `${colorPalette.white}88`,
-          color: colorPalette === undefined ? "" : colorPalette.text1,
+            !colorPalette ? "" : `${colorPalette.white}88`,
+          color: !colorPalette ? "" : colorPalette.text1,
         }}
       >
         {shopping ? (

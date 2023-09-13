@@ -21,7 +21,7 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
       className="w-full h-screen relative bg-bottom"
       style={{
         backgroundImage:
-          colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+          !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
         backgroundSize: "cover",
       }}
     >
