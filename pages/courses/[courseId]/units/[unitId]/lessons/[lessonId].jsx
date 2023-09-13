@@ -227,7 +227,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
   }
 
   return (
-    <div className='w-full min-h-screen flex items-center justify-center' style={{
+    <div className='w-full h-screen flex items-center justify-center overflow-y-scroll' style={{
       backgroundImage:
         !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
       backgroundSize: "cover",
@@ -347,7 +347,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
             backgroundColor:!colorPalette ? "" : colorPalette.primary2,
           }}/>
         </header>
-        <div className="w-full h-full flex flex-col justify-start items-start pb-[20vh]"
+        <div className="w-full flex flex-col justify-start items-start pb-[20vh] max-h-[calc(100vh_-_10rem)] overflow-y-scroll"
         style={{
           backgroundColor:!colorPalette ? "" : colorPalette.primary1,
           color:!colorPalette ? "" : colorPalette.text1
@@ -517,8 +517,8 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
                   className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
                   type='submit'
                   style={{
-                    backgroundColor:!colorPalette ? "" : colorPalette.primary2,
-                    color:!colorPalette ? "" : colorPalette.primary1
+                    backgroundColor:!colorPalette ? "" : colorPalette.white,
+                    color:!colorPalette ? "" : colorPalette.black
                   }}
                 >
                   Complete Lesson

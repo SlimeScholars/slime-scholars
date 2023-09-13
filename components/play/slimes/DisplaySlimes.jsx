@@ -15,6 +15,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
 
   //   handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
+    setLoading(true)
     try {
       const token = localStorage.getItem("jwt");
 
@@ -149,7 +150,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                   </div>
                   <button
                     className={`px-1 rounded-lg transition-colors duration-150
-                    ${slime.levelUpCost <= user.slimeGel ? "bg-green-900 hover:bg-green-600" : "bg-red-900 hover:bg-red-600"} opacity-60`}
+                    ${slime.levelUpCost <= user.slimeGel && slime.level < slime.maxLevel ? "bg-green-900 hover:bg-green-600" : "bg-red-900 hover:bg-red-600"} opacity-60`}
                     onClick={() => {
                       setOldSlime(slime);
                       handleClick(slime._id, index);
