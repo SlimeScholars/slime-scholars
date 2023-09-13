@@ -11,7 +11,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       {/* TODO backgorund should match colour palette */}
-      <div className="bg-gray-400 p-8 rounded-lg shadow-lg">
+      <div className="bg-slate-200 p-8 rounded-lg shadow-lg">
         <div>
           <Image
             src={
@@ -28,7 +28,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
           />
         </div>
         <p className="text-lg font-semibold mb-4">
-          Level: {oldSlime.level} → {newSlime.level}{" "}
+          Level: {oldSlime.level} → <span className="text-green-600">{newSlime.level}{" "}</span>
         </p>
         <div className="flex flex-row items-center mb-4">
           <p className="text-lg font-semibold">
@@ -42,7 +42,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
             sizes='100vw'
             className="h-4 w-4 mx-1"
           />
-          <p className="text-lg font-semibold"> → {newSlime.baseProduction} </p>
+          <p className="text-lg font-semibold"> → <span className="text-green-600">{newSlime.baseProduction}</span></p>
           <Image
             src="/assets/icons/slime-gel.png"
             alt="slime gel"
@@ -64,7 +64,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
             sizes='100vw'
             className="h-4 w-4 mx-1"
           />
-          <p className="text-lg font-semibold"> → {newSlime.levelUpCost} </p>
+          <p className="text-green-600 text-lg font-semibold"> → {newSlime.levelUpCost} </p>
           <Image
             src="/assets/icons/slime-gel.png"
             alt="slime gel"

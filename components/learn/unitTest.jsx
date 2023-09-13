@@ -9,7 +9,7 @@ export default function UnitTest({ courseId, unitId, unitName, stars }) {
 
 	return (
 		<button
-			className='w-[80%] h-[7rem] text-2xl flex justify-start items-center bg-slate-200 px-[4rem]'
+			className={`course-bar-default bg-slate-400`}
 			onClick={() => {
 				router.push(`/courses/${courseId}/units/${unitId}/unit-test`)
 			}}

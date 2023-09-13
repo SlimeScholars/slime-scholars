@@ -529,7 +529,7 @@ export default function ItemDetails({
               {pfpBg === item.itemName ? (
                 <button
                   disabled
-                  className="rounded-lg py-4 h-full w-[15rem]"
+                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
                   style={{
                     backgroundColor: colorPalette
                       ? `${colorPalette.black}66`
@@ -541,7 +541,7 @@ export default function ItemDetails({
                 </button>
               ) : (
                 <button
-                  className="rounded-lg py-4 h-full w-[15rem]"
+                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
                   style={{
                     backgroundColor: colorPalette ? colorPalette.primary1 : "",
                     color: colorPalette ? colorPalette.text1 : "",
@@ -618,6 +618,7 @@ export default function ItemDetails({
                         setColorPalette(gameData.items[item.itemName]);
                       })
                       .catch((error) => {
+                        console.log(error)
                         showToastError(error.message);
                       });
                   }}

@@ -235,7 +235,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
   return (
     <div className='w-full min-h-screen flex items-center justify-center' style={{
       backgroundImage:
-        colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+        !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
       backgroundSize: "cover",
     }}
       onClick={clickIncrement}

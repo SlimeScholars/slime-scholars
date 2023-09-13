@@ -6,7 +6,7 @@ import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEd
 import axios from "axios";
 import Image from "next/image";
 
-export default function Friends({ loading, setLoading, user, setUser, colorPalette }) {
+export default function Friends({ loading, setLoading, user, setUser, colorPalette, refetchUser }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -17,40 +17,6 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
   const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
   const [receivedFriendRequests, setReceivedFriendRequests] =
     useState("empty for now");
-
-  const refetchUser = async() => {
-    setLoading(true)
-    try{
-      const token = localStorage.getItem('jwt')
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      axios
-      .get("/api/user", config)
-      .then((response) => {
-        console.log(response)
-        if (response.data && response.data.user) {
-          setUser(response.data.user);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        // If the json web token is invalid, remove it so no more requests will be made with the same token
-        localStorage.removeItem("jwt");
-        setUser(null);
-        setLoading(false);
-      });
-    }
-    catch(err){
-      console.log(err)
-      setLoading(false)
-    }
-  }
 
   useEffect(() => {
     if (loading) {
@@ -98,8 +64,8 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
       <div
         style={{
           backgroundColor:
-            colorPalette === undefined ? "" : `${colorPalette.white}88`,
-          color: colorPalette === undefined ? "" : colorPalette.text1,
+            !colorPalette ? "" : `${colorPalette.white}88`,
+          color: !colorPalette ? "" : colorPalette.text1,
         }}
         className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
       >
@@ -159,7 +125,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
           className="basis-1/2 rounded-lg mb-10"
           style={{
             backgroundColor:
-              colorPalette === undefined ? "" : `${colorPalette.white}88`,
+              !colorPalette ? "" : `${colorPalette.white}88`,
           }}
         >
           {toDo == "manage" ? (

@@ -5,7 +5,7 @@ import axios from "axios"
 import Lesson from "../../../../../../components/learn/lesson"
 import UnitTest from "../../../../../../components/learn/unitTest"
 
-export default function Lessons({ user, loading, setAxiosLoading, colorPalette }) {
+export default function Lessons({ user, loading, setLoading, colorPalette }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -20,8 +20,8 @@ export default function Lessons({ user, loading, setAxiosLoading, colorPalette }
 	const [courseId, setCourseId] = useState(router.query.courseId)
 	const [unitId, setUnitId] = useState(router.query.unitId)
 	const [lessons, setLessons] = useState([])
-	const [courseName, setCourseName] = useState('Loading...')
-	const [unitName, setUnitName] = useState('Loading...')
+	const [courseName, setCourseName] = useState(null)
+	const [unitName, setUnitName] = useState(null)
 	const [unitTestStars, setUnitTestStars] = useState(-1)
 
 	useEffect(() => {
@@ -47,7 +47,7 @@ export default function Lessons({ user, loading, setAxiosLoading, colorPalette }
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setAxiosLoading(true)
+			setLoading(true)
 			axios
 				.get("/api/learn/lessons", config)
 				.then((response) => {
@@ -56,14 +56,14 @@ export default function Lessons({ user, loading, setAxiosLoading, colorPalette }
 						setCourseName(response.data.courseName)
 						setUnitName(response.data.unitName)
 						setLessons(response.data.lessons)
-						setAxiosLoading(false);
+						setLoading(false);
 					}
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setAxiosLoading(false);
+					setLoading(false);
 				})
 
 		} catch (error) {
@@ -75,29 +75,51 @@ export default function Lessons({ user, loading, setAxiosLoading, colorPalette }
 	return (
 		<div className='w-full min-h-screen flex items-center justify-center' style={{
 			backgroundImage:
-				colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+				!colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
 			backgroundSize: "cover",
 		}}>
-			<div className='flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50'>
-				<header className="w-full h-50 text-pink-400 flex items-center justify-start flex-col font-galindo">
-					<div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
+			<div className='flex flex-col items-center justify-start w-[60%] min-h-screen'
+			style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1
+			}}>
+				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
+				style={{
+					color:!colorPalette ? "" : colorPalette.text1
+				}}>
+					<div className="w-full h-15 flex items-center justify-between px-6 py-3"
+					style={{
+						backgroundColor:!colorPalette ? "" : colorPalette.black
+					}}>
 						<p className="text-lg cursor-pointer"
-							onClick={() => router.push(`/courses/${courseId}/units`)}
+							onClick={() => router.push('/play')
+							}
 						>
-							Back
+							Home
 						</p>
-						<p className="text-lg text-right">
-							{courseName}
-							<br />
-							{unitName}
+						<p className="text-right text-lg cursor-pointer">
+							<span
+							className="hover:brightness-[0.8] transition-all duration-150"
+							onClick={() => {
+								router.push(`/courses/${courseId}/units`)
+							}}>{courseName}</span>
+							{courseName && unitName ? " / " : ""}
+							<span
+							onClick={() => {
+							}}>{unitName}</span>
 						</p>
 					</div>
 					<h1 className="text-3xl mt-8 mb-4">
 						Lesson Select
 					</h1>
-					<div className="w-full h-[1px] bg-pink-200 mt-3">&nbsp;</div>
+					<div className="w-full h-[1px] mt-3"
+					style={{
+						backgroundColor:!colorPalette ? "" : colorPalette.primary2
+					}}>&nbsp;</div>
 				</header>
-				<div className="w-full h-full flex flex-col justify-start items-center bg-purple-50 pt-[8vh] pb-[20vh] font-galindo">
+				<div className="w-full h-full flex flex-col justify-start items-center pt-8 pb-16 gap-4 font-galindo"
+				style={{
+					backgroundColor:!colorPalette ? "" : colorPalette.primary2
+				}}>
 					{lessons.map((lesson) => (
 						<Lesson
 							key={lesson._id}

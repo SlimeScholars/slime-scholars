@@ -13,6 +13,7 @@ export default function Slimes({
   setLoading,
   setUser,
   colorPalette,
+  refetchUser
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -64,40 +65,6 @@ export default function Slimes({
     }
   };
 
-  const refetchUser = async() => {
-    setLoading(true)
-    try{
-      const token = localStorage.getItem('jwt')
-
-			const config = {
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			};
-
-      axios
-      .get("/api/user", config)
-      .then((response) => {
-        console.log(response)
-        if (response.data && response.data.user) {
-          setUser(response.data.user);
-          setLoading(false);
-        }
-      })
-      .catch((err) => {
-        console.log(err)
-        // If the json web token is invalid, remove it so no more requests will be made with the same token
-        localStorage.removeItem("jwt");
-        setUser(null);
-        setLoading(false);
-      });
-    }
-    catch(err){
-      console.log(err)
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
     if (user) {
       const searchSlimes = user.slimes.filter((slime) => {
@@ -140,8 +107,8 @@ export default function Slimes({
           <div
             style={{
               backgroundColor:
-                colorPalette === undefined ? "" : `${colorPalette.white}88`,
-              color: colorPalette === undefined ? "" : colorPalette.text1,
+                !colorPalette ? "" : `${colorPalette.white}88`,
+              color: !colorPalette ? "" : colorPalette.text1,
             }}
             className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
           >
@@ -163,9 +130,9 @@ export default function Slimes({
                     colorPalette === undefined
                       ? ""
                       : `3px solid ${colorPalette.primary1}`,
-                  color: colorPalette === undefined ? "" : colorPalette.primary1,
+                  color: !colorPalette ? "" : colorPalette.primary1,
                   backgroundColor:
-                    colorPalette === undefined ? "" : `${colorPalette.white}88`,
+                    !colorPalette ? "" : `${colorPalette.white}88`,
                 }}
                 className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
@@ -190,7 +157,7 @@ export default function Slimes({
             className="basis-1/2 rounded-lg mb-10"
             style={{
               backgroundColor:
-                colorPalette === undefined ? "" : `${colorPalette.white}88`,
+                !colorPalette ? "" : `${colorPalette.white}88`,
             }}
           >
             <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{

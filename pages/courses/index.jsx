@@ -4,7 +4,7 @@ import { showToastError } from "../../utils/toast"
 import axios from "axios"
 import Course from "../../components/learn/course"
 
-export default function Courses({ user, loading, setAxiosLoading, colorPalette }) {
+export default function Courses({ user, loading, setLoading, colorPalette }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -15,12 +15,12 @@ export default function Courses({ user, loading, setAxiosLoading, colorPalette }
 			router.push('/')
 		}
 	}, [user, loading])
-	console.log(user)
+	console.log(colorPalette)
 
 	const [courses, setCourses] = useState([])
 
 	useEffect(() => {
-		setAxiosLoading(true)
+		setLoading(true)
 		try {
 			const token = localStorage.getItem('jwt')
 			if (!token) {
@@ -44,7 +44,7 @@ export default function Courses({ user, loading, setAxiosLoading, colorPalette }
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setAxiosLoading(false);
+					setLoading(false);
 				})
 
 		} catch (error) {
@@ -55,32 +55,47 @@ export default function Courses({ user, loading, setAxiosLoading, colorPalette }
 
 	useEffect(() => {
 		if (courses.length > 0) {
-			setAxiosLoading(false)
+			setLoading(false)
 		}
-	})
+	}, [courses])
 
 	return (
 		<div className='w-full min-h-screen flex items-center justify-center' style={{
 			backgroundImage:
-				colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+				!colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
 			backgroundSize: "cover",
 		}}>
-			<div className='flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50'>
-				<header className="w-full h-30 text-pink-400 flex items-center justify-start flex-col font-galindo">
-					<div className="w-full h-15 flex items-center justify-between px-6 py-3 bg-pink-200">
+			<div className='flex flex-col items-center justify-start w-[60%] min-h-screen'
+			style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1
+			}}>
+				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
+				style={{
+					color:!colorPalette ? "" : colorPalette.text1
+				}}>
+					<div className="w-full h-15 flex items-center justify-between px-6 py-3"
+					style={{
+						backgroundColor:!colorPalette ? "" : colorPalette.black
+					}}>
 						<p className="text-lg cursor-pointer"
 							onClick={() => router.push('/play')
 							}
 						>
-							Back
+							Home
 						</p>
 					</div>
 					<h1 className="text-3xl mt-8 mb-4">
 						Course Select
 					</h1>
-					<div className="w-full h-[1px] bg-pink-200 mt-3">&nbsp;</div>
+					<div className="w-full h-[1px] mt-3"
+					style={{
+						backgroundColor:!colorPalette ? "" : colorPalette.primary2
+					}}>&nbsp;</div>
 				</header>
-				<div className="w-full h-full flex flex-col justify-start items-center bg-purple-50 pt-[8vh] pb-[20vh] font-galindo">
+				<div className="w-full h-full flex flex-col justify-start items-center pt-8 pb-16 gap-4 font-galindo"
+				style={{
+					backgroundColor:!colorPalette ? "" : colorPalette.primary2
+				}}>
 					{courses.map((course) => (
 						<Course
 							key={course._id}

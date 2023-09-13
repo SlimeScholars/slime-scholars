@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
 
-export default function DisplaySlimes({ user, setLoading, setUser, colorPalette }) {
+export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser }) {
   const router = useRouter();
 
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);

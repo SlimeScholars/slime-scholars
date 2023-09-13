@@ -65,8 +65,8 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 				<div className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
 					style={{
 						backgroundColor:
-							colorPalette === undefined ? "" : `${colorPalette.white}88`,
-						color: colorPalette === undefined ? "" : colorPalette.text1,
+							!colorPalette ? "" : `${colorPalette.white}88`,
+						color: !colorPalette ? "" : colorPalette.text1,
 					}}>
 					<div className="grow-0 pl-4">
 						<Image

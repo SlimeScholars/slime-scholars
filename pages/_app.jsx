@@ -20,24 +20,6 @@ function MyApp({ Component, pageProps }) {
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
 
-  const modifiedPageProps = {
-    ...pageProps,
-    user,
-    setUser,
-    loading,
-    setLoading,
-    axiosLoading,
-    setAxiosLoading,
-    setNumEggs,
-    setFlowers,
-    items,
-    setItems,
-    colorPalette,
-    setColorPalette,
-    pfpBg,
-    setPfpBg,
-  }; // Include user in modifiedPageProps
-
   const refetchUser = async () => {
 
     setLoading(true)
@@ -77,6 +59,25 @@ function MyApp({ Component, pageProps }) {
       setLoading(false)
     }
   }
+
+  const modifiedPageProps = {
+    ...pageProps,
+    user,
+    setUser,
+    loading,
+    setLoading,
+    axiosLoading,
+    setAxiosLoading,
+    setNumEggs,
+    setFlowers,
+    items,
+    setItems,
+    colorPalette,
+    setColorPalette,
+    pfpBg,
+    setPfpBg,
+    refetchUser
+  }; // Include user in modifiedPageProps
 
   useEffect(() => {
     if (typeof window !== "undefined") {
