@@ -17,6 +17,7 @@ export default function MCSection({
   questionNumber,
   curQuizQuestion,
   explanation,
+  colorPalette
 }) {
   const [selected, setSelected] = useState(false);
   const [correct, setCorrect] = useState(false);
@@ -44,7 +45,10 @@ export default function MCSection({
 
   return (
     (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
-      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start bg-purple-50">
+      <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start"
+      style={{
+        backgroundColor:!colorPalette ? "" : colorPalette.primary1
+      }}>
         {!active && (
           <Controls
             section={section}
@@ -60,13 +64,17 @@ export default function MCSection({
               option.option.length > 0 && (
                 <button
                   className={
-                    "w-full ring-2 rounded-lg py-2 px-4 font-averia " +
+                    "w-full ring-2 rounded-md py-2 px-4 font-averia " +
                     (selected
                       ? correct
-                        ? selectedOption === index ? 'bg-green-300 text-green-700 ring-green-700 font-bold' : "bg-green-100 text-green-400 ring-green-400"
-                        : selectedOption === index ? 'bg-red-300 text-red-700 ring-red-700 font-bold' : "bg-red-100 text-red-400 ring-red-400"
-                      : "bg-pink-100  text-pink-400 ring-pink-400 hover:bg-pink-200 ")
+                        ? "bg-green-100 text-green-400 ring-green-400"
+                        : "bg-red-100 text-red-400 ring-red-400"
+                      : "")
                   }
+                  style={colorPalette && !selected ? {
+                    backgroundColor:colorPalette.primary2,
+                    color:colorPalette.primary1,
+                  } : {}}
                   key={index}
                   onClick={(e) => {
                     e.stopPropagation()

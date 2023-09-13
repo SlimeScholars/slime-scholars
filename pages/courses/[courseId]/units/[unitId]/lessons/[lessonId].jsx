@@ -302,11 +302,21 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
         </div>
       }
       <form
-        className={`flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
+        className={`flex flex-col items-center justify-start w-[60%] min-h-screen ${completed ? 'hidden' : ''}`}
         onSubmit={(e) => submitQuiz(e)}
+        style={{
+          backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+          color:!colorPalette ? "" : colorPalette.text1
+        }}
       >
-        <header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
-          <div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
+        <header className="w-full flex items-center justify-start flex-col font-galindo"
+        style={{
+          backgroundColor:!colorPalette ? "" : colorPalette.primary1
+        }}>
+          <div className="w-full h-20 flex items-center justify-between px-6 py-3"
+          style={{
+            backgroundColor:!colorPalette ? "" : colorPalette.black
+          }}>
             <p className="text-lg cursor-pointer"
               onClick={(e) => {
                 if (!completed) {
@@ -332,9 +342,16 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
           <h1 className="text-3xl mt-3 mb-1">
             {lesson ? lesson.lessonName : "Loading..."}
           </h1>
-          <div className="w-full h-[1px] bg-pink-200 mt-3" />
+          <div className="w-full h-[1px] mt-3" 
+          style={{
+            backgroundColor:!colorPalette ? "" : colorPalette.primary2,
+          }}/>
         </header>
-        <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50 pb-[20vh]">
+        <div className="w-full h-full flex flex-col justify-start items-start pb-[20vh]"
+        style={{
+          backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+          color:!colorPalette ? "" : colorPalette.text1
+        }}>
           {lesson && lesson.sections && lesson.sections.map((section, index) => {
             // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
             switch (section.sectionType) {
@@ -346,6 +363,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
                     section={section}
                     active={true}
                     sectionNumber={sectionNumber}
+                    colorPalette={colorPalette}
                   />
                 );
               case 1:
@@ -391,17 +409,29 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
           {
             quizSectionNumber !== -1 ?
               <>
-                <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
-                  <div className="w-full h-[1px] bg-pink-200 mb-3" />
+                <div className="w-full flex items-center justify-start flex-col font-galindo mt-10"
+                style={{
+                  color:!colorPalette ? "" : colorPalette.text1
+                }}>
+                  <div className="w-full h-[1px]mb-3"
+                  style={{
+                    backgroundColor:!colorPalette ? "" : colorPalette.primary1
+                  }} />
                   <h1 className="text-3xl mt-3 mb-1">
                     Quiz
                   </h1>
-                  <div className="w-full h-[1px] bg-pink-200 mt-3" />
+                  <div className="w-full h-[1px]mt-3" 
+                  style={{
+                    backgroundColor:!colorPalette ? "" : colorPalette.primary1
+                  }}/>
                 </div>
                 {lesson && lesson.quizQuestions && lesson.quizQuestions.map((quizQuestion, questionIndex) => (
                   <Fragment key={`quiz-question-${questionIndex}`}>
                     {curQuizQuestion >= questionIndex ?
-                      <div className='w-full flex items-center justify-start flex-col font-galindo mt-10 text-pink-400'>
+                      <div className='w-full flex items-center justify-start flex-col font-galindo mt-10'
+                      style={{
+                        color:!colorPalette ? "" : colorPalette.text1
+                      }}>
                         <h3 className="text-2xl mt-2 mb-0.5">
                           Question {questionIndex + 1}.
                         </h3>
@@ -419,6 +449,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
                               active={true}
                               sectionNumber={quizSectionNumber}
                               questionNumber={questionIndex}
+                              colorPalette={colorPalette}
                               curQuizQuestion={curQuizQuestion}
                             />
                           );
@@ -432,6 +463,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
                               sectionNumber={quizSectionNumber}
                               questionNumber={questionIndex}
                               curQuizQuestion={curQuizQuestion}
+                              colorPalette={colorPalette}
                             />
                           );
                         case 2:
@@ -448,6 +480,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
                               questionNumber={questionIndex}
                               curQuizQuestion={curQuizQuestion}
                               explanation={quizSection.explanation}
+                              colorPalette={colorPalette}
                             />
                           );
                         case 3:
@@ -481,8 +514,12 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
             lesson && lesson.quizQuestions && curQuizQuestion === lesson.quizQuestions.length ?
               <div className="w-full flex justify-center mt-5 font-bold">
                 <button
-                  className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"
+                  className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
                   type='submit'
+                  style={{
+                    backgroundColor:!colorPalette ? "" : colorPalette.primary2,
+                    color:!colorPalette ? "" : colorPalette.primary1
+                  }}
                 >
                   Complete Lesson
                 </button>
