@@ -19,6 +19,7 @@ export default function ItemDetails({
   colorPalette,
   setColorPalette,
   shopping,
+  refetchUser,
 }) {
   const [owned, setOwned] = useState(null);
   const [sellItemsNum, setSellItemsNum] = useState(
@@ -205,26 +206,8 @@ export default function ItemDetails({
 								}
 							  )
 							  .then((response) => {
-								console.log(response.data);
-								let newUser = {
-								  ...user,
-								  items: response.data.items,
-								};
-								if (response.data.flowers !== undefined) {
-								  newUser = {
-									...user,
-									items: response.data.items,
-									flowers: response.data.flowers,
-								  };
-								}
-								if (response.data.slimeGel !== undefined) {
-								  newUser = {
-									  ...user,
-									  items: response.data.items,
-									  slimeGel: response.data.slimeGel,
-									};
-								}
-								setUser(newUser);
+								console.log(response)
+                refetchUser()
 								setOwned(true);
 								showToastError(
 								  "Picture purchased successfully.",
@@ -366,8 +349,8 @@ export default function ItemDetails({
 							)
 							.then((response) => {
 	  
-							  const newUser = {...user, flowers:response.data.flowers, items:response.data.items}
-							  setUser(newUser);
+							  console.log(response)
+                refetchUser()
 	  
 							  // Prompt message to gui
 							  showToastError(
@@ -546,7 +529,7 @@ export default function ItemDetails({
               {pfpBg === item.itemName ? (
                 <button
                   disabled
-                  className="rounded-lg py-4 h-full w-[15rem]"
+                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
                   style={{
                     backgroundColor: colorPalette
                       ? `${colorPalette.black}66`
@@ -558,7 +541,7 @@ export default function ItemDetails({
                 </button>
               ) : (
                 <button
-                  className="rounded-lg py-4 h-full w-[15rem]"
+                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
                   style={{
                     backgroundColor: colorPalette ? colorPalette.primary1 : "",
                     color: colorPalette ? colorPalette.text1 : "",
@@ -580,9 +563,8 @@ export default function ItemDetails({
                         }
                       )
                       .then((response) => {
-                        console.log(response.data);
-                        const newUser = { ...user, pfpBg: response.data.pfpBg };
-                        setUser(newUser);
+                        console.log(response)
+                        refetchUser()
                         setPfpBg(response.data.pfpBg);
                         showToastError("Profile background was changed.", true);
                       })
@@ -631,11 +613,12 @@ export default function ItemDetails({
                         }
                       )
                       .then((response) => {
-                        const newUser = { ...user, bg: response.data.bg };
-                        setUser(newUser);
+                        console.log(response)
+                        refetchUser()
                         setColorPalette(gameData.items[item.itemName]);
                       })
                       .catch((error) => {
+                        console.log(error)
                         showToastError(error.message);
                       });
                   }}

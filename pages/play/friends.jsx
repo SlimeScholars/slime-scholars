@@ -6,7 +6,7 @@ import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEd
 import axios from "axios";
 import Image from "next/image";
 
-export default function Friends({ loading, user, setUser, colorPalette }) {
+export default function Friends({ loading, setLoading, user, setUser, colorPalette, refetchUser }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -64,8 +64,8 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
       <div
         style={{
           backgroundColor:
-            colorPalette === undefined ? "" : `${colorPalette.white}88`,
-          color: colorPalette === undefined ? "" : colorPalette.text1,
+            !colorPalette ? "" : `${colorPalette.white}88`,
+          color: !colorPalette ? "" : colorPalette.text1,
         }}
         className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
       >
@@ -125,7 +125,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
           className="basis-1/2 rounded-lg mb-10"
           style={{
             backgroundColor:
-              colorPalette === undefined ? "" : `${colorPalette.white}88`,
+              !colorPalette ? "" : `${colorPalette.white}88`,
           }}
         >
           {toDo == "manage" ? (
@@ -146,6 +146,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
               setReceivedFriendRequests={setReceivedFriendRequests}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
+              refetchUser={refetchUser}
             />
           )}
         </div>
@@ -161,6 +162,7 @@ export default function Friends({ loading, user, setUser, colorPalette }) {
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
+              refetchUser={refetchUser}
             />
           </div>
         </div>
