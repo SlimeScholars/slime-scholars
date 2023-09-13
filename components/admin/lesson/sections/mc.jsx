@@ -72,8 +72,8 @@ export default function MCSection({
                       : "")
                   }
                   style={colorPalette && !selected ? {
-                    backgroundColor:colorPalette.primary2,
-                    color:colorPalette.primary1,
+                    backgroundColor:colorPalette.white,
+                    color:colorPalette.black,
                   } : {}}
                   key={index}
                   onClick={(e) => {
