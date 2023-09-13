@@ -113,8 +113,17 @@ function MyApp({ Component, pageProps }) {
     }
   }, [user]);
 
-  // Return loading on the component instead of home. This way, state variables don't get reset
+  useEffect(() => {
+    if (router.pathname === "/") {
+      if (user) {
+        router.push('/play');
+      } else {
+        router.push('/login');
+      }
+    }
+  }, [user, router.pathname]);
 
+  // Return loading on the component instead of home. This way, state variables don't get reset
   return (
     <>
       {loading || loading2 ? <Spinner /> : <></>}
