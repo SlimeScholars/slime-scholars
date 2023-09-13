@@ -10,7 +10,7 @@ export default function Lesson({ courseId, unitId, lessonId, lessonName, looted,
 
 	return (
 		<button
-			className={`course-bar-default bg-slate-400`}
+			className={`course-bar-default bg-slate-300 border-2 border-slate-400`}
 			onClick={() => {
 				router.push(`/courses/${courseId}/units/${unitId}/lessons/${lessonId}`)
 			}}

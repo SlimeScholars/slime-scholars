@@ -15,7 +15,6 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 			router.push('/')
 		}
 	}, [user, loading])
-	console.log(colorPalette)
 
 	const [courses, setCourses] = useState([])
 
@@ -67,7 +66,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 		}}>
 			<div className='flex flex-col items-center justify-start w-[60%] min-h-screen'
 			style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1 + "F0"
 			}}>
 				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
 				style={{

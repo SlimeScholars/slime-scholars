@@ -80,7 +80,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 		}}>
 			<div className='flex flex-col items-center justify-start w-[60%] min-h-screen'
 			style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1 + "F0"
 			}}>
 				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
 				style={{
@@ -97,6 +97,15 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 							Home
 						</p>
 						<p className="text-right text-lg cursor-pointer">
+							{courseName && unitName ? 
+							<>
+								<span
+								className="hover:brightness-[0.8] transition-all duration-150"
+								onClick={() => {
+									router.push(`/courses`)
+								}}>Courses</span>
+								{" / "}
+							</>:<></>}
 							<span
 							className="hover:brightness-[0.8] transition-all duration-150"
 							onClick={() => {

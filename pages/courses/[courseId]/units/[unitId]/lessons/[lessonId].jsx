@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoading, colorPalette }) {
+export default function Lesson({ user, setUser, loading, setLoading, colorPalette, refetchUser }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -42,7 +42,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
-      setAxiosLoading(true)
+      setLoading(true)
       axios
         .get(
           "/api/learn/lesson",
@@ -64,6 +64,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
             setLesson(res.data.lesson)
             setUnitName(res.data.unitName)
             setCourseName(res.data.courseName)
+            console.log(res.data)
 
             let newMax = 0
             for (let i in res.data.lesson.sections) {
@@ -85,7 +86,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
             }
             setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-            setAxiosLoading(false);
+            setLoading(false);
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -178,7 +179,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
   }
 
   const [quizScore, setQuizScore] = useState(0)
-  const [updatedUser, setUpdatedUser] = useState(user)
+  const [initUser] = useState({...user})
   const [completed, setCompleted] = useState(false)
 
   const addScore = (points) => {
@@ -201,29 +202,22 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
           Authorization: `Bearer ${token}`,
         },
       };
-      setAxiosLoading(true)
+      setLoading(true)
       axios
         .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
           if (response.data) {
-            const newUser = {
-              ...user,
-
-              exp: response.data.exp,
-              flowers: response.data.flowers,
-              lastRewards: response.data.lastRewards,
-            }
             setStars(response.data.stars)
-            setUpdatedUser(newUser)
             setCompleted(true)
-            setAxiosLoading(false);
+            refetchUser();
+            setLoading(false);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message)
           }
-          setAxiosLoading(false);
+          setLoading(false);
         });
 
     } catch (error) {
@@ -251,9 +245,9 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
             </h2>
             <Stars stars={stars} />
             <div className="text-xl my-2">
-              {user.exp} Exp &nbsp;
+              {initUser.exp} Exp &nbsp;
               <FaArrowRight className="inline" /> &nbsp;
-              {updatedUser.exp} Exp &nbsp;
+              {user.exp} Exp &nbsp;
               <Modal
                 preview={
                   <AiOutlineQuestionCircle className="text-xl" />
@@ -266,9 +260,9 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
               />
             </div>
             <div className="text-xl my-2">
-              {user.flowers} F &nbsp;
+              {initUser.flowers} F &nbsp;
               <FaArrowRight className="inline" /> &nbsp;
-              {updatedUser.flowers} F &nbsp;
+              {user.flowers} F &nbsp;
               <Modal
                 preview={
                   <AiOutlineQuestionCircle className="text-xl" />
@@ -285,7 +279,6 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
               <button
                 className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
-                  setUpdatedUser(updatedUser)
                   // TODO: Keep track of the latest lessons page that they were on so that they can go back to it
                   router.push('/play')
                 }}
@@ -297,7 +290,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoa
                 className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
                   setLoading(true)
-                  setUser(updatedUser)
+                  setUser(initUser)
                   window.location.reload()
                 }}
               >
