@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
 
-export default function DisplaySlimes({ user, setLoading, setUser, colorPalette }) {
+export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser }) {
   const router = useRouter();
 
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
@@ -15,6 +15,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
 
   //   handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
+    setLoading(true)
     try {
       const token = localStorage.getItem("jwt");
 
@@ -27,13 +28,8 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          const newUser = {
-            ...user,
-            roster: response.data.roster,
-            slimeGel: response.data.slimeGel,
-            slimes: response.data.slimes,
-          };
-          setUser(newUser);
+          console.log(response)
+          refetchUser()
           setShowLevelUpPopup(true);
           setRes(response.data);
         })
@@ -132,12 +128,12 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
                   }`}
               >
                 <div
-                  className="flex flex-row items-center mx-auto absolute top-0 left-[50%]"
+                  className="flex flex-row gap-1 items-center mx-auto absolute top-0 left-[50%]"
                   style={{
                     transform: "translateX(-50%)",
                   }}
                 >
-                  <div className="bg-[#5A5A5A] opacity-60 h-5 w-[8rem] pb-6 rounded-md mx-auto text-white text-center">
+                  <div className="bg-black opacity-50 h-5 w-[8rem] pb-6 rounded-md mx-auto text-white text-center">
                     <div className="flex flex-row justify-center items-center pl-2">
                       <p>
                         Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
@@ -153,13 +149,14 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette 
                     </div>
                   </div>
                   <button
-                    className="p-1 rounded-full bg-red-300"
+                    className={`px-1 rounded-lg transition-colors duration-150
+                    ${slime.levelUpCost <= user.slimeGel && slime.level < slime.maxLevel ? "bg-green-900 hover:bg-green-600" : "bg-red-900 hover:bg-red-600"} opacity-60`}
                     onClick={() => {
                       setOldSlime(slime);
                       handleClick(slime._id, index);
                     }}
                   >
-                    &nbsp;^&nbsp;
+                    <span className="text-white">&nbsp;^&nbsp;</span>
                   </button>
                 </div>
 

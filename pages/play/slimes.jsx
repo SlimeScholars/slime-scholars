@@ -13,6 +13,7 @@ export default function Slimes({
   setLoading,
   setUser,
   colorPalette,
+  refetchUser
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -46,12 +47,8 @@ export default function Slimes({
       axios
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
-          const newUser = {
-            ...user,
-            lastSlimeReward: response.data.lastSlimeReward,
-            slimeGel: response.data.slimeGel,
-          };
-          setUser(newUser);
+          console.log(response)
+          refetchUser()
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
@@ -110,8 +107,8 @@ export default function Slimes({
           <div
             style={{
               backgroundColor:
-                colorPalette === undefined ? "" : `${colorPalette.white}88`,
-              color: colorPalette === undefined ? "" : colorPalette.text1,
+                !colorPalette ? "" : `${colorPalette.white}88`,
+              color: !colorPalette ? "" : colorPalette.text1,
             }}
             className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
           >
@@ -133,9 +130,9 @@ export default function Slimes({
                     colorPalette === undefined
                       ? ""
                       : `3px solid ${colorPalette.primary1}`,
-                  color: colorPalette === undefined ? "" : colorPalette.primary1,
+                  color: !colorPalette ? "" : colorPalette.primary1,
                   backgroundColor:
-                    colorPalette === undefined ? "" : `${colorPalette.white}88`,
+                    !colorPalette ? "" : `${colorPalette.white}88`,
                 }}
                 className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
@@ -160,7 +157,7 @@ export default function Slimes({
             className="basis-1/2 rounded-lg mb-10"
             style={{
               backgroundColor:
-                colorPalette === undefined ? "" : `${colorPalette.white}88`,
+                !colorPalette ? "" : `${colorPalette.white}88`,
             }}
           >
             <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
@@ -193,6 +190,7 @@ export default function Slimes({
               setSlime={setSlime}
               setUser={setUser}
               bg={colorPalette}
+              refetchUser={refetchUser}
             />
           </div>
         </div>

@@ -19,6 +19,7 @@ export default function ManageFriends({
   setUser,
   setSentFriendRequests,
   colorPalette,
+  refetchUser
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
@@ -82,9 +83,9 @@ export default function ManageFriends({
                     colorPalette === undefined
                       ? ""
                       : `3px solid ${colorPalette.primary1}`,
-                  color: colorPalette === undefined ? "" : colorPalette.primary1,
+                  color: !colorPalette ? "" : colorPalette.primary1,
                   backgroundColor:
-                    colorPalette === undefined ? "" : `${colorPalette.white}88`,
+                    !colorPalette ? "" : `${colorPalette.white}88`,
                 }}
                 className="rounded-md flex flex-row py-1 px-3 text-lg"
               >
@@ -119,6 +120,7 @@ export default function ManageFriends({
           user={user}
           setSentFriendRequests={setSentFriendRequests}
           colorPalette={colorPalette}
+          refetchUser={refetchUser}
         />
       </div>
     </div>

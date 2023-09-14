@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../utils/toast";
 import Modal from "../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function UnitTest({ user, setUser, loading, setLoading, setLoading2, colorPalette }) {
+export default function UnitTest({ user, setUser, loading, setLoading, colorPalette, refetchUser }) {
 	const router = useRouter();
 	const [unit, setUnit] = useState({});
 
@@ -38,7 +38,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 
 	useEffect(() => {
 		const token = localStorage.getItem("jwt");
-		setLoading2(true)
+		setLoading(true)
 		if (router.query.unitId && token) {
 			axios
 				.get(
@@ -74,7 +74,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 						setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
 						if (user) {
-							setLoading2(false);
+							setLoading(false);
 						}
 					} else {
 						throw new Error("Failed to fetch unit test");
@@ -141,7 +141,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 	}
 
 	const [quizScore, setQuizScore] = useState(0)
-	const [updatedUser, setUpdatedUser] = useState(user)
+	const [initUser] = useState({...user})
 	const [completed, setCompleted] = useState(false)
 
 	const addScore = (points) => {
@@ -164,30 +164,22 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading2(true)
+			setLoading(true)
 			axios
 				.post("/api/learn/unit-test/complete", { unitId: unit._id, score: quizScore }, config)
 				.then((response) => {
 					if (response.data) {
-						console.log(response.data)
-						const newUser = {
-							...user,
-
-							exp: response.data.exp,
-							flowers: response.data.flowers,
-							lastRewards: response.data.lastRewards,
-						}
 						setStars(response.data.stars)
-						setUpdatedUser(newUser)
 						setCompleted(true)
-						setLoading2(false);
 					}
+					refetchUser()
+					setLoading(false);
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading2(false);
+					setLoading(false);
 				});
 
 		} catch (error) {
@@ -197,7 +189,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 	}
 
 	return (
-		<div className='w-full min-h-screen flex items-center justify-center' style={{
+		<div className='w-full h-screen flex items-center justify-center overflow-y-scroll' style={{
 			backgroundImage:
 				colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
 			backgroundSize: "cover",
@@ -215,9 +207,9 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 						</h2>
 						<Stars stars={stars} />
 						<div className="text-xl my-2">
-							{user.exp} Exp &nbsp;
+							{initUser.exp} Exp &nbsp;
 							<FaArrowRight className="inline" /> &nbsp;
-							{updatedUser.exp} Exp &nbsp;
+							{user.exp} Exp &nbsp;
 							<Modal
 								preview={
 									<AiOutlineQuestionCircle className="text-xl" />
@@ -230,9 +222,9 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 							/>
 						</div>
 						<div className="text-xl my-2">
-							{user.flowers} F &nbsp;
+							{initUser.flowers} F &nbsp;
 							<FaArrowRight className="inline" /> &nbsp;
-							{updatedUser.flowers} F &nbsp;
+							{user.flowers} F &nbsp;
 							<Modal
 								preview={
 									<AiOutlineQuestionCircle className="text-xl" />
@@ -249,7 +241,6 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 							<button
 								className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
 								onClick={() => {
-									setUpdatedUser(updatedUser)
 									// TODO: Keep track of the latest lessons page that they were on so that they can go back to it
 									router.push('/play')
 								}}
@@ -261,7 +252,6 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 								className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
 								onClick={() => {
 									setLoading(true)
-									setUser(updatedUser)
 									window.location.reload()
 								}}
 							>
@@ -273,41 +263,61 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 				</div>
 			}
 			<form
-				className={`flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
+				className={`flex flex-col items-center justify-start w-[60%] min-h-screen ${completed ? 'hidden' : ''}`}
 				onSubmit={(e) => submitQuiz(e)}
+				style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+				color:!colorPalette ? "" : colorPalette.text1
+				}}
 			>
-				<header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
-					<div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
-						<p className="text-lg cursor-pointer"
-							onClick={(e) => {
-								if (!completed) {
-									e.stopPropagation()
-									const confirmed = window.confirm('Are you sure you want to exit the lesson. Your question responses will NOT be saved.')
-									if (confirmed) {
-										router.push('/play')
-									}
-								}
-								else {
-									router.push('/play')
-								}
-							}}
-						>
-							Back
-						</p>
-						<p className="text-lg text-right">
-							{courseName}
-						</p>
-					</div>
-					<h1 className="text-3xl mt-3 mb-1">
-						{unit ? unit.unitName : "Loading..."}
-					</h1>
-					<div className="w-full h-[1px] bg-pink-200 mt-3" />
+				<header className="w-full flex items-center justify-start flex-col font-galindo"
+				style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1
+				}}>
+				<div className="w-full h-20 flex items-center justify-between px-6 py-3"
+				style={{
+					backgroundColor:!colorPalette ? "" : colorPalette.black
+				}}>
+					<p className="text-lg cursor-pointer"
+					onClick={(e) => {
+						if (!completed) {
+						e.stopPropagation()
+						const confirmed = window.confirm('Are you sure you want to exit the unit test. Your question responses will NOT be saved.')
+						if (confirmed) {
+							router.push('/play')
+						}
+						}
+						else {
+						router.push('/play')
+						}
+					}}
+					>
+					Back
+					</p>
+					<p className="text-lg text-right">
+					{courseName}
+					</p>
+				</div>
+				<h1 className="text-3xl mt-3 mb-1">
+					Unit Test
+				</h1>
+				<div className="w-full h-[1px] mt-3" 
+				style={{
+					backgroundColor:!colorPalette ? "" : colorPalette.primary2,
+				}}/>
 				</header>
-				<div className="w-full h-full flex flex-col justify-start items-start bg-purple-50 pb-[20vh]">
+				<div className="w-full h-full flex flex-col justify-start items-start pb-[20vh] max-h-[calc(100vh_-_10rem)] overflow-y-scroll"
+				style={{
+				backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+				color:!colorPalette ? "" : colorPalette.text1
+				}}>
 					{unit && unit.quizQuestions && unit.quizQuestions.map((quizQuestion, questionIndex) => (
 						<Fragment key={`quiz-question-${questionIndex}`}>
 							{curQuizQuestion >= questionIndex ?
-								<div className='w-full flex items-center justify-start flex-col font-galindo mt-10 text-pink-400'>
+								<div className='w-full flex items-center justify-start flex-col font-galindo mt-10'
+								style={{
+									color:!colorPalette ? "" : colorPalette.text1,
+								}}>
 									<h3 className="text-2xl mt-2 mb-0.5">
 										Question {questionIndex + 1}.
 									</h3>
@@ -326,6 +336,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 												sectionNumber={quizSectionNumber}
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
+												colorPalette={colorPalette}
 											/>
 										);
 									case 1:
@@ -338,6 +349,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 												sectionNumber={quizSectionNumber}
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
+												colorPalette={colorPalette}
 											/>
 										);
 									case 2:
@@ -354,6 +366,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
 												explanation={quizSection.explanation}
+												colorPalette={colorPalette}
 											/>
 										);
 									case 3:
@@ -371,6 +384,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 												questionNumber={questionIndex}
 												curQuizQuestion={curQuizQuestion}
 												explanation={quizSection.explanation}
+												colorPalette={colorPalette}
 											/>
 										);
 									default:
@@ -384,9 +398,13 @@ export default function UnitTest({ user, setUser, loading, setLoading, setLoadin
 					{
 						unit && unit.quizQuestions && curQuizQuestion === unit.quizQuestions.length ?
 							<div className="w-full flex justify-center mt-5 font-bold">
-								<button
-									className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"
-									type='submit'
+								 <button
+								className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
+								type='submit'
+								style={{
+									backgroundColor:!colorPalette ? "" : colorPalette.white,
+									color:!colorPalette ? "" : colorPalette.black
+								}}
 								>
 									Complete Unit Test
 								</button>
