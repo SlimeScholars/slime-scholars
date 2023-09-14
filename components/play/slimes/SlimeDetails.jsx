@@ -22,7 +22,6 @@ export default function SlimeDetails({
 
   //   handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
-    console.log(id);
     try {
       const token = localStorage.getItem("jwt");
 
@@ -32,11 +31,10 @@ export default function SlimeDetails({
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true);
+      setLoading(true)
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          console.log(response)
           refetchUser()
           setSlime(response.data.slime);
           setShowLevelUpPopup(true);
