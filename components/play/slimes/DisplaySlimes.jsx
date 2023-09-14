@@ -101,7 +101,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                 <button
                   key={index}
                   className={`${offset ? "transform -translate-y-16" : ""
-                    } mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 no-animate-size`}
+                    } mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 no-animate-size text-5xl font-bold font-galindo`}
                   style={{
                     backgroundImage: `url('/assets/pfp/slimes/shadow-slime.png')`,
                     backgroundPosition: '0 0',
