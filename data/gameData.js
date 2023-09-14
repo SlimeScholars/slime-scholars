@@ -22,6 +22,7 @@ export const gameData = {
       sellPrice: 1,
       buyCurrency: 1,
       sellCurrency: 1,
+      desc: "A slime egg. It's a bit slimy. I wonder what's inside?",
     },
     /*
     "Rotten Egg": {

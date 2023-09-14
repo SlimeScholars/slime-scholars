@@ -4,6 +4,20 @@ import Nav from '../components/homepage/nav'
 import Button from '../components/homepage/button'
 
 export default function Home({ user, setUser }) {
+  useEffect(() => {
+    if (router.pathname === "/") {
+      if (user && user.userType === 1) {
+        router.push('/play');
+      }
+      else if (user && user.userType === 4) {
+        router.push('/admin/edit-course')
+      }
+      else {
+        router.push('/login');
+      }
+    }
+  }, [user, router.pathname]);
+
   return (
     <div className="w-screen flex flex-col">
       <Head>
