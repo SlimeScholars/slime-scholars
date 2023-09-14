@@ -12,6 +12,7 @@ export default function Home({ user, setUser }) {
       else if (user && user.userType === 4) {
         router.push('/admin/edit-course')
       }
+      // FIXME
       else {
         router.push('/login');
       }
@@ -38,8 +39,8 @@ export default function Home({ user, setUser }) {
           <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-600">
             Slime Scholars is a project that motivates students to learn by making the process gratifying.
           </h2>
-          {!user ? <Button text="Sign up for free" style="Primary" onClick="/signup" /> : 
-          <Button text="Continue your learning" style="Primary" onClick="/play" /> }
+          {!user ? <Button text="Sign up for free" style="Primary" onClick="/signup" /> :
+            <Button text="Continue your learning" style="Primary" onClick="/play" />}
         </header>
       </main>
     </div>

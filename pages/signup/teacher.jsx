@@ -27,7 +27,16 @@ export default function Teacher({ loading, user, setUser }) {
     if (loading) {
       return;
     }
-    if (user) {
+
+    // FIXME
+    if (!user) {
+      router.push('/signup/student')
+    }
+
+    if (user && user.userType === 1) {
+      router.push('/play')
+    }
+    else if (user) {
       router.push("/");
     }
   }, [loading, user]);
