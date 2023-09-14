@@ -30,25 +30,59 @@ export default function SlimeDetails({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      };
-      setLoading(true)
+      }
+
+      if (slime && slime._id != id) {
+        throw new Error('Invalid slime for leveling up')
+      }
+
+      if (user.slimeGel < slime.levelUpCost) {
+        throw new Error('Insufficient slime gel')
+      }
+
+      if (slime.level === slime.maxLevel) {
+        throw new Error('The slime is already at max level')
+      }
+
+      const newSlime = {
+        ...slime,
+        level: slime.level + 1,
+        // Future slime.level - 1 as index to adjust from level to index
+        // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
+        levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
+        baseProduction: slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
+      }
+      const newUser = {
+        ...user,
+        slimeGel: user.slimeGel - slime.levelUpCost,
+      }
+
+      setUser(newUser)
+      setSlime(newSlime)
+      setRes({ slime: newSlime })
+      setShowLevelUpPopup(true)
+
+      // setLoading(true)
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          refetchUser()
-          setSlime(response.data.slime);
-          setShowLevelUpPopup(true);
-          setRes(response.data);
-          setLoading(false);
+          // refetchUser()
+          // setSlime(response.data.slime);
+          // setShowLevelUpPopup(true);
+          // setRes(response.data);
+          // setLoading(false);
         })
         .catch((error) => {
           showToastError(error.response.data.message);
-          console.log(error);
-          setLoading(false);
         });
     } catch (error) {
-      showToastError(error.response.data.message);
-      return;
+      if (error?.response?.data?.message) {
+        showToastError(error.response.data.message);
+      }
+      else {
+        showToastError(error.message)
+      }
+      return
     }
   };
   const handleClosePopup = () => {
