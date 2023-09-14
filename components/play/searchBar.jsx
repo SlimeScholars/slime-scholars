@@ -21,8 +21,8 @@ export default function SearchBar(props) {
       }}
       style={{
         backgroundColor:
-          colorPalette === undefined ? "" : `${colorPalette.white}88`,
-        color: colorPalette === undefined ? "" : colorPalette.text1,
+          !colorPalette ? "" : `${colorPalette.white}88`,
+        color: !colorPalette ? "" : colorPalette.text1,
       }}
     >
       <input

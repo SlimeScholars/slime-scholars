@@ -6,7 +6,7 @@ import { showToastError } from '../../utils/toast';
 import axios from 'axios';
 import Image from 'next/image';
 
-export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, setItems }) {
+export default function Roll({ loading, user, setUser, setLoading, refetchUser }) {
 
     const router = useRouter();
     const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
@@ -59,17 +59,13 @@ export default function Roll({ loading, user, setUser, setNumEggs, setFlowers, s
                 quantity: numToPurchase
             }, config)
             .then(response => {
-
+                console.log(response)
                 // Close popup dialog
                 setEggsLacked(0);
-
                 if (user) {
                     setOriginalSlimes(user.slimes);
                 }
-
-                const newUser = {...user, items:response.data.items, flowers:response.data.flowers}
-                setUser(newUser);
-
+                refetchUser()
                 showToastError("Purchased successfully.", true);
             })
             .catch(error => showToastError(error.message));

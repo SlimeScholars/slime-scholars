@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, setUser, loading, setLoading, setLoading2, colorPalette }) {
+export default function Lesson({ user, setUser, loading, setLoading, colorPalette, refetchUser }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -27,8 +27,8 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
   const [maxQuizSectionNumbers, setMaxQuizSectionNumbers] = useState(Number.MAX_SAFE_INTEGER)
   const [curQuizQuestion, setCurQuizQuestion] = useState(-1)
 
-  const [courseName, setCourseName] = useState('Loading...')
-  const [unitName, setUnitName] = useState('Loading...')
+  const [courseName, setCourseName] = useState(null)
+  const [unitName, setUnitName] = useState(null)
 
   useEffect(() => {
     if (loading) {
@@ -42,7 +42,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
-      setLoading2(true)
+      setLoading(true)
       axios
         .get(
           "/api/learn/lesson",
@@ -64,6 +64,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             setLesson(res.data.lesson)
             setUnitName(res.data.unitName)
             setCourseName(res.data.courseName)
+            console.log(res.data)
 
             let newMax = 0
             for (let i in res.data.lesson.sections) {
@@ -85,7 +86,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             }
             setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-            setLoading2(false);
+            setLoading(false);
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -178,7 +179,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
   }
 
   const [quizScore, setQuizScore] = useState(0)
-  const [updatedUser, setUpdatedUser] = useState(user)
+  const [initUser] = useState({...user})
   const [completed, setCompleted] = useState(false)
 
   const addScore = (points) => {
@@ -201,29 +202,22 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading2(true)
+      setLoading(true)
       axios
         .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
           if (response.data) {
-            const newUser = {
-              ...user,
-
-              exp: response.data.exp,
-              flowers: response.data.flowers,
-              lastRewards: response.data.lastRewards,
-            }
             setStars(response.data.stars)
-            setUpdatedUser(newUser)
             setCompleted(true)
-            setLoading2(false);
+            refetchUser();
+            setLoading(false);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message)
           }
-          setLoading2(false);
+          setLoading(false);
         });
 
     } catch (error) {
@@ -233,9 +227,9 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
   }
 
   return (
-    <div className='w-full min-h-screen flex items-center justify-center' style={{
+    <div className='w-full h-screen flex items-center justify-center overflow-y-scroll' style={{
       backgroundImage:
-        colorPalette === undefined ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+        !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
       backgroundSize: "cover",
     }}
       onClick={clickIncrement}
@@ -251,9 +245,9 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             </h2>
             <Stars stars={stars} />
             <div className="text-xl my-2">
-              {user.exp} Exp &nbsp;
+              {initUser.exp} Exp &nbsp;
               <FaArrowRight className="inline" /> &nbsp;
-              {updatedUser.exp} Exp &nbsp;
+              {user.exp} Exp &nbsp;
               <Modal
                 preview={
                   <AiOutlineQuestionCircle className="text-xl" />
@@ -266,9 +260,9 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
               />
             </div>
             <div className="text-xl my-2">
-              {user.flowers} F &nbsp;
+              {initUser.flowers} F &nbsp;
               <FaArrowRight className="inline" /> &nbsp;
-              {updatedUser.flowers} F &nbsp;
+              {user.flowers} F &nbsp;
               <Modal
                 preview={
                   <AiOutlineQuestionCircle className="text-xl" />
@@ -285,7 +279,6 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
               <button
                 className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
-                  setUpdatedUser(updatedUser)
                   // TODO: Keep track of the latest lessons page that they were on so that they can go back to it
                   router.push('/play')
                 }}
@@ -297,7 +290,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
                 className="bg-bg-light text-bg-completed rounded-lg py-2 px-2 text-xl duration-300 hover:scale-110"
                 onClick={() => {
                   setLoading(true)
-                  setUser(updatedUser)
+                  setUser(initUser)
                   window.location.reload()
                 }}
               >
@@ -309,11 +302,21 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
         </div>
       }
       <form
-        className={`flex flex-col items-center justify-start w-[40rem] min-h-screen bg-purple-50 ${completed ? 'hidden' : ''}`}
+        className={`flex flex-col items-center justify-start w-[60%] min-h-screen ${completed ? 'hidden' : ''}`}
         onSubmit={(e) => submitQuiz(e)}
+        style={{
+          backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+          color:!colorPalette ? "" : colorPalette.text1
+        }}
       >
-        <header className="w-full h-44 text-pink-400 flex items-center justify-start flex-col font-galindo">
-          <div className="w-full h-20 flex items-center justify-between px-6 py-3 bg-pink-200">
+        <header className="w-full flex items-center justify-start flex-col font-galindo"
+        style={{
+          backgroundColor:!colorPalette ? "" : colorPalette.primary1
+        }}>
+          <div className="w-full h-20 flex items-center justify-between px-6 py-3"
+          style={{
+            backgroundColor:!colorPalette ? "" : colorPalette.black
+          }}>
             <p className="text-lg cursor-pointer"
               onClick={(e) => {
                 if (!completed) {
@@ -337,11 +340,18 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             </p>
           </div>
           <h1 className="text-3xl mt-3 mb-1">
-            {lesson ? lesson.lessonName : "Loading..."}
+            {lesson?.lessonName}
           </h1>
-          <div className="w-full h-[1px] bg-pink-200 mt-3" />
+          <div className="w-full h-[1px] mt-3" 
+          style={{
+            backgroundColor:!colorPalette ? "" : colorPalette.primary2,
+          }}/>
         </header>
-        <div className="w-full h-full flex flex-col justify-start items-start bg-purple-50 pb-[20vh]">
+        <div className="w-full flex flex-col justify-start items-start pb-[20vh] max-h-[calc(100vh_-_10rem)] overflow-y-scroll"
+        style={{
+          backgroundColor:!colorPalette ? "" : colorPalette.primary1,
+          color:!colorPalette ? "" : colorPalette.text1
+        }}>
           {lesson && lesson.sections && lesson.sections.map((section, index) => {
             // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
             switch (section.sectionType) {
@@ -353,6 +363,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
                     section={section}
                     active={true}
                     sectionNumber={sectionNumber}
+                    colorPalette={colorPalette}
                   />
                 );
               case 1:
@@ -398,17 +409,29 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
           {
             quizSectionNumber !== -1 ?
               <>
-                <div className="w-full text-pink-400 flex items-center justify-start flex-col font-galindo mt-10">
-                  <div className="w-full h-[1px] bg-pink-200 mb-3" />
+                <div className="w-full flex items-center justify-start flex-col font-galindo mt-10"
+                style={{
+                  color:!colorPalette ? "" : colorPalette.text1
+                }}>
+                  <div className="w-full h-[1px]mb-3"
+                  style={{
+                    backgroundColor:!colorPalette ? "" : colorPalette.primary1
+                  }} />
                   <h1 className="text-3xl mt-3 mb-1">
                     Quiz
                   </h1>
-                  <div className="w-full h-[1px] bg-pink-200 mt-3" />
+                  <div className="w-full h-[1px]mt-3" 
+                  style={{
+                    backgroundColor:!colorPalette ? "" : colorPalette.primary1
+                  }}/>
                 </div>
                 {lesson && lesson.quizQuestions && lesson.quizQuestions.map((quizQuestion, questionIndex) => (
                   <Fragment key={`quiz-question-${questionIndex}`}>
                     {curQuizQuestion >= questionIndex ?
-                      <div className='w-full flex items-center justify-start flex-col font-galindo mt-10 text-pink-400'>
+                      <div className='w-full flex items-center justify-start flex-col font-galindo mt-10'
+                      style={{
+                        color:!colorPalette ? "" : colorPalette.text1
+                      }}>
                         <h3 className="text-2xl mt-2 mb-0.5">
                           Question {questionIndex + 1}.
                         </h3>
@@ -426,6 +449,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
                               active={true}
                               sectionNumber={quizSectionNumber}
                               questionNumber={questionIndex}
+                              colorPalette={colorPalette}
                               curQuizQuestion={curQuizQuestion}
                             />
                           );
@@ -439,6 +463,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
                               sectionNumber={quizSectionNumber}
                               questionNumber={questionIndex}
                               curQuizQuestion={curQuizQuestion}
+                              colorPalette={colorPalette}
                             />
                           );
                         case 2:
@@ -455,6 +480,7 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
                               questionNumber={questionIndex}
                               curQuizQuestion={curQuizQuestion}
                               explanation={quizSection.explanation}
+                              colorPalette={colorPalette}
                             />
                           );
                         case 3:
@@ -488,8 +514,12 @@ export default function Lesson({ user, setUser, loading, setLoading, setLoading2
             lesson && lesson.quizQuestions && curQuizQuestion === lesson.quizQuestions.length ?
               <div className="w-full flex justify-center mt-5 font-bold">
                 <button
-                  className="w-48 ring-2 rounded-lg py-2 px-4 font-averia bg-pink-100 text-pink-400 ring-pink-400"
+                  className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
                   type='submit'
+                  style={{
+                    backgroundColor:!colorPalette ? "" : colorPalette.white,
+                    color:!colorPalette ? "" : colorPalette.black
+                  }}
                 >
                   Complete Lesson
                 </button>

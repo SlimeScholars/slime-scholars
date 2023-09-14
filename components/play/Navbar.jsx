@@ -21,11 +21,11 @@ export function Navbar({
   setColorPalette,
 }) {
   const types = [
-    { title: "shopping", src: "shopping", id: 1 },
-    { title: "friends", src: "friends", id: 2 },
-    { title: "slimes", src: "slimes", id: 3 },
-    { title: "inventory", src: "inventory", id: 4 },
-    { title: "roll", src: "slime-egg", id: 5 },
+    { title: "Shopping", src: "shopping", id: 1 },
+    { title: "Friends", src: "friends", id: 2 },
+    { title: "Slimes", src: "slimes", id: 3 },
+    { title: "Inventory", src: "inventory", id: 4 },
+    { title: "Roll", src: "slime-egg", id: 5 },
   ];
 
   const router = useRouter();
@@ -63,11 +63,11 @@ export function Navbar({
       {/* home button */}
       {!onHome && (
         <button
-          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem]"
+          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem] transition-opacity duration-150"
           style={{
             backgroundColor:
-              colorPalette === undefined ? "" : colorPalette.primary1,
-            color: colorPalette === undefined ? "" : colorPalette.text1,
+              !colorPalette ? "" : colorPalette.primary1,
+            color: !colorPalette ? "" : colorPalette.text1,
           }}
           onClick={(e) => {
             e.preventDefault();
@@ -80,11 +80,12 @@ export function Navbar({
       )}
       {/* earn flowers button */}
       <button
-        className="rounded hover:opacity-80 font-galindo text-lg h-[4rem]"
+        className="rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150"
         style={{
           backgroundColor:
-            colorPalette === undefined ? "" : colorPalette.primary1,
-          color: colorPalette === undefined ? "" : colorPalette.text1,
+            !colorPalette ? "" : colorPalette.primary1,
+          color: !colorPalette ? "" : colorPalette.text1,
+          boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`
         }}
         onClick={(e) => {
           e.preventDefault();
@@ -182,7 +183,7 @@ export function Navbar({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/play/" + type.title);
+                router.push("/play/" + type.title.toLowerCase());
               }}
               style={
                 isActive
@@ -197,7 +198,7 @@ export function Navbar({
                       }88`,
                     }
               }
-              className="hover:opacity-60 rounded-full 2xl:p-4 p-3"
+              className="hover:opacity-60 rounded-full 2xl:p-4 p-3 transition-opacity duration-150"
               key={type.id}
               data-tooltip-id="my-tooltip"
               data-tooltip-content={type.title}

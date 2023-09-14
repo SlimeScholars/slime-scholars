@@ -8,7 +8,7 @@ export default function Leaderbaord({ user, userRank, userFriends, allPlayers, u
     <div
       className="p-8"
       style={{
-        color: colorPalette === undefined ? "" : colorPalette.text1,
+        color: !colorPalette ? "" : colorPalette.text1,
       }}
     >
       <div className="flex flex-col">

@@ -11,6 +11,7 @@ export default function RequestListings({
   receivedFriendRequests,
   setReceivedFriendRequests,
   setSentFriendRequests,
+  refetchUser
 }) {
   function handleAcceptRequest(friendId) {
     axios
@@ -26,12 +27,8 @@ export default function RequestListings({
         }
       )
       .then((response) => {
-        const newUser = {
-          ...user,
-          receivedFriendRequests: response.data.receivedFriendRequests,
-          friends: response.data.friends,
-        };
-        setUser(newUser);
+        console.log(response)
+        refetchUser()
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
       })
@@ -57,20 +54,12 @@ export default function RequestListings({
         config
       )
       .then((response) => {
+        console.log(response)
+        refetchUser()
         if (currentType === "received") {
-          const newUser = {
-            ...user,
-            receivedFriendRequests: response.data.receivedFriendRequests,
-          };
-          setUser(newUser);
           const updatedRequestListing = response.data.receivedFriendRequests;
           setReceivedFriendRequests(updatedRequestListing);
         } else {
-          const newUser = {
-            ...user,
-            sentFriendRequests: response.data.sentFriendRequests,
-          };
-          setUser(newUser);
           const updatedRequestListing = response.data.sentFriendRequests;
           setSentFriendRequests(updatedRequestListing);
         }
