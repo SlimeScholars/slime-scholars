@@ -2,8 +2,11 @@ import Head from 'next/head'
 
 import Nav from '../components/homepage/nav'
 import Button from '../components/homepage/button'
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 export default function Home({ user, setUser }) {
+  const router = useRouter()
   useEffect(() => {
     if (router.pathname === "/") {
       if (user && user.userType === 1) {
