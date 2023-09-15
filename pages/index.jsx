@@ -1,29 +1,28 @@
 import Head from 'next/head'
-
 import Nav from '../components/homepage/nav'
 import Button from '../components/homepage/button'
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 export default function Home({ user, setUser }) {
-  const router = useRouter();
-  useEffect(() => {
-    if (router.pathname === "/") {
-      if (user && user.userType === 1) {
-        router.push('/play');
-      }
-      else if (user && user.userType === 4) {
-        router.push('/admin/edit-course')
-      }
-      // FIXME
-      else {
-        router.push('/login');
-      }
-    }
-  }, [user, router.pathname]);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (router.pathname === "/") {
+  //     if (user && user.userType === 1) {
+  //       router.push('/play');
+  //     }
+  //     else if (user && user.userType === 4) {
+  //       router.push('/admin/edit-course')
+  //     }
+  //     // FIXME
+  //     else {
+  //       router.push('/login');
+  //     }
+  //   }
+  // }, [user, router.pathname]);
 
   return (
-    <div className="w-screen flex flex-col">
+    <div className="w-screen flex flex-col mt-5">
       <Head>
         <title>Slime Scholars</title>
         <meta name="description" content="Make Learning Exiting with Slime Scholars" />
@@ -36,7 +35,11 @@ export default function Home({ user, setUser }) {
           setUser={setUser}
         />
         <header className="w-screen h-screen flex flex-col items-center justify-center">
-          <h1 className="font-black text-7xl max-w-4xl text-center">
+
+        <h1 className="sm:hidden font-black text-2xl max-w-2xl text-center">
+            Coming to App Store soon
+          </h1>
+          <h1 className="font-black text-6xl max-w-4xl text-center mt-2">
             Make Learning Exciting with Slime Scholars
           </h1>
           <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-600">
