@@ -181,10 +181,14 @@ export function Navbar({
 
           return (
             <button
-              onClick={(e) => {
-                e.preventDefault();
+            onClick={(e) => {
+              e.preventDefault();
+              if (type.id === 6) {
+                router.push("/settings");
+              } else {
                 router.push("/play/" + type.title);
-              }}
+              }
+            }}
               style={
                 isActive
                   ? {
@@ -206,7 +210,7 @@ export function Navbar({
              {type.id === 6 ? (
                 user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
-                    <div className="absolute h-32 w-32 rounded-full overflow-hidden">
+                    <div className="absolute h-32 w-32 overflow-hidden">
                       <Image
                         src={
                           "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
@@ -215,23 +219,20 @@ export function Navbar({
                         height={0}
                         width={0}
                         sizes="100vw"
-                        className="absolute h-32 w-32 inset-0"
+                        className="absolute h-32 w-32"
                       />
                     </div>
-                  <Image
-                    src={
-                      "/assets/pfp/slimes/" +
-                      gameData.slimeImgs[user.pfpSlime].pfp
-                    }
-                    alt={user.pfpSlime}
-                    height={0}
-                    width={0}
-                    sizes="100vw"
-                    className="relative 2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
-                    onClick={() => {
-                      router.push("/settings");
-                    }}
-                  />
+                      <Image
+                        src={
+                          "/assets/pfp/slimes/" +
+                          gameData.slimeImgs[user.pfpSlime].pfp
+                        }
+                        alt={user.pfpSlime}
+                        height={0}
+                        width={0}
+                        sizes="100vw"
+                        className="relative 2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"  
+                      />
                   </div>
                 ) : (
                   // Handle the case when user or user.pfpSlime is null or undefined
