@@ -33,38 +33,44 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
 
     return (
         <div 
-            className="fixed inset-0 z-50 text-white flex items-center justify-center brightness-100">
-            <div className="grid grid-cols-3 place-content-center m-10 rounded-lg p-8 bg-slate-400  w-auto h-1/2">
-                { index === 0&& (
-                    <button className="brightness-125"
-                        onClick={(e) => {
-                            setUpdatedSlime(slimes[index-1]);
-                            setIndex(index-1);
-                        }}>
-                        <span className="material-symbols-outlined">
-                        arrow_back_ios
-                        </span>
-                    </button>
-                )
-                }  
-                <RollSlimePopup
-                    updatedSlime={updatedSlime}
-                    setAfterRolling={setAfterRolling}
-                    originalSlime={originalSlime}
-                    router={router}></RollSlimePopup>
-                {
-                    index === slimes.length-1&&(
+            className="fixed inset-0 z-50 flex items-center justify-center brightness-100">
+            <div className="relative grid rollgrid place-content-center m-10 rounded-lg bg-black/80 w-[70%] max-h-[70vh] p-10">
+                <button className="text-white hover:text-slate-300 absolute top-[1rem] right-[2rem] text-[2.5rem]"
+                onClick={() => {setAfterRolling(0)}}>
+                &times;
+                </button>
+                    { index > 0 ?
                         <button className="brightness-125"
                             onClick={(e) => {
-                                setUpdatedSlime(slimes[index+1]);
-                                setIndex(index+1);
+                                setUpdatedSlime(slimes[index-1]);
+                                setIndex(index-1);
                             }}>
-                            <span className="material-symbols-outlined">
-                            arrow_forward_ios
+                            <span className="text-white material-symbols-outlined text-[2.5rem]">
+                            arrow_back_ios
                             </span>
-                        </button>
-                    )
-                }
+                        </button> : <div/>
+                    }  
+                    <RollSlimePopup
+                        updatedSlime={updatedSlime}
+                        setAfterRolling={setAfterRolling}
+                        originalSlime={originalSlime}
+                        router={router}
+                        index={index}
+                        slimes={slimes}>
+                    </RollSlimePopup>
+                    {
+                        index < slimes.length-1 ? 
+                            <button className="brightness-125"
+                                onClick={(e) => {
+                                    setUpdatedSlime(slimes[index+1]);
+                                    setIndex(index+1);
+                                }}>
+                                <span className="text-white material-symbols-outlined text-[2.5rem]">
+                                arrow_forward_ios
+                                </span>
+                            </button> : <div/>
+                        
+                    }
             </div>
         </div>
     )
