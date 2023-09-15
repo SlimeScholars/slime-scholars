@@ -474,6 +474,10 @@ export default function ItemDetails({
                     colorPalette === undefined
                       ? ""
                       : `5px solid ${colorPalette.primary1}`,
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  router.push("/settings");
                 }}
               >
                 {

@@ -26,6 +26,7 @@ export function Navbar({
     { title: "slimes", src: "slimes", id: 3 },
     { title: "inventory", src: "inventory", id: 4 },
     { title: "roll", src: "slime-egg", id: 5 },
+    { title: "Profile", id: 6 },
   ];
 
   const router = useRouter();
@@ -197,19 +198,57 @@ export function Navbar({
                       }88`,
                     }
               }
-              className="hover:opacity-60 rounded-full 2xl:p-4 p-3"
+              className="hover:opacity-60 rounded-full 2xl:p-4 p-3 overflow-hidden"
               key={type.id}
               data-tooltip-id="my-tooltip"
               data-tooltip-content={type.title}
             >
-              <Image
-                src={imgLink}
-                alt={type.src}
-                height={0}
-                width={0}
-                sizes="100vw"
-                className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
-              />
+             {type.id === 6 ? (
+                user && user.pfpSlime ? (
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute h-32 w-32 rounded-full overflow-hidden">
+                      <Image
+                        src={
+                          "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                        }
+                        alt={user.pfpBg}
+                        height={0}
+                        width={0}
+                        sizes="100vw"
+                        className="absolute h-32 w-32 inset-0"
+                      />
+                    </div>
+                  <Image
+                    src={
+                      "/assets/pfp/slimes/" +
+                      gameData.slimeImgs[user.pfpSlime].pfp
+                    }
+                    alt={user.pfpSlime}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="relative 2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
+                    onClick={() => {
+                      router.push("/settings");
+                    }}
+                  />
+                  </div>
+                ) : (
+                  // Handle the case when user or user.pfpSlime is null or undefined
+                  <div className="default-image">
+                    {"/assets/pfp/slimes/blue-slime.png"}
+                  </div>
+                )
+              ) : (
+                <Image
+                  src={imgLink}
+                  alt={type.src}
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
+                />
+              )}
               <Tooltip
                 id="my-tooltip"
                 delayShow={200}
