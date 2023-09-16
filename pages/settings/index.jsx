@@ -125,7 +125,7 @@ export default function Settings({ loading, user, setUser }) {
   }
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="w-screen h-full flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back to={"/play"} />
       <div className="w-1/2 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <form className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
@@ -138,11 +138,11 @@ export default function Settings({ loading, user, setUser }) {
             />
           </div> */}
           <div className="flex flex-row items-center justify-between">
-            <h1 className="text-center text-6xl font-cabin font-bold text-bg-light/90 mb-3">
+            <h1 className="text-center text-6xl font-cabin font-bold text-bg-light/90 mb-3 mr-8">
               {username} Profile
             </h1>
             <div
-              className="relative h-32 w-32 rounded-full overflow-hidden border-4 border-red-300"
+              className="relative h-20 w-20 rounded-full overflow-hidden border-4 border-red-300 flex justify-center items-center cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/play/inventory");
@@ -166,7 +166,7 @@ export default function Settings({ loading, user, setUser }) {
                 height={0}
                 width={0}
                 sizes='100vw'
-                className="relative z-10 translate-y-1/4 scale-125 h-full w-full"
+                className="relative z-8 translate-y-1/4 scale-125 w-[4.5rem] h-[4rem]"
               />
             </div>
           </div>
@@ -180,7 +180,7 @@ export default function Settings({ loading, user, setUser }) {
                   First name
                 </label>
                 <input
-                  className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
+                  className="w-full h-10 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
                   type="text"
                   placeholder={firstName}
                   value={firstName}
@@ -193,7 +193,7 @@ export default function Settings({ loading, user, setUser }) {
                   Last name
                 </label>
                 <input
-                  className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
+                  className="w-full h-10 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
                   type="text"
                   placeholder={lastName}
                   value={lastName}
@@ -208,7 +208,7 @@ export default function Settings({ loading, user, setUser }) {
               </label>
             </div>
             <input
-              className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
+              className="w-full h-10 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
               type="text"
               placeholder="What name do you want others to see?"
               value={username}
@@ -219,7 +219,7 @@ export default function Settings({ loading, user, setUser }) {
               Email
             </label>
             <input
-              className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
+              className="w-full h-10 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
               type="text"
               placeholder={email}
               value={email}
@@ -237,7 +237,7 @@ export default function Settings({ loading, user, setUser }) {
                   </label>
                 </div>
                 <input
-                  className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
+                  className="w-full h-10 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
                   type="password"
                   placeholder="Verify old password"
                   value={oldPassword}
@@ -268,7 +268,7 @@ export default function Settings({ loading, user, setUser }) {
                   />
                 </div>
                 <input
-                  className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
+                  className="w-full h-10 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
                   type="password"
                   placeholder="New password"
                   value={newPassword}
@@ -279,7 +279,7 @@ export default function Settings({ loading, user, setUser }) {
             </div>
             <div className="w-full h-[2px] bg-bg-light/30 my-5" />
             <button
-              className="w-full h-12 bg-fuchsia-950/40 rounded-md ring-2 ring-fuchsia-400/90 font-galindo text-xl text-fuchsia-300/90 placeholder:text-fuchsia-300/50 px-3 py-2 my-1 focus:outline-none hover:bg-fuchsia-900/50 hover:ring-fuchsia-300/80 duration-300 ease-in-out"
+              className="w-full h-12 bg-fuchsia-950/40 rounded-md ring-2 ring-fuchsia-400/90 font-galindo text-xl text-fuchsia-300/90 placeholder:text-fuchsia-300/50 px-3 py-2 my-1 focus:outline-none hover:bg-fuchsia-900/50 hover:ring-fuchsia-300/80 duration-300 ease-in-out mb-5"
               onClick={onSubmit}
             >
               Update Profile
