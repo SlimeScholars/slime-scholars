@@ -442,7 +442,7 @@ export default function ItemDetails({
             backgroundColor: `${colorPalette.black}88`,
           }}
         >
-          <div className="flex flex-row w-full items-center flex-wrap justify-center">
+          <div className="flex flex-row w-full items-center flex-wrap justify-center -mt-1.5">
             <div className="flex flex-col items-center">
               {/* Display current profile picture */}
               <p style={{ color: colorPalette ? colorPalette.text1 : "" }}>
@@ -527,7 +527,7 @@ export default function ItemDetails({
                 />
               </div>
             </div>
-            <div className="flex flex-col ml-5">
+            <div className="flex flex-col ml-1.5 mt-3">
               {pfpBg === item.itemName ? (
                 <button
                   disabled
