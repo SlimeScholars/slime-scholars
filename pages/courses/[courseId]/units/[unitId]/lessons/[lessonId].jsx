@@ -64,7 +64,6 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
             setLesson(res.data.lesson)
             setUnitName(res.data.unitName)
             setCourseName(res.data.courseName)
-            console.log(res.data)
 
             let newMax = 0
             for (let i in res.data.lesson.sections) {

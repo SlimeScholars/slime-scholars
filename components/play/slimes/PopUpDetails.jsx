@@ -4,8 +4,6 @@ import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
 
 export default function PopUpDetails({ user, res, onClose, oldSlime }) {
-  //   console.log(user.slimes);
-  //   console.log(oldSlime);
   const newSlime = res.slime;
   const router = useRouter();
   return (

@@ -17,7 +17,6 @@ export default function TextSection({
   colorPalette
 }) {
   const [parsedText, setParsedText] = useState(<></>);
-  console.log(colorPalette)
 
   useEffect(() => {
     try {
@@ -29,9 +28,9 @@ export default function TextSection({
   return (
     (!active || curQuizQuestion > questionNumber || (sectionNumber >= section.sectionNumber && curQuizQuestion === questionNumber)) && (
       <div className="w-full relative py-3 px-6 flex flex-col justify-start items-start"
-      style={{
-        backgroundColor:!colorPalette ? "" : colorPalette.secondary1
-      }}>
+        style={{
+          backgroundColor: !colorPalette ? "" : colorPalette.secondary1
+        }}>
         {!active && (
           <Controls
             section={section}
@@ -42,9 +41,9 @@ export default function TextSection({
           />
         )}
         <div className="text-xl w-full text-center py-3 font-averia"
-        style={{
-          color:!colorPalette ? "" : colorPalette.text2
-        }}>
+          style={{
+            color: !colorPalette ? "" : colorPalette.text2
+          }}>
           {parsedText}
         </div>
       </div>

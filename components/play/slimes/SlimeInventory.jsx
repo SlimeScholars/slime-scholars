@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
-  // console.log(user);
   return (
     <>
       {Array.isArray(slimes) &&

@@ -64,10 +64,6 @@ export default function EditLesson({ user, loading, setLoading }) {
     }
   }, [user, loading]);
 
-  useEffect(() => {
-    console.log(lesson)
-  }, [lesson])
-
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (

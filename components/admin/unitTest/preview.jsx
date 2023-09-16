@@ -96,8 +96,6 @@ export default function TestPreview({
 		setTest(newTest);
 	};
 
-	console.log(test)
-
 	return (
 		<div className="w-full h-full flex flex-col justify-start items-start bg-purple-50">
 			<header className="w-full h-36 text-pink-400 flex items-center justify-start flex-col font-galindo">

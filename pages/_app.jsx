@@ -40,7 +40,6 @@ function MyApp({ Component, pageProps }) {
       axios
         .get("/api/user", config)
         .then((response) => {
-          console.log(response)
           if (response.data && response.data.user) {
             setUser(response.data.user);
             setLoading(false);

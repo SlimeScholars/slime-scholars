@@ -47,7 +47,6 @@ export default function Slimes({
       axios
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
-          console.log(response)
           refetchUser()
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
@@ -90,9 +89,9 @@ export default function Slimes({
         />
       )}
       <div className="">
-          {/* button here just to test the backend get-rewards */}
+        {/* button here just to test the backend get-rewards */}
 
-          {/* <div>
+        {/* <div>
             <button
               className="p-2 bg-white"
               onClick={() => {
@@ -104,50 +103,50 @@ export default function Slimes({
             </button>
           </div> */}
 
-          <div
-            style={{
-              backgroundColor:
-                !colorPalette ? "" : `${colorPalette.white}88`,
-              color: !colorPalette ? "" : colorPalette.text1,
-            }}
-            className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
-          >
-            <div className="grow-0 pl-4">
-              <Image
-                src="/assets/icons/slimes.png"
-                alt='slimes'
-                height={0}
-                width={0}
-                sizes='100vw'
-                className="w-[4.5rem] h-[4.5rem]"
-              />
-            </div>
-            <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
-            <div className="grow-0 flex pr-4">
-              <div
-                style={{
-                  border:
-                    colorPalette === undefined
-                      ? ""
-                      : `3px solid ${colorPalette.primary1}`,
-                  color: !colorPalette ? "" : colorPalette.primary1,
-                  backgroundColor:
-                    !colorPalette ? "" : `${colorPalette.white}88`,
-                }}
-                className="rounded-md flex flex-row py-1 px-3 text-lg"
-              >
-                <input
-                  type="text"
-                  placeholder={"Search for a slime"}
-                  className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
-                  onChange={(e) => setSearchContent(e.target.value)}
-                ></input>
-                <button className="h-full flex p-1 cursor-default">
-                  <span className="material-symbols-outlined">search</span>
-                </button>
-              </div>
+        <div
+          style={{
+            backgroundColor:
+              !colorPalette ? "" : `${colorPalette.white}88`,
+            color: !colorPalette ? "" : colorPalette.text1,
+          }}
+          className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
+        >
+          <div className="grow-0 pl-4">
+            <Image
+              src="/assets/icons/slimes.png"
+              alt='slimes'
+              height={0}
+              width={0}
+              sizes='100vw'
+              className="w-[4.5rem] h-[4.5rem]"
+            />
+          </div>
+          <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
+          <div className="grow-0 flex pr-4">
+            <div
+              style={{
+                border:
+                  colorPalette === undefined
+                    ? ""
+                    : `3px solid ${colorPalette.primary1}`,
+                color: !colorPalette ? "" : colorPalette.primary1,
+                backgroundColor:
+                  !colorPalette ? "" : `${colorPalette.white}88`,
+              }}
+              className="rounded-md flex flex-row py-1 px-3 text-lg"
+            >
+              <input
+                type="text"
+                placeholder={"Search for a slime"}
+                className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
+                onChange={(e) => setSearchContent(e.target.value)}
+              ></input>
+              <button className="h-full flex p-1 cursor-default">
+                <span className="material-symbols-outlined">search</span>
+              </button>
             </div>
           </div>
+        </div>
 
         {/* Slimes inventory, all users slimes */}
         <div

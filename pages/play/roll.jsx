@@ -59,7 +59,6 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                 quantity: numToPurchase
             }, config)
             .then(response => {
-                console.log(response)
                 // Close popup dialog
                 setEggsLacked(0);
                 if (user) {
