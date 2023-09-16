@@ -7,7 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
-export default function EditCourse({ user, loading, setLoading }) {
+export default function EditCourse({ user, setUser, loading, setLoading }) {
   const router = useRouter()
 
   useEffect(() => {
@@ -92,11 +92,25 @@ export default function EditCourse({ user, loading, setLoading }) {
     }
   }
 
+  const onLogOut = () => {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('jwt');
+    }
+    setUser(null);
+  }
+
+
   return (
     <div className='w-screen h-screen bg-bg-light flex'>
       <div className="w-2/5 h-screen bg-slate-100 overflow-y-scroll">
         <button
-          className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-b-4 border-b-green-800 text-green-800"
+          className="w-full h-12 bg-red-300 font-black hover:bg-red-200 border-b-4 border-b-red-800 text-red-800 mb-5"
+          onClick={onLogOut}
+        >
+          Log Out
+        </button>
+        <button
+          className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-y-4 border-y-green-800 text-green-800"
           onClick={onAddCourse}
         >
           Add Course
