@@ -64,6 +64,10 @@ export default function EditLesson({ user, loading, setLoading }) {
     }
   }, [user, loading]);
 
+  useEffect(() => {
+    console.log(lesson)
+  }, [lesson])
+
   const [initialLoad, setInitialLoad] = useState(true);
   useEffect(() => {
     if (
@@ -265,6 +269,7 @@ export default function EditLesson({ user, loading, setLoading }) {
       blank: blank.blank,
       afterBlank: blank.afterBlank,
       index: lesson.sections.length,
+      explanation: fbExplanation,
     };
     let newLesson = { ...lesson };
     if (fbIsQuiz) {

@@ -98,16 +98,16 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
       >
         Add Lesson
       </button>
-      <button
-        className="w-full h-12 bg-yellow-300 hover:bg-yellow-200"
+      <Link
+        href={"/admin/edit-unit-test/" + unit._id}
+        target="_blank"
       >
-        <Link
-          href={"/admin/edit-unit-test/" + unit._id}
-          target="_blank"
+        <button
+          className="w-full h-12 bg-yellow-300 hover:bg-yellow-200"
         >
           Edit Unit Test
-        </Link>
-      </button>
+        </button>
+      </Link>
     </div>
   );
 }

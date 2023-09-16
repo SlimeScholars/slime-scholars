@@ -219,6 +219,7 @@ export default function EditUnitTest({ user, loading, setLoading }) {
 			text: blank.text,
 			blank: blank.blank,
 			afterBlank: blank.afterBlank,
+			explanation: fbExplanation,
 		};
 		let newTest = { ...test };
 		newFB.sectionNumber = maxQuizSectionNumbers[curQuizQuestion] + 1;
