@@ -4,22 +4,24 @@ import Button from '../components/homepage/button'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 
-export default function Home({ user, setUser }) {
+export default function Home({ user, setUser, loading }) {
   const router = useRouter()
+
   useEffect(() => {
-    if (router.pathname === "/") {
-      if (user && user.userType === 1) {
-        router.push('/play');
-      }
-      else if (user && user.userType === 4) {
-        router.push('/admin/edit-course')
-      }
-      // FIXME
-      else {
-        router.push('/login');
-      }
+    if (loading) {
+      return
     }
-  }, [user, router.pathname]);
+    else if (user && user.userType === 1) {
+      router.push('/play');
+    }
+    else if (user && user.userType === 4) {
+      router.push('/admin/edit-course')
+    }
+    // FIXME
+    else if (!user) {
+      router.push('/login');
+    }
+  }, [user, router.pathname, loading]);
 
   return (
     <div className="w-screen flex flex-col mt-5">
