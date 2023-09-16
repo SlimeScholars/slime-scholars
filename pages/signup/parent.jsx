@@ -93,7 +93,7 @@ export default function Parent({ loading, user, setUser }) {
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back to={"/"} />
       <ToastContainer />
       <div className="w-1/3 relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
