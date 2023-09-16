@@ -102,7 +102,6 @@ async function fetchRewardsBasedOnRoster(roster, rewardMessages) {
   checkNebula(slimes, rewardMessages);
   // check slimes for abilities give add ons
   for (let i = 0; i < slimes.length; i++) {
-    console.log(slimes[i].slimeName);
     abilityChangeBaseProd(
       slimes[i],
       slimes,

@@ -8,11 +8,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
   if (loading) {
     return;
   }
-  useEffect(() => {
-    console.log(user.roster)
-  }, [user])
-  // console.log(user);
-  // console.log(slime._id);
+
   const handleClick = (id, index) => {
     setLoading(true);
     try {
@@ -40,8 +36,6 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
       } else {
         roster[index] = id;
       }
-      // console.log(roster);
-      // console.log(user.roster);
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
@@ -53,7 +47,6 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          console.log(response)
           setLoading(false);
           refetchUser()
         })
@@ -73,7 +66,6 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
     <div className="grid grid-cols-4 gap-6">
       {user && Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
-          // console.log(char);
           if (char === null) {
             return (
               <div className="relative" key={index}>

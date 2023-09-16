@@ -43,7 +43,6 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          console.log(response)
           refetchUser()
           showToastError("Friend removed", true);
         })

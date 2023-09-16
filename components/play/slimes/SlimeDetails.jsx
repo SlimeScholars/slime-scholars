@@ -90,7 +90,6 @@ export default function SlimeDetails({
   };
 
   if (!slime) return <></>;
-  //   console.log(slime);
   const rarity = slime.rarity.toUpperCase();
   const name = slime.slimeName;
   const level = slime.level;

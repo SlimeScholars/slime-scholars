@@ -28,7 +28,6 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          console.log(response)
           refetchUser()
           setShowLevelUpPopup(true);
           setRes(response.data);
@@ -93,7 +92,6 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
         )}
         {Array.isArray(user.roster) &&
           user.roster.map((slime, index) => {
-            // console.log(slime._id);
             const offset = index === 1 || index === 3;
 
             if (slime === null)

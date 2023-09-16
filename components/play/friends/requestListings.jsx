@@ -27,7 +27,6 @@ export default function RequestListings({
         }
       )
       .then((response) => {
-        console.log(response)
         refetchUser()
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
@@ -54,7 +53,6 @@ export default function RequestListings({
         config
       )
       .then((response) => {
-        console.log(response)
         refetchUser()
         if (currentType === "received") {
           const updatedRequestListing = response.data.receivedFriendRequests;

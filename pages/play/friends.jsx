@@ -50,7 +50,6 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
     axios
       .get("/api/user/leaderboard", config)
       .then((response) => {
-        console.log(response.data);
         setUserRank(response.data.userRank);
         setAllPlayers(response.data.leaderboard);
       })

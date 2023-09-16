@@ -72,7 +72,6 @@ export default function Settings({ loading, user, setUser }) {
           config
         )
         .then((response) => {
-          console.log(response);
           showToastError("Profile updated successfully", "success");
         })
         .catch((error) => {
@@ -95,7 +94,6 @@ export default function Settings({ loading, user, setUser }) {
             config
           )
           .then((response) => {
-            console.log(response);
             showToastError("Password updated successfully", "success");
           })
           .catch((error) => {

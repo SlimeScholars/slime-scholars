@@ -13,17 +13,14 @@ export default function AddToRoster({
   refetchUser,
 }) {
   const [inRoster, setInRoster] = useState(false);
-  // console.log(slime);
   useEffect(() => {
     let flag = false;
     user.roster.map((char, index) => {
       if (char !== null && char._id === slime._id) {
-        // console.log("in roster: " + index);
         flag = true;
       }
     });
     setInRoster(flag);
-    // console.log(inRoster);
   }, [slime, user]);
 
   const handleClick = (id) => {
@@ -54,7 +51,6 @@ export default function AddToRoster({
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          console.log(response)
           setLoading(false);
           refetchUser()
         })
