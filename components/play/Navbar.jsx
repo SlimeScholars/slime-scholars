@@ -26,7 +26,7 @@ export function Navbar({
     { title: "Slimes", src: "slimes", id: 3 },
     { title: "Inventory", src: "inventory", id: 4 },
     { title: "Roll", src: "slime-egg", id: 5 },
-    { title: "Profile", id: 6},
+    { title: "Profile", id: 6 },
   ];
 
   const router = useRouter();
@@ -101,13 +101,11 @@ export function Navbar({
           <div
             className="flex rounded-full py-1 px-6 w-fit"
             style={{
-              backgroundColor: `${
-                colorPalette ? colorPalette.black + "55" : "#475569"
-              }`,
+              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
+                }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${
-                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-              }`,
+              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+                }`,
             }}
           >
             {user && (
@@ -129,13 +127,11 @@ export function Navbar({
           <div
             className="flex rounded-full py-1 px-6 w-fit mt-1.5"
             style={{
-              backgroundColor: `${
-                colorPalette ? colorPalette.black + "55" : "#475569"
-              }`,
+              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
+                }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${
-                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-              }`,
+              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+                }`,
             }}
           >
             {user && (
@@ -184,30 +180,32 @@ export function Navbar({
             <button
               onClick={(e) => {
                 e.preventDefault();
-                router.push("/play/" + type.title.toLowerCase());
+                if (type.id === 6) {
+                  router.push("/settings");
+                } else {
+                  router.push("/play/" + type.title.toLowerCase());
+                }
               }}
               style={
                 isActive
                   ? {
-                      backgroundColor: `${
-                        colorPalette ? colorPalette.primary1 : "#ffffff"
+                    backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
                       }`,
-                    }
+                  }
                   : {
-                      backgroundColor: `${
-                        colorPalette ? colorPalette.white : "#ffff"
+                    backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
                       }88`,
-                    }
+                  }
               }
               className="hover:opacity-60 rounded-full 2xl:p-4 p-3 transition-opacity duration-150 overflow-hidden"
               key={type.id}
               data-tooltip-id="my-tooltip"
               data-tooltip-content={type.title}
             >
-             {type.id === 6 ? (
+              {type.id === 6 ? (
                 user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
-                    <div className="absolute h-32 w-32 rounded-full overflow-hidden">
+                    <div className="absolute h-32 w-32 overflow-hidden">
                       <Image
                         src={
                           "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
@@ -216,23 +214,20 @@ export function Navbar({
                         height={0}
                         width={0}
                         sizes="100vw"
-                        className="absolute h-32 w-32 inset-0"
+                        className="absolute h-32 w-32"
                       />
                     </div>
-                  <Image
-                    src={
-                      "/assets/pfp/slimes/" +
-                      gameData.slimeImgs[user.pfpSlime].pfp
-                    }
-                    alt={user.pfpSlime}
-                    height={0}
-                    width={0}
-                    sizes="100vw"
-                    className="relative 2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
-                    onClick={() => {
-                      router.push("/settings");
-                    }}
-                  />
+                    <Image
+                      src={
+                        "/assets/pfp/slimes/" +
+                        gameData.slimeImgs[user.pfpSlime].pfp
+                      }
+                      alt={user.pfpSlime}
+                      height={0}
+                      width={0}
+                      sizes="100vw"
+                      className="relative 2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
+                    />
                   </div>
                 ) : (
                   // Handle the case when user or user.pfpSlime is null or undefined
