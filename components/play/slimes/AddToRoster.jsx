@@ -10,7 +10,7 @@ export default function AddToRoster({
   slime,
   setUser,
   bg,
-  refetchUser
+  refetchUser,
 }) {
   const [inRoster, setInRoster] = useState(false);
   // console.log(slime);

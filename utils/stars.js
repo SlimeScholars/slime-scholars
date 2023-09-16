@@ -27,7 +27,7 @@ export const getQuizRewards = (newStars, oldStars) => {
     return rewards[newStars]
   }
 
-  return rewards[newStars] - rewards[oldStars]
+  return Math.max(rewards[newStars] - rewards[oldStars], 0)
 }
 
 export const calculateTestStars = (score) => {
@@ -60,5 +60,5 @@ export const getTestRewards = (newStars, oldStars) => {
     return rewards[newStars]
   }
 
-  return rewards[newStars] - rewards[oldStars]
+  return Math.max(rewards[newStars] - rewards[oldStars], 0)
 }

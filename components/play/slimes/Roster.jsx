@@ -4,7 +4,7 @@ import { gameData } from "../../../data/gameData";
 import Image from "next/image";
 import { useEffect } from "react";
 
-export default function Roster({ user, loading, setLoading, slime, setUser, bg, refetchUser }) {
+export default function Roster({ user, loading, setLoading, slime, setUser, bg, refetchUser, colorPalette }) {
   if (loading) {
     return;
   }
@@ -86,6 +86,11 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                     border: `5px solid ${bg.primary1}`,
                   }}
                 >
+                  <div
+                    className="absolute w-full h-full text-center flex items-center justify-center text-3xl font-bold"
+                  >
+                    +
+                  </div>
                   <Image
                     src={
                       "/assets/pfp/slimes/shadow-slime.png"
