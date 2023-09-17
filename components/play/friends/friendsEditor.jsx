@@ -21,7 +21,8 @@ export default function FriendsEditor({
   user,
   setSentFriendRequests,
   colorPalette,
-  refetchUser
+  refetchUser,
+  searchContent,
 }) {
   const handleManageFriend = (friendId) => {
     const token = localStorage.getItem("jwt");
@@ -87,7 +88,7 @@ export default function FriendsEditor({
 
   if (toDo === "manage") {
     let friends = [];
-    if (usersOnlist === "empty for now" || usersOnlist.length === 0) {
+    if (usersOnlist === "empty for now") {
       friends = userFriends ? userFriends : [];
     } else {
       friends = usersOnlist ? usersOnlist : [];
@@ -100,6 +101,9 @@ export default function FriendsEditor({
     // may need a loading screen here
     return (
       <div className="grid grid-cols-2 gap-4">
+        <p className="col-span-4">
+          You have no friends by the name "{searchContent}"
+        </p>
         {Array.isArray(friends) ? (
           friends.map((user, index) => {
             return (
@@ -155,9 +159,15 @@ export default function FriendsEditor({
       </div>
     )
 
+    {/* add friends */ }
   } else {
     return (
       <div className="grid grid-cols-2 gap-4">
+        {usersOnlist.length === 0 && (
+          <p>
+            No users found by the name "{searchContent}"
+          </p>
+        )}
         {Array.isArray(usersOnlist) ? (
           usersOnlist.map((user, index) => {
             return (
