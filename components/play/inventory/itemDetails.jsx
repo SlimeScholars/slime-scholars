@@ -64,9 +64,15 @@ export default function ItemDetails({
                 {item && item.rarity}
               </p>
               <p className="text-2xl font-bold"
-                style={{ color: colorPalette ? colorPalette.text1 : "" }}>{item.itemName}</p>
-              {item.description && (
-                <p className="text-grey text-sm">{item.description}</p>
+                style={{ color: colorPalette ? colorPalette.text1 : "" }}>{item.itemName}
+              </p>
+              {gameData.items[item.itemName].desc && (
+                <p
+                  className="text-md mt-3"
+                  style={{ color: colorPalette ? colorPalette.text1 : "" }}
+                >
+                  {gameData.items[item.itemName].desc}
+                </p>
               )}
               <div className="flex flex-row items-center p-4">
                 <img
@@ -259,8 +265,13 @@ export default function ItemDetails({
             >
               {item.itemName}
             </p>
-            {item.description && (
-              <p className="text-grey text-sm">{item.description}</p>
+            {gameData.items[item.itemName].desc && (
+              <p
+                className="text-md mt-3"
+                style={{ color: colorPalette ? colorPalette.text1 : "" }}
+              >
+                {gameData.items[item.itemName].desc}
+              </p>
             )}
           </div>
           {/* Buy Item */}
@@ -430,11 +441,17 @@ export default function ItemDetails({
             >
               {item.itemName}
             </p>
-            {item.description && (
-              <p className="text-grey text-sm">{item.description}</p>
+            {gameData.items[item.itemName].desc && (
+              <p
+                className="text-md mt-3"
+                style={{ color: colorPalette ? colorPalette.text1 : "" }}
+              >
+                {gameData.items[item.itemName].desc}
+              </p>
             )}
           </div>
         </div>
+
         {/* Change pfp comparison */}
         <div
           className="col-span-3 rounded-lg p-6"
@@ -669,8 +686,13 @@ export default function ItemDetails({
           >
             {item.itemName}
           </p>
-          {item.description && (
-            <p className="text-grey text-sm">{item.description}</p>
+          {gameData.items[item.itemName].desc && (
+            <p
+              className="text-md mt-3"
+              style={{ color: colorPalette ? colorPalette.text1 : "" }}
+            >
+              {gameData.items[item.itemName].desc}
+            </p>
           )}
         </div>
         {/* Sell Item */}
