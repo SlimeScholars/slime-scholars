@@ -178,42 +178,44 @@ export function Navbar({
 
           return (
             <button
-              onClick={(e) => {
-                e.preventDefault();
-                if (type.id === 6) {
-                  router.push("/settings");
-                } else {
-                  router.push("/play/" + type.title.toLowerCase());
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (type.id === 6) {
+                    router.push("/settings");
+                  } else {
+                    router.push("/play/" + type.title.toLowerCase());
+                  }
+                }}
+                style={
+                  isActive
+                    ? {
+                      backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
+                        }`,
+                        border: `${
+                          type.id === 6 && colorPalette !== undefined
+                            ? `5px solid ${colorPalette.primary1}`
+                            : ""
+                        }`,
+                        padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
+                      }
+                    : {
+                      backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
+                        }88`,
+                        border: `${
+                          type.id === 6 && colorPalette !== undefined
+                            ? `5px solid ${colorPalette.primary1}`
+                            : ""
+                        }`,
+                        padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
+                      }
                 }
-              }}
-              style={
-                isActive
-                  ? {
-                    backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
-                      }`,
-                      border: `${
-                        type.id === 6 && colorPalette !== undefined
-                          ? `5px solid ${colorPalette.primary1}`
-                          : ""
-                      }`,
-                      padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
-                    }
-                  : {
-                    backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
-                      }88`,
-                      border: `${
-                        type.id === 6 && colorPalette !== undefined
-                          ? `5px solid ${colorPalette.primary1}`
-                          : ""
-                      }`,
-                      padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
-                    }
-              }
-              className="hover:opacity-60 rounded-full 2xl:p-4 p-3 overflow-hidden relative"
-              key={type.id}
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content={type.title}
-            >
+                className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border ${
+                  type.id === 6 ? "2xl:w-[5.5rem] 2xl:h-[5.5rem]" : "" // Apply larger size for 2xl screen and type.id 6
+                }`}
+                key={type.id}
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={type.title}
+              >
               {type.id === 6 ? (
                 user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
