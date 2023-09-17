@@ -26,7 +26,7 @@ export function Navbar({
     { title: "Slimes", src: "slimes", id: 3 },
     { title: "Inventory", src: "inventory", id: 4 },
     { title: "Roll", src: "slime-egg", id: 5 },
-    { title: "Profile", id: 6 },
+    { title: "Settings", id: 6 },
   ];
 
   const router = useRouter();
@@ -178,44 +178,37 @@ export function Navbar({
 
           return (
             <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (type.id === 6) {
-                    router.push("/settings");
-                  } else {
-                    router.push("/play/" + type.title.toLowerCase());
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/play/" + type.title.toLowerCase());
+              }}
+              style={
+                isActive
+                  ? {
+                    backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
+                      }`,
+                    border: `${type.id === 6 && colorPalette !== undefined
+                      ? `5px solid ${colorPalette.primary1}`
+                      : ""
+                      }`,
+                    padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
                   }
-                }}
-                style={
-                  isActive
-                    ? {
-                      backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
-                        }`,
-                        border: `${
-                          type.id === 6 && colorPalette !== undefined
-                            ? `5px solid ${colorPalette.primary1}`
-                            : ""
-                        }`,
-                        padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
-                      }
-                    : {
-                      backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
-                        }88`,
-                        border: `${
-                          type.id === 6 && colorPalette !== undefined
-                            ? `5px solid ${colorPalette.primary1}`
-                            : ""
-                        }`,
-                        padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
-                      }
-                }
-                className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border ${
-                  type.id === 6 ? "2xl:w-[5.5rem] 2xl:h-[5.5rem]" : "" // Apply larger size for 2xl screen and type.id 6
+                  : {
+                    backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
+                      }88`,
+                    border: `${type.id === 6 && colorPalette !== undefined
+                      ? `5px solid ${colorPalette.primary1}`
+                      : ""
+                      }`,
+                    padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
+                  }
+              }
+              className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border ${type.id === 6 ? "2xl:w-[5.5rem] 2xl:h-[5.5rem]" : "" // Apply larger size for 2xl screen and type.id 6
                 }`}
-                key={type.id}
-                data-tooltip-id="my-tooltip"
-                data-tooltip-content={type.title}
-              >
+              key={type.id}
+              data-tooltip-id="my-tooltip"
+              data-tooltip-content={type.title}
+            >
               {type.id === 6 ? (
                 user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
@@ -232,17 +225,17 @@ export function Navbar({
                         className="absolute h-32 w-32"
                       />
                     </div>
-                      <Image
-                        src={
-                          "/assets/pfp/slimes/" +
-                          gameData.slimeImgs[user.pfpSlime].pfp
-                        }
-                        alt={user.pfpSlime}
-                        height={0}
-                        width={0}
-                        sizes="100vw"
-                        className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"  
-                      />
+                    <Image
+                      src={
+                        "/assets/pfp/slimes/" +
+                        gameData.slimeImgs[user.pfpSlime].pfp
+                      }
+                      alt={user.pfpSlime}
+                      height={0}
+                      width={0}
+                      sizes="100vw"
+                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"
+                    />
                   </div>
                 ) : (
                   // Handle the case when user or user.pfpSlime is null or undefined
@@ -273,19 +266,6 @@ export function Navbar({
             </button>
           );
         })}
-        {/* settings
-        FIXME
-        <div>
-          <button
-            className="p-2 bg-white"
-            onClick={() => {
-              router.push("/settings");
-            }}
-          >
-            Settings
-          </button>
-        </div>
-        */}
       </div>
     </div>
   );

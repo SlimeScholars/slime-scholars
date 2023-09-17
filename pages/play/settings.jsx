@@ -9,7 +9,6 @@ import {
   verifyEmail,
   verifyName,
   verifyUsername,
-  verifyPassword,
 } from "../../utils/verify";
 
 import { showToastError } from "../../utils/toast";
@@ -296,3 +295,4 @@ export default function Settings({ loading, user, setUser }) {
     </div>
   );
 }
+
