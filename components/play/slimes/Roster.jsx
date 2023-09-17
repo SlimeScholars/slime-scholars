@@ -10,7 +10,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
   }
 
   const handleClick = (id, index) => {
-    setLoading(true);
+    setLoading(true)
     try {
       if (id === null) {
         return;
@@ -111,7 +111,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                 <Image
                   src={
                     "/assets/pfp/slimes/" +
-                    gameData.slimeImgs[char.slimeName].static
+                    gameData.slimes[char.slimeName].static
                   }
                   alt={char.slimeName}
                   height={0}
@@ -129,13 +129,13 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                   color: bg.text2,
                 }}
               >
-                {slime.bonusLevel ? (
+                {char.bonusLevel ? (
                   <p className="text-center text-sm mt-1">
-                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level} + {slime.bonusLevel}
+                    Lvl. {char.level === char.maxLevel ? 'MAX' : char.level} + {char.bonusLevel}
                   </p>
                 ) : (
                   <p className="text-center text-sm mt-1">
-                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level}
+                    Lvl. {char.level === char.maxLevel ? 'MAX' : char.level}
                   </p>
                 )}
               </div>

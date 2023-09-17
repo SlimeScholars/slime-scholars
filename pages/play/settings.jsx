@@ -159,7 +159,7 @@ export default function Settings({ loading, user, setUser }) {
               />
               <Image
                 src={
-                  "/assets/pfp/slimes/" + gameData.slimeImgs[user.pfpSlime].pfp
+                  "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
                 }
                 alt={user.pfpSlime}
                 height={0}

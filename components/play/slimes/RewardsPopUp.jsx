@@ -66,7 +66,7 @@ export default function RewardsPopUp({ rewardMessages, onClose, rewards }) {
                           <Image
                             src={
                               "/assets/pfp/slimes/" +
-                              gameData.slimeImgs[slime.slimeName].pfp
+                              gameData.slimes[slime.slimeName].pfp
                             }
                             alt={slime.slimeName}
                             height={0}
