@@ -151,7 +151,13 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
         </div>
 
         {/* Manage Friends */}
-        <div className="basis-1/2 bg-white/50 rounded-lg h-full">
+        <div
+          className="basis-1/2 rounded-lg h-full"
+          style={{
+            backgroundColor:
+              !colorPalette ? "" : `${colorPalette.white}88`,
+          }}
+        >
           <div className="flex flex-row">
             <ManageFriends
               user={user}
