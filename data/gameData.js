@@ -24,20 +24,8 @@ export const gameData = {
       sellCurrency: 1,
       desc: "A slime egg. It's a bit slimy. I wonder what's inside?",
     },
-    /*
-    "Rotten Egg": {
-      itemName: "Rotten Egg",
-      rarity: "Uncommon",
-      isBg: false,
-      buyPrice: 1,
-      sellPrice: 1,
-      buyCurrency: 0,
-      sellCurrency: 0
-    },
-    */
 
     // Backgrounds
-    // TODO: Write bgs
     "Blue Planet": {
       itemName: "Blue Planet",
       rarity: "Rare",

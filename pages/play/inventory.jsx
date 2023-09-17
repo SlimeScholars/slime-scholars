@@ -76,8 +76,16 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 								placeholder={"Search for an item"}
 								className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
 								onChange={(e) => setSearchContent(e.target.value)}
+								style={{
+									color: colorPalette ? colorPalette.black : "",
+								}}
 							/>
-							<button className="h-full flex p-1 cursor-default">
+							<button
+								className="h-full flex p-1 cursor-default"
+								style={{
+									color: colorPalette ? colorPalette.black : "",
+								}}
+							>
 								<span className="material-symbols-outlined">Search</span>
 							</button>
 						</div>
