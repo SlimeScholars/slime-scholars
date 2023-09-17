@@ -416,7 +416,7 @@ export default function ItemDetails({
         }}
         className="rounded-lg p-8"
       >
-        <div className="grid-cols-3 grid gap-8 h-full mb-8">
+        <div className="2xl:grid-cols-3 xl:grid-cols-2 grid gap-8 h-full mb-8">
           <ItemInventory
             item={item}
             displayOnly="true"
@@ -424,7 +424,7 @@ export default function ItemDetails({
           />
           {/* Item description */}
           <div
-            className="col-span-2 rounded-lg px-8 py-4"
+            className="2xl:col-span-2 rounded-lg px-8 py-4"
             style={{
               backgroundColor: `${colorPalette.black}88`,
             }}
