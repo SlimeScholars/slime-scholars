@@ -67,7 +67,7 @@ export default function AddToRoster({
 
   return (
     <div
-      className="flex flex-col px-9 py-5"
+      className="flex flex-col"
       style={{
         color: bg.text1,
       }}

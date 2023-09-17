@@ -118,13 +118,10 @@ export default function SlimeDetails({
           />
         )}
         <div
-          className="grid"
-          style={{
-            gridTemplateColumns: "1fr 1.25fr",
-          }}
+          className="grid slime-grid"
         >
-          <div className="flex justify-center items-center flex-col relative">
-            <div className="w-[90%]">
+          <div className="flex justify-center items-center flex-col relative p-8">
+            <div className="w-[80%]">
               <Image
                 src={"/assets/pfp/slimes/" + gameData.slimes[name].static}
                 alt={name}
@@ -150,14 +147,14 @@ export default function SlimeDetails({
                     return slime.starLevel > index ?
                       <FaStar
                         key={`star-${index}`}
-                        className='text-yellow-300 text-3xl mx-1'
+                        className='text-yellow-300 text-2xl mx-1'
                       /> :
                       <FaRegStar
                         key={`star-${index}`}
                         style={{
                           color: bg?.text1,
                         }}
-                        className="text-3xl mx-1"
+                        className="text-2xl mx-1"
                       />
                   })}
                 </div>
@@ -285,15 +282,26 @@ export default function SlimeDetails({
           </div>
         </div>
       </div>
-      <AddToRoster
-        user={user}
-        loading={loading}
-        setLoading={setLoading}
-        slime={slime}
-        setUser={setUser}
-        bg={bg}
-        refetchUser={refetchUser}
-      />
+      <div
+        className="p-8 pt-0"
+      >
+        <div
+          className="rounded-lg py-6 px-10"
+          style={{
+            backgroundColor: `${bg.black}88`,
+          }}
+        >
+          <AddToRoster
+            user={user}
+            loading={loading}
+            setLoading={setLoading}
+            slime={slime}
+            setUser={setUser}
+            bg={bg}
+            refetchUser={refetchUser}
+          />
+        </div>
+      </div>
     </div>
   );
 }
