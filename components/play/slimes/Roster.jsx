@@ -129,13 +129,13 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                   color: bg.text2,
                 }}
               >
-                {slime.bonusLevel ? (
+                {char.bonusLevel ? (
                   <p className="text-center text-sm mt-1">
-                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level} + {slime.bonusLevel}
+                    Lvl. {char.level === char.maxLevel ? 'MAX' : char.level} + {char.bonusLevel}
                   </p>
                 ) : (
                   <p className="text-center text-sm mt-1">
-                    Lvl. {slime.level === slime.maxLevel ? 'MAX' : slime.level}
+                    Lvl. {char.level === char.maxLevel ? 'MAX' : char.level}
                   </p>
                 )}
               </div>
