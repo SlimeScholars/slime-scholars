@@ -1,8 +1,18 @@
 import Image from "next/image";
 import { gameData } from "../../../data/gameData";
-export default function SlimeInventory({ slimes, loading, setSlime, bg }) {
+export default function SlimeInventory({ slimes, loading, setSlime, bg, searchContent }) {
   return (
     <>
+      {slimes.length === 0 && (
+        <p
+          className="col-span-4"
+          style={{
+            color: bg ? bg.text1 : "",
+          }}
+        >
+          No slimes found by the name "{searchContent}"
+        </p>
+      )}
       {Array.isArray(slimes) &&
         slimes.map((slime, index) => {
           return (
