@@ -1271,17 +1271,6 @@ export const gameData = {
         maxLevel: 20,
         baseProduction: 0,
       },
-      // 
-      //   slimeName: "Scholar Slime",
-      //   effects: ["Max level is level 25"],
-      //   abilityName: "Wisdom",
-      //   abilityDescription: [
-      //     "All other active slimes gain 2 extra GP per level (1 for commons).",
-      //     "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +3 GP/level itself.",
-      //     "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +7 GP/level itself.",
-      //   ],
-      //   maxLevel: 25,
-      // },
     ],
   },
 
