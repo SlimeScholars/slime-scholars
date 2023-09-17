@@ -84,6 +84,7 @@ export default function FriendsEditor({
         });
     }
   };
+
   if (toDo === "manage") {
     let friends = [];
     if (usersOnlist === "empty for now" || usersOnlist.length === 0) {
@@ -152,7 +153,8 @@ export default function FriendsEditor({
           <p>No friends to display.</p>
         )}
       </div>
-    );
+    )
+
   } else {
     return (
       <div className="grid grid-cols-2 gap-4">
@@ -173,6 +175,7 @@ export default function FriendsEditor({
                         "/assets/pfp/backgrounds/" +
                         gameData.items[user.pfpBg].pfp
                       }
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes="100vw"
@@ -183,6 +186,7 @@ export default function FriendsEditor({
                         "/assets/pfp/slimes/" +
                         gameData.slimeImgs[user.pfpSlime].pfp
                       }
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes="100vw"
