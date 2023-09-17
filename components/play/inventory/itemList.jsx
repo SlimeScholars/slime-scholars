@@ -1,6 +1,6 @@
 import ItemInventory from "./itemInventory";
 
-export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, user, colorPalette }) {
+export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, user, colorPalette, searchContent }) {
 
   return (
     <div className="w-full"
@@ -13,6 +13,9 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
           color: !colorPalette ? "" : colorPalette.text1,
         }}
       >
+        {items.length === 0 && (
+          <p className="col-span-4">No items found by the name "{searchContent}"</p>
+        )}
         {shopping ? (
           gameItems && (
             Object.values(gameItems).map(item => {

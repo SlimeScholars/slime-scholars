@@ -24,14 +24,18 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 	const [searchContent, setSearchContent] = useState("");
 	useEffect(() => {
 		if (user && user.items) {
+			if (searchContent.trim() === '') {
+				setItems(user.items)
+				return
+			}
 			const searchItem = user.items.filter((item) => {
 				return item.itemName
 					.toLowerCase()
 					.includes(searchContent.toLowerCase());
-			});
+			})
 			setItems(searchItem);
 		}
-	}, [searchContent]);
+	}, [searchContent, user]);
 
 	return (
 		<div
@@ -106,6 +110,7 @@ export default function Inventory({ loading, user, setUser, setNumEggs, setFlowe
 							setItemOnClick={setItemOnClick}
 							colorPalette={colorPalette}
 							refetchUser={refetchUser}
+							searchContent={searchContent}
 						/>
 					</div>
 
