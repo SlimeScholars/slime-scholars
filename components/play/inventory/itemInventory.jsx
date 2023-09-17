@@ -40,7 +40,7 @@ export default function ItemInventory({
                         }
                     }}
                     style={{
-                        border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary2}`,
+                        border: colorPalette === undefined ? '' : `5px solid ${colorPalette.primary1}`,
                     }}
                 >
                     <Image
@@ -49,7 +49,7 @@ export default function ItemInventory({
                         height={0}
                         width={0}
                         sizes='100vw'
-                        className="h-auto w-full rounded-[11px]"
+                        className="h-auto w-full rounded-[11px] grayscale"
                     />
                 </div>
             )
