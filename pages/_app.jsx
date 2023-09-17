@@ -20,6 +20,41 @@ function MyApp({ Component, pageProps }) {
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
 
+  const refetchUserNonLoad = async () => {
+
+    try {
+      const token = localStorage.getItem('jwt')
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .get("/api/user", config)
+        .then((response) => {
+          if (response.data && response.data.user) {
+            setUser(response.data.user)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          // If the json web token is invalid, remove it so no more requests will be made with the same token
+          localStorage.removeItem("jwt");
+          setUser(null);
+        });
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
+
   const refetchUser = async () => {
 
     setLoading(true)
@@ -83,6 +118,10 @@ function MyApp({ Component, pageProps }) {
       refetchUser()
     }
   }, []);
+
+  useEffect(() => {
+    setInterval(() => {refetchUserNonLoad()}, 5000)
+  }, [])
 
   const router = useRouter();
   const [onPlay, setOnPlay] = useState(false);
