@@ -90,7 +90,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
-    if (router.pathname.startsWith("/play") && paths.includes(router.pathname.split("/")[2])) {
+    if (router.pathname.startsWith("/play") && (router.pathname.split('/').length < 3 || paths.includes(router.pathname.split("/")[2]))) {
       setOnPlay(router.pathname.startsWith("/play"));
       if (router.pathname.split("/").length === 2) {
         setCurrent(0);
