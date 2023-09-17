@@ -141,7 +141,7 @@ export default function Settings({ loading, user, setUser }) {
               {username} Profile
             </h1>
             <div
-              className="relative h-20 w-20 rounded-full overflow-hidden border-4 border-red-300 flex justify-center items-center cursor-pointer"
+              className="relative h-20 w-20 rounded-full overflow-hidden border-4 border-purple-500 flex justify-center items-center cursor-pointer"
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/play/inventory");
