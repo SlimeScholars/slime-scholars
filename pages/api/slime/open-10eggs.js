@@ -91,7 +91,7 @@ export default async function (req, res) {
 			let slime
 			// If the new slime is duplicate
 			if (slimeExists) {
-				
+
 				originSlimeObjects.push(JSON.parse(JSON.stringify(slimeExists)))
 				// If the slime can earn stars
 				if (slimeExists.starProgress !== undefined && slimeExists.starLevel !== slimeExists.maxStarLevel) {
@@ -142,9 +142,9 @@ export default async function (req, res) {
 					slimeName: chosenSlime.slimeName,
 					rarity,
 					// Override default max level if the slime has a custom one
-					maxLevel: chosenSlime.maxLevel ? chosenSlime.maxLevel : gameData.maxLevel[rarity],
+					maxLevel: chosenSlime.maxLevel !== undefined ? chosenSlime.maxLevel : gameData.maxLevel[rarity],
 					// Override default base production if the slime has a custom one
-					baseProduction: chosenSlime.baseProduction ? chosenSlime.baseProduction : gameData.baseProduction[rarity],
+					baseProduction: chosenSlime.baseProduction !== undefined ? chosenSlime.baseProduction : gameData.baseProduction[rarity],
 					// Bonus production is always 0 when creating a slime
 
 					// Set level up cost to undefined if the slime cannot be leveled

@@ -1238,7 +1238,7 @@ export const gameData = {
           "24 percent to gain 240 GP.",
           "24 percent to gain 777 GP.",
         ],
-        maxLevel: 0,
+        maxLevel: 1,
         baseGP: 100,
       },
       {
@@ -1249,7 +1249,7 @@ export const gameData = {
           "Every plus level on all other active slimes causes an increase of 2 percent to the total base GP this slime absorbs.",
           "Every plus level on this slime causes an increase of 5 percent to the base GP the slime absorbs.",
         ],
-        maxLevel: 0,
+        maxLevel: 1,
         baseGP: 0,
       },
       {
