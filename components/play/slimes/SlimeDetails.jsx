@@ -5,6 +5,7 @@ import PopUpDetails from "./PopUpDetails";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 export default function SlimeDetails({
   user,
@@ -122,7 +123,7 @@ export default function SlimeDetails({
             gridTemplateColumns: "1fr 1.25fr",
           }}
         >
-          <div className="flex justify-center items-center">
+          <div className="flex justify-center items-center flex-col relative">
             <div className="w-[90%]">
               <Image
                 src={"/assets/pfp/slimes/" + gameData.slimes[name].static}
@@ -132,6 +133,35 @@ export default function SlimeDetails({
                 sizes={"100vw"}
                 className="h-auto w-full"
               />
+              {/* Stars */}
+              <div className="w-full flex justify-center">
+                <div
+                  className="rounded-full w-fit py-2 px-4 flex flex-row"
+                  style={{
+                    backgroundColor:
+                      bg === undefined ? '' : `${bg.primary1}`,
+                    border:
+                      bg === undefined ? '' : `3px solid ${bg.primary2}`,
+                    color:
+                      bg === undefined ? '' : bg.text2,
+                  }}
+                >
+                  {Array.from({ length: 3 }).map((_, index) => {
+                    return slime.starLevel > index ?
+                      <FaStar
+                        key={`star-${index}`}
+                        className='text-yellow-300 text-3xl mx-1'
+                      /> :
+                      <FaRegStar
+                        key={`star-${index}`}
+                        style={{
+                          color: bg?.text1,
+                        }}
+                        className="text-3xl mx-1"
+                      />
+                  })}
+                </div>
+              </div>
             </div>
           </div>
           <div className="p-8">
