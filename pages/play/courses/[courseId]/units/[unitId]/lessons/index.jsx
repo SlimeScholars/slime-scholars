@@ -1,9 +1,9 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { showToastError } from "../../../../../../utils/toast"
+import { showToastError } from "../../../../../../../utils/toast"
 import axios from "axios"
-import Lesson from "../../../../../../components/learn/lesson"
-import UnitTest from "../../../../../../components/learn/unitTest"
+import Lesson from "../../../../../../../components/learn/lesson"
+import UnitTest from "../../../../../../../components/learn/unitTest"
 
 export default function Lessons({ user, loading, setLoading, colorPalette }) {
 	const router = useRouter()
@@ -79,17 +79,17 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 			backgroundSize: "cover",
 		}}>
 			<div className='flex flex-col items-center justify-start w-[60%] min-h-screen'
-			style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1 + "F0"
-			}}>
-				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
 				style={{
-					color:!colorPalette ? "" : colorPalette.text1
+					backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "F0"
 				}}>
-					<div className="w-full h-15 flex items-center justify-between px-6 py-3"
+				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
 					style={{
-						backgroundColor:!colorPalette ? "" : colorPalette.black
+						color: !colorPalette ? "" : colorPalette.text1
 					}}>
+					<div className="w-full h-15 flex items-center justify-between px-6 py-3"
+						style={{
+							backgroundColor: !colorPalette ? "" : colorPalette.black
+						}}>
 						<p className="text-lg cursor-pointer"
 							onClick={() => router.push('/play')
 							}
@@ -97,38 +97,38 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 							Home
 						</p>
 						<p className="text-right text-lg cursor-pointer">
-							{courseName && unitName ? 
-							<>
-								<span
+							{courseName && unitName ?
+								<>
+									<span
+										className="hover:brightness-[0.8] transition-all duration-150"
+										onClick={() => {
+											router.push(`/courses`)
+										}}>Courses</span>
+									{" / "}
+								</> : <></>}
+							<span
 								className="hover:brightness-[0.8] transition-all duration-150"
 								onClick={() => {
-									router.push(`/courses`)
-								}}>Courses</span>
-								{" / "}
-							</>:<></>}
-							<span
-							className="hover:brightness-[0.8] transition-all duration-150"
-							onClick={() => {
-								router.push(`/courses/${courseId}/units`)
-							}}>{courseName}</span>
+									router.push(`/courses/${courseId}/units`)
+								}}>{courseName}</span>
 							{courseName && unitName ? " / " : ""}
 							<span
-							onClick={() => {
-							}}>{unitName}</span>
+								onClick={() => {
+								}}>{unitName}</span>
 						</p>
 					</div>
 					<h1 className="text-3xl mt-8 mb-4">
 						Lesson Select
 					</h1>
 					<div className="w-full h-[1px] mt-3"
-					style={{
-						backgroundColor:!colorPalette ? "" : colorPalette.primary2
-					}}>&nbsp;</div>
+						style={{
+							backgroundColor: !colorPalette ? "" : colorPalette.primary2
+						}}>&nbsp;</div>
 				</header>
 				<div className="w-full h-full flex flex-col justify-start items-center pt-8 pb-16 gap-4 font-galindo"
-				style={{
-					backgroundColor:!colorPalette ? "" : colorPalette.primary2
-				}}>
+					style={{
+						backgroundColor: !colorPalette ? "" : colorPalette.primary2
+					}}>
 					{lessons.map((lesson) => (
 						<Lesson
 							key={lesson._id}

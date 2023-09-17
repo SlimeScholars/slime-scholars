@@ -11,7 +11,7 @@ export default function UnitTest({ courseId, unitId, unitName, stars }) {
 		<button
 			className={`course-bar-default bg-slate-300 border-2 border-slate-400`}
 			onClick={() => {
-				router.push(`/courses/${courseId}/units/${unitId}/unit-test`)
+				router.push(`/play/courses/${courseId}/units/${unitId}/unit-test`)
 			}}
 		>
 			<h3 className="w-full grid lesson-card">
