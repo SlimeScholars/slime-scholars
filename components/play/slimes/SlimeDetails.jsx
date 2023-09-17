@@ -199,6 +199,11 @@ export default function SlimeDetails({
                     {`${gameData.slimes[slime.slimeName].abilityName} ${tiers[slime.starLevel - 1]}: ${gameData.slimes[slime.slimeName]?.abilityDesc[slime.starLevel - 1]}`}
                   </p>
                 )}
+                {gameData.slimes[slime.slimeName]?.effects && (
+                  <p className="mt-3 text-[0.9rem] leading-[1.3rem] italic">
+                    {gameData.slimes[slime.slimeName]?.effects}
+                  </p>
+                )}
               </div>
             </div>
             {slime.level === slime.maxLevel ? (
