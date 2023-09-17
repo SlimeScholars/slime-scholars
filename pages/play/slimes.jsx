@@ -66,6 +66,7 @@ export default function Slimes({
 
   useEffect(() => {
     if (user) {
+      // If the user searched something
       const searchSlimes = user.slimes.filter((slime) => {
         return slime.slimeName
           .toLowerCase()
@@ -73,7 +74,7 @@ export default function Slimes({
       });
       setFilterSlimes(searchSlimes);
     }
-  }, [searchContent]);
+  }, [searchContent, user]);
 
   const handleClosePopup = () => {
     setShowRewardsPopup(false);
