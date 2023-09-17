@@ -1,6 +1,6 @@
 import ItemInventory from "./itemInventory";
 
-export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, user, colorPalette, searchContent }) {
+export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, user, colorPalette, searchContent, scrollToTop }) {
 
   return (
     <div className="w-full"
@@ -30,6 +30,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
                     owned="true"
                     shopping={shopping}
                     colorPalette={colorPalette}
+                    scrollToTop={scrollToTop}
                   />
                 );
               } else {
@@ -41,6 +42,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
                     itemOnClick={itemOnClick}
                     shopping={shopping}
                     colorPalette={colorPalette}
+                    scrollToTop={scrollToTop}
                   />
                 );
               }
@@ -55,6 +57,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
                   item={item}
                   itemOnClick={itemOnClick}
                   colorPalette={colorPalette}
+                  scrollToTop={scrollToTop}
                 />
               )
             })
