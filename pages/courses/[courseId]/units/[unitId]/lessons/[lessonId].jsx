@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Stars from "../../../../../../components/learn/stars";
@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, setUser, loading, setLoading, colorPalette, refetchUser }) {
+export default function Lesson({ user, setUser, loading, setLoading, axiosLoading, setAxiosLoading, colorPalette, refetchUser }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -34,7 +34,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
     if (loading) {
       return
     }
-    if (!user || user.userType !== 1) {
+    else if (!user || user.userType !== 1) {
       router.push('/')
     }
   }, [user, loading])
@@ -42,7 +42,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
   useEffect(() => {
     const token = localStorage.getItem("jwt");
     if (lessonId && token) {
-      setLoading(true)
+      setAxiosLoading(true)
       axios
         .get(
           "/api/learn/lesson",
@@ -85,7 +85,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
             }
             setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-            setLoading(false);
+            setAxiosLoading(false)
           } else {
             throw new Error("Failed to fetch lesson");
           }
@@ -97,11 +97,14 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
     }
   }, [lessonId])
 
+  const lessonRef = useRef(null)
+
   const scrollToBottom = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: 'smooth' // Use 'auto' for instant scrolling
-    });
+    if (!lessonRef || !lessonRef.current) {
+      return
+    }
+    const lessonElement = lessonRef.current
+    lessonElement.scrollTop = lessonElement.scrollHeight
   }
 
   const [delayedIncrement, setDelayedIncrement] = useState(false)
@@ -236,7 +239,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
   }
 
   return (
-    <div className='w-full h-screen flex items-center justify-center overflow-y-scroll' style={{
+    <div className='w-full h-screen flex items-center justify-center fixed' style={{
       backgroundImage:
         !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
       backgroundSize: "cover",
@@ -357,6 +360,7 @@ export default function Lesson({ user, setUser, loading, setLoading, colorPalett
             }} />
         </header>
         <div className="w-full flex flex-col justify-start items-start pb-[20vh] max-h-[calc(100vh_-_10rem)] overflow-y-scroll"
+          ref={lessonRef}
           style={{
             backgroundColor: !colorPalette ? "" : colorPalette.primary1,
             color: !colorPalette ? "" : colorPalette.text1
