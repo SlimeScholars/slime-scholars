@@ -12,7 +12,7 @@ export default function Lesson({ courseId, unitId, lessonId, lessonName, looted,
 		<button
 			className={`course-bar-default bg-slate-300 border-2 border-slate-400`}
 			onClick={() => {
-				router.push(`/courses/${courseId}/units/${unitId}/lessons/${lessonId}`)
+				router.push(`/play/courses/${courseId}/units/${unitId}/lessons/${lessonId}`)
 			}}
 		>
 			<h3 className="w-full grid lesson-card">

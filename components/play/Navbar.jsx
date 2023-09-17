@@ -90,7 +90,7 @@ export function Navbar({
         }}
         onClick={(e) => {
           e.preventDefault();
-          router.push("/courses");
+          router.push("/play/courses");
         }}
       >
         Earn Flowers

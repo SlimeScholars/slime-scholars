@@ -15,7 +15,7 @@ export default function Course({ courseId, courseName, courseBadge, tier }) {
 		<button
 			className={`course-bar-default ${tierClass[tier]}`}
 			onClick={() => {
-				router.push(`/courses/${courseId}/units`)
+				router.push(`/play/courses/${courseId}/units`)
 			}}
 		>
 			<h3 className="ml-[2rem]">

@@ -1,10 +1,10 @@
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
-import { showToastError } from "../../../../utils/toast"
+import { showToastError } from "../../../../../utils/toast"
 import axios from "axios"
-import Unit from "../../../../components/learn/unit"
+import Unit from "../../../../../components/learn/unit"
 
-export default function Units({ user, loading, setLoading, colorPalette }) {
+export default function Units({ user, loading, setLoading, setAxiosLoading, colorPalette }) {
 	const router = useRouter()
 
 	useEffect(() => {
@@ -41,7 +41,7 @@ export default function Units({ user, loading, setLoading, colorPalette }) {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading(true)
+			setAxiosLoading(true)
 			axios
 				.get("/api/learn/units", config)
 				.then((response) => {
@@ -55,7 +55,7 @@ export default function Units({ user, loading, setLoading, colorPalette }) {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading(false);
+					setAxiosLoading(false);
 				})
 
 		} catch (error) {
@@ -71,48 +71,48 @@ export default function Units({ user, loading, setLoading, colorPalette }) {
 			backgroundSize: "cover",
 		}}>
 			<div className='flex flex-col items-center justify-start w-[60%] min-h-screen'
-			style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1 + "F0"
-			}}>
-				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
 				style={{
-					color:!colorPalette ? "" : colorPalette.text1
+					backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "F0"
 				}}>
-					<div className="w-full h-15 flex items-center justify-between px-6 py-3"
+				<header className="w-full h-30 flex items-center justify-start flex-col font-galindo"
 					style={{
-						backgroundColor:!colorPalette ? "" : colorPalette.black
+						color: !colorPalette ? "" : colorPalette.text1
 					}}>
+					<div className="w-full h-15 flex items-center justify-between px-6 py-3"
+						style={{
+							backgroundColor: !colorPalette ? "" : colorPalette.black
+						}}>
 						<p className="text-lg cursor-pointer"
 							onClick={() => router.push('/play')
 							}
 						>
 							Home
 						</p>
-						
+
 						<p className="text-right text-lg cursor-pointer">
 							<span
-							className="hover:brightness-[0.8] transition-all duration-150"
-							onClick={() => {
-								router.push(`/courses`)
-							}}>Courses</span>
+								className="hover:brightness-[0.8] transition-all duration-150"
+								onClick={() => {
+									router.push(`/play/courses`)
+								}}>Courses</span>
 							{courseName ? " / " : ""}
 							<span
-							onClick={() => {
-							}}>{courseName}</span>
+								onClick={() => {
+								}}>{courseName}</span>
 						</p>
 					</div>
 					<h1 className="text-3xl mt-8 mb-4">
 						Unit Select
 					</h1>
 					<div className="w-full h-[1px] mt-3"
-					style={{
-						backgroundColor:!colorPalette ? "" : colorPalette.primary2
-					}}>&nbsp;</div>
+						style={{
+							backgroundColor: !colorPalette ? "" : colorPalette.primary2
+						}}>&nbsp;</div>
 				</header>
 				<div className="w-full h-full flex flex-col justify-start items-center pt-8 pb-16 gap-4 font-galindo"
-				style={{
-					backgroundColor:!colorPalette ? "" : colorPalette.primary2
-				}}>
+					style={{
+						backgroundColor: !colorPalette ? "" : colorPalette.primary2
+					}}>
 					{units.map((unit) => (
 						<Unit
 							key={unit._id}
