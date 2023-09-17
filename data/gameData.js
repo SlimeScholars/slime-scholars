@@ -29,6 +29,7 @@ export const gameData = {
     "Blue Planet": {
       itemName: "Blue Planet",
       rarity: "Rare",
+      desc: "A planet far from Earth. Said to be the origin place of the slimes.",
       isBg: true,
       pfp: "blue-planet.png",
       bg: "blue-planet.png",
@@ -48,6 +49,7 @@ export const gameData = {
     "Blue Space": {
       itemName: "Blue Space",
       rarity: "Rare",
+      desc: "The surface of a hidden planet in our solar system. It's a bit chilly here.",
       isBg: true,
       pfp: "blue-space.png",
       bg: "blue-space.png",
@@ -68,6 +70,7 @@ export const gameData = {
     "Castle": {
       itemName: "Castle",
       rarity: "Rare",
+      desc: "A majestic castle fit for a king, or a slime, or a kingly slime.",
       isBg: true,
       pfp: "castle.png",
       bg: "castle.png",
@@ -82,7 +85,6 @@ export const gameData = {
       black: "#141C1C",
       text1: "#e8f7fc",
       text2: "#e8f7fc",
-
     },
 
     "Cosmic Lights": {

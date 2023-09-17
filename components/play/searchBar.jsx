@@ -1,5 +1,4 @@
 /**
- * @param   {function} handleSubmit(e) - handle form submit
  * @param   {string} placeHolder - placeholder for the search bar
  * @param   {state} searchContent - the content of search bar (default with "")
  * @param   {function} setSearchContent - the setState function for searchContent
@@ -15,10 +14,6 @@ export default function SearchBar(props) {
   return (
     <form
       className="border-2 flex bg-transparent rounded font-galindo"
-      onSubmit={(e) => {
-        e.preventDefault();
-        props.handleSubmit(e);
-      }}
       style={{
         backgroundColor:
           !colorPalette ? "" : `${colorPalette.white}88`,
