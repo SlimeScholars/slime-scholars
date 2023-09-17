@@ -228,7 +228,7 @@ export function Navbar({
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[user.pfpSlime].pfp
+                        gameData.slimes[user.pfpSlime].pfp
                       }
                       alt={user.pfpSlime}
                       height={0}

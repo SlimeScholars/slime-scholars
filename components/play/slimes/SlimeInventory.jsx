@@ -32,8 +32,8 @@ export default function SlimeInventory({ slimes, loading, setSlime, bg, searchCo
                 >
                   <Image
                     src={
-                      gameData.slimeImgs[slime.slimeName] ? (
-                        "/assets/pfp/slimes/" + gameData.slimeImgs[slime.slimeName].static
+                      gameData.slimes[slime.slimeName] ? (
+                        "/assets/pfp/slimes/" + gameData.slimes[slime.slimeName].static
                       ) : ("")
                     }
                     alt={slime.slimeName}

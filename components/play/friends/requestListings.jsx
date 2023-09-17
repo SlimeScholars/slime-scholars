@@ -90,7 +90,7 @@ export default function RequestListings({
                   <Image
                     src={
                       "/assets/pfp/slimes/" +
-                      gameData.slimeImgs[friendRequest.pfpSlime].pfp
+                      gameData.slimes[friendRequest.pfpSlime].pfp
                     }
                     alt={friendRequest.pfpSlime}
                     height={0}
@@ -151,7 +151,7 @@ export default function RequestListings({
                   <Image
                     src={
                       "/assets/pfp/slimes/" +
-                      gameData.slimeImgs[friendRequest.pfpSlime].pfp
+                      gameData.slimes[friendRequest.pfpSlime].pfp
                     }
                     alt={friendRequest.pfpSlime}
                     height={0}

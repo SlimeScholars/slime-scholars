@@ -10,7 +10,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
   }
 
   const handleClick = (id, index) => {
-    setLoading(true);
+    setLoading(true)
     try {
       if (id === null) {
         return;
@@ -111,7 +111,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                 <Image
                   src={
                     "/assets/pfp/slimes/" +
-                    gameData.slimeImgs[char.slimeName].static
+                    gameData.slimes[char.slimeName].static
                   }
                   alt={char.slimeName}
                   height={0}
