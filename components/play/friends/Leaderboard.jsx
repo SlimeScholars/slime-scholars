@@ -33,7 +33,6 @@ export default function Leaderbaord({ user, userRank, userFriends, allPlayers, u
           <LeadboardListing
             user={user}
             users={userFriends}
-            currentType={currentType}
             userId={userId}
             colorPalette={colorPalette}
           />
@@ -42,7 +41,6 @@ export default function Leaderbaord({ user, userRank, userFriends, allPlayers, u
             user={user}
             userRank={userRank}
             users={allPlayers}
-            currentType={currentType}
             userId={userId}
             colorPalette={colorPalette}
           />
