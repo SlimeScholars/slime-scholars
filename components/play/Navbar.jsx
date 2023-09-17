@@ -191,7 +191,7 @@ export function Navbar({
                       ? `5px solid ${colorPalette.primary1}`
                       : ""
                       }`,
-                    padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
+                    padding: type.id === 6 ? "0.6rem" : undefined, // Add padding only when type.id is 6
                   }
                   : {
                     backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
@@ -200,10 +200,10 @@ export function Navbar({
                       ? `5px solid ${colorPalette.primary1}`
                       : ""
                       }`,
-                    padding: type.id === 6 ? "7px" : undefined, // Add padding only when type.id is 6
+                    padding: type.id === 6 ? "0.6rem" : undefined, // Add padding only when type.id is 6
                   }
               }
-              className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border ${type.id === 6 ? "2xl:w-[5.5rem] 2xl:h-[5.5rem]" : "" // Apply larger size for 2xl screen and type.id 6
+              className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border ${type.id === 6 ? "2xl:w-[5.6rem] 2xl:h-[5.6rem]" : "" // Apply larger size for 2xl screen and type.id 6
                 }`}
               key={type.id}
               data-tooltip-id="my-tooltip"

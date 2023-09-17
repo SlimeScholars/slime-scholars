@@ -243,3 +243,55 @@ input{
   display:grid;
   grid-template-columns: 5rem auto 5rem;
 }
+
+.upgrade-animate {
+  position: relative;
+  top: 0;
+}
+
+.upgrade-animate:hover {
+  animation: jump-hover 0.4s infinite alternate;
+}
+
+@keyframes jump-hover {
+  0% {
+    top: 0;
+  }
+  100% {
+    top: -10px; 
+  }
+}
+
+.fade-in-element {
+  opacity: 0; 
+  animation: fadeIn 1s ease-in-out forwards; 
+}
+
+
+@keyframes fadeIn {
+  0% {
+      opacity: 0;
+  }
+  100% {
+      opacity: 1;
+  }
+}
+
+@keyframes flyInOut {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.fly-arrow {
+  position: absolute;
+  animation: flyInOut 2s ease-in-out forwards;
+}
