@@ -154,9 +154,6 @@ export default async function (req, res) {
 					maxStarLevel: gameData.maxStarLevel[rarity],
 					starProgress: 0,
 					maxStarProgress: gameData.starProgress[rarity][0],
-
-					// If a slime doesn't have effects, it will be undefined
-					effects: chosenSlime.effects,
 				}))._id
 
 				slime = await Slime.findById(slimeId, {

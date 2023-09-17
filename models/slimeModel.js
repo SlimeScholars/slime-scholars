@@ -62,12 +62,6 @@ const slimeSchema = Schema(
 			type: Number,
 			required: false,
 		},
-		// Special effects associated with slime, eg. cannot be leveled, starts with 100 base GP
-		effects: {
-			type: [String],
-			required: false,
-			default: undefined,
-		},
 	},
 	{
 		timestamps: true,
