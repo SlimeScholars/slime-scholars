@@ -81,6 +81,7 @@ export default function RequestListings({
                       "/assets/pfp/backgrounds/" +
                       gameData.items[friendRequest.pfpBg].pfp
                     }
+                    alt={friendRequest.pfpBg}
                     height={0}
                     width={0}
                     sizes='100vw'

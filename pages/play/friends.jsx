@@ -71,7 +71,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
         <div className="grow-0 pl-4">
           <Image
             src="/assets/icons/friends.png"
-            alt='slimes'
+            alt='friends'
             height={0}
             width={0}
             sizes='100vw'
