@@ -13,9 +13,6 @@ export default function ItemInventory({
 }) {
 
 
-    const classNameDefault = "rounded-2xl relative overflow-visible cursor-pointer h-fit"
-    const classNameClick = "rounded-2xl relative overflow-visible cursor-pointer h-fit"
-    const classNameDisplay = "rounded-2xl relative h-fit"
     var gradientBg;
 
     if (gameData.rarityColours[item.rarity]) {
@@ -29,8 +26,11 @@ export default function ItemInventory({
         if (item.isBg) {
             return (
                 <div className={
-                    displayOnly === "true" ? (classNameDisplay) : (
-                        (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClick) : (classNameDefault))
+                    displayOnly === "true" ? "rounded-2xl relative h-fit" : (
+                        (itemOnClick && itemOnClick.itemName === item.itemName) ?
+                            "rounded-2xl relative overflow-visible cursor-pointer h-fit" :
+                            "rounded-2xl relative overflow-visible cursor-pointer h-fit"
+                    )
                 }
                     id={crypto.randomUUID()}
                     onClick={(e) => {
@@ -58,8 +58,10 @@ export default function ItemInventory({
             return (
                 <div
                     className={
-                        displayOnly === "true" ? (classNameDisplay + " " + gradientBg) : (
-                            itemOnClick && itemOnClick.itemName === item.itemName ? (classNameClick + " " + gradientBg) : (classNameDefault + " " + gradientBg)
+                        displayOnly === "true" ? ("rounded-2xl relative h-fit" + " " + gradientBg) : (
+                            itemOnClick && itemOnClick.itemName === item.itemName ?
+                                ("rounded-2xl relative overflow-visible cursor-pointer h-fit" + " " + gradientBg) :
+                                ("rounded-2xl relative overflow-visible cursor-pointer h-fit" + " " + gradientBg)
                         )
                     }
                     id={crypto.randomUUID()}
@@ -92,8 +94,10 @@ export default function ItemInventory({
         const imgPath = item && gameData.items[item.itemName] ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
         return (
             <div className={
-                displayOnly === "true" ? (classNameDisplay) : (
-                    (itemOnClick && itemOnClick.itemName === item.itemName) ? (classNameClick) : (classNameDefault))
+                displayOnly === "true" ? "rounded-2xl relative h-fit" : (
+                    (itemOnClick && itemOnClick.itemName === item.itemName) ?
+                        "rounded-2xl relative overflow-visible cursor-pointer h-fit" :
+                        "rounded-2xl relative overflow-visible cursor-pointer h-fit")
             }
                 id={crypto.randomUUID()}
                 onClick={(e) => {
@@ -118,12 +122,14 @@ export default function ItemInventory({
         )
     }
     // eggs
-    else if (item.quantity) {
+    else {
         return (
             <div
                 className={
-                    displayOnly === "true" ? ((owned ? (classNameDisplayOwned) : (classNameDisplay)) + " " + gradientBg) : (
-                        itemOnClick.itemName === item.itemName ? (classNameClick + " " + gradientBg) : (classNameDefault + " " + gradientBg)
+                    displayOnly === "true" ? ("rounded-2xl relative h-fit" + " " + gradientBg) : (
+                        itemOnClick.itemName === item.itemName ?
+                            ("rounded-2xl relative overflow-visible cursor-pointer h-fit" + " " + gradientBg) :
+                            ("rounded-2xl relative overflow-visible cursor-pointer h-fit" + " " + gradientBg)
                     )}
                 id={crypto.randomUUID()}
                 onClick={(e) => {
