@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function Lesson({ user, setUser, loading, setLoading, axiosLoading, setAxiosLoading, colorPalette, refetchUser }) {
+export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoading, colorPalette, refetchUser }) {
   const router = useRouter();
   const { courseId, unitId, lessonId } = router.query;
   const [lesson, setLesson] = useState({});
@@ -215,7 +215,7 @@ export default function Lesson({ user, setUser, loading, setLoading, axiosLoadin
           Authorization: `Bearer ${token}`,
         },
       };
-      setLoading(true)
+      setAxiosLoading(true)
       axios
         .post("/api/learn/lesson/complete", { lessonId, score: quizScore }, config)
         .then((response) => {
@@ -223,13 +223,14 @@ export default function Lesson({ user, setUser, loading, setLoading, axiosLoadin
             setStars(response.data.stars)
             setCompleted(true)
             refetchUser()
+            setAxiosLoading(false)
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message)
           }
-          setLoading(false);
+          setAxiosLoading(false);
         });
 
     } catch (error) {

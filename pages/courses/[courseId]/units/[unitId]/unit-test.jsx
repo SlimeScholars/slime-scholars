@@ -16,7 +16,7 @@ import { showToastError } from "../../../../../utils/toast";
 import Modal from "../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
-export default function UnitTest({ user, setUser, loading, setLoading, colorPalette, refetchUser }) {
+export default function UnitTest({ user, loading, setLoading, setAxiosLoading, colorPalette, refetchUser }) {
 	const router = useRouter();
 	const [unit, setUnit] = useState({});
 
@@ -38,7 +38,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 
 	useEffect(() => {
 		const token = localStorage.getItem("jwt");
-		setLoading(true)
+		setAxiosLoading(true)
 		if (router.query.unitId && token) {
 			axios
 				.get(
@@ -73,9 +73,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 						}
 						setMaxQuizSectionNumbers(newMaxQuizSectionNumbers)
 
-						if (user) {
-							setLoading(false);
-						}
+						setAxiosLoading(false);
 					} else {
 						throw new Error("Failed to fetch unit test");
 					}
@@ -141,7 +139,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 	}
 
 	const [quizScore, setQuizScore] = useState(0)
-	const [initUser] = useState({...user})
+	const [initUser] = useState({ ...user })
 	const [completed, setCompleted] = useState(false)
 
 	const addScore = (points) => {
@@ -164,7 +162,7 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading(true)
+			setAxiosLoading(true)
 			axios
 				.post("/api/learn/unit-test/complete", { unitId: unit._id, score: quizScore }, config)
 				.then((response) => {
@@ -173,13 +171,13 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 						setCompleted(true)
 					}
 					refetchUser()
-					setLoading(false);
+					setAxiosLoading(false)
 				})
 				.catch((error) => {
 					if (error?.response?.data?.message) {
 						showToastError(error.response.data.message)
 					}
-					setLoading(false);
+					setAxiosLoading(false);
 				});
 
 		} catch (error) {
@@ -266,58 +264,58 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 				className={`flex flex-col items-center justify-start w-[60%] min-h-screen ${completed ? 'hidden' : ''}`}
 				onSubmit={(e) => submitQuiz(e)}
 				style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1,
-				color:!colorPalette ? "" : colorPalette.text1
+					backgroundColor: !colorPalette ? "" : colorPalette.primary1,
+					color: !colorPalette ? "" : colorPalette.text1
 				}}
 			>
 				<header className="w-full flex items-center justify-start flex-col font-galindo"
-				style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1
-				}}>
-				<div className="w-full h-20 flex items-center justify-between px-6 py-3"
-				style={{
-					backgroundColor:!colorPalette ? "" : colorPalette.black
-				}}>
-					<p className="text-lg cursor-pointer"
-					onClick={(e) => {
-						if (!completed) {
-						e.stopPropagation()
-						const confirmed = window.confirm('Are you sure you want to exit the unit test. Your question responses will NOT be saved.')
-						if (confirmed) {
-							router.push('/play')
-						}
-						}
-						else {
-						router.push('/play')
-						}
-					}}
-					>
-					Back
-					</p>
-					<p className="text-lg text-right">
-					{courseName}
-					</p>
-				</div>
-				<h1 className="text-3xl mt-3 mb-1">
-					Unit Test
-				</h1>
-				<div className="w-full h-[1px] mt-3" 
-				style={{
-					backgroundColor:!colorPalette ? "" : colorPalette.primary2,
-				}}/>
+					style={{
+						backgroundColor: !colorPalette ? "" : colorPalette.primary1
+					}}>
+					<div className="w-full h-20 flex items-center justify-between px-6 py-3"
+						style={{
+							backgroundColor: !colorPalette ? "" : colorPalette.black
+						}}>
+						<p className="text-lg cursor-pointer"
+							onClick={(e) => {
+								if (!completed) {
+									e.stopPropagation()
+									const confirmed = window.confirm('Are you sure you want to exit the unit test. Your question responses will NOT be saved.')
+									if (confirmed) {
+										router.push('/play')
+									}
+								}
+								else {
+									router.push('/play')
+								}
+							}}
+						>
+							Back
+						</p>
+						<p className="text-lg text-right">
+							{courseName}
+						</p>
+					</div>
+					<h1 className="text-3xl mt-3 mb-1">
+						Unit Test
+					</h1>
+					<div className="w-full h-[1px] mt-3"
+						style={{
+							backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+						}} />
 				</header>
 				<div className="w-full h-full flex flex-col justify-start items-start pb-[20vh] max-h-[calc(100vh_-_10rem)] overflow-y-scroll"
-				style={{
-				backgroundColor:!colorPalette ? "" : colorPalette.primary1,
-				color:!colorPalette ? "" : colorPalette.text1
-				}}>
+					style={{
+						backgroundColor: !colorPalette ? "" : colorPalette.primary1,
+						color: !colorPalette ? "" : colorPalette.text1
+					}}>
 					{unit && unit.quizQuestions && unit.quizQuestions.map((quizQuestion, questionIndex) => (
 						<Fragment key={`quiz-question-${questionIndex}`}>
 							{curQuizQuestion >= questionIndex ?
 								<div className='w-full flex items-center justify-start flex-col font-galindo mt-10'
-								style={{
-									color:!colorPalette ? "" : colorPalette.text1,
-								}}>
+									style={{
+										color: !colorPalette ? "" : colorPalette.text1,
+									}}>
 									<h3 className="text-2xl mt-2 mb-0.5">
 										Question {questionIndex + 1}.
 									</h3>
@@ -398,13 +396,13 @@ export default function UnitTest({ user, setUser, loading, setLoading, colorPale
 					{
 						unit && unit.quizQuestions && curQuizQuestion === unit.quizQuestions.length ?
 							<div className="w-full flex justify-center mt-5 font-bold">
-								 <button
-								className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
-								type='submit'
-								style={{
-									backgroundColor:!colorPalette ? "" : colorPalette.white,
-									color:!colorPalette ? "" : colorPalette.black
-								}}
+								<button
+									className="w-48 ring-2 rounded-lg py-2 px-4 font-averia"
+									type='submit'
+									style={{
+										backgroundColor: !colorPalette ? "" : colorPalette.white,
+										color: !colorPalette ? "" : colorPalette.black
+									}}
 								>
 									Complete Unit Test
 								</button>
