@@ -324,6 +324,157 @@ export default function SlimeDetails({
             refetchUser={refetchUser}
           />
         </div>
+
+        {/* Change pfp comparison start */}
+        <div
+          className="col-span-3 rounded-lg p-6 mt-8 grid 2xl:grid-cols-2"
+          style={{
+            backgroundColor: `${bg.black}88`,
+          }}
+        >
+          <div className="flex flex-row w-full items-center flex-wrap justify-center -mt-1.5">
+            <div className="flex flex-col items-center">
+              {/* Display current profile picture */}
+              <p style={{ color: bg ? bg.text1 : "" }}>
+                Current
+              </p>
+              <div
+                className="relative rounded-full overflow-hidden"
+                style={{
+                  border:
+                    bg === undefined
+                      ? ""
+                      : `5px solid ${bg.primary1}`,
+                  cursor: "pointer"
+                }}
+                onClick={() => {
+                  router.push("/settings");
+                }}
+              >
+                {
+                  <Image
+                    src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp}
+                    alt={user.pfpBg}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="absolute inset-0 w-full h-full"
+                  />
+                }
+                <Image
+                  src={
+                    "/assets/pfp/slimes/" +
+                    gameData.slimes[user.pfpSlime].pfp
+                  }
+                  alt={user.pfpSlime}
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+                />
+              </div>
+            </div>
+            <span
+              className="material-symbols-outlined scale-150 mx-6"
+              style={{ color: bg ? bg.text1 : "" }}
+            >
+              arrow_forward
+            </span>
+            <div className="flex flex-col items-center">
+              <p style={{ color: bg ? bg.text1 : "" }}>
+                Updated
+              </p>
+              <div
+                className="relative rounded-full overflow-hidden"
+                style={{
+                  border:
+                    bg === undefined
+                      ? ""
+                      : `5px solid ${bg.primary1}`,
+                }}
+              >
+                <Image
+                  src={
+                    "/assets/pfp/backgrounds/" +
+                    gameData.items[user.pfpBg].pfp
+                  }
+                  alt={user.pfpBg}
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="absolute inset-0 w-full h-full"
+                />
+                <Image
+                  src={
+                    "/assets/pfp/slimes/" +
+                    gameData.slimes[slime.slimeName].pfp
+                  }
+                  alt={slime.slimeName}
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="relative z-10 translate-y-1/4 scale-125 w-[5.5rem] h-[5.5rem]"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex justify-center items-center">
+            {user.pfpSlime === slime.slimeName ? (
+              <button
+                disabled
+                className="rounded-lg py-4 w-[15rem] mt-4"
+                style={{
+                  backgroundColor: bg
+                    ? `${bg.black}66`
+                    : "",
+                  color: bg ? bg.black : "",
+                }}
+              >
+                Equipped as Profile
+              </button>
+            ) : (
+              <button
+                className="rounded-lg py-4 w-[15rem] mt-4"
+                style={{
+                  backgroundColor: bg ? bg.primary1 : "",
+                  color: bg ? bg.text1 : "",
+                }}
+                onClick={(e) => {
+                  axios
+                    .put(
+                      "/api/user/change-pfp",
+                      {
+                        pfpSlime: slime.slimeName,
+                        pfpBg: user.pfpBg,
+                      },
+                      {
+                        headers: {
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "jwt"
+                          )}`,
+                        },
+                      }
+                    )
+                    .then((response) => {
+                      if (response?.data?.pfpSlime) {
+                        const newUser = { ...user, pfpSlime: response.data.pfpSlime }
+                        setUser(newUser)
+                      }
+                    })
+                    .catch((error) => {
+                      showToastError(error.message);
+                    });
+                }}
+              >
+                Equip to Profile
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Change pfp comparison end */}
+
       </div>
     </div>
   );
