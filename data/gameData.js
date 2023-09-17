@@ -1239,6 +1239,7 @@ export const gameData = {
         ],
         maxLevel: 1,
         baseProduction: 100,
+        effects: "This slime's max level is 1 and has 100 base production.",
       },
       {
         slimeName: "Black Hole Slime",
@@ -1250,6 +1251,7 @@ export const gameData = {
         ],
         maxLevel: 1,
         baseProduction: 0,
+        effects: "This slime's max level is 1 and has 0 base production.",
       },
       {
         slimeName: "Iridescent Slime",
@@ -1265,11 +1267,12 @@ export const gameData = {
         abilityName: "Wisdom",
         abilityDescription: [
           "Scholar Slime gains 2 percent more GP for all plus levels on all other active slimes.",
-          "All other active slimes gain 2 extra GP per level (1 for common) (3 for epic/legendary)",
+          "All other active slimes gain 2 extra GP per level (1 for common) (3 for epic/legendary).",
           "Total GP production increased by 1 percent for all plus levels on all active slimes.",
         ],
         maxLevel: 20,
         baseProduction: 0,
+        effects: "This slime's max level is 20 and has 0 base production.",
       },
     ],
   },
