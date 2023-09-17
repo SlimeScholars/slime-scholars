@@ -94,8 +94,15 @@ export default function ManageFriends({
                   placeholder={"Search for a friend"}
                   className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
                   onChange={(e) => setSearchContent(e.target.value)}
-                ></input>
-                <button className="h-full flex p-1 cursor-default">
+                  style={{
+                    color: colorPalette ? colorPalette.black : "",
+                  }}
+                />
+                <button className="h-full flex p-1 cursor-default"
+                  style={{
+                    color: colorPalette ? colorPalette.black : "",
+                  }}
+                >
                   <span className="material-symbols-outlined">search</span>
                 </button>
               </div>
@@ -105,7 +112,7 @@ export default function ManageFriends({
       </div>
       {toDo == "manage" ? (
         <div className="pt-8">
-          You have {userFriends.length-1} friends in total
+          You have {userFriends.length - 1} friends in total
         </div>
       ) : (
         <></>

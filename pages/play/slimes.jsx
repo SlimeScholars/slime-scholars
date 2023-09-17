@@ -140,8 +140,15 @@ export default function Slimes({
                 placeholder={"Search for a slime"}
                 className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
                 onChange={(e) => setSearchContent(e.target.value)}
-              ></input>
-              <button className="h-full flex p-1 cursor-default">
+                style={{
+                  color: colorPalette ? colorPalette.black : "",
+                }}
+              />
+              <button className="h-full flex p-1 cursor-default"
+                style={{
+                  color: colorPalette ? colorPalette.black : "",
+                }}
+              >
                 <span className="material-symbols-outlined">search</span>
               </button>
             </div>
