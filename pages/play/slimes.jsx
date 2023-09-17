@@ -173,11 +173,12 @@ export default function Slimes({
               {user && (
                 <SlimeInventory
                   slimes={
-                    filterSlimes.length > 0 ? filterSlimes : user.slimes
+                    filterSlimes
                   }
                   loading={loading}
                   setSlime={setSlime}
                   bg={colorPalette}
+                  searchContent={searchContent}
                 />
               )}
             </div>
