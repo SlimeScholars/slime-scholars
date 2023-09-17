@@ -19,7 +19,7 @@ export default function ManageFriends({
   setUser,
   setSentFriendRequests,
   colorPalette,
-  refetchUser
+  refetchUser,
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
@@ -128,6 +128,7 @@ export default function ManageFriends({
           setSentFriendRequests={setSentFriendRequests}
           colorPalette={colorPalette}
           refetchUser={refetchUser}
+          searchContent={searchContent}
         />
       </div>
     </div>
