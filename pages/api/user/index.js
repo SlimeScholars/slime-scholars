@@ -21,18 +21,15 @@ export default async function (req, res) {
     const user = await authenticate(req.headers.authorization)
     const data = calcSlimeGel(user?.lastSlimeRewards, user?.roster)
 
-    if(data && data?.newDate && data?.rewards){
+    if(data){
       const update = await User.findById(user._id)
       update.lastSlimeRewards = data.newDate
       update.slimeGel += data.rewards
       await update.save()
-    }
-
-    if(data && data?.intervals && data?.rewards && data.oldDate){
       user.screen_display_notif = {
         oldDate: data.oldDate,
         previousSlime: user.slimeGel,
-        newSlime: user.sliemGel += data.rewards,
+        newSlime: user.slimeGel + data.rewards,
       }
     }
     else{

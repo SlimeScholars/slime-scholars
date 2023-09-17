@@ -2,9 +2,8 @@
 import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
-import { FaArrowAltCircleUp } from "react-icons/fa";
 
-export default function PopUpDetails({ user, res, onClose, oldSlime }) {
+export default function PopUpDetails({ res, onClose, oldSlime }) {
   const newSlime = res.slime;
   const router = useRouter();
   return (
