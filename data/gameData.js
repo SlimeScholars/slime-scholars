@@ -690,7 +690,7 @@ export const gameData = {
     Legendary: [1, 2],
   },
 
-  slimeImgs: {
+  slimes: {
     "Blue Slime": {
       slimeName: "Blue Slime",
       pfp: "blue-slime.png",
@@ -757,7 +757,6 @@ export const gameData = {
       spritesheet: "puppy-slime.png",
       static: "puppy-slime.png",
     },
-    // FIXME: Update slime pictures to actual picture
     "Ice Cream Slime": {
       slimeName: "Ice Cream Slime",
       pfp: 'ice-cream-slime.png',
@@ -914,100 +913,191 @@ export const gameData = {
       spritesheet: "whale-slime.png",
       static: "whale-slime.png",
     },
+
+    // Epic and legendary slimes
+
     "Acid Slime": {
       slimeName: "Acid Slime",
       pfp: 'acid-slime.png',
       spritesheet: "acid-slime.png",
       static: "acid-slime.png",
+      abilityName: "Fallout",
+      abilityDesc: [
+        "All other active slimes gain 10 GP.",
+        "All other active slimes gain 20 GP.",
+        "All other active slimes gain 30 GP.",
+      ],
     },
     "Block Slime": {
       slimeName: "Block Slime",
       pfp: 'block-slime.png',
       spritesheet: "block-slime.png",
       static: "block-slime.png",
+      abilityName: "6 Face",
+      abilityDesc: [
+        "16.66 percent chance to produce 2x base GP.",
+        "16.66 percent chance to produce 4x base GP.",
+        "16.66 percent chance to produce 6x base GP.",
+      ],
     },
     "Neon Slime": {
       slimeName: "Neon Slime",
       pfp: 'neon-slime.png',
       spritesheet: "neon-slime.png",
       static: "neon-slime.png",
+      abilityName: "Fluorescent",
+      abilityDesc: [
+        "All other active slimes gain 8 percent more base GP.",
+        "All other active slimes gain 12 percent more base GP.",
+        "All other active slimes gain 16 percent more base GP.",
+      ],
     },
     "Octopus Slime": {
       slimeName: "Octopus Slime",
       pfp: 'octopus-slime.png',
       spritesheet: "octopus-slime.png",
       static: "octopus-slime.png",
+      // TODO: Octopus slime ability
     },
     "Prismatic Slime": {
       slimeName: "Prismatic Slime",
       pfp: 'prismatic-slime.png',
       spritesheet: "prismatic-slime.png",
       static: "prismatic-slime.png",
+      abilityName: "Rainbow",
+      abilityDesc: [
+        "This slime can count as any rarity for roster bonuses.",
+        "Roster bonus 10 percent more effective.",
+        "Roster bonus 20 percent more effective.",
+      ],
     },
     "Robo Slime": {
       slimeName: "Robo Slime",
       pfp: 'robo-slime.png',
       spritesheet: "robo-slime.png",
       static: "robo-slime.png",
+      abilityName: "Compute",
+      abilityDesc: [
+        "Gain 1 GP for every plus level on all active slimes.",
+        "Gain 2 GP for every plus level on all active slimes.",
+        "Gain 3 GP for every plus level on all active slimes.",
+      ],
     },
     "Sakura Slime": {
       slimeName: "Sakura Slime",
       pfp: 'sakura-slime.png',
       spritesheet: "sakura-slime.png",
       static: "sakura-slime.png",
+      abilityName: "Blossom",
+      abilityDesc: [
+        "Highest base GP slime gains + 25 percent GP.",
+        "Highest base GP slime gains + 40 percent GP.",
+        "50 percent for the highest base GP slime to gain 100 percent GP (If not, 50 percent).",
+      ],
     },
     "Silver Slime": {
       slimeName: "Silver Slime",
       pfp: 'silver-slime.png',
       spritesheet: "silver-slime.png",
       static: "silver-slime.png",
+      abilityName: "Sterling",
+      abilityDesc: [
+        "Total GP increased by 7.5 percent.",
+        "25 percent to gain 92.5 GP.",
+        "25 percent to gain 92.5 GP.",
+      ],
     },
     "Vantablack Slime": {
       slimeName: "Vantablack Slime",
       pfp: 'vantablack-slime.png',
       spritesheet: "vantablack-slime.png",
       static: "vantablack-slime.png",
+      abilityName: "Shadow",
+      abilityDesc: [
+        "Base GP of all other slimes is increased by 10 percent (rounded up to whole number).",
+        "Base GP of all other slimes is increased by 20 percent (rounded up to whole number).",
+        "Base GP of all other slimes is increased by 40 percent (rounded up to whole number).",
+      ],
     },
     "Lucky Slime": {
       slimeName: "Lucky Slime",
       pfp: 'lucky-slime.png',
       spritesheet: "lucky-slime.png",
       static: "lucky-slime.png",
+      abilityName: "Charm",
+      abilityDesc: [
+        "25% chance to produce double this slime's GP.",
+        "50% chance to produce double this slime's GP.",
+        "50% chance to produce double this slime's GP. 25% chance to double the GP of all other active slimes.",
+      ],
     },
     "Gold Slime": {
       slimeName: "Gold Slime",
       pfp: 'gold-slime.png',
       spritesheet: "gold-slime.png",
       static: "gold-slime.png",
+      abilityName: "24K",
+      abilityDesc: [
+        "GP increased by 24 percent.",
+        "24 percent to gain 240 GP.",
+        "24 percent to gain 777 GP.",
+      ],
+      effects: "This slime's max level is 1 and has 100 base production.",
     },
     "Black Hole Slime": {
       slimeName: "Black Hole Slime",
       pfp: 'black-hole-slime.png',
       spritesheet: "black-hole-slime.png",
       static: 'black-hole-slime.png',
+      abilityName: "Singularity",
+      abilityDesc: [
+        "Its GP is equivalent to 100 percent of total base GP of all other active slimes.",
+        "Every plus level on all other active slimes causes an increase of 2 percent to the total base GP this slime absorbs.",
+        "Every plus level on this slime causes an increase of 5 percent to the base GP the slime absorbs.",
+      ],
+      effects: "This slime's max level is 1 and has 0 base production.",
     },
     "Iridescent Slime": {
       slimeName: "Iridescent Slime",
       pfp: 'iridescent-slime.png',
       spritesheet: "iridescent-slime.png",
       static: "iridescent-slime.png",
+      abilityName: "Flex",
+      abilityDesc: [
+        "All active slimes can count as any rarity for roster bonuses.",
+        "All other unique rarity (Only one on the roster with that rarity) slimes get 50 percent more GP",
+        "50 percent for the roster bonus to be 80 percent more effective.",
+      ],
     },
     "Scholar Slime": {
       slimeName: "Scholar Slime",
       pfp: 'scholar-slime.png',
       spritesheet: "scholar-slime.png",
       static: "scholar-slime.png",
+      abilityName: "Wisdom",
+      abilityDesc: [
+        "Scholar Slime gains 2 percent more GP for all plus levels on all other active slimes.",
+        "All other active slimes gain 2 extra GP per level (1 for common) (3 for epic/legendary).",
+        "Total GP production increased by 1 percent for all plus levels on all active slimes.",
+      ],
+      effects: "This slime's max level is 20 and has 0 base production.",
     },
     "Nebula Slime": {
       slimeName: "Nebula Slime",
       pfp: 'nebula-slime.png',
       spritesheet: "nebula-slime.png",
       static: "nebula-slime.png",
+      abilityName: "Cosmic",
+      abilityDesc: [
+        "Bonus levels for all other active slimes are 2x more effective.",
+        "Bonus levels for all other active slimes are 3x more effective.",
+        "Bonus levels for all other active slimes are 3x more effective. 42% chance for bonus levels for all other active slimes to be 5x more effective instead of 3x.",
+      ],
     },
   },
 
   // Slime data
-  slimes: {
+  raritySlimes: {
     Common: [
       {
         slimeName: "Blue Slime",
@@ -1130,89 +1220,35 @@ export const gameData = {
     Epic: [
       {
         slimeName: "Lucky Slime",
-        abilityName: "Charm",
-        abilityDescriptions: [
-          "25% chance to produce double this slime's GP.",
-          "50% chance to produce double this slime's GP.",
-          "50% chance to produce double this slime's GP. 25% chance to double the GP of all other active slimes.",
-        ],
       },
       {
         slimeName: "Prismatic Slime",
-        abilityName: "Rainbow",
-        abilityDescriptions: [
-          "This slime can count as any rarity for roster bonuses.",
-          "Roster bonus 10 percent more effective.",
-          "Roster bonus 20 percent more effective.",
-        ],
       },
       {
         slimeName: "Acid Slime",
-        abilityName: "Fallout",
-        abilityDescriptions: [
-          "All other active slimes gain 10 GP.",
-          "All other active slimes gain 20 GP.",
-          "All other active slimes gain 30 GP.",
-        ],
       },
       {
         slimeName: "Vantablack Slime",
-        abilityName: "Shadow",
-        abilityDescriptions: [
-          "Base GP of all other slimes is increased by 10 percent (rounded up to whole number).",
-          "Base GP of all other slimes is increased by 20 percent (rounded up to whole number).",
-          "Base GP of all other slimes is increased by 40 percent (rounded up to whole number).",
-        ],
       },
       {
         slimeName: "Silver Slime",
-        abilityName: "Sterling",
-        abilityDescriptions: [
-          "Total GP increased by 7.5 percent.",
-          "25 percent to gain 92.5 GP.",
-          "25 percent to gain 92.5 GP.",
-        ],
       },
       {
         slimeName: "Block Slime",
-        abilityName: "6 Face",
-        abilityDescriptions: [
-          "16.66 percent chance to produce 2x base GP.",
-          "16.66 percent chance to produce 4x base GP.",
-          "16.66 percent chance to produce 6x base GP.",
-        ],
       },
       {
         slimeName: "Robo Slime",
-        abilityName: "Compute",
-        abilityDescriptions: [
-          "Gain 1 GP for every plus level on all active slimes.",
-          "Gain 2 GP for every plus level on all active slimes.",
-          "Gain 3 GP for every plus level on all active slimes.",
-        ],
       },
       {
         slimeName: "Neon Slime",
-        abilityName: "Fluorescent",
-        abilityDescriptions: [
-          "All other active slimes gain 8 percent more base GP.",
-          "All other active slimes gain 12 percent more base GP.",
-          "All other active slimes gain 16 percent more base GP.",
-        ],
       },
       {
         slimeName: "Sakura Slime",
-        abilityName: "Blossom",
-        abilityDescriptions: [
-          "Highest base GP slime gains + 25 percent GP.",
-          "Highest base GP slime gains + 40 percent GP.",
-          "50 percent for the highest base GP slime to gain 100 percent GP (If not, 50 percent).",
-        ],
       },
       {
         slimeName: "Hypno Slime",
         abilityName: "Brainwash",
-        abilityDescriptions: [
+        abilityDesc: [
           "Gain GP equal to 20 percent of the slime with the highest active base GP.",
           "Gain GP equal to 40 percent of the slime with the highest active base GP.",
           "Gain GP equal to 80 percent of the slime with the highest active base GP.",
@@ -1222,57 +1258,24 @@ export const gameData = {
     Legendary: [
       {
         slimeName: "Nebula Slime",
-        abilityName: "Cosmic",
-        abilityDescription: [
-          "Bonus levels for all other active slimes are 2x more effective.",
-          "Bonus levels for all other active slimes are 3x more effective.",
-          "Bonus levels for all other active slimes are 3x more effective. 42% chance for bonus levels for all other active slimes to be 5x more effective instead of 3x.",
-        ],
       },
       {
         slimeName: "Gold Slime",
-        abilityName: "24K",
-        abilityDescription: [
-          "GP increased by 24 percent.",
-          "24 percent to gain 240 GP.",
-          "24 percent to gain 777 GP.",
-        ],
         maxLevel: 1,
         baseProduction: 100,
-        effects: "This slime's max level is 1 and has 100 base production.",
       },
       {
         slimeName: "Black Hole Slime",
-        abilityName: "Singularity",
-        abilityDescription: [
-          "Its GP is equivalent to 100 percent of total base GP of all other active slimes.",
-          "Every plus level on all other active slimes causes an increase of 2 percent to the total base GP this slime absorbs.",
-          "Every plus level on this slime causes an increase of 5 percent to the base GP the slime absorbs.",
-        ],
         maxLevel: 1,
         baseProduction: 0,
-        effects: "This slime's max level is 1 and has 0 base production.",
       },
       {
         slimeName: "Iridescent Slime",
-        abilityName: "Flex",
-        abilityDescription: [
-          "All active slimes can count as any rarity for roster bonuses.",
-          "All other unique rarity (Only one on the roster with that rarity) slimes get 50 percent more GP",
-          "50 percent for the roster bonus to be 80 percent more effective.",
-        ],
       },
       {
         slimeName: "Scholar Slime",
-        abilityName: "Wisdom",
-        abilityDescription: [
-          "Scholar Slime gains 2 percent more GP for all plus levels on all other active slimes.",
-          "All other active slimes gain 2 extra GP per level (1 for common) (3 for epic/legendary).",
-          "Total GP production increased by 1 percent for all plus levels on all active slimes.",
-        ],
         maxLevel: 20,
         baseProduction: 0,
-        effects: "This slime's max level is 20 and has 0 base production.",
       },
     ],
   },

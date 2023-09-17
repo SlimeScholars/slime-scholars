@@ -34,7 +34,7 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[pfpSlime].pfp
+                        gameData.slimes[pfpSlime].pfp
                       }
                       alt={user.pfpSlime}
                       height={0}
@@ -68,7 +68,7 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[user.pfpSlime].pfp
+                        gameData.slimes[user.pfpSlime].pfp
                       }
                       alt={user.pfpSlime}
                       height={0}
