@@ -9,6 +9,7 @@ export default function ItemInventory({
     owned,
     shopping,
     colorPalette,
+    scrollToTop,
 }) {
 
 
@@ -34,7 +35,8 @@ export default function ItemInventory({
                     id={crypto.randomUUID()}
                     onClick={(e) => {
                         if (displayOnly !== "true") {
-                            setItemOnClick(item);
+                            scrollToTop()
+                            setItemOnClick(item)
                         }
                     }}
                     style={{
@@ -63,6 +65,7 @@ export default function ItemInventory({
                     id={crypto.randomUUID()}
                     onClick={(e) => {
                         if (displayOnly !== "true") {
+                            scrollToTop()
                             setItemOnClick(item);
                         }
                     }}
@@ -95,6 +98,7 @@ export default function ItemInventory({
                 id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
+                        scrollToTop()
                         setItemOnClick(item);
                     }
                 }}
@@ -124,6 +128,7 @@ export default function ItemInventory({
                 id={crypto.randomUUID()}
                 onClick={(e) => {
                     if (displayOnly !== "true") {
+                        scrollToTop()
                         setItemOnClick(item);
                     }
                 }}
