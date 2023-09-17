@@ -6,6 +6,7 @@ import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
 import { FaStar, FaRegStar } from "react-icons/fa";
+import { FaAnglesRight } from "react-icons/fa6";
 
 export default function SlimeDetails({
   user,
@@ -245,11 +246,28 @@ export default function SlimeDetails({
                   }}
                 >
                   <p>
-                    {gelProduction} SG {`->`}{" "}
-                    {gelProduction + gameData.baseLevelProduction[slime.rarity]}{" "}
-                    SG
+                    Production:
+                    {` ${gelProduction}`}
+                    <Image
+                      src="/assets/icons/slime-gel.png"
+                      alt="slime gel"
+                      width={0}
+                      height={0}
+                      sizes={"100vw"}
+                      className="m-1 -mt-1 w-6 h-6 inline"
+                    />
+                    <FaAnglesRight className="inline mb-1 mx-1" />
+                    {`${gelProduction + gameData.baseLevelProduction[slime.rarity]} `}
+                    <Image
+                      src="/assets/icons/slime-gel.png"
+                      alt="slime gel"
+                      width={0}
+                      height={0}
+                      sizes={"100vw"}
+                      className="m-1 -mt-1 w-6 h-6 inline"
+                    />
                   </p>
-                  <div className="flex flex-row justify-between mt-3">
+                  <div className="flex flex-row mt-3">
                     <button
                       className="py-1 px-4 rounded-lg inline"
                       style={{
@@ -261,20 +279,25 @@ export default function SlimeDetails({
                       }}
                     >
                       <div className="flex flex-row justify-center items-center">
-                        <p>Level up</p>
+                        <div>
+                          Level up
+                        </div>
+                        <div className="mx-3">
+                          |
+                        </div>
+                        <div className="flex flex-row items-center">
+                          {levelUpCost}
+                          <Image
+                            src="/assets/icons/slime-gel.png"
+                            alt="slime gel"
+                            width={0}
+                            height={0}
+                            sizes={"100vw"}
+                            className="m-1 w-6 h-6"
+                          />
+                        </div>
                       </div>
                     </button>
-                    <div className="inline-flex flex-row items-center">
-                      <Image
-                        src="/assets/icons/slime-gel.png"
-                        alt="slime gel"
-                        width={0}
-                        height={0}
-                        sizes={"100vw"}
-                        className="m-1 w-8 h-8"
-                      />
-                      <p className="ml-2">{levelUpCost}</p>
-                    </div>
                   </div>
                 </div>
               </>
