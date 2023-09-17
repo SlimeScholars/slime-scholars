@@ -741,7 +741,7 @@ export default function ItemDetails({
         {/* Open eggs */}
         <div className="col-span-3 bg-black/40 rounded-lg p-6">
           <p
-            className="text-red-300 hover:text-red-300/75"
+            className="text-white hover:text-white/75"
             onClick={(e) => {
               router.push("/play/roll");
             }}
