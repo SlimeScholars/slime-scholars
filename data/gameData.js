@@ -1228,7 +1228,6 @@ export const gameData = {
           "Bonus levels for all other active slimes are 3x more effective.",
           "Bonus levels for all other active slimes are 3x more effective. 42% chance for bonus levels for all other active slimes to be 5x more effective instead of 3x.",
         ],
-        maxLevel: 10,
       },
       {
         slimeName: "Gold Slime",
@@ -1239,7 +1238,7 @@ export const gameData = {
           "24 percent to gain 777 GP.",
         ],
         maxLevel: 1,
-        baseGP: 100,
+        baseProduction: 100,
       },
       {
         slimeName: "Black Hole Slime",
@@ -1250,7 +1249,7 @@ export const gameData = {
           "Every plus level on this slime causes an increase of 5 percent to the base GP the slime absorbs.",
         ],
         maxLevel: 1,
-        baseGP: 0,
+        baseProduction: 0,
       },
       {
         slimeName: "Iridescent Slime",
@@ -1260,8 +1259,6 @@ export const gameData = {
           "All other unique rarity (Only one on the roster with that rarity) slimes get 50 percent more GP",
           "50 percent for the roster bonus to be 80 percent more effective.",
         ],
-        maxLevel: 10,
-        baseGP: 25,
       },
       {
         slimeName: "Scholar Slime",
@@ -1272,7 +1269,7 @@ export const gameData = {
           "Total GP production increased by 1 percent for all plus levels on all active slimes.",
         ],
         maxLevel: 20,
-        baseGP: 0,
+        baseProduction: 0,
       },
       // 
       //   slimeName: "Scholar Slime",
