@@ -12,9 +12,9 @@ export default function ItemInventory({
 }) {
 
 
-    const classNameDefault = "rounded-2xl relative overflow-visible cursor-pointer"
-    const classNameClick = "rounded-2xl relative overflow-visible cursor-pointer"
-    const classNameDisplay = "rounded-2xl relative overflow-visible cursor-pointer"
+    const classNameDefault = "rounded-2xl relative overflow-visible cursor-pointer h-fit"
+    const classNameClick = "rounded-2xl relative overflow-visible cursor-pointer h-fit"
+    const classNameDisplay = "rounded-2xl relative h-fit"
     var gradientBg;
 
     if (gameData.rarityColours[item.rarity]) {
@@ -56,9 +56,10 @@ export default function ItemInventory({
             return (
                 <div
                     className={
-                        displayOnly === "true" ? ((owned ? (classNameDisplayOwned) : (classNameDisplay)) + " " + gradientBg) : (
+                        displayOnly === "true" ? (classNameDisplay + " " + gradientBg) : (
                             itemOnClick && itemOnClick.itemName === item.itemName ? (classNameClick + " " + gradientBg) : (classNameDefault + " " + gradientBg)
-                        )}
+                        )
+                    }
                     id={crypto.randomUUID()}
                     onClick={(e) => {
                         if (displayOnly !== "true") {
@@ -77,7 +78,7 @@ export default function ItemInventory({
                         sizes='100vw'
                         className="place-self-center p-4 w-full h-auto"
                     />
-                </div>
+                </div >
             )
         }
     }
