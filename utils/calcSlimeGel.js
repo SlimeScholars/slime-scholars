@@ -1,8 +1,12 @@
-const SLIME_UPDATE_INTERVAL = 10 * 1000 //10 seconds
+const SLIME_UPDATE_INTERVAL = 1000 //1 seconds
+const MIN_TIME_DETERMINE = 1000 * 0 //1 minute, 1 second
 
 export const calcSlimeGel = (last, roster) => {
     if(last && roster && roster.length > 0){
         const time = Date.now() - new Date(last)
+        if(time < MIN_TIME_DETERMINE){
+            return null
+        }
         const intervals = Math.floor(time/SLIME_UPDATE_INTERVAL)
         let gain = 0
         for(const slime of roster){

@@ -9,16 +9,22 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
+import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [axiosLoading, setAxiosLoading] = useState(false); // Used for axios loading
   const [user, setUser] = useState(null);
+  const [initUser, setInitUser] = useState(null);
   const [numEggs, setNumEggs] = useState(0);
   const [flowers, setFlowers] = useState(null);
   const [items, setItems] = useState([]);
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
+
+  const [firstmount, setFirstmount] = useState(false)
+  const [rewardsData, setRewardsData] = useState(null)
+  const [rewardsModalOpen, setRewardsModalOpen] = useState(false)
 
   const refetchUserNonLoad = async () => {
 
@@ -120,8 +126,24 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    setInterval(() => {refetchUserNonLoad()}, 5000)
-  }, [])
+    setInterval(() => {refetchUserNonLoad()}, 400)
+  }, [firstmount])
+
+  useEffect(() => {
+    if(user){
+      if(firstmount){
+        return
+      }
+      else{
+        if(user.screen_display_notif){
+          setInitUser({...user})
+          setRewardsModalOpen(true)
+          setRewardsData(user.screen_display_notif)
+          setFirstmount(true)
+        }
+      }
+    }
+  }, [user])
 
   const router = useRouter();
   const [onPlay, setOnPlay] = useState(false);
@@ -203,6 +225,9 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
+        {rewardsModalOpen && <SlimeGelPopup user={initUser} details={rewardsData} close={() => 
+        setRewardsModalOpen(false)
+      }/>}
       </div>
     </>
   );
