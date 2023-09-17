@@ -63,7 +63,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
 
   return (
     // if slime not selected, don't allow user to add
-    <div className="grid grid-cols-4 gap-6">
+    <div className="grid 2xl:grid-cols-4 grid-cols-2 gap-6">
       {user && Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
           if (char === null) {

@@ -2,15 +2,21 @@
 import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
+import { FaArrowAltCircleUp } from "react-icons/fa";
 
 export default function PopUpDetails({ user, res, onClose, oldSlime }) {
   const newSlime = res.slime;
   const router = useRouter();
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 fade-in-element">
       {/* TODO backgorund should match colour palette */}
       <div className="bg-slate-200 p-8 rounded-lg shadow-lg">
         <div>
+          <span
+            className="fly-arrow"
+          >
+            <FaArrowAltCircleUp style={{ fontSize: '35px' }}/>
+          </span>
           <Image
             src={
               "/assets/pfp/slimes/" + gameData.slimes[newSlime.slimeName].pfp

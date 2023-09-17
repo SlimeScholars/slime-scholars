@@ -69,8 +69,8 @@ a {
   }
 }
 
-input{
-  color:gray
+input {
+  color: gray
 }
 
 .shake:hover {
@@ -133,18 +133,18 @@ input{
   }
 }
 
-.course-bar-default{
-  display:flex;
-  width:80%;
-  border-radius:0.5rem;
-  padding:1.25rem;
+.course-bar-default {
+  display: flex;
+  width: 80%;
+  border-radius: 0.5rem;
+  padding: 1.25rem;
   font-size: 1.35rem;
   line-height: 1.75rem;
   transition-property: all;
   transition-duration: 150ms;
 }
 
-.course-bar-default:hover{
+.course-bar-default:hover {
   --tw-brightness: brightness(.9);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
@@ -152,7 +152,7 @@ input{
 .not-started {
   background-color: #ebebeb;
   border-width: 4px;
-  border-style:dotted;
+  border-style: dotted;
   border-color: #cecece;
 }
 
@@ -239,7 +239,73 @@ input{
   }
 }
 
-.rollgrid{
-  display:grid;
+.rollgrid {
+  display: grid;
   grid-template-columns: 5rem auto 5rem;
+}
+
+.upgrade-animate {
+  position: relative;
+  top: 0;
+}
+
+.upgrade-animate:hover {
+  animation: jump-hover 0.4s infinite alternate;
+}
+
+@keyframes jump-hover {
+  0% {
+    top: 0;
+  }
+
+  100% {
+    top: -10px;
+  }
+}
+
+.fade-in-element {
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes flyInOut {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+.fly-arrow {
+  position: absolute;
+  animation: flyInOut 2s ease-in-out forwards;
+}
+
+.slime-grid {
+  grid-template-columns: 1fr 1.25fr;
+}
+
+@media screen and (max-width: 1500px) {
+  .slime-grid {
+    grid-template-columns: 1fr;
+  }
 }
