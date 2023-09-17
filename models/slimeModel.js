@@ -62,10 +62,6 @@ const slimeSchema = Schema(
 			type: Number,
 			required: false,
 		},
-		abilityName: {
-			type: String,
-			required: false,
-		},
 		// Description of ability at each star level
 		abilityDescriptions: {
 			type: [String],

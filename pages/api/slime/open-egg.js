@@ -138,7 +138,6 @@ export default async function (req, res) {
         starProgress: 0,
         maxStarProgress: gameData.starProgress[rarity][0],
 
-        abilityName: chosenSlime.abilityName,
         abilityDescriptions: chosenSlime.abilityDescriptions,
         // If a slime doesn't have effects, it will be undefined
         effects: chosenSlime.effects,
