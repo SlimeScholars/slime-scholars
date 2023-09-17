@@ -82,7 +82,7 @@ export default async function (req, res) {
 		const originSlimeObjects = []
 		for (const i in rarities) {
 			const rarity = rarities[i]
-			const slimeList = gameData.slimes[rarity]
+			const slimeList = gameData.raritySlimes[rarity]
 			const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
 
 			slimes.push(chosenSlime.slimeName)

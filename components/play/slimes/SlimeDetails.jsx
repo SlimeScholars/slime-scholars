@@ -97,6 +97,9 @@ export default function SlimeDetails({
   const levelUpCost = slime.levelUpCost;
   const maxLevel = slime.maxLevel;
   const colour = gameData.rarityColours[slime.rarity].text;
+
+  const tiers = ['I', 'II', 'III']
+
   return (
     <div
       style={{
@@ -122,7 +125,7 @@ export default function SlimeDetails({
           <div className="flex justify-center items-center">
             <div className="w-[90%]">
               <Image
-                src={"/assets/pfp/slimes/" + gameData.slimeImgs[name].static}
+                src={"/assets/pfp/slimes/" + gameData.slimes[name].static}
                 alt={name}
                 width={0}
                 height={0}
@@ -156,16 +159,46 @@ export default function SlimeDetails({
                 }}
               >
                 {slime.bonusLevel ? (
-                  <p>
-                    Lvl. {slime.level === slime.maxLevel ? "MAX" : slime.level}{" "}
-                    + {slime.bonusLevel}
-                  </p>
+                  <>
+                    <p>
+                      Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}{" "}
+                      + {slime.bonusLevel}
+                    </p>
+                    <p>
+                      Production: {gelProduction} + {slime.bonusProduction}
+                      <Image
+                        src="/assets/icons/slime-gel.png"
+                        alt="slime gel"
+                        width={0}
+                        height={0}
+                        sizes={"100vw"}
+                        className="-mt-1 ml-3 w-6 h-6 inline"
+                      />
+                    </p>
+                  </>
                 ) : (
-                  <p>
-                    Lvl. {slime.level === slime.maxLevel ? "MAX" : slime.level}
+                  <>
+                    <p>
+                      Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}
+                    </p>
+                    <p>
+                      Production: {gelProduction}
+                      <Image
+                        src="/assets/icons/slime-gel.png"
+                        alt="slime gel"
+                        width={0}
+                        height={0}
+                        sizes={"100vw"}
+                        className="-mt-1 ml-3 w-6 h-6 inline"
+                      />
+                    </p>
+                  </>
+                )}
+                {gameData.slimes[slime.slimeName]?.abilityName && (slime.starLevel > 0) && (
+                  <p className="mt-3 text-[0.9rem] leading-[1.3rem]">
+                    {`${gameData.slimes[slime.slimeName].abilityName} ${tiers[slime.starLevel - 1]}: ${gameData.slimes[slime.slimeName]?.abilityDesc[slime.starLevel - 1]}`}
                   </p>
                 )}
-                <p>Production: {gelProduction} SG</p>
               </div>
             </div>
             {slime.level === slime.maxLevel ? (

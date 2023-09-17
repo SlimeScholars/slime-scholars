@@ -113,10 +113,10 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                 </button>
               );
 
-            const slimeImg = (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].spritesheet) ? (
-              "/assets/slimes/slime-spritesheet/" + gameData.slimeImgs[slime.slimeName].spritesheet
-            ) : (slime.slimeName && gameData.slimeImgs && gameData.slimeImgs[slime.slimeName] && gameData.slimeImgs[slime.slimeName].static) ? (
-              "/assets/slimes/slime-static/" + gameData.slimeImgs[slime.slimeName].static
+            const slimeImg = (slime.slimeName && gameData.slimes && gameData.slimes[slime.slimeName] && gameData.slimes[slime.slimeName].spritesheet) ? (
+              "/assets/slimes/slime-spritesheet/" + gameData.slimes[slime.slimeName].spritesheet
+            ) : (slime.slimeName && gameData.slimes && gameData.slimes[slime.slimeName] && gameData.slimes[slime.slimeName].static) ? (
+              "/assets/slimes/slime-static/" + gameData.slimes[slime.slimeName].static
             ) : ""
 
             return (

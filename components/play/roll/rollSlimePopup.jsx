@@ -3,7 +3,7 @@ import { gameData } from '../../../data/gameData';
 import Image from 'next/image';
 
 export default function RollSlimePopup({ updatedSlime, setAfterRolling, originalSlime, router, index, slimes }) {
-    if(!updatedSlime){
+    if (!updatedSlime) {
         return
     }
 
@@ -24,8 +24,8 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
                 <h3 className="font-galindo text-green-400 text-lg">New Slime Unlocked!</h3>
                 <Image
                     src={
-                        gameData.slimeImgs[updatedSlime.slimeName] ? (
-                            "/assets/pfp/slimes/" + gameData.slimeImgs[updatedSlime.slimeName].pfp
+                        gameData.slimes[updatedSlime.slimeName] ? (
+                            "/assets/pfp/slimes/" + gameData.slimes[updatedSlime.slimeName].pfp
                         ) : ("")
                     }
                     alt={updatedSlime.slimeName}
@@ -51,9 +51,9 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
                     }
                 </div>
                 <div className="flex flex-row justify-center items-center gap-2">
-                    {[...Array(slimes.length).keys()].map((item, key) => 
+                    {[...Array(slimes.length).keys()].map((item, key) =>
                         <div key={key} className={`w-[10px] h-[10px] rounded-full 
-                        ${key == index ? "bg-white":"bg-slate-500"}`}>
+                        ${key == index ? "bg-white" : "bg-slate-500"}`}>
                         </div>
                     )}
                 </div>
@@ -64,8 +64,8 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
                 <h3 className="font-galindo text-white text-lg">Slime Upgraded!</h3>
                 <Image
                     src={
-                        gameData.slimeImgs[updatedSlime.slimeName] ? (
-                            "/assets/pfp/slimes/" + gameData.slimeImgs[updatedSlime.slimeName].pfp
+                        gameData.slimes[updatedSlime.slimeName] ? (
+                            "/assets/pfp/slimes/" + gameData.slimes[updatedSlime.slimeName].pfp
                         ) : ("")
                     }
                     alt={updatedSlime.slimeName}
@@ -82,33 +82,33 @@ export default function RollSlimePopup({ updatedSlime, setAfterRolling, original
                 <div className="grid grid-cols-1 place-content-start pb-4 gap-2 text-white">
                     {starLevel !== undefined ? (<div>
                         <p>{"Star Level: " + originalSlime.starLevel + "/" + originalSlime.maxStarLevel + " "}&rarr;
-                        <span className="text-green-400">{" "+ starLevel + "/" + updatedSlime.maxStarLevel}</span></p>
-                    </div>) : <div/>}
+                            <span className="text-green-400">{" " + starLevel + "/" + updatedSlime.maxStarLevel}</span></p>
+                    </div>) : <div />}
                     <div>
                         {
                             starProgress !== undefined && (
                                 <p>{"Star Progress: " + originalSlime.starProgress + "/" + originalSlime.maxStarProgress + " "}&rarr;
-                                <span className="text-green-400">{" "+ starProgress + "/" + updatedSlime.maxStarLevel}</span></p>
+                                    <span className="text-green-400">{" " + starProgress + "/" + updatedSlime.maxStarLevel}</span></p>
                             )
                         }
                     </div>
                     <div>
                         {bonusLevel !== undefined && (
                             <p>{"Bonus Level: " + originalSlime.bonusLevel + " "}&rarr;
-                            <span className="text-green-400">{" "+ bonusLevel}</span></p>
+                                <span className="text-green-400">{" " + bonusLevel}</span></p>
                         )}
                     </div>
                     <div>
                         {bonusProduction !== undefined && (
                             <p>{"Bonus Production: " + originalSlime.bonusProduction + " "}&rarr;
-                            <span className="text-green-400">{" "+ bonusProduction}</span></p>
+                                <span className="text-green-400">{" " + bonusProduction}</span></p>
                         )}
                     </div>
                 </div>
                 <div className="flex flex-row justify-center items-center gap-2">
-                    {[...Array(slimes.length).keys()].map((item, key) => 
+                    {[...Array(slimes.length).keys()].map((item, key) =>
                         <div key={key} className={`w-[10px] h-[10px] rounded-full 
-                        ${key == index ? "bg-white":"bg-slate-500"}`}>
+                        ${key == index ? "bg-white" : "bg-slate-500"}`}>
                         </div>
                     )}
                 </div>

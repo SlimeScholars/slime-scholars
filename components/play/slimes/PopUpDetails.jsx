@@ -13,7 +13,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
         <div>
           <Image
             src={
-              "/assets/pfp/slimes/" + gameData.slimeImgs[newSlime.slimeName].pfp
+              "/assets/pfp/slimes/" + gameData.slimes[newSlime.slimeName].pfp
             }
             alt={newSlime.slimeName}
             height={0}
