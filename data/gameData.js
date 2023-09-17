@@ -944,11 +944,11 @@ export const gameData = {
       spritesheet: "prismatic-slime.png",
       static: "prismatic-slime.png",
     },
-    "Robot Slime": {
-      slimeName: "Robot Slime",
-      pfp: 'robot-slime.png',
-      spritesheet: "robot-slime.png",
-      static: "robot-slime.png",
+    "Robo Slime": {
+      slimeName: "Robo Slime",
+      pfp: 'robo-slime.png',
+      spritesheet: "robo-slime.png",
+      static: "robo-slime.png",
     },
     "Sakura Slime": {
       slimeName: "Sakura Slime",
