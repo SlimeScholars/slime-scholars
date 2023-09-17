@@ -454,7 +454,7 @@ export default function ItemDetails({
 
         {/* Change pfp comparison */}
         <div
-          className="col-span-3 rounded-lg p-6"
+          className="col-span-3 rounded-lg p-6 grid 2xl:grid-cols-2"
           style={{
             backgroundColor: `${colorPalette.black}88`,
           }}
@@ -544,106 +544,107 @@ export default function ItemDetails({
                 />
               </div>
             </div>
-            <div className="flex flex-col ml-1.5 mt-3">
-              {pfpBg === item.itemName ? (
-                <button
-                  disabled
-                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
-                  style={{
-                    backgroundColor: colorPalette
-                      ? `${colorPalette.black}66`
-                      : "",
-                    color: colorPalette ? colorPalette.black : "",
-                  }}
-                >
-                  Equipped as Profile
-                </button>
-              ) : (
-                <button
-                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
-                  style={{
-                    backgroundColor: colorPalette ? colorPalette.primary1 : "",
-                    color: colorPalette ? colorPalette.text1 : "",
-                  }}
-                  onClick={(e) => {
-                    axios
-                      .put(
-                        "/api/user/change-pfp",
-                        {
-                          pfpSlime: user.pfpSlime,
-                          pfpBg: item.itemName,
-                        },
-                        {
-                          headers: {
-                            Authorization: `Bearer ${localStorage.getItem(
-                              "jwt"
-                            )}`,
-                          },
-                        }
-                      )
-                      .then((response) => {
-                        refetchUser()
-                        setPfpBg(response.data.pfpBg);
-                        showToastError("Profile background was changed.", true);
-                      })
-                      .catch((error) => {
-                        showToastError(error.message);
-                      });
-                  }}
-                >
-                  Equip to Profile
-                </button>
-              )}
+          </div>
 
-              {gameData.items[item.itemName].bg === colorPalette.bg ? (
-                <button
-                  disabled
-                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
-                  style={{
-                    backgroundColor: colorPalette
-                      ? `${colorPalette.black}66`
-                      : "",
-                    color: colorPalette ? colorPalette.black : "",
-                  }}
-                >
-                  Equipped as Background
-                </button>
-              ) : (
-                <button
-                  className="rounded-lg py-4 h-full w-[15rem] mt-4"
-                  style={{
-                    backgroundColor: colorPalette ? colorPalette.primary1 : "",
-                    color: colorPalette ? colorPalette.text1 : "",
-                  }}
-                  onClick={(e) => {
-                    axios
-                      .put(
-                        "/api/user/change-bg",
-                        {
-                          bg: item.itemName,
+          <div className="flex flex-col justify-center items-center">
+            {pfpBg === item.itemName ? (
+              <button
+                disabled
+                className="rounded-lg py-4 h-full w-[15rem] mt-4"
+                style={{
+                  backgroundColor: colorPalette
+                    ? `${colorPalette.black}66`
+                    : "",
+                  color: colorPalette ? colorPalette.black : "",
+                }}
+              >
+                Equipped as Profile
+              </button>
+            ) : (
+              <button
+                className="rounded-lg py-4 h-full w-[15rem] mt-4"
+                style={{
+                  backgroundColor: colorPalette ? colorPalette.primary1 : "",
+                  color: colorPalette ? colorPalette.text1 : "",
+                }}
+                onClick={(e) => {
+                  axios
+                    .put(
+                      "/api/user/change-pfp",
+                      {
+                        pfpSlime: user.pfpSlime,
+                        pfpBg: item.itemName,
+                      },
+                      {
+                        headers: {
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "jwt"
+                          )}`,
                         },
-                        {
-                          headers: {
-                            Authorization: `Bearer ${localStorage.getItem(
-                              "jwt"
-                            )}`,
-                          },
-                        }
-                      )
-                      .then((response) => {
-                        refetchUser()
-                        setColorPalette(gameData.items[item.itemName]);
-                      })
-                      .catch((error) => {
-                        console.log(error)
-                        showToastError(error.message);
-                      });
-                  }}
-                >
-                  Equip as background
-                </button>
-              )}
-            </div>
+                      }
+                    )
+                    .then((response) => {
+                      refetchUser()
+                      setPfpBg(response.data.pfpBg);
+                      showToastError("Profile background was changed.", true);
+                    })
+                    .catch((error) => {
+                      showToastError(error.message);
+                    });
+                }}
+              >
+                Equip to Profile
+              </button>
+            )}
+
+            {gameData.items[item.itemName].bg === colorPalette.bg ? (
+              <button
+                disabled
+                className="rounded-lg py-4 h-full w-[15rem] mt-4"
+                style={{
+                  backgroundColor: colorPalette
+                    ? `${colorPalette.black}66`
+                    : "",
+                  color: colorPalette ? colorPalette.black : "",
+                }}
+              >
+                Equipped as Background
+              </button>
+            ) : (
+              <button
+                className="rounded-lg py-4 h-full w-[15rem] mt-4"
+                style={{
+                  backgroundColor: colorPalette ? colorPalette.primary1 : "",
+                  color: colorPalette ? colorPalette.text1 : "",
+                }}
+                onClick={(e) => {
+                  axios
+                    .put(
+                      "/api/user/change-bg",
+                      {
+                        bg: item.itemName,
+                      },
+                      {
+                        headers: {
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "jwt"
+                          )}`,
+                        },
+                      }
+                    )
+                    .then((response) => {
+                      refetchUser()
+                      setColorPalette(gameData.items[item.itemName]);
+                    })
+                    .catch((error) => {
+                      console.log(error)
+                      showToastError(error.message);
+                    });
+                }}
+              >
+                Equip as background
+              </button>
+            )}
           </div>
         </div>
       </div>

@@ -345,10 +345,6 @@ export default function SlimeDetails({
                     bg === undefined
                       ? ""
                       : `5px solid ${bg.primary1}`,
-                  cursor: "pointer"
-                }}
-                onClick={() => {
-                  router.push("/settings");
                 }}
               >
                 {
