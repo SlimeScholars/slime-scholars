@@ -5,6 +5,7 @@ import { showToastError } from "../../../utils/toast";
 import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
+import { FaArrowAltCircleUp } from "react-icons/fa";
 
 export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser }) {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
   const [res, setRes] = useState([]);
   const [oldSlime, setOldSlime] = useState(null);
 
-  //   handle click should automatically level up the slime and update the user
+  //handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
     setLoading(true)
     try {
@@ -131,33 +132,40 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                     transform: "translateX(-50%)",
                   }}
                 >
-                  <div className="bg-black opacity-50 h-5 w-[8rem] pb-6 rounded-md mx-auto text-white text-center">
-                    <div className="flex flex-row justify-center items-center pl-2">
-                      <p>
-                        Lv. {slime.level} &nbsp;|&nbsp; {slime.levelUpCost}
-                      </p>
+                  <div className="bg-black opacity-50 h-5 w-[8rem] pb-7 rounded-md mx-auto text-white text-center">
+                    <div className="flex flex-row justify-center items-center pl-1">
+                      <p className="text-lg font-semibold text-yellow-500">Lv. {slime.level}</p>
+                      <span className="text-gray-300 mx-2">|</span>
+                      <p className="text-lg font-semibold text-green-500">{slime.levelUpCost}</p>
                       <Image
                         src="/assets/icons/slime-gel.png"
                         alt="slime gel"
                         height={0}
                         width={0}
-                        sizes='100vw'
-                        className="h-4 w-4 ml-1 mr-2"
+                        sizes="100vw"
+                        className="h-4 w-4 ml-1"
                       />
                     </div>
                   </div>
                   <button
-                    className={`px-1 rounded-lg transition-colors duration-150
-                    ${slime.levelUpCost <= user.slimeGel && slime.level < slime.maxLevel ? "bg-green-900 hover:bg-green-600" : "bg-red-900 hover:bg-red-600"} opacity-60`}
+                    className={`px-1.5 py-1.5 rounded-lg transition-all duration-150 upgrade-animate
+                      ${
+                        slime.levelUpCost <= user.slimeGel && slime.level < slime.maxLevel
+                          ? "bg-green-900 hover:bg-green-600"
+                          : "bg-red-900 hover:bg-red-600"
+                      } opacity-60`}
                     onClick={() => {
                       setOldSlime(slime);
                       handleClick(slime._id, index);
                     }}
                   >
-                    <span className="text-white">&nbsp;^&nbsp;</span>
+                    <span
+                      className="text-white"
+                    >
+                      <FaArrowAltCircleUp/>
+                    </span>
                   </button>
                 </div>
-
                 <div
                   style={{
                     backgroundImage: `url(${slimeImg})`,
