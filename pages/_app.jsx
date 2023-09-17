@@ -89,9 +89,9 @@ function MyApp({ Component, pageProps }) {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    if (router.pathname.startsWith("/play")) {
+    const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
+    if (router.pathname.startsWith("/play") && paths.includes(router.pathname.split("/")[2])) {
       setOnPlay(router.pathname.startsWith("/play"));
-      const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
       if (router.pathname.split("/").length === 2) {
         setCurrent(0);
         return;
@@ -139,13 +139,6 @@ function MyApp({ Component, pageProps }) {
                 setColorPalette={setColorPalette}
                 refetchUser={refetchUser}
               />
-            </div>
-
-            {/* Navbar */}
-            <div className={`relative h-0 z-10`}>
-              <div
-                className={`absolute inset-0 home`}
-              ></div>
             </div>
 
             {/* Other play pages */}
