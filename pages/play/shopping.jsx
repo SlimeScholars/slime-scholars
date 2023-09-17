@@ -6,7 +6,7 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import Image from "next/image";
 
-export default function Shopping({ loading, user, pfpBg, setPfpBg, 
+export default function Shopping({ loading, user, pfpBg, setPfpBg,
 	colorPalette, setColorPalette, setUser, refetchUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
@@ -54,8 +54,12 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			});
 			setGameItems(searchItem);
 		}
-		
+
 	}, [searchContent]);
+
+	const scrollToTop = () => {
+		// TODO: scroll to top
+	}
 
 	return (
 		<div className="">
@@ -102,24 +106,25 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 						shopping="true"
 						user={user}
 						colorPalette={colorPalette}
-					></ItemList>
+						scrollToTop={scrollToTop}
+					/>
 				}
 				</div>
 
 				{/* Item details */}
 				<div className="basis-1/2 rounded-lg mb-10">
-					{itemOnClick&&(
+					{itemOnClick && (
 						<ItemDetails
-						item={itemOnClick}
-						user={user}
-						pfpBg={pfpBg}
-						setPfpBg={setPfpBg}
-						setUser={setUser}
-						colorPalette={colorPalette}
-						setColorPalette={setColorPalette}
-						shopping="true"
-						refetchUser={refetchUser}
-					/>
+							item={itemOnClick}
+							user={user}
+							pfpBg={pfpBg}
+							setPfpBg={setPfpBg}
+							setUser={setUser}
+							colorPalette={colorPalette}
+							setColorPalette={setColorPalette}
+							shopping="true"
+							refetchUser={refetchUser}
+						/>
 					)
 					}
 				</div>
