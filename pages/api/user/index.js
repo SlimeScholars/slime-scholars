@@ -1,5 +1,7 @@
 import { authenticate } from "../../../utils/authenticate"
+import { calcSlimeGel } from "../../../utils/calcSlimeGel"
 import connectDB from '../../../utils/connectDB'
+import User from '../../../models/userModel'
 
 /**
  * @desc    Get user data of the person who is signed in
@@ -17,6 +19,22 @@ export default async function (req, res) {
 
     // Authenticate and get user
     const user = await authenticate(req.headers.authorization)
+    const data = calcSlimeGel(user?.lastSlimeRewards, user?.roster)
+
+    if(data){
+      const update = await User.findById(user._id)
+      update.lastSlimeRewards = data.newDate
+      update.slimeGel += data.rewards
+      await update.save()
+      user.screen_display_notif = {
+        oldDate: data.oldDate,
+        previousSlime: user.slimeGel,
+        newSlime: user.slimeGel + data.rewards,
+      }
+    }
+    else{
+      user.screen_display_notif = null
+    }
 
     res.status(200).json({ user })
   } catch (error) {

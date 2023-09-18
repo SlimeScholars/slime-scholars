@@ -7,7 +7,7 @@ import RollSlimePopup from './rollSlimePopup';
  * @param {array} slimes: list of slimes to dispay using rollSlimePopup component
  */
 
-export default function RollResult({ setAfterRolling, slimes, originalSlimes, router }) {
+export default function RollResult({ setAfterRolling, slimes, originalSlimes, router, refetchUser }) {
 
     const [updatedSlime, setUpdatedSlime] = useState(null);
     const [originalSlime, setOriginalSlime] = useState(null);
@@ -36,7 +36,10 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
             className="fixed inset-0 z-50 flex items-center justify-center brightness-100">
             <div className="relative grid rollgrid place-content-center m-10 rounded-lg bg-black/80 w-[70%] max-h-[70vh] p-10">
                 <button className="text-white hover:text-slate-300 absolute top-[1rem] right-[2rem] text-[2.5rem]"
-                onClick={() => {setAfterRolling(0)}}>
+                onClick={() => {
+                    refetchUser()
+                    setAfterRolling(0)
+                }}>
                 &times;
                 </button>
                     { index > 0 ?
