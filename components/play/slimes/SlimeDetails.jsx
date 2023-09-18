@@ -41,10 +41,6 @@ export default function SlimeDetails({
         throw new Error('Insufficient slime gel')
       }
 
-      if (slime.level === slime.maxLevel) {
-        throw new Error('The slime is already at max level')
-      }
-
       const newSlime = {
         ...slime,
         level: slime.level + 1,

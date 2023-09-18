@@ -56,7 +56,7 @@ export function Navbar({
 
   return (
     <div
-      className="grid items-center justify-between z-20 w-full relative"
+      className="flex items-center justify-between z-20 w-full relative"
       style={{
         gridTemplateColumns: onHome ? "12rem 1fr" : "9rem 12rem 1fr",
       }}
@@ -64,7 +64,7 @@ export function Navbar({
       {/* home button */}
       {!onHome && (
         <button
-          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem] transition-opacity duration-150"
+          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem] transition-opacity duration-150 max-xl:absolute top-[5.5rem]"
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
@@ -80,23 +80,25 @@ export function Navbar({
         </button>
       )}
       {/* earn flowers button */}
-      <button
-        className="rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150"
-        style={{
-          backgroundColor:
-            !colorPalette ? "" : colorPalette.primary1,
-          color: !colorPalette ? "" : colorPalette.text1,
-          boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`
-        }}
-        onClick={(e) => {
-          e.preventDefault();
-          router.push("/play/courses");
-        }}
-      >
-        Earn Flowers
-      </button>
-      <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md">
-        <div className="flex flex-col items-end mr-5">
+      <div>
+        <button
+          className="pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2"
+          style={{
+            backgroundColor:
+              !colorPalette ? "" : colorPalette.primary1,
+            color: !colorPalette ? "" : colorPalette.text1,
+            boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`
+          }}
+          onClick={(e) => {
+            e.preventDefault();
+            router.push("/play/courses");
+          }}
+        >
+          Earn Flowers
+        </button>
+      </div>
+      <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md relative">
+        <div className="flex flex-col items-end mr-5 max-xl:absolute top-2 right-[18rem]">
           {/* slime gel */}
           <div
             className="flex rounded-full py-1 px-6 w-fit"
@@ -118,7 +120,7 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="">{user.slimeGel}</p>
+                <p className="max-xl:pr-5">{user.slimeGel}</p>
               </div>
             )}
           </div>
@@ -172,10 +174,10 @@ export function Navbar({
         </div>
 
         {/* buttons and icons */}
+        <div className="flex gap-[1rem] max-xl:grid grid-cols-3 grid-rows-2">
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
           const isActive = type.id === current_id;
-
           return (
             <button
               onClick={(e) => {
@@ -266,6 +268,7 @@ export function Navbar({
             </button>
           );
         })}
+        </div>
       </div>
     </div>
   );

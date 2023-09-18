@@ -244,24 +244,6 @@ input{
   grid-template-columns: 5rem auto 5rem;
 }
 
-.upgrade-animate {
-  position: relative;
-  top: 0;
-}
-
-.upgrade-animate:hover {
-  animation: jump-hover 0.4s infinite alternate;
-}
-
-@keyframes jump-hover {
-  0% {
-    top: 0;
-  }
-  100% {
-    top: -10px; 
-  }
-}
-
 .fade-in-element {
   opacity: 0; 
   animation: fadeIn 1s ease-in-out forwards; 
