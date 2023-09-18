@@ -5,6 +5,7 @@ import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import { set } from "mongoose";
 
 export default function ItemDetails({
   item,
@@ -42,6 +43,62 @@ export default function ItemDetails({
 
   const router = useRouter();
 
+  const handleBuyItem = () => {
+    try {
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const newUser = { ...user }
+      if (item.buyCurrency === 0) {
+        if (user.slimeGel < item.buyPrice) {
+          showToastError("Insufficient slime gel.")
+          return;
+        }
+        newUser.slimeGel -= item.buyPrice
+      }
+      else if (item.buyCurrency === 1) {
+        if (user.flowers < item.buyPrice) {
+          showToastError("Insufficient flowers.")
+          return;
+        }
+        newUser.flowers -= item.buyPrice
+      }
+
+      const newItem = {
+        itemName: item.itemName,
+        rarity: item.rarity,
+        quantity: 1,
+        isBg: true,
+      }
+      newUser.items.push(newItem)
+
+      setUser(newUser)
+      setOwned(true)
+
+      axios
+        .post("/api/user/buy-item", { itemName: item.itemName, quantity: 1 }, config)
+        .then((response) => {
+        })
+        .catch((error) => {
+          showToastError(error.message)
+        });
+
+    } catch (error) {
+      console.log(error)
+      if (error?.response?.data?.message) showToastError(error.response.data.message)
+      else if (error?.message) showToastError(error.message);
+      else showToastError(error)
+      refetchUser()
+      return;
+    }
+  }
+
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
     if (item.isBg) {
@@ -60,7 +117,7 @@ export default function ItemDetails({
             />
             {/* Item description */}
             <div
-              className="rounded-lg px-8 py-4"
+              className="rounded-lg px-8 py-4 relative"
               style={{
                 backgroundColor: `${colorPalette.black}88`,
               }}
@@ -84,6 +141,67 @@ export default function ItemDetails({
                 >
                   {gameData.items[item.itemName].desc}
                 </p>
+              )}
+
+              {/* Buy Item */}
+
+              {owned ? (
+                <button
+                  disabled
+                  className='py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8'
+                  style={{
+                    backgroundColor: colorPalette
+                      ? `${colorPalette.black}66`
+                      : "",
+                    color: colorPalette ? colorPalette.black : "",
+                  }}
+                >
+                  Owned
+                </button>
+
+              ) : (
+                <button
+                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${item.buyCurrency === 0 ?
+                    (user.slimeGel < item.buyPrice ? 'grayscale' : '') :
+                    (user.flowers < item.buyPrice ? 'grayscale' : '')
+                    }`}
+                  style={{
+                    backgroundColor: colorPalette?.primary1,
+                    color: colorPalette?.text1,
+                  }}
+                  onClick={handleBuyItem}
+                >
+                  <div className="flex flex-row justify-center items-center">
+                    <div>
+                      Buy Item
+                    </div>
+                    <div className="mx-3">
+                      |
+                    </div>
+                    <div className="flex flex-row items-center">
+                      {item.buyPrice}
+                      {item.buyCurrency === 0 ? (
+                        <Image
+                          src="/assets/icons/slime-gel.png"
+                          alt="slime gel"
+                          width={0}
+                          height={0}
+                          sizes={"100vw"}
+                          className="m-1 w-6 h-6"
+                        />
+                      ) : (
+                        <Image
+                          src="/assets/icons/flower.png"
+                          alt="flower"
+                          width={0}
+                          height={0}
+                          sizes={"100vw"}
+                          className="m-1 w-6 h-6"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </button>
               )}
             </div>
           </div>
