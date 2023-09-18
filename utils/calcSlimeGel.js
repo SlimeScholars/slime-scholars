@@ -1,5 +1,5 @@
-const SLIME_UPDATE_INTERVAL = 1000 //1 seconds
-const MIN_TIME_DETERMINE = 1000 * 0 //1 minute, 1 second
+const SLIME_UPDATE_INTERVAL = 60 * 60 * 24 * 1000 //1 day
+const MIN_TIME_DETERMINE = 60 * 60 * 24 * 1000 + 1 //1 minute, 1 second
 
 export const calcSlimeGel = (last, roster) => {
     if(last && roster && roster.length > 0){
