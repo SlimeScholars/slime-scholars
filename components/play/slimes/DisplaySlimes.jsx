@@ -7,7 +7,7 @@ import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
 import { FaPlus } from "react-icons/fa";
 
-export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser, bg}) {
+export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser, bg }) {
   const router = useRouter();
 
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
@@ -133,29 +133,32 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                   }}
                 >
                   <div
-                  className="flex flex-col flex-wrap min-w-[12rem] rounded-2xl"
-                  style={{
-                    border: colorPalette !== undefined
-                      ? `5px solid ${colorPalette.primary2}`
-                      : "",
-                    background: colorPalette !== undefined
-                    ? colorPalette.primary1
-                    : "",
-                  }}
+                    className="flex flex-col flex-wrap min-w-[12rem] max-w-full rounded-full px-1 py-1"
+                    style={{
+                      border: colorPalette !== undefined
+                        ? `5px solid ${colorPalette.primary2}`
+                        : "",
+                      background: colorPalette !== undefined
+                        ? colorPalette.primary1
+                        : "",
+                    }}
                   >
-                    <div className="flex flex-row justify-center items-center pl-1">
+                    <div
+                      style={{ color: colorPalette ? colorPalette.text1 : '' }}
+                      className="flex flex-row justify-center items-center pl-1 font-galindo text-sm"
+                    >
                       {slime.bonusLevel ? (
-                        <p style={{ color: 'rgb(255, 244, 230)', fontFamily: 'galindo' }}>
+                        <p>
                           Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}{" "}
                           + {slime.bonusLevel}
                         </p>
                       ) : (
-                        <p style={{ color: 'rgb(255, 244, 230)', fontFamily: 'galindo' }}>
+                        <p>
                           Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}
                         </p>
                       )}
-                      <span className="text-gray-700 mx-2 font-galindo">|</span>
-                      <p className="text-lg font-semibold text-green-500 font-galindo">{slime.levelUpCost}</p>
+                      <span className="mx-2">|</span>
+                      <p>{slime.levelUpCost}</p>
                       <Image
                         src="/assets/icons/slime-gel.png"
                         alt="slime gel"
@@ -167,24 +170,23 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                     </div>
                   </div>
                   {slime.level < slime.maxLevel && (
-                  <button
-                    className={`px-1.5 py-1.5 rounded-lg transition-all duration-150
-                      ${
-                        slime.levelUpCost <= user.slimeGel
+                    <button
+                      className={`px-1.5 py-1.5 rounded-lg transition-all duration-150
+                      ${slime.levelUpCost <= user.slimeGel
                           ? "bg-green-600 hover:bg-green-500"
                           : "bg-red-600 hover:bg-red-500"
-                      }`}
-                    onClick={() => {
-                      setOldSlime(slime);
-                      handleClick(slime._id, index);
-                    }}
-                  >
-                    <span
-                      className="text-white"
+                        }`}
+                      onClick={() => {
+                        setOldSlime(slime);
+                        handleClick(slime._id, index);
+                      }}
                     >
-                      <FaPlus/>
-                    </span>
-                  </button>
+                      <span
+                        className="text-white"
+                      >
+                        <FaPlus />
+                      </span>
+                    </button>
                   )}
                 </div>
                 <div
