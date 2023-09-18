@@ -126,7 +126,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    setInterval(() => {refetchUserNonLoad()}, 400)
+    setInterval(() => {refetchUserNonLoad()}, 15000)
   }, [firstmount])
 
   useEffect(() => {
