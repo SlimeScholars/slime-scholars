@@ -270,7 +270,6 @@ export default function ItemDetails({
         </div>
       );
     }
-
   }
 
   // for background
@@ -290,7 +289,7 @@ export default function ItemDetails({
           />
           {/* Item description */}
           <div
-            className="2xl:col-span-2 rounded-lg px-8 py-4"
+            className="rounded-lg px-8 py-4"
             style={{
               backgroundColor: `${colorPalette.black}88`,
             }}
@@ -320,7 +319,7 @@ export default function ItemDetails({
 
         {/* Change pfp comparison */}
         <div
-          className="col-span-3 rounded-lg p-6 grid 2xl:grid-cols-2"
+          className="rounded-lg p-6 grid 2xl:grid-cols-2"
           style={{
             backgroundColor: `${colorPalette.black}88`,
           }}
@@ -524,47 +523,52 @@ export default function ItemDetails({
   ) {
     return (
       <div
-        className="grid grid-cols-3 p-8 gap-8 rounded-lg"
+        className="p-8 gap-8 rounded-lg grid"
         style={{
           backgroundColor: colorPalette ? `${colorPalette.white}88` : "",
         }}
       >
-        <ItemInventory
-          item={item}
-          displayOnly="true"
-          colorPalette={colorPalette}
-        />
-        {/* Item description */}
         <div
-          className="col-span-2 rounded-lg px-8 py-4"
-          style={{
-            backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
-          }}
+          className="grid 2xl:grid-cols-2 grid-cols-1 gap-8"
         >
-          <p
-            className={`text-2xl font-thin`}
-            style={{ color: gameData.rarityColours[item.rarity].text }}
+          <ItemInventory
+            item={item}
+            displayOnly="true"
+            colorPalette={colorPalette}
+          />
+          {/* Item description */}
+          <div
+            className="rounded-lg px-8 py-4"
+            style={{
+              backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
+            }}
           >
-            {item.rarity}
-          </p>
-          <p
-            className="text-2xl font-bold"
-            style={{ color: colorPalette ? colorPalette.text1 : "" }}
-          >
-            {item.itemName}
-          </p>
-          {gameData.items[item.itemName].desc && (
             <p
-              className="text-md mt-3"
+              className={`text-2xl font-thin`}
+              style={{ color: gameData.rarityColours[item.rarity].text }}
+            >
+              {item.rarity}
+            </p>
+            <p
+              className="text-2xl font-bold"
               style={{ color: colorPalette ? colorPalette.text1 : "" }}
             >
-              {gameData.items[item.itemName].desc}
+              {item.itemName}
             </p>
-          )}
+            {gameData.items[item.itemName].desc && (
+              <p
+                className="text-md mt-3"
+                style={{ color: colorPalette ? colorPalette.text1 : "" }}
+              >
+                {gameData.items[item.itemName].desc}
+              </p>
+            )}
+          </div>
         </div>
+
         {/* Sell Item */}
         <div
-          className="col-span-3 rounded-lg p-6"
+          className="rounded-lg p-6"
           style={{
             backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
             color: colorPalette ? colorPalette.text1 : "",
@@ -739,9 +743,14 @@ export default function ItemDetails({
           </div>
         </div>
         {/* Open eggs */}
-        <div className="col-span-3 bg-black/40 rounded-lg p-6">
+        <div
+          className="rounded-lg p-6"
+          style={{
+            color: colorPalette ? colorPalette.text1 : "",
+            backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
+          }}
+        >
           <p
-            className="text-white hover:text-white/75"
             onClick={(e) => {
               router.push("/play/roll");
             }}
@@ -749,7 +758,7 @@ export default function ItemDetails({
             Open Egg
           </p>
         </div>
-      </div>
+      </div >
     );
   }
 }
