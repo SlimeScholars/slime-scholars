@@ -340,7 +340,7 @@ export default function ItemDetails({
                   cursor: "pointer"
                 }}
                 onClick={() => {
-                  router.push("/settings");
+                  router.push("/play/settings");
                 }}
               >
                 {
