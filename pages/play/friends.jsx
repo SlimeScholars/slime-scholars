@@ -34,6 +34,9 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
         break;
       }
     }
+    if(friends.length==0){
+        friends.push(user);
+    }
     setUserFriends(friends);
 
     // Record user id for leaderboard listing background highlight

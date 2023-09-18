@@ -5,6 +5,7 @@ import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import { set } from "mongoose";
 
 export default function ItemDetails({
   item,
@@ -42,6 +43,62 @@ export default function ItemDetails({
 
   const router = useRouter();
 
+  const handleBuyItem = () => {
+    try {
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const newUser = { ...user }
+      if (item.buyCurrency === 0) {
+        if (user.slimeGel < item.buyPrice) {
+          showToastError("Insufficient slime gel.")
+          return;
+        }
+        newUser.slimeGel -= item.buyPrice
+      }
+      else if (item.buyCurrency === 1) {
+        if (user.flowers < item.buyPrice) {
+          showToastError("Insufficient flowers.")
+          return;
+        }
+        newUser.flowers -= item.buyPrice
+      }
+
+      const newItem = {
+        itemName: item.itemName,
+        rarity: item.rarity,
+        quantity: 1,
+        isBg: true,
+      }
+      newUser.items.push(newItem)
+
+      setUser(newUser)
+      setOwned(true)
+
+      axios
+        .post("/api/user/buy-item", { itemName: item.itemName, quantity: 1 }, config)
+        .then((response) => {
+        })
+        .catch((error) => {
+          showToastError(error.message)
+        });
+
+    } catch (error) {
+      console.log(error)
+      if (error?.response?.data?.message) showToastError(error.response.data.message)
+      else if (error?.message) showToastError(error.message);
+      else showToastError(error)
+      refetchUser()
+      return;
+    }
+  }
+
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
     if (item.isBg) {
@@ -60,7 +117,7 @@ export default function ItemDetails({
             />
             {/* Item description */}
             <div
-              className="rounded-lg px-8 py-4"
+              className="rounded-lg px-8 py-4 relative"
               style={{
                 backgroundColor: `${colorPalette.black}88`,
               }}
@@ -84,6 +141,67 @@ export default function ItemDetails({
                 >
                   {gameData.items[item.itemName].desc}
                 </p>
+              )}
+
+              {/* Buy Item */}
+
+              {owned ? (
+                <button
+                  disabled
+                  className='py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8'
+                  style={{
+                    backgroundColor: colorPalette
+                      ? `${colorPalette.black}66`
+                      : "",
+                    color: colorPalette ? colorPalette.black : "",
+                  }}
+                >
+                  Owned
+                </button>
+
+              ) : (
+                <button
+                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${item.buyCurrency === 0 ?
+                    (user.slimeGel < item.buyPrice ? 'grayscale' : '') :
+                    (user.flowers < item.buyPrice ? 'grayscale' : '')
+                    }`}
+                  style={{
+                    backgroundColor: colorPalette?.primary1,
+                    color: colorPalette?.text1,
+                  }}
+                  onClick={handleBuyItem}
+                >
+                  <div className="flex flex-row justify-center items-center">
+                    <div>
+                      Buy Item
+                    </div>
+                    <div className="mx-3">
+                      |
+                    </div>
+                    <div className="flex flex-row items-center">
+                      {item.buyPrice}
+                      {item.buyCurrency === 0 ? (
+                        <Image
+                          src="/assets/icons/slime-gel.png"
+                          alt="slime gel"
+                          width={0}
+                          height={0}
+                          sizes={"100vw"}
+                          className="m-1 w-6 h-6"
+                        />
+                      ) : (
+                        <Image
+                          src="/assets/icons/flower.png"
+                          alt="flower"
+                          width={0}
+                          height={0}
+                          sizes={"100vw"}
+                          className="m-1 w-6 h-6"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </button>
               )}
             </div>
           </div>
@@ -270,7 +388,6 @@ export default function ItemDetails({
         </div>
       );
     }
-
   }
 
   // for background
@@ -290,7 +407,7 @@ export default function ItemDetails({
           />
           {/* Item description */}
           <div
-            className="2xl:col-span-2 rounded-lg px-8 py-4"
+            className="rounded-lg px-8 py-4"
             style={{
               backgroundColor: `${colorPalette.black}88`,
             }}
@@ -320,7 +437,7 @@ export default function ItemDetails({
 
         {/* Change pfp comparison */}
         <div
-          className="col-span-3 rounded-lg p-6 grid 2xl:grid-cols-2"
+          className="rounded-lg p-6 grid 2xl:grid-cols-2"
           style={{
             backgroundColor: `${colorPalette.black}88`,
           }}
@@ -524,47 +641,52 @@ export default function ItemDetails({
   ) {
     return (
       <div
-        className="grid grid-cols-3 p-8 gap-8 rounded-lg"
+        className="p-8 gap-8 rounded-lg grid"
         style={{
           backgroundColor: colorPalette ? `${colorPalette.white}88` : "",
         }}
       >
-        <ItemInventory
-          item={item}
-          displayOnly="true"
-          colorPalette={colorPalette}
-        />
-        {/* Item description */}
         <div
-          className="col-span-2 rounded-lg px-8 py-4"
-          style={{
-            backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
-          }}
+          className="grid 2xl:grid-cols-2 grid-cols-1 gap-8"
         >
-          <p
-            className={`text-2xl font-thin`}
-            style={{ color: gameData.rarityColours[item.rarity].text }}
+          <ItemInventory
+            item={item}
+            displayOnly="true"
+            colorPalette={colorPalette}
+          />
+          {/* Item description */}
+          <div
+            className="rounded-lg px-8 py-4"
+            style={{
+              backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
+            }}
           >
-            {item.rarity}
-          </p>
-          <p
-            className="text-2xl font-bold"
-            style={{ color: colorPalette ? colorPalette.text1 : "" }}
-          >
-            {item.itemName}
-          </p>
-          {gameData.items[item.itemName].desc && (
             <p
-              className="text-md mt-3"
+              className={`text-2xl font-thin`}
+              style={{ color: gameData.rarityColours[item.rarity].text }}
+            >
+              {item.rarity}
+            </p>
+            <p
+              className="text-2xl font-bold"
               style={{ color: colorPalette ? colorPalette.text1 : "" }}
             >
-              {gameData.items[item.itemName].desc}
+              {item.itemName}
             </p>
-          )}
+            {gameData.items[item.itemName].desc && (
+              <p
+                className="text-md mt-3"
+                style={{ color: colorPalette ? colorPalette.text1 : "" }}
+              >
+                {gameData.items[item.itemName].desc}
+              </p>
+            )}
+          </div>
         </div>
+
         {/* Sell Item */}
         <div
-          className="col-span-3 rounded-lg p-6"
+          className="rounded-lg p-6"
           style={{
             backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
             color: colorPalette ? colorPalette.text1 : "",
@@ -739,9 +861,14 @@ export default function ItemDetails({
           </div>
         </div>
         {/* Open eggs */}
-        <div className="col-span-3 bg-black/40 rounded-lg p-6">
+        <div
+          className="rounded-lg p-6"
+          style={{
+            color: colorPalette ? colorPalette.text1 : "",
+            backgroundColor: colorPalette ? `${colorPalette.black}88` : "",
+          }}
+        >
           <p
-            className="text-white hover:text-white/75"
             onClick={(e) => {
               router.push("/play/roll");
             }}
@@ -749,7 +876,7 @@ export default function ItemDetails({
             Open Egg
           </p>
         </div>
-      </div>
+      </div >
     );
   }
 }
