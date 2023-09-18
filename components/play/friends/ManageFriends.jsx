@@ -25,6 +25,7 @@ export default function ManageFriends({
   const [foundUsers, setFoundUsers] = useState([]);
   const [findingLoading, setFindingLoading] = useState(false)
   const [lastSearch, setLastSearch] = useState("")
+  const [timer, setTimer] = useState(0)
 
   useEffect(() => {
     if (user && toDo == "manage") {
@@ -35,19 +36,13 @@ export default function ManageFriends({
       setFoundUsers(searchUsers);
     }
     else if (user && toDo == "add") {
-      if (findingLoading) {
+      if (timer > 0) {
         return
       }
-      if (lastSearch === searchContent) {
+      if (!findingLoading) {
         return
       }
 
-      if (searchContent.trim().length === 0) {
-        setLastSearch("")
-        setFoundUsers([])
-        setFindingLoading(false)
-        return
-      }
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
@@ -61,9 +56,6 @@ export default function ManageFriends({
         },
       };
 
-      setLastSearch(searchContent)
-      setFindingLoading(true)
-
       axios
         .get("/api/user/search", config)
         .then((response) => {
@@ -74,7 +66,44 @@ export default function ManageFriends({
           console.log(error.message);
         });
     }
-  }, [searchContent, userFriends, toDo, user, lastSearch, findingLoading]);
+  }, [searchContent, userFriends, toDo, user, timer]);
+
+  useEffect(() => {
+    if (toDo !== 'add') {
+      setTimer(0)
+      setSearchContent('')
+      setFindingLoading(false)
+      return
+    }
+
+    const decreaseTimer = async () => {
+      await delay(200)
+      setTimer(timer - 200)
+    }
+
+    if (timer > 0) {
+      setFindingLoading(true)
+      decreaseTimer()
+    }
+
+    else {
+      if (searchContent.trim().length === 0) {
+        setLastSearch("")
+        setFoundUsers([])
+        setFindingLoading(false)
+        return
+      }
+      if (searchContent === lastSearch) {
+        return
+      }
+      setLastSearch(searchContent)
+      setTimer(600)
+    }
+  }, [timer, searchContent])
+
+  const delay = async (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
 
   return (
     <div
@@ -115,7 +144,13 @@ export default function ManageFriends({
                   type="text"
                   placeholder={"Search for a friend"}
                   className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
-                  onChange={(e) => setSearchContent(e.target.value)}
+                  onChange={(e) => {
+                    if (toDo === 'add') {
+                      setTimer(600)
+                      setFindingLoading(true)
+                    }
+                    setSearchContent(e.target.value)
+                  }}
                   style={{
                     color: colorPalette ? colorPalette.black : "",
                   }}
