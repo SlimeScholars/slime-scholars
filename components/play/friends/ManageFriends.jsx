@@ -28,6 +28,14 @@ export default function ManageFriends({
   const [timer, setTimer] = useState(0)
 
   useEffect(() => {
+    console.log(foundUsers)
+    console.log(searchContent)
+    // Why is this not setting search content
+    setSearchContent('')
+    setFoundUsers([])
+  }, [toDo])
+
+  useEffect(() => {
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
         const usernameMatches = friend.username.toLowerCase().includes(searchContent.toLowerCase());
@@ -35,6 +43,7 @@ export default function ManageFriends({
       });
       setFoundUsers(searchUsers);
     }
+
     else if (user && toDo == "add") {
       if (timer > 0) {
         return
@@ -66,7 +75,7 @@ export default function ManageFriends({
           console.log(error.message);
         });
     }
-  }, [searchContent, userFriends, toDo, user, timer]);
+  }, [searchContent, userFriends, toDo, user, timer, findingLoading]);
 
   useEffect(() => {
     if (toDo !== 'add') {
@@ -77,8 +86,14 @@ export default function ManageFriends({
     }
 
     const decreaseTimer = async () => {
-      await delay(200)
-      setTimer(timer - 200)
+      await delay(10)
+      setTimer(timer - 10)
+    }
+
+    if (searchContent !== lastSearch) {
+      setLastSearch(searchContent)
+      setFindingLoading(true)
+      setTimer(800)
     }
 
     if (timer > 0) {
@@ -96,8 +111,6 @@ export default function ManageFriends({
       if (searchContent === lastSearch) {
         return
       }
-      setLastSearch(searchContent)
-      setTimer(600)
     }
   }, [timer, searchContent])
 
@@ -144,9 +157,10 @@ export default function ManageFriends({
                   type="text"
                   placeholder={"Search for a friend"}
                   className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
+                  value={searchContent}
                   onChange={(e) => {
                     if (toDo === 'add') {
-                      setTimer(600)
+                      setTimer(800)
                       setFindingLoading(true)
                     }
                     setSearchContent(e.target.value)
@@ -169,7 +183,7 @@ export default function ManageFriends({
       </div>
       {toDo == "manage" ? (
         <div className="pt-8">
-          You have {Math.max(0,userFriends.length - 1)} friends in total
+          You have {Math.max(0, userFriends.length - 1)} friends in total
         </div>
       ) : (
         <></>
