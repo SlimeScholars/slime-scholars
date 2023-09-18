@@ -27,13 +27,14 @@ export default function ManageFriends({
   const [lastSearch, setLastSearch] = useState("")
   const [timer, setTimer] = useState(0)
 
-  useEffect(() => {
-    console.log(foundUsers)
-    console.log(searchContent)
-    // Why is this not setting search content
-    setSearchContent('')
-    setFoundUsers([])
-  }, [toDo])
+  // TODO:
+  // useEffect(() => {
+  //   console.log(foundUsers)
+  //   console.log(searchContent)
+  //   // Why is this not setting search content
+  //   setSearchContent('')
+  //   setFoundUsers([])
+  // }, [toDo])
 
   useEffect(() => {
     if (user && toDo == "manage") {
@@ -157,7 +158,7 @@ export default function ManageFriends({
                   type="text"
                   placeholder={"Search for a friend"}
                   className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
-                  value={searchContent}
+                  // value={searchContent}
                   onChange={(e) => {
                     if (toDo === 'add') {
                       setTimer(800)
