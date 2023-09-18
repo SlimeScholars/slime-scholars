@@ -142,7 +142,7 @@ export default function FriendsEditor({
                     />
                   </div>
                 </div>
-                <div className="grow px-4">{user.username}</div>
+                <div className="grow px-4 relative">{user.username}</div>
                 <button
                   className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
                   style={{
@@ -206,10 +206,10 @@ export default function FriendsEditor({
                     />
                   </div>
                 </div>
-                <div className="grow px-4">{user.username}</div>
+                <div className="grow px-4 relative">{user.username}</div>
                 {toDo == "manage" ? (
                   <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
+                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl absolute"
                     style={{
                       background: colorPalette ? colorPalette.primary2 : "none",
                     }}
@@ -219,7 +219,7 @@ export default function FriendsEditor({
                   </button>
                 ) : (
                   <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
+                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl absolute"
                     style={{
                       background: colorPalette ? colorPalette.primary2 : "none",
                     }}
