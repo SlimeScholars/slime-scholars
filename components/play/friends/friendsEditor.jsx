@@ -193,6 +193,7 @@ export default function FriendsEditor({
                       width={0}
                       sizes="100vw"
                       className="absolute inset-0 w-full h-full"
+                      onClick={() => handleManageFriend(user._id)}
                     />
                     <Image
                       src={
@@ -204,21 +205,12 @@ export default function FriendsEditor({
                       width={0}
                       sizes="100vw"
                       className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
+                      onClick={() => handleManageFriend(user._id)}
                     />
                   </div>
                 </div>
                 <div className="grow px-4 relative">{user.username}</div>
-                {toDo == "manage" ? (
-                  <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl absolute"
-                    style={{
-                      background: colorPalette ? colorPalette.primary2 : "none",
-                    }}
-                    onClick={() => handleManageFriend(user._id)}
-                  >
-                    x
-                  </button>
-                ) : (
+                {(
                   <button
                     className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl absolute"
                     style={{
