@@ -5,6 +5,7 @@ import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import { set } from "mongoose";
 
 export default function ItemDetails({
   item,
@@ -41,6 +42,62 @@ export default function ItemDetails({
   }, [item, user]);
 
   const router = useRouter();
+
+  const handleBuyItem = () => {
+    try {
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      const newUser = { ...user }
+      if (item.buyCurrency === 0) {
+        if (user.slimeGel < item.buyPrice) {
+          showToastError("Insufficient slime gel.")
+          return;
+        }
+        newUser.slimeGel -= item.buyPrice
+      }
+      else if (item.buyCurrency === 1) {
+        if (user.flowers < item.buyPrice) {
+          showToastError("Insufficient flowers.")
+          return;
+        }
+        newUser.flowers -= item.buyPrice
+      }
+
+      const newItem = {
+        itemName: item.itemName,
+        rarity: item.rarity,
+        quantity: 1,
+        isBg: true,
+      }
+      newUser.items.push(newItem)
+
+      setUser(newUser)
+      setOwned(true)
+
+      axios
+        .post("/api/user/buy-item", { itemName: item.itemName, quantity: 1 }, config)
+        .then((response) => {
+        })
+        .catch((error) => {
+          showToastError(error.message)
+        });
+
+    } catch (error) {
+      console.log(error)
+      if (error?.response?.data?.message) showToastError(error.response.data.message)
+      else if (error?.message) showToastError(error.message);
+      else showToastError(error)
+      refetchUser()
+      return;
+    }
+  }
 
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
@@ -112,6 +169,7 @@ export default function ItemDetails({
                     backgroundColor: colorPalette?.primary1,
                     color: colorPalette?.text1,
                   }}
+                  onClick={handleBuyItem}
                 >
                   <div className="flex flex-row justify-center items-center">
                     <div>
