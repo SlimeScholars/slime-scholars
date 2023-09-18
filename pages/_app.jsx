@@ -9,16 +9,57 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
+import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [axiosLoading, setAxiosLoading] = useState(false); // Used for axios loading
   const [user, setUser] = useState(null);
+  const [initUser, setInitUser] = useState(null);
   const [numEggs, setNumEggs] = useState(0);
   const [flowers, setFlowers] = useState(null);
   const [items, setItems] = useState([]);
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
+
+  const [firstmount, setFirstmount] = useState(false)
+  const [rewardsData, setRewardsData] = useState(null)
+  const [rewardsModalOpen, setRewardsModalOpen] = useState(false)
+
+  const refetchUserNonLoad = async () => {
+
+    try {
+      const token = localStorage.getItem('jwt')
+      if (!token) {
+        setUser(null);
+        setLoading(false);
+        return;
+      }
+
+      const config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .get("/api/user", config)
+        .then((response) => {
+          if (response.data && response.data.user) {
+            setUser(response.data.user)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          // If the json web token is invalid, remove it so no more requests will be made with the same token
+          localStorage.removeItem("jwt");
+          setUser(null);
+        });
+    }
+    catch (err) {
+      console.log(err)
+    }
+  }
 
   const refetchUser = async () => {
 
@@ -83,6 +124,26 @@ function MyApp({ Component, pageProps }) {
       refetchUser()
     }
   }, []);
+
+  useEffect(() => {
+    setInterval(() => {refetchUserNonLoad()}, 15000)
+  }, [firstmount])
+
+  useEffect(() => {
+    if(user){
+      if(firstmount){
+        return
+      }
+      else{
+        if(user.screen_display_notif){
+          setInitUser({...user})
+          setRewardsModalOpen(true)
+          setRewardsData(user.screen_display_notif)
+          setFirstmount(true)
+        }
+      }
+    }
+  }, [user])
 
   const router = useRouter();
   const [onPlay, setOnPlay] = useState(false);
@@ -164,6 +225,9 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
+        {rewardsModalOpen && <SlimeGelPopup user={initUser} details={rewardsData} close={() => 
+        setRewardsModalOpen(false)
+      }/>}
       </div>
     </>
   );

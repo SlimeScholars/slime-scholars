@@ -161,7 +161,8 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                         setAfterRolling={setAfterRolling}
                         slimes={slimes}
                         originalSlimes={originalSlimes}
-                        router={router}></RollResult>
+                        router={router}
+                        refetchUser={refetchUser}/>
                 )
             }
             <div
