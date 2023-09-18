@@ -5,6 +5,7 @@ import { FaChevronLeft } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
 import Image from "next/image";
 import { Tooltip } from "react-tooltip";
+import NextRewardTimer from "./slimes/NextRewardTimer";
 
 /*
 Parameter:
@@ -248,9 +249,7 @@ export function Navbar({
           })}
         </div>
       </div>
-      <div className="">
-          
-      </div>
+      {router.asPath === "/play" && <NextRewardTimer/>}
     </div>
   );
 }
