@@ -133,7 +133,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                   }}
                 >
                   <div
-                  className="flex flex-col flex-wrap min-w-[12rem] rounded-2xl"
+                  className="flex flex-col flex-wrap min-w-[13rem] rounded-2xl"
                   style={{
                     border: colorPalette !== undefined
                       ? `5px solid ${colorPalette.primary2}`

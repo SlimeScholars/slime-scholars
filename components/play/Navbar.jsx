@@ -64,7 +64,7 @@ export function Navbar({
       {/* home button */}
       {!onHome && (
         <button
-          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem] transition-opacity duration-150 max-xl:absolute top-[5.5rem]"
+          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1"
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
@@ -75,14 +75,14 @@ export function Navbar({
             router.push("/play");
           }}
         >
-          <FaChevronLeft className="inline text-lg" />
-          <HiHome className="inline text-3xl ml-1 -mt-0.5 mr-3" />
+          <FaChevronLeft className="inline text-lg max-xl:h-3 max-xl:w-3" />
+          <HiHome className="inline text-3xl ml-1 -mt-0.5 mr-3 max-xl:h-6 max-xl:w-6" />
         </button>
       )}
       {/* earn flowers button */}
       <div>
         <button
-          className="pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2"
+          className="pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem]"
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
@@ -98,7 +98,7 @@ export function Navbar({
         </button>
       </div>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md relative">
-        <div className="flex flex-col items-end mr-5 max-xl:absolute top-2 right-[18rem]">
+        <div className="flex flex-col items-end mr-5 max-xl:absolute top-2 right-[13rem]">
           {/* slime gel */}
           <div
             className="flex rounded-full py-1 px-6 w-fit"
@@ -120,7 +120,7 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="max-xl:pr-5">{user.slimeGel}</p>
+                <p className="max-xl:pr-5 max-xl:text-sm">{user.slimeGel}</p>
               </div>
             )}
           </div>
@@ -146,7 +146,7 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="">{flowers === null ? user.flowers : flowers}</p>
+                <p className="max-xl:text-sm">{flowers === null ? user.flowers : flowers}</p>
               </div>
             )}
           </div>
@@ -174,7 +174,7 @@ export function Navbar({
         </div>
 
         {/* buttons and icons */}
-        <div className="flex gap-[1rem] max-xl:grid grid-cols-3 grid-rows-2">
+        <div className="flex gap-[1rem] max-xl:grid max-xl:grid-cols-3 max-xl:grid-rows-2 max-xl:gap-[0.5rem]">
         {types.map((type) => {
           const imgLink = "/assets/icons/" + type.src + ".png";
           const isActive = type.id === current_id;
@@ -193,7 +193,7 @@ export function Navbar({
                       ? `5px solid ${colorPalette.primary1}`
                       : ""
                       }`,
-                    padding: type.id === 6 ? "0.6rem" : undefined, // Add padding only when type.id is 6
+                    padding: type.id === 6 ? "0.7rem" : undefined, // Add padding only when type.id is 6
                   }
                   : {
                     backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
@@ -202,10 +202,10 @@ export function Navbar({
                       ? `5px solid ${colorPalette.primary1}`
                       : ""
                       }`,
-                    padding: type.id === 6 ? "0.6rem" : undefined, // Add padding only when type.id is 6
+                    padding: type.id === 6 ? "0.7rem" : undefined, // Add padding only when type.id is 6
                   }
               }
-              className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border ${type.id === 6 ? "2xl:w-[5.6rem] 2xl:h-[5.6rem]" : "" // Apply larger size for 2xl screen and type.id 6
+              className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[3.5rem] max-xl:h-[3.5rem]${type.id === 6 ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[3.6rem] max-xl:h-[3.6rem]" : "" // Apply larger size for 2xl screen and type.id 6
                 }`}
               key={type.id}
               data-tooltip-id="my-tooltip"
@@ -236,7 +236,7 @@ export function Navbar({
                       height={0}
                       width={0}
                       sizes="100vw"
-                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"
+                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem] max-xl:w-[2rem] max-xl:h-[2rem] max-xl:scale-300"
                     />
                   </div>
                 ) : (
@@ -252,14 +252,14 @@ export function Navbar({
                   height={0}
                   width={0}
                   sizes="100vw"
-                  className="2xl:h-[4rem] 2xl:w-[4rem] h-[3.5rem] w-[3.5rem]"
+                  className="h-[4rem] w-[4rem] max-xl:w-[2rem] max-xl:h-[2rem]"
                 />
               )}
               <Tooltip
                 id="my-tooltip"
                 delayShow={200}
                 place="bottom"
-                pffset={20}
+                offset={20}
                 style={{
                   backgroundColor: "#2c374240",
                   fontSize: "14px",
