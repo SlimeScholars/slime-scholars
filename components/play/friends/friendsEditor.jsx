@@ -23,6 +23,7 @@ export default function FriendsEditor({
   colorPalette,
   refetchUser,
   searchContent,
+  findingLoading,
 }) {
   const handleManageFriend = (friendId) => {
     const token = localStorage.getItem("jwt");
@@ -167,7 +168,16 @@ export default function FriendsEditor({
       <div className="grid grid-cols-2 gap-4">
         {usersOnlist.length === 0 && (
           <p>
-            No users found by the name "{searchContent}"
+            {
+              findingLoading ? (
+                "Finding users..."
+              ) :
+                searchContent.trim().length === 0 ? (
+                  "Search for a user to friend"
+                ) : (
+                  `No users found by the name "${searchContent}"`
+                )
+            }
           </p>
         )}
         {Array.isArray(usersOnlist) ? (
