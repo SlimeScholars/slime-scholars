@@ -23,6 +23,9 @@ export default function ManageFriends({
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
+  const [findingLoading, setFindingLoading] = useState(false)
+  const [lastSearch, setLastSearch] = useState("")
+
   useEffect(() => {
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
@@ -30,29 +33,48 @@ export default function ManageFriends({
         return usernameMatches
       });
       setFoundUsers(searchUsers);
-    } else if (user && toDo == "add") {
+    }
+    else if (user && toDo == "add") {
+      if (findingLoading) {
+        return
+      }
+      if (lastSearch === searchContent) {
+        return
+      }
+
+      if (searchContent.trim().length === 0) {
+        setLastSearch("")
+        setFoundUsers([])
+        setFindingLoading(false)
+        return
+      }
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
         params: {
           username: searchContent,
+          userId: user._id,
         },
         headers: {
           Authorization: `Bearer ${token}`,
         },
       };
 
+      setLastSearch(searchContent)
+      setFindingLoading(true)
+
       axios
         .get("/api/user/search", config)
         .then((response) => {
           setFoundUsers(response.data.users);
+          setFindingLoading(false)
         })
         .catch((error) => {
           console.log(error.message);
         });
     }
-  }, [searchContent, userFriends, toDo]);
+  }, [searchContent, userFriends, toDo, user, lastSearch, findingLoading]);
 
   return (
     <div
@@ -129,6 +151,7 @@ export default function ManageFriends({
           colorPalette={colorPalette}
           refetchUser={refetchUser}
           searchContent={searchContent}
+          findingLoading={findingLoading}
         />
       </div>
     </div>
