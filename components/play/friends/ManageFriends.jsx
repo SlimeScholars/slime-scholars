@@ -23,6 +23,19 @@ export default function ManageFriends({
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
+  const [findingLoading, setFindingLoading] = useState(false)
+  const [lastSearch, setLastSearch] = useState("")
+  const [timer, setTimer] = useState(0)
+
+  // TODO:
+  // useEffect(() => {
+  //   console.log(foundUsers)
+  //   console.log(searchContent)
+  //   // Why is this not setting search content
+  //   setSearchContent('')
+  //   setFoundUsers([])
+  // }, [toDo])
+
   useEffect(() => {
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
@@ -30,13 +43,23 @@ export default function ManageFriends({
         return usernameMatches
       });
       setFoundUsers(searchUsers);
-    } else if (user && toDo == "add") {
+    }
+
+    else if (user && toDo == "add") {
+      if (timer > 0) {
+        return
+      }
+      if (!findingLoading) {
+        return
+      }
+
       const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
         params: {
           username: searchContent,
+          userId: user._id,
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,12 +70,54 @@ export default function ManageFriends({
         .get("/api/user/search", config)
         .then((response) => {
           setFoundUsers(response.data.users);
+          setFindingLoading(false)
         })
         .catch((error) => {
           console.log(error.message);
         });
     }
-  }, [searchContent, userFriends, toDo]);
+  }, [searchContent, userFriends, toDo, user, timer, findingLoading]);
+
+  useEffect(() => {
+    if (toDo !== 'add') {
+      setTimer(0)
+      setSearchContent('')
+      setFindingLoading(false)
+      return
+    }
+
+    const decreaseTimer = async () => {
+      await delay(10)
+      setTimer(timer - 10)
+    }
+
+    if (searchContent !== lastSearch) {
+      setLastSearch(searchContent)
+      setFindingLoading(true)
+      setTimer(800)
+    }
+
+    if (timer > 0) {
+      setFindingLoading(true)
+      decreaseTimer()
+    }
+
+    else {
+      if (searchContent.trim().length === 0) {
+        setLastSearch("")
+        setFoundUsers([])
+        setFindingLoading(false)
+        return
+      }
+      if (searchContent === lastSearch) {
+        return
+      }
+    }
+  }, [timer, searchContent])
+
+  const delay = async (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms))
+  }
 
   return (
     <div
@@ -93,7 +158,14 @@ export default function ManageFriends({
                   type="text"
                   placeholder={"Search for a friend"}
                   className="p-1 grow bg-transparent font-galindo ml-2 w-[14rem] focus:outline-0"
-                  onChange={(e) => setSearchContent(e.target.value)}
+                  // value={searchContent}
+                  onChange={(e) => {
+                    if (toDo === 'add') {
+                      setTimer(800)
+                      setFindingLoading(true)
+                    }
+                    setSearchContent(e.target.value)
+                  }}
                   style={{
                     color: colorPalette ? colorPalette.black : "",
                   }}
@@ -112,7 +184,7 @@ export default function ManageFriends({
       </div>
       {toDo == "manage" ? (
         <div className="pt-8">
-          You have {userFriends.length - 1} friends in total
+          You have {Math.max(0, userFriends.length - 1)} friends in total
         </div>
       ) : (
         <></>
@@ -129,6 +201,7 @@ export default function ManageFriends({
           colorPalette={colorPalette}
           refetchUser={refetchUser}
           searchContent={searchContent}
+          findingLoading={findingLoading}
         />
       </div>
     </div>

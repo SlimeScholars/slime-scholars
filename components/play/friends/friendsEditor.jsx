@@ -23,6 +23,7 @@ export default function FriendsEditor({
   colorPalette,
   refetchUser,
   searchContent,
+  findingLoading,
 }) {
   const handleManageFriend = (friendId) => {
     const token = localStorage.getItem("jwt");
@@ -57,7 +58,9 @@ export default function FriendsEditor({
             showToastError(error.response.data.message, true);
           else console.error("Error removing friend");
         });
-    } else {
+    }
+    // Find friends
+    else {
       axios
         .post(
           "/api/user/friend/send",
@@ -165,12 +168,10 @@ export default function FriendsEditor({
   } else {
     return (
       <div className="grid grid-cols-2 gap-4">
-        {usersOnlist.length === 0 && (
-          <p>
-            No users found by the name "{searchContent}"
-          </p>
-        )}
-        {Array.isArray(usersOnlist) ? (
+        {findingLoading ? <p>Finding users...</p> :
+          searchContent.trim().length === 0 ? <p>Search for a user to friend</p> :
+            usersOnlist.length === 0 ? <p>No user found</p> : <></>}
+        {!findingLoading && Array.isArray(usersOnlist) ? (
           usersOnlist.map((user, index) => {
             return (
               <div
@@ -232,7 +233,7 @@ export default function FriendsEditor({
             );
           })
         ) : (
-          <p>No result to display.</p>
+          <></>
         )}
       </div>
     );
