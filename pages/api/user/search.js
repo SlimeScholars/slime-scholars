@@ -7,6 +7,7 @@ import { getPopulatedPlayer } from "../../../utils/getPopulatedUser";
  * @route   GET /api/user/search?username=...
  * @access  Public
  * @param   {string} req.query.username - Words included in the username of the user you want to find
+ * @param   {string} req.query.userId - The id of the user doing the search
  */
 export default async function (req, res) {
   try {
@@ -17,7 +18,7 @@ export default async function (req, res) {
     // Connect to database
     await connectDB();
 
-    const { username } = req.query;
+    const { username, userId } = req.query;
 
     if (!username) {
       res.status(200).json({ users: [] });
@@ -37,10 +38,12 @@ export default async function (req, res) {
           username: {
             $all: keywords.map((keyword) => new RegExp(keyword, "i")),
           },
+          _id: {
+            $ne: userId // Make sure the user performing the search is not sent back
+          }
         },
       ],
     })
-      // TODO: Make sure the search limit is 20
       .limit(20)
       .select("_id")
       .exec();
