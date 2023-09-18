@@ -5,9 +5,9 @@ import { showToastError } from "../../../utils/toast";
 import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
-import { FaArrowAltCircleUp } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
-export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser }) {
+export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser, bg }) {
   const router = useRouter();
 
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
@@ -16,7 +16,6 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
 
   //handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
-    setLoading(true)
     try {
       const token = localStorage.getItem("jwt");
 
@@ -26,18 +25,78 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
           Authorization: `Bearer ${token}`,
         },
       };
+
+      let slime
+      for (let i in user.roster) {
+        if (user.roster[i]?._id == id) {
+          slime = user.roster[i]
+          break
+        }
+      }
+      if (!slime) throw new Error('Invalid slime for leveling up')
+
+      if (slime && slime._id != id) {
+        throw new Error('Invalid slime for leveling up')
+      }
+
+      if (user.slimeGel < slime.levelUpCost) {
+        throw new Error('Insufficient slime gel')
+      }
+
+      setOldSlime(slime)
+      const newSlime = {
+        ...slime,
+        level: slime.level + 1,
+        // Future slime.level - 1 as index to adjust from level to index
+        // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
+        levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
+        baseProduction: slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
+      }
+      const newRoster = [...user.roster]
+      for (let i in user.roster) {
+        if (user.roster[i]?._id == id) {
+          newRoster[i] = newSlime
+        }
+      }
+      const newSlimes = [...user.slimes]
+      for (let i in user.slimes) {
+        if (user.slimes[i]?._id == id) {
+          newSlimes[i] = newSlime
+        }
+      }
+
+      const newUser = {
+        ...user,
+        slimeGel: user.slimeGel - slime.levelUpCost,
+        roster: newRoster,
+        slimes: newSlimes,
+      }
+
+      setUser(newUser)
+      setRes({ slime: newSlime })
+      setShowLevelUpPopup(true)
+
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          refetchUser()
-          setShowLevelUpPopup(true);
-          setRes(response.data);
+          // refetchUser()
+          // setShowLevelUpPopup(true);
+          // setRes(response.data);
         })
         .catch((error) => {
+          refetchUser()
           showToastError(error?.response?.data?.message);
         });
     } catch (error) {
-      showToastError(error?.response?.data?.message);
+      if (error?.response?.data?.message) {
+        showToastError(error?.response?.data?.message);
+      }
+      else if (error?.message) {
+        showToastError(error?.message)
+      }
+      else {
+        showToastError(error)
+      }
       return;
     }
   };
@@ -132,11 +191,33 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                     transform: "translateX(-50%)",
                   }}
                 >
-                  <div className="bg-black opacity-50 h-5 w-[8rem] pb-7 rounded-md mx-auto text-white text-center">
-                    <div className="flex flex-row justify-center items-center pl-1">
-                      <p className="text-lg font-semibold text-yellow-500">Lv. {slime.level}</p>
-                      <span className="text-gray-300 mx-2">|</span>
-                      <p className="text-lg font-semibold text-green-500">{slime.levelUpCost}</p>
+                  <div
+                    className="flex flex-col flex-wrap min-w-[12rem] max-w-full rounded-full px-1 py-1"
+                    style={{
+                      border: colorPalette !== undefined
+                        ? `5px solid ${colorPalette.primary2}`
+                        : "",
+                      background: colorPalette !== undefined
+                        ? colorPalette.primary1
+                        : "",
+                    }}
+                  >
+                    <div
+                      style={{ color: colorPalette ? colorPalette.text1 : '' }}
+                      className="flex flex-row justify-center items-center pl-1 font-galindo text-sm"
+                    >
+                      {slime.bonusLevel ? (
+                        <p>
+                          Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}{" "}
+                          + {slime.bonusLevel}
+                        </p>
+                      ) : (
+                        <p>
+                          Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}
+                        </p>
+                      )}
+                      <span className="mx-2">|</span>
+                      <p>{slime.levelUpCost}</p>
                       <Image
                         src="/assets/icons/slime-gel.png"
                         alt="slime gel"
@@ -147,30 +228,31 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                       />
                     </div>
                   </div>
-                  <button
-                    className={`px-1.5 py-1.5 rounded-lg transition-all duration-150 upgrade-animate
-                      ${
-                        slime.levelUpCost <= user.slimeGel && slime.level < slime.maxLevel
-                          ? "bg-green-900 hover:bg-green-600"
-                          : "bg-red-900 hover:bg-red-600"
-                      } opacity-60`}
-                    onClick={() => {
-                      setOldSlime(slime);
-                      handleClick(slime._id, index);
-                    }}
-                  >
-                    <span
-                      className="text-white"
+                  {slime.level < slime.maxLevel && (
+                    <button
+                      className={`px-1.5 py-1.5 rounded-lg transition-all duration-150
+                      ${slime.levelUpCost <= user.slimeGel
+                          ? "bg-green-600 hover:bg-green-500"
+                          : "bg-red-600 hover:bg-red-500"
+                        }`}
+                      onClick={() => {
+                        setOldSlime(slime);
+                        handleClick(slime._id, index);
+                      }}
                     >
-                      <FaArrowAltCircleUp/>
-                    </span>
-                  </button>
+                      <span
+                        className="text-white"
+                      >
+                        <FaPlus />
+                      </span>
+                    </button>
+                  )}
                 </div>
                 <div
                   style={{
                     backgroundImage: `url(${slimeImg})`,
                   }}
-                  className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 slime-animate slime-size"
+                  className="mx-auto md:h-64 md:w-64 sm:h-32 sm:w-32 slime-animate slime-size cursor-pointer"
                   onClick={() => {
                     router.push("/play/slimes");
                   }}

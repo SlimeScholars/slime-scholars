@@ -119,7 +119,7 @@ export function Navbar({
                     sizes="100vw"
                     className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                   />
-                  <p className="">{user.slimeGel}</p>
+                  <p className="max-xl:pr-5 max-xl:text-sm">{user.slimeGel}</p>
                 </div>
               )}
             </div>
@@ -145,7 +145,7 @@ export function Navbar({
                     sizes="100vw"
                     className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                   />
-                  <p className="">{flowers === null ? user.flowers : flowers}</p>
+                  <p className="max-xl:text-sm">{flowers === null ? user.flowers : flowers}</p>
                 </div>
               )}
             </div>

@@ -23,6 +23,7 @@ export default function FriendsEditor({
   colorPalette,
   refetchUser,
   searchContent,
+  findingLoading,
 }) {
   const handleManageFriend = (friendId) => {
     const token = localStorage.getItem("jwt");
@@ -57,7 +58,9 @@ export default function FriendsEditor({
             showToastError(error.response.data.message, true);
           else console.error("Error removing friend");
         });
-    } else {
+    }
+    // Find friends
+    else {
       axios
         .post(
           "/api/user/friend/send",
@@ -142,7 +145,7 @@ export default function FriendsEditor({
                     />
                   </div>
                 </div>
-                <div className="grow px-4">{user.username}</div>
+                <div className="grow px-4 relative">{user.username}</div>
                 <button
                   className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
                   style={{
@@ -165,12 +168,10 @@ export default function FriendsEditor({
   } else {
     return (
       <div className="grid grid-cols-2 gap-4">
-        {usersOnlist.length === 0 && (
-          <p>
-            No users found by the name "{searchContent}"
-          </p>
-        )}
-        {Array.isArray(usersOnlist) ? (
+        {findingLoading ? <p>Finding users...</p> :
+          searchContent.trim().length === 0 ? <p>Search for a user to friend</p> :
+            usersOnlist.length === 0 ? <p>No user found</p> : <></>}
+        {!findingLoading && Array.isArray(usersOnlist) ? (
           usersOnlist.map((user, index) => {
             return (
               <div
@@ -192,6 +193,7 @@ export default function FriendsEditor({
                       width={0}
                       sizes="100vw"
                       className="absolute inset-0 w-full h-full"
+                      onClick={() => handleManageFriend(user._id)}
                     />
                     <Image
                       src={
@@ -203,23 +205,14 @@ export default function FriendsEditor({
                       width={0}
                       sizes="100vw"
                       className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
+                      onClick={() => handleManageFriend(user._id)}
                     />
                   </div>
                 </div>
-                <div className="grow px-4">{user.username}</div>
-                {toDo == "manage" ? (
+                <div className="grow px-4 relative">{user.username}</div>
+                {(
                   <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
-                    style={{
-                      background: colorPalette ? colorPalette.primary2 : "none",
-                    }}
-                    onClick={() => handleManageFriend(user._id)}
-                  >
-                    x
-                  </button>
-                ) : (
-                  <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
+                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl absolute"
                     style={{
                       background: colorPalette ? colorPalette.primary2 : "none",
                     }}
@@ -232,7 +225,7 @@ export default function FriendsEditor({
             );
           })
         ) : (
-          <p>No result to display.</p>
+          <></>
         )}
       </div>
     );
