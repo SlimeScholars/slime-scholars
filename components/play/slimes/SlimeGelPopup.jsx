@@ -3,18 +3,16 @@ import Image from "next/image";
 
 export default function SlimeGelPopup({ user, details, close }) {
   
-  function dateToDHM(isostring) {
-    const milliseconds = new Date() - new Date(isostring)
+  // function dateToDHM(isostring) {
+  //   const milliseconds = new Date() - new Date(isostring)
 
-    const seconds = Math.floor(milliseconds / 1000);
-    const days = Math.floor(seconds / (3600 * 24));
-    const hours = Math.floor((seconds % (3600 * 24)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
+  //   const seconds = Math.floor(milliseconds / 1000);
+  //   const days = Math.floor(seconds / (3600 * 24));
+  //   const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+  //   const minutes = Math.floor((seconds % 3600) / 60);
   
-    return { days, hours, minutes };
-  }
-
-  const [timeData] = useState(dateToDHM(details.oldDate))
+  //   return { days, hours, minutes };
+  // }
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 fade-in-element text-white">
@@ -27,14 +25,14 @@ export default function SlimeGelPopup({ user, details, close }) {
         <div>
           <div className="flex flex-col gap-3">
             <div className="text-2xl font-semibold">Welcome back, {user.username}!</div>
-            <div className="text-lg">You were gone for{" "}
+            {/* <div className="text-lg">You were gone for{" "}
               <span className="text-red-300">{timeData.days}</span>
               {" "}days,{" "}
               <span className="text-orange-300">{timeData.hours}</span>
               {" "}hours,{" "}
               <span className="text-yellow-300">{timeData.minutes}</span>
               {" "}minutes.
-            </div>
+            </div> */}
             <div className="flex flex-row items-center">
               <p className="text-lg font-semibold">
                 While you were gone, you gained {details.newSlime-details.previousSlime}
