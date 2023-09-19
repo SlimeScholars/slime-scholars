@@ -13,6 +13,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
   const [userRank, setUserRank] = useState(0);
   const [allPlayers, setAllPlayers] = useState("empty for now");
   const [toDo, setToDo] = useState("manage");
+  const [toDoChanged, setToDoChanged] = useState(false);
   const [userId, setUserId] = useState("empty for now");
   const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
   const [receivedFriendRequests, setReceivedFriendRequests] =
@@ -97,6 +98,11 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
             <div className="flex flex-row cursor-pointer">
               <div
                 onClick={() => {
+                    if(toDo === 'add'){
+                        setToDoChanged(true)
+                    }else{
+                        setToDoChanged(false)
+                    }
                   setToDo('manage')
                 }}
                 style={{
@@ -108,6 +114,11 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               </div>
               <div
                 onClick={() => {
+                    if(toDo === 'manage'){
+                        setToDoChanged(true)
+                    }else{
+                        setToDoChanged(false)
+                    }
                   setToDo('add')
                 }}
                 style={{
@@ -176,6 +187,8 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
               refetchUser={refetchUser}
+              toDoChanged={toDoChanged}
+              setToDoChanged={setToDoChanged}
             />
           </div>
         </div>

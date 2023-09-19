@@ -20,6 +20,8 @@ export default function ManageFriends({
   setSentFriendRequests,
   colorPalette,
   refetchUser,
+  toDoChanged,
+  setToDoChanged,
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
@@ -37,6 +39,10 @@ export default function ManageFriends({
 //   }, [toDo])
 
   useEffect(() => {
+    if(toDoChanged){
+        setSearchContent("")
+        setToDoChanged(false)
+    }
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
         const usernameMatches = friend.username.toLowerCase().includes(searchContent.toLowerCase());
