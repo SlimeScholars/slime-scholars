@@ -171,22 +171,10 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    setInterval(() => { refetchUserNonLoad() }, 15000)
-  }, [firstmount])
-
-  useEffect(() => {
-    if (user) {
-      if (firstmount) {
-        return
-      }
-      else {
-        if (user.screen_display_notif) {
-          setInitUser({ ...user })
-          setRewardsModalOpen(true)
-          setRewardsData(user.screen_display_notif)
-          setFirstmount(true)
-        }
-      }
+    if (user && user.screen_display_notif && user.screen_display_notif.intervals > 0) {
+      setInitUser({ ...user })
+      setRewardsModalOpen(true)
+      setRewardsData(user.screen_display_notif)
     }
   }, [user])
 
