@@ -26,8 +26,54 @@ function MyApp({ Component, pageProps }) {
   const [rewardsData, setRewardsData] = useState(null)
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false)
 
-  const refetchUserNonLoad = async () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const isClient = typeof window === 'object';
+  const mobileSize = { width: 900 }
 
+  const router = useRouter();
+  const [onPlay, setOnPlay] = useState(false);
+  const [current, setCurrent] = useState(0);
+
+  const [windowSize, setWindowSize] = useState(
+    isClient
+      ? {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
+      : { width: 10000, height: 10000 } // Provide default values for server-side rendering
+  );
+
+  // Step 4: Create a function to update the state variable with window size
+  const updateWindowSize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
+
+  // Step 5: Use the useEffect hook to add a resize event listener
+  useEffect(() => {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      setIsMobile(true)
+    }
+    if (isClient) {
+      // Add event listener on component mount
+      window.addEventListener('resize', updateWindowSize);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener('resize', updateWindowSize);
+      };
+    }
+  }, [isClient]); // Re-run the effect if isClient changes
+
+  useEffect(() => {
+    if (windowSize.width < mobileSize.width || isMobile) {
+      router.push("/mobile");
+    }
+  }, [windowSize, isMobile])
+
+  const refetchUserNonLoad = async () => {
     try {
       const token = localStorage.getItem('jwt')
       if (!token) {
@@ -62,7 +108,6 @@ function MyApp({ Component, pageProps }) {
   }
 
   const refetchUser = async () => {
-
     setLoading(true)
     try {
       const token = localStorage.getItem('jwt')
@@ -116,7 +161,8 @@ function MyApp({ Component, pageProps }) {
     setColorPalette,
     pfpBg,
     setPfpBg,
-    refetchUser
+    refetchUser,
+    isMobile: isMobile || windowSize.width < mobileSize.width,
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
@@ -126,17 +172,17 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   useEffect(() => {
-    setInterval(() => {refetchUserNonLoad()}, 15000)
+    setInterval(() => { refetchUserNonLoad() }, 15000)
   }, [firstmount])
 
   useEffect(() => {
-    if(user){
-      if(firstmount){
+    if (user) {
+      if (firstmount) {
         return
       }
-      else{
-        if(user.screen_display_notif){
-          setInitUser({...user})
+      else {
+        if (user.screen_display_notif) {
+          setInitUser({ ...user })
           setRewardsModalOpen(true)
           setRewardsData(user.screen_display_notif)
           setFirstmount(true)
@@ -145,11 +191,11 @@ function MyApp({ Component, pageProps }) {
     }
   }, [user])
 
-  const router = useRouter();
-  const [onPlay, setOnPlay] = useState(false);
-  const [current, setCurrent] = useState(0);
-
   useEffect(() => {
+    if (isMobile || windowSize.width < mobileSize.width) {
+      return
+    }
+
     const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
     if (router.pathname.startsWith("/play") && (router.pathname.split('/').length < 3 || paths.includes(router.pathname.split("/")[2]))) {
       setOnPlay(router.pathname.startsWith("/play"));
@@ -178,9 +224,8 @@ function MyApp({ Component, pageProps }) {
     if (user && user.bg && gameData.items[user.bg].bg) {
       setColorPalette(gameData.items[user.bg]);
     }
-  }, [user]);
+  }, [user])
 
-  // Return loading on the component instead of home. This way, state variables don't get reset
   return (
     <>
       {loading ? <MainSpinner /> : <></>}
@@ -225,9 +270,9 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
-        {rewardsModalOpen && <SlimeGelPopup user={initUser} details={rewardsData} close={() => 
-        setRewardsModalOpen(false)
-      }/>}
+        {rewardsModalOpen && <SlimeGelPopup user={initUser} details={rewardsData} close={() =>
+          setRewardsModalOpen(false)
+        } />}
       </div>
     </>
   );
