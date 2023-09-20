@@ -41,6 +41,9 @@ export default function ManageFriends({
   useEffect(() => {
     if(toDoChanged){
         setSearchContent("")
+        if(toDo == "add"){
+            setFoundUsers([])
+        }
         setToDoChanged(false)
     }
     if (user && toDo == "manage") {
