@@ -22,7 +22,6 @@ function MyApp({ Component, pageProps }) {
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
 
-  const [firstmount, setFirstmount] = useState(false)
   const [rewardsData, setRewardsData] = useState(null)
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false)
 
