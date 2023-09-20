@@ -29,13 +29,15 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
 
     // Get userfriends for userfriendListings in leaderboard
     const friends = [...user.friends];
+    let userInFriends = false;
     for (let i = 0; i < friends.length; i++) {
       if (friends[i].exp < user.exp) {
         friends.splice(i, 0, user);
+        userInFriends = true;
         break;
       }
     }
-    if(friends.length==0){
+    if(!userInFriends){
         friends.push(user);
     }
     setUserFriends(friends);
