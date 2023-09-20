@@ -27,6 +27,7 @@ export default async function (req, res) {
       update.slimeGel += data.rewards
       await update.save()
       user.screen_display_notif = {
+        intervals: data.intervals,
         currentDate: (new Date()).toISOString(),
         oldDate: data.oldDate,
         previousSlime: user.slimeGel,
