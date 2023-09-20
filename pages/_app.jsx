@@ -218,7 +218,7 @@ function MyApp({ Component, pageProps }) {
       {loading ? <MainSpinner /> : <></>}
       <div className={`relative ${loading ? "hidden" : ""}`}>
         <ToastContainer />
-        {onPlay ? (
+        {onPlay && !isMobile ? (
           <>
             {/* Each component is wrapped in a relative div to allow use to z-index*/}
             {/* Home page */}
@@ -257,7 +257,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
-        {rewardsModalOpen && <SlimeGelPopup user={initUser} details={rewardsData} close={() =>
+        {!isMobile && rewardsModalOpen && <SlimeGelPopup user={initUser} details={rewardsData} close={() =>
           setRewardsModalOpen(false)
         } />}
       </div>
