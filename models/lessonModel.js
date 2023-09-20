@@ -55,7 +55,7 @@ const sectionSchema = new Schema(
       required: false,
     },
     explanation: {
-      type: String,
+      type: String, 
       required: false,
     },
     _id: false,
