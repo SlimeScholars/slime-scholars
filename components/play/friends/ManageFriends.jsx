@@ -29,22 +29,24 @@ export default function ManageFriends({
   const [lastSearch, setLastSearch] = useState("")
   const [timer, setTimer] = useState(0)
 
-//   TODO:
-//   useEffect(() => {
-//     console.log(foundUsers)
-//     console.log(searchContent)
-//     // Why is this not setting search content
-//     // setSearchContent('')
-//     setFoundUsers([])
-//   }, [toDo])
+  const timeDelay = 1200
+
+  //   TODO:
+  //   useEffect(() => {
+  //     console.log(foundUsers)
+  //     console.log(searchContent)
+  //     // Why is this not setting search content
+  //     // setSearchContent('')
+  //     setFoundUsers([])
+  //   }, [toDo])
 
   useEffect(() => {
-    if(toDoChanged){
-        setSearchContent("")
-        if(toDo == "add"){
-            setFoundUsers([])
-        }
-        setToDoChanged(false)
+    if (toDoChanged) {
+      setSearchContent("")
+      if (toDo == "add") {
+        setFoundUsers([])
+      }
+      setToDoChanged(false)
     }
     if (user && toDo == "manage") {
       const searchUsers = user.friends.filter((friend) => {
@@ -55,10 +57,20 @@ export default function ManageFriends({
     }
 
     else if (user && toDo == "add") {
+      console.log(timer)
       if (timer > 0) {
         return
       }
       if (!findingLoading) {
+        return
+      }
+      else {
+        setFindingLoading(false)
+      }
+
+      if (searchContent.trim().length === 0) {
+        setLastSearch("")
+        setFoundUsers([])
         return
       }
 
@@ -79,7 +91,6 @@ export default function ManageFriends({
         .get("/api/user/search", config)
         .then((response) => {
           setFoundUsers(response.data.users);
-          setFindingLoading(false)
         })
         .catch((error) => {
           console.log(error.message);
@@ -89,9 +100,9 @@ export default function ManageFriends({
 
   useEffect(() => {
     if (toDo !== 'add') {
-    //   this seems wrong??
-    //   setTimer(0)
-    //   setSearchContent('')
+      //   this seems wrong??
+      //   setTimer(0)
+      //   setSearchContent('')
       setFindingLoading(false)
       return
     }
@@ -104,24 +115,12 @@ export default function ManageFriends({
     if (searchContent !== lastSearch) {
       setLastSearch(searchContent)
       setFindingLoading(true)
-      setTimer(800)
+      setTimer(timeDelay)
     }
 
     if (timer > 0) {
       setFindingLoading(true)
       decreaseTimer()
-    }
-
-    else {
-      if (searchContent.trim().length === 0) {
-        setLastSearch("")
-        setFoundUsers([])
-        setFindingLoading(false)
-        return
-      }
-      if (searchContent === lastSearch) {
-        return
-      }
     }
   }, [timer, searchContent])
 
@@ -171,7 +170,7 @@ export default function ManageFriends({
                   value={searchContent}
                   onChange={(e) => {
                     if (toDo === 'add') {
-                      setTimer(800)
+                      setTimer(timeDelay)
                       setFindingLoading(true)
                     }
                     setSearchContent(e.target.value)
