@@ -57,7 +57,7 @@ export default function ManageFriends({
     }
 
     else if (user && toDo == "add") {
-      console.log(timer)
+    //   console.log(timer)
       if (timer > 0) {
         return
       }
