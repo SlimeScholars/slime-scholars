@@ -94,3 +94,32 @@ export const getPopulatedPlayer = async (userId) => {
 
   return user
 }
+
+export const batchGetPopulatedPlayer = async (userIds) => {
+    try {
+      const users = await User.find({ _id: { $in: userIds } })
+        .select('_id username slimes roster exp pfpBg pfpSlime')
+        .populate({
+          path: 'slimes',
+          select: '-user -createdAt -updatedAt -__v',
+        })
+        .populate({
+          path: 'roster',
+          select: '-user -createdAt -updatedAt -__v',
+          options: { retainNullValues: true },
+        })
+        .lean()
+        .exec();
+  
+      const populatedUsers = users.map((user) => {
+        if (user.slimes) {
+          user.slimes = getSortedSlimes(user.slimes);
+        }
+        return user;
+      });
+  
+      return populatedUsers;
+    } catch (error) {
+      throw error;
+    }
+  };
