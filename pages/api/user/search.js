@@ -1,6 +1,7 @@
 import connectDB from "../../../utils/connectDB";
 import User from "../../../models/userModel";
 import { getPopulatedPlayer } from "../../../utils/getPopulatedUser";
+import { batchGetPopulatedPlayer } from "../../../utils/getPopulatedUser";
 
 /**
  * @desc    Search for a player based on keywords in their username
@@ -49,12 +50,17 @@ export default async function (req, res) {
       .exec();
 
     // Populate the users
-    const populatedPlayers = [];
-    for (let i in users) {
-      const populatedPlayer = await getPopulatedPlayer(users[i]._id);
-      populatedPlayers.push(populatedPlayer);
-    }
+    // const populatedPlayers = [];
+    // for (let i in users) {
+    //   const populatedPlayer = await getPopulatedPlayer(users[i]._id);
+    //   populatedPlayers.push(populatedPlayer);
+    // }
 
+    const userIds = [];
+    for (let i in users) {
+        userIds.push(users[i]._id);
+    }
+    const populatedPlayers = await batchGetPopulatedPlayer(userIds);
     /*
     const usernameRegex = new RegExp(`^${username}$`, 'i')
     const userId = (await User.findOne({ username: { $regex: usernameRegex } })
@@ -68,3 +74,4 @@ export default async function (req, res) {
     res.status(400).json({ message: error.message });
   }
 }
+
