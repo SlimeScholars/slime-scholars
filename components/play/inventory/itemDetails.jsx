@@ -26,9 +26,7 @@ export default function ItemDetails({
   const [sellItemsNum, setSellItemsNum] = useState(
     item && item.quantity !== undefined ? item.quantity : 0
   );
-  const [buyItemsNum, setBuyItemsNum] = useState(
-    user ? user.flowers : 0
-  )
+  const [buyItemsNum, setBuyItemsNum] = useState(1)
 
   // Check if item is purchase everytime itemOnClick changes
   useEffect(() => {
@@ -270,11 +268,11 @@ export default function ItemDetails({
               <div className="shrink px-1">Buy for:</div>
               {item.buyCurrency == 1 ? (
                 <div className="text-orange-300 px-1">
-                  {item.buyPrice + " FL each"}
+                  {gameData.items[item.itemName].buyPrice + " FL each"}
                 </div>
               ) : (
                 <div className="text-orange-300 px-1">
-                  {item.buyPrice + " SG each"}
+                  {gameData.items[item.itemName].buyPrice + " SG each"}
                 </div>
               )}
             </div>
@@ -284,7 +282,12 @@ export default function ItemDetails({
                 <input
                   type="range"
                   min="0"
-                  max={user ? user.flowers : 0}
+                  max={
+                    user ? Math.max((gameData.items[item.itemName].sellCurrency === 0 ?
+                      Math.floor(user.slimeGel / gameData.items[item.itemName].buyPrice) :
+                      Math.floor(user.flowers / gameData.items[item.itemName].buyPrice)), 1)
+                      : 1
+                  }
                   step="1"
                   className="w-full"
                   value={buyItemsNum}
@@ -310,8 +313,31 @@ export default function ItemDetails({
                     color: colorPalette ? colorPalette.primary1 : "",
                   }}
                   value={buyItemsNum}
+                  max={
+                    user ? Math.max((gameData.items[item.itemName].sellCurrency === 0 ?
+                      Math.floor(user.slimeGel / gameData.items[item.itemName].buyPrice) :
+                      Math.floor(user.flowers / gameData.items[item.itemName].buyPrice)), 1)
+                      : 1
+                  }
                   onChange={(e) => {
-                    setBuyItemsNum(e.target.value);
+                    const newItemsNum = parseInt(e.target.value)
+                    if (!isNaN(newItemsNum)) {
+                      // Enforce the max
+                      if (newItemsNum >
+                        (user ? Math.max((gameData.items[item.itemName].sellCurrency === 0 ?
+                          Math.floor(user.slimeGel / gameData.items[item.itemName].buyPrice) :
+                          Math.floor(user.flowers / gameData.items[item.itemName].buyPrice)), 1)
+                          : 1)
+                      ) {
+                        return
+                      }
+                    }
+                    setBuyItemsNum(isNaN(newItemsNum) ? '' : newItemsNum.toString());
+                  }}
+                  onBlur={() => {
+                    if (buyItemsNum === '') {
+                      setBuyItemsNum('1')
+                    }
                   }}
                 ></input>
               </div>
