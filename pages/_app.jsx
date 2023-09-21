@@ -26,6 +26,7 @@ function MyApp({ Component, pageProps }) {
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false)
 
   const [isMobile, setIsMobile] = useState(false);
+  const [mobileDevice, setMobileDevice] = useState(false)
   const isClient = typeof window === 'object';
   const mobileSize = { width: 900 }
 
@@ -53,7 +54,7 @@ function MyApp({ Component, pageProps }) {
   // Step 5: Use the useEffect hook to add a resize event listener
   useEffect(() => {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-      setIsMobile(true)
+      setMobileDevice(true)
     }
     if (isClient) {
       // Add event listener on component mount
@@ -67,10 +68,14 @@ function MyApp({ Component, pageProps }) {
   }, [isClient]); // Re-run the effect if isClient changes
 
   useEffect(() => {
-    if (windowSize.width < mobileSize.width || isMobile) {
+    if (windowSize.width < mobileSize.width || mobileDevice) {
+      setIsMobile(true)
       router.push("/mobile");
     }
-  }, [windowSize, isMobile])
+    else {
+      setIsMobile(false)
+    }
+  }, [windowSize, mobileDevice])
 
   const refetchUserNonLoad = async () => {
     try {
@@ -161,7 +166,7 @@ function MyApp({ Component, pageProps }) {
     pfpBg,
     setPfpBg,
     refetchUser,
-    isMobile: isMobile || windowSize.width < mobileSize.width,
+    isMobile,
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
@@ -179,7 +184,7 @@ function MyApp({ Component, pageProps }) {
   }, [user])
 
   useEffect(() => {
-    if (isMobile || windowSize.width < mobileSize.width) {
+    if (isMobile) {
       return
     }
 
