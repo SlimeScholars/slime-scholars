@@ -84,11 +84,14 @@ export default function ItemDetails({
         .then((response) => {
         })
         .catch((error) => {
-          showToastError(error.message)
+          if (error?.response?.data?.message) showToastError(error.response.data.message)
+          else if (error?.message) showToastError(error.message);
+          else showToastError(error)
+          refetchUser()
+          return;
         });
 
     } catch (error) {
-      console.log(error)
       if (error?.response?.data?.message) showToastError(error.response.data.message)
       else if (error?.message) showToastError(error.message);
       else showToastError(error)
@@ -377,7 +380,13 @@ export default function ItemDetails({
                             true
                           );
                         })
-                        .catch((error) => showToastError(error.message));
+                        .catch((error) => {
+                          if (error?.response?.data?.message) showToastError(error.response.data.message)
+                          else if (error?.message) showToastError(error.message);
+                          else showToastError(error)
+                          refetchUser()
+                          return;
+                        });
                     }}
                   >
                     Buy
@@ -598,7 +607,11 @@ export default function ItemDetails({
                       showToastError("Profile background was changed.", true);
                     })
                     .catch((error) => {
-                      showToastError(error.message);
+                      if (error?.response?.data?.message) showToastError(error.response.data.message)
+                      else if (error?.message) showToastError(error.message);
+                      else showToastError(error)
+                      refetchUser()
+                      return;
                     });
                 }}
               >
@@ -646,8 +659,11 @@ export default function ItemDetails({
                       setColorPalette(gameData.items[item.itemName]);
                     })
                     .catch((error) => {
-                      console.log(error)
-                      showToastError(error.message);
+                      if (error?.response?.data?.message) showToastError(error.response.data.message)
+                      else if (error?.message) showToastError(error.message);
+                      else showToastError(error)
+                      refetchUser()
+                      return;
                     });
                 }}
               >
@@ -835,6 +851,12 @@ export default function ItemDetails({
                         });
 
                         // Sync # flowers and eggs data with navbar
+                        const newUser = {
+                          ...user,
+                          flowers: response.data.flowers,
+                        }
+                        setUser(newUser)
+                        // WHY DO WE HAVE A SEPARATE FLOWERS FROM USER.FLOWERS?
                         setFlowers(response.data.flowers);
                         if (item.itemName === "Slime Egg") {
                           setNumEggs(numItemsLeft);
@@ -852,7 +874,13 @@ export default function ItemDetails({
                           true
                         );
                       })
-                      .catch((error) => showToastError(error.message));
+                      .catch((error) => {
+                        if (error?.response?.data?.message) showToastError(error.response.data.message)
+                        else if (error?.message) showToastError(error.message);
+                        else showToastError(error)
+                        refetchUser()
+                        return;
+                      });
                   }}
                 >
                   Sell
