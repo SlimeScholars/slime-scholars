@@ -99,7 +99,7 @@ export function Navbar({
         </button>
       </div>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md relative">
-        <div className="flex flex-col items-end mr-5 max-xl:absolute top-2 right-[13rem]">
+        <div className="flex flex-col items-end mr-5 max-xl:absolute top-2 right-[12rem]">
           {/* slime gel */}
           <div
             className="flex rounded-full py-1 px-6 w-fit"
