@@ -255,8 +255,12 @@ export function Navbar({
                   sizes="100vw"
                   className="h-[4rem] w-[4rem] max-xl:w-[2rem] max-xl:h-[2rem]"
                 />
-              )}
-              <Tooltip
+              )}              
+            </button>
+          );
+        })}
+        </div>
+        <Tooltip
                 id="my-tooltip"
                 delayShow={200}
                 place="bottom"
@@ -266,10 +270,6 @@ export function Navbar({
                   fontSize: "14px",
                 }}
               />
-            </button>
-          );
-        })}
-        </div>
         {router.asPath === "/play" && <NextRewardTimer/>}
       </div>
     </div>
