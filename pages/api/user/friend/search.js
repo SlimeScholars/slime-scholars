@@ -1,9 +1,7 @@
-import { mongoose } from "mongoose";
+
 import { authenticate } from "../../../../utils/authenticate";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
-import User from "../../../../models/userModel";
-import { getPopulatedPlayer } from "../../../../utils/getPopulatedUser";
 
 /**
  * @desc    Look for a friend (based on their username)
