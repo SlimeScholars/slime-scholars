@@ -49,7 +49,9 @@ export default function Nav({ user, setUser }) {
           className="mb-2 w-[270px] h-auto"
         />
       </a>
-
+      {/*FIXME
+        disabling menu button since we have not made the pages for them yet
+      
       <div className="lg:hidden relative flex items-center justify-center">
         <button onClick={toggleDropdown} className="py-2 px-3 mx-2 font-light focus:outline-none font-bold rounded-lg duration-300 hover:scale-105 ease-in-out bg-bg-light ring-primary ring-1 text-primary hover:bg-[#E44DCC] hover:text-bg-light mb-1 text-center"
         >
@@ -87,7 +89,7 @@ export default function Nav({ user, setUser }) {
           <a href="/#contact">Contact</a>
         </li>
       </ul>
-
+      */}
       <div className="hidden lg:flex">
         <Button text="Login" onClick="/login" style="Secondary" />
         <Button text="Sign Up" onClick="/signup" style="Primary" />
