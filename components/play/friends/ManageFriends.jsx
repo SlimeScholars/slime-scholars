@@ -26,6 +26,7 @@ export default function ManageFriends({
   const [searchContent, setSearchContent] = useState("");
   const [foundUsers, setFoundUsers] = useState([]);
   const [findingLoading, setFindingLoading] = useState(false)
+  const [findingLoading2, setFindingLoading2] = useState(false)
   const [lastSearch, setLastSearch] = useState("")
   const [timer, setTimer] = useState(0)
 
@@ -57,7 +58,7 @@ export default function ManageFriends({
     }
 
     else if (user && toDo == "add") {
-    //   console.log(timer)
+      //   console.log(timer)
       if (timer > 0) {
         return
       }
@@ -65,6 +66,7 @@ export default function ManageFriends({
         return
       }
       else {
+        setFindingLoading2(true)
         setFindingLoading(false)
       }
 
@@ -91,6 +93,7 @@ export default function ManageFriends({
         .get("/api/user/search", config)
         .then((response) => {
           setFoundUsers(response.data.users);
+          setFindingLoading2(false)
         })
         .catch((error) => {
           console.log(error.message);
@@ -104,6 +107,7 @@ export default function ManageFriends({
       //   setTimer(0)
       //   setSearchContent('')
       setFindingLoading(false)
+      setFindingLoading2(false)
       return
     }
 
@@ -114,11 +118,13 @@ export default function ManageFriends({
 
     if (searchContent !== lastSearch) {
       setLastSearch(searchContent)
+      setFindingLoading2(true)
       setFindingLoading(true)
       setTimer(timeDelay)
     }
 
     if (timer > 0) {
+      setFindingLoading2(true)
       setFindingLoading(true)
       decreaseTimer()
     }
@@ -171,6 +177,7 @@ export default function ManageFriends({
                   onChange={(e) => {
                     if (toDo === 'add') {
                       setTimer(timeDelay)
+                      setFindingLoading2(true)
                       setFindingLoading(true)
                     }
                     setSearchContent(e.target.value)
@@ -210,7 +217,7 @@ export default function ManageFriends({
           colorPalette={colorPalette}
           refetchUser={refetchUser}
           searchContent={searchContent}
-          findingLoading={findingLoading}
+          findingLoading={findingLoading || findingLoading2}
         />
       </div>
     </div>
