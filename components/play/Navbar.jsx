@@ -76,7 +76,7 @@ export function Navbar({
             router.push("/play");
           }}
         >
-          <FaChevronLeft className="inline text-lg max-xl:h-3 max-xl:w-3" />
+          <FaChevronLeft className="inline text-lg max-xl:h-3 max-xl:w-3 ml-2" />
           <HiHome className="inline text-3xl ml-1 -mt-0.5 mr-3 max-xl:h-6 max-xl:w-6" />
         </button>
       )}
