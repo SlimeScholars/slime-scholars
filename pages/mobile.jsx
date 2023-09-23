@@ -22,7 +22,7 @@ export default function Mobile({ isMobile, user, setUser}) {
   }, [isMobile])
   return (
     <>
-      <div className="w-screen flex flex-col mt-5">
+      <div className="min-w-screen flex flex-col mt-5 overflow-hidden">
       <Head>
         <title>Slime Scholars</title>
         <meta name="description" content="Make Learning Exiting with Slime Scholars" />

@@ -10,6 +10,7 @@ export default function ItemInventory({
     shopping,
     colorPalette,
     scrollToTop,
+    
 }) {
 
 
