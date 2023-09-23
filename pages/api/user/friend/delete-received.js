@@ -3,7 +3,7 @@ import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import User from '../../../../models/userModel'
-import { getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
+import { batchGetPopulatedPlayer, getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
 
 /**
  * @desc    Delete received friend request
@@ -62,11 +62,12 @@ export default async function (req, res) {
       .exec()
     ).receivedFriendRequests
 
-    const populatedReceivedFriendRequests = []
+    
+    const userIds = [];
     for (let i in receivedFriendRequests) {
-      const populatedRequest = await getPopulatedPlayer(receivedFriendRequests[i])
-      populatedReceivedFriendRequests.push(populatedRequest)
+        userIds.push(receivedFriendRequests[i]);
     }
+    const populatedReceivedFriendRequests = await batchGetPopulatedPlayer(userIds)
 
     res.status(200).json({
       receivedFriendRequests: populatedReceivedFriendRequests,

@@ -3,6 +3,7 @@ import { authenticate } from "../../../utils/authenticate";
 import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import { getPopulatedPlayer } from "../../../utils/getPopulatedUser";
+import { batchGetPopulatedPlayer } from "../../../utils/getPopulatedUser";
 
 /**
  * @desc    Get user data of the person who is signed in
@@ -37,13 +38,14 @@ export default async function (req, res) {
       .sort({ exp: -1 })
       .limit(20)
       .select("_id");
-    const populatedLeaderboard = [];
+    
+    
+
+    const userIds = [];
     for (let i = 0; i < sortedLeaderboard.length; i++) {
-      const populatedPlayer = await getPopulatedPlayer(
-        sortedLeaderboard[i]._id
-      );
-      populatedLeaderboard.push(populatedPlayer);
+      userIds.push(sortedLeaderboard[i]._id);
     }
+    const populatedLeaderboard = await batchGetPopulatedPlayer(userIds);
     if (actualUserRank >= 20) {
       const populatedPlayer = await getPopulatedPlayer(user._id);
       populatedLeaderboard.push(populatedPlayer);
