@@ -98,6 +98,12 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
       >
         Add Unit
       </button>
+      <button
+        className="w-full h-12 bg-pink-300 hover:bg-pink-200"
+        onClick={onAddUnit}
+      >
+        Add Course Quiz
+      </button>
     </div>
   );
 }
