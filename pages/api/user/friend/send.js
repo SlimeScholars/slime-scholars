@@ -91,17 +91,17 @@ export default async function (req, res) {
         })
         .exec()
 
-      const populatedSentFriendRequests = []
+      const sentUserIds = []
       for (let i in newUser.sentFriendRequests) {
-        const populatedRequest = await getPopulatedPlayer(newUser.sentFriendRequests[i])
-        populatedSentFriendRequests.push(populatedRequest)
+        sentUserIds.push(newUser.sentFriendRequests[i])
       }
+      const populatedSentFriendRequests = batchGetPopulatedPlayer(sentUserIds);
 
-      const populatedFriends = []
-      for (let i in newUser.friends) {
-        const populatedFriend = await getPopulatedPlayer(newUser.friends[i]._id)
-        populatedFriends.push(populatedFriend)
+      const friendsUserIds = []
+      for (let i in newUser.sentFriendRequests) {
+        friendsUserIds.push(newUser.friends[i]._id)
       }
+      const populatedFriends = batchGetPopulatedPlayer(friendsUserIds);
 
       res.status(200).json({
         receivedFriendRequests: populatedSentFriendRequests,

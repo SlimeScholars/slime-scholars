@@ -58,9 +58,9 @@ export default async function (req, res) {
 
     const userIds = [];
     for (let i in users) {
-        userIds.push(users[i]._id);
+      userIds.push(users[i]._id);
     }
-    const populatedPlayers = await batchGetPopulatedPlayer(userIds);
+    const populatedPlayers = await batchGetPopulatedPlayer(userIds)
     /*
     const usernameRegex = new RegExp(`^${username}$`, 'i')
     const userId = (await User.findOne({ username: { $regex: usernameRegex } })
