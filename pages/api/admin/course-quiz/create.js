@@ -54,8 +54,8 @@ export default async function (req, res) {
     const newCourse = await Course.findById(courseId).populate({
       path: "quizzes",
       populate: {
-        path: "lessons",
-        model: "Lesson",
+        path: "pages",
+        model: "Page",
       },
     });
 

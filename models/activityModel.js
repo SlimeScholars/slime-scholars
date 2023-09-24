@@ -4,7 +4,7 @@ const activitySchema = new Schema(
   {
     activityNumber: {
       type: Number,
-      required: [true, "Missing unitNumber"],
+      required: [true, "Missing activityNumber"],
     },
     activityName: {
       type: String,
@@ -15,7 +15,6 @@ const activitySchema = new Schema(
       type: String,
       required: [true, "Missing latestAuthor"],
     },
-
     pages: {
       type: [
         {
@@ -26,7 +25,6 @@ const activitySchema = new Schema(
       ],
       required: [true, "Missing pages"],
       default: [],
-      _id: false,
     },
   },
   {

@@ -4,6 +4,7 @@ import LessonEditor from "./lessonEditor";
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import Activity from "./activity"; 
 
 export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -53,6 +54,24 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
           }
         </button>
       </div>
+      {isOpen && (
+          <div className="w-full flex flex-col pl-10 items-start justify-start">
+            {lesson.activities.map((activity, index) => (
+              <Activity
+                key={index}
+                activity={activity}
+                setActivity={(newActivity) => {
+                  let newActivities = [...lesson.activities];
+                  newActivities[index] = newActivity;
+                  lesson.activities = newActivities;
+                  setLesson(lesson);
+                }}
+                deleteActivity={() => deleteActivity(index)}
+                setLoading={setLoading}
+              />
+            ))}
+          </div>
+        )}
       {selected && <LessonEditor
         lesson={lesson}
         setLesson={setLesson}
