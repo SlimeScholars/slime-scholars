@@ -6,10 +6,6 @@ import { Schema, model, models, mongoose } from "mongoose";
 
 const quizSchema = new Schema(
   {
-    quizNumber: {
-      type: Number,
-      required: [true, "Missing unitNumber"],
-    },
     quizName: {
       type: String,
       default: "",
@@ -19,7 +15,6 @@ const quizSchema = new Schema(
       type: String,
       required: [true, "Missing latestAuthor"],
     },
-
     pages: {
       type: [
         {
@@ -28,9 +23,13 @@ const quizSchema = new Schema(
           required: [true, "Missing pageId"],
         },
       ],
-      required: [true, "Missing pages"],
+      required: [true, "Missing sections"],
       default: [],
       _id: false,
+    },
+    passingScore: {
+      type: Number,
+      required: [true, "Missing passingScore"],
     },
   },
   {

@@ -1,35 +1,48 @@
-import { Schema, model, models, mongoose } from 'mongoose'
+import { Schema, model, models, mongoose } from "mongoose";
 
 const unitSchema = new Schema(
   {
     unitNumber: {
       type: Number,
-      required: [true, 'Missing unitNumber'],
+      required: [true, "Missing unitNumber"],
     },
     unitName: {
       type: String,
-      default: '',
+      default: "",
       required: false,
     },
     latestAuthor: {
       type: String,
-      required: [true, 'Missing latestAuthor'],
+      required: [true, "Missing latestAuthor"],
     },
     lessons: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lesson',
-        required: [true, 'Missing lessonId'],
-      }],
-      required: [true, 'Missing lessons'],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+          required: [true, "Missing lessonId"],
+        },
+      ],
+      required: [true, "Missing lessons"],
       default: [],
-    }
+    },
+    quizzes: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+          required: [true, "Missing quizId"],
+        },
+      ],
+      required: [true, "Missing quizzes"],
+      default: [],
+    },
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
-const Unit = models.Unit || model('Unit', unitSchema)
+const Unit = models.Unit || model("Unit", unitSchema);
 
-export default Unit
+export default Unit;
