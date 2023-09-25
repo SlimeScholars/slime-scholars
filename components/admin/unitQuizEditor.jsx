@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
-export default function ActivityEditor({ activity, setActivity, setLoading, deleteActivity }) {
-  const [activityName, setActivityName] = useState(activity.activityName);
+export default function UnitQuizEditor({ unitQuiz, setUnitQuiz, setLoading, deleteUnitQuiz }) {
+  const [unitQuizName, setUnitQuizName] = useState(unitQuiz.quizName);
 
   const onSave = () => {
     try {
@@ -18,13 +18,11 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
         },
       };
       setLoading(true);
-      console.log(activity)
 
-      // TODO: Update the activity name, create api
       axios
         .put(
-          "/api/admin/activity/update-name",
-          { activityId: activity._id, activityName },
+          "/api/admin/unit-quiz/update-name",
+          { unitQuizId: unitQuiz._id, unitQuizName },
           config
         )
         .then((response) => {
@@ -56,18 +54,17 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
       };
       setLoading(true)
 
-    //   const activityNumber = lesson.activities.length + 1
+      const activityNumber = lesson.activities.length + 1
 
       axios
-        .post("/api/admin/activity/create", { activityId: activity._id }, config)
+        .post("/api/admin/activity/create", { lessonId: lesson._id, activityNumber }, config)
         .then((response) => {
-        //   if (response.data && response.data.lesson) {
-        //     console.log(response.data)
-        //     const newLesson = response.data.lesson
-        //     setLesson(newLesson);
-        //     setLoading(false);
-        //   }
+          if (response.data && response.data.lesson) {
             console.log(response.data)
+            const newLesson = response.data.lesson
+            setLesson(newLesson);
+            setLoading(false);
+          }
         })
         .catch((error) => {
           showToastError(error.message)
@@ -83,14 +80,14 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
       <ToastContainer />
-      <label className="text-2xl font-black">Activity Details</label>
-      <label className="text-xl font-bold">Activity Name</label>
+      <label className="text-2xl font-black">Unit Quiz Details</label>
+      <label className="text-xl font-bold">Unit Quiz Name</label>
       <input
         className="w-full h-12 p-2 ring-1 ring-black"
-        placeholder={activity.activityName}
-        value={activityName}
+        placeholder={unitQuiz.quizName}
+        value={unitQuizName}
         onChange={(e) => {
-          setActivityName(e.target.value);
+          setUnitQuizName(e.target.value);
         }}
       />
       <button
@@ -99,22 +96,17 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
       >
         Save
       </button>
-      <button
-        className="w-full h-12 bg-pink-300 hover:bg-pink-200"
-        onClick={onAddActivity}
-      >
-        Add Activity
-      </button>
+      {/* TODO: change api link to edit-unit-quiz */}
       <Link
-        href={"/admin/edit-activity/" + activity._id}
+        href={"/admin/edit-lesson/" + unitQuiz._id}
         className="w-full h-12 bg-yellow-300 hover:bg-yellow-200 flex items-center justify-center"
         target="_blank"
       >
-        Edit Lesson
+        Edit Unit Quiz
       </Link>
       <button
         className="w-full h-12 bg-red-300 hover:bg-red-200"
-        onClick={deleteActivity}
+        onClick={deleteUnitQuiz}
       >
         Delete
       </button>

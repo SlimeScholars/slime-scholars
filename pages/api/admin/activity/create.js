@@ -57,7 +57,7 @@ export default async function (req, res) {
     });
 
     const newLesson = await Lesson.findById(lessonId).populate("activities");
-
+    console.log(newLesson);
     res.status(201).json({ lesson: newLesson });
   } catch (error) {
     console.log(error.message);
