@@ -92,8 +92,11 @@ export default function ManageFriends({
       axios
         .get("/api/user/search", config)
         .then((response) => {
-          setFoundUsers(response.data.users);
-          setFindingLoading2(false)
+          const newFoundUsers = response.data.users.filter((foundUser) => {
+            return !user.friends.some((friend) => friend._id === foundUser._id);
+          });
+          setFoundUsers(newFoundUsers);
+          setFindingLoading2(false);
         })
         .catch((error) => {
           console.log(error.message);
