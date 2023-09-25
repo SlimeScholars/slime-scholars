@@ -1,12 +1,11 @@
 import React, { useState, useRef } from "react";
-import LessonEditor from "./lessonEditor";
+import ActivityEditor from "./activityEditor";
 
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
-import Activity from "./activity"; 
 
-export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
+export default function Activity({ activity, setActivity, setLoading, deleteActivity }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
 
@@ -42,42 +41,19 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
           }}
         >
           {
-            lesson.lessonName ? (
+            activity.activityName ? (
               <p className="text-white">
-                {lesson.lessonNumber}. {lesson.lessonName}
+                {activity.activityNumber}. {activity.activityName}
               </p>
             ) : (
               <p className="text-gray">
-                {lesson.lessonNumber}. New Lesson
+                {activity.activityNumber}. New Activity
               </p>
             )
           }
         </button>
       </div>
-      {isOpen && (
-          <div className="w-full flex flex-col pl-10 items-start justify-start">
-            {lesson.activities.map((activity, index) => (
-              <Activity
-                key={index}
-                activity={activity}
-                setActivity={(newActivity) => {
-                  let newActivities = [...lesson.activities];
-                  newActivities[index] = newActivity;
-                  lesson.activities = newActivities;
-                  setLesson(lesson);
-                }}
-                deleteActivity={() => deleteActivity(index)}
-                setLoading={setLoading}
-              />
-            ))}
-          </div>
-        )}
-      {selected && <LessonEditor
-        lesson={lesson}
-        setLesson={setLesson}
-        setLoading={setLoading}
-        deleteLesson={deleteLesson}
-      />}
+      {selected && <ActivityEditor activity={activity} setActivity={setActivity} setLoading={setLoading} deleteActivity={deleteActivity} />}
     </>
   );
 }
