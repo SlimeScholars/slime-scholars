@@ -230,6 +230,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
                   </div>
                   {slime.level < slime.maxLevel && (
                     <button
+                      disabled={slime.levelUpCost > user.slimeGel}
                       className={`px-1.5 py-1.5 rounded-lg transition-all duration-150
                       ${slime.levelUpCost <= user.slimeGel
                           ? "bg-green-600 hover:bg-green-500"
