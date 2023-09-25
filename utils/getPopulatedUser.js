@@ -50,6 +50,7 @@ export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, 
     .exec()
 
   // Populating friends and friend requests
+  
   for (let i in user.friends) {
     const populatedFriend = await getPopulatedPlayer(user.friends[i]._id)
     user.friends[i] = populatedFriend
@@ -60,11 +61,28 @@ export const getPopulatedUser = async (userId, config = { lessons: 0, units: 0, 
     user.receivedFriendRequests[i] = populatedRequest
   }
 
-  for (let i in user.sentFriendRequests) {
+  for (let i in user.sentFriendRequests) {  
     const populatedRequest = await getPopulatedPlayer(user.sentFriendRequests[i])
     user.sentFriendRequests[i] = populatedRequest
   }
+//   debug later
+//   const friendUserIds = []
+//   for (let i in user.friends) {
+//     friendUserIds.push(user.friends[i]._id)
+//   }
+//   user.friends = batchGetPopulatedPlayer(friendUserIds)
 
+//   const receivedUserIds = []
+//   for (let i in user.receivedFriendRequests) {
+//     receivedUserIds.push(user.receivedFriendRequests[i])
+//   }
+//   user.receivedFriendRequests = batchGetPopulatedPlayer(receivedUserIds)
+
+//   const sentUserIds = []
+//   for (let i in user.sentFriendRequests) {
+//     sentUserIds.push(user.sentFriendRequests[i])
+//   }
+//   user.sentFriendRequests = batchGetPopulatedPlayer(sentUserIds)
   if (user.items && user.slimes) {
     user.items = getSortedItems(user.items)
     user.slimes = getSortedSlimes(user.slimes)
