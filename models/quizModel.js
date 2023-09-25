@@ -20,7 +20,7 @@ const quizSchema = new Schema(
       type: String,
       required: [true, "Missing latestAuthor"],
     },
-    pages: {
+    problemSet: {
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
@@ -32,9 +32,13 @@ const quizSchema = new Schema(
       default: [],
       _id: false,
     },
-    passingScore: {
+    problemCount: {
       type: Number,
-      required: [true, "Missing passingScore"],
+      required: [true, "Missing problemCount"],
+    },
+    starThresholds: {
+      type: [Number],
+      required: [true, "Missing starThresholds"],
     },
   },
   {
