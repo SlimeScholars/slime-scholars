@@ -63,7 +63,6 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 
 	return (
 		<div className="">
-
 			{/* Shopping bar */}
 			<div className="items-center justify-between h-full">
 				<div className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
