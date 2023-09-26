@@ -10,6 +10,7 @@ import { useRouter } from "next/router";
 import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
+import CourseLayout from "../components/learn/courseLayout";
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
@@ -217,6 +218,20 @@ function MyApp({ Component, pageProps }) {
       setColorPalette(gameData.items[user.bg]);
     }
   }, [user])
+
+  if(router.asPath.startsWith('/courses')){
+    return(
+      <>
+        {loading ? <MainSpinner /> : <></>}
+        <div className={`relative ${loading ? "hidden" : ""}`}>
+          <ToastContainer />
+          <CourseLayout colorPalette={colorPalette} user={user}>
+            <Component {...modifiedPageProps} />
+          </CourseLayout>
+        </div>
+      </>
+    )
+  }
 
   return (
     <>

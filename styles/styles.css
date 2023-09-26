@@ -134,14 +134,14 @@ input {
 }
 
 .course-bar-default {
-  display: flex;
-  width: 80%;
+  display: grid;
   border-radius: 0.5rem;
-  padding: 1.25rem;
-  font-size: 1.35rem;
-  line-height: 1.75rem;
   transition-property: all;
   transition-duration: 150ms;
+}
+
+.course-grid{
+  grid-template-columns: 33% 67%;
 }
 
 .course-bar-default:hover {
@@ -152,7 +152,6 @@ input {
 .not-started {
   background-color: #ebebeb;
   border-width: 4px;
-  border-style: dotted;
   border-color: #cecece;
 }
 
@@ -258,6 +257,14 @@ input {
   100% {
     opacity: 1;
   }
+}
+
+.courselayout-grid-open{
+  grid-template-columns: 300px auto;
+}
+
+.courselayout-grid-close{
+  grid-template-columns: 20px auto;
 }
 
 .slime-grid {
