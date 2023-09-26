@@ -16,7 +16,7 @@ export default function Mobile({ isMobile, user, setUser}) {
         router.push('/play')
       }
       else if (user && user.userType === 4) {
-        router.push('/admin/edit-course')
+        router.push('/admin/edit-subject')
       }
     }
   }, [isMobile])

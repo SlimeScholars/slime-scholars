@@ -6,8 +6,9 @@ import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
+import Subject from "../../components/admin/subject";
 
-export default function EditCourse({ user, setUser, loading, setLoading }) {
+export default function EditSubject({ user, setUser, loading, setLoading }) {
   const router = useRouter()
 
   useEffect(() => {
@@ -20,33 +21,34 @@ export default function EditCourse({ user, setUser, loading, setLoading }) {
   }, [user, loading])
 
   const [initialLoad, setInitialLoad] = useState(true)
-  const [courses, setCourses] = useState(undefined);
+  const [subjects, setSubjects] = useState(undefined);
 
   useEffect(() => {
-    if (!loading && courses === undefined) {
+    if (!loading && subjects === undefined) {
       setLoading(true)
     }
-    else if (loading && courses && initialLoad) {
+    else if (loading && subjects && initialLoad) {
       setInitialLoad(false)
       setLoading(false)
     }
-  }, [courses, loading, initialLoad])
+  }, [subjects, loading, initialLoad])
 
   useEffect(() => {
     setLoading(true)
     axios
-      .get("/api/course")
+      .get("/api/subject")
+      // change everything to subject
       .then((response) => {
-        if (response.data && response.data.courses) {
-          const responseCourses = []
-          for (let i in response.data.courses) {
-            responseCourses.push({
-              ...response.data.courses[i],
+        if (response.data && response.data.subjects) {
+          const responseSubjects = []
+          for (let i in response.data.subjects) {
+            responseSubjects.push({
+              ...response.data.subjects[i],
               id: i,
             })
           }
-          console.log(responseCourses)
-          setCourses(responseCourses)
+          console.log(responseSubjects)
+          setSubjects(responseSubjects)
         }
       })
       .catch((error) => {
@@ -56,7 +58,7 @@ export default function EditCourse({ user, setUser, loading, setLoading }) {
 
   }, [])
 
-  const onAddCourse = () => {
+  const onAddSubject = () => {
     try {
       const token = localStorage.getItem('jwt')
 
@@ -68,15 +70,15 @@ export default function EditCourse({ user, setUser, loading, setLoading }) {
       };
       setLoading(true)
       axios
-        .post("/api/admin/course/create", {}, config)
+        .post("/api/admin/subject/create", {}, config)
         .then((response) => {
-          if (response.data && response.data.course) {
-            const newCourse = response.data.course
-            setCourses([
-              ...courses,
+          if (response.data && response.data.subject) {
+            const newSubject = response.data.subject
+            setSubjects([
+              ...subjects,
               {
-                ...newCourse,
-                id: courses.length,
+                ...newSubject,
+                id: subjects.length,
               },
             ]);
             setLoading(false);
@@ -112,18 +114,18 @@ export default function EditCourse({ user, setUser, loading, setLoading }) {
         </button>
         <button
           className="w-full h-12 bg-green-300 font-black hover:bg-green-200 border-y-4 border-y-green-800 text-green-800"
-          onClick={onAddCourse}
+          onClick={onAddSubject}
         >
-          Add Course
+          Add Subject
         </button>
-        {courses === undefined ? <></> : courses.map((course, index) => (
-          <Course
+        {subjects === undefined ? <></> : subjects.map((subject, index) => (
+          <Subject
             key={index}
-            course={course}
-            setCourse={(newCourse) => {
-              let newCourses = [...courses];
-              newCourses[index] = newCourse;
-              setCourses(newCourses);
+            subject={subject}
+            setSubject={(newSubject) => {
+              let newSubjects = [...subjects];
+              newSubjects[index] = newSubject;
+              setSubjects(newSubjects);
             }}
             setLoading={setLoading}
           />
