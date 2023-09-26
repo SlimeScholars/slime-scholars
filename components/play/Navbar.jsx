@@ -22,7 +22,7 @@ export function Navbar({
   setColorPalette,
 }) {
   const types = [
-    { title: "Shopping", src: "shopping", id: 1 },
+    { title: "Shopping", src: "shopping", id: 1 }, 
     { title: "Friends", src: "friends", id: 2 },
     { title: "Slimes", src: "slimes", id: 3 },
     { title: "Inventory", src: "inventory", id: 4 },
