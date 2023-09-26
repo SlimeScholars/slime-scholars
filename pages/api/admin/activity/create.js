@@ -49,7 +49,7 @@ export default async function (req, res) {
     });
     console.log(activity);
 
-    lesson.activities.push(activity._id);
+    lesson.activities.push(activity);
 
     await Lesson.findByIdAndUpdate(lessonId, {
       activities: lesson.activities,
