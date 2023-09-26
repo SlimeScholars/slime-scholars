@@ -271,7 +271,10 @@ export function Navbar({
                   zIndex: "200",
                 }}
               />
-        {router.asPath === "/play" && <NextRewardTimer/>}
+        {router.asPath === "/play" && 
+        <div className="absolute top-[6.5rem] max-xl:top-[8.5rem] max-xl:text-sm min-w-[15rem]">
+          <NextRewardTimer/>
+        </div>}
       </div>
     </div>
   );
