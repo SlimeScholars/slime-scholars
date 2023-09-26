@@ -65,7 +65,7 @@ export function Navbar({
       {/* home button */}
       {!onHome && (
         <button
-          className="rounded hover:opacity-80 font-galindo mr-6 h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1"
+          className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1"
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
@@ -83,7 +83,7 @@ export function Navbar({
       {/* earn flowers button */}
       <div>
         <button
-          className="pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem]"
+          className={`pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem] ${!onHome && 'absolute left-[6rem] top-3'}`}
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
