@@ -162,7 +162,7 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                         slimes={slimes}
                         originalSlimes={originalSlimes}
                         router={router}
-                        refetchUser={refetchUser}/>
+                        refetchUser={refetchUser} />
                 )
             }
             <div
@@ -172,7 +172,7 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                 <div className="relative">
                     {/* Image as background */}
                     <Image
-                        src="/assets/roll-bg/genshin.png"
+                        src="/assets/roll-bg/primary-banner.png"
                         alt='slime banner'
                         height={0}
                         width={0}
