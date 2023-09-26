@@ -12,7 +12,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 			return
 		}
 		if (!user || user.userType !== 1) {
-			//router.push('/')
+			router.push('/')
 		}
 	}, [user, loading])
 
@@ -58,6 +58,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 		}
 	}, [courses])
 
+	if(loading){return}
 	return (
 		<div
 		style={{
@@ -69,7 +70,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 				router.push(`/courses`)
 			}}>Courses </span>
 		</div>
-		<div className="w-full h-screen flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll">
+		<div className="w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll">
 			<div className="pt-[1.5rem] pb-[1.5rem]">
 				<section className="text-4xl font-bold"
 				style={{
@@ -82,64 +83,14 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 				{courses.map((course) => (
 					//TRIPLE THE COURSES FOR VIEW
 
-					// <Course
-					// key={course._id}
-					// courseId={course._id}
-					// courseName={course.courseName}
-					// courseBadge={course.courseBadge}
-					// colorPalette={colorPalette}
-					// tier={course.tier}
-					// />
-					<>
 					<Course
-						key={course._id}
-						courseId={course._id}
-						courseName={course.courseName}
-						courseBadge={course.courseBadge}
-						colorPalette={colorPalette}
-						tier={course.tier}
+					key={course._id}
+					courseId={course._id}
+					courseName={course.courseName}
+					courseBadge={course.courseBadge}
+					colorPalette={colorPalette}
+					tier={course.tier}
 					/>
-					<Course
-						key={course._id}
-						courseId={course._id}
-						courseName={course.courseName}
-						courseBadge={course.courseBadge}
-						colorPalette={colorPalette}
-						tier={course.tier}
-					/>
-					<Course
-						key={course._id}
-						courseId={course._id}
-						courseName={course.courseName}
-						courseBadge={course.courseBadge}
-						colorPalette={colorPalette}
-						tier={course.tier}
-					/>
-					<Course
-						key={course._id}
-						courseId={course._id}
-						courseName={course.courseName}
-						courseBadge={course.courseBadge}
-						colorPalette={colorPalette}
-						tier={course.tier}
-					/>
-					<Course
-						key={course._id}
-						courseId={course._id}
-						courseName={course.courseName}
-						courseBadge={course.courseBadge}
-						colorPalette={colorPalette}
-						tier={course.tier}
-					/>
-					<Course
-						key={course._id}
-						courseId={course._id}
-						courseName={course.courseName}
-						courseBadge={course.courseBadge}
-						colorPalette={colorPalette}
-						tier={course.tier}
-					/>
-					</>
 				))}
 			</div>
 		</div>

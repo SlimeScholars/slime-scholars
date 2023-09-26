@@ -18,7 +18,7 @@ export default function UnitTest({ courseId, unitId, unitName, stars }) {
 				<span className="text-start">
 					Unit Test: {unitName}
 				</span>
-				<span className={`flex items-center ${tier}`}>
+				<span className={`flex items-center base`}>
 					{Array.from({ length: maxStars }).map((_, index) => {
 						return stars > index ?
 							<FaStar

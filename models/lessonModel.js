@@ -2,6 +2,11 @@ import { Schema, model, models, mongoose} from 'mongoose'
 
 const lessonSchema = new Schema(
   {
+    lessonType:{
+      type: String,
+      default: 'lesson',
+      required: [true, "Missing lesson type (lesson | quiz | test)"]
+    },
     lessonNumber: {
       type: Number,
       required: [true, 'Missing unitNumber'],
@@ -22,10 +27,32 @@ const lessonSchema = new Schema(
         ref: 'Activity',
         required: [true, 'Missing activityId'],
       }],
-      required: [true, 'Missing activities'],
+      required: false,
       default: [],
       _id: false,
-    }
+    },
+    problemSet: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Page",
+          required: [true, "Missing pageId"],
+        },
+      ],
+      required: false,
+      default: [],
+      _id: false,
+    },
+    problemCount: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    starThresholds: {
+      type: [Number],
+      required: false,
+      default: []
+    },
   },
   {
     timestamps: true,
