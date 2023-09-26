@@ -22,7 +22,7 @@ export function Navbar({
   setColorPalette,
 }) {
   const types = [
-    { title: "Shopping", src: "shopping", id: 1 }, 
+    { title: "Shopping", src: "shopping", id: 1 },
     { title: "Friends", src: "friends", id: 2 },
     { title: "Slimes", src: "slimes", id: 3 },
     { title: "Inventory", src: "inventory", id: 4 },
@@ -176,102 +176,108 @@ export function Navbar({
 
         {/* buttons and icons */}
         <div className="flex gap-[1rem] max-xl:grid max-xl:grid-cols-3 max-xl:grid-rows-2 max-xl:gap-[0.5rem]">
-        {types.map((type) => {
-          const imgLink = "/assets/icons/" + type.src + ".png";
-          const isActive = type.id === current_id;
-          return (
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                router.push("/play/" + type.title.toLowerCase());
-              }}
-              style={
-                isActive
-                  ? {
-                    backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
-                      }`,
-                    border: `${type.id === 6 && colorPalette !== undefined
-                      ? `5px solid ${colorPalette.primary1}`
-                      : ""
-                      }`,
-                    padding: type.id === 6 ? "0.7rem" : undefined, // Add padding only when type.id is 6
+          {types.map((type) => {
+            const imgLink = "/assets/icons/" + type.src + ".png";
+            const isActive = type.id === current_id;
+            return (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  if (type.id === 6) {
+                    router.push("/settings");
+                    return;
                   }
-                  : {
-                    backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
-                      }88`,
-                    border: `${type.id === 6 && colorPalette !== undefined
-                      ? `5px solid ${colorPalette.primary1}`
-                      : ""
-                      }`,
-                    padding: type.id === 6 ? "0.7rem" : undefined, // Add padding only when type.id is 6
+                  else {
+                    router.push("/play/" + type.title.toLowerCase());
                   }
-              }
-              className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[3.5rem] max-xl:h-[3.5rem]${type.id === 6 ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[3.6rem] max-xl:h-[3.6rem]" : "" // Apply larger size for 2xl screen and type.id 6
-                }`}
-              key={type.id}
-              data-tooltip-id="my-tooltip"
-              data-tooltip-content={type.title}
-            >
-              {type.id === 6 ? (
-                user && user.pfpSlime ? (
-                  <div className="relative flex items-center justify-center">
-                    <div className="absolute h-32 w-32 overflow-hidden"
-                    >
+                }}
+                style={
+                  isActive
+                    ? {
+                      backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
+                        }`,
+                      border: `${type.id === 6 && colorPalette !== undefined
+                        ? `5px solid ${colorPalette.primary1}`
+                        : ""
+                        }`,
+                      padding: type.id === 6 ? "0.7rem" : undefined, // Add padding only when type.id is 6
+                    }
+                    : {
+                      backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
+                        }88`,
+                      border: `${type.id === 6 && colorPalette !== undefined
+                        ? `5px solid ${colorPalette.primary1}`
+                        : ""
+                        }`,
+                      padding: type.id === 6 ? "0.7rem" : undefined, // Add padding only when type.id is 6
+                    }
+                }
+                className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[3.5rem] max-xl:h-[3.5rem]${type.id === 6 ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[3.6rem] max-xl:h-[3.6rem]" : "" // Apply larger size for 2xl screen and type.id 6
+                  }`}
+                key={type.id}
+                data-tooltip-id="my-tooltip"
+                data-tooltip-content={type.title}
+              >
+                {type.id === 6 ? (
+                  user && user.pfpSlime ? (
+                    <div className="relative flex items-center justify-center">
+                      <div className="absolute h-32 w-32 overflow-hidden"
+                      >
+                        <Image
+                          src={
+                            "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                          }
+                          alt={user.pfpBg}
+                          height={0}
+                          width={0}
+                          sizes="100vw"
+                          className="absolute h-32 w-32"
+                        />
+                      </div>
                       <Image
                         src={
-                          "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                          "/assets/pfp/slimes/" +
+                          gameData.slimes[user.pfpSlime].pfp
                         }
-                        alt={user.pfpBg}
+                        alt={user.pfpSlime}
                         height={0}
                         width={0}
                         sizes="100vw"
-                        className="absolute h-32 w-32"
+                        className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem] max-xl:w-[2rem] max-xl:h-[2rem] max-xl:scale-300"
                       />
                     </div>
-                    <Image
-                      src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimes[user.pfpSlime].pfp
-                      }
-                      alt={user.pfpSlime}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem] max-xl:w-[2rem] max-xl:h-[2rem] max-xl:scale-300"
-                    />
-                  </div>
+                  ) : (
+                    // Handle the case when user or user.pfpSlime is null or undefined
+                    <div className="default-image">
+                      {"/assets/pfp/slimes/blue-slime.png"}
+                    </div>
+                  )
                 ) : (
-                  // Handle the case when user or user.pfpSlime is null or undefined
-                  <div className="default-image">
-                    {"/assets/pfp/slimes/blue-slime.png"}
-                  </div>
-                )
-              ) : (
-                <Image
-                  src={imgLink}
-                  alt={type.src}
-                  height={0}
-                  width={0}
-                  sizes="100vw"
-                  className="h-[4rem] w-[4rem] max-xl:w-[2rem] max-xl:h-[2rem]"
-                />
-              )}              
-            </button>
-          );
-        })}
+                  <Image
+                    src={imgLink}
+                    alt={type.src}
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="h-[4rem] w-[4rem] max-xl:w-[2rem] max-xl:h-[2rem]"
+                  />
+                )}
+              </button>
+            );
+          })}
         </div>
         <Tooltip
-                id="my-tooltip"
-                delayShow={200}
-                place="bottom"
-                offset={20}
-                style={{
-                  backgroundColor: "black",
-                  fontSize: "14px",
-                  zIndex: "200",
-                }}
-              />
-        {router.asPath === "/play" && <NextRewardTimer/>}
+          id="my-tooltip"
+          delayShow={200}
+          place="bottom"
+          offset={20}
+          style={{
+            backgroundColor: "black",
+            fontSize: "14px",
+            zIndex: "200",
+          }}
+        />
+        {router.asPath === "/play" && <NextRewardTimer />}
       </div>
     </div>
   );
