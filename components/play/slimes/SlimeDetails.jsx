@@ -42,6 +42,10 @@ export default function SlimeDetails({
         throw new Error('Insufficient slime gel')
       }
 
+      if (slime.level === slime.maxLevel) {
+        throw new Error('The slime is already at max level')
+      }
+
       const newSlime = {
         ...slime,
         level: slime.level + 1,
@@ -50,26 +54,9 @@ export default function SlimeDetails({
         levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
         baseProduction: slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
       }
-
-      const newRoster = [...user.roster]
-      for (let i in user.roster) {
-        if (slime._id == user.roster[i]._id) {
-          newRoster[i] = newSlime
-        }
-      }
-
-      const newSlimes = [...user.slimes]
-      for (let i in user.slimes) {
-        if (slime._id == user.slimes[i]._id) {
-          newSlimes[i] = newSlime
-        }
-      }
-
       const newUser = {
         ...user,
         slimeGel: user.slimeGel - slime.levelUpCost,
-        roster: newRoster,
-        slimes: newSlimes,
       }
 
       setUser(newUser)
@@ -145,37 +132,34 @@ export default function SlimeDetails({
                 className="h-auto w-full"
               />
               {/* Stars */}
-              {slime.starLevel !== undefined && (
-                <div className="w-full flex justify-center">
-                  <div
-                    className="rounded-full w-fit py-2 px-4 flex flex-row"
-                    style={{
-                      backgroundColor:
-                        bg === undefined ? '' : `${bg.primary1}`,
-                      border:
-                        bg === undefined ? '' : `3px solid ${bg.primary2}`,
-                      color:
-                        bg === undefined ? '' : bg.text2,
-                    }}
-                  >
-                    {Array.from({ length: 3 }).map((_, index) => {
-                      return slime.starLevel > index ?
-                        <FaStar
-                          key={`star-${index}`}
-                          className='text-yellow-300 text-2xl mx-1'
-                        /> :
-                        <FaRegStar
-                          key={`star-${index}`}
-                          style={{
-                            color: bg?.text1,
-                          }}
-                          className="text-2xl mx-1"
-                        />
-                    })}
-                  </div>
+              <div className="w-full flex justify-center">
+                <div
+                  className="rounded-full w-fit py-2 px-4 flex flex-row"
+                  style={{
+                    backgroundColor:
+                      bg === undefined ? '' : `${bg.primary1}`,
+                    border:
+                      bg === undefined ? '' : `3px solid ${bg.primary2}`,
+                    color:
+                      bg === undefined ? '' : bg.text2,
+                  }}
+                >
+                  {Array.from({ length: 3 }).map((_, index) => {
+                    return slime.starLevel > index ?
+                      <FaStar
+                        key={`star-${index}`}
+                        className='text-yellow-300 text-2xl mx-1'
+                      /> :
+                      <FaRegStar
+                        key={`star-${index}`}
+                        style={{
+                          color: bg?.text1,
+                        }}
+                        className="text-2xl mx-1"
+                      />
+                  })}
                 </div>
-
-              )}
+              </div>
             </div>
           </div>
           <div className="p-8">

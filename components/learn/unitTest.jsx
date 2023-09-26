@@ -11,14 +11,14 @@ export default function UnitTest({ courseId, unitId, unitName, stars }) {
 		<button
 			className={`course-bar-default bg-slate-300 border-2 border-slate-400`}
 			onClick={() => {
-				router.push(`/play/courses/${courseId}/units/${unitId}/unit-test`)
+				router.push(`/courses/${courseId}/units/${unitId}/unit-test`)
 			}}
 		>
 			<h3 className="w-full grid lesson-card">
 				<span className="text-start">
 					Unit Test: {unitName}
 				</span>
-				<span className={`flex items-center ${tier}`}>
+				<span className={`flex items-center base`}>
 					{Array.from({ length: maxStars }).map((_, index) => {
 						return stars > index ?
 							<FaStar
