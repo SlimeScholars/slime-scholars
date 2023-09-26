@@ -5,8 +5,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
-export default function LessonEditor({ lesson, setLesson, setLoading, deleteLesson }) {
-  const [lessonName, setLessonName] = useState(lesson.lessonName);
+export default function ActivityEditor({ activity, setActivity, setLoading, deleteActivity }) {
+  const [activityName, setActivityName] = useState(activity.activityName);
 
   const onSave = () => {
     try {
@@ -19,17 +19,18 @@ export default function LessonEditor({ lesson, setLesson, setLoading, deleteLess
       };
       setLoading(true);
 
+      // TODO: Update the activity name, create api
       axios
         .put(
-          "/api/admin/lesson/update-name",
-          { lessonId: lesson._id, lessonName },
+          "/api/admin/activity/update-name",
+          { activityId: activity._id, activityName },
           config
         )
         .then((response) => {
-          if (response.data && response.data.lesson) {
-            setLesson(response.data.lesson);
-            setLoading(false);
-          }
+        //   if (response.data && response.data.lesson) {
+        //     setLesson(response.data.lesson);
+        //     setLoading(false);
+        //   }
         })
         .catch((error) => {
           showToastError(error.message);

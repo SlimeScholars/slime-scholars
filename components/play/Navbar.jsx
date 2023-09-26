@@ -266,8 +266,9 @@ export function Navbar({
                 place="bottom"
                 offset={20}
                 style={{
-                  backgroundColor: "#2c374240",
+                  backgroundColor: "black",
                   fontSize: "14px",
+                  zIndex: "200",
                 }}
               />
         {router.asPath === "/play" && <NextRewardTimer/>}
