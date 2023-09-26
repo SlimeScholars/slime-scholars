@@ -7,7 +7,7 @@ import { showToastError } from "../../utils/toast";
 
 export default function LessonEditor({ lesson, setLesson, setLoading, deleteLesson }) {
   const [lessonName, setLessonName] = useState(lesson.lessonName);
-
+  // console.log(lesson)
   const onSave = () => {
     try {
       const token = localStorage.getItem("jwt");
@@ -59,7 +59,6 @@ export default function LessonEditor({ lesson, setLesson, setLoading, deleteLess
         .post("/api/admin/activity/create", { lessonId: lesson._id, activityNumber }, config)
         .then((response) => {
           if (response.data && response.data.lesson) {
-            console.log(response.data)
             const newLesson = response.data.lesson
             setLesson(newLesson);
             setLoading(false);

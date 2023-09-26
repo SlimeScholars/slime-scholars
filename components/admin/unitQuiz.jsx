@@ -5,10 +5,12 @@ import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import Activity from "./activity"; 
+import UnitQuizEditor from "./unitQuizEditor";
 
-export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
+export default function UnitQuiz({ unitQuiz, setUnitQuiz, setLoading, deleteUnitQuiz }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
+
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -40,41 +42,23 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
           }}
         >
           {
-            lesson.lessonName ? (
+            unitQuiz.quizName ? (
               <p className="text-white">
-                {lesson.lessonNumber}. {lesson.lessonName}
+                {unitQuiz.quizNumber}. {unitQuiz.quizName}
               </p>
             ) : (
               <p className="text-gray">
-                {lesson.lessonNumber}. New Lesson
+                {unitQuiz.quizNumber}. New Unit Quiz
               </p>
             )
           }
         </button>
       </div>
-      {isOpen && (
-          <div className="w-full flex flex-col pl-10 items-start justify-start">
-            {lesson.activities.map((activity, index) => (
-              <Activity
-                key={index}
-                activity={activity}
-                setActivity={(newActivity) => {
-                  let newActivities = [...lesson.activities];
-                  newActivities[index] = newActivity;
-                  lesson.activities = newActivities;
-                  setLesson(lesson);
-                }}
-                deleteActivity={() => deleteActivity(index)}
-                setLoading={setLoading}
-              />
-            ))}
-          </div>
-        )}
-      {selected && <LessonEditor
-        lesson={lesson}
-        setLesson={setLesson}
+      {selected && <UnitQuizEditor
+        unitQuiz={unitQuiz}
+        setUnitQuiz={setUnitQuiz}
         setLoading={setLoading}
-        deleteLesson={deleteLesson}
+        deleteUnitQuiz={deleteUnitQuiz}
       />}
     </>
   );

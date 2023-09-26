@@ -8,11 +8,11 @@ import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import { showToastError } from "../../utils/toast";
 import { set } from "mongoose";
+import UnitQuiz from "./unitQuiz";
 
 export default function Unit({ unit, setUnit, setLoading, }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -109,6 +109,20 @@ export default function Unit({ unit, setUnit, setLoading, }) {
                   setUnit(unit);
                 }}
                 deleteLesson={() => deleteLesson(index)}
+                setLoading={setLoading}
+              />
+            ))}
+            {unit.quizzes.map((unitQuiz, index) => (
+              <UnitQuiz
+                key={index}
+                unitQuiz={unitQuiz}
+                setUnitQuiz={(newUnitQuiz) => {
+                  let newUnitQuizzes = [...unit.quizzes];
+                  newUnitQuizzes[index] = newUnitQuiz;
+                  unit.quizzes = newUnitQuizzes;
+                  setUnit(unit);
+                }}
+                deleteUnitQuiz={() => deleteUnitQuiz(index)}
                 setLoading={setLoading}
               />
             ))}
