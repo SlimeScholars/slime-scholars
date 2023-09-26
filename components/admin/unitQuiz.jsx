@@ -1,26 +1,25 @@
 import React, { useState, useRef } from "react";
-import ActivityEditor from "./activityEditor";
+import LessonEditor from "./lessonEditor";
 
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import Activity from "./activity"; 
+import UnitQuizEditor from "./unitQuizEditor";
 
-export default function Activity({ activity, setActivity, setLoading, deleteActivity }) {
+export default function UnitQuiz({ unitQuiz, setUnitQuiz, setLoading, deleteUnitQuiz }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-//   console.log(activity)
+
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
     if (x < width * 0.4) {
-      setIsOpen(false);
       setSelected(false);
     }
   });
-
-
 
   return (
     <>
@@ -39,24 +38,28 @@ export default function Activity({ activity, setActivity, setLoading, deleteActi
             if (!selected && !isOpen) {
               setIsOpen(true);
               setSelected(true);
-            //   console.log(activity + " selected")
             }
           }}
         >
           {
-            activity.activityName ? (
+            unitQuiz.quizName ? (
               <p className="text-white">
-                {activity.activityNumber}. {activity.activityName}
+                {unitQuiz.quizNumber}. {unitQuiz.quizName}
               </p>
             ) : (
               <p className="text-gray">
-                {activity.activityNumber}. New Activity
+                {unitQuiz.quizNumber}. New Unit Quiz
               </p>
             )
           }
         </button>
       </div>
-      {selected && <ActivityEditor activity={activity} setActivity={setActivity} setLoading={setLoading} deleteActivity={deleteActivity} />}
+      {selected && <UnitQuizEditor
+        unitQuiz={unitQuiz}
+        setUnitQuiz={setUnitQuiz}
+        setLoading={setLoading}
+        deleteUnitQuiz={deleteUnitQuiz}
+      />}
     </>
   );
 }

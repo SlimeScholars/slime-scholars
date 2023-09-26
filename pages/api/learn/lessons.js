@@ -34,7 +34,7 @@ export default async function (req, res) {
       .select('courseName')
 
     const unit = await Unit.findById(unitId)
-      .select('unitName lessons')
+      .select('unitName unitNumber lessons')
       .populate({
         path: 'lessons',
         select: '_id lessonName',
@@ -72,6 +72,7 @@ export default async function (req, res) {
     res.json({
       courseName: course.courseName,
       unitName: unit.unitName,
+      unitNumber: unit.unitNumber,
       lessons: modifiedLessons,
       unitTestStars,
     })
