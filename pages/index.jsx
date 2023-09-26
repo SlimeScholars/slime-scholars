@@ -15,7 +15,7 @@ export default function Home({ user, setUser, loading }) {
       router.push('/courses');
     }
     else if (user && user.userType === 4) {
-      router.push('/admin/edit-course')
+      router.push('/admin/edit-subject')
     }
     // FIXME
     else if (!user) {

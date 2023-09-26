@@ -67,7 +67,7 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
         className="w-full h-12 bg-yellow-300 hover:bg-yellow-200 flex items-center justify-center"
         target="_blank"
       >
-        Edit Lesson
+        Edit Activity
       </Link>
       <button
         className="w-full h-12 bg-red-300 hover:bg-red-200"
