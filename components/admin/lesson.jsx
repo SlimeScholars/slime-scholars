@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import LessonEditor from "./lessonEditor";
-
+import axios from "axios"
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import Activity from "./activity"; 
+import { showToastError } from "../../utils/toast";
 
 export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,10 +25,9 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
       if (!lesson?.activities[index]?._id) {
         throw new Error('Activity not found')
       }
-
       const newActivities = [...lesson.activities]
       const tempActivity = newActivities.splice(index, 1)[0]
-
+      console.log(tempActivity._id)
       setLesson({ ...lesson, activities: newActivities })
 
       const token = localStorage.getItem('jwt')
@@ -59,7 +59,7 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
       showToastError(error.message);
     }
   }
-  
+
   return (
     <>
       <div
