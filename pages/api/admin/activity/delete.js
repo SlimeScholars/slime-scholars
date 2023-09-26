@@ -39,6 +39,22 @@ export default async function (req, res) {
 		if (!activities) {
 			throw new Error('activities not found')
 		}
+
+        for (let i in activity.pages) {
+            for (let j in activity.pages[i]){
+                if (activity.pages[i].sections[j].sectionType === 1) {
+                    // If the section is a image, handle image delete on cloudinary
+                    const imageUrl = activity.pages[i].sections[j].image
+                    const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
+                    await cloudinary.uploader.destroy(publicId, (error, result) => {
+                        if (error) {
+                            throw new Error(`Error uploading file: ${error}`);
+                        }
+                    })
+                }
+            }
+		}
+
         await Lesson.findOneAndUpdate(
 			{ activities: activityId }, 
 			{ $pull: { activities: activityId } },
