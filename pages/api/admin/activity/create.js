@@ -1,7 +1,6 @@
 import { authenticate } from "../../../../utils/authenticate";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
-import Unit from "../../../../models/unitModel";
 import Lesson from "../../../../models/lessonModel";
 import Activity from "../../../../models/activityModel";
 
@@ -9,8 +8,8 @@ import Activity from "../../../../models/activityModel";
  * @desc    Create an activity
  * @route   POST /api/admin/activity/create
  * @access  Private - Admin
- * @param   {string} req.body.unitId
- * @param   {number} req.body.lessonNumber
+ * @param   {string} req.body.lessonId
+ * @param   {number} req.body.activityNumber
  */
 export default async function (req, res) {
   try {
@@ -48,6 +47,7 @@ export default async function (req, res) {
       latestAuthor,
       pages: [],
     });
+    console.log(activity);
 
     lesson.activities.push(activity._id);
 
@@ -57,6 +57,7 @@ export default async function (req, res) {
     });
 
     const newLesson = await Lesson.findById(lessonId).populate("activities");
+    console.log(newLesson);
 
     res.status(201).json({ lesson: newLesson });
   } catch (error) {
