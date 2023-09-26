@@ -14,7 +14,7 @@ export default function CourseNavbar({colorPalette, user}){
             <section>
                 <a className="flex justify-center items-center h-auto" href="/">
                     <Image
-                    src="/assets/icons/logo.png"
+                    src="/assets/icons/logo-light.png"
                     alt="Slime Scholars Logo"
                     height={0}
                     width={0}
