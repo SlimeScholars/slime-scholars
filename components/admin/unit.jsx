@@ -13,7 +13,6 @@ import UnitQuiz from "./unitQuiz";
 export default function Unit({ unit, setUnit, setLoading, }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  console.log("unit", unit)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 

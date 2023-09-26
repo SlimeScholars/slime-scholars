@@ -10,7 +10,7 @@ import CourseQuiz from "./courseQuiz";
 export default function Course({ course, setCourse, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-
+  // console.log(course)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 

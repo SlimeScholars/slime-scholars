@@ -8,7 +8,7 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 export default function Activity({ activity, setActivity, setLoading, deleteActivity }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  console.log(activity)
+//   console.log(activity)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -37,7 +37,7 @@ export default function Activity({ activity, setActivity, setLoading, deleteActi
             if (!selected && !isOpen) {
               setIsOpen(true);
               setSelected(true);
-              console.log(activity + " selected")
+            //   console.log(activity + " selected")
             }
           }}
         >

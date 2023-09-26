@@ -18,7 +18,6 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
         },
       };
       setLoading(true);
-      console.log(activity)
 
       // TODO: Update the activity name, create api
       axios
@@ -28,11 +27,10 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
           config
         )
         .then((response) => {
-        //   if (response.data && response.data.lesson) {
-        //     setLesson(response.data.lesson);
-        //     setLoading(false);
-        //   }
-            console.log(response.data)
+          if (response.data && response.data.activity) {
+            setActivity(response.data.activity);
+            setLoading(false);
+          }
         })
         .catch((error) => {
           showToastError(error.message);
