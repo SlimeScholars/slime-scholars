@@ -3,8 +3,10 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import Course from "../../../models/courseModel"
 import Unit from "../../../models/unitModel"
+import Activity from "../../../models/activityModel"
 // Import for the populate
 import '../../../models/lessonModel'
+import Page from "../../../models/pageModel"
 
 /**
  * @desc    Get units for unit selection
@@ -13,6 +15,27 @@ import '../../../models/lessonModel'
  * @param   {string} req.query.courseId - Id of the course the lesson belongs to
  * @param   {string} req.query.unitId - Id of the unit the lesson belongs to
  */
+
+const retrieve_activity = async(id) => {
+  try{
+    const response = await Activity.findById(id).exec()
+    return response ? response : undefined
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
+const retrieve_page = async(id) => {
+  try{
+    const response = await Page.findById(id).exec()
+    return response ? response : undefined
+  }
+  catch(err){
+    console.log(err)
+  }
+}
+
 export default async function (req, res) {
   try {
     if (req.method !== 'GET') {
@@ -34,20 +57,21 @@ export default async function (req, res) {
       .select('courseName')
 
     const unit = await Unit.findById(unitId)
-      .select('unitName lessons')
+      .select('unitName unitNumber lessons')
       .populate({
         path: 'lessons',
-        select: '_id lessonName',
+        select: '_id lessonName lessonType activities',
       })
 
     const modifiedLessons = []
     // Check user for completed
     for (let i in unit.lessons) {
       modifiedLessons.push({
-        _id: unit.lessons[i]._id,
-        lessonName: unit.lessons[i].lessonName,
-        stars: -1,
-        looted: false,
+        ...unit.lessons[i]._doc,
+        activities: unit.lessons[i].activities ? 
+          await Promise.all(unit.lessons[i].activities.map(retrieve_activity)) : [],
+        pages: unit.lessons[i].pages ? 
+          await Promise.all(unit.lessons[i].pages.map(retrieve_page)) : [],
       })
       for (let j in user.completedLessons) {
         if (
@@ -59,6 +83,8 @@ export default async function (req, res) {
         }
       }
     }
+
+    console.log(modifiedLessons)
 
     let unitTestStars = -1
     // Check for unit test completion
@@ -72,6 +98,7 @@ export default async function (req, res) {
     res.json({
       courseName: course.courseName,
       unitName: unit.unitName,
+      unitNumber: unit.unitNumber,
       lessons: modifiedLessons,
       unitTestStars,
     })

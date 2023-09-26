@@ -134,14 +134,18 @@ input {
 }
 
 .course-bar-default {
-  display: flex;
-  width: 80%;
+  display: grid;
   border-radius: 0.5rem;
-  padding: 1.25rem;
-  font-size: 1.35rem;
-  line-height: 1.75rem;
   transition-property: all;
   transition-duration: 150ms;
+}
+
+.lesson-bar-default {
+  border-radius: 0.5rem;
+}
+
+.course-grid{
+  grid-template-columns: 33% 67%;
 }
 
 .course-bar-default:hover {
@@ -149,26 +153,10 @@ input {
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
-.not-started {
+.base {
   background-color: #ebebeb;
   border-width: 4px;
-  border-style: dotted;
   border-color: #cecece;
-}
-
-.gold {
-  background-color: #d9cb77;
-  background-image: linear-gradient(to left, #e2ce8b, #e7d6b2, #e6e3b6, #d1bd8e)
-}
-
-.silver {
-  background-color: #c7cdcf;
-  background-image: linear-gradient(to left, #cccbcb, #bdc2ca, #b8c3c6, #abaeb2)
-}
-
-.bronze {
-  background-color: #cb9966;
-  background-image: linear-gradient(to left, #b78d67, #d0a16e, #dfc399, #ac8a70);
 }
 
 .lesson-card {
@@ -260,6 +248,14 @@ input {
   }
 }
 
+.courselayout-grid-open{
+  grid-template-columns: 300px auto;
+}
+
+.courselayout-grid-close{
+  grid-template-columns: 20px auto;
+}
+
 .slime-grid {
   grid-template-columns: 1fr 1.25fr;
 }
@@ -268,4 +264,8 @@ input {
   .slime-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.sidebar-arrow{
+  color:white;
 }

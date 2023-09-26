@@ -32,7 +32,7 @@ export default async function (req, res) {
       .select('courseName units')
       .populate({
         path: 'units',
-        select: '_id unitName',
+        select: '_id unitName unitNumber',
       })
 
     const modifiedUnits = []
@@ -41,6 +41,7 @@ export default async function (req, res) {
       modifiedUnits.push({
         _id: course.units[i]._id,
         unitName: course.units[i].unitName,
+        unitNumber: course.units[i].unitNumber,
         tier: 0,
       })
       for (let j in user.completedUnits) {

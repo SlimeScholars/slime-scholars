@@ -44,6 +44,7 @@ export default async function (req, res) {
 
     const lesson = await Lesson.create({
       lessonNumber,
+      lessonType,
       latestAuthor,
       quizQuestions: [[]],
     })

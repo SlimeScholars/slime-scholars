@@ -22,7 +22,7 @@ export function Navbar({
   setColorPalette,
 }) {
   const types = [
-    { title: "Shopping", src: "shopping", id: 1 },
+    { title: "Shopping", src: "shopping", id: 1 }, 
     { title: "Friends", src: "friends", id: 2 },
     { title: "Slimes", src: "slimes", id: 3 },
     { title: "Inventory", src: "inventory", id: 4 },
@@ -65,7 +65,7 @@ export function Navbar({
       {/* home button */}
       {!onHome && (
         <button
-          className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1"
+          className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem]"
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
@@ -83,7 +83,7 @@ export function Navbar({
       {/* earn flowers button */}
       <div>
         <button
-          className={`pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem] ${!onHome && 'absolute left-[6rem] top-3'}`}
+          className={`pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem] ${!onHome && 'absolute left-[6rem] top-3 max-xl:left-0'}`}
           style={{
             backgroundColor:
               !colorPalette ? "" : colorPalette.primary1,
@@ -92,7 +92,7 @@ export function Navbar({
           }}
           onClick={(e) => {
             e.preventDefault();
-            router.push("/play/courses");
+            router.push("/courses");
           }}
         >
           Earn Flowers
@@ -271,7 +271,10 @@ export function Navbar({
                   zIndex: "200",
                 }}
               />
-        {router.asPath === "/play" && <NextRewardTimer/>}
+        {router.asPath === "/play" && 
+        <div className="absolute top-[6.5rem] max-xl:top-[8.5rem] max-xl:text-sm min-w-[15rem]">
+          <NextRewardTimer/>
+        </div>}
       </div>
     </div>
   );
