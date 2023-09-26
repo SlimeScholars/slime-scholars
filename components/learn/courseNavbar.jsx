@@ -30,10 +30,6 @@ export default function CourseNavbar({colorPalette, user}){
             style={{
                 color: !colorPalette ? "" : colorPalette.text1
             }}>
-                <button className="font-normal text-xl mr-8 bg-gray-800 p-3 rounded-mds"
-                onClick={() => {router.push("/play")}}>
-                    Play
-                </button>
                 <div>
                     {user ? user.username : ""}
                 </div>

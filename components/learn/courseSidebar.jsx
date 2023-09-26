@@ -2,9 +2,12 @@ import Image from "next/image"
 import NextRewardTimer from "../play/slimes/NextRewardTimer"
 import { gameData } from "../../data/gameData"
 import { BsFillGrid3X3GapFill } from "react-icons/bs"
+import { useRouter } from "next/router"
 //import { useState } from "react"
 
 export default function CourseSidebar({colorPalette, open, setOpen, user}){
+    const router = useRouter();
+    
     return(
         <div className={`relative h-full transition-all duration-150 p-4
         ${open ? "w-[300px]" : "w-[20px]"}`}
@@ -96,7 +99,9 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                     </div>
                 </div>
                 <div>
-                    <div className="w-full bg-white/[0.55] rounded-full text-center text-lg mb-2 py-1">
+                    <div className="w-full bg-white/[0.55] rounded-full text-center text-lg mb-2 py-1 hover:bg-white/[0.75] 
+                    transition-all duration-150"
+                    onClick={() => {router.push('/play')}}>
                         My Slimes
                     </div>
                     <div className="flex flex-row flex-wrap">
