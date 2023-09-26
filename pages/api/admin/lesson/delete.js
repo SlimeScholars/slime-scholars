@@ -46,31 +46,17 @@ export default async function (req, res) {
 			api_secret: process.env.API_SECRET,
 		})
 
-		// Handle image delete for sections
-		for (let i in lesson.sections) {
-			if (lesson.sections[i].sectionType === 1) {
-				// If the section is a image, handle image delete on cloudinary
-				const imageUrl = lesson.sections[i].image
-				const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
-				await cloudinary.uploader.destroy(publicId, (error, result) => {
-					if (error) {
-						throw new Error(`Error uploading file: ${error}`);
-					}
-				})
-			}
-		}
-
-		for (let i in lesson.quizQuestions) {
-			for (let j in lesson.quizQuestions[i]) {
-				const imageUrl = lesson.quizQuestions[i][j].image
-				const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
-				await cloudinary.uploader.destroy(publicId, (error, result) => {
-					if (error) {
-						throw new Error(`Error uploading file: ${error}`);
-					}
-				})
-			}
-		}
+		// for (let i in lesson.quizQuestions) {
+		// 	for (let j in lesson.quizQuestions[i]) {
+		// 		const imageUrl = lesson.quizQuestions[i][j].image
+		// 		const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
+		// 		await cloudinary.uploader.destroy(publicId, (error, result) => {
+		// 			if (error) {
+		// 				throw new Error(`Error uploading file: ${error}`);
+		// 			}
+		// 		})
+		// 	}
+		// }
 
 		// Delete lesson from units and users
 		await Unit.findOneAndUpdate(
