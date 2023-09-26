@@ -9,7 +9,6 @@ import Activity from "./activity";
 export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  console.log(lesson)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
