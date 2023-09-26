@@ -42,41 +42,6 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
     }
   };
 
-  const onAddActivity = () => {
-    try {
-      const token = localStorage.getItem('jwt')
-
-      // Set the authorization header
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      setLoading(true)
-
-    //   const activityNumber = lesson.activities.length + 1
-
-      axios
-        .post("/api/admin/activity/create", { activityId: activity._id }, config)
-        .then((response) => {
-        //   if (response.data && response.data.lesson) {
-        //     console.log(response.data)
-        //     const newLesson = response.data.lesson
-        //     setLesson(newLesson);
-        //     setLoading(false);
-        //   }
-            console.log(response.data)
-        })
-        .catch((error) => {
-          showToastError(error.message)
-          setLoading(false);
-        });
-
-    } catch (error) {
-      showToastError(error.message);
-      return;
-    }
-  }
 
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
@@ -96,12 +61,6 @@ export default function ActivityEditor({ activity, setActivity, setLoading, dele
         onClick={onSave}
       >
         Save
-      </button>
-      <button
-        className="w-full h-12 bg-pink-300 hover:bg-pink-200"
-        onClick={onAddActivity}
-      >
-        Add Activity
       </button>
       <Link
         href={"/admin/edit-activity/" + activity._id}

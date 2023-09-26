@@ -56,7 +56,7 @@ export default async function (req, res) {
     })
 
     const newUnit = await Unit.findById(unitId)
-      .populate('lessons')
+        .populate('lessons')
 
     res.status(201).json({ unit: newUnit })
 

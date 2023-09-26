@@ -20,6 +20,8 @@ export default function Activity({ activity, setActivity, setLoading, deleteActi
     }
   });
 
+
+
   return (
     <>
       <div

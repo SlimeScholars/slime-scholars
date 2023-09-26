@@ -19,6 +19,47 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
     }
   });
 
+  const deleteActivity = (index) => {
+    try {
+      if (!lesson?.activities[index]?._id) {
+        throw new Error('Activity not found')
+      }
+
+      const newActivities = [...lesson.activities]
+      const tempActivity = newActivities.splice(index, 1)[0]
+
+      setLesson({ ...lesson, activities: newActivities })
+
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        params: {
+          activityId: tempActivity._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .delete("/api/admin/activity/delete", config)
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message)
+          }
+          else {
+            showToastError(error.message)
+          }
+          newActivities.splice(index, 0, tempActivity)
+          setLesson({ ...lesson, activities: newActivities })
+        });
+
+    } catch (error) {
+      showToastError(error.message);
+    }
+  }
+  
   return (
     <>
       <div
