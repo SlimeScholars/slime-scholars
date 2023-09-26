@@ -3,6 +3,7 @@ import Course from '../../../models/courseModel'
 // Import these to initialize the models for the populate
 import '../../../models/unitModel'
 import '../../../models/lessonModel'
+import '../../../models/activityModel'
 
 /**
  * @desc    Get information of all courses
@@ -20,13 +21,17 @@ export default async function (req, res) {
 
     // Get all courses
     const courses = await Course.find({})
-      .populate({
-        path: 'units',
+    .populate({
+      path: 'units',
+      populate: {
+        path: 'lessons',
+        model: 'Lesson',
         populate: {
-          path: 'lessons',
-          model: 'Lesson', 
+          path: 'activities',
+          model: 'Activity',
         },
-      })
+      },
+    });
 
     res.status(200).json({ courses })
   } catch (error) {

@@ -1,16 +1,16 @@
 import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
-import activities from "../../../../models/activitiesModel"
 import Unit from "../../../../models/unitModel"
-import { v2 as cloudinary } from 'cloudinary';
 import User from "../../../../models/userModel"
+import Activity from "../../../../models/activityModel";
+import Lesson from "../../../../models/lessonModel";
 
 /**
  * @desc    Delete a activities and handle the appropriate image deletes from cloudinary. Won't handle for processing things like unit tier (bronze, silver, gold, etc.)
  * @route   DELETE /api/admin/activities/update-sections
  * @access  Private - Admin
- * @param   {string} req.query.activitiesId - Id of activities you want to delete
+ * @param   {string} req.query.activityId - Id of activities you want to delete
  */
 export default async function (req, res) {
 	try {
@@ -28,39 +28,34 @@ export default async function (req, res) {
 		// Make sure user is a teacher
 		checkUserType(user, 4)
 
-		const { activitiesId } = req.query
+		const { activityId } = req.query
 
-		if (!activitiesId) {
-			throw new Error('activitiesId is required')
+		if (!activityId) {
+			throw new Error('activityId is required')
 		}
 
-		const activities = await activities.findById(activitiesId)
+		const activities = await Activity.findById(activityId)
 
 		if (!activities) {
 			throw new Error('activities not found')
 		}
-
-		// Delete activities from units and users
-		await Unit.findOneAndUpdate(
-			{ activities: activitiesId }, //Find the unit with the activitiesId to modify
-			{ $pull: { activities: activitiesId } },
+        await Lesson.findOneAndUpdate(
+			{ activities: activityId }, 
+			{ $pull: { activities: activityId } },
 		)
-
-		await User.updateMany(
+        await User.updateMany(
 			{
-				'completedactivities.activities': activitiesId,
+				'completedActivities.activity': activityId,
 			},
 			{
 				$pull: {
-					completedactivities: {
-						activities: activitiesId,
+					completedActivities: {
+						activity: activityId,
 					}
 				}
 			}
 		)
-
-		// Delete the activities
-		await activities.findByIdAndDelete(activitiesId)
+		await Activity.findByIdAndDelete(activityId)
 
 		res.status(204).send()
 	} catch (error) {
