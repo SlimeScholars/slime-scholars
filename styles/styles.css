@@ -276,3 +276,7 @@ input {
     grid-template-columns: 1fr;
   }
 }
+
+.sidebar-arrow{
+  color:white;
+}
