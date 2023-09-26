@@ -17,7 +17,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
             style={{
                 backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "C0"
             }}/>
-            <div className="z-[100] absolute top-[50%] left-[100%] w-[4rem] h-[24rem] translate-y-[calc(-50%_-_4rem)]
+            <div className="z-[100] absolute top-[50%] left-[100%] w-[4rem] h-[24rem] translate-y-[calc(-50%_-_2rem)]
             translate-x-[-1rem] flex flex-row items-center justify-start cursor-pointer"
             onClick={() => {setOpen(!open)}}
             style={{
@@ -105,7 +105,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                         if (char === null) {
                             return (
                             <div className="relative w-[calc(50%_-_0.75rem)] m-1" key={index}>
-                                <button
+                                <div
                                 className={`relative rounded-lg`}
                                 style={{
                                     border: `5px solid ${colorPalette ? colorPalette.primary2 : "#ffffff"}`,
@@ -126,16 +126,13 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                                     sizes='100vw'
                                     className="h-auto w-[80%] mx-auto mb-3"
                                 />
-                                </button>
+                                </div>
                             </div>
                             );
                         }
                         return (
                             <div className="relative w-[calc(50%_-_0.75rem)] m-1" key={index}>
-                            <button
-                                onClick={() => {
-                                handleClick(slime._id, index);
-                                }}
+                            <div
                                 className={`relative rounded-lg ${gameData.rarityColours[char.rarity].bg}`}
                                 style={{
                                     border: `5px solid ${colorPalette ? colorPalette.primary2 : "#ffffff"}`,
@@ -152,7 +149,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                                 sizes='100vw'
                                 className="h-auto w-[80%] mx-auto mb-3"
                                 />
-                            </button>
+                            </div>
                             </div>
                         );
                         })}
