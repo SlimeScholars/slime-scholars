@@ -6,6 +6,8 @@ import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import CourseQuiz from "./courseQuiz";
+import { showToastError } from "../../utils/toast";
+import axios from "axios";
 
 export default function Course({ course, setCourse, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +23,46 @@ export default function Course({ course, setCourse, setLoading }) {
     }
   });
 
+  const deleteUnit = (index) => {
+    try {
+      if (!course?.units[index]?._id) {
+        throw new Error('Unit not found')
+      }
+
+      const newUnits = [...course.units]
+      const tempUnit = newUnits.splice(index, 1)[0]
+
+      setCourse({ ...course, units: newUnits })
+
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        params: {
+          unitId: tempUnit._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .delete("/api/admin/unit/delete", config)
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message)
+          }
+          else {
+            showToastError(error.message)
+          }
+          newUnits.splice(index, 0, tempUnit)
+          setCourse({ ...course, units: newUnits })
+        });
+
+    } catch (error) {
+      showToastError(error.message);
+    }
+  }
 
   return (
     <>
@@ -64,6 +106,7 @@ export default function Course({ course, setCourse, setLoading }) {
                   course.units = newUnits;
                   setCourse(course);
                 }}
+                deleteUnit={() => deleteUnit(index)}
                 setLoading={setLoading}
               />
             ))}

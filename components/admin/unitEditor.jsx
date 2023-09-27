@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
-export default function UnitEditor({ unit, setUnit, setLoading }) {
+export default function UnitEditor({ unit, setUnit, setLoading, deleteUnit }) {
   const [unitName, setUnitName] = useState(unit.unitName);
 
   const onSave = () => {
@@ -146,6 +146,12 @@ export default function UnitEditor({ unit, setUnit, setLoading }) {
           Edit Unit Test
         </button>
       </Link>
+      <button
+        className="w-full h-12 bg-red-300 hover:bg-red-200"
+        onClick={deleteUnit}
+      >
+        Delete
+      </button>
     </div>
   );
 }
