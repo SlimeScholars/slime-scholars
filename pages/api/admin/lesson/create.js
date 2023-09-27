@@ -44,7 +44,8 @@ export default async function (req, res) {
 
     const lesson = await Lesson.create({
       lessonNumber,
-      lessonType,
+      // why is lessonType not set to something by default
+      lessonType: 1,
       latestAuthor,
       quizQuestions: [[]],
     })
