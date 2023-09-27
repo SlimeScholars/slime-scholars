@@ -34,9 +34,9 @@ export default async function (req, res) {
 			throw new Error('activityId is required')
 		}
 
-		const activities = await Activity.findById(activityId)
+		const activity = await Activity.findById(activityId)
 
-		if (!activities) {
+		if (!activity) {
 			throw new Error('activities not found')
 		}
 
