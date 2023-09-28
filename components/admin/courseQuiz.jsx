@@ -86,13 +86,13 @@ export default function CourseQuiz({ courseQuiz, setCourseQuiz, setLoading, }) {
 
         >
           {
-            courseQuiz.quizName ? (
+            courseQuiz.lessonName ? (
               <p className="text-white">
-                {courseQuiz.quizNumber}. {courseQuiz.quizName}
+                {courseQuiz.lessonNumber}. {courseQuiz.lessonName}
               </p>
             ) : (
               <p className="text-gray">
-                {courseQuiz.quizNumber}. New Course Quiz
+                {courseQuiz.lessonNumber}. New Course Quiz
               </p>
             )
           }

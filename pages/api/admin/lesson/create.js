@@ -56,7 +56,9 @@ export default async function (req, res) {
       latestAuthor,
     });
 
-    const newUnit = await Unit.findById(unitId).populate("lessons");
+    const newUnit = await Unit.findById(unitId)
+      .populate("lessons")
+      .populate("quizzes");
 
     res.status(201).json({ unit: newUnit });
   } catch (error) {
