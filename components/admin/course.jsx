@@ -5,11 +5,12 @@ import Unit from "./unit";
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import CourseQuiz from "./courseQuiz";
 
 export default function Course({ course, setCourse, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-
+  // console.log(course)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -61,6 +62,19 @@ export default function Course({ course, setCourse, setLoading }) {
                   let newUnits = [...course.units];
                   newUnits[index] = newUnit;
                   course.units = newUnits;
+                  setCourse(course);
+                }}
+                setLoading={setLoading}
+              />
+            ))}
+            {course.quizzes.map((courseQuiz, index) => (
+              <CourseQuiz
+                key={index}
+                courseQuiz={courseQuiz}
+                setCourseQuiz={(newCourseQuiz) => {
+                  let newCourseQuizzes = [...course.quizzes];
+                  newCourseQuizzes[index] = newCourseQuiz;
+                  course.quizzes = newCourseQuizzes;
                   setCourse(course);
                 }}
                 setLoading={setLoading}

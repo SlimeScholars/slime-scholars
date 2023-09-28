@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import Back from "../../components/signup/back";
+import Back from "../components/signup/back";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
-import Modal from "../../components/signup/modal";
+import Modal from "../components/signup/modal";
 import Image from "next/image";
-import { gameData } from "../../data/gameData";
+import { gameData } from "../data/gameData";
 
 import {
   verifyEmail,
   verifyName,
   verifyUsername,
-} from "../../utils/verify";
+} from "../utils/verify";
 
-import { showToastError } from "../../utils/toast";
+import { showToastError } from "../utils/toast";
 
 import axios from "axios";
 import { useRouter } from "next/router";

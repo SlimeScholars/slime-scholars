@@ -1,19 +1,19 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import Stars from "../../../../../../../components/learn/stars";
+import Stars from "../../../../../../components/learn/stars";
 import { HiHome } from 'react-icons/hi'
 import { TbReload } from 'react-icons/tb'
 import { FaArrowRight } from 'react-icons/fa'
 
 import axios from "axios";
 
-import TextSection from "../../../../../../../components/admin/lesson/sections/text";
-import ImgSection from "../../../../../../../components/admin/lesson/sections/img";
-import MCSection from "../../../../../../../components/admin/lesson/sections/mc";
-import FBSection from "../../../../../../../components/admin/lesson/sections/fb";
-import { showToastError } from "../../../../../../../utils/toast";
-import Modal from "../../../../../../../components/learn/modal";
+import TextSection from "../../../../../../components/admin/lesson/sections/text";
+import ImgSection from "../../../../../../components/admin/lesson/sections/img";
+import MCSection from "../../../../../../components/admin/lesson/sections/mc";
+import FBSection from "../../../../../../components/admin/lesson/sections/fb";
+import { showToastError } from "../../../../../../utils/toast";
+import Modal from "../../../../../../components/learn/modal";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 
 export default function Lesson({ user, setUser, loading, setLoading, setAxiosLoading, colorPalette, refetchUser }) {

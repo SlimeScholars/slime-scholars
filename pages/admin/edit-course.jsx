@@ -45,6 +45,7 @@ export default function EditCourse({ user, setUser, loading, setLoading }) {
               id: i,
             })
           }
+          console.log(responseCourses)
           setCourses(responseCourses)
         }
       })
