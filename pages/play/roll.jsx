@@ -6,7 +6,7 @@ import { showToastError } from '../../utils/toast';
 import axios from 'axios';
 import Image from 'next/image';
 
-export default function Roll({ loading, user, setUser, setLoading, refetchUser }) {
+export default function Roll({ loading, user, setUser, setLoading, colorPalette, setColorPalette, refetchUser }) {
 
     const router = useRouter();
     const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
@@ -171,22 +171,28 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                 }>
                 <div className="relative">
                     {/* Image as background */}
+                    <div 
+                    style={{
+                        // border: colorPalette === undefined ? "" : `6px solid ${colorPalette.secondary2}`,
+                        // borderRadius: "5px",
+                    }}>
                     <Image
                         src="/assets/roll-bg/primary-banner.png"
                         alt='slime banner'
                         height={0}
                         width={0}
                         sizes='100vw'
-                        className="bg-cover w-full h-auto inset-0"
+                        className="bg-cover w-full h-auto inset-0 "
                     />
+                    </div>
                     {/* Buttons to roll */}
                     <div className="absolute bottom-0 z-3 p-20">
-                        <div className="grid grid-cols-1 gap-4 content-end">
+                        <div className="grid grid-cols-1 gap-4 content-end leading-6">
                             <button
                                 className="rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
                                 onClick={() => handleRollBtnClick(1)}>
                                 <div className="flex flex-row font-galindo">
-                                    <p>Roll with 1 </p>
+                                    <p>Roll x1</p>
                                     <Image
                                         src="/assets/icons/slime-egg.png"
                                         alt='slime egg'
@@ -195,14 +201,14 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                                         sizes='100vw'
                                         className="h-6 w-auto px-2"
                                     />
-                                    <p>{"( " + gameData.items['Slime Egg'].buyPrice + " FL )"}</p>
                                 </div>
+                                <p className=" text-xl font-galindo text-left pt-3">{gameData.items['Slime Egg'].buyPrice + " FL"}</p>
                             </button>
                             <button
                                 className="rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
                                 onClick={() => handleRollBtnClick(10)}>
-                                <div className="flex flex-row font-galindo">
-                                    <p>Roll with 10</p>
+                                <div className=" flex flex-row font-galindo text-lg">
+                                    <p>Roll <span style={{}} className={""}>x10</span></p>
                                     <Image
                                         src="/assets/icons/slime-egg.png"
                                         alt='slime egg'
@@ -211,12 +217,15 @@ export default function Roll({ loading, user, setUser, setLoading, refetchUser }
                                         sizes='100vw'
                                         className="h-6 w-auto px-2"
                                     />
-                                    <p>{"( " + gameData.items['Slime Egg'].buyPrice * 10 + " FL )"}</p>
                                 </div>
-                                <div className="flex flex-row pt-1">
-                                    <p className="pr-2">GUARANTEED</p>
-                                    <p style={{ color: gameData.rarityColours['Epic'].text }}>EPIC</p>
+
+                                <div className="flex flex-row pt-1 text-left">
+                                    <p className="pr-2">GUARANTEED </p>
+                                    <p className="font-bold" style={{ color: gameData.rarityColours['Epic'].text }}>EPIC</p>
                                 </div>
+
+                                <p className="text-xl font-galindo text-left pt-3">{gameData.items['Slime Egg'].buyPrice * 10 + " FL"}</p>
+
                             </button>
                         </div>
                     </div>
