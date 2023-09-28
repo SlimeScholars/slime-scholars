@@ -12,7 +12,7 @@ export default function Home({ user, setUser, loading }) {
       return
     }
     else if (user && user.userType === 1) {
-      router.push('/play');
+      router.push('/courses');
     }
     else if (user && user.userType === 4) {
       router.push('/admin/edit-course')

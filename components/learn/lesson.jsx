@@ -8,15 +8,24 @@ export default function Lesson({ courseId, unitId, lessonId, lessonName, looted,
 	const tier = looted ? 'text-yellow-300' :
 		stars > -1 ? 'text-yellow-100' : 'text-gray-400'
 
+	// TODO: unit badges
+	const tierClass = {
+		0: 'not-started',
+		1: 'bronze',
+		2: 'silver',
+		3: 'gold',
+	}
+
 	return (
 		<button
-			className={`course-bar-default bg-slate-300 border-2 border-slate-400`}
+		className={`course-bar-default ${tierClass[0]}
+		w-[calc(25%_+_500px)] m-3 h-[100px] px-8 flex flex-col items-center`}
 			onClick={() => {
-				router.push(`/play/courses/${courseId}/units/${unitId}/lessons/${lessonId}`)
+				router.push(`/courses/${courseId}/units/${unitId}/lessons/${lessonId}`)
 			}}
 		>
 			<h3 className="w-full grid lesson-card">
-				<span className="text-start">
+				<span className="text-start text-xl font-bold ">
 					{lessonName}
 				</span>
 				<span className={`flex items-center ${tier}`}>

@@ -6,6 +6,11 @@ import { Schema, model, models, mongoose } from "mongoose";
 
 const quizSchema = new Schema(
   {
+    // may be needed (version A, version B, etc.)
+    quizNumber: {
+      type: Number,
+      required: [true, "Missing quizNumber"],
+    },
     quizName: {
       type: String,
       default: "",

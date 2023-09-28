@@ -1,25 +1,64 @@
 import React, { useState, useRef } from "react";
 import LessonEditor from "./lessonEditor";
-
+import axios from "axios"
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import Activity from "./activity"; 
+import { showToastError } from "../../utils/toast";
 
 export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
     if (x < width * 0.4) {
-      setIsOpen(false);
       setSelected(false);
     }
   });
+
+  const deleteActivity = (index) => {
+    try {
+      if (!lesson?.activities[index]?._id) {
+        throw new Error('Activity not found')
+      }
+      const newActivities = [...lesson.activities]
+      const tempActivity = newActivities.splice(index, 1)[0]
+      console.log(tempActivity._id)
+      setLesson({ ...lesson, activities: newActivities })
+
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        params: {
+          activityId: tempActivity._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .delete("/api/admin/activity/delete", config)
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message)
+          }
+          else {
+            showToastError(error.message)
+          }
+          newActivities.splice(index, 0, tempActivity)
+          setLesson({ ...lesson, activities: newActivities })
+        });
+
+    } catch (error) {
+      showToastError(error.message);
+    }
+  }
 
   return (
     <>
