@@ -36,7 +36,6 @@ export default async function (req, res) {
     if (!course) {
       throw new Error("Could not find course");
     }
-    console.log(course);
 
     const latestAuthor = `${user.firstName} ${user.lastName}`;
 
@@ -52,9 +51,26 @@ export default async function (req, res) {
       latestAuthor,
     });
 
-    console.log(updatedCourse);
-
-    const newCourse = await Course.findById(courseId).populate("quizzes");
+    const newCourse = await Course.findById(courseId)
+      .populate("quizzes")
+      .populate({
+        path: "units",
+        model: "Unit",
+        populate: [
+          {
+            path: "lessons",
+            model: "Lesson",
+            populate: {
+              path: "activities",
+              model: "Activity",
+            },
+          },
+          {
+            path: "quizzes",
+            model: "Lesson",
+          },
+        ],
+      });
 
     console.log(newCourse);
 

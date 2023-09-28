@@ -42,13 +42,13 @@ export default function UnitQuiz({ unitQuiz, setUnitQuiz, setLoading, deleteUnit
           }}
         >
           {
-            unitQuiz.quizName ? (
+            unitQuiz.lessonName ? (
               <p className="text-white">
-                {unitQuiz.quizNumber}. {unitQuiz.quizName}
+                {unitQuiz.lessonNumber}. {unitQuiz.lessonName}
               </p>
             ) : (
               <p className="text-gray">
-                {unitQuiz.quizNumber}. New Unit Quiz
+                {unitQuiz.lessonNumber}. New Unit Quiz
               </p>
             )
           }
