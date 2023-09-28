@@ -23,18 +23,31 @@ export default async function (req, res) {
     // Get all subjects
     const subjects = await Subject.find({}).populate({
       path: "courses",
-      populate: {
-        path: "units",
-        model: "Unit",
-        populate: {
-          path: "lessons",
-          model: "Lesson",
-          populate: {
-            path: "activities",
-            model: "Activity",
-          },
+      model: "Course",
+      populate: [
+        {
+          path: "units",
+          model: "Unit",
+          populate: [
+            {
+              path: "lessons",
+              model: "Lesson",
+              populate: {
+                path: "activities",
+                model: "Activity",
+              },
+            },
+            {
+              path: "quizzes",
+              model: "Lesson",
+            },
+          ],
         },
-      },
+        {
+          path: "quizzes",
+          model: "Lesson",
+        },
+      ],
     });
 
     res.status(200).json({ subjects });

@@ -74,6 +74,7 @@ export default function CourseEditor({ course, setCourse, setLoading, deleteCour
 
   const onAddCourseQuiz = () => {
     try {
+
       const token = localStorage.getItem('jwt')
 
       // Set the authorization header
@@ -83,12 +84,15 @@ export default function CourseEditor({ course, setCourse, setLoading, deleteCour
         },
       };
       setLoading(true)
-
+      
+      const quizNumber = course.quizzes.length + 1
+      console.log(quizNumber)
       axios
-        .post("/api/admin/course-quiz/create", { courseId: course._id }, config)
+        .post("/api/admin/course-quiz/create", { courseId: course._id, quizNumber }, config)
         .then((response) => {
           if (response.data && response.data.course) {
-            console.log(response.data)
+            const newCourse = response.data.course
+            setCourse(newCourse);
             setLoading(false);
           }
         })

@@ -9,11 +9,12 @@ import CourseQuiz from "./courseQuiz";
 import Course from "./course";
 import SubjectEditor from "./subjectEditor";
 import { showToastError } from "../../utils/toast";
+import axios from "axios";
 
 export default function Subject({ subject, setSubject, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  // console.log(course)
+//   console.log(subject)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -25,7 +26,6 @@ export default function Subject({ subject, setSubject, setLoading }) {
   });
 
   const deleteCourse = (index) => {
-    console.log(index)
     try {
       if (!subject?.courses[index]?._id) {
         throw new Error('Course not found')
