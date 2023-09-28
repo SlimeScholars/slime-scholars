@@ -82,6 +82,7 @@ export default function EditSubject({ user, setUser, loading, setLoading }) {
               },
             ]);
             setLoading(false);
+            console.log(loading)
           }
         })
         .catch((error) => {
