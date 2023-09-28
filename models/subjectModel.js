@@ -2,7 +2,7 @@ import { Schema, model, models, mongoose } from "mongoose";
 
 const subjectSchema = new Schema(
   {
-    subjectaName: {
+    subjectName: {
       type: String,
       default: "",
       required: false,

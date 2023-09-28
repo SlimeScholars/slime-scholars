@@ -8,6 +8,7 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 import CourseQuiz from "./courseQuiz";
 import Course from "./course";
 import SubjectEditor from "./subjectEditor";
+import { showToastError } from "../../utils/toast";
 
 export default function Subject({ subject, setSubject, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,6 +24,47 @@ export default function Subject({ subject, setSubject, setLoading }) {
     }
   });
 
+  const deleteCourse = (index) => {
+    console.log(index)
+    try {
+      if (!subject?.courses[index]?._id) {
+        throw new Error('Course not found')
+      }
+
+      const newCourses = [...subject.courses]
+      const tempCourse = newCourses.splice(index, 1)[0]
+
+      setSubject({ ...subject, courses: newCourses })
+
+      const token = localStorage.getItem('jwt')
+
+      // Set the authorization header
+      const config = {
+        params: {
+          courseId: tempCourse._id,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      axios
+        .delete("/api/admin/course/delete", config)
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message)
+          }
+          else {
+            showToastError(error.message)
+          }
+          newCourses.splice(index, 0, tempCourse)
+          setSubject({ ...subject, courses: newCourses })
+        });
+
+    } catch (error) {
+      showToastError(error.message);
+    }
+  }
 
   return (
     <>
@@ -67,6 +109,7 @@ export default function Subject({ subject, setSubject, setLoading }) {
                   setSubject(subject);
                 }}
                 setLoading={setLoading}
+                deleteCourse={() => deleteCourse(index)}
               />
             ))}
           </div>

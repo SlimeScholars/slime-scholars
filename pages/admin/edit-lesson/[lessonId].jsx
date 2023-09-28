@@ -33,6 +33,7 @@ const emptyMC = [
 ];
 
 export default function EditLesson({ user, loading, setLoading }) {
+  console.log(loading)
   // 0 is text, 1 is img, 2 is mc, 3 is fill in the blank
   const router = useRouter();
   const [lessonId, setLessonId] = useState(router.query.lessonId);
@@ -65,31 +66,31 @@ export default function EditLesson({ user, loading, setLoading }) {
   }, [user, loading]);
 
   const [initialLoad, setInitialLoad] = useState(true);
-  useEffect(() => {
-    if (
-      !loading &&
-      lesson &&
-      lesson.course === sampleLesson.course &&
-      lesson.unit === sampleLesson.unit &&
-      lesson.name === sampleLesson.name &&
-      lesson.sections === sampleLesson.sections &&
-      lesson.quizQuestions === sampleLesson.quizQuestions
-    ) {
-      setLoading(true);
-    } else if (
-      loading &&
-      initialLoad &&
-      lesson &&
-      (lesson.course !== sampleLesson.course ||
-        lesson.unit !== sampleLesson.unit ||
-        lesson.name !== sampleLesson.name ||
-        lesson.sections !== sampleLesson.sections ||
-        lesson.quizQuestions !== sampleLesson.quizQuestions)
-    ) {
-      setInitialLoad(false);
-      setLoading(false);
-    }
-  }, [lesson, loading, initialLoad]);
+  // useEffect(() => {
+  //   if (
+  //     !loading &&
+  //     lesson &&
+  //     lesson.course === sampleLesson.course &&
+  //     lesson.unit === sampleLesson.unit &&
+  //     lesson.name === sampleLesson.name &&
+  //     lesson.sections === sampleLesson.sections &&
+  //     lesson.quizQuestions === sampleLesson.quizQuestions
+  //   ) {
+  //     setLoading(true);
+  //   } else if (
+  //     loading &&
+  //     initialLoad &&
+  //     lesson &&
+  //     (lesson.course !== sampleLesson.course ||
+  //       lesson.unit !== sampleLesson.unit ||
+  //       lesson.name !== sampleLesson.name ||
+  //       lesson.sections !== sampleLesson.sections ||
+  //       lesson.quizQuestions !== sampleLesson.quizQuestions)
+  //   ) {
+  //     setInitialLoad(false);
+  //     setLoading(false);
+  //   }
+  // }, [lesson, loading, initialLoad]);
 
   useEffect(() => {
     if (!router.query.lessonId) {

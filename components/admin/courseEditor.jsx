@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
-export default function CourseEditor({ course, setCourse, setLoading }) {
+export default function CourseEditor({ course, setCourse, setLoading, deleteCourse}) {
   const [courseName, setCourseName] = useState(course.courseName);
 
   const onSave = () => {
@@ -103,7 +103,6 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
     }
   }
 
-
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
       <ToastContainer />
@@ -134,6 +133,12 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
         onClick={onAddCourseQuiz}
       >
         Add Course Quiz
+      </button>
+      <button
+        className="w-full h-12 bg-red-300 hover:bg-red-200"
+        onClick={deleteCourse}
+      >
+        Delete
       </button>
     </div>
   );
