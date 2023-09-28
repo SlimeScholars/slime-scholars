@@ -12,7 +12,7 @@ import axios from "axios";
 export default function Course({ course, setCourse, setLoading, deleteCourse }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  // console.log(course)
+  //console.log(course)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 

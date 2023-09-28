@@ -2,7 +2,7 @@ import { authenticate } from "../../../../utils/authenticate";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import Unit from "../../../../models/unitModel";
-import Quiz from "../../../../models/quizModel";
+import Lesson from "../../../../models/lessonModel";
 
 /**
  * @desc    Create a course quiz
@@ -25,7 +25,7 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4);
 
-    const { unitId } = req.body;
+    const { unitId, quizNumber } = req.body;
 
     if (!unitId) {
       throw new Error("Missing unitId");
@@ -38,10 +38,9 @@ export default async function (req, res) {
 
     const latestAuthor = `${user.firstName} ${user.lastName}`;
 
-    const quiz = await Quiz.create({
+    const quiz = await Lesson.create({
+      lessonNumber: quizNumber,
       latestAuthor,
-      pages: [],
-      passingScore: 50,
     });
 
     unit.quizzes.push(quiz._id);
@@ -51,13 +50,7 @@ export default async function (req, res) {
       latestAuthor,
     });
 
-    const newUnit = await Unit.findById(unitId).populate({
-      path: "quizzes",
-      populate: {
-        path: "pages",
-        model: "Page",
-      },
-    });
+    const newUnit = await Unit.findById(unitId).populate("quizzes");
 
     res.status(201).json({ unit: newUnit });
   } catch (error) {

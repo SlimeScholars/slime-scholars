@@ -30,7 +30,7 @@ const courseSchema = new Schema(
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Quiz",
+          ref: "Lesson",
           required: [true, "Missing quizId"],
         },
       ],

@@ -2,7 +2,7 @@ import { authenticate } from "../../../../utils/authenticate";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import Course from "../../../../models/courseModel";
-import Quiz from "../../../../models/quizModel";
+import Lesson from "../../../../models/lessonModel";
 
 /**
  * @desc    Create a course quiz
@@ -25,7 +25,8 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4);
 
-    const { courseId } = req.body;
+    const { courseId, quizNumber } = req.body;
+    console.log(courseId, quizNumber);
 
     if (!courseId) {
       throw new Error("Missing courseId");
@@ -35,29 +36,27 @@ export default async function (req, res) {
     if (!course) {
       throw new Error("Could not find course");
     }
+    console.log(course);
 
     const latestAuthor = `${user.firstName} ${user.lastName}`;
 
-    const quiz = await Quiz.create({
+    const quiz = await Lesson.create({
+      lessonNumber: quizNumber,
       latestAuthor,
-      pages: [],
-      passingScore: 50,
     });
 
     course.quizzes.push(quiz._id);
 
-    await Course.findByIdAndUpdate(courseId, {
+    const updatedCourse = await Course.findByIdAndUpdate(courseId, {
       quizzes: course.quizzes,
       latestAuthor,
     });
 
-    const newCourse = await Course.findById(courseId).populate({
-      path: "quizzes",
-      populate: {
-        path: "pages",
-        model: "Page",
-      },
-    });
+    console.log(updatedCourse);
+
+    const newCourse = await Course.findById(courseId).populate("quizzes");
+
+    console.log(newCourse);
 
     res.status(201).json({ course: newCourse });
   } catch (error) {
