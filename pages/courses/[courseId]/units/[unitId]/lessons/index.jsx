@@ -3,6 +3,7 @@ import { useEffect, useState } from "react"
 import { showToastError } from "../../../../../../utils/toast"
 import axios from "axios"
 import Lesson from "../../../../../../components/learn/lesson"
+import Image from "next/image"
 
 export default function Lessons({ user, loading, setLoading, colorPalette }) {
 	const router = useRouter()
@@ -24,6 +25,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 	const [unitNumber, setUnitNumber] = useState(null)
 
 	useEffect(() => {
+		setLoading(true)
 		try {
 			if (!router.query.courseId || !router.query.unitId) {
 				return
@@ -46,7 +48,6 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 					Authorization: `Bearer ${token}`,
 				},
 			};
-			setLoading(true)
 			axios
 				.get("/api/learn/lessons", config)
 				.then((response) => {
@@ -68,10 +69,12 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 
 		} catch (error) {
 			showToastError(error.message);
+			setLoading(false)
 			return;
 		}
 	}, [router.query.courseId, router.query.unitId])
 
+	if(loading){return}
 	return (
 		<div
 		style={{
@@ -86,37 +89,45 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 			<span className="hover:text-blue-400 transition-all duration-150"
 			onClick={() => {
 				router.push(`/courses/${courseId}/units`)
-			}}>{unitName}</span>
+			}}>{courseName}</span>
 			<span>{">>"}</span>
 			<span className="hover:text-blue-400 transition-all duration-150"
 			onClick={() => {
 				router.push(`/courses/${courseId}/units/${unitId}/lessons`)
 			}}>{unitName}</span>
 		</div>
-		<div className="w-full h-screen flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll">
+		<div className="w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll">
 			<div className="pt-[1.5rem] pb-[1.5rem]">
-				<section className="text-4xl font-bold flex flex-col gap-2"
+			<section className="text-4xl font-bold flex flex-col gap-2"
 				style={{
 					color: !colorPalette ? "" : colorPalette.black
 				}}>
-					Unit {unitNumber}: {unitName}
-					{/* <span 
-					className="brightness-[0.5] text-lg italic font-normal"
-					style={{
-					color: !colorPalette ? "" : colorPalette.primary1
-					}}>135 lessons • 15 quizzes • 6,250 flowers</span> */}
+					{unitName}
+					<div className="flex flex-row">
+						<span 
+						className="brightness-[0.5] text-lg italic font-normal"
+						style={{
+						color: !colorPalette ? "" : colorPalette.primary1
+						}}>27 lessons • 3 quizzes • 1,810</span>
+						<Image
+						src="/assets/icons/flower.png"
+						alt="flowers"
+						height={0}
+						width={0}
+						sizes="100vw"
+						className="h-[1.4rem] w-[1.4rem] mx-1 brightnes"
+						/>
+					</div>
 				</section>
 			</div>
 			<div className="flex flex-col">
 				{lessons.map((lesson) => (
 					<Lesson
-						key={lesson._id}
-						courseId={courseId}
-						unitId={unitId}
-						lessonId={lesson._id}
-						lessonName={lesson.lessonName}
-						looted={lesson.looted}
-						stars={lesson.stars}
+					key={lesson._id}
+					courseId={courseId}
+					unitId={unitId}
+					lesson={lesson}
+					colorPalette={colorPalette}
 					/>
 				))}
 			</div>

@@ -42,41 +42,6 @@ export default function UnitQuizEditor({ unitQuiz, setUnitQuiz, setLoading, dele
     }
   };
 
-  const onAddActivity = () => {
-    try {
-      const token = localStorage.getItem('jwt')
-
-      // Set the authorization header
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-      setLoading(true)
-
-      const activityNumber = lesson.activities.length + 1
-
-      axios
-        .post("/api/admin/activity/create", { lessonId: lesson._id, activityNumber }, config)
-        .then((response) => {
-          if (response.data && response.data.lesson) {
-            console.log(response.data)
-            const newLesson = response.data.lesson
-            setLesson(newLesson);
-            setLoading(false);
-          }
-        })
-        .catch((error) => {
-          showToastError(error.message)
-          setLoading(false);
-        });
-
-    } catch (error) {
-      showToastError(error.message);
-      return;
-    }
-  }
-
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
       <ToastContainer />

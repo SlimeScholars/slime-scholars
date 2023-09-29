@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
-export default function CourseEditor({ course, setCourse, setLoading }) {
+export default function CourseEditor({ course, setCourse, setLoading, deleteCourse}) {
   const [courseName, setCourseName] = useState(course.courseName);
 
   const onSave = () => {
@@ -74,6 +74,7 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
 
   const onAddCourseQuiz = () => {
     try {
+
       const token = localStorage.getItem('jwt')
 
       // Set the authorization header
@@ -83,12 +84,15 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
         },
       };
       setLoading(true)
-
+      
+      const quizNumber = course.quizzes.length + 1
+      console.log(quizNumber)
       axios
-        .post("/api/admin/course-quiz/create", { courseId: course._id }, config)
+        .post("/api/admin/course-quiz/create", { courseId: course._id, quizNumber }, config)
         .then((response) => {
           if (response.data && response.data.course) {
-            console.log(response.data)
+            const newCourse = response.data.course
+            setCourse(newCourse);
             setLoading(false);
           }
         })
@@ -102,7 +106,6 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
       return;
     }
   }
-
 
   return (
     <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
@@ -134,6 +137,12 @@ export default function CourseEditor({ course, setCourse, setLoading }) {
         onClick={onAddCourseQuiz}
       >
         Add Course Quiz
+      </button>
+      <button
+        className="w-full h-12 bg-red-300 hover:bg-red-200"
+        onClick={deleteCourse}
+      >
+        Delete
       </button>
     </div>
   );

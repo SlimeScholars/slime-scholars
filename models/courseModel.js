@@ -7,6 +7,10 @@ const courseSchema = new Schema(
       default: "",
       required: false,
     },
+    courseNumber: {
+      type: Number,
+      required: [true, "Missing courseNumber"],
+    },
     latestAuthor: {
       type: String,
       required: [true, "Missing latestAuthor"],
@@ -26,7 +30,7 @@ const courseSchema = new Schema(
       type: [
         {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Quiz",
+          ref: "Lesson",
           required: [true, "Missing quizId"],
         },
       ],

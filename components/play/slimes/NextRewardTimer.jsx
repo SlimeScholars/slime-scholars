@@ -34,7 +34,7 @@ export default function NextRewardTimer() {
   }
 
   return (
-    <div className="text-center bg-white/[0.55] py-2 px-3 rounded-full text-slate-900 absolute top-[6.5rem] max-xl:top-[8.5rem] max-xl:text-sm min-w-[15rem]">
+    <div className="text-center bg-white/[0.55] py-2 px-3 rounded-full text-slate-900">
         Next Reward in {convertToDisplay(msToNext)}
     </div>
   )

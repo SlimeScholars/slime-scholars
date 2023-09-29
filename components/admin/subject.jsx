@@ -1,18 +1,20 @@
 import React, { useState, useRef } from "react";
-import CourseEditor from "./courseEditor";
+
 import Unit from "./unit";
 
 import useMousePosition from "../../hooks/useMousePosition";
 import useClickOutside from "../../hooks/useClickOutside";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
 import CourseQuiz from "./courseQuiz";
+import Course from "./course";
+import SubjectEditor from "./subjectEditor";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
-export default function Course({ course, setCourse, setLoading, deleteCourse }) {
+export default function Subject({ subject, setSubject, setLoading }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  //console.log(course)
+//   console.log(subject)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -23,23 +25,23 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
     }
   });
 
-  const deleteUnit = (index) => {
+  const deleteCourse = (index) => {
     try {
-      if (!course?.units[index]?._id) {
-        throw new Error('Unit not found')
+      if (!subject?.courses[index]?._id) {
+        throw new Error('Course not found')
       }
 
-      const newUnits = [...course.units]
-      const tempUnit = newUnits.splice(index, 1)[0]
+      const newCourses = [...subject.courses]
+      const tempCourse = newCourses.splice(index, 1)[0]
 
-      setCourse({ ...course, units: newUnits })
+      setSubject({ ...subject, courses: newCourses })
 
       const token = localStorage.getItem('jwt')
 
       // Set the authorization header
       const config = {
         params: {
-          unitId: tempUnit._id,
+          courseId: tempCourse._id,
         },
         headers: {
           Authorization: `Bearer ${token}`,
@@ -47,7 +49,7 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
       };
 
       axios
-        .delete("/api/admin/unit/delete", config)
+        .delete("/api/admin/course/delete", config)
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message)
@@ -55,8 +57,8 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
           else {
             showToastError(error.message)
           }
-          newUnits.splice(index, 0, tempUnit)
-          setCourse({ ...course, units: newUnits })
+          newCourses.splice(index, 0, tempCourse)
+          setSubject({ ...subject, courses: newCourses })
         });
 
     } catch (error) {
@@ -83,50 +85,37 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
           }}
           ref={selectRef}
         >
-          {course.courseName ? (
+          {subject.subjectName ? (
             <p className="text-white">
-              {course.courseName}
+              {subject.subjectName}
             </p>
           ) : (
             <p className="text-gray">
-              New Course
-              {course.courseName}
+              New Subject
+              {subject.subjectName}
             </p>
           )}
         </button>
         {isOpen && (
           <div className="w-full flex flex-col pl-5 items-start justify-start">
-            {course.units.map((unit, index) => (
-              <Unit
+            {subject.courses.map((course, index) => (
+              <Course
                 key={index}
-                unit={unit}
-                setUnit={(newUnit) => {
-                  let newUnits = [...course.units];
-                  newUnits[index] = newUnit;
-                  course.units = newUnits;
-                  setCourse(course);
-                }}
-                deleteUnit={() => deleteUnit(index)}
-                setLoading={setLoading}
-              />
-            ))}
-            {course.quizzes.map((courseQuiz, index) => (
-              <CourseQuiz
-                key={index}
-                courseQuiz={courseQuiz}
-                setCourseQuiz={(newCourseQuiz) => {
-                  let newCourseQuizzes = [...course.quizzes];
-                  newCourseQuizzes[index] = newCourseQuiz;
-                  course.quizzes = newCourseQuizzes;
-                  setCourse(course);
+                course={course}
+                setCourse={(newCourse) => {
+                  let newCourses = [...subject.courses];
+                  newCourses[index] = newCourse;
+                  subject.courses = newCourses;
+                  setSubject(subject);
                 }}
                 setLoading={setLoading}
+                deleteCourse={() => deleteCourse(index)}
               />
             ))}
           </div>
         )}
       </div>
-      {selected && <CourseEditor course={course} setCourse={setCourse} setLoading={setLoading} deleteCourse={deleteCourse}/>}
+      {selected && <SubjectEditor subject={subject} setSubject={setSubject} setLoading={setLoading} />}
     </>
   );
 }

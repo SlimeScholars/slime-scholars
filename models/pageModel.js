@@ -1,38 +1,5 @@
 import { Schema, model, models, } from 'mongoose'
 
-const pageSchema = new Schema(
-    {
-      pageNumber: {
-        type: Number,
-        required: [true, 'Missing unitNumber'],
-      },
-      sections: {
-        type: [sectionSchema],
-        required: [true, 'Missing sections'],
-        default: [],
-        _id: false,
-      },
-    },
-    {
-      timestamps: true,
-    },
-  )
-
-const sectionSchema = new Schema(
-    {
-        index: {
-            type: Number,
-            required: [true, 'Missing index']
-        },
-        elements:{
-            type: [elementSchema],
-            required: [true, 'Missing elements'],
-            default: [],
-            _id: false,
-        }
-    }
-)
-
 const elementSchema = new Schema(
     {
       index: {
@@ -99,6 +66,39 @@ const elementSchema = new Schema(
       _id: false,
     },
   )
+
+  const sectionSchema = new Schema(
+    {
+        index: {
+            type: Number,
+            required: [true, 'Missing index']
+        },
+        elements:{
+            type: [elementSchema],
+            required: [true, 'Missing elements'],
+            default: [],
+            _id: false,
+        }
+    }
+)
+
+const pageSchema = new Schema(
+    {
+      pageNumber: {
+        type: Number,
+        required: [true, 'Missing unitNumber'],
+      },
+      sections: {
+        type: [sectionSchema],
+        required: [true, 'Missing sections'],
+        default: [],
+        _id: false,
+      },
+    },
+    {
+      timestamps: true,
+    },
+)
 
 const Page = models.Activity || model('Page', pageSchema)
 
