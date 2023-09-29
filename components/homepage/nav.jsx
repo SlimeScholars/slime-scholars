@@ -38,7 +38,7 @@ export default function Nav({ user, setUser }) {
   }, [user]);
 
   return (
-    <nav className="w-screen fixed top-0 h-36 bg-transparent flex flex-row justify-between items-center px-4 lg:px-10">
+    <nav className="w-screen static top-0 h-18 bg-transparent flex flex-row justify-between items-center px-4 lg:px-10 -mb-[2rem]">
       <a className="flex justify-center items-center h-auto" href="/">
         <Image
           src="/assets/icons/logo.png"
