@@ -267,17 +267,20 @@ export function Navbar({
           })}
         </div>
         <Tooltip
-          id="my-tooltip"
-          delayShow={200}
-          place="bottom"
-          offset={20}
-          style={{
-            backgroundColor: "black",
-            fontSize: "14px",
-            zIndex: "200",
-          }}
-        />
-        {router.asPath === "/play" && <NextRewardTimer />}
+                id="my-tooltip"
+                delayShow={200}
+                place="bottom"
+                offset={20}
+                style={{
+                  backgroundColor: "black",
+                  fontSize: "14px",
+                  zIndex: "200",
+                }}
+              />
+        {router.asPath === "/play" && 
+        <div className="absolute top-[6.5rem] max-xl:top-[8.5rem] max-xl:text-sm min-w-[15rem]">
+          <NextRewardTimer/>
+        </div>}
       </div>
     </div>
   );

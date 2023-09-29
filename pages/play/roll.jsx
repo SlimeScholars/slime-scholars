@@ -80,6 +80,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
 
             // only 1 egg works for now
             if (eggsNeed === 1) {
+                setLoading(true)
                 axios
                     .post('/api/slime/open-egg', {
                         itemName: 'Slime Egg'
@@ -98,9 +99,14 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         newSlimes.push(response.data.slime);
                         setSlimes(newSlimes);
                         setOriginalSlimes(response.data.originSlimeObjects);
+                        refetchUser()
+                        setLoading(false)
 
                     })
-                    .catch(error => showToastError(error.message));
+                    .catch(error => {
+                        showToastError(error.message)
+                        setLoading(false)
+                    });
             } else {
 
                 // Rolling 10 slimes

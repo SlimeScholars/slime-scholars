@@ -10,7 +10,7 @@ import { showToastError } from "../../utils/toast";
 import { set } from "mongoose";
 import UnitQuiz from "./unitQuiz";
 
-export default function Unit({ unit, setUnit, setLoading, }) {
+export default function Unit({ unit, setUnit, setLoading, deleteUnit}) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
   const { x, y } = useMousePosition();
@@ -129,7 +129,7 @@ export default function Unit({ unit, setUnit, setLoading, }) {
           </div>
         )}
       </div>
-      {selected && <UnitEditor unit={unit} setUnit={setUnit} setLoading={setLoading} />}
+      {selected && <UnitEditor unit={unit} setUnit={setUnit} setLoading={setLoading} deleteUnit={deleteUnit}/>}
     </>
   );
 }
