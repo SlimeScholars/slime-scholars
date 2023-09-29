@@ -37,7 +37,6 @@ export default function RollResult({ setAfterRolling, slimes, originalSlimes, ro
             <div className="relative grid rollgrid place-content-center m-10 rounded-lg bg-black/80 w-[70%] max-h-[70vh] p-10">
                 <button className="text-white hover:text-slate-300 absolute top-[1rem] right-[2rem] text-[2.5rem]"
                 onClick={() => {
-                    refetchUser()
                     setAfterRolling(0)
                 }}>
                 &times;
