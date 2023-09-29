@@ -70,7 +70,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 			borderWidth: "4px",
 			borderColor: !colorPalette ? "" : colorPalette.primary1 + "80"
 		}}>
-			<div className="absolute top-0 left-0 rounded-md w-full h-full bg-black/[0.8] z-[100]"/>
+			<div className="absolute top-0 left-0 rounded-md w-full h-full bg-black/[0.65] z-[100]"/>
 			<section
 			className={`flex flex-col items-center`}>
 				<h3 className="z-[200] w-full flex text-start justify-start"
@@ -95,7 +95,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 						</div>
 						<span className={`flex flex-row`}
 						style={{
-							color: !colorPalette ? "" : colorPalette.primary1
+							color: !colorPalette ? "" : colorPalette.text1 
 						}}>
 						{Array.from({ length: maxStars }).map((_, index) => {
 							return lesson?.stars > index ?
@@ -118,7 +118,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 			<section className="z-[200]">
 				<button
 				style={{
-					backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "80",
+					backgroundColor: !colorPalette ? "" : colorPalette.primary2,
 					color: !colorPalette ? "" : colorPalette.text1
 				}}
 				className="p-4 pl-5 rounded-full text-xl font-bold flex flex-row gap-2 items-center 

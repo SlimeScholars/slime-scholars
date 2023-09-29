@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import LessonPreview from "../../../components/admin/lesson/preview";
+import LessonPreview from "../../components/admin/lesson/preview";
 import "react-toastify/dist/ReactToastify.css";
-import { showToastError } from "../../../utils/toast";
+import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
 const sampleLesson = {
@@ -487,7 +487,7 @@ export default function EditLesson({ user, loading, setLoading }) {
 
   return (
     <div className="w-full min-h-screen flex flex-row flex-nowrap">
-      <div className="w-3/5 min-h-full p-10 pr-40 bg-purple-100 font-averia ">
+      <div className="w-[50%] min-h-full p-10 pr-40 bg-purple-100 font-averia ">
         <h1 className="text-2xl font-black text-purple-500/70 mb-10">
           Edit lesson {lesson.name}
         </h1>
