@@ -70,7 +70,10 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 				router.push(`/courses`)
 			}}>Courses </span>
 		</div>
-		<div className="w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll">
+		<div className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll"
+		style={{
+			backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0"
+		}}>
 			<div className="pt-[1.5rem] pb-[1.5rem]">
 				<section className="text-4xl font-bold"
 				style={{

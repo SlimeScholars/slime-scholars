@@ -66,6 +66,7 @@ export default function Units({ user, loading, setLoading, setAxiosLoading, colo
 			return;
 		}
 	}, [router.query.courseId])
+	console.log(units)
 
 	if(loading){return}
 	return (
@@ -84,7 +85,10 @@ export default function Units({ user, loading, setLoading, setAxiosLoading, colo
 				router.push(`/courses/${courseId}/units`)
 			}}>{courseName}</span>
 		</div>
-		<div className="w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll">
+		<div className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll"
+		style={{
+			backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0"
+		}}>
 			<div className="flex flex-row gap-4 pt-[1.5rem] pb-[1.5rem]">
 				<div className="justify-self-center flex items-center justify-center border-2 rounded-full
 				w-20 h-20"
