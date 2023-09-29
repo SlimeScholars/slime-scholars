@@ -9,10 +9,10 @@ import CourseQuiz from "./courseQuiz";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
-export default function Course({ course, setCourse, setLoading }) {
+export default function Course({ course, setCourse, setLoading, deleteCourse }) {
   const [isOpen, setIsOpen] = useState(false);
   const [selected, setSelected] = useState(false);
-  // console.log(course)
+  //console.log(course)
   const { x, y } = useMousePosition();
   const { width, height } = useWindowDimensions();
 
@@ -126,7 +126,7 @@ export default function Course({ course, setCourse, setLoading }) {
           </div>
         )}
       </div>
-      {selected && <CourseEditor course={course} setCourse={setCourse} setLoading={setLoading} />}
+      {selected && <CourseEditor course={course} setCourse={setCourse} setLoading={setLoading} deleteCourse={deleteCourse}/>}
     </>
   );
 }

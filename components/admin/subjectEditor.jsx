@@ -22,6 +22,7 @@ export default function SubjectEditor({ subject, setSubject, setLoading }) {
       axios
         .put("/api/admin/subject/update-name", { subjectId: subject._id, subjectName }, config)
         .then((response) => {
+            console.log(response.data)
           if (response.data && response.data.subject) {
             setSubject(response.data.subject);
             setLoading(false);

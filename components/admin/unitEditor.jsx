@@ -85,8 +85,10 @@ export default function UnitEditor({ unit, setUnit, setLoading, deleteUnit }) {
       };
       setLoading(true)
 
+      const quizNumber = unit.quizzes.length + 1
+
       axios
-        .post("/api/admin/unit-quiz/create", { unitId: unit._id }, config)
+        .post("/api/admin/unit-quiz/create", { unitId: unit._id, quizNumber }, config)
         .then((response) => {
           if (response.data && response.data.unit) {
             const newUnit = response.data.unit
