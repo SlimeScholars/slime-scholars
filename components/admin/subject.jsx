@@ -1,29 +1,11 @@
-import React, { useState, useRef } from "react";
-
-import Unit from "./unit";
-
-import useMousePosition from "../../hooks/useMousePosition";
-import useClickOutside from "../../hooks/useClickOutside";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
-import CourseQuiz from "./courseQuiz";
+import React, { useState} from "react";
 import Course from "./course";
-import SubjectEditor from "./subjectEditor";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
+import {BiSolidDownArrow} from "react-icons/bi"
 
-export default function Subject({ subject, setSubject, setLoading }) {
+export default function Subject({ subject, setSubject, setLoading, setSidePanelProperties, selected, setSelected}) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(false);
-//   console.log(subject)
-  const { x, y } = useMousePosition();
-  const { width, height } = useWindowDimensions();
-
-  const selectRef = useRef();
-  useClickOutside(selectRef, () => {
-    if (x < width * 0.5) {
-      setSelected(false);
-    }
-  });
 
   const deleteCourse = (index) => {
     try {
@@ -71,17 +53,16 @@ export default function Subject({ subject, setSubject, setLoading }) {
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
           className={
-            `w-full h-12 flex items-center justify-between px-4 py-1 rounded-lg transition-all duration-150 mb-2
-             text-black ${selected ? "bg-sky-700 hover:bg-sky-900" : "bg-slate-400 hover:bg-slate-400"}`
+            `w-full h-12 flex items-center justify-between pl-4 py-1 rounded-lg transition-all duration-150 mb-2
+             text-black ${(selected === subject._id) ? "bg-sky-700 hover:bg-sky-700" : "bg-slate-800 hover:bg-slate-800"}`
           }
           onClick={() => {
-            setSelected(true);
-            setIsOpen(!isOpen);
+            setSelected(subject._id);
+            setSidePanelProperties({type:"subject", details:subject})
           }}
-          ref={selectRef}
         >
           {subject.subjectName ? (
-            <p className={`${!selected ? "text-white" : "text-sky-300"} font-bold`}>
+            <p className={`${!(selected === subject._id) ? "text-white" : "text-sky-300"} font-bold`}>
               {subject.subjectName}
             </p>
           ) : (
@@ -90,14 +71,24 @@ export default function Subject({ subject, setSubject, setLoading }) {
               {subject.subjectName}
             </p>
           )}
+          {subject.courses.length > 0 && <button className={`text-xl z-[300] p-1 pl-20 pr-4 ${!(selected === subject._id) ? "text-white" : "text-sky-300"}`}
+          onClick={(e) => {
+            setIsOpen(!isOpen)
+          }}>
+            <BiSolidDownArrow className={`${!isOpen ? "rotate-90" : "rotate-0"} 
+            transition-all duration-150`}/>
+          </button>}
         </button>
-        {isOpen && (
-          <div className="w-full flex flex-col pl-5 items-start justify-start">
+        <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
+          <div className={`w-full flex flex-col pl-5 items-start justify-start`}>
             {subject.courses.map((course, index) => (
               <div className="flex flex-row w-full gap-2">
               <span className="font-bold text-2xl">L</span>
               <Course
                 key={index}
+                setSidePanelProperties={setSidePanelProperties}
+                selected = {selected}
+                setSelected = {setSelected}
                 course={course}
                 setCourse={(newCourse) => {
                   let newCourses = [...subject.courses];
@@ -111,9 +102,8 @@ export default function Subject({ subject, setSubject, setLoading }) {
               </div>
             ))}
           </div>
-        )}
+        </div>
       </div>
-      {selected && <SubjectEditor subject={subject} setSubject={setSubject} setLoading={setLoading} />}
     </>
   );
 }

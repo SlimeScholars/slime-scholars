@@ -1,8 +1,8 @@
-import { authenticate } from "../../../../utils/authenticate";
-import { checkUserType } from "../../../../utils/checkUserType";
-import connectDB from "../../../../utils/connectDB";
-import Unit from "../../../../models/unitModel";
-import Lesson from "../../../../models/lessonModel";
+import { authenticate } from "../../utils/authenticate";
+import { checkUserType } from "../../utils/checkUserType";
+import connectDB from "../../utils/connectDB";
+import Unit from "../../models/unitModel";
+import Lesson from "../../models/lessonModel";
 
 /**
  * @desc    Create a course quiz

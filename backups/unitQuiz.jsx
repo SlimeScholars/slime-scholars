@@ -17,7 +17,7 @@
 //   const clickRef = useRef();
 //   useClickOutside(clickRef, () => {
 //     if (x < width * 0.5) {
-//       setSelected(false);
+//       setSelected(null);
 //     }
 //   });
 
@@ -36,7 +36,7 @@
 //           }
 //           onClick={() => {
 //             if (!selected && !isOpen) {
-//               setIsOpen(true);
+//               ;
 //               setSelected(true);
 //             }
 //           }}

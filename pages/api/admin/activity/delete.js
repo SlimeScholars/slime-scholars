@@ -14,6 +14,7 @@ import Lesson from "../../../../models/lessonModel";
  */
 export default async function (req, res) {
 	try {
+		console.log(req.query)
 		// TODO: Investigate why course select is broken
 		if (req.method !== 'DELETE') {
 			throw new Error(`${req.method} is an invalid request method`)
