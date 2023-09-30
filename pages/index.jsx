@@ -15,7 +15,7 @@ export default function Home({ user, setUser, loading }) {
       router.push('/');
     }
     else if (user && user.userType === 4) {
-      router.push('/admin/edit-subject')
+      router.push('/')
     }
     // FIXME
     else if (!user) {
@@ -38,7 +38,7 @@ export default function Home({ user, setUser, loading }) {
         />
         <header className="w-screen h-screen flex flex-col items-center justify-center">
 
-          <h1 className="sm:hidden font-black text-2xl max-w-2xl text-center">
+          <h1 className="font-bold text-2xl max-w-2xl text-center">
             Coming to App Store soon
           </h1>
           <h1 className="font-black text-6xl max-w-4xl text-center mt-2">
@@ -47,8 +47,10 @@ export default function Home({ user, setUser, loading }) {
           <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-600">
             Slime Scholars is a project that motivates students to learn by making the process gratifying.
           </h2>
-          {!user ? <Button text="Sign up for free" style="Primary" onClick="/signup" /> :
-            <Button text="Continue your learning" style="Primary" onClick="/play" />}
+          {!user ? 
+            <Button text="Sign up for free" style="Primary" onClick="/signup" /> :
+            user.userType === 1 ? 
+            <Button text="Continue your learning" style="Primary" onClick="/play" /> : <></>}
         </header>
       </main>
     </div>
