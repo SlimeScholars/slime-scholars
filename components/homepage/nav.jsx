@@ -4,12 +4,6 @@ import Button from "./button";
 
 export default function Nav({ user, setUser }) {
   const [showDropdown, setShowDropdown] = useState(false);
-  const [accountContent, setAccountContent] = useState(
-    <>
-      <Button text="Login" onClick="/login" style="Secondary" />
-      <Button text="Sign Up" onClick="/signup" style="Primary" />
-    </>
-  );
 
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
@@ -21,21 +15,6 @@ export default function Nav({ user, setUser }) {
     }
     setUser(null);
   };
-
-  useEffect(() => {
-    if (user) {
-      setAccountContent(
-        <Button text="Log Out" onClick={onLogOut} style="Primary" />
-      );
-    } else {
-      setAccountContent(
-        <>
-          <Button text="Login" onClick="/login" style="Secondary" />
-          <Button text="Sign Up" onClick="/signup" style="Primary" />
-        </>
-      );
-    }
-  }, [user]);
 
   return (
     <nav className="w-screen static top-0 h-18 bg-transparent flex flex-row justify-between items-center px-4 lg:px-10 -mb-[2rem]">
@@ -49,9 +28,15 @@ export default function Nav({ user, setUser }) {
           className="mb-2 w-[270px] h-auto"
         />
       </a>
-      <div className="hidden lg:flex">
-        <Button text="Login" onClick="/login" style="Secondary" />
-        <Button text="Sign Up" onClick="/signup" style="Primary" />
+      <div className="hidden lg:flex lg:z-10">
+        {user ?
+          <Button text="Log Out" onClick={onLogOut} style="Primary" /> :
+          <>
+            <Button text="Login" onClick="/login" style="Secondary" />
+            <Button text="Sign Up" onClick="/signup" style="Primary" />
+          </>
+        }
+
       </div>
 
     </nav>
