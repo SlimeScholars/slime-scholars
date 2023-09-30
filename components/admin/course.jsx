@@ -18,7 +18,7 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
 
   const selectRef = useRef();
   useClickOutside(selectRef, () => {
-    if (x < width * 0.4) {
+    if (x < width * 0.5) {
       setSelected(false);
     }
   });
@@ -66,16 +66,11 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
 
   return (
     <>
-      <div
-        className={
-          "w-full flex flex-col justify-start items-start overflow-hidden " +
-          (isOpen ? "" : "h-12")
-        }
-      >
+      <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
           className={
-            "w-full h-12 flex items-center justify-between px-4 py-1 hover:bg-red-400/50 " +
-            (selected ? "bg-red-400/50" : "bg-red-600/50")
+            `w-full h-12 flex items-center justify-between px-4 py-1 rounded-lg transition-all duration-150 mb-2
+             text-black ${selected ? "bg-sky-700 hover:bg-sky-900" : "bg-slate-400 hover:bg-slate-400"}`
           }
           onClick={() => {
             setSelected(true);
@@ -84,11 +79,11 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
           ref={selectRef}
         >
           {course.courseName ? (
-            <p className="text-white">
+            <p className={`${!selected ? "text-white" : "text-sky-300"} font-bold`}>
               {course.courseName}
             </p>
           ) : (
-            <p className="text-gray">
+            <p className="text-white">
               New Course
               {course.courseName}
             </p>
@@ -97,6 +92,8 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
         {isOpen && (
           <div className="w-full flex flex-col pl-5 items-start justify-start">
             {course.units.map((unit, index) => (
+              <div className="flex flex-row w-full gap-2">
+              <span className="font-bold text-2xl">L</span>
               <Unit
                 key={index}
                 unit={unit}
@@ -109,8 +106,11 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
                 deleteUnit={() => deleteUnit(index)}
                 setLoading={setLoading}
               />
+              </div>
             ))}
             {course.quizzes.map((courseQuiz, index) => (
+              <div className="flex flex-row w-full gap-2">
+              <span className="font-bold text-2xl">L</span>
               <CourseQuiz
                 key={index}
                 courseQuiz={courseQuiz}
@@ -122,6 +122,7 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
                 }}
                 setLoading={setLoading}
               />
+              </div>
             ))}
           </div>
         )}

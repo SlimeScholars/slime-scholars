@@ -14,7 +14,14 @@ export default function CourseLayout({children, colorPalette, user}){
                 <div className={`transition-all duration-150 ${sidebarOpen ? "w-[300px]" : "w-[20px]"}`}>
                     <CourseSidebar colorPalette={colorPalette} open={sidebarOpen} setOpen={setSidebarOpen} user={user}/>
                 </div>
-                {children}
+                <div className="relative"
+                style={{
+                    backgroundImage:
+                        !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+                    backgroundSize: "100vw 100vh",
+                }}>
+                    {children}
+                </div>
             </div>:
             children}
         </div>

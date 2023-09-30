@@ -19,7 +19,7 @@ export default function Home({ user, setUser }) {
         />
         <header className="w-screen h-screen flex flex-col items-center justify-center">
 
-          <h1 className="sm:hidden font-black text-2xl max-w-2xl text-center">
+          <h1 className="font-bold text-2xl max-w-2xl text-center">
             Coming to App Store soon
           </h1>
           <h1 className="font-black text-6xl max-w-4xl text-center mt-2">

@@ -15,7 +15,7 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
 
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
-    if (x < width * 0.4) {
+    if (x < width * 0.5) {
       setSelected(false);
     }
   });
@@ -62,16 +62,11 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
 
   return (
     <>
-      <div
-        className={
-          "w-full flex flex-col " + (isOpen ? "max-h-max" : "max-h-12")
-        }
-        ref={clickRef}
-      >
+      <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
           className={
-            "w-full h-12 flex items-center justify-between px-4 py-1 hover:bg-red-400/50 " +
-            (selected ? "bg-red-400/50" : "bg-red-600/50")
+            `w-full h-12 flex items-center justify-between px-4 py-1 rounded-lg transition-all duration-150 mb-2
+             text-black ${selected ? "bg-sky-700 hover:bg-sky-900" : "bg-slate-400 hover:bg-slate-400"}`
           }
           onClick={() => {
             if (!selected && !isOpen) {
@@ -79,23 +74,25 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
               setSelected(true);
             }
           }}
+          ref={clickRef}
         >
           {
             lesson.lessonName ? (
-              <p className="text-white">
+              <p className={`${!selected ? "text-white" : "text-sky-300"} font-bold`}>
                 {lesson.lessonNumber}. {lesson.lessonName}
               </p>
             ) : (
-              <p className="text-gray">
+              <p className="text-white">
                 {lesson.lessonNumber}. New Lesson
               </p>
             )
           }
         </button>
-      </div>
-      {isOpen && (
+        {isOpen && (
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {lesson.activities.map((activity, index) => (
+              <div className="flex flex-row w-full gap-2">
+              <span className="font-bold text-2xl">L</span>
               <Activity
                 key={index}
                 activity={activity}
@@ -108,9 +105,11 @@ export default function Lesson({ lesson, setLesson, setLoading, deleteLesson }) 
                 deleteActivity={() => deleteActivity(index)}
                 setLoading={setLoading}
               />
+              </div>
             ))}
           </div>
         )}
+      </div>
       {selected && <LessonEditor
         lesson={lesson}
         setLesson={setLesson}

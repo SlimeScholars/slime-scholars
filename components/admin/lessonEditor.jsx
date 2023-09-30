@@ -76,7 +76,7 @@ export default function LessonEditor({ lesson, setLesson, setLoading, deleteLess
   }
 
   return (
-    <div className="fixed h-full w-3/5 right-0 top-0 p-10 flex flex-col space-y-7 bg-teal-300/50">
+    <div className="fixed h-full w-[50%] right-0 top-0 p-10 flex flex-col space-y-7 bg-sky-200">
       <ToastContainer />
       <label className="text-2xl font-black">Lesson Details</label>
       <label className="text-xl font-bold">Lesson Name</label>

@@ -7,21 +7,16 @@ import { useRouter } from "next/router"
 
 export default function CourseSidebar({colorPalette, open, setOpen, user}){
     const router = useRouter();
-    
+
     return(
-        <div className={`relative h-full transition-all duration-150 p-4
-        ${open ? "w-[300px]" : "w-[20px]"}`}
-        style={{
-			backgroundImage:
-				!colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
-			backgroundSize: "cover",
-		}}>
+        <div className={`relative h-full transition-all duration-150 p-4 
+        ${open ? "w-[300px]" : "w-[20px]"}`}>
             <div className="absolute top-0 left-0 w-full h-full"
             style={{
                 backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "C0"
             }}/>
-            <div className="z-[100] absolute top-[50%] left-[100%] w-[4rem] h-[24rem] translate-y-[calc(-50%_-_2rem)]
-            translate-x-[-1rem] flex flex-row items-center justify-start cursor-pointer"
+            <button className={`z-[100] absolute top-[50%] left-[100%] w-[4rem] h-[24rem] translate-y-[calc(-50%_-_2rem)]
+            ${open ? "translate-x-[-1rem]" : "translate-x-[-2rem]"} flex flex-row items-center justify-start cursor-pointer`}
             onClick={() => {setOpen(!open)}}
             style={{
                 backgroundColor: "transparent" //!colorPalette ? "" : colorPalette.primary2 + "E0",
@@ -37,7 +32,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                 }}>
                     <BsFillGrid3X3GapFill className={`sidebar-arrow`}/>
                 </div>
-            </div>
+            </button>
             <section className={`relative flex flex-col z-50 p-4 rounded-lg ${open ? "opacity-100" : "opacity-0"} 
             transition-all duration-100 justify-between h-[calc(100vh_-_5rem_-_1.5rem)]`}
             style={{
