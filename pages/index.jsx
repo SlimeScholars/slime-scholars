@@ -1,27 +1,8 @@
 import Head from 'next/head'
 import Nav from '../components/homepage/nav'
 import Button from '../components/homepage/button'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 
-export default function Home({ user, setUser, loading }) {
-  const router = useRouter()
-
-  useEffect(() => {
-    if (loading) {
-      return
-    }
-    else if (user && user.userType === 1) {
-      router.push('/');
-    }
-    else if (user && user.userType === 4) {
-      router.push('/admin/edit-subject')
-    }
-    // FIXME
-    else if (!user) {
-      router.push('/login');
-    }
-  }, [user, router.pathname, loading]);
+export default function Home({ user, setUser }) {
 
   return (
     <div className="w-screen flex flex-col mt-5">
@@ -48,7 +29,10 @@ export default function Home({ user, setUser, loading }) {
             Slime Scholars is a project that motivates students to learn by making the process gratifying.
           </h2>
           {!user ? <Button text="Sign up for free" style="Primary" onClick="/signup" /> :
-            <Button text="Continue your learning" style="Primary" onClick="/play" />}
+            user.userType === 1 ?
+              <Button text="Continue your learning" style="Primary" onClick="/play" /> :
+              <Button text="Edit lessons" style="Primary" onClick="/admin" />
+          }
         </header>
       </main>
     </div>
