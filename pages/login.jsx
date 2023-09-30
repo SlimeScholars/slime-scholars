@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Back from "../components/signup/back";
 
 import { showToastError } from "../utils/toast";
 

@@ -1,13 +1,13 @@
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
-import Button from "./button";
 
 export default function Nav({ user, setUser }) {
-  const [showDropdown, setShowDropdown] = useState(false);
+  // const [showDropdown, setShowDropdown] = useState(false);
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
+  const btn_tw = "px-5 py-2 rounded-lg bg-pink-500 hover:bg-pink-400 transition-all duration-150 text-white text-lg font-bold"
+
+  // const toggleDropdown = () => {
+  //   setShowDropdown(!showDropdown);
+  // };
 
   const onLogOut = () => {
     if (typeof window !== 'undefined') {
@@ -17,29 +17,38 @@ export default function Nav({ user, setUser }) {
   };
 
   return (
-    <nav className="w-screen static top-0 h-18 bg-transparent flex flex-row justify-between items-center px-4 lg:px-10 -mb-[2rem]">
-      <a className="flex justify-center items-center h-auto" href="/">
-        <Image
-          src="/assets/icons/logo.png"
-          alt="Slime Scholars Logo"
-          height={0}
-          width={0}
-          sizes='100vw'
-          className="mb-2 w-[270px] h-auto"
-        />
-      </a>
-      <div className="hidden lg:flex lg:z-10">
-        {user ?
-          <Button text="Log Out" onClick={onLogOut} style="Primary" /> :
-          <>
-            <Button text="Login" onClick="/login" style="Secondary" />
-            <Button text="Sign Up" onClick="/signup" style="Primary" />
-          </>
-        }
-
-      </div>
-
-    </nav>
+    <div className="flex flex-row px-2 items-center justify-between w-full h-[5rem] bg-black">
+        <section>
+            <a className="flex justify-center items-center h-auto" href="/">
+                <Image
+                src="/assets/icons/logo-light.png"
+                alt="Slime Scholars Logo"
+                height={0}
+                width={0}
+                sizes='100vw'
+                className="w-[250px] h-auto rounded-full p-2 brightness-[2]"
+                // style={{
+                //     backgroundColor: !colorPalette ? "" : colorPalette.primary1
+                // }}
+                />
+            </a>
+        </section>
+        <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
+          {user ?
+            <button className={btn_tw} onClick={onLogOut}>
+              Log Out
+            </button> :
+            <>
+              <button className={btn_tw} href="/login">
+                Login
+              </button>
+              <button className={btn_tw} href="/signup">
+                Sign Up
+              </button>
+            </>
+          }
+        </section>
+    </div>
   );
 }
 
