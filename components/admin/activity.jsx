@@ -14,7 +14,7 @@ export default function Activity({ activity, setActivity, setLoading, deleteActi
 
   const clickRef = useRef();
   useClickOutside(clickRef, () => {
-    if (x < width * 0.4) {
+    if (x < width * 0.5) {
       setIsOpen(false);
       setSelected(false);
     }
@@ -24,16 +24,11 @@ export default function Activity({ activity, setActivity, setLoading, deleteActi
 
   return (
     <>
-      <div
-        className={
-          "w-full flex flex-col " + (isOpen ? "max-h-max" : "max-h-12")
-        }
-        ref={clickRef}
-      >
+      <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
           className={
-            "w-full h-12 flex items-center justify-between px-4 py-1 hover:bg-red-400/50 " +
-            (selected ? "bg-red-400/50" : "bg-red-600/50")
+            `w-full h-12 flex items-center justify-between px-4 py-1 rounded-lg transition-all duration-150 mb-2
+             text-black ${selected ? "bg-sky-700 hover:bg-sky-900" : "bg-slate-400 hover:bg-slate-400"}`
           }
           onClick={() => {
             if (!selected && !isOpen) {
@@ -42,14 +37,15 @@ export default function Activity({ activity, setActivity, setLoading, deleteActi
             //   console.log(activity + " selected")
             }
           }}
+          ref={clickRef}
         >
           {
             activity.activityName ? (
-              <p className="text-white">
+              <p className={`${!selected ? "text-white" : "text-sky-300"} font-bold`}>
                 {activity.activityNumber}. {activity.activityName}
               </p>
             ) : (
-              <p className="text-gray">
+              <p className="text-white">
                 {activity.activityNumber}. New Activity
               </p>
             )

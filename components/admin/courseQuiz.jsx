@@ -18,7 +18,7 @@ export default function CourseQuiz({ courseQuiz, setCourseQuiz, setLoading, }) {
 
   const selectRef = useRef();
   useClickOutside(selectRef, () => {
-    if (x < width * 0.4) {
+    if (x < width * 0.5) {
       setSelected(false);
     }
   });
@@ -67,16 +67,11 @@ export default function CourseQuiz({ courseQuiz, setCourseQuiz, setLoading, }) {
 
   return (
     <>
-      <div
-        className={
-          "w-full flex flex-col justify-start items-start overflow-hidden " +
-          (isOpen ? "" : "h-12")
-        }
-      >
+      <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
           className={
-            "w-full h-12 flex items-center justify-between px-4 py-1 hover:bg-red-400/50 " +
-            (selected ? "bg-red-400/50" : "bg-red-600/50")
+            `w-full h-12 flex items-center justify-between px-4 py-1 rounded-lg transition-all duration-150 mb-2
+             text-black ${selected ? "bg-sky-700 hover:bg-sky-900" : "bg-slate-400 hover:bg-slate-400"}`
           }
           onClick={() => {
             setSelected(true);
@@ -87,11 +82,11 @@ export default function CourseQuiz({ courseQuiz, setCourseQuiz, setLoading, }) {
         >
           {
             courseQuiz.lessonName ? (
-              <p className="text-white">
+              <p className={`${!selected ? "text-white" : "text-sky-300"} font-bold`}>
                 {courseQuiz.lessonNumber}. {courseQuiz.lessonName}
               </p>
             ) : (
-              <p className="text-gray">
+              <p className="text-white">
                 {courseQuiz.lessonNumber}. New Course Quiz
               </p>
             )
