@@ -26,10 +26,13 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4);
 
-    const { unitId, lessonNumber } = req.body;
+    const { unitId, lessonType, lessonNumber } = req.body;
 
     if (!unitId) {
       throw new Error("Missing unitId");
+    }
+    if(['lesson', 'quiz', 'test'].indexOf(lessonType) == -1){
+      throw new Error("Invalid lesson type");
     }
     if (lessonNumber === undefined) {
       throw new Error("Missing lesson number");
@@ -44,7 +47,7 @@ export default async function (req, res) {
 
     const lesson = await Lesson.create({
       lessonNumber,
-      lessonType: 1,
+      lessonType,
       latestAuthor,
       quizQuestions: [[]],
     });

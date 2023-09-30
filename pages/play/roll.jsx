@@ -123,6 +123,9 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         setSlimes(response.data.slimeObjects);
                         setOriginalSlimes(response.data.originSlimeObjects);
                         setAfterRolling(2);
+
+                        refetchUser()
+                        setLoading(false)
                     })
                     .catch(error => showToastError(error.message));
             }

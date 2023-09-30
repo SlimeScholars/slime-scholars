@@ -1,27 +1,13 @@
 import React, { useState, useRef } from "react";
-import CourseEditor from "./courseEditor";
 import Unit from "./unit";
 
-import useMousePosition from "../../hooks/useMousePosition";
-import useClickOutside from "../../hooks/useClickOutside";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
-import CourseQuiz from "./courseQuiz";
+import { BiSolidDownArrow } from "react-icons/bi";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 
-export default function Course({ course, setCourse, setLoading, deleteCourse }) {
+export default function Course({ course, setCourse, setLoading, deleteCourse, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [selected, setSelected] = useState(false);
   //console.log(course)
-  const { x, y } = useMousePosition();
-  const { width, height } = useWindowDimensions();
-
-  const selectRef = useRef();
-  useClickOutside(selectRef, () => {
-    if (x < width * 0.5) {
-      setSelected(false);
-    }
-  });
 
   const deleteUnit = (index) => {
     try {
@@ -69,17 +55,17 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
           className={
-            `w-full h-12 flex items-center justify-between px-4 py-1 rounded-lg transition-all duration-150 mb-2
-             text-black ${selected ? "bg-sky-700 hover:bg-sky-900" : "bg-slate-400 hover:bg-slate-400"}`
+            `w-full h-12 flex items-center justify-between pl-4 py-1 rounded-lg transition-all duration-150 mb-2
+             text-black ${(selected === course._id) ? "bg-sky-700 hover:bg-sky-700" : "bg-slate-700 hover:bg-slate-700"}`
           }
           onClick={() => {
-            setSelected(true);
-            setIsOpen(!isOpen);
+            setSelected(course._id);
+            setSidePanelProperties({type:"course", details:course})
+            ;
           }}
-          ref={selectRef}
         >
           {course.courseName ? (
-            <p className={`${!selected ? "text-white" : "text-sky-300"} font-bold`}>
+            <p className={`${!(selected === course._id) ? "text-white" : "text-sky-300"} font-bold`}>
               {course.courseName}
             </p>
           ) : (
@@ -88,14 +74,24 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
               {course.courseName}
             </p>
           )}
+          {course.units.length > 0 && <button className={`text-xl z-[300] p-1 pl-20 pr-4 ${!(selected === course._id) ? "text-white" : "text-sky-300"}`}
+          onClick={(e) => {
+            setIsOpen(!isOpen)
+          }}>
+            <BiSolidDownArrow className={`${!isOpen ? "rotate-90" : "rotate-0"} 
+            transition-all duration-150`}/>
+          </button>}
         </button>
-        {isOpen && (
+        <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
           <div className="w-full flex flex-col pl-5 items-start justify-start">
             {course.units.map((unit, index) => (
               <div className="flex flex-row w-full gap-2">
               <span className="font-bold text-2xl">L</span>
               <Unit
                 key={index}
+                setSidePanelProperties={setSidePanelProperties}
+            selected = {selected}
+            setSelected = {setSelected}
                 unit={unit}
                 setUnit={(newUnit) => {
                   let newUnits = [...course.units];
@@ -108,7 +104,7 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
               />
               </div>
             ))}
-            {course.quizzes.map((courseQuiz, index) => (
+            {/* {course.quizzes.map((courseQuiz, index) => (
               <div className="flex flex-row w-full gap-2">
               <span className="font-bold text-2xl">L</span>
               <CourseQuiz
@@ -123,11 +119,10 @@ export default function Course({ course, setCourse, setLoading, deleteCourse }) 
                 setLoading={setLoading}
               />
               </div>
-            ))}
+            ))} */}
           </div>
-        )}
+        </div>
       </div>
-      {selected && <CourseEditor course={course} setCourse={setCourse} setLoading={setLoading} deleteCourse={deleteCourse}/>}
     </>
   );
 }

@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
-import Course from "../../components/admin/course";
-
 import { useRouter } from "next/router";
+import { subjectService } from "../../services";
 
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 import Subject from "../../components/admin/subject";
+import SidePanel from "../../components/admin/sidePanel";
 
-export default function EditSubject({ user, setUser, loading, setLoading }) {
+export default function AdminHomepage({ user, setUser, loading, setLoading }) {
   const router = useRouter()
 
   useEffect(() => {
@@ -21,6 +21,8 @@ export default function EditSubject({ user, setUser, loading, setLoading }) {
   }, [user, loading])
 
   const [initialLoad, setInitialLoad] = useState(true)
+  const [sidePanelProperties, setSidePanelProperties] = useState({type: "blank", details:null})
+  const [selected, setSelected] = useState(null);
   const [subjects, setSubjects] = useState(undefined);
 
   useEffect(() => {
@@ -37,7 +39,6 @@ export default function EditSubject({ user, setUser, loading, setLoading }) {
     setLoading(true)
     axios
       .get("/api/subject")
-      // change everything to subject
       .then((response) => {
         if (response.data && response.data.subjects) {
           const responseSubjects = []
@@ -134,16 +135,12 @@ export default function EditSubject({ user, setUser, loading, setLoading }) {
           </button>
           
         </div>
-        {/* <button
-          className="w-full h-12 bg-green-200 font-black hover:bg-green-100 border-2
-           border-green-500 hover:border-green-300 mb-4 text-green-500 transition-all duration-150 rounded-lg"
-          onClick={onAddSubject}
-        >
-          Add Subject
-        </button> */}
         {subjects === undefined ? <></> : subjects.map((subject, index) => (
           <Subject
             key={index}
+            setSidePanelProperties={setSidePanelProperties}
+            selected = {selected}
+            setSelected = {setSelected}
             subject={subject}
             setSubject={(newSubject) => {
               let newSubjects = [...subjects];
@@ -153,9 +150,25 @@ export default function EditSubject({ user, setUser, loading, setLoading }) {
             setLoading={setLoading}
           />
         ))}
+        <button
+          className="w-full h-12 bg-teal-500 font-semibold hover:bg-teal-400
+           text-white transition-all duration-150 rounded-lg text-xl mt-4"
+          onClick={async() => {
+            setLoading(true)
+            await subjectService.post()
+            fetch()
+          }}
+        >
+          + New Subject
+        </button>
       </div>
       <div className="h-full w-[50%] bg-sky-200">
       </div>
+      <SidePanel 
+      {...sidePanelProperties}
+      setSidePanelProperties={setSidePanelProperties}
+      setLoading={setLoading}
+      refreshPanel={fetch}/>
     </div>
   );
 }
