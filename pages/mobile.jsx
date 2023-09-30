@@ -2,7 +2,6 @@ import { useRouter } from "next/router"
 import { useEffect } from "react"
 import Head from 'next/head'
 import Nav from '../components/homepage/nav'
-import Button from '../components/homepage/button'
 
 export default function Mobile({ isMobile, user, setUser}) {
   const router = useRouter()
