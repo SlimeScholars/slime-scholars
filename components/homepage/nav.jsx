@@ -1,13 +1,10 @@
 import Image from "next/image";
+import {useRouter} from 'next/router'
 
 export default function Nav({ user, setUser }) {
-  // const [showDropdown, setShowDropdown] = useState(false);
 
+  const router = useRouter()
   const btn_tw = "px-5 py-2 rounded-lg bg-pink-500 hover:bg-pink-400 transition-all duration-150 text-white text-lg font-bold"
-
-  // const toggleDropdown = () => {
-  //   setShowDropdown(!showDropdown);
-  // };
 
   const onLogOut = () => {
     if (typeof window !== 'undefined') {
@@ -39,10 +36,10 @@ export default function Nav({ user, setUser }) {
               Log Out
             </button> :
             <>
-              <button className={btn_tw} href="/login">
+              <button className={btn_tw} onClick={() => {router.push('/login')}}>
                 Login
               </button>
-              <button className={btn_tw} href="/signup">
+              <button className={btn_tw} href={() => {router.push('/signup')}}>
                 Sign Up
               </button>
             </>

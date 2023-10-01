@@ -6,7 +6,6 @@ import Unit from "../../../models/unitModel"
 import Activity from "../../../models/activityModel"
 // Import for the populate
 import '../../../models/lessonModel'
-import Page from "../../../models/pageModel"
 
 /**
  * @desc    Get units for unit selection
