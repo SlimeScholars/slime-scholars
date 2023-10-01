@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Nav from '../components/homepage/nav'
+import Link from 'next/link'
 
 export default function Home({ user, setUser }) {
 
@@ -34,18 +35,18 @@ export default function Home({ user, setUser }) {
               Slime Scholars is a project that motivates students to learn by making the process gratifying.
             </h2>
             {!user ?
-              <button className={btn_tw} href="/signup">
-              Sign up for free
-              </button> :
+              <Link className={btn_tw} href="/signup">
+                Sign up for free
+              </Link> :
               user.userType === 1 ?
-                <button className={btn_tw} href="/play">
+                <Link className={btn_tw} href="/play">
                   Continue your learning
-                  </button> :
-                <button className={btn_tw} href="/admin">
+                </Link> :
+                <Link className={btn_tw} href="/admin">
                   Edit lessons
-                </button>
+                </Link>
             }
-            </div>
+          </div>
         </header>
       </main>
     </div>
