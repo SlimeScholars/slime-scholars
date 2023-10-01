@@ -92,7 +92,7 @@ export default async function (req, res) {
     }
 
     if (!pages) {
-      throw new Error("Please send sections");
+      throw new Error("Please send pages");
     }
     if (imageLength === undefined) {
       throw new Error("Please send imageLength");
@@ -118,7 +118,6 @@ export default async function (req, res) {
 
       const section = { ...sections[i] };
 
-      const processedElements = [];
       for (let j in section.elements) {
         const element = { ...section.elements[j] };
         if (
@@ -163,10 +162,10 @@ export default async function (req, res) {
         }
         processedElements.push(processedElement);
       }
-      processedPages.push(processedElements);
     }
+    pages[pageIndex].sections = sections;
     await Activity.findByIdAndUpdate(activityId, {
-      pages: [...pages, (pages[pageIndex] = proccessedPages)],
+      pages,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
