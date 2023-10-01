@@ -241,6 +241,11 @@ export default function SidePanel({type, details, setSidePanelProperties, setLoa
             }}>
             + Add Course
           </button>
+          <button
+            className="w-full h-12 transition-all duration-150  rounded-lg bg-neutral-300 hover:bg-neutral-200 font-black"
+            onClick={async() => {await carry(subjectService.delete)(data._id)}}>
+            Delete
+          </button>
         </div>
       )
    }
