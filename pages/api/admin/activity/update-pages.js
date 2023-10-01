@@ -109,7 +109,8 @@ export default async function (req, res) {
     }
 
     const sections = pages[pageIndex].sections;
-    const processedPages = [];
+    const newPages = [...pages];
+    const processedPage = [];
 
     for (let i in sections) {
       if (i !== sections[i].sectionIndex) {
@@ -117,6 +118,7 @@ export default async function (req, res) {
       }
 
       const section = { ...sections[i] };
+      const processedElements = [];
 
       for (let j in section.elements) {
         const element = { ...section.elements[j] };
@@ -160,12 +162,16 @@ export default async function (req, res) {
           processedElement.blank = rawBlank.map((str) => str.trim());
           processedElement.explanation = element.explanation;
         }
+        // put all the elements in a section
         processedElements.push(processedElement);
       }
+      // put all sections into a page
+      processedPage.push(processedElements);
     }
-    pages[pageIndex].sections = sections;
+    newPages[pageIndex] = processedPage;
+
     await Activity.findByIdAndUpdate(activityId, {
-      pages,
+      pages: newPages,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
