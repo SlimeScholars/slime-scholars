@@ -23,7 +23,7 @@ export default function Home({ user, setUser }) {
           backgroundImage:`url('/assets/backgrounds/forest-mountains.png')`,
           backgroundSize: "100vw auto"
         }}>
-          <div className="p-[8.5rem] rounded-2xl bg-neutral-700/[0.75] flex flex-col items-center justify-center">
+          <div className="p-[8.5rem] rounded-2xl bg-neutral-700/[0.75] flex flex-col items-center justify-center fade-in-bottom-index">
             <h1 className="font-bold text-2xl max-w-2xl text-center">
               Coming to App Store soon
             </h1>
