@@ -15,9 +15,9 @@ export class SubjectService{
         .then((response) => response)
         .catch((error) => {showToastError(error.message)});
 
-    // delete = async(id) => this.instance.delete(`/api/admin/subject/delete?subjectId=${id}`, applyHeaders())
-    //     .then((response) => response)
-    //     .catch((error) => {showToastError(error.message)});
+    delete = async(id) => this.instance.delete(`/api/admin/subject/delete?subjectId=${id}`, applyHeaders())
+        .then((response) => response)
+        .catch((error) => {showToastError(error.message)});
 
     post = async(params) => this.instance.post("/api/admin/subject/create", params, applyHeaders())
         .then((response) => response)
