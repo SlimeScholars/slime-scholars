@@ -67,8 +67,6 @@ export function Navbar({
         <button
           className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem]"
           style={{
-            backgroundColor:
-              !colorPalette ? "" : colorPalette.primary1,
             color: !colorPalette ? "" : colorPalette.text1,
           }}
           onClick={(e) => {
@@ -76,19 +74,20 @@ export function Navbar({
             router.push("/play");
           }}
         >
-          <FaChevronLeft className="inline text-lg max-xl:h-3 max-xl:w-3 ml-2" />
-          <HiHome className="inline text-3xl ml-1 -mt-0.5 mr-3 max-xl:h-6 max-xl:w-6" />
+          <FaChevronLeft className="inline text-lg max-2xl:h-3 max-xl:w-3 ml-2" />
+          <HiHome className="inline text-5xl ml-1 -mt-0.5 mr-10 max-xl:h-6 max-xl:w-6" />
         </button>
       )}
       {/* earn flowers button */}
       <div>
         <button
-          className={`pr-8 pl-8 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem] ${!onHome && 'absolute left-[6rem] top-3 max-xl:left-0'}`}
+          className={`pr-16 pl-16 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-sm max-xl:p-3 max-xl:h-[3rem] ${!onHome && 'absolute left-[6rem] top-3 max-xl:left-0'}`}
           style={{
             backgroundColor:
-              !colorPalette ? "" : colorPalette.primary1,
-            color: !colorPalette ? "" : colorPalette.text1,
-            boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`
+              !colorPalette ? "" : colorPalette.primary2,
+            color: !colorPalette ? "" : colorPalette.text2,
+            boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`,
+            background: `linear-gradient(90deg, ${!colorPalette ? "" : colorPalette.primary2} 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
           }}
           onClick={(e) => {
             e.preventDefault();
