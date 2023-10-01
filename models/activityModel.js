@@ -11,10 +11,6 @@ const elementSchema = new Schema(
       type: Number,
       required: [true, 'Missing sectionType'],
     },
-    elementNumber: {
-      type: Number,
-      required: [true, 'Missing sectionNumber'],
-    },
     explanation: {
       type: String,
       required: false,
@@ -69,7 +65,7 @@ const elementSchema = new Schema(
 
 const sectionSchema = new Schema(
   {
-    index: {
+    sectionIndex: {
       type: Number,
       required: [true, 'Missing index']
     },
@@ -86,7 +82,7 @@ const pageSchema = new Schema(
   {
     pageNumber: {
       type: Number,
-      required: [true, 'Missing unitNumber'],
+      required: [true, 'Missing pageNumber'],
     },
     sections: {
       type: [sectionSchema],
