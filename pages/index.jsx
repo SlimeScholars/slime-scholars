@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Nav from '../components/homepage/nav'
+import Link from 'next/link'
 
 export default function Home({ user, setUser }) {
 
@@ -19,10 +20,10 @@ export default function Home({ user, setUser }) {
           setUser={setUser}
         />
         <header className="w-screen h-[calc(100vh_-_5rem)] flex flex-col items-center justify-center text-white"
-        style={{
-          backgroundImage:`url('/assets/backgrounds/forest-mountains.png')`,
-          backgroundSize: "100vw auto"
-        }}>
+          style={{
+            backgroundImage: `url('/assets/backgrounds/forest-mountains.png')`,
+            backgroundSize: "100vw auto"
+          }}>
           <div className="p-[8.5rem] rounded-2xl bg-neutral-700/[0.75] flex flex-col items-center justify-center">
             <h1 className="font-bold text-2xl max-w-2xl text-center">
               Coming to App Store soon
@@ -34,18 +35,18 @@ export default function Home({ user, setUser }) {
               Slime Scholars is a project that motivates students to learn by making the process gratifying.
             </h2>
             {!user ?
-              <button className={btn_tw} href="/signup">
-              Sign up for free
-              </button> :
+              <Link className={btn_tw} href="/signup">
+                Sign up for free
+              </Link> :
               user.userType === 1 ?
-                <button className={btn_tw} href="/play">
+                <Link className={btn_tw} href="/play">
                   Continue your learning
-                  </button> :
-                <button className={btn_tw} href="/admin">
+                </Link> :
+                <Link className={btn_tw} href="/admin">
                   Edit lessons
-                </button>
+                </Link>
             }
-            </div>
+          </div>
         </header>
       </main>
     </div>
