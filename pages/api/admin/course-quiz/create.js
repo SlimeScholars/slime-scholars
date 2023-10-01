@@ -46,7 +46,8 @@ export default async function (req, res) {
 
     course.quizzes.push(quiz._id);
 
-    const updatedCourse = await Course.findByIdAndUpdate(courseId, {
+    await Course.findByIdAndUpdate(courseId, {
+      lessonType: "quiz",
       quizzes: course.quizzes,
       latestAuthor,
     });
