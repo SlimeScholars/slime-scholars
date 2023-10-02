@@ -53,26 +53,24 @@ export default function ItemDetails({
       };
 
       const newUser = { ...user }
-      if (item.buyCurrency === 0) {
-        if (user.slimeGel < item.buyPrice) {
+      if (gameData.items[item.itemName].buyCurrency === 0) {
+        if (user.slimeGel < gameData.items[item.itemName].buyPrice) {
           showToastError("Insufficient slime gel.")
           return;
         }
-        newUser.slimeGel -= item.buyPrice
+        newUser.slimeGel -= gameData.items[item.itemName].buyPrice
       }
-      else if (item.buyCurrency === 1) {
-        if (user.flowers < item.buyPrice) {
+      else if (gameData.items[item.itemName].buyCurrency === 1) {
+        if (user.flowers < gameData.items[item.itemName].buyPrice) {
           showToastError("Insufficient flowers.")
           return;
         }
-        newUser.flowers -= item.buyPrice
+        newUser.flowers -= gameData.items[item.itemName].buyPrice
       }
 
       const newItem = {
         itemName: item.itemName,
-        rarity: item.rarity,
         quantity: 1,
-        isBg: true,
       }
       newUser.items.push(newItem)
 
@@ -102,7 +100,7 @@ export default function ItemDetails({
 
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
-    if (item.isBg) {
+    if (gameData.items[item.itemName].isBg) {
       return (
         <div
           style={{
@@ -125,9 +123,9 @@ export default function ItemDetails({
             >
               <p
                 className={`text-2xl font-thin`}
-                style={{ color: gameData.rarityColours[item.rarity].text }}
+                style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
               >
-                {item.rarity}
+                {gameData.items[item.itemName].rarity}
               </p>
               <p
                 className="text-2xl font-bold"
@@ -162,9 +160,9 @@ export default function ItemDetails({
 
               ) : (
                 <button
-                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${item.buyCurrency === 0 ?
-                    (user.slimeGel < item.buyPrice ? 'grayscale' : '') :
-                    (user.flowers < item.buyPrice ? 'grayscale' : '')
+                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${gameData.items[item.itemName].buyCurrency === 0 ?
+                    (user.slimeGel < gameData.items[item.itemName].buyPrice ? 'grayscale' : '') :
+                    (user.flowers < gameData.items[item.itemName].buyPrice ? 'grayscale' : '')
                     }`}
                   style={{
                     backgroundColor: colorPalette?.primary1,
@@ -180,8 +178,8 @@ export default function ItemDetails({
                       |
                     </div>
                     <div className="flex flex-row items-center">
-                      {item.buyPrice}
-                      {item.buyCurrency === 0 ? (
+                      {gameData.items[item.itemName].buyPrice}
+                      {gameData.items[item.itemName].buyCurrency === 0 ? (
                         <Image
                           src="/assets/icons/slime-gel.png"
                           alt="slime gel"
@@ -239,9 +237,9 @@ export default function ItemDetails({
           >
             <p
               className={`text-2xl font-thin`}
-              style={{ color: gameData.rarityColours[item.rarity].text }}
+              style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
             >
-              {item.rarity}
+              {gameData.items[item.itemName].rarity}
             </p>
             <p
               className="text-2xl font-bold"
@@ -269,7 +267,7 @@ export default function ItemDetails({
             <div className="flex flex-row w-full items-center">
               <div className="grow">Buy Item</div>
               <div className="shrink px-1">Buy for:</div>
-              {item.buyCurrency == 1 ? (
+              {gameData.items[item.itemName].buyCurrency == 1 ? (
                 <div className="text-orange-300 px-1">
                   {gameData.items[item.itemName].buyPrice + " FL each"}
                 </div>
@@ -394,7 +392,7 @@ export default function ItemDetails({
                 </div>
                 {/* Flower or Gel icon */}
                 <div className="shrink px-1">
-                  {item.buyCurrency === 1 ? (
+                  {gameData.items[item.itemName].buyCurrency === 1 ? (
                     <Image
                       src="/assets/icons/flower.png"
                       alt="flowers"
@@ -415,7 +413,7 @@ export default function ItemDetails({
                   )}
                 </div>
                 <div className="shrink p-3 text-center">
-                  <p>{buyItemsNum * item.buyPrice}</p>
+                  <p>{buyItemsNum * gameData.items[item.itemName].buyPrice}</p>
                 </div>
               </div>
             </div>
@@ -426,7 +424,7 @@ export default function ItemDetails({
   }
 
   // for background
-  if (item.isBg && gameData.items[item.itemName]) {
+  if (gameData.items[item.itemName] && gameData.items[item.itemName].isBg) {
     return (
       <div
         style={{
@@ -449,9 +447,9 @@ export default function ItemDetails({
           >
             <p
               className={`text-2xl font-thin`}
-              style={{ color: gameData.rarityColours[item.rarity].text }}
+              style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
             >
-              {item.rarity}
+              {gameData.items[item.itemName].rarity}
             </p>
             <p
               className="text-2xl font-bold"
@@ -679,7 +677,7 @@ export default function ItemDetails({
   // for eggs
   if (
     gameData.items[item.itemName] &&
-    gameData.rarityColours[item.rarity].text
+    gameData.rarityColours[gameData.items[item.itemName].rarity].text
   ) {
     return (
       <div
@@ -705,9 +703,9 @@ export default function ItemDetails({
           >
             <p
               className={`text-2xl font-thin`}
-              style={{ color: gameData.rarityColours[item.rarity].text }}
+              style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
             >
-              {item.rarity}
+              {gameData.items[item.itemName].rarity}
             </p>
             <p
               className="text-2xl font-bold"
@@ -737,13 +735,13 @@ export default function ItemDetails({
           <div className="flex flex-row w-full items-center">
             <div className="grow">Sell Item</div>
             <div className="shrink px-1">Sell for:</div>
-            {item.sellCurrency == 1 ? (
+            {gameData.items[item.itemName].sellCurrency == 1 ? (
               <div className="text-orange-300 px-1">
-                {item.sellPrice + " FL each"}
+                {gameData.items[item.itemName].sellPrice + " FL each"}
               </div>
             ) : (
               <div className="text-orange-300 px-1">
-                {item.sellPrice + " SG each"}
+                {gameData.items[item.itemName].sellPrice + " SG each"}
               </div>
             )}
           </div>
@@ -888,7 +886,7 @@ export default function ItemDetails({
               </div>
               {/* Flower or Gel icon */}
               <div className="shrink px-1">
-                {item.sellCurrency === 1 ? (
+                {gameData.items[item.itemName].sellCurrency === 1 ? (
                   <Image
                     src="/assets/icons/flower.png"
                     alt="flowers"
@@ -909,7 +907,7 @@ export default function ItemDetails({
                 )}
               </div>
               <div className="shrink p-3 text-center">
-                <p>{sellItemsNum * item.sellPrice}</p>
+                <p>{sellItemsNum * gameData.items[item.itemName].sellPrice}</p>
               </div>
             </div>
           </div>

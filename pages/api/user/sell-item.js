@@ -56,7 +56,7 @@ export default async function (req, res) {
 		}
 
 		const item = gameData.items[itemName]
-		const price = item.sellPrice * quantity
+		const price = gameData.items[item.itemName].sellPrice * quantity
 
 		const newUser = { ...user }
 		newUser.items[itemIndex].quantity -= quantity
@@ -64,10 +64,10 @@ export default async function (req, res) {
 			newUser.items.splice(itemIndex, 1)
 		}
 
-		if (item.sellCurrency === 0) {
+		if (gameData.items[item.itemName].sellCurrency === 0) {
 			newUser.slimeGel += price
 		}
-		else if (item.sellCurrency === 1) {
+		else if (gameData.items[item.itemName].sellCurrency === 1) {
 			newUser.flowers += price
 		}
 
