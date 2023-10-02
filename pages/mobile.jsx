@@ -21,7 +21,7 @@ export default function Mobile({ isMobile, user, setUser}) {
   }, [isMobile])
   return (
     <>
-      <div className="min-w-screen flex flex-col mt-5 overflow-hidden">
+      <div className="min-w-screen flex flex-col overflow-hidden">
       <Head>
         <title>Slime Scholars</title>
         <meta name="description" content="Make Learning Exiting with Slime Scholars" />
@@ -32,16 +32,18 @@ export default function Mobile({ isMobile, user, setUser}) {
           user={user}
           setUser={setUser}
         />
-        <header className="w-screen h-screen flex flex-col items-center justify-center content-center">
-          <h1 className="font-black text-6xl max-w-4xl text-center ">
-            Make Learning Exciting with Slime Scholars
-          </h1>
-          <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-600">
-            Slime Scholars is a project that motivates students to learn by making the process gratifying.
-          </h2>
-          <h2 className="font-galindo text-4xl text-center">
-            Coming to <span className="text-pink-500">appstore</span> soon!
-          </h2>
+        <header className="min-w-screen min-h-screen flex flex-col items-center justify-center content-center">
+          <div className="mr-[3rem] ml-[3rem] overflow-hidden">
+            <h1 className="font-black text-5xl max-w-4xl text-center ">
+              Make Learning Exciting with Slime Scholars
+            </h1>
+            <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-600">
+              Slime Scholars is a project that motivates students to learn by making the process gratifying.
+            </h2>
+            <h2 className="font-galindo text-4xl text-center">
+              Coming to <span className="text-pink-500">appstore</span> soon!
+            </h2>
+          </div>
         </header>
       </main>
     </div>
