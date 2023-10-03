@@ -2,28 +2,28 @@ import ItemInventory from "./itemInventory";
 import { gameData } from "../../../data/gameData";
 import Image from "next/image";
 
-export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, user, colorPalette, searchContent, scrollToTop}) {
+export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, Inventory, user, colorPalette, searchContent, scrollToTop}) {
   // Separate unowned and owned items
   const unownedItems = [];
   const ownedItems = [];
 
   if (shopping && gameItems) {
     Object.values(gameItems).forEach((item) => {
-      if ((items.includes(item.itemName) || item.isBg === false) && item.itemName !== "Slime Egg") {
+      if ((items.includes(item.itemName) || gameData.items[item.itemName].isBg === false) && item.itemName !== "Slime Egg") {
         ownedItems.push(item);
       } else {
         unownedItems.push(item);
       }
     });
 
-    // Custom sorting function
+
     const customSort = (a, b) => {
       if (a.itemName === "Slime Egg" && b.itemName !== "Slime Egg") return -1;
       if (a.itemName !== "Slime Egg" && b.itemName === "Slime Egg") return 1;
       return a.itemName.localeCompare(b.itemName);
     };
 
-    // Sort the arrays with custom sorting
+
     unownedItems.sort(customSort);
     ownedItems.sort(customSort);
   }
@@ -66,7 +66,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                  <p className="text-sm text-center mt-1">{gameData.items["Slime Egg"].buyPrice}</p>
+                  <p className="text-sm text-center mt-1">{gameData.items[item.itemName].buyPrice}</p>
                 </div>
               )}
 
@@ -74,7 +74,7 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
                 setItemOnClick={setItemOnClick}
                 item={item}
                 itemOnClick={itemOnClick}
-                owned={items.includes(item.itemName) || item.isBg === false}
+                owned={items.includes(item.itemName) || gameData.items[item.itemName].isBg === false}
                 shopping={shopping}
                 colorPalette={colorPalette}
                 scrollToTop={scrollToTop}

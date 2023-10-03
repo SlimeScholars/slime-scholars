@@ -10,21 +10,19 @@ export default function ItemInventory({
     shopping,
     colorPalette,
     scrollToTop,
-    
 }) {
-
 
     var gradientBg;
 
-    if (gameData.rarityColours[item.rarity]) {
-        gradientBg = gameData.rarityColours[item.rarity].bg;
+    if (gameData.rarityColours[gameData.items[item.itemName].rarity]) {
+        gradientBg = gameData.rarityColours[gameData.items[item.itemName].rarity].bg;
     }
 
     // for shopping page
     if (shopping && owned) {
-        const imgPath = item ? '/assets/pfp/backgrounds/' + item.pfp : "";
+        const imgPath = item ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
 
-        if (item.isBg) {
+        if (gameData.items[item.itemName].isBg) {
             return (
                 <div className={
                     displayOnly === "true" ? "rounded-2xl relative h-fit" : (
@@ -55,7 +53,6 @@ export default function ItemInventory({
                 </div>
             )
         } else {
-            // Eggs are set to owned (even if not)
             return (
                 <div
                     className={
@@ -88,9 +85,8 @@ export default function ItemInventory({
             )
         }
     }
-
-    // for background
-    if (item.isBg) {
+    // for background in inventory
+    if (gameData.items[item.itemName].isBg) {
 
         const imgPath = item && gameData.items[item.itemName] ? '/assets/pfp/backgrounds/' + gameData.items[item.itemName].pfp : "";
         return (

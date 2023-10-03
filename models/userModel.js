@@ -242,26 +242,9 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Missing itemName"],
           },
-          rarity: {
-            type: String,
-            required: [true, "Missing rarity"],
-          },
           quantity: {
             type: Number,
             required: [true, "Missing quantity"],
-          },
-          sellPrice: {
-            type: Number,
-            required: false,
-          },
-          sellCurrency: {
-            type: Number,
-            required: false,
-          },
-          isBg: {
-            type: Boolean,
-            // Required makes it so that isBg cannot be false
-            required: false,
           },
         },
       ],
