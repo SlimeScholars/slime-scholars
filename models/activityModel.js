@@ -61,6 +61,9 @@ const elementSchema = new Schema(
     },
     _id: false,
   },
+  {
+    timestamps: true,
+  },
 )
 
 const sectionSchema = new Schema(
@@ -69,13 +72,24 @@ const sectionSchema = new Schema(
       type: Number,
       required: [true, 'Missing index']
     },
+    sectionStyle:{
+      type: String,
+      required: [true, "Missing style, choose plain or bold"]
+    },
+    sectionDirection:{
+      type: String,
+      required: [true, "Missing direction, choose horizontal or vertical"]
+    },
     elements: {
       type: [elementSchema],
       required: [true, 'Missing elements'],
       default: [],
       _id: false,
     }
-  }
+  },
+  {
+    timestamps: true,
+  },
 )
 
 const pageSchema = new Schema(

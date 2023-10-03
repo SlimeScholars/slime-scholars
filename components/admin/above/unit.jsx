@@ -3,7 +3,7 @@ import Lesson from "./lesson";
 import axios from "axios";
 
 import { BiSolidDownArrow } from "react-icons/bi";
-import { showToastError } from "../../utils/toast";
+import { showToastError } from "../../../utils/toast";
 
 export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePanelProperties, selected, setSelected}) {
   const [isOpen, setIsOpen] = useState(false);

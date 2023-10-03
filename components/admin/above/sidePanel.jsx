@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { activityService, lessonService, unitService, courseService, subjectService } from "../../services";
+import { activityService, lessonService, unitService, courseService, subjectService} from '../../../services'
 import { ToastContainer } from "react-toastify";
 import {HiOutlineExternalLink} from 'react-icons/hi'
 import Link from "next/link";

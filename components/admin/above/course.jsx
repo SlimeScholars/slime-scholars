@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import Unit from "./unit";
 
 import { BiSolidDownArrow } from "react-icons/bi";
-import { showToastError } from "../../utils/toast";
+import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 
 export default function Course({ course, setCourse, setLoading, deleteCourse, setSidePanelProperties, selected, setSelected }) {

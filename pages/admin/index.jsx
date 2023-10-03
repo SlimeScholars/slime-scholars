@@ -5,8 +5,8 @@ import { subjectService } from "../../services";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
-import Subject from "../../components/admin/subject";
-import SidePanel from "../../components/admin/sidePanel";
+import Subject from "../../components/admin/above/subject";
+import SidePanel from "../../components/admin/above/sidePanel";
 
 export default function AdminHomepage({ user, setUser, loading, setLoading }) {
   const router = useRouter()

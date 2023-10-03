@@ -290,3 +290,8 @@ input {
   --tw-shadow-colored: 0px 0px 15px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+
+.activity-editor-grid{
+  display:grid;
+  grid-template-columns: 50% 50%;
+}

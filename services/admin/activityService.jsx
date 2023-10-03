@@ -11,6 +11,10 @@ export class ActivityService{
         })
     }
 
+    get = async(id) => this.instance.get(`/api/activity?activityId=${id}`, applyHeaders())
+        .then((response) => response)
+        .catch((error) => {showToastError(error.message)});
+
     save = async(params) => this.instance.put("/api/admin/activity/update-name", params, applyHeaders())
         .then((response) => response)
         .catch((error) => {showToastError(error.message)});
@@ -22,4 +26,9 @@ export class ActivityService{
     post = async(params) => this.instance.post("/api/admin/activity/create", params, applyHeaders())
         .then((response) => response)
         .catch((error) => {showToastError(error.message)});
+
+    update = async(id, pages, pageIndex, imageLength) => this.instance.put("/api/admin/activity/update-pages", 
+    {activityId:id, pages, pageIndex, imageLength}, applyHeaders())
+        .then((response) => response)
+        .catch((error) => {console.log(error);showToastError(error.message)});
 }
