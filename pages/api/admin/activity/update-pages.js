@@ -20,9 +20,6 @@ export const config = {
  * @desc    Update the section content of a activity
  * @route   PUT /api/admin/activity/update-sections
  * @access  Private - Admin
- * @param   {string} req.body.activityId - Id of activity you want to update
- * @param   {string} req.body.sections - Sections you want to update activity to
- * @param   {string} req.body.imageLength - Number of images being uploaded
  */
 export default async function (req, res) {
   try {
@@ -52,7 +49,7 @@ export default async function (req, res) {
     });
 
     const imageFiles = [];
-    for (let i = 0; i < imageLength; i++) {
+    for (let i = 0; i < data.fields.imageLength; i++) {
       if (data.files && data.files[`image${i} `]) {
         imageFiles.push(data.files[`image${i} `]);
       }
@@ -77,9 +74,7 @@ export default async function (req, res) {
       });
     }
 
-    const { activityId, pages, pageIndex, imageLength } = JSON.parse(
-      data.fields.data
-    );
+    const { activityId, pages, pageIndex, imageLength } = data.fields
 
     if (!activityId) {
       throw new Error("Please send a activityId");
@@ -99,7 +94,7 @@ export default async function (req, res) {
     }
 
     for (let i in pages) {
-      if (i + 1 !== pages[i].pageNumber) {
+      if (Number(i) + 1 != pages[i].pageNumber) {
         throw new Error("Page numbers must be sequential");
       }
     }

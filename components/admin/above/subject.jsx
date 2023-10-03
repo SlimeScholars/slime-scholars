@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 import Course from "./course";
-import { showToastError } from "../../utils/toast";
+import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import {BiSolidDownArrow} from "react-icons/bi"
 
