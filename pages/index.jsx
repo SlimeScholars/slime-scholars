@@ -1,6 +1,7 @@
 import Head from 'next/head'
-import Nav from '../components/homepage/nav'
+import Nav from '../backups/homepage/nav'
 import Link from 'next/link'
+import Navbar from '../components/learn/navbar'
 
 export default function Home({ user, setUser }) {
 
@@ -15,9 +16,10 @@ export default function Home({ user, setUser }) {
       </Head>
 
       <main className="w-screen flex flex-col items-center justify-center flex-1">
-        <Nav
+        <Navbar
           user={user}
           setUser={setUser}
+          colorPalette={user?.colorPalette ? user.colorPalette : null}
         />
         <header className="w-screen h-[calc(100vh_-_5rem)] flex flex-col items-center justify-center text-white"
         style={{
