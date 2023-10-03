@@ -15,22 +15,12 @@ import '../../../models/lessonModel'
  * @param   {string} req.query.unitId - Id of the unit the lesson belongs to
  */
 
-const retrieve_activity = async(id) => {
-  try{
+const retrieve_activity = async (id) => {
+  try {
     const response = await Activity.findById(id).exec()
     return response ? response : undefined
   }
-  catch(err){
-    console.log(err)
-  }
-}
-
-const retrieve_page = async(id) => {
-  try{
-    const response = await Page.findById(id).exec()
-    return response ? response : undefined
-  }
-  catch(err){
+  catch (err) {
     console.log(err)
   }
 }
@@ -67,10 +57,8 @@ export default async function (req, res) {
     for (let i in unit.lessons) {
       modifiedLessons.push({
         ...unit.lessons[i]._doc,
-        activities: unit.lessons[i].activities ? 
+        activities: unit.lessons[i].activities ?
           await Promise.all(unit.lessons[i].activities.map(retrieve_activity)) : [],
-        pages: unit.lessons[i].pages ? 
-          await Promise.all(unit.lessons[i].pages.map(retrieve_page)) : [],
       })
       for (let j in user.completedLessons) {
         if (

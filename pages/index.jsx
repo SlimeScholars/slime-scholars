@@ -15,18 +15,21 @@ export default function Home({ user, setUser }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="w-screen flex flex-col items-center justify-center flex-1">
-        <Navbar
+      <main className="w-screen flex flex-col items-center justify-centerflex-1"
+      style={{
+        backgroundImage: `url('/assets/backgrounds/forest-mountains.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        height: "100%"
+      }}>
+        <Nav
           user={user}
           setUser={setUser}
           colorPalette={user?.colorPalette ? user.colorPalette : null}
         />
-        <header className="w-screen h-[calc(100vh_-_5rem)] flex flex-col items-center justify-center text-white"
-        style={{
-          backgroundImage:`url('/assets/backgrounds/forest-mountains.png')`,
-          backgroundSize: "100vw auto"
-        }}>
-          <div className="p-[8.5rem] rounded-2xl bg-neutral-700/[0.75] flex flex-col items-center justify-center fade-in-bottom-index">
+        <header className="w-screen h-[calc(100vh_-_5rem)] flex flex-col items-center justify-center text-white mt-[3rem] mb-[3rem]">
+          <div className="p-[8.5rem] rounded-2xl bg-neutral-700/[0.75] flex flex-col items-center justify-center fade-in-bottom-index mr-[6rem] ml-[6rem]">
             <h1 className="font-bold text-2xl max-w-2xl text-center">
               Coming to App Store soon
             </h1>

@@ -43,9 +43,6 @@ export default async function (req, res) {
 
     let cost = gameData.items[itemName].buyPrice
     let buyCurrency = gameData.items[itemName].buyCurrency
-    let rarity = gameData.items[itemName].rarity
-    let sellPrice = gameData.items[itemName].sellPrice
-    let sellCurrency = gameData.items[itemName].sellCurrency
     cost *= quantity
     // Currency 0 is slimeGel, currency 1 is flower
     if (buyCurrency === 0) {
@@ -64,10 +61,6 @@ export default async function (req, res) {
           newItems.push({
             itemName: itemName,
             quantity: parseInt(quantity),
-            rarity: rarity,
-            sellPrice: sellPrice,
-            sellCurrency: sellCurrency,
-            isBg: gameData.items[itemName].isBg,
           })
         }
         // Otherwise, just increase the user's quantity
@@ -118,10 +111,6 @@ export default async function (req, res) {
           newItems.push({
             itemName: itemName,
             quantity: parseInt(quantity),
-            rarity: rarity,
-            sellPrice: sellPrice,
-            sellCurrency: sellCurrency,
-            isBg: gameData.items[itemName].isBg,
           })
         }
         // Otherwise, just increase the user's quantity
