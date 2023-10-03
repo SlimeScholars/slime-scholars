@@ -42,10 +42,25 @@ export default async function (req, res) {
 
     const latestAuthor = `${user.firstName} ${user.lastName}`;
 
+    const element = {
+      index: 0,
+      elementType: "text",
+      text: "this is a default text element",
+    };
+    const section = {
+      sectionIndex: 1,
+      elements: [element],
+    };
+    const page = {
+      pageNumber: 1,
+      sections: [section],
+      latestAuthor,
+    };
+
     const activity = await Activity.create({
       activityNumber,
       latestAuthor,
-      pages: [],
+      pages: [page],
     });
     console.log(activity);
 
