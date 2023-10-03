@@ -85,7 +85,7 @@ export default function Units({ user, loading, setLoading, setAxiosLoading, colo
 				router.push(`/courses/${courseId}/units`)
 			}}>{courseName}</span>
 		</div>
-		<div className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] overflow-y-scroll"
+		<div className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
 		style={{
 			backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0"
 		}}>

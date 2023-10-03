@@ -1,7 +1,7 @@
 
 import Head from 'next/head'
 
-import Nav from '../components/homepage/nav'
+import Nav from '../backups/homepage/nav'
 
 export default function Dashboard() {
 

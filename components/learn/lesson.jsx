@@ -3,7 +3,7 @@ import { FaStar, FaRegStar } from 'react-icons/fa'
 import { BsFillPlayFill } from 'react-icons/bs'
 import Image from "next/image";
 
-const maxStars = 3
+const maxStars = [3, 5]
 
 const Activity = ({courseId, unitId, activity, router, stars}) => {
 
@@ -63,14 +63,14 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 			</h3>
 		</div>
 	)}
-	if(lesson.lessonType === "quiz"){return(
+	else if(lesson.lessonType === "quiz"){return(
 		<div className="flex flex-row justify-between items-center w-[calc(20%_+_500px)] m-3 py-6 px-8 relative lesson-bar-default"
 		style={{
 			backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "80",
 			borderWidth: "4px",
 			borderColor: !colorPalette ? "" : colorPalette.primary1 + "80"
 		}}>
-			<div className="absolute top-0 left-0 rounded-md w-full h-full bg-black/[0.65] z-[100]"/>
+			<div className="absolute top-0 left-0 rounded-md w-full h-full bg-black/[0.45] z-[100]"/>
 			<section
 			className={`flex flex-col items-center`}>
 				<h3 className="z-[200] w-full flex text-start justify-start"
@@ -79,7 +79,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 				}}>
 					<div className="flex flex-col gap-2">
 						<span className="text-start text-xl font-bold">
-							{lesson?.lessonName}
+							Quiz: {lesson?.lessonName}
 						</span>
 						<div className="flex flex-row text-start">
 							150
@@ -97,7 +97,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 						style={{
 							color: !colorPalette ? "" : colorPalette.text1 
 						}}>
-						{Array.from({ length: maxStars }).map((_, index) => {
+						{Array.from({ length: maxStars[0] }).map((_, index) => {
 							return lesson?.stars > index ?
 								<FaStar
 									key={`star-${index}`}
@@ -118,12 +118,78 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 			<section className="z-[200]">
 				<button
 				style={{
+					backgroundColor: !colorPalette ? "" : colorPalette.text1,
+					color: !colorPalette ? "" : colorPalette.black
+				}}
+				className="p-4 pl-5 rounded-full text-xl font-bold flex flex-row gap-2 items-center 
+				hover:brightness-[1.25] transition-all duration-150">
+					Start
+					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>
+				</button>
+			</section>
+		</div>
+	)}
+	else if(lesson.lessonType === "test"){return(
+		<div className="flex flex-row justify-between items-center w-[calc(20%_+_500px)] m-3 py-6 px-8 relative lesson-bar-default"
+		style={{
+			backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "80",
+			borderWidth: "4px",
+			borderColor: !colorPalette ? "" : colorPalette.black
+		}}>
+			<div className="absolute top-0 left-0 rounded-md w-full h-full bg-black/[0.75] z-[100]"/>
+			<section
+			className={`flex flex-col items-center`}>
+				<h3 className="z-[200] w-full flex text-start justify-start"
+				style={{
+					color: !colorPalette ? "" : colorPalette.text1
+				}}>
+					<div className="flex flex-col gap-2">
+						<span className="text-start text-xl font-bold">
+							Unit Test: {lesson?.lessonName}
+						</span>
+						<div className="flex flex-row text-start">
+							300
+							<Image
+							src="/assets/icons/flower.png"
+							alt="flowers"
+							height={0}
+							width={0}
+							sizes="100vw"
+							className="h-[1.4rem] w-[1.4rem] mx-1"
+							/>
+							Available
+						</div>
+						<span className={`flex flex-row`}
+						style={{
+							color: !colorPalette ? "" : colorPalette.text1 
+						}}>
+						{Array.from({ length: maxStars[1] }).map((_, index) => {
+							return lesson?.stars > index ?
+								<FaStar
+									key={`star-${index}`}
+									className='inline text-3xl mx-[0.25rem]'
+								/> :
+								<FaRegStar
+									key={`star-${index}`}
+									className='inline text-3xl mx-[0.25rem]'
+								/>
+						})}
+						</span>
+						<span className="italic">
+							Answer 6/20 questions correctly for next star
+						</span>
+					</div>
+				</h3>
+			</section>
+			<section className="z-[200]">
+				<button
+				style={{
 					backgroundColor: !colorPalette ? "" : colorPalette.primary2,
 					color: !colorPalette ? "" : colorPalette.text1
 				}}
 				className="p-4 pl-5 rounded-full text-xl font-bold flex flex-row gap-2 items-center 
 				hover:brightness-[1.25] transition-all duration-150">
-					Begin
+					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>
 				</button>
 			</section>

@@ -225,7 +225,7 @@ function MyApp({ Component, pageProps }) {
         {loading ? <MainSpinner /> : <></>}
         <div className={`relative ${loading ? "hidden" : ""}`}>
           <ToastContainer />
-          <CourseLayout colorPalette={colorPalette} user={user}>
+          <CourseLayout colorPalette={colorPalette} setUser={setUser} user={user}>
             <Component {...modifiedPageProps} />
           </CourseLayout>
         </div>
@@ -261,6 +261,7 @@ function MyApp({ Component, pageProps }) {
                   <div className="z-20 mb-10">
                     <Navbar
                       user={user}
+                      setUser={setUser}
                       current={current}
                       numEggs={numEggs}
                       setNumEggs={setNumEggs}

@@ -7,7 +7,7 @@ export default function Back({ to }) {
     <nav className="w-screen h-32 flex justify-start items-center fixed top-0">
       <a
         href={to}
-        className="h-full flex justify-start items-center px-10 stretch"
+        className="h-full flex justify-start items-center px-10"
       >
         <FaChevronCircleLeft className="text-3xl text-bg-light/90" />
         <p className="text-2xl ml-3 mr-2 pt-1 text-bg-light/90 font-galindo">

@@ -16,7 +16,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                 backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "C0"
             }}/>
             <button className={`z-[100] absolute top-[50%] left-[100%] w-[4rem] h-[24rem] translate-y-[calc(-50%_-_2rem)]
-            ${open ? "translate-x-[-1rem]" : "translate-x-[-2rem]"} flex flex-row items-center justify-start cursor-pointer`}
+            ${open ? "translate-x-[-1rem]" : "translate-x-[-1.8rem]"} flex flex-row items-center justify-start cursor-pointer`}
             onClick={() => {setOpen(!open)}}
             style={{
                 backgroundColor: "transparent" //!colorPalette ? "" : colorPalette.primary2 + "E0",
