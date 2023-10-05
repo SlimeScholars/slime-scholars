@@ -32,7 +32,7 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
     }
 
     return(
-        <nav className="flex flex-col gap-1 text-white w-full h-[6rem] bg-black justify-center">
+        <nav className="flex flex-col text-white w-full h-[6rem] bg-black justify-center">
             <span className={`text-sm pl-[2.75rem]`}>Activity Editor</span>
             <div className="flex flex-row justify-between">
                 <div className={`flex flex-row gap-6 ${open ? "pl-[2rem]" : "pl-[2.75rem]"} text-2xl`}>
@@ -66,13 +66,15 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
                     <span className="text-xl mr-4">Change Palette</span>
                     <div className="flex flex-row gap-3">
                     {Object.keys(colors).map((color) => {
-                        const pal = colors[color]
                         return (
-                        <button className={`border-2 border-white w-7 h-7 rounded-full ${pal.bg_primary2} 
-                        hover:${pal.bg_primary1} transition-colors duration-150`}
+                        <button className={`${theme.ultra_light === colors[color].ultra_light ? 
+                            "border-[3px] border-white brightness-[1] hover:brightness-[1.25]" : 
+                            "border-[2px] border-neutral-400 brightness-[0.8] hover:brightness-[1]"} 
+                        w-7 h-7 rounded-full`}
                         onClick={() => {
                             setTheme(colors[color])
-                        }}/>
+                        }}
+                        style={{backgroundColor: colors[color].medium}}/>
                     )})}
                     </div>
                 </div>

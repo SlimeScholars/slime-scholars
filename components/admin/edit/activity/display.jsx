@@ -1,7 +1,8 @@
 export default function EditActivityDisplay({activity, theme}){
     return(
-        <div className={`w-full h-full ${theme.bg_text2} transition-colors duration-300`}>
-            
+        <div className={`w-full h-full transition-colors duration-300`}
+         style={{backgroundColor: theme.light}}> 
+            Display
         </div>
     )
 }

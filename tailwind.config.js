@@ -25,9 +25,6 @@ module.exports = {
         averia: ["Averia Serif Libre"],
       },
     },
-    boxShadow: {
-      "2xl": "0px 0px 30px rgba(255, 255, 255, 0.8)",
-    },
     dropShadow: {
       sm: "0px 3px 2px rgba(0, 0, 0, 0.6)",
     },
