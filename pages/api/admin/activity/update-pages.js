@@ -76,6 +76,19 @@ export default async function (req, res) {
 
     const { activityId, pages, pageIndex, imageLength } = data.fields
 
+    //if no page index is specified... do nothing to the pages, only refresh by the array
+    if(pageIndex === -1){
+      await Activity.findByIdAndUpdate(activityId, {
+        pages: pages,
+        latestAuthor: `${user.firstName} ${user.lastName} `,
+      });
+  
+      const activity = await Activity.findById(activityId);
+  
+      res.status(200).json({ activity });
+      return 
+    }
+
     if (!activityId) {
       throw new Error("Please send a activityId");
     }
@@ -100,15 +113,15 @@ export default async function (req, res) {
     }
 
     if (!pages[pageIndex]?.sections) {
-      throw new Error("Please send sections");
+      throw new Error(`Please send sections ${pageIndex}`);
     }
 
     const sections = pages[pageIndex].sections;
-    const newPages = [...pages];
-    const processedPage = [];
+    const newPages = [...pages]
+    const processedSections = [];
 
     for (let i in sections) {
-      if (i !== sections[i].sectionIndex) {
+      if (Number(i) + 1 !== sections[i].sectionIndex) {
         throw new Error("Section numbers must be sequential");
       }
 
@@ -161,12 +174,18 @@ export default async function (req, res) {
         processedElements.push(processedElement);
       }
       // put all sections into a page
-      processedPage.push(processedElements);
+      const newSection = {...section, elements:[...processedElements]}
+      processedSections.push(newSection);
     }
-    newPages[pageIndex] = processedPage;
+    const submitPages = newPages.map((page, num) => {
+      if(num === pageIndex){
+        return {...page, sections: [...processedSections]}
+      }
+      return page
+    })
 
     await Activity.findByIdAndUpdate(activityId, {
-      pages: newPages,
+      pages: submitPages,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
