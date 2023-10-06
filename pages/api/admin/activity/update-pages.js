@@ -142,7 +142,7 @@ export default async function (req, res) {
           index: element.index,
           elementType: element.elementType,
         };
-
+        console.log(processedElement)
         // text
         if (element.elementType === 0) {
           const processedText = processMarkdown(element.text);
@@ -166,8 +166,7 @@ export default async function (req, res) {
         else if (element.elementType === 3) {
           processedElement.text = element.text;
           processedElement.afterBlank = element.afterBlank;
-          const rawBlank = element.blank.split(",");
-          processedElement.blank = rawBlank.map((str) => str.trim());
+          processedElement.blank = !element.blank? undefined : element.blank.split(",").map((str) => str.trim());
           processedElement.explanation = element.explanation;
         }
         // put all the elements in a section

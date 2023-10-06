@@ -32,7 +32,7 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
     }
 
     return(
-        <nav className="flex flex-col text-white w-full h-[6rem] bg-black justify-center">
+        <nav className="flex flex-col text-white w-full bg-black justify-center h-[6rem] z-[500]">
             <span className={`text-sm pl-[2.75rem]`}>Activity Editor</span>
             <div className="flex flex-row justify-between">
                 <div className={`flex flex-row gap-6 ${open ? "pl-[2rem]" : "pl-[2.75rem]"} text-2xl`}>
