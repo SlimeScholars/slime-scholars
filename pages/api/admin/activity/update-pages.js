@@ -166,8 +166,11 @@ export default async function (req, res) {
         else if (element.elementType === 3) {
           processedElement.text = element.text;
           processedElement.afterBlank = element.afterBlank;
-          const rawBlank = element.blank.split(",");
-          processedElement.blank = rawBlank.map((str) => str.trim());
+          let rawBlank='';
+          if (typeof element.blank === 'string') {
+            rawBlank = element.blank.split(",");
+            processedElement.blank = rawBlank.map((str) => str.trim());
+          }
           processedElement.explanation = element.explanation;
         }
         // put all the elements in a section
