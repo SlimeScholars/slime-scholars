@@ -63,10 +63,86 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
         }
     }
 
+    const handleAppendElement = async(sectionIndex, params) => {
+        setLoading(true)
+        try{
+            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+                if(num != page){return {...pageData, pageNumber:num+1}}
+                else{
+                    return {...pageData, pageNumber:num+1, sections:[...pageData.sections.map((sectionData, num) => {
+                        if(num != sectionIndex){return {...sectionData, sectionData:num+1}}
+                        else{
+                            return {...sectionData, sectionIndex:num+1, elements:[...sectionData.elements, 
+                                {index: sectionData.elements.length+1, ...params}]}
+                        }
+                    })]}
+                }
+            })], 
+            page, 0)
+            setLoading(false)
+            refresh()
+        }
+        catch(err){ 
+            console.log(err)
+            setLoading(false)
+        }
+    }
+
+    const handleModifyElement = async (sectionIndex, elementIndex, params) => {
+        setLoading(true);
+        try {
+          await activityService.update(
+            activity._id,
+            [...activity.pages.map((pageData, num) => ({
+                ...pageData, pageNumber: num + 1,
+                sections: [...pageData.sections.map((sectionData, snum) => ({
+                    ...sectionData, sectionIndex: snum + 1,
+                    elements: [...sectionData.elements.map((elementData, num) => ({
+                        ...elementData, index: num + 1,
+                        ...(num === elementIndex && snum === sectionIndex ? params : {}),
+                    }))],
+                }))],
+            }))],
+          page, 0);
+          setLoading(false);
+          refresh();
+        } catch (err) {
+          console.log(err);
+          setLoading(false);
+        }
+      };
+
+    const handleDeleteElement = async(sectionIndex, elementIndex) => {
+        setLoading(true)
+        try{
+            await activityService.update(
+                activity._id,
+                [...activity.pages.map((pageData, num) => ({
+                    ...pageData, pageNumber: num + 1,
+                    sections: [...pageData.sections.map((sectionData, snum) => {
+                        if(snum === sectionIndex){return{...sectionData, sectionIndex: snum + 1}}
+                        else{
+                            const clone = [...sectionData.elements]
+                            clone.splice(elementIndex, 1)
+                            return {...sectionData, sectionIndex: snum + 1, elements:clone}
+                        }
+                    })],
+                }))],
+            page, 0);
+            setLoading(false);
+            refresh();    
+        }
+        catch(err){
+            console.log(err)
+            setLoading(false)
+        }
+    }
+      
+
     if(page === null){return(
         <div className={`flex flex-col gap-4 items-center justify-center w-full h-full text-black
         transition-colors duration-300`}
-        style={{backgroundColor: theme.semi_light}}>
+        style={{backgroundColor: theme.semi_light + "A0"}}>
             <div className="text-2xl font-bold">
                 This lesson currently has no content!
             </div>
@@ -81,28 +157,28 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
     if(activity.pages.length <= page){return(
         <div className={`flex flex-col gap-4 items-center justify-center w-full h-full text-black
         transition-colors duration-300`}
-        style={{backgroundColor: theme.semi_light}}>
+        style={{backgroundColor: theme.semi_light + "A0"}}>
         </div>
     )}
 
     return(
         <div className={`relative flex flex-col py-5 items-center w-full h-full text-black
         transition-colors duration-300`}
-        style={{backgroundColor: theme.semi_light}}>
-            <button className={`absolute top-[1.5rem] right-[1.5rem] bg-green-600/[0.9] 
+        style={{backgroundColor: theme.semi_light + "A0"}}>
+            <button className={`absolute top-[1.5rem] right-[1.5rem]
             hover:brightness-[1.2] text-md px-10 rounded-xl py-1 shadow-lg`}
-            style={{color: theme.ultra_light}}
+            style={{color: theme.ultra_light, backgroundColor: theme.dark}}
                 onClick={handleNewPage}>
                 + New Page
             </button>
-            <button className={`absolute top-[1.5rem] left-[1.5rem] bg-red-600/[0.9]
+            <button className={`absolute top-[1.5rem] left-[1.5rem]
             hover:brightness-[1.2] text-md px-10 rounded-xl py-1 shadow-lg`} 
-            style={{color: theme.ultra_light}}
+            style={{color: theme.ultra_light, backgroundColor: theme.dark}}
                 onClick={handleDeletePage}>
                 Delete Page
             </button>
             <div className="text-xl font-bold flex flex-row gap-7 items-center rounded-full px-4 py-1 shadow-xl"
-            style={{backgroundColor: theme.ultra_light}}>
+            style={{backgroundColor: theme.ultra_light + "D0"}}>
                 <button disabled={page === 0}
                 onClick={() => {setPage((prev) => prev-1)}}>
                     <BiSolidLeftArrow className={page === 0 ? "text-neutral-400 cursor-not-allowed" : 
@@ -116,7 +192,11 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 </button>
             </div>
             <div className="flex flex-col gap-4 mt-4 p-6 border-t-2 border-black/[0.4] w-full">
-                {activity.pages[page].sections.map((section, key) => <Section section={section} key={key} index={key+1} theme={theme}/>)}
+                {activity.pages[page].sections.map((section, key) => 
+                <Section section={section} key={key} index={key+1} theme={theme} 
+                handleAppendElement={handleAppendElement}
+                handleModifyElement={handleModifyElement}
+                handleDeleteElement={handleDeleteElement}/>)}
                 <button className={`w-full rounded-xl text-white py-1 hover:brightness-[1.5]`} style={{backgroundColor: theme.dark}}
                 onClick={handleAppendSection}>
                     + Add Section

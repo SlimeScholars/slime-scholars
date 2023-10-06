@@ -40,7 +40,8 @@ export default function EditActivity({setLoading}) {
   return (
     <div className="flex flex-col w-screen h-screen">
       <EditActivityTitle activity={activity} refresh={fetch} setLoading={setLoading} colors={colors} setTheme={setTheme} theme={theme}/>
-      <div className="activity-editor-grid w-full h-full">
+      <div className="activity-editor-grid w-full h-full overflow-y-scroll"
+      >
         <EditActivitySide activity={activity} refresh={fetch} setLoading={setLoading} theme={theme}/>
         <EditActivityDisplay activity={activity} theme={theme}/>
       </div>
