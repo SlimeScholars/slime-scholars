@@ -36,7 +36,7 @@ export default function Section({ section, index, max, theme, handleAppendElemen
       const elementWidth = element.offsetWidth;
       setAddElementWidth(elementWidth)
     }
-  }, []);
+  }, [elementsVisible]);
 
   const elementOptions = [
     { label: "Text", icon: <TbTypography/>, params: {elementType: 0, text: "", isBox: false}},
@@ -84,12 +84,12 @@ export default function Section({ section, index, max, theme, handleAppendElemen
       </div>
       <div className="grid grid-cols-2 w-full">
         <div className="flex flex-row gap-2 items-center"><span className="font-bold">Style: </span>
-        <Segmented options={["Plain", "Bold"]} defaultIndex={data.sectionStyle === "Plain" ? 0 : 1}
+        <Segmented options={["Plain", "Bold"]} defaultIndex={data.sectionStyle.toLowerCase() === "Plain" ? 0 : 1}
         theme={theme} onChange={(item) => {
           handleModifySection(index-1, {sectionStyle:item})
         }}/></div>
         <div className="flex flex-row gap-2 items-center"><span className="font-bold">Direction: </span>
-        <Segmented options={["Vertical", "Horizontal"]} defaultIndex={data.sectionDirection === "Vertical" ? 0 : 1}
+        <Segmented options={["Vertical", "Horizontal"]} defaultIndex={data.sectionDirection.toLowerCase() === "Vertical" ? 0 : 1}
         theme={theme} onChange={(item) => {
           handleModifySection(index-1, {sectionDirection:item})
         }}/></div>
@@ -126,7 +126,7 @@ export default function Section({ section, index, max, theme, handleAppendElemen
           <div className="flex flex-row">
             <button
               id="add-element"
-              className="relative z-[40] px-4 py-1 rounded-md text-sm hover:brightness-[1.25]"
+              className="relative z-[60] px-4 py-1 rounded-md text-sm hover:brightness-[1.25]"
               style={{ backgroundColor: theme.semi_dark, color: theme.ultra_light }}
               onClick={(e) => {
                 e.stopPropagation()
@@ -135,7 +135,7 @@ export default function Section({ section, index, max, theme, handleAppendElemen
             >
               + Add Element
             </button>
-            <section className={`relative z-[20] flex flex-row gap-1 transition-all duration-150`}
+            <section className={`relative z-[40] flex flex-row gap-1 transition-all duration-150`}
             style={{transform: open ? `translateX(0.35rem)` : `translateX(${-addElementWidth}px)`,opacity: open ? 1 : 0}}>
               <span style={{color:theme.semi_dark}} className="origin-center scale-y-[1.35] font-bold mt-[1px]">||</span>
               {addElementWidth && elementOptions.map((opt) => (

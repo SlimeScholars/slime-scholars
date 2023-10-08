@@ -59,8 +59,8 @@ export default function FreeResponseElement({element, index, theme, handleChange
                     <button className="hover:text-gray-300"
                         onClick={() => {setOpen(true)}}><AiFillEdit/></button>
                 </div>
-                <div className="flex flex-row gap-2">
-                    <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-row gap-3">
+                    <div className="flex flex-col items-center justify-center text-sm">
                         <button 
                         disabled={index === 1}
                         className={`${index === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 

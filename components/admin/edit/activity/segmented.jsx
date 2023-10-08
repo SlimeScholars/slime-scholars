@@ -5,11 +5,11 @@ export default function Segmented({options, defaultIndex, onChange, theme}){
 
     useEffect(() => {
         setSelectIndex(defaultIndex)
-    }, [defaultIndex])
+    }, [defaultIndex, options])
 
     return(
         <div className="relative bg-white py-1 rounded-md text-sm px-2">
-            <div className="absolute z-[50] rounded-md h-[1.75rem] w-[7rem] transition-all duration-200"
+            <div className="absolute z-[50] rounded-md h-[1.75rem] w-[7rem] transition-all duration-200 ease-out"
             style={{
                 transform: `translateX(${selectIndex*7.5}rem)`,
                 backgroundColor: theme.medium
