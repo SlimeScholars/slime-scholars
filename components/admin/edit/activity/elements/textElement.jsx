@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react"
 import {AiFillSave, AiFillCloseCircle, AiFillEdit} from 'react-icons/ai'
 import {BsFillTrashFill} from 'react-icons/bs'
+import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
 
-export default function TextElement({element, index, theme, handleChanges, handleDelete}){
+export default function TextElement({element, index, theme, handleChanges, handleDelete, handleSwap, max}){
     const [data, setData] = useState(element)
     const [open, setOpen] = useState(false)
     const [elementText, setElementText] = useState("")
@@ -38,33 +39,56 @@ export default function TextElement({element, index, theme, handleChanges, handl
                     <button className="hover:text-gray-300"
                         onClick={() => {setOpen(true)}}><AiFillEdit/></button>
                 </div>
-                <button onClick={handleDeleteSelf} 
-                className="text-lg mr-1 mt-1 hover:text-red-500 transition-all duration-150">
-                    <BsFillTrashFill/>
-                </button>
+                <div className="flex flex-row gap-2">
+                    <div className="flex flex-col items-center justify-center">
+                        <button 
+                        disabled={index === 1}
+                        className={`${index === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 
+                        onClick={() => {
+                        handleSwap(index-1, index-2)
+                        }}>
+                        <IoIosArrowUp/>
+                        </button>
+                        <button
+                        disabled={index === max}
+                        className={`${index === max ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 
+                        onClick={() => {
+                        handleSwap(index-1, index)
+                        }}>
+                        <IoIosArrowDown/>
+                        </button>
+                    </div>
+                    <button onClick={handleDeleteSelf} 
+                    className="text-lg mr-1 mt-1 hover:text-red-500 transition-all duration-150">
+                        <BsFillTrashFill/>
+                    </button>
+                </div>
             </div>
-            <div className="flex flex-row gap-3">
-                {!open ?
-                <span>
-                {elementText ? elementText : "[No Text]"}
-                </span> :
-                <>
-                <textarea
-                value={elementText}
-                className="bg-neutral-200 focus:bg-neutral-100 w-[350px] 
-                px-3 rounded-md transition-all duration-150"
-                onChange={(e) => {
-                    setElementText(e.target.value)
-                }}
-                onKeyDown={handleKeyPress}
-                />
-                <button className="hover:text-gray-600"
-                onClick={handleTextChange}><AiFillSave/></button>
-                <button className="hover:text-gray-600"
-                onClick={() => {setOpen(false)}}><AiFillCloseCircle/></button>
-                </>
-                }
+            {!open ?
+            <span>
+            {elementText ? elementText : "[No Text]"}
+            </span> :
+            <>
+            <div className="flex flex-col gap-1">
+                <span className="font-semibold">Insert Text</span>
+                <div className="flex flex-row gap-3">
+                    <textarea
+                    value={elementText}
+                    className="bg-neutral-200 focus:bg-neutral-100 w-[500px] 
+                    px-3 rounded-md transition-all duration-150"
+                    onChange={(e) => {
+                        setElementText(e.target.value)
+                    }}
+                    onKeyDown={handleKeyPress}
+                    />
+                    <button className="hover:text-gray-600"
+                    onClick={handleTextChange}><AiFillSave/></button>
+                    <button className="hover:text-gray-600"
+                    onClick={() => {setOpen(false)}}><AiFillCloseCircle/></button>
+                </div>
             </div>
+            </>
+            }
         </div>
     )
 }

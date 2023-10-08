@@ -21,18 +21,18 @@ export default function EditActivity({setLoading}) {
     setLoading(!activity)
   }, [activity])
 
-  const fetch = async() => {
-    setLoading(true)
+  const fetch = async(setLoad) => {
+    if(setLoad){setLoading(true)}
     try{
       const response = await activityService.get(activityId)
       if(response.data.activity.length > 0){
         setActivity(response.data.activity[0])
       }
-      setLoading(false)
+      if(setLoad){setLoading(false)}
     }
     catch(err){
       console.log(err)
-      setLoading(false)
+      if(setLoad){setLoading(false)}
     }
   }
 
@@ -40,7 +40,7 @@ export default function EditActivity({setLoading}) {
   return (
     <div className="flex flex-col w-screen h-screen">
       <EditActivityTitle activity={activity} refresh={fetch} setLoading={setLoading} colors={colors} setTheme={setTheme} theme={theme}/>
-      <div className="activity-editor-grid w-full h-full overflow-y-scroll"
+      <div className="grid grid-cols-2 w-full h-full overflow-y-scroll"
       >
         <EditActivitySide activity={activity} refresh={fetch} setLoading={setLoading} theme={theme}/>
         <EditActivityDisplay activity={activity} theme={theme}/>
