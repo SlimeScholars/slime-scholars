@@ -71,7 +71,9 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 else{
                     const clone = [...pageData.sections]
                     clone.splice(sectionIndex, 1)
-                    return {...pageData, pageNumber:num+1, sections:[...clone]}
+                    return {...pageData, pageNumber:num+1, sections:[...clone.map((item, key) => {return {
+                        ...item, sectionIndex:key+1
+                    }})]}
                 }
             })], 
             page, 0)
@@ -241,8 +243,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     if(page === null){return(
         <div className={`flex flex-col gap-4 items-center justify-center w-full h-full text-black
-        transition-colors duration-300`}
-        style={{backgroundColor: theme.semi_light + "A0"}}>
+        transition-colors duration-300`}>
             <div className="text-2xl font-bold">
                 This lesson currently has no content!
             </div>
@@ -256,15 +257,13 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     if(activity.pages.length <= page){return(
         <div className={`flex flex-col gap-4 items-center justify-center w-full h-full text-black
-        transition-colors duration-300`}
-        style={{backgroundColor: theme.semi_light + "A0"}}>
+        transition-colors duration-300`}>
         </div>
     )}
 
     return(
         <div className={`relative flex flex-col py-5 items-center w-full h-full text-black
-        transition-colors duration-300`}
-        style={{backgroundColor: theme.semi_light + "A0"}}>
+        transition-colors duration-300`}>
             <button className={`absolute top-[1.5rem] right-[1.5rem]
             hover:brightness-[1.2] text-md px-10 rounded-xl py-1 shadow-lg`}
             style={{color: theme.ultra_light, backgroundColor: theme.dark}}
