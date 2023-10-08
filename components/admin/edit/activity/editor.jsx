@@ -18,7 +18,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 pageNumber:activity.pages.length+1}], activity.pages.length, 0)
             setLoading(false)
             setPage(activity.pages.length)
-            refresh()
+            refresh(true)
         }
         catch(err){
             console.log(err) 
@@ -35,7 +35,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 page-1, 0)
             setLoading(false)
             setPage((current) => current === 0 ? (activity.pages.length === 1 ? null : 0) : current-1)
-            refresh()
+            refresh(true)
         }
         catch(err){
             console.log(err) 
@@ -55,11 +55,82 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             })], 
             page, 0)
             setLoading(false)
-            refresh()
+            refresh(true)
         }
         catch(err){
             console.log(err)
             setLoading(false)
+        }
+    }
+
+    const handleDeleteSection = async(sectionIndex) => {
+        setLoading(true)
+        try{
+            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+                if(num != page){return {...pageData, pageNumber:num+1}}
+                else{
+                    const clone = [...pageData.sections]
+                    clone.splice(sectionIndex, 1)
+                    return {...pageData, pageNumber:num+1, sections:[...clone]}
+                }
+            })], 
+            page, 0)
+            refresh(true)
+            setLoading(false)
+        }
+        catch(err){
+            console.log(err) 
+            setLoading(false)
+        }
+    }
+
+    const handleSectionSwap = async(sectionIndex, swapIndex) => {
+        const swap = (arr, index1, index2) => {
+            let clone = [...arr]
+            let output = [...arr]
+            output[index1] = {...clone[index2]}
+            output[index1].sectionIndex = clone[index1].sectionIndex
+            output[index2] = {...clone[index1]}
+            output[index2].sectionIndex = clone[index2].sectionIndex
+            return output
+        }
+
+        setLoading(true)
+        try{
+            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+                if(num != page){return {...pageData, pageNumber:num+1}}
+                else{
+                    return {...pageData, pageNumber:num+1, sections:[...swap(pageData.sections, sectionIndex, swapIndex)]}
+                }
+            })], 
+            page, 0)
+            refresh(true)
+            setLoading(false)
+        }
+        catch(err){
+            console.log(err)
+            setLoading(false) 
+        }
+    }
+
+    const handleModifySection = async(sectionIndex, params) => {
+        try{
+            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+                if(num != page){return {...pageData, pageNumber:num+1}}
+                else{
+                    return {...pageData, pageNumber:num+1, sections:[...pageData.sections.map((sectionData, num) => {
+                        if(num != sectionIndex){return {...sectionData, sectionData:num+1}}
+                        else{
+                            return {...sectionData, sectionIndex:num+1, ...params}
+                        }
+                    })]}
+                }
+            })], 
+            page, 0)
+            refresh(false)
+        }
+        catch(err){
+            console.log(err)
         }
     }
 
@@ -79,8 +150,8 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 }
             })], 
             page, 0)
+            refresh(true)
             setLoading(false)
-            refresh()
         }
         catch(err){ 
             console.log(err)
@@ -88,8 +159,40 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
         }
     }
 
+    const handleElementSwap = async(sectionIndex, elementIndex, swapIndex) => {
+        const swap = (arr, index1, index2) => {
+            let clone = [...arr]
+            let output = [...arr]
+            output[index1] = {...clone[index2]}
+            output[index1].index = clone[index1].index
+            output[index2] = {...clone[index1]}
+            output[index2].index = clone[index2].index
+            return output
+        }
+        setLoading(true)
+
+        try {
+            await activityService.update(
+              activity._id,
+              [...activity.pages.map((pageData, num) => ({
+                  ...pageData, pageNumber: num + 1,
+                  sections: [...pageData.sections.map((sectionData, snum) => ({
+                      ...sectionData, sectionIndex: snum + 1,
+                      elements: snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
+                      : [...sectionData.elements],
+                  }))],
+              }))],
+            page, 0);
+            refresh()
+            setLoading(false)
+          } 
+        catch(err){
+            console.log(err)
+            setLoading(false)
+        }
+    }
+
     const handleModifyElement = async (sectionIndex, elementIndex, params) => {
-        setLoading(true);
         try {
           await activityService.update(
             activity._id,
@@ -104,11 +207,9 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 }))],
             }))],
           page, 0);
-          setLoading(false);
-          refresh();
+          refresh(false);
         } catch (err) {
           console.log(err);
-          setLoading(false);
         }
       };
 
@@ -129,15 +230,14 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                     })],
                 }))],
             page, 0);
-            setLoading(false);
-            refresh();    
+            refresh(true);    
+            setLoading(false)
         }
         catch(err){
             console.log(err)
             setLoading(false)
         }
-    }
-      
+    } 
 
     if(page === null){return(
         <div className={`flex flex-col gap-4 items-center justify-center w-full h-full text-black
@@ -177,7 +277,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 onClick={handleDeletePage}>
                 Delete Page
             </button>
-            <div className="text-xl font-bold flex flex-row gap-7 items-center rounded-full px-4 py-1 shadow-xl"
+            <div className="text-lg font- flex flex-row gap-7 items-center rounded-full px-4 py-1 shadow-xl"
             style={{backgroundColor: theme.ultra_light + "D0"}}>
                 <button disabled={page === 0}
                 onClick={() => {setPage((prev) => prev-1)}}>
@@ -193,10 +293,14 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             </div>
             <div className="flex flex-col gap-4 mt-4 p-6 border-t-2 border-black/[0.4] w-full">
                 {activity.pages[page].sections.map((section, key) => 
-                <Section section={section} key={key} index={key+1} theme={theme} 
+                <Section section={section} key={key} index={key+1} theme={theme} max={activity.pages[page].sections.length}
                 handleAppendElement={handleAppendElement}
                 handleModifyElement={handleModifyElement}
-                handleDeleteElement={handleDeleteElement}/>)}
+                handleDeleteElement={handleDeleteElement}
+                handleModifySection={handleModifySection}
+                handleSectionSwap={handleSectionSwap}
+                handleElementSwap={handleElementSwap}
+                handleDeleteSection={handleDeleteSection}/>)}
                 <button className={`w-full rounded-xl text-white py-1 hover:brightness-[1.5]`} style={{backgroundColor: theme.dark}}
                 onClick={handleAppendSection}>
                     + Add Section

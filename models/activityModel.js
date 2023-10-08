@@ -11,10 +11,6 @@ const elementSchema = new Schema(
       type: Number,
       required: [true, 'Missing sectionType'],
     },
-    explanation: {
-      type: String,
-      required: false,
-    },
     isBox: {
       type: Boolean,
       required: false,
