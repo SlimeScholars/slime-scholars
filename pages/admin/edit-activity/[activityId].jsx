@@ -46,7 +46,7 @@ export default function EditActivity({setLoading}) {
           <EditActivitySide activity={activity} refresh={fetch} setLoading={setLoading} theme={theme}/>
         </div>
         <div className="max-h-screen overflow-y-scroll"
-          style={{backgroundColor: theme.light + "A0"}}>
+          style={{backgroundColor: theme.light + "D0"}}>
             <EditActivityDisplay activity={activity} theme={theme}/>
         </div>
       </div>
