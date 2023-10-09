@@ -7,6 +7,7 @@ export const colors = {
         demi_light: "#fca5a5",
         light: "#fecaca",
         ultra_light: "#fef2f2",
+        image: "magma-caverns.png"
     },
     sky: {
         dark: "#082f49",
@@ -16,6 +17,7 @@ export const colors = {
         demi_light: "#7dd3fc",
         light: "#bae6fd",
         ultra_light: "#f0f9ff", 
+        image: "ocean-city.png"
     },
     teal: {
         dark: "#042f2e",
@@ -25,6 +27,7 @@ export const colors = {
         demi_light: "#5eead4",
         light: "#99f6e4",
         ultra_light: "#f0fdfa",
+        image: "gem-space.png"
     },
     amber: {
         dark: "#451a03",
@@ -34,6 +37,7 @@ export const colors = {
         demi_light: "#fcd34d",
         light: "#fde68a",
         ultra_light: "#fffbeb", 
+        image: "red-space.png"
     },
     lime: {
         dark: "#1a2e05",
@@ -43,6 +47,7 @@ export const colors = {
         demi_light: "#bef264",
         light: "#d9f99d",
         ultra_light: "#f7fee7",
+        image: "forest-mountains.png"
     },
     green: {
         dark: "#052e16",
@@ -52,6 +57,7 @@ export const colors = {
         demi_light: "#86efac",
         light: "#bbf7d0",
         ultra_light: "#f0fdf4",
+        image: "flower-field.png"
     },
     violet: {
         dark: "#2e1065",
@@ -61,6 +67,7 @@ export const colors = {
         demi_light: "#c4b5fd",
         light: "#ddd6fe",
         ultra_light: "#f5f3ff",
+        image: "neon-city.png"
     },
     pink: {
         dark: "#500724",
@@ -70,6 +77,7 @@ export const colors = {
         demi_light: "#f9a8d4",
         light: "#fbcfe8",
         ultra_light: "#fdf2f8",
+        image: "cosmic-lights.png"
     },
     neutral: {
         dark: "#0a0a0a",
@@ -79,5 +87,6 @@ export const colors = {
         demi_light: "#d4d4d4",
         light: "#e5e5e5",
         ultra_light: "#fafafa",
+        image: "ice-city.png"
     },
 };
