@@ -74,19 +74,19 @@ export default async function (req, res) {
       });
     }
 
-    const { activityId, pages, pageIndex, imageLength } = data.fields
+    const { activityId, pages, pageIndex, imageLength } = data.fields;
 
     //if no page index is specified... do nothing to the pages, only refresh by the array
-    if(pageIndex === -1){
+    if (pageIndex === -1) {
       await Activity.findByIdAndUpdate(activityId, {
         pages: pages,
         latestAuthor: `${user.firstName} ${user.lastName} `,
       });
-  
+
       const activity = await Activity.findById(activityId);
-  
+
       res.status(200).json({ activity });
-      return 
+      return;
     }
 
     if (!activityId) {
@@ -117,7 +117,7 @@ export default async function (req, res) {
     }
 
     const sections = pages[pageIndex].sections;
-    const newPages = [...pages]
+    const newPages = [...pages];
     const processedSections = [];
 
     for (let i in sections) {
@@ -142,7 +142,7 @@ export default async function (req, res) {
           index: element.index,
           elementType: element.elementType,
         };
-        console.log(processedElement)
+        console.log(processedElement);
         // text
         if (element.elementType === 0) {
           const processedText = processMarkdown(element.text);
@@ -156,6 +156,16 @@ export default async function (req, res) {
         //img
         else if (element.elementType === 1) {
           processedElement.image = element.image;
+          // check if image has size, border, and rounded properties
+          if (element.size && element.border && element.rounded) {
+            processedElement.size = element.size;
+            processedElement.border = element.border;
+            processedElement.rounded = element.rounded;
+          } else {
+            throw new Error(
+              "Image must have a size, border, and rounded styling"
+            );
+          }
         }
         //multiple choice
         else if (element.elementType === 2) {
@@ -173,15 +183,15 @@ export default async function (req, res) {
         processedElements.push(processedElement);
       }
       // put all sections into a page
-      const newSection = {...section, elements:[...processedElements]}
+      const newSection = { ...section, elements: [...processedElements] };
       processedSections.push(newSection);
     }
     const submitPages = newPages.map((page, num) => {
-      if(num === pageIndex){
-        return {...page, sections: [...processedSections]}
+      if (num === pageIndex) {
+        return { ...page, sections: [...processedSections] };
       }
-      return page
-    })
+      return page;
+    });
 
     await Activity.findByIdAndUpdate(activityId, {
       pages: submitPages,
