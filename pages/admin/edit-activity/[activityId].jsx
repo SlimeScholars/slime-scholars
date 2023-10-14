@@ -63,7 +63,7 @@ export default function EditActivity({setLoading}) {
         style={{
           transform: displayOpen ? "scale(1.35) translateY(-10px)" : "scale(1.0) translateY(0px)",
         }}>
-            <EditActivityDisplay activity={activity} theme={theme} displayOpen={displayOpen} setDisplayOpen={setDisplayOpen}/>
+            <EditActivityDisplay activity={activity} theme={theme} displayOpen={displayOpen} setDisplayOpen={setDisplayOpen} refetch={fetch}/>
         </div>
       </div>
     </div>

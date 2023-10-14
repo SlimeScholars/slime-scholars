@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
-import { AiOutlineFullscreenExit, AiOutlineFullscreen } from "react-icons/ai"
+import { AiOutlineFullscreenExit, AiOutlineFullscreen, AiOutlineReload } from "react-icons/ai"
 import { BiSolidLeftArrow, BiSolidRightArrow} from "react-icons/bi"
 import DisplaySection from "./displaysection"
 
-export default function EditActivityDisplay({activity, theme, displayOpen, setDisplayOpen}){
+import { FaStar, FaRegStar } from 'react-icons/fa'
+
+export default function EditActivityDisplay({activity, theme, displayOpen, setDisplayOpen, refetch}){
 
     const [page, setPage] = useState(activity.pages.length > 0 ? 0 : null)
     const [open, setOpen] = useState(0)
@@ -47,8 +49,15 @@ export default function EditActivityDisplay({activity, theme, displayOpen, setDi
                         activity.pages[page].sections.map((section, key) => 
                             <DisplaySection section={section} theme={theme} key={key}/>
                         ) : 
-                        <div>
-                            Finish Page
+                        <div className="flex flex-col gap-2 relative rounded-md p-4 text-center text-sm" style={{
+                            backgroundColor: theme.ultra_light
+                        }}>
+                            Congratulations! You have finished this activity!
+                            <span className="flex flex-row gap-2 items-center justify-center w-full text-md">
+                                <FaStar/>
+                                <FaStar/>
+                                <FaRegStar/>
+                            </span>
                         </div>}
                     </div>
                 </section>
@@ -75,29 +84,38 @@ export default function EditActivityDisplay({activity, theme, displayOpen, setDi
                     style={{color: theme.dark + "C0"}}>
                         <button className="text-md" disabled={page === 0}
                         onClick={() => {setPage((prev) => prev-1)}}>
-                            <BiSolidLeftArrow className={page === 0 ? "text-neutral-700 cursor-not-allowed" : 
+                            <BiSolidLeftArrow className={page === 0 ? "text-neutral-500 cursor-not-allowed" : 
                             "text-neutral-400 hover:text-neutral-300"}/>
                         </button>
                         <input className="text-sm w-[5rem] text-center font-semibold rounded-md" 
                         value={page < activity.pages.length ? page+1 : "Done"}
+                        disabled={true}
                         style={{color:theme.dark, backgroundColor: theme.ultra_light}}>
                         </input>
                         <button className="text-md" disabled={page === activity.pages.length}
                         onClick={() => {setPage((prev) => prev+1)}}>
-                            <BiSolidRightArrow className={page === activity.pages.length ? "text-neutral-700 cursor-not-allowed" : 
+                            <BiSolidRightArrow className={page === activity.pages.length ? "text-neutral-500 cursor-not-allowed" : 
                             "text-neutral-400 hover:text-neutral-300"}/>
                         </button>
                     </section>
                 </section>
             </div>
             <div className="flex flex-col gap-1">
-                {!displayOpen && <button className="py-1 bg-neutral-700 hover:bg-neutral-500 text-white rounded-md 
-                flex flex-row gap-2 items-center justify-center shadow-md"
-                onClick={() => {
-                    setDisplayOpen((prev) => !prev)
-                }}>
-                    <AiOutlineFullscreen/> Full Screen
-                </button>}
+                {!displayOpen && 
+                <div className="grid grid-cols-2 gap-2">
+                    <button className="py-1 bg-neutral-700 hover:bg-neutral-500 text-white rounded-md 
+                    flex flex-row gap-2 items-center justify-center shadow-md"
+                    onClick={refetch}>
+                        <AiOutlineReload/> Reload Data
+                    </button>
+                    <button className="py-1 bg-neutral-700 hover:bg-neutral-500 text-white rounded-md 
+                    flex flex-row gap-2 items-center justify-center shadow-md"
+                    onClick={() => {
+                        setDisplayOpen((prev) => !prev)
+                    }}>
+                        <AiOutlineFullscreen/> Full Screen
+                    </button>
+                </div>}
             </div>
         </div>
     )
