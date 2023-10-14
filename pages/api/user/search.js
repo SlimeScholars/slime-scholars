@@ -1,4 +1,5 @@
 import connectDB from "../../../utils/connectDB";
+import { verifyApiKey } from "../../../utils/verify";
 import User from "../../../models/userModel";
 import { getPopulatedPlayer } from "../../../utils/getPopulatedUser";
 import { batchGetPopulatedPlayer } from "../../../utils/getPopulatedUser";
@@ -15,6 +16,7 @@ export default async function (req, res) {
     if (req.method !== "GET") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apiKey);
 
     // Connect to database
     await connectDB();

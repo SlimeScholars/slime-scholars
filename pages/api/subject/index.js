@@ -1,4 +1,5 @@
 import connectDB from "../../../utils/connectDB";
+import { verifyApiKey } from "../../../utils/verify";
 import Subject from "../../../models/subjectModel";
 // Import these to initialize the models for the populate
 import "../../../models/courseModel";
@@ -16,6 +17,7 @@ export default async function (req, res) {
     if (req.method !== "GET") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apiKey);
 
     // Connect to database
     await connectDB();

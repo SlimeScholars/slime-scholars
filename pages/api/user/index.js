@@ -1,4 +1,5 @@
 import { authenticate } from "../../../utils/authenticate"
+import { verifyApiKey } from "../../../utils/verify"
 import { calcSlimeGel } from "../../../utils/calcSlimeGel"
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
@@ -10,9 +11,10 @@ import User from '../../../models/userModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'GET') {
+    if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -21,7 +23,7 @@ export default async function (req, res) {
     const user = await authenticate(req.headers.authorization)
     const data = calcSlimeGel(user?.lastSlimeRewards, user?.roster)
 
-    if(data){
+    if (data) {
       const update = await User.findById(user._id)
       update.lastSlimeRewards = data.newDate
       update.slimeGel += data.rewards
@@ -34,12 +36,12 @@ export default async function (req, res) {
         newSlime: user.slimeGel + data.rewards,
       }
     }
-    else{
+    else {
       user.screen_display_notif = null
     }
 
     res.status(200).json({ user })
   } catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }

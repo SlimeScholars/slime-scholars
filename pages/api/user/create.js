@@ -1,4 +1,5 @@
 import {
+  verifyApiKey,
   verifyName,
   verifyUsername,
   verifyPassword,
@@ -30,6 +31,7 @@ export default async function (req, res) {
     if (req.method !== "POST") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apiKey);
 
     // Connect to database
     await connectDB();

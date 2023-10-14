@@ -1,4 +1,5 @@
 import { authenticate } from "../../../../utils/authenticate";
+import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import Course from "../../../../models/courseModel";
@@ -15,6 +16,7 @@ export default async function (req, res) {
     if (req.method !== "POST") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB();
