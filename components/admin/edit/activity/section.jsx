@@ -4,7 +4,7 @@ import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
 import {TbTypography, TbAdjustmentsQuestion} from 'react-icons/tb'
 import {FiImage} from 'react-icons/fi'
 import {BsPencilSquare, BsFillTrashFill} from 'react-icons/bs'
-import Segmented from "./segmented";
+import { Segmented } from "./segmented";
 import TextElement from "./elements/textElement";
 import FreeResponseElement from "./elements/freeResponseElement";
 import ImageElement from "./elements/imageElement";
@@ -40,7 +40,7 @@ export default function Section({ section, index, max, theme, handleAppendElemen
 
   const elementOptions = [
     { label: "Text", icon: <TbTypography/>, params: {elementType: 0, text: "", isBox: false}},
-    { label: "Image", icon: <FiImage/>, params: {elementType: 1, text: "", isBox: false}},
+    { label: "Image", icon: <FiImage/>, params: {elementType: 1, text: "",image: "", isBox: false, rounded:0, size:0, border:false}},
     { label: "Free Response", icon: <BsPencilSquare/>, params: {elementType: 3, text: "", afterBlank: "", blank: [], isBox: false}},
     { label: "Multiple Choice", icon: <TbAdjustmentsQuestion/>, params: {elementType: 2, text: "", isBox: false}},
   ];
@@ -85,12 +85,12 @@ export default function Section({ section, index, max, theme, handleAppendElemen
       <div className="grid grid-cols-2 w-full">
         <div className="flex flex-row gap-2 items-center"><span className="font-bold">Style: </span>
         <Segmented options={["Plain", "Bold"]} defaultIndex={data.sectionStyle.toLowerCase() === "plain" ? 0 : 1}
-        theme={theme} onChange={(item) => {
+        theme={theme} input={elementsVisible} onChange={(item) => {
           handleModifySection(index-1, {sectionStyle:item.toLowerCase()})
         }}/></div>
         <div className="flex flex-row gap-2 items-center"><span className="font-bold">Direction: </span>
         <Segmented options={["Vertical", "Horizontal"]} defaultIndex={data.sectionDirection.toLowerCase() === "vertical" ? 0 : 1}
-        theme={theme} onChange={(item) => {
+        theme={theme} input={elementsVisible} onChange={(item) => {
           handleModifySection(index-1, {sectionDirection:item.toLowerCase()})
         }}/></div>
       </div>

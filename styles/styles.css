@@ -293,10 +293,10 @@ input {
 
 .outer-display-grid{
   display:grid;
-  grid-template-rows: 88% 12%;
+  grid-template-rows: 90% 10%;
 }
 
 .horizontal-display-grid{
   display:grid;
-  grid-template-columns: 45% 10% 45%;
+  grid-template-columns: 47% 6% 47%;
 }
