@@ -37,7 +37,7 @@ export default function TextElement({element, index, theme, handleChanges, handl
                 <div className="flex flex-row gap-3 items-center">
                     <span className="font-bold">{index}. Text Element </span>
                     <button className="hover:text-gray-300"
-                        onClick={() => {setOpen(true)}}><AiFillEdit/></button>
+                        onClick={() => {setOpen(!open)}}>{open ? <AiFillCloseCircle/> : <AiFillEdit/>}</button>
                 </div>
                 <div className="flex flex-row gap-3">
                     <div className="flex flex-col items-center justify-center text-sm">

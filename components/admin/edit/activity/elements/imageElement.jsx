@@ -4,6 +4,7 @@ import {BsFillTrashFill} from 'react-icons/bs'
 import { HiOutlineExternalLink } from "react-icons/hi"
 import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
 import { showToastError } from "../../../../../utils/toast"
+import { ThinSegmented } from "../segmented"
 
 export default function ImageElement({element, index, theme, handleChanges, handleDelete, handleSwap, max}){
     const [data, setData] = useState(element)
@@ -39,7 +40,7 @@ export default function ImageElement({element, index, theme, handleChanges, hand
                 <div className="flex flex-row gap-3 items-center">
                     <span className="font-bold">{index}. Image Element </span>
                     <button className="hover:text-gray-300"
-                        onClick={() => {setOpen(true)}}><AiFillEdit/></button>
+                        onClick={() => {setOpen(!open)}}>{open ? <AiFillCloseCircle/> : <AiFillEdit/>}</button>
                 </div>
                 <div className="flex flex-row gap-3">
                     <div className="flex flex-col items-center justify-center text-sm">
@@ -72,16 +73,29 @@ export default function ImageElement({element, index, theme, handleChanges, hand
             {!open ?
             <span>
             {data.image ? 
-            <div className="flex flex-row gap-6">
-                <a onClick={() => {
-                    window.open(data.image, "_blank")
-                }} className="flex flex-row gap-2 items-center hover:text-neutral-500 transition-all duration-150">
-                    Open Link <HiOutlineExternalLink/></a>
-                <a onClick={() => {
-                    navigator.clipboard.writeText(data.image)
-                    showToastError("Copied to clipboard!", true)
-                }} className="flex flex-row gap-2 items-center hover:text-neutral-500 transition-all duration-150">
-                    Copy URL <AiOutlineCopy/></a>
+            <div className="flex flex-col gap-2">
+                <div className="flex flex-row gap-6">
+                    <span>
+                        Size: {data.size === 0 ? "Small" : data.size === 1 ? "Medium" : "Large"}
+                    </span>
+                    <span>
+                        Rounded: {data.rounded === 0 ? "None" : data.rounded === 1 ? "Regular" : "Extra"}
+                    </span>
+                    <span>
+                        Border: {data.border ? "On" : "Off"}
+                    </span>
+                </div>
+                <div className="flex flex-row gap-6">
+                    <a onClick={() => {
+                        window.open(data.image, "_blank")
+                    }} className="flex flex-row gap-2 items-center hover:text-neutral-500 transition-all duration-150">
+                        Open Link <HiOutlineExternalLink/></a>
+                    <a onClick={() => {
+                        navigator.clipboard.writeText(data.image)
+                        showToastError("Copied to clipboard!", true)
+                    }} className="flex flex-row gap-2 items-center hover:text-neutral-500 transition-all duration-150">
+                        Copy URL <AiOutlineCopy/></a>
+                </div>
             </div> : <span>[No Image]</span>}
             </span> :
             <>
@@ -102,6 +116,42 @@ export default function ImageElement({element, index, theme, handleChanges, hand
                     onClick={handleTextChange}><AiFillSave/></button>
                     <button className="hover:text-gray-600"
                     onClick={() => {setOpen(false)}}><AiFillCloseCircle/></button>
+                </div>
+                <div className="flex flex-row gap-3 items-center mt-2">
+                    <span className="font-semibold w-[5rem]">Size:</span>
+                    <ThinSegmented theme={theme} options={["Small", "Medium", "Large"]}
+                    defaultIndex={data.size} input={open} onChange={(item) => {
+                        handleChanges(index-1, {
+                            ...data,
+                            size: item === "Small" ? 0 : item === "Medium" ? 1 : 2,
+                            rounded: data.rounded,
+                            border: data.border
+                        })
+                    }}/>
+                </div>
+                <div className="flex flex-row gap-3 items-center mt-2">
+                    <span className="font-semibold w-[5rem]">Rounded:</span>
+                    <ThinSegmented theme={theme} options={["None", "Regular", "Extra"]}
+                    defaultIndex={data.rounded} input={open} onChange={(item) => {
+                        handleChanges(index-1, {
+                            ...data,
+                            size: data.size,
+                            rounded: item === "None" ? 0 : item === "Regular" ? 1 : 2,
+                            border: data.border
+                        })
+                    }}/>
+                </div>
+                <div className="flex flex-row gap-3 items-center mt-2">
+                    <span className="font-semibold w-[5rem]">Border:</span>
+                    <ThinSegmented theme={theme} options={["Off", "On"]}
+                    defaultIndex={data.border ? 1 : 0} input={open} onChange={(item) => {
+                        handleChanges(index-1, {
+                            ...data,
+                            size:data.size,
+                            rounded:data.rounded,
+                            border: item === "Off" ? false : true
+                        })
+                    }}/>
                 </div>
             </div>
             </>

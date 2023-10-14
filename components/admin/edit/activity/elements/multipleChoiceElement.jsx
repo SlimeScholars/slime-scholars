@@ -2,12 +2,14 @@ import { useEffect, useState } from "react"
 import {AiFillSave, AiFillCloseCircle, AiFillEdit, AiFillCheckCircle} from 'react-icons/ai'
 import {BsFillTrashFill} from 'react-icons/bs'
 import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
-import IconSegmented from "../iconsegmented"
+import { IconSegmented } from "../segmented"
 
 export default function MultipleChoiceElement({element, index, theme, handleChanges, handleDelete, handleSwap, max}){
     const [data, setData] = useState(element)
     const [open, setOpen] = useState(false)
     const [options, setOptions] = useState([])
+    const [questionText, setQuestionText] = useState("")
+    const [expText, setExpText] = useState("")
 
     const handleDeleteSelf = async() => {
         handleDelete(index-1)
@@ -20,7 +22,7 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
       };
 
     const handleOptionsChange = async() => {
-        handleChanges(index-1, {options:options})
+        handleChanges(index-1, {options:options, text:questionText, explanation:expText})
         setOpen(false)
     }
 
@@ -30,15 +32,17 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
 
     useEffect(() => {
         setOptions(data.options ? [...data.options.map((opt) => {return{option:opt.option, correct:opt.correct}})] : [])
+        setQuestionText(data.text)
+        setExpText(data.explanation)
     }, [data])
 
     return(
         <div className="flex flex-col gap-3 rounded-md px-2 py-1 border-2" style={{borderColor:theme.semi_light, backgroundColor:theme.demi_light}}>
             <div className="flex flex-row justify-between w-full">
                 <div className="flex flex-row gap-3 items-center">
-                    <span className="font-bold">{index}. Mutliple Choice Element </span>
+                    <span className="font-bold">{index}. Multiple Choice Element </span>
                     <button className="hover:text-gray-300"
-                        onClick={() => {setOpen(true)}}><AiFillEdit/></button>
+                        onClick={() => {setOpen(!open)}}>{open ? <AiFillCloseCircle/> : <AiFillEdit/>}</button>
                 </div>
                 <div className="flex flex-row gap-3">
                     <div className="flex flex-col items-center justify-center text-sm">
@@ -66,9 +70,10 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                 </div>
             </div>
             {!open ?
-            <div className="flex flex-col gap-2 text-sm">
-            {options.map((item) => {
-            return <div className="flex flex-row justify-between items-center w-[500px] py-1 px-3 rounded-md" 
+            <div className="flex flex-col gap-2 text-md">
+            <span><span className="font-semibold underline">Text:</span> {questionText ? questionText : "[No Text]"}</span>
+            {options.length > 0 ? options.map((item) => {
+            return <div className="flex flex-row justify-between items-center w-[500px] py-1 px-3 rounded-md text-sm" 
             style={{backgroundColor:theme.medium, color:theme.ultra_light}}>
             <span 
             style={{
@@ -83,7 +88,8 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                                     color: theme.light
                                 }}><AiFillCloseCircle/></span>}
             </span>
-            </div>})}
+            </div>}) : <span className="text-md">[No Options]</span>}
+            <span><span className="font-semibold underline">Explanation:</span> {expText ? expText : "[No Explanation]"}</span>
             </div> :
             <>
             <div className="flex flex-row gap-3">
@@ -93,6 +99,16 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                 onClick={() => {setOpen(false)}}><AiFillCloseCircle/></button>
             </div>
                 <div className="flex flex-col gap-1">
+                    <span className="font-semibold">Text:</span>
+                    <textarea
+                    value={questionText}
+                    className="bg-neutral-200 focus:bg-neutral-100 w-[500px] 
+                    px-3 rounded-md transition-all duration-150"
+                    onChange={(e) => {
+                        setQuestionText(e.target.value)
+                    }}
+                    onKeyDown={handleKeyPress}
+                    />
                     <span className="font-semibold">Options:</span>
                     <div className="flex flex-col gap-2">
                         {options.map((opt, key) => 
@@ -118,6 +134,7 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                             onKeyDown={handleKeyPress}
                             />
                             <IconSegmented theme={theme} 
+                            input={open}
                             options={[{icon:<AiFillCloseCircle/>, key: false}, 
                             {icon:<AiFillCheckCircle/>, key: true}]}
                             onChange={(truth) => {
@@ -128,6 +145,16 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                             defaultIndex={opt.correct ? 1 : 0}/>
                         </div>)}
                     </div>
+                    <span className="font-semibold">Explanation:</span>
+                    <textarea
+                    value={expText}
+                    className="bg-neutral-200 focus:bg-neutral-100 w-[500px] 
+                    px-3 rounded-md transition-all duration-150"
+                    onChange={(e) => {
+                        setExpText(e.target.value)
+                    }}
+                    onKeyDown={handleKeyPress}
+                    />
                     <button className={`w-[300px] rounded-md px-4 py-1 text-sm ${options.length > 0 ? "mt-2" : ""}`}
                     style={{backgroundColor:theme.medium, color:theme.ultra_light}}
                     onClick={() => {

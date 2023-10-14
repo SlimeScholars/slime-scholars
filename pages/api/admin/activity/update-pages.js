@@ -157,9 +157,9 @@ export default async function (req, res) {
         else if (element.elementType === 1) {
           processedElement.image = element.image;
           // check if image has size, border, and rounded properties
-          if (element.size && element.border && element.rounded) {
+          if ((element.size === 0 || element.size) && (element.rounded === 0 || element.rounded)) {
             processedElement.size = element.size;
-            processedElement.border = element.border;
+            processedElement.border = element.border ? element.border : false;
             processedElement.rounded = element.rounded;
           } else {
             throw new Error(
@@ -169,6 +169,7 @@ export default async function (req, res) {
         }
         //multiple choice
         else if (element.elementType === 2) {
+          processedElement.text = element.text
           processedElement.options = element.options;
           processedElement.explanation = element.explanation;
         }
