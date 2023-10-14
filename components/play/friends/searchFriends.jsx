@@ -12,7 +12,7 @@ import axios from "axios";
 
 export default function SearchFriends({ setFriends, toDo, placeHolder }) {
     const [searchContent, setSearchContent] = useState("");
-    
+
     const handleSubmit = (e) => {
         const token = localStorage.getItem('jwt')
 
@@ -20,13 +20,14 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
+                apiKey: process.env.API_KEY,
             },
             params: {
                 username: searchContent,
             }
         };
-        
-        if ( toDo === "add") {
+
+        if (toDo === "add") {
             axios
                 .get("/api/user/search", config)
                 .then(response => {
@@ -37,13 +38,13 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
                 });
         } else {
             axios
-            .get("/api/user/friend/search", config)
-            .then(response => {
-                setFriends(response.data.matchingFriends);
-            })
-            .catch(error => 
-                console.error()
-                //console.error(error.message)
+                .get("/api/user/friend/search", config)
+                .then(response => {
+                    setFriends(response.data.matchingFriends);
+                })
+                .catch(error =>
+                    console.error()
+                    //console.error(error.message)
                 );
         }
     };

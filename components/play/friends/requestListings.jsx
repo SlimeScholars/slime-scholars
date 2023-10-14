@@ -23,6 +23,7 @@ export default function RequestListings({
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            apiKey: process.env.API_KEY,
           },
         }
       )
@@ -41,6 +42,7 @@ export default function RequestListings({
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
+        apiKey: process.env.API_KEY,
       },
     };
 
