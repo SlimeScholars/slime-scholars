@@ -21,7 +21,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
   }, [user, loading])
 
   const [initialLoad, setInitialLoad] = useState(true)
-  const [sidePanelProperties, setSidePanelProperties] = useState({type: "blank", details:null})
+  const [sidePanelProperties, setSidePanelProperties] = useState({ type: "blank", details: null })
   const [selected, setSelected] = useState(null);
   const [subjects, setSubjects] = useState(undefined);
 
@@ -37,8 +37,15 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
 
   const fetch = () => {
     setLoading(true)
+
+    const config = {
+      headers: {
+        apiKey: process.env.API_KEY,
+      },
+    }
+
     axios
-      .get("/api/subject")
+      .get("/api/subject", config)
       .then((response) => {
         if (response.data && response.data.subjects) {
           const responseSubjects = []
@@ -71,6 +78,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
       setLoading(true)
@@ -122,7 +130,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
           <button
             className="w-full h-12 bg-indigo-100 font-black hover:bg-indigo-50 border-2 border-indigo-300 
             hover:border-indigo-200 text-indigo--800 mb-4 transition-all duration-150 rounded-lg"
-            onClick={() => {router.push('/')}}
+            onClick={() => { router.push('/') }}
           >
             Home
           </button>
@@ -133,14 +141,14 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
           >
             Log Out
           </button>
-          
+
         </div>
         {subjects === undefined ? <></> : subjects.map((subject, index) => (
           <Subject
             key={index}
             setSidePanelProperties={setSidePanelProperties}
-            selected = {selected}
-            setSelected = {setSelected}
+            selected={selected}
+            setSelected={setSelected}
             subject={subject}
             setSubject={(newSubject) => {
               let newSubjects = [...subjects];
@@ -153,7 +161,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
         <button
           className="w-full h-12 bg-teal-500 font-semibold hover:bg-teal-400
            text-white transition-all duration-150 rounded-lg text-xl mt-4"
-          onClick={async() => {
+          onClick={async () => {
             setLoading(true)
             await subjectService.post()
             fetch()
@@ -164,11 +172,11 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
       </div>
       <div className="h-full w-[50%] bg-sky-200">
       </div>
-      <SidePanel 
-      {...sidePanelProperties}
-      setSidePanelProperties={setSidePanelProperties}
-      setLoading={setLoading}
-      refreshPanel={fetch}/>
+      <SidePanel
+        {...sidePanelProperties}
+        setSidePanelProperties={setSidePanelProperties}
+        setLoading={setLoading}
+        refreshPanel={fetch} />
     </div>
   );
 }

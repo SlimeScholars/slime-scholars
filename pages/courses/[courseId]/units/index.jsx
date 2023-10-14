@@ -41,6 +41,7 @@ export default function Units({ user, loading, setLoading, setAxiosLoading, colo
 				},
 				headers: {
 					Authorization: `Bearer ${token}`,
+					apiKey: process.env.API_KEY,
 				},
 			};
 			setAxiosLoading(true)
@@ -68,77 +69,77 @@ export default function Units({ user, loading, setLoading, setAxiosLoading, colo
 	}, [router.query.courseId])
 	console.log(units)
 
-	if(loading){return}
+	if (loading) { return }
 	return (
 		<div
-		style={{
-			backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50"
-		}}>
-		<div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
-			<span className="hover:text-blue-400 transition-all duration-150"
-			onClick={() => {
-				router.push(`/courses`)
-			}}>Courses </span>
-			<span>{">>"}</span>
-			<span className="hover:text-blue-400 transition-all duration-150"
-			onClick={() => {
-				router.push(`/courses/${courseId}/units`)
-			}}>{courseName}</span>
-		</div>
-		<div className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
-		style={{
-			backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0"
-		}}>
-			<div className="flex flex-row gap-4 pt-[1.5rem] pb-[1.5rem]">
-				<div className="justify-self-center flex items-center justify-center border-2 rounded-full
+			style={{
+				backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50"
+			}}>
+			<div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
+				<span className="hover:text-blue-400 transition-all duration-150"
+					onClick={() => {
+						router.push(`/courses`)
+					}}>Courses </span>
+				<span>{">>"}</span>
+				<span className="hover:text-blue-400 transition-all duration-150"
+					onClick={() => {
+						router.push(`/courses/${courseId}/units`)
+					}}>{courseName}</span>
+			</div>
+			<div className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
+				style={{
+					backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0"
+				}}>
+				<div className="flex flex-row gap-4 pt-[1.5rem] pb-[1.5rem]">
+					<div className="justify-self-center flex items-center justify-center border-2 rounded-full
 				w-20 h-20"
-				style={{
-					backgroundColor: !colorPalette ? "" : colorPalette.primary2,
-				}}>
-					<Image
-					src="/assets/slimes/slime-static/blue-slime.png"
-					alt="blue slime"
-					width={200}
-					height={200}
-					className="w-16 h-16"/>
-				</div>
-				<section className="text-4xl font-bold flex flex-col gap-2"
-				style={{
-					color: !colorPalette ? "" : colorPalette.black
-				}}>
-					{courseName}
-					<div className="flex flex-row">
-						<span 
-						className="brightness-[0.5] text-lg italic font-normal"
 						style={{
-						color: !colorPalette ? "" : colorPalette.primary1
-						}}>135 lessons • 15 quizzes • 6,250</span>
+							backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+						}}>
 						<Image
-						src="/assets/icons/flower.png"
-						alt="flowers"
-						height={0}
-						width={0}
-						sizes="100vw"
-						className="h-[1.4rem] w-[1.4rem] mx-1 brightnes"
-						/>
+							src="/assets/slimes/slime-static/blue-slime.png"
+							alt="blue slime"
+							width={200}
+							height={200}
+							className="w-16 h-16" />
 					</div>
-				</section>
+					<section className="text-4xl font-bold flex flex-col gap-2"
+						style={{
+							color: !colorPalette ? "" : colorPalette.black
+						}}>
+						{courseName}
+						<div className="flex flex-row">
+							<span
+								className="brightness-[0.5] text-lg italic font-normal"
+								style={{
+									color: !colorPalette ? "" : colorPalette.primary1
+								}}>135 lessons • 15 quizzes • 6,250</span>
+							<Image
+								src="/assets/icons/flower.png"
+								alt="flowers"
+								height={0}
+								width={0}
+								sizes="100vw"
+								className="h-[1.4rem] w-[1.4rem] mx-1 brightnes"
+							/>
+						</div>
+					</section>
+				</div>
+				<div className="flex flex-col">
+					{units.map((unit) => (
+						<Unit
+							key={unit._id}
+							unitId={unit._id}
+							courseId={courseId}
+							unitName={unit.unitName}
+							unitNumber={unit.unitNumber}
+							unitBadge={unit.unitBadge}
+							colorPalette={colorPalette}
+							tier={unit.tier}
+						/>
+					))}
+				</div>
 			</div>
-			<div className="flex flex-col">
-				{units.map((unit) => (
-					<Unit
-					key={unit._id}
-					unitId={unit._id}
-					courseId={courseId}
-					unitName={unit.unitName}
-					unitNumber={unit.unitNumber}
-					unitBadge={unit.unitBadge}
-					colorPalette={colorPalette}
-					tier={unit.tier}
-					/>
-				))}
-			</div>
-		</div>
 		</div>
 	)
 }
