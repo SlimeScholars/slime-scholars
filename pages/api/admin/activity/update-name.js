@@ -1,5 +1,6 @@
 // TODO: change from lesson to lower sublevel activity
 import { authenticate } from "../../../../utils/authenticate";
+import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import Lesson from "../../../../models/lessonModel";
@@ -17,6 +18,7 @@ export default async function (req, res) {
     if (req.method !== "PUT") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB();

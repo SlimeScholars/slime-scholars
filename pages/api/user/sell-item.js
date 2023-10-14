@@ -1,9 +1,11 @@
 import { gameData } from "../../../data/gameData"
+import { verifyApiKey } from "../../../utils/verify"
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import { getSortedItems } from "../../../utils/sort"
+import { verifyApiKey } from "../../../utils/verify"
 
 /**
  * @desc    Sell item
@@ -17,6 +19,7 @@ export default async function (req, res) {
 		if (req.method !== 'POST') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
+		verifyApiKey(req.headers.apiKey)
 
 		// Connect to database
 		await connectDB()
