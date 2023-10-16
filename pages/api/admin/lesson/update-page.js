@@ -1,4 +1,5 @@
 import { authenticate } from "../../../../utils/authenticate"
+import { verifyApiKey } from "../../../../utils/verify"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import Lesson from "../../../../models/lessonModel"
@@ -27,6 +28,7 @@ export default async function (req, res) {
     if (req.method !== 'PUT') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -114,8 +116,8 @@ export default async function (req, res) {
 
     cloudinary.config({
       cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
+      api_key: process.env.CLOUDINARY_KEY,
+      api_secret: process.env.CLOUDINARY_SECRET,
     })
 
     const uploadedImages = []

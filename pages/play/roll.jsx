@@ -49,7 +49,8 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
 
         const config = {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                apiKey: process.env.API_KEY,
             }
         }
 
@@ -86,7 +87,8 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         itemName: 'Slime Egg'
                     }, {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                            apiKey: process.env.API_KEY,
                         }
                     })
                     .then(response => {
@@ -115,7 +117,8 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         itemName: 'Slime Egg'
                     }, {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('jwt')}`
+                            Authorization: `Bearer ${localStorage.getItem('jwt')}`,
+                            apiKey: process.env.API_KEY,
                         }
                     })
                     .then(response => {
@@ -181,25 +184,26 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                 <div className="relative ">
                     {/* Image as background */}
                     <div className="flex justify-center">
-                    
-                    <Image
-                        src="/assets/roll-bg/primary-banner.png"
-                        alt='slime banner'
-                        height={0}
-                        width={0}
-                        sizes='100vw'
-                        className="bg-cover w-[60%] h-auto inset-0 "
-                    />
+
+                        <Image
+                            src="/assets/roll-bg/primary-banner.png"
+                            alt='slime banner'
+                            height={0}
+                            width={0}
+                            sizes='100vw'
+                            className="bg-cover w-[60%] h-auto inset-0 "
+                        />
                     </div>
                     {/* Buttons to roll */}
                     <div className="absolute bottom--30 w-full mt-20">
                         <div className="flex justify-center">
                             <div className="flex gap-4 content-en">
                                 <button
-                                    style = {{backgroundColor: colorPalette ? colorPalette.primary1 : "",
-                                    color: colorPalette ? colorPalette.text1 : "",  
-                                    border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
-                                }}
+                                    style={{
+                                        backgroundColor: colorPalette ? colorPalette.primary1 : "",
+                                        color: colorPalette ? colorPalette.text1 : "",
+                                        border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
+                                    }}
                                     className="hover:brightness-110 pr-[5vw] flex flex-col justify-between rounded-lg text-white p-4 "
                                     onClick={() => handleRollBtnClick(10)}>
                                     <div className="flex flex-row font-galindo text-lg">
@@ -216,10 +220,11 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                                     <p className=" text-xl font-galindo text-left">{gameData.items['Slime Egg'].buyPrice + " FL"}</p>
                                 </button>
                                 <button
-                                    style = {{backgroundColor: colorPalette ? colorPalette.primary1 : "",
-                                    color: colorPalette ? colorPalette.text1 : "",  
-                                    border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
-                                }}
+                                    style={{
+                                        backgroundColor: colorPalette ? colorPalette.primary1 : "",
+                                        color: colorPalette ? colorPalette.text1 : "",
+                                        border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
+                                    }}
                                     className="hover:brightness-110 pr-[5vw] flex flex-col justify-between rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
                                     onClick={() => handleRollBtnClick(10)}>
                                     <div className="flex flex-row font-galindo text-lg">

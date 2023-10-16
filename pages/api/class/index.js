@@ -1,4 +1,5 @@
 import { authenticate } from "../../../utils/authenticate"
+import { verifyApiKey } from "../../../utils/verify"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
@@ -11,9 +12,10 @@ import Class from '../../../models/classModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'GET') {
+    if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -26,9 +28,9 @@ export default async function (req, res) {
 
     // Send teacher objects instead of their ids
     const classes = []
-    for(let classId of user.classes) {
+    for (let classId of user.classes) {
       const newClass = await Class.findById(classId)
-      const teachers = await User.find({userType: 3, classes: classId}, {password: 0})
+      const teachers = await User.find({ userType: 3, classes: classId }, { password: 0 })
       newClass.teachers = teachers
       classes.push(newClass)
     }
@@ -37,8 +39,8 @@ export default async function (req, res) {
       classes,
     })
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }
 

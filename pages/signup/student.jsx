@@ -51,6 +51,13 @@ export default function Student({ loading, user, setUser }) {
       showToastError(error.message);
       return;
     }
+
+    const config = {
+      headers: {
+        apiKey: process.env.API_KEY,
+      },
+    }
+
     axios
       .post("/api/user/create", {
         userType: 1,
@@ -59,7 +66,7 @@ export default function Student({ loading, user, setUser }) {
         username,
         email,
         password,
-      })
+      }, config)
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);

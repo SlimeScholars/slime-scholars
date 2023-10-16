@@ -86,6 +86,7 @@ export default function ManageFriends({
         },
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
 
