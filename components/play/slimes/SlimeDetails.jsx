@@ -31,6 +31,7 @@ export default function SlimeDetails({
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       }
 
@@ -449,6 +450,7 @@ export default function SlimeDetails({
                           Authorization: `Bearer ${localStorage.getItem(
                             "jwt"
                           )}`,
+                          apiKey: process.env.API_KEY,
                         },
                       }
                     )

@@ -4,16 +4,12 @@ const elementSchema = new Schema(
   {
     index: {
       type: Number,
-      required: [true, 'Missing index'],
+      required: [true, "Missing index"],
     },
     elementType: {
       // 0 for text, 1 for img, 2 for mc, 3 for fill in the blank
       type: Number,
-      required: [true, 'Missing sectionType'],
-    },
-    explanation: {
-      type: String,
-      required: false,
+      required: [true, "Missing sectionType"],
     },
     isBox: {
       type: Boolean,
@@ -29,20 +25,22 @@ const elementSchema = new Schema(
       required: false,
     },
     options: {
-      type: [{
-        type: {
-          option: {
-            type: String,
-            required: [true, 'Missing option'],
+      type: [
+        {
+          type: {
+            option: {
+              type: String,
+              required: [true, "Missing option"],
+            },
+            correct: {
+              type: Boolean,
+              required: false, // required: true makes it impossible to store false
+            },
           },
-          correct: {
-            type: Boolean,
-            required: false, // required: true makes it impossible to store false
-          },
+          required: [true, "Missing option"],
+          _id: false,
         },
-        required: [true, 'Missing option'],
-        _id: false,
-      }],
+      ],
       required: false,
       default: undefined,
     },
@@ -59,56 +57,71 @@ const elementSchema = new Schema(
       type: String,
       required: false,
     },
+    // for images
+    // 0, 1, 2 (how rounded the corners are)
+    rounded: {
+      type: Number,
+      required: false,
+    },
+    // 0, 1, 2 (0 for small, 1 for medium, 2 for large)
+    size: {
+      type: Number,
+      required: false,
+    },
+    border: {
+      type: Boolean,
+      required: false,
+    },
     _id: false,
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
 const sectionSchema = new Schema(
   {
     sectionIndex: {
       type: Number,
-      required: [true, 'Missing index']
+      required: [true, "Missing index"],
     },
-    sectionStyle:{
+    sectionStyle: {
       type: String,
-      required: [true, "Missing style, choose plain or bold"]
+      required: [true, "Missing style, choose plain or bold"],
     },
-    sectionDirection:{
+    sectionDirection: {
       type: String,
-      required: [true, "Missing direction, choose horizontal or vertical"]
+      required: [true, "Missing direction, choose horizontal or vertical"],
     },
     elements: {
       type: [elementSchema],
-      required: [true, 'Missing elements'],
+      required: [true, "Missing elements"],
       default: [],
       _id: false,
-    }
+    },
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
 const pageSchema = new Schema(
   {
     pageNumber: {
       type: Number,
-      required: [true, 'Missing pageNumber'],
+      required: [true, "Missing pageNumber"],
     },
     sections: {
       type: [sectionSchema],
-      required: [true, 'Missing sections'],
+      required: [true, "Missing sections"],
       default: [],
       _id: false,
     },
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
 const activitySchema = new Schema(
   {

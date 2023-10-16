@@ -1,10 +1,10 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import Course from "./course";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
-import {BiSolidDownArrow} from "react-icons/bi"
+import { BiSolidDownArrow } from "react-icons/bi"
 
-export default function Subject({ subject, setSubject, setLoading, setSidePanelProperties, selected, setSelected}) {
+export default function Subject({ subject, setSubject, setLoading, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const deleteCourse = (index) => {
@@ -27,6 +27,7 @@ export default function Subject({ subject, setSubject, setLoading, setSidePanelP
         },
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
 
@@ -58,7 +59,7 @@ export default function Subject({ subject, setSubject, setLoading, setSidePanelP
           }
           onClick={() => {
             setSelected(subject._id);
-            setSidePanelProperties({type:"subject", details:subject})
+            setSidePanelProperties({ type: "subject", details: subject })
           }}
         >
           {subject.subjectName ? (
@@ -72,33 +73,33 @@ export default function Subject({ subject, setSubject, setLoading, setSidePanelP
             </p>
           )}
           {subject.courses.length > 0 && <button className={`text-xl z-[300] p-1 pl-20 pr-4 ${!(selected === subject._id) ? "text-white" : "text-sky-300"}`}
-          onClick={(e) => {
-            setIsOpen(!isOpen)
-          }}>
+            onClick={(e) => {
+              setIsOpen(!isOpen)
+            }}>
             <BiSolidDownArrow className={`${!isOpen ? "rotate-90" : "rotate-0"} 
-            transition-all duration-150`}/>
+            transition-all duration-150`} />
           </button>}
         </button>
         <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
           <div className={`w-full flex flex-col pl-5 items-start justify-start`}>
             {subject.courses.map((course, index) => (
               <div className="flex flex-row w-full gap-2">
-              <span className="font-bold text-2xl">L</span>
-              <Course
-                key={index}
-                setSidePanelProperties={setSidePanelProperties}
-                selected = {selected}
-                setSelected = {setSelected}
-                course={course}
-                setCourse={(newCourse) => {
-                  let newCourses = [...subject.courses];
-                  newCourses[index] = newCourse;
-                  subject.courses = newCourses;
-                  setSubject(subject);
-                }}
-                setLoading={setLoading}
-                deleteCourse={() => deleteCourse(index)}
-              />
+                <span className="font-bold text-2xl">L</span>
+                <Course
+                  key={index}
+                  setSidePanelProperties={setSidePanelProperties}
+                  selected={selected}
+                  setSelected={setSelected}
+                  course={course}
+                  setCourse={(newCourse) => {
+                    let newCourses = [...subject.courses];
+                    newCourses[index] = newCourse;
+                    subject.courses = newCourses;
+                    setSubject(subject);
+                  }}
+                  setLoading={setLoading}
+                  deleteCourse={() => deleteCourse(index)}
+                />
               </div>
             ))}
           </div>

@@ -1,4 +1,5 @@
 import { generateToken } from '../../../utils/generateToken'
+import { verifyApiKey } from '../../../utils/verify'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import { getPopulatedUser } from '../../../utils/getPopulatedUser'
@@ -13,9 +14,10 @@ const bcrypt = require('bcryptjs')
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -26,7 +28,7 @@ export default async function (req, res) {
     } = req.body
 
     let user
-    if(accountIdentifier.includes('@')) {
+    if (accountIdentifier.includes('@')) {
       user = await User.findOne({ email: accountIdentifier })
     }
     else {
@@ -47,8 +49,8 @@ export default async function (req, res) {
     } else {
       throw new Error('Invalid credentials')
     }
-    
+
   } catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }

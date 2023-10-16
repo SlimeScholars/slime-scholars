@@ -1,5 +1,6 @@
 import User from "../../../models/userModel";
 import { authenticate } from "../../../utils/authenticate";
+import { verifyApiKey } from "../../../utils/verify";
 import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import { getPopulatedPlayer } from "../../../utils/getPopulatedUser";
@@ -38,8 +39,8 @@ export default async function (req, res) {
       .sort({ exp: -1 })
       .limit(20)
       .select("_id");
-    
-    
+
+
 
     const userIds = [];
     for (let i = 0; i < sortedLeaderboard.length; i++) {

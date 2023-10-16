@@ -90,6 +90,7 @@ function MyApp({ Component, pageProps }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
 
@@ -125,6 +126,7 @@ function MyApp({ Component, pageProps }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
 
@@ -219,8 +221,8 @@ function MyApp({ Component, pageProps }) {
     }
   }, [user])
 
-  if(router.asPath.startsWith('/courses')){
-    return(
+  if (router.asPath.startsWith('/courses')) {
+    return (
       <>
         {loading ? <MainSpinner /> : <></>}
         <div className={`relative ${loading ? "hidden" : ""}`}>

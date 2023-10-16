@@ -99,6 +99,9 @@ export default function EditLesson({ user, loading, setLoading }) {
     setLessonId(router.query.lessonId);
 
     const config = {
+      headers: {
+        apiKey: process.env.API_KEY,
+      },
       params: {
         lessonId: router.query.lessonId,
       }
@@ -356,6 +359,7 @@ export default function EditLesson({ user, loading, setLoading }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
           "Content-Type": "multipart/form-data",
         },
       };
