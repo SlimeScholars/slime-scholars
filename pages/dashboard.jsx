@@ -1,11 +1,7 @@
 
 import Head from 'next/head'
 
-import Nav from '../backups/homepage/nav'
-
 export default function Dashboard() {
-
-
   return (
     <div className="w-screen flex flex-col">
       <Head>
