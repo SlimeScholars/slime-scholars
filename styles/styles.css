@@ -291,7 +291,12 @@ input {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.activity-editor-grid{
+.outer-display-grid{
   display:grid;
-  grid-template-columns: 50% 50%;
+  grid-template-rows: 90% 10%;
+}
+
+.horizontal-display-grid{
+  display:grid;
+  grid-template-columns: 47% 6% 47%;
 }

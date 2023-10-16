@@ -1,5 +1,15 @@
 import { userData } from "../data/userData";
 
+// Verify if API key is correct
+export const verifyApiKey = (apiKey) => {
+  if (!apiKey) {
+    throw new Error('Must send an API key')
+  }
+  if (apiKey !== process.env.API_KEY) {
+    throw new Error('Incorrect API key')
+  }
+}
+
 // Verify if email is acceptable
 export const verifyEmail = (email) => {
   if (!email) {

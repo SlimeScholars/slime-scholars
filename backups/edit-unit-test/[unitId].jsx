@@ -89,6 +89,9 @@ export default function EditUnitTest({ user, loading, setLoading }) {
 		setUnitId(router.query.unitId);
 
 		const config = {
+			headers: {
+				apiKey: process.env.API_KEY,
+			},
 			params: {
 				unitId: router.query.unitId,
 			}
@@ -284,6 +287,7 @@ export default function EditUnitTest({ user, loading, setLoading }) {
 			const config = {
 				headers: {
 					Authorization: `Bearer ${token}`,
+					apiKey: process.env.API_KEY,
 					"Content-Type": "multipart/form-data",
 				},
 			};

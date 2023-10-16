@@ -37,8 +37,8 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
         break;
       }
     }
-    if(!userInFriends){
-        friends.push(user);
+    if (!userInFriends) {
+      friends.push(user);
     }
     setUserFriends(friends);
 
@@ -55,6 +55,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
+        apiKey: process.env.API_KEY,
       },
     };
 
@@ -100,11 +101,11 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
             <div className="flex flex-row cursor-pointer">
               <div
                 onClick={() => {
-                    if(toDo === 'add'){
-                        setToDoChanged(true)
-                    }else{
-                        setToDoChanged(false)
-                    }
+                  if (toDo === 'add') {
+                    setToDoChanged(true)
+                  } else {
+                    setToDoChanged(false)
+                  }
                   setToDo('manage')
                 }}
                 style={{
@@ -116,11 +117,11 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               </div>
               <div
                 onClick={() => {
-                    if(toDo === 'manage'){
-                        setToDoChanged(true)
-                    }else{
-                        setToDoChanged(false)
-                    }
+                  if (toDo === 'manage') {
+                    setToDoChanged(true)
+                  } else {
+                    setToDoChanged(false)
+                  }
                   setToDo('add')
                 }}
                 style={{

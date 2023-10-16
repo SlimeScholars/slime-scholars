@@ -42,6 +42,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
       axios

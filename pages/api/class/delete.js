@@ -1,4 +1,5 @@
 import { authenticate } from "../../../utils/authenticate"
+import { verifyApiKey } from "../../../utils/verify"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
@@ -12,9 +13,10 @@ import Class from '../../../models/classModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'DELETE') {
+    if (req.method !== 'DELETE') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -27,22 +29,22 @@ export default async function (req, res) {
 
     const { classId } = req.body
 
-    if(!classId) {
+    if (!classId) {
       throw new Error('Class id cannot be empty')
     }
 
     const classExists = await Class.findById(classId)
 
-    if(!classExists) {
+    if (!classExists) {
       throw new Error('Cannot find class')
     }
 
-    if(!classExists.teachers.includes(user._id)) {
+    if (!classExists.teachers.includes(user._id)) {
       throw new Error(`You are not in ${classExists.className}`)
     }
 
-    for(let studentId of classExists.students) {
-      const student = await User.findById(studentId, {password: 0})
+    for (let studentId of classExists.students) {
+      const student = await User.findById(studentId, { password: 0 })
       const index = student.classes.indexOf(classExists._id)
       if (index !== -1) {
         student.classes.splice(index, 1)
@@ -65,7 +67,7 @@ export default async function (req, res) {
       user,
     })
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

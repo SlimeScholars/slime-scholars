@@ -1,4 +1,5 @@
 import { authenticate } from "../../../utils/authenticate"
+import { verifyApiKey } from "../../../utils/verify"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
@@ -12,9 +13,10 @@ import Class from '../../../models/classModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -27,31 +29,31 @@ export default async function (req, res) {
 
     const { classCode } = req.body
 
-    if(!classCode) {
+    if (!classCode) {
       throw new Error('Class code cannot be left empty')
     }
 
-    const classExists = await Class.findOne({classCode})
+    const classExists = await Class.findOne({ classCode })
 
-    if(!classExists) {
+    if (!classExists) {
       throw new Error(`Cannot find a class with code ${classCode}`)
     }
 
-    if(user.userType === 1 && classExists.students.includes(user._id)) {
+    if (user.userType === 1 && classExists.students.includes(user._id)) {
       throw new Error(`You are already in ${classExists.className}`)
 
     }
-    if(user.userType === 3 && classExists.teachers.includes(user._id)) {
+    if (user.userType === 3 && classExists.teachers.includes(user._id)) {
       throw new Error(`You are already in ${classExists.className}`)
     }
 
-    if(user.userType === 1) {
+    if (user.userType === 1) {
       classExists.students.push(user._id)
       await Class.findByIdAndUpdate(classExists._id, {
         students: classExists.students
       })
     }
-    else if(user.userType === 3) {
+    else if (user.userType === 3) {
       classExists.teachers.push(user._id)
       await Class.findByIdAndUpdate(classExists._id, {
         teachers: classExists.teachers
@@ -63,9 +65,9 @@ export default async function (req, res) {
     })
 
     // Send objects instead of their ids for students and teachers
-    const teachers = await User.find({userType: 3, classes: classExists}, {password: 0})
+    const teachers = await User.find({ userType: 3, classes: classExists }, { password: 0 })
     classExists.teachers = teachers
-    const students = await User.find({userType: 1, classes: classExists}, {password: 0})
+    const students = await User.find({ userType: 1, classes: classExists }, { password: 0 })
     classExists.students = students
 
     res.status(200).json({
@@ -73,7 +75,7 @@ export default async function (req, res) {
       user,
     })
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

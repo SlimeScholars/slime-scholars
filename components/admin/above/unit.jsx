@@ -5,7 +5,7 @@ import axios from "axios";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { showToastError } from "../../../utils/toast";
 
-export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePanelProperties, selected, setSelected}) {
+export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const deleteLesson = (index) => {
@@ -28,6 +28,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
         },
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
 
@@ -59,7 +60,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
           }
           onClick={() => {
             setSelected(unit._id);
-            setSidePanelProperties({type:"unit", details:unit})
+            setSidePanelProperties({ type: "unit", details: unit })
           }}
         >
           {
@@ -74,36 +75,36 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
             )
           }
           {unit.lessons.length > 0 && <button className={`text-xl z-[300] p-1 pl-20 pr-4 ${!(selected === unit._id) ? "text-white" : "text-sky-300"}`}
-          onClick={(e) => {
-            setIsOpen(!isOpen)
-          }}>
+            onClick={(e) => {
+              setIsOpen(!isOpen)
+            }}>
             <BiSolidDownArrow className={`${!isOpen ? "rotate-90" : "rotate-0"} 
-            transition-all duration-150`}/>
+            transition-all duration-150`} />
           </button>}
         </button>
         <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
               <div className="flex flex-row w-full gap-2">
-              <span className="font-bold text-2xl">L</span>
-              <Lesson
-                key={index}
-                setSidePanelProperties={setSidePanelProperties}
-            selected = {selected}
-            setSelected = {setSelected}
-                lesson={lesson}
-                setLesson={(newLesson) => {
-                  let newLessons = [...unit.lessons];
-                  newLessons[index] = newLesson;
-                  unit.lessons = newLessons;
-                  setUnit(unit);
-                }}
-                deleteLesson={() => deleteLesson(index)}
-                setLoading={setLoading}
-              />
+                <span className="font-bold text-2xl">L</span>
+                <Lesson
+                  key={index}
+                  setSidePanelProperties={setSidePanelProperties}
+                  selected={selected}
+                  setSelected={setSelected}
+                  lesson={lesson}
+                  setLesson={(newLesson) => {
+                    let newLessons = [...unit.lessons];
+                    newLessons[index] = newLesson;
+                    unit.lessons = newLessons;
+                    setUnit(unit);
+                  }}
+                  deleteLesson={() => deleteLesson(index)}
+                  setLoading={setLoading}
+                />
               </div>
             ))}
-  
+
           </div>
         </div>
       </div>

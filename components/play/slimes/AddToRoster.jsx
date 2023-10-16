@@ -46,6 +46,7 @@ export default function AddToRoster({
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
       axios

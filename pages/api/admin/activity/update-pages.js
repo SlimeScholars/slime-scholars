@@ -1,4 +1,5 @@
 import { authenticate } from "../../../../utils/authenticate";
+import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import Activity from "../../../../models/activityModel";
@@ -26,6 +27,7 @@ export default async function (req, res) {
     if (req.method !== "PUT") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB();
@@ -57,8 +59,8 @@ export default async function (req, res) {
 
     cloudinary.config({
       cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.API_KEY,
-      api_secret: process.env.API_SECRET,
+      api_key: process.env.CLOUDINARY_KEY,
+      api_secret: process.env.CLOUDINARY_SECRET,
     });
 
     const uploadedImages = [];
@@ -74,19 +76,19 @@ export default async function (req, res) {
       });
     }
 
-    const { activityId, pages, pageIndex, imageLength } = data.fields
+    const { activityId, pages, pageIndex, imageLength } = data.fields;
 
     //if no page index is specified... do nothing to the pages, only refresh by the array
-    if(pageIndex === -1){
+    if (pageIndex === -1) {
       await Activity.findByIdAndUpdate(activityId, {
         pages: pages,
         latestAuthor: `${user.firstName} ${user.lastName} `,
       });
-  
+
       const activity = await Activity.findById(activityId);
-  
+
       res.status(200).json({ activity });
-      return 
+      return;
     }
 
     if (!activityId) {
@@ -117,7 +119,7 @@ export default async function (req, res) {
     }
 
     const sections = pages[pageIndex].sections;
-    const newPages = [...pages]
+    const newPages = [...pages];
     const processedSections = [];
 
     for (let i in sections) {
@@ -142,7 +144,7 @@ export default async function (req, res) {
           index: element.index,
           elementType: element.elementType,
         };
-
+        console.log(processedElement);
         // text
         if (element.elementType === 0) {
           const processedText = processMarkdown(element.text);
@@ -156,9 +158,20 @@ export default async function (req, res) {
         //img
         else if (element.elementType === 1) {
           processedElement.image = element.image;
+          // check if image has size, border, and rounded properties
+          if ((element.size === 0 || element.size) && (element.rounded === 0 || element.rounded)) {
+            processedElement.size = element.size;
+            processedElement.border = element.border ? element.border : false;
+            processedElement.rounded = element.rounded;
+          } else {
+            throw new Error(
+              "Image must have a size, border, and rounded styling"
+            );
+          }
         }
         //multiple choice
         else if (element.elementType === 2) {
+          processedElement.text = element.text
           processedElement.options = element.options;
           processedElement.explanation = element.explanation;
         }
@@ -166,23 +179,22 @@ export default async function (req, res) {
         else if (element.elementType === 3) {
           processedElement.text = element.text;
           processedElement.afterBlank = element.afterBlank;
-          const rawBlank = element.blank.split(",");
-          processedElement.blank = rawBlank.map((str) => str.trim());
+          processedElement.blank = element.blank.map((str) => str.trim());
           processedElement.explanation = element.explanation;
         }
         // put all the elements in a section
         processedElements.push(processedElement);
       }
       // put all sections into a page
-      const newSection = {...section, elements:[...processedElements]}
+      const newSection = { ...section, elements: [...processedElements] };
       processedSections.push(newSection);
     }
     const submitPages = newPages.map((page, num) => {
-      if(num === pageIndex){
-        return {...page, sections: [...processedSections]}
+      if (num === pageIndex) {
+        return { ...page, sections: [...processedSections] };
       }
-      return page
-    })
+      return page;
+    });
 
     await Activity.findByIdAndUpdate(activityId, {
       pages: submitPages,

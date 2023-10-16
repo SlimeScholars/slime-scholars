@@ -32,7 +32,7 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
     }
 
     return(
-        <nav className="flex flex-col text-white w-full h-[6rem] bg-black justify-center">
+        <nav className="flex flex-col text-white w-full bg-black justify-center h-[6rem] z-[500]">
             <span className={`text-sm pl-[2.75rem]`}>Activity Editor</span>
             <div className="flex flex-row justify-between">
                 <div className={`flex flex-row gap-6 ${open ? "pl-[2rem]" : "pl-[2.75rem]"} text-2xl`}>
@@ -67,7 +67,9 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
                     <div className="flex flex-row gap-3">
                     {Object.keys(colors).map((color) => {
                         return (
-                        <button className={`${theme.ultra_light === colors[color].ultra_light ? 
+                        <button 
+                            key={color}
+                            className={`${theme.ultra_light === colors[color].ultra_light ? 
                             "border-[3px] border-white brightness-[1] hover:brightness-[1.25]" : 
                             "border-[2px] border-neutral-400 brightness-[0.8] hover:brightness-[1]"} 
                         w-7 h-7 rounded-full`}
