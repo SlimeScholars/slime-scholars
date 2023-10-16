@@ -1,9 +1,10 @@
-import { generateToken } from '../../../utils/generateToken'
-import { verifyApiKey } from '../../../utils/verify'
-import connectDB from '../../../utils/connectDB'
-import User from '../../../models/userModel'
-import { getPopulatedUser } from '../../../utils/getPopulatedUser'
-const bcrypt = require('bcryptjs')
+import { generateToken } from "../../../utils/generateToken";
+import { verifyApiKey } from "../../../utils/verify";
+import connectDB from "../../../utils/connectDB";
+import User from "../../../models/userModel";
+import { getPopulatedUser } from "../../../utils/getPopulatedUser";
+const bcrypt = require("bcryptjs");
+import { decrypt } from "../../../utils/rsa";
 
 /**
  * @desc    Login a user and change their authorization token on local storage
@@ -12,45 +13,45 @@ const bcrypt = require('bcryptjs')
  * @param   {string} req.body.accountIdentifier - Either email (students, parents, teachers) or username (students)
  * @param   {string} req.body.password - Password
  */
+
 export default async function (req, res) {
   try {
-    if (req.method !== 'POST') {
-      throw new Error(`${req.method} is an invalid request method`)
+    if (req.method !== "POST") {
+      throw new Error(`${req.method} is an invalid request method`);
     }
-    verifyApiKey(req.headers.apiKey)
+    verifyApiKey(req.headers.apiKey);
 
     // Connect to database
-    await connectDB()
+    await connectDB();
 
-    const {
-      accountIdentifier,
-      password
-    } = req.body
-
-    let user
-    if (accountIdentifier.includes('@')) {
-      user = await User.findOne({ email: accountIdentifier })
-    }
-    else {
+    const { accountIdentifier, encryptedPassword } = req.body;
+    const password = decrypt(
+      encryptedPassword,
+      process.env.DECRYPTION_KEY,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
+    let user;
+    if (accountIdentifier.includes("@")) {
+      user = await User.findOne({ email: accountIdentifier });
+    } else {
       // Search user by username
-      const usernameRegex = new RegExp(`^${accountIdentifier}$`, 'i')
-      user = await User.findOne({ username: { $regex: usernameRegex } })
+      const usernameRegex = new RegExp(`^${accountIdentifier}$`, "i");
+      user = await User.findOne({ username: { $regex: usernameRegex } });
     }
 
     if (user && (await bcrypt.compare(password, user.password))) {
-      user.password = undefined
+      user.password = undefined;
 
-      const populatedUser = await getPopulatedUser(user._id)
+      const populatedUser = await getPopulatedUser(user._id);
 
       res.status(200).json({
         token: generateToken(user._id),
         user: populatedUser,
-      })
+      });
     } else {
-      throw new Error('Invalid credentials')
+      throw new Error("Invalid credentials");
     }
-
   } catch (error) {
-    res.status(400).json({ message: error.message })
+    res.status(400).json({ message: error.message });
   }
 }

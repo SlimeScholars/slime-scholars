@@ -5,6 +5,8 @@ import { showToastError } from "../utils/toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 
+import { encrypt } from "../utils/rsa";
+
 export default function Login({ loading, user, setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
@@ -30,15 +32,21 @@ export default function Login({ loading, user, setUser }) {
       showToastError("Password cannot be left blank");
       return;
     }
+    const encryptedPassword = encrypt(
+      password,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY_2,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
     axios
       .post(
         "/api/user/login",
-        { accountIdentifier, password },
+        { accountIdentifier, encryptedPassword },
         {
           headers: {
             apiKey: process.env.API_KEY,
           },
-        })
+        }
+      )
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);
