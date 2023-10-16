@@ -9,14 +9,14 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
     const router = useRouter();
 
     return(
-        <div className={`relative h-full transition-all duration-150 p-4 
-        ${open ? "w-[300px]" : "w-[20px]"}`}>
+        <div className={`relative h-full transition-all duration-150 p-4 w-[300px] z-[80]
+        ${open ? "translate-x-0" : "translate-x-[-280px]"}`}>
             <div className="absolute top-0 left-0 w-full h-full"
             style={{
                 backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "C0"
             }}/>
             <button className={`z-[100] absolute top-[50%] left-[100%] w-[4rem] h-[24rem] translate-y-[calc(-50%_-_2rem)]
-            ${open ? "translate-x-[-1rem]" : "translate-x-[-1.8rem]"} flex flex-row items-center justify-start cursor-pointer`}
+            flex flex-row items-center justify-start cursor-pointer`}
             onClick={() => {setOpen(!open)}}
             style={{
                 backgroundColor: "transparent" //!colorPalette ? "" : colorPalette.primary2 + "E0",
@@ -26,7 +26,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                 style={{
                     backgroundColor: "transparent",
                 }}/>
-                <div className="z-[100] rounded-r-lg flex items-center justify-center w-[1.5rem] h-[8rem]"
+                <div className="z-[100] rounded-r-lg flex items-center justify-center w-[1.5rem] h-[8rem] translate-x-[-1rem]"
                 style={{
                     backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "E0",
                 }}>
@@ -34,7 +34,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                 </div>
             </button>
             <section className={`relative flex flex-col z-50 p-4 rounded-lg ${open ? "opacity-100" : "opacity-0"} 
-            transition-all duration-100 justify-between h-[calc(100vh_-_5rem_-_1.5rem)]`}
+            transition-all duration-100 justify-between h-[calc(100vh_-_5rem_-_1.5rem)] ease-out`}
             style={{
                 backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "70"
             }}>

@@ -15,7 +15,7 @@ export default function Unit({ colorPalette, courseId, unitId, unitName, unitNum
 	return (
 		<button
 		className={`course-bar-default base
-		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col`}
+		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg`}
 			onClick={() => {
 				router.push(`/courses/${courseId}/units/${unitId}/lessons`)
 			}}
