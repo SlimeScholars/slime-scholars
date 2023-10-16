@@ -5,7 +5,6 @@ import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
 import { getSortedItems } from "../../../utils/sort"
-import { verifyApiKey } from "../../../utils/verify"
 
 /**
  * @desc    Sell item
