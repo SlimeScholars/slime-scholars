@@ -5,7 +5,7 @@ import { showToastError } from "../../../utils/toast";
 import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
-import {FaArrowUp} from "react-icons/fa";
+import { FaArrowUp } from "react-icons/fa";
 
 export default function DisplaySlimes({ user, setLoading, setUser, colorPalette, refetchUser, bg }) {
   const router = useRouter();
@@ -23,6 +23,7 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
 

@@ -41,6 +41,7 @@ export default function Slimes({
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
+          apiKey: process.env.API_KEY,
         },
       };
       setLoading(true);

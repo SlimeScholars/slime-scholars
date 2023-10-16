@@ -1,4 +1,5 @@
 import { authenticate } from "../../../../utils/authenticate"
+import { verifyApiKey } from "../../../../utils/verify"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import Unit from "../../../../models/unitModel"
@@ -19,6 +20,7 @@ export default async function (req, res) {
 		if (req.method !== 'DELETE') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
+		verifyApiKey(req.headers.apiKey)
 
 		// Connect to database
 		await connectDB()
@@ -41,26 +43,26 @@ export default async function (req, res) {
 			throw new Error('activities not found')
 		}
 
-        for (let i in activity.pages) {
-            for (let j in activity.pages[i]){
-                if (activity.pages[i].sections[j].sectionType === 1) {
-                    // If the section is a image, handle image delete on cloudinary
-                    const imageUrl = activity.pages[i].sections[j].image
-                    const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
-                    await cloudinary.uploader.destroy(publicId, (error, result) => {
-                        if (error) {
-                            throw new Error(`Error uploading file: ${error}`);
-                        }
-                    })
-                }
-            }
+		for (let i in activity.pages) {
+			for (let j in activity.pages[i]) {
+				if (activity.pages[i].sections[j].sectionType === 1) {
+					// If the section is a image, handle image delete on cloudinary
+					const imageUrl = activity.pages[i].sections[j].image
+					const publicId = imageUrl.match(/v\d+\/(.+)\./)[1]
+					await cloudinary.uploader.destroy(publicId, (error, result) => {
+						if (error) {
+							throw new Error(`Error uploading file: ${error}`);
+						}
+					})
+				}
+			}
 		}
 
-        await Lesson.findOneAndUpdate(
-			{ activities: activityId }, 
+		await Lesson.findOneAndUpdate(
+			{ activities: activityId },
 			{ $pull: { activities: activityId } },
 		)
-        await User.updateMany(
+		await User.updateMany(
 			{
 				'completedActivities.activity': activityId,
 			},

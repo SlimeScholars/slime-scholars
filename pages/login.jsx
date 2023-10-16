@@ -31,7 +31,14 @@ export default function Login({ loading, user, setUser }) {
       return;
     }
     axios
-      .post("/api/user/login", { accountIdentifier, password })
+      .post(
+        "/api/user/login",
+        { accountIdentifier, password },
+        {
+          headers: {
+            apiKey: process.env.API_KEY,
+          },
+        })
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);

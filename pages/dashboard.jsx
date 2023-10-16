@@ -11,7 +11,7 @@ export default function Dashboard() {
       </Head>
 
       <main className="w-screen flex flex-col items-center justify-center flex-1">
-        <Nav />
+        {/* <Nav /> */}
         <header className="w-screen h-screen flex flex-col items-center justify-center">
           DASHBOARD
         </header>

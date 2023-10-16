@@ -1,4 +1,5 @@
 import { mongoose } from 'mongoose'
+import { verifyApiKey } from '../../../../utils/verify'
 import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
@@ -16,6 +17,7 @@ export default async function (req, res) {
     if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apiKey)
 
     // Connect to database
     await connectDB()
@@ -62,10 +64,10 @@ export default async function (req, res) {
       .exec()
     ).receivedFriendRequests
 
-    
+
     const userIds = [];
     for (let i in receivedFriendRequests) {
-        userIds.push(receivedFriendRequests[i]);
+      userIds.push(receivedFriendRequests[i]);
     }
     const populatedReceivedFriendRequests = await batchGetPopulatedPlayer(userIds)
 
