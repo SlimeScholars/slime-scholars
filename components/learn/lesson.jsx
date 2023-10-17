@@ -10,7 +10,7 @@ const Activity = ({courseId, unitId, activity, router, stars}) => {
  	return (
 	<button className="bg-white rounded-lg py-2 px-4 w-[95%] course-bar-default border-2 border-gray-30 shadow-md"
 	onClick={() => {
-		router.push(`/courses/${courseId}/units/${unitId}/lessons`)
+		router.push(`/courses/${courseId}/units/${unitId}/lessons/activity/${activity._id}`)
 	}}>
 		<div className="flex flex-row justify-between items-center">
 			<span>{activity.activityName}</span>
@@ -122,7 +122,10 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 					color: !colorPalette ? "" : colorPalette.black
 				}}
 				className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
-				hover:brightness-[1.25] transition-all duration-150">
+				hover:brightness-[1.25] transition-all duration-150"
+				onClick={() => {
+					router.push(`/courses/${courseId}/units/${unitId}/lessons/assessment/${lesson._id}`)
+				}}>
 					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>
 				</button>
@@ -190,7 +193,10 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 					color: !colorPalette ? "" : colorPalette.black
 				}}
 				className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
-				hover:brightness-[1.25] transition-all duration-150">
+				hover:brightness-[1.25] transition-all duration-150"
+				onClick={() => {
+					router.push(`/courses/${courseId}/units/${unitId}/lessons/assessment/${lesson._id}`)
+				}}>
 					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>
 				</button>
