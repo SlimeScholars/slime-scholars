@@ -28,7 +28,7 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                 }}/>
                 <div className="z-[100] rounded-r-lg flex items-center justify-center w-[1.5rem] h-[8rem] translate-x-[-1rem]"
                 style={{
-                    backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "E0",
+                    backgroundColor: !colorPalette ? "" : colorPalette.primary1,
                 }}>
                     <BsFillGrid3X3GapFill className={`sidebar-arrow`}/>
                 </div>
