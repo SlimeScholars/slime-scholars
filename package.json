@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
+    "big-integer": "^1.6.51",
     "cloudinary": "^1.39.0",
     "dotenv": "^16.3.1",
     "formidable": "^3.5.0",

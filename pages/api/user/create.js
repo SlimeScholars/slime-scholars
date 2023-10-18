@@ -13,6 +13,7 @@ import Slime from "../../../models/slimeModel";
 import { gameData } from "../../../data/gameData";
 const bcrypt = require("bcryptjs");
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
+import { decrypt } from "../../../utils/rsa";
 
 /**
  * @desc    Create new user
@@ -39,7 +40,7 @@ export default async function (req, res) {
     // TODO: Get rid of the parse on the actual version
     const userType = parseInt(req.body.userType);
     const {
-      password,
+      encryptedPassword,
       firstName,
       lastName,
       username,
@@ -54,6 +55,13 @@ export default async function (req, res) {
     if (userType !== 1 && userType !== 2 && userType !== 3) {
       throw new Error("Invalid user type");
     }
+
+    // Decrypt password
+    const password = decrypt(
+      encryptedPassword,
+      process.env.DECRYPTION_KEY,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
 
     // Verify that the fields are not empty and valid
     verifyName(firstName);
