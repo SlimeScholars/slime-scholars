@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { showToastError } from "../../../../../../../../../utils/toast"
 import axios from "axios"
 import { activityService } from "../../../../../../../../../services"
-import DisplayActivity from "../../../../../../../../../components/learn/display/DisplayActivity"
+import DisplayActivity from "../../../../../../../../../components/learn/display/displayActivity"
 
 export default function Activity({ user, loading, setLoading, colorPalette }) {
 	const router = useRouter()
