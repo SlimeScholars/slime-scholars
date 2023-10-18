@@ -7,7 +7,7 @@ export default function Course({ courseId, courseName, courseBadge, tier, colorP
 	return (
 		<button
 			className={`course-bar-default course-grid base
-			 w-[calc(32%_-_1rem)] m-3 h-[125px] items-center`}
+			 w-[calc(32%_-_1rem)] m-3 h-[125px] items-center shadow-lg`}
 			onClick={() => {
 				router.push(`/courses/${courseId}/units`)
 			}}
@@ -32,7 +32,7 @@ export default function Course({ courseId, courseName, courseBadge, tier, colorP
 					Progress: 0%
 				</span>
 				<div className="w-[90%] h-[0.5rem] bg-black/[0.4] rounded-full overflow-hidden">
-					<div className={`${"w-[25%]"} h-[0.5rem] rounded-full transition-all duration-150`}
+					<div className={`${"w-[25%]"} h-[0.5rem] rounded-full transition-all duration-150 brightness-125`}
 					style={{
 						backgroundColor: !colorPalette ? "" : colorPalette.primary1,
 					}}/>
