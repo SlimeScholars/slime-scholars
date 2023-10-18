@@ -36,7 +36,9 @@ export default function Login({ loading, user, setUser }) {
         { accountIdentifier, password },
         {
           headers: {
-            apiKey: process.env.API_KEY,
+            post: {
+              apiKey: process.env.NEXT_PUBLIC_API_KEY,
+            }
           },
         })
       .then((response) => {
