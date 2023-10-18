@@ -5,12 +5,12 @@ import Image from "next/image";
 
 const maxStars = [3, 3, 5]
 
-const Activity = ({courseId, unitId, activity, router, stars}) => {
+const Activity = ({courseId, unitId, lesson, activity, router, stars}) => {
 
  	return (
 	<button className="bg-white rounded-lg py-2 px-4 w-[95%] course-bar-default border-2 border-gray-30 shadow-md"
 	onClick={() => {
-		router.push(`/courses/${courseId}/units/${unitId}/lessons/activity/${activity._id}`)
+		router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/activity/${activity._id}`)
 	}}>
 		<div className="flex flex-row justify-between items-center">
 			<span>{activity.activityName}</span>
@@ -57,7 +57,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 					</div>
 					<div className="flex flex-col gap-2 my-4">
 						{lesson?.activities && lesson?.activities.map((activity, key) => <Activity key={key} activity={activity} router={router}
-						courseId={courseId} unitId={unitId} looted={lesson?.looted} stars={lesson?.stars}/>)}
+						courseId={courseId} unitId={unitId} looted={lesson?.looted} stars={lesson?.stars} lesson={lesson}/>)}
 					</div>
 				</div>
 			</h3>
@@ -124,7 +124,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 				className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
 				hover:brightness-[1.25] transition-all duration-150"
 				onClick={() => {
-					router.push(`/courses/${courseId}/units/${unitId}/lessons/assessment/${lesson._id}`)
+					router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment`)
 				}}>
 					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>
@@ -195,7 +195,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 				className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
 				hover:brightness-[1.25] transition-all duration-150"
 				onClick={() => {
-					router.push(`/courses/${courseId}/units/${unitId}/lessons/assessment/${lesson._id}`)
+					router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment`)
 				}}>
 					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>

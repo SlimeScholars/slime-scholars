@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Nav from '../backups/homepage/nav'
 import Link from 'next/link'
 import Navbar from '../components/learn/navbar'
 

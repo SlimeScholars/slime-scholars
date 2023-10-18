@@ -33,8 +33,8 @@ export default function CourseSidebar({colorPalette, open, setOpen, user}){
                     <BsFillGrid3X3GapFill className={`sidebar-arrow`}/>
                 </div>
             </button>
-            <section className={`relative flex flex-col z-50 p-4 rounded-lg ${open ? "opacity-100" : "opacity-0"} 
-            transition-all duration-100 justify-between h-[calc(100vh_-_5rem_-_1.5rem)] ease-out`}
+            <section className={`relative flex flex-col z-50 p-4 rounded-lg 
+            justify-between h-[calc(100vh_-_5rem_-_1.5rem)]`}
             style={{
                 backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "70"
             }}>
