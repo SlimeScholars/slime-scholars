@@ -459,7 +459,9 @@ export default function SlimeDetails({
                       }
                     })
                     .catch((error) => {
-                      showToastError(error.message);
+                      error?.response?.data?.message ? showToastError(error.response.data.message) :
+                        error?.message ? showToastError(error.message) :
+                          showToastError(error)
                     });
                 }}
               >
