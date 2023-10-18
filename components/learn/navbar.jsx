@@ -65,11 +65,6 @@ export default function Navbar({colorPalette, setUser, user}){
                 onClick={() => {
                     setOpen((prev) => !prev)
                 }}
-                style={{
-                    backgroundColor: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-                    border: `5px solid ${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-                    padding: "0.7rem"
-                }}
                 className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border 
                 2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[3.6rem] max-xl:h-[3.6rem] scale-[0.65]`}
                 >
@@ -122,7 +117,7 @@ export default function Navbar({colorPalette, setUser, user}){
                <button className={btn_tw} onClick={() => {router.push('/login')}}>
                  Login
                </button>
-               <button className={btn_tw} href={() => {router.push('/signup')}}>
+               <button className={btn_tw} onClick={() => {router.push('/signup')}}>
                  Sign Up
                </button>
             </section>}
