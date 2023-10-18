@@ -27,7 +27,6 @@ export default function Subject({ subject, setSubject, setLoading, setSidePanelP
         },
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
         },
       };
 

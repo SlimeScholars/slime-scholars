@@ -12,6 +12,25 @@ import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
 
+axios.defaults.headers.common['apikey'] = process.env.NEXT_PUBLIC_API_KEY
+axios.defaults.headers.post['apikey'] = process.env.NEXT_PUBLIC_API_KEY
+
+axios.interceptors.request.use(request => {
+  // Edit request config
+  return request;
+}, error => {
+  console.log(error);
+  return Promise.reject(error);
+});
+
+axios.interceptors.response.use(response => {
+  // Edit response config
+  return response;
+}, error => {
+  console.log(error);
+  return Promise.reject(error);
+});
+
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(true);
   const [axiosLoading, setAxiosLoading] = useState(false); // Used for axios loading
@@ -90,7 +109,9 @@ function MyApp({ Component, pageProps }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
+          common: {
+            'apikey': process.env.NEXT_PUBLIC_API_KEY,
+          }
         },
       };
 
@@ -126,7 +147,9 @@ function MyApp({ Component, pageProps }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
+          common: {
+            'apikey': process.env.NEXT_PUBLIC_API_KEY,
+          }
         },
       };
 

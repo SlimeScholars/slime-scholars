@@ -32,7 +32,7 @@ export default async function (req, res) {
     if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
-    verifyApiKey(req.headers.apiKey)
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -43,7 +43,7 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1)
 
-    const { courseId, unitId, lessonId} = req.query
+    const { courseId, unitId, lessonId } = req.query
 
     const course = await Course.findById(courseId)
       .select('courseName')
@@ -54,7 +54,7 @@ export default async function (req, res) {
         path: 'lessons',
         select: '_id lessonName lessonType activities',
       })
-    
+
     const lesson = await Lesson.findById(lessonId)
       .select('lessonName lessonType activities')
       .populate({
@@ -63,13 +63,13 @@ export default async function (req, res) {
       })
 
     const modifiedActivities = []
-      // Check user for completed
+    // Check user for completed
     for (let i in lesson.activities) {
-        modifiedActivities.push({
-          ...lesson.activities[i]._doc,
-        })
-        //perform operations
-      }
+      modifiedActivities.push({
+        ...lesson.activities[i]._doc,
+      })
+      //perform operations
+    }
 
     console.log(modifiedActivities)
 

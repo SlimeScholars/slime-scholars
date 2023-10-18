@@ -44,7 +44,7 @@ export default function Login({ loading, user, setUser }) {
         {
           headers: {
             post: {
-              apiKey: process.env.NEXT_PUBLIC_API_KEY,
+              apikey: process.env.NEXT_PUBLIC_API_KEY,
             }
           },
         }

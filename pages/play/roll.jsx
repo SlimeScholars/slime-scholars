@@ -50,7 +50,6 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
         const config = {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                apiKey: process.env.API_KEY,
             }
         }
 
@@ -81,6 +80,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
 
             // only 1 egg works for now
             if (eggsNeed === 1) {
+                console.log('xd')
                 setLoading(true)
                 axios
                     .post('/api/slime/open-egg', {
@@ -88,7 +88,6 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                     }, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                            apiKey: process.env.API_KEY,
                         }
                     })
                     .then(response => {
@@ -103,10 +102,11 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         setOriginalSlimes(response.data.originSlimeObjects);
                         refetchUser()
                         setLoading(false)
-
                     })
                     .catch(error => {
-                        showToastError(error.message)
+                        error?.response?.data?.message ? showToastError(error.response.data.message) :
+                            error?.message ? showToastError(error.message) :
+                                showToastError(error);
                         setLoading(false)
                     });
             } else {
@@ -118,7 +118,6 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                     }, {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem('jwt')}`,
-                            apiKey: process.env.API_KEY,
                         }
                     })
                     .then(response => {
@@ -205,7 +204,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                                         border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
                                     }}
                                     className="hover:brightness-110 pr-[5vw] flex flex-col justify-between rounded-lg text-white p-4 "
-                                    onClick={() => handleRollBtnClick(10)}>
+                                    onClick={() => handleRollBtnClick(1)}>
                                     <div className="flex flex-row font-galindo text-lg">
                                         <p>Roll x1</p>
                                         <Image

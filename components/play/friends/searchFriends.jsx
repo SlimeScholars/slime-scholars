@@ -20,7 +20,6 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
         const config = {
             headers: {
                 Authorization: `Bearer ${token}`,
-                apiKey: process.env.API_KEY,
             },
             params: {
                 username: searchContent,

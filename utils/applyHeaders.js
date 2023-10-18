@@ -3,11 +3,9 @@ export default function applyHeaders() {
     return token ? {
         headers: {
             Authorization: `Bearer ${token}`,
-            apiKey: process.env.API_KEY,
         },
     } : {
         headers: {
-            apiKey: process.env.API_KEY,
         },
     };
 }

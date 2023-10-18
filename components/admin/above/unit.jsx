@@ -28,7 +28,6 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
         },
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
         },
       };
 

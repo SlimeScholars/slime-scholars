@@ -55,7 +55,6 @@ export default function Settings({ loading, user, setUser }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
         },
       };
       axios
