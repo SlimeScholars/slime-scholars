@@ -1,4 +1,5 @@
 import { authenticate } from "../../../utils/authenticate"
+import { gameData } from "../../../data/gameData"
 import { verifyApiKey } from "../../../utils/verify"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
@@ -41,7 +42,7 @@ export default async function (req, res) {
 			throw new Error(`You do not own the following item: ${bg}`)
 		}
 
-		if (!user.items[itemIndex].isBg) {
+		if (!gameData.items[bg].isBg) {
 			throw new Error(`The following item is not a background: ${bg}`)
 		}
 
