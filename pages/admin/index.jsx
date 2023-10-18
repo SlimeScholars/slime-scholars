@@ -40,7 +40,6 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
 
     const config = {
       headers: {
-        apiKey: process.env.API_KEY,
       },
     }
 
@@ -78,7 +77,6 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
         },
       };
       setLoading(true)

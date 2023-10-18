@@ -5,10 +5,10 @@ import axios from "axios"
 import { activityService } from "../../../../../../../../../services"
 import DisplayActivity from "../../../../../../../../../components/learn/display/DisplayActivity"
 
-export default function Activity({ user, loading, setLoading, colorPalette }){
-    const router = useRouter()
+export default function Activity({ user, loading, setLoading, colorPalette }) {
+	const router = useRouter()
 
-    // useEffect(() => {
+	// useEffect(() => {
 	// 	if (loading) {
 	// 		return
 	// 	}
@@ -17,45 +17,44 @@ export default function Activity({ user, loading, setLoading, colorPalette }){
 	// 	}
 	// }, [user, loading])
 
-    useEffect(() => {
-        setActivityId(router.query.activityId)
-    }, [router.query.activityId])
+	useEffect(() => {
+		setActivityId(router.query.activityId)
+	}, [router.query.activityId])
 
-    const [activityId, setActivityId] = useState(router.query.activityId)
-    const [activity, setActivity] = useState(null)
-    const [courseName, setCourseName] = useState(null)
-    const [unitName, setUnitName] = useState(null)
-    const [lessonName, setLessonName] = useState(null)
+	const [activityId, setActivityId] = useState(router.query.activityId)
+	const [activity, setActivity] = useState(null)
+	const [courseName, setCourseName] = useState(null)
+	const [unitName, setUnitName] = useState(null)
+	const [lessonName, setLessonName] = useState(null)
 	const [lessonActivities, setLessonActivities] = useState([])
 
-    useEffect(() => {
-        if(activityId){fetch()}
-    }, [activityId])
+	useEffect(() => {
+		if (activityId) { fetch() }
+	}, [activityId])
 
-    const fetch = async() => {
-        setLoading(true)
-        try{
-            const response = await activityService.get(activityId)
-            setActivity(response.data.activity[0])
-            console.log(response.data.activity[0])
+	const fetch = async () => {
+		setLoading(true)
+		try {
+			const response = await activityService.get(activityId)
+			setActivity(response.data.activity[0])
+			console.log(response.data.activity[0])
 
-            const token = localStorage.getItem('jwt')
+			const token = localStorage.getItem('jwt')
 			if (!token) {
 				return
 			}
-            const config = {
+			const config = {
 				params: {
 					courseId: router.query.courseId,
 					unitId: router.query.unitId,
-                    lessonId: router.query.lessonId
+					lessonId: router.query.lessonId
 				},
 				headers: {
 					Authorization: `Bearer ${token}`,
-					apiKey: process.env.API_KEY,
 				},
 			};
 			axios
-				.get("/api/learn/activities", config) 
+				.get("/api/learn/activities", config)
 				.then((response) => {
 					console.log(response.data)
 					setCourseName(response.data.courseName)
@@ -70,22 +69,22 @@ export default function Activity({ user, loading, setLoading, colorPalette }){
 					}
 					setLoading(false);
 				})
-            setLoading(false)
-        }
-        catch(err){
-            console.log(err)
-            setLoading(false)
-        }
-    }
+			setLoading(false)
+		}
+		catch (err) {
+			console.log(err)
+			setLoading(false)
+		}
+	}
 
-    if (loading) { return }
+	if (loading) { return }
 	return (
 		<div
-		style={{
-			backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
-			display:"grid",
-			gridTemplateColumns: "300px auto"
-		}}>
+			style={{
+				backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
+				display: "grid",
+				gridTemplateColumns: "300px auto"
+			}}>
 			<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)] flex flex-col p-4 text-black"
 				style={{
 					backgroundColor: !colorPalette ? "" : colorPalette.white + "D0"
@@ -101,22 +100,23 @@ export default function Activity({ user, loading, setLoading, colorPalette }){
 				</div>
 				{lessonActivities.map((item, key) => {
 					return (
-					<span className={`text-sm italic ${item._id === activityId ? "font-black" : ""}`} key={key}>
-						{item.activityName}
-					</span>
-				)})}
+						<span className={`text-sm italic ${item._id === activityId ? "font-black" : ""}`} key={key}>
+							{item.activityName}
+						</span>
+					)
+				})}
 			</div>
 			<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]"
 				style={{
 					backgroundColor: !colorPalette ? "" : colorPalette.text1 + "80"
 				}}>
-               {activity && 
-			   <div>
-			   		<DisplayActivity activity={activity} colorPalette={colorPalette} displayOpen={false} 
-					setDisplayOpen={() => {}}/>
-			   </div>
-			   }
+				{activity &&
+					<div>
+						<DisplayActivity activity={activity} colorPalette={colorPalette} displayOpen={false}
+							setDisplayOpen={() => { }} />
+					</div>
+				}
 			</div>
 		</div>
-    )
+	)
 }

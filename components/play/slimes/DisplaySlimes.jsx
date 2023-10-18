@@ -23,7 +23,6 @@ export default function DisplaySlimes({ user, setLoading, setUser, colorPalette,
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
         },
       };
 

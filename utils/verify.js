@@ -3,7 +3,6 @@ import { userData } from "../data/userData";
 // Verify if API key is correct
 export const verifyApiKey = (apiKey) => {
   //FIXME
-  return
   if (!apiKey) {
     throw new Error('Must send an API key')
   }
