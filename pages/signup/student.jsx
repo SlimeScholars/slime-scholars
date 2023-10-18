@@ -17,6 +17,8 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 
+import { encrypt } from "../../utils/rsa";
+
 export default function Student({ loading, user, setUser }) {
   const router = useRouter();
 
@@ -56,17 +58,27 @@ export default function Student({ loading, user, setUser }) {
       headers: {
         apiKey: process.env.API_KEY,
       },
-    }
+    };
+
+    const encryptedPassword = encrypt(
+      password,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY_2,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
 
     axios
-      .post("/api/user/create", {
-        userType: 1,
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-      }, config)
+      .post(
+        "/api/user/create",
+        {
+          userType: 1,
+          firstName,
+          lastName,
+          username,
+          email,
+          encryptedPassword,
+        },
+        config
+      )
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);
@@ -97,7 +109,7 @@ export default function Student({ loading, user, setUser }) {
               src="/assets/graphics/slimes/slime-cat.png"
               width={0}
               height={0}
-              sizes='100vw'
+              sizes="100vw"
               className="h-[200px] w-[200px]"
               alt="Cat slime"
             />
