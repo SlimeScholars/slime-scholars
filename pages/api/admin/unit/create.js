@@ -73,6 +73,10 @@ export default async function (req, res) {
             path: "quizzes",
             model: "Lesson",
           },
+          {
+            path: "tests",
+            model: "Lesson",
+          },
         ],
       })
       .populate("quizzes");
