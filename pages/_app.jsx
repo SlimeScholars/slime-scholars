@@ -110,27 +110,35 @@ function MyApp({ Component, pageProps }) {
 
   // music
   useEffect(() => {
-    if (colorPalette)
+    if (colorPalette) {
       if (colorPalette.track) {
         const track = new Audio(
           "/assets/audio/tracks/" + colorPalette.track + ".mp3"
         );
         if (audio) {
           audio.pause();
+          audio.currentTime = 0;
         }
-        track.currentTime = 0;
-        track.muted = true;
-        track.onended = () => {
+        if (colorPalette.track === gameData.items[user.bg].track) {
           track.currentTime = 0;
-          let delay = setTimeout(() => {
-            track.play();
-            clearTimeout(delay);
-          }, 15000);
-        };
-        setAudio(track);
+          track.muted = true;
+          track.onended = () => {
+            track.currentTime = 0;
+            let delay = setTimeout(function () {
+              track.play();
+              clearTimeout(delay);
+            }, 15000);
+          };
+          setAudio(track);
+        }
       } else {
-        setAudio(null);
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+          setAudio(null);
+        }
       }
+    }
   }, [colorPalette]);
 
   useEffect(() => {
