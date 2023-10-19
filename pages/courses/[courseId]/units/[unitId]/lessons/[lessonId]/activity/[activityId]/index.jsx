@@ -7,8 +7,8 @@ import { BiSolidLeftArrow, BiSolidRightArrow} from "react-icons/bi"
 import Section from "../../../../../../../../../components/activity/section"
 import { FaStar, FaRegStar } from 'react-icons/fa'
 
-const LOADIN_MAXFRAMES = 9
-const LOADIN_DELAY = 180
+const LOADIN_MAXFRAMES = 10
+const LOADIN_DELAY = 150
 const LOADIN_INCREMENT = 15
 
 export default function Activity({ user, loading, setLoading, colorPalette }) {
@@ -38,6 +38,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 
 	const [page, setPage] = useState(0)
     const [open, setOpen] = useState(0)
+	const [maxPage, setMaxPage] = useState(0)
  
     useEffect(() => {
         if(activity){
@@ -48,7 +49,17 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
     }, [activity])
 
     useEffect(() => {
-        setOpen(0)
+        setOpen(page < maxPage ? activity.pages[page].sections.length : 0)
+		if(page < maxPage){
+			var scrollContainer = document.getElementById("container-activity-index");
+			setTimeout(() => {
+				scrollContainer.scrollTo({
+					top: scrollContainer.scrollHeight,
+					behavior: "smooth"
+				});
+			}, 50)
+		}
+		setMaxPage(Math.max(maxPage, page))
     }, [page])
 
     useEffect(() => {
@@ -121,14 +132,24 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 				|| e.keyCode === arrows["ArrowUp"] || e.code === "Space") {
 				setOpen((prev) => {
 					var scrollContainer = document.getElementById("container-activity-index");
-					scrollContainer.scrollTop = scrollContainer.scrollHeight;
+					setTimeout(() => {
+						scrollContainer.scrollTo({
+							top: scrollContainer.scrollHeight,
+							behavior: "smooth"
+						});
+					}, 450)
 					return prev + 1;
 				});
 			} else if (e.code === "Backspace" || e.keyCode === arrows["ArrowLeft"]
 				|| e.keyCode === arrows["ArrowDown"]) {
 				setOpen((prev) => (prev > 0 ? prev - 1 : prev));
 				var scrollContainer = document.getElementById("container-activity-index");
-				scrollContainer.scrollTop = scrollContainer.scrollHeight;
+				setTimeout(() => {
+					scrollContainer.scrollTo({
+						top: scrollContainer.scrollHeight,
+						behavior: "smooth"
+					});
+				}, 450)
 			}
 		};
 	
@@ -176,7 +197,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 			}}/>
 			<div className="absolute w-full h-full"
 			style={{
-				backgroundColor: !colorPalette ? "" : colorPalette.black + "A0"
+				backgroundColor: !colorPalette ? "" : colorPalette.black + "90"
 			}}/>
 			<div className="flex flex-col">
 				<div className="w-full h-1"
