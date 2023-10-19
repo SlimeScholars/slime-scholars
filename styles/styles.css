@@ -300,3 +300,33 @@ input {
   display:grid;
   grid-template-columns: 47% 6% 47%;
 }
+
+.arrow-container:hover .sub-arrow{
+  --tw-translate-x: 0.5rem/* 8px */;
+    transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) 
+    skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+    filter:brightness(75%)
+}
+
+.activity-helper-text {
+  transition: linear 2.5s;
+  animation: color-shift 2.5s infinite;
+}
+
+@keyframes color-shift {
+  0% {
+    filter: brightness(225%);
+  }
+  25% {
+    filter: brightness(150%);
+  }
+  50% {
+    filter: brightness(100%);
+  }
+  75% {
+    filter: brightness(150%);
+  }
+  100% {
+    filter: brightness(225%);
+  }
+}

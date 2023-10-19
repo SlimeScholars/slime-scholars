@@ -34,8 +34,8 @@ const horizontalMapMethod = (arr, extprops) => {
     {pairs.map((pair, key) => {
         return(
             <div className="horizontal-display-grid">
-                {pair.map((element) => {
-                    const props = {key:2*key+1, index:key+1, element:element, horiz:true}
+                {pair.map((element, parity) => {
+                    const props = {key:2 * key + parity, index:key+1, element:element, horiz:true}
                     return(
                         element ? 
                         element.elementType === 0 ? <TextElement {...props} {...extprops}/> : 
