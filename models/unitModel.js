@@ -37,6 +37,17 @@ const unitSchema = new Schema(
       required: [true, "Missing quizzes"],
       default: [],
     },
+    tests: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+          required: [true, "Missing testId"],
+        },
+      ],
+      required: [true, "Missing tests"],
+      default: [],
+    },
   },
   {
     timestamps: true,
