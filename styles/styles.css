@@ -242,6 +242,11 @@ input {
   animation: fadeInBottom 0.75s;
 }
 
+.fade-in-bottom-index-fast{
+  opacity: 1;
+  animation: fadeInBottom 0.4s;
+}
+
 @keyframes fadeInBottom{
   0%{
     opacity:0;

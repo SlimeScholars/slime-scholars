@@ -61,7 +61,7 @@ export default function Section({section, colorPalette}){
 
     return data.sectionStyle.toLowerCase() === "plain" ? 
     (
-        <div className="relative rounded-md p-4" style={{
+        <div className="relative rounded-md p-4 fade-in-bottom-index-fast" style={{
             backgroundColor: colorPalette.white + "A0"
         }}>
             {data.sectionDirection.toLowerCase() === "vertical" ? 
@@ -72,7 +72,7 @@ export default function Section({section, colorPalette}){
         </div>
     ):
     (
-        <div className="relative rounded-md p-4 border-double" style={{
+        <div className="relative rounded-md p-4 border-double fade-in-bottom-index-fast" style={{
             backgroundColor: colorPalette.white + "B0",
             borderColor: colorPalette.primary1 + "A0",
             borderWidth: 6
