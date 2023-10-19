@@ -10,10 +10,10 @@ import { FaStar, FaRegStar } from 'react-icons/fa'
 const FRAMES = 6
 const DELAY = 225
 
-export default function Activity({ user, loading, setLoading, colorPalette }){
-    const router = useRouter()
+export default function Activity({ user, loading, setLoading, colorPalette }) {
+	const router = useRouter()
 
-    // useEffect(() => {
+	// useEffect(() => {
 	// 	if (loading) {
 	// 		return
 	// 	}
@@ -22,9 +22,9 @@ export default function Activity({ user, loading, setLoading, colorPalette }){
 	// 	}
 	// }, [user, loading])
 
-    useEffect(() => {
-        setActivityId(router.query.activityId)
-    }, [router.query.activityId])
+	useEffect(() => {
+		setActivityId(router.query.activityId)
+	}, [router.query.activityId])
 
 	const [loadState, setLoadState] = useState(-1)
 
@@ -74,23 +74,22 @@ export default function Activity({ user, loading, setLoading, colorPalette }){
             setActivity(response.data.activity[0])
             //console.log(response.data.activity[0])
 
-            const token = localStorage.getItem('jwt')
+			const token = localStorage.getItem('jwt')
 			if (!token) {
 				return
 			}
-            const config = {
+			const config = {
 				params: {
 					courseId: router.query.courseId,
 					unitId: router.query.unitId,
-                    lessonId: router.query.lessonId
+					lessonId: router.query.lessonId
 				},
 				headers: {
 					Authorization: `Bearer ${token}`,
-					apiKey: process.env.API_KEY,
 				},
 			};
 			axios
-				.get("/api/learn/activities", config) 
+				.get("/api/learn/activities", config)
 				.then((response) => {
 					console.log(response.data)
 					setCourseName(response.data.courseName)
@@ -110,7 +109,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }){
         }
     }
 
-    if (loading) { return }
+	if (loading) { return }
 	return (
 		<>
 		<div className={`absolute top-0 left-0 w-full h-full bg-black text-white 

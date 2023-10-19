@@ -31,7 +31,6 @@ export default function SlimeDetails({
       const config = {
         headers: {
           Authorization: `Bearer ${token}`,
-          apiKey: process.env.API_KEY,
         },
       }
 
@@ -450,7 +449,6 @@ export default function SlimeDetails({
                           Authorization: `Bearer ${localStorage.getItem(
                             "jwt"
                           )}`,
-                          apiKey: process.env.API_KEY,
                         },
                       }
                     )
@@ -461,7 +459,9 @@ export default function SlimeDetails({
                       }
                     })
                     .catch((error) => {
-                      showToastError(error.message);
+                      error?.response?.data?.message ? showToastError(error.response.data.message) :
+                        error?.message ? showToastError(error.message) :
+                          showToastError(error)
                     });
                 }}
               >

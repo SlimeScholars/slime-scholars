@@ -69,7 +69,6 @@ export default function Teacher({ loading, user, setUser }) {
 
     const config = {
       headers: {
-        apiKey: process.env.API_KEY,
       },
     }
     axios

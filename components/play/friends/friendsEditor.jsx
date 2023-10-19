@@ -32,7 +32,6 @@ export default function FriendsEditor({
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        apiKey: process.env.API_KEY,
       },
     };
 
