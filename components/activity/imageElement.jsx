@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function ImageElement({element, index, key, colorPalette, bold, horiz}){
+export default function ImageElement({element, index, colorPalette, bold, horiz}){
     const [data, setData] = useState(element)
 
     useEffect(() => {

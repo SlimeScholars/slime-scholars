@@ -75,7 +75,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
                             }}
                             style={{
                                 backgroundColor: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-                                border: `5px solid ${colorPalette ? colorPalette.text1 : "#ffffff"}`,
+                                border: `2px solid ${colorPalette ? colorPalette.text1 + "80" : "#ffffff80"}`,
                                 padding: "0.7rem"
                             }}
                             className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border 
