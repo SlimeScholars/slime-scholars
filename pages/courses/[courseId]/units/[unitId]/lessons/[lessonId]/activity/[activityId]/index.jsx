@@ -147,7 +147,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 				style={{
 					backgroundColor: !colorPalette ? "" : colorPalette.primary1 + "80"
 				}}/>
-				<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)] flex flex-col py-8 pl-10 rounded-r-xl"
+				<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)] flex flex-col py-8 pl-10 rounded-r-md"
 				style={{
 					backgroundColor: !colorPalette ? "" : colorPalette.black + "80",
 					color: colorPalette.white
@@ -178,13 +178,13 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 			<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
                {activity && 
 			   		<div className={`flex flex-col gap-4 w-full h-full transition-colors duration-300 p-5`}>
-						<div className="w-full rounded-xl px-[calc(8vw_+_40px)] h-full"
+						<div className="w-full rounded-md px-[calc(8vw_+_40px)] h-full"
 						style={{
 							display:"grid",
 							gridTemplateRows:"92.5% 7.5%"
 						}}>
-							<section className="relative z-[5] rounded-t-xl p-4">
-								<div className="absolute top-0 left-0 w-full h-full rounded-md"
+							<section className="relative z-[5] rounded-t-md p-4">
+								<div className="absolute top-0 left-0 w-full h-full rounded-t-md"
 								style={{
 									backgroundColor: colorPalette.text1 + "C0" 
 								}}/>
@@ -205,11 +205,11 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 									</div>}
 								</div>
 							</section>
-							<section className="relative z-[20] flex flex-row justify-between items-center rounded-b-xl shadow-lg px-5"
+							<section className="relative z-[20] flex flex-row justify-between items-center rounded-b-md shadow-lg px-5"
 							style={{
 								backgroundColor: colorPalette.primary1
 							}}>
-								<div className="absolute top-0 left-0 w-full h-full bg-white/[0.2] rounded-b-xl z-[21]"/>
+								<div className="absolute top-0 left-0 w-full h-full bg-white/[0.2] rounded-b-md z-[21]"/>
 								<section className="flex flex-row items-center gap-2 z-[22]">
 									<div className="relative rounded-full w-[180px] h-[0.5rem]"
 									style={{
@@ -225,7 +225,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 										{`${(activity.pages && activity.pages.length > 0) ? ((100 * page)/activity.pages.length).toFixed(0) : 100}`}%
 									</span>
 								</section>
-								<section className="flex flex-row gap-2 items-center text-xl origin-center scale-90 z-[22]">
+								<section className="flex flex-row gap-2 items-center text-md origin-center scale-90 z-[22]">
 									<button className="text-md" disabled={page === 0}
 									onClick={() => {setPage((prev) => prev-1)}}>
 										<BiSolidLeftArrow className={page === 0 ? "text-neutral-500 cursor-not-allowed" : 
