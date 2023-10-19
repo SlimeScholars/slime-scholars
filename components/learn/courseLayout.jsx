@@ -29,7 +29,8 @@ export default function CourseLayout({children, colorPalette, setUser, user}){
                     style={{
                         backgroundImage:
                             !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
-                        backgroundSize: "100vw 100vh",
+                        backgroundSize: "cover",
+                        backgroundPosition: "bottom"
                     }}>
                         {children}
                     </div>
@@ -39,7 +40,8 @@ export default function CourseLayout({children, colorPalette, setUser, user}){
                 style={{
                     backgroundImage:
                         !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
-                    backgroundSize: "100vw 100vh",
+                    backgroundSize: "cover",
+                    backgroundPosition: "bottom"
                 }}>
                     {children}
                 </div>

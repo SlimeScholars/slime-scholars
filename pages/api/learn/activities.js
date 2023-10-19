@@ -71,8 +71,6 @@ export default async function (req, res) {
         //perform operations
       }
 
-    console.log(modifiedActivities)
-
     res.json({
       courseName: course.courseName,
       unitName: unit.unitName,
@@ -82,7 +80,6 @@ export default async function (req, res) {
       activities: modifiedActivities
     })
   } catch (error) {
-    console.log(error.message)
     res.status(400).json({ message: error.message })
   }
 }
