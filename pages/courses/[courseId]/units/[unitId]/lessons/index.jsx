@@ -46,7 +46,6 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
 				},
 				headers: {
 					Authorization: `Bearer ${token}`,
-					apiKey: process.env.API_KEY,
 				},
 			};
 			axios

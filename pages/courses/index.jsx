@@ -30,7 +30,6 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 			const config = {
 				headers: {
 					Authorization: `Bearer ${token}`,
-					apiKey: process.env.API_KEY,
 				},
 			};
 			axios

@@ -41,7 +41,6 @@ export default function Units({ user, loading, setLoading, setAxiosLoading, colo
 				},
 				headers: {
 					Authorization: `Bearer ${token}`,
-					apiKey: process.env.API_KEY,
 				},
 			};
 			setAxiosLoading(true)

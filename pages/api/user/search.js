@@ -16,7 +16,7 @@ export default async function (req, res) {
     if (req.method !== "GET") {
       throw new Error(`${req.method} is an invalid request method`);
     }
-    verifyApiKey(req.headers.apiKey);
+    verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();

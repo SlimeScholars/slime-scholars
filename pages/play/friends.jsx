@@ -55,7 +55,6 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
-        apiKey: process.env.API_KEY,
       },
     };
 

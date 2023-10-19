@@ -2,7 +2,7 @@ import ItemInventory from "./itemInventory";
 import { gameData } from "../../../data/gameData";
 import Image from "next/image";
 
-export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, Inventory, user, colorPalette, searchContent, scrollToTop}) {
+export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick, shopping, colorPalette, searchContent, scrollToTop }) {
   // Separate unowned and owned items
   const unownedItems = [];
   const ownedItems = [];
@@ -23,9 +23,23 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
       return a.itemName.localeCompare(b.itemName);
     };
 
-
     unownedItems.sort(customSort);
     ownedItems.sort(customSort);
+  }
+
+  const sortedItems = []
+  if (!shopping && items) {
+    const standardItems = []
+    const bgItems = []
+    for (let i in items) {
+      if (gameData.items[items[i].itemName].isBg) {
+        bgItems.push(items[i])
+      }
+      else {
+        standardItems.push(items[i])
+      }
+    }
+    sortedItems.push(...standardItems, ...bgItems)
   }
 
   return (
@@ -59,13 +73,13 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
                   }}
                 >
                   <Image
-                  src="/assets/icons/flower.png"
-                  alt="flowers"
-                  height={0}
-                  width={0}
-                  sizes="100vw"
-                  className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
-                />
+                    src="/assets/icons/flower.png"
+                    alt="flowers"
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
+                  />
                   <p className="text-sm text-center mt-1">{gameData.items[item.itemName].buyPrice}</p>
                 </div>
               )}
@@ -82,8 +96,8 @@ export default function ItemList({ gameItems, items, itemOnClick, setItemOnClick
             </div>
           ))
         ) : (
-          Array.isArray(items) ? (
-            items.map((item, index) => (
+          Array.isArray(sortedItems) ? (
+            sortedItems.map((item, index) => (
               <ItemInventory
                 key={`item-${index}`}
                 setItemOnClick={setItemOnClick}
