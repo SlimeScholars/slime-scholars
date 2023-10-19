@@ -29,7 +29,7 @@ export const gameData = {
     "Blue Planet": {
       itemName: "Blue Planet",
       rarity: "Rare",
-      desc: "A planet far from Earth. Said to be the origin place of the slimes.",
+      desc: "A planet in a galaxy far, far away. Legend has it that the Slimes came from this planet.",
       isBg: true,
       pfp: "blue-planet.png",
       bg: "blue-planet.png",
@@ -50,7 +50,7 @@ export const gameData = {
     "Blue Space": {
       itemName: "Blue Space",
       rarity: "Rare",
-      desc: "The surface of a hidden planet in our solar system. It's a bit chilly here.",
+      desc: "Gaze upon the planet of the Slimes from its single moon. It's a bit chilly here.",
       isBg: true,
       pfp: "blue-space.png",
       bg: "blue-space.png",
@@ -92,7 +92,7 @@ export const gameData = {
     "Cosmic Lights": {
       itemName: "Cosmic Lights",
       rarity: "Rare",
-      desc: "A beautiful view of the cosmos. I could look at this view all day.",
+      desc: "You won't beat this view on Earth.",
       isBg: true,
       pfp: "cosmic-lights.png",
       bg: "cosmic-lights.png",
@@ -155,7 +155,7 @@ export const gameData = {
     "Fall Forest": {
       itemName: "Fall Forest",
       rarity: "Rare",
-      desc: "Vivid autumn forests, a canvas of golden leaves and hidden mysteries.",
+      desc: "The changing seasons paint the forest in gold. It's getting chilly though - better put on a jacket.",
       isBg: true,
       pfp: "fall-forest.png",
       bg: "fall-forest.png",
@@ -176,7 +176,7 @@ export const gameData = {
     "Fence Garden": {
       itemName: "Fence Garden",
       rarity: "Rare",
-      desc: "Why is this background called 'Fence Garden'? I don't know, it just is.",
+      desc: "It's a fence. And a garden.",
       isBg: true,
       pfp: "fence-garden.png",
       bg: "fence-garden.png",
@@ -218,7 +218,7 @@ export const gameData = {
     "Forest Jungle": {
       itemName: "Forest Jungle",
       rarity: "Rare",
-      desc: "Lush jungle teeming with life, a realm of secrets and danger.",
+      desc: "A lush and dense jungle teeming with life, a terra incognita of hidden secrets.",
       isBg: true,
       pfp: "forest-jungle.png",
       bg: "forest-jungle.png",
@@ -260,7 +260,7 @@ export const gameData = {
     "Gem Space": {
       itemName: "Gem Space",
       rarity: "Rare",
-      desc: "A distant planet adorned with shimmering gems, an alien treasure trove.",
+      desc: "An alien planet adorned with shimmering gems. I wonder how much these are worth?",
       isBg: true,
       pfp: "gem-space.png",
       bg: "gem-space.png",
@@ -281,7 +281,7 @@ export const gameData = {
     "Green Field": {
       itemName: "Green Field",
       rarity: "Rare",
-      desc: "Endless emerald meadows, a tranquil oasis beneath an azure sky.",
+      desc: "It's pretty green. And empty.",
       isBg: true,
       pfp: "green-field.png",
       bg: "green-field.png",
@@ -302,7 +302,7 @@ export const gameData = {
     "Ice City": {
       itemName: "Ice City",
       rarity: "Rare",
-      desc: "Glittering ice city, towering spires in a frozen realm of wonders.",
+      desc: "A shimmering city of ice, belonging to some advanced civilization on a snowy planet. Talk about cool!",
       isBg: true,
       pfp: "ice-city.png",
       bg: "ice-city.png",
@@ -342,7 +342,7 @@ export const gameData = {
     "Magma Caverns": {
       itemName: "Magma Caverns",
       rarity: "Rare",
-      desc: "A fiery cavern deep beneath the earth, a realm of molten rock and danger.",
+      desc: "A fiery cavern deep beneath the earth. Watch your step!",
       isBg: true,
       pfp: "magma-caverns.png",
       bg: "magma-caverns.png",
@@ -363,7 +363,7 @@ export const gameData = {
     "Neon City": {
       itemName: "Neon City",
       rarity: "Rare",
-      desc: "The party never ends",
+      desc: "The party never ends.",
       isBg: true,
       pfp: "neon-city.png",
       bg: "neon-city.png",
@@ -384,7 +384,7 @@ export const gameData = {
     "Night Sakura": {
       itemName: "Night Sakura",
       rarity: "Rare",
-      desc: "Enchanting night, cherry blossoms under the moonlight's gentle embrace.",
+      desc: "They're even prettier at night.",
       isBg: true,
       pfp: "night-sakura.png",
       bg: "night-sakura.png",
@@ -426,7 +426,7 @@ export const gameData = {
     "Ocean City": {
       itemName: "Ocean City",
       rarity: "Rare",
-      desc: "One look at the skyscrapers and the beach and you know it's expensive.",
+      desc: "One look at the skyscrapers and beach and you know it's expensive.",
       isBg: true,
       pfp: "ocean-city.png",
       bg: "ocean-city.png",
@@ -447,7 +447,7 @@ export const gameData = {
     "Orange Desert": {
       itemName: "Orange Desert",
       rarity: "Rare",
-      desc: "Endless desert sands and dunes. Don't know why you'd want to live here.",
+      desc: "Nothing but land and sand. Don't know why you'd want to live here.",
       isBg: true,
       pfp: "orange-desert.png",
       bg: "orange-desert.png",
@@ -468,7 +468,7 @@ export const gameData = {
     "Orange Sunset": {
       itemName: "Orange Sunset",
       rarity: "Rare",
-      desc: "The orange sunset casts a warm glow on the serene landscapes.",
+      desc: "The vibrant sun casts a warm glow on the glittering landscape.",
       isBg: true,
       pfp: "orange-sunset.png",
       bg: "orange-sunset.png",
@@ -489,7 +489,7 @@ export const gameData = {
     "Pillar Space": {
       itemName: "Pillar Space",
       rarity: "Rare",
-      desc: "It looks almost as if someone fractured space. YIKES!",
+      desc: "It looks almost as if someone tore a hole in space. It sure looks cool though.",
       isBg: true,
       pfp: "pillar-space.png",
       bg: "pillar-space.png",
@@ -531,7 +531,7 @@ export const gameData = {
     "Pink Pyramid": {
       itemName: "Pink Pyramid",
       rarity: "Rare",
-      desc: "It's rumored that the alien slimes built this pyramid. I wonder why?",
+      desc: "It's rumored that this pyramid was built by ancient alien slimes. I wonder why?",
       isBg: true,
       pfp: "pink-pyramid.png",
       bg: "pink-pyramid.png",
@@ -573,7 +573,7 @@ export const gameData = {
     "Rainy Forest": {
       itemName: "Rainy Forest",
       rarity: "Rare",
-      desc: "In the depths of the jungle, you might the witch slime. She's a bit scary.",
+      desc: "Wet socks are the worst. Luckily, slimes don't wear them.",
       isBg: true,
       pfp: "rainy-forest.png",
       bg: "rainy-forest.png",
@@ -594,7 +594,7 @@ export const gameData = {
     "Rainy Town": {
       itemName: "Rainy Town",
       rarity: "Rare",
-      desc: "There's always fog and rain in this town. It's a bit depressing.",
+      desc: "This is what it's ACTUALLY like living by the ocean. It's not all tropical beaches and sunshine.",
       isBg: true,
       pfp: "rainy-town.png",
       bg: "rainy-town.png",
@@ -615,7 +615,7 @@ export const gameData = {
     "Red Space": {
       itemName: "Red Space",
       rarity: "Rare",
-      desc: "This place is really red. Like the red in ketchup... or blood.",
+      desc: "It's eerily quiet here. I wonder what's behind those mountains.",
       isBg: true,
       pfp: "red-space.png",
       bg: "red-space.png",
@@ -628,9 +628,9 @@ export const gameData = {
       white: "#FEE2B5",
       grey: "#DDDAD4",
       black: "#1E111A",
-
       text1: "#ffcccc",
       text2: "#ffcccc",
+      track: "pillar-space",
     },
   },
 
