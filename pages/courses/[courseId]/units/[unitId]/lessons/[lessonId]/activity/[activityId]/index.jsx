@@ -7,7 +7,7 @@ import { BiSolidLeftArrow, BiSolidRightArrow} from "react-icons/bi"
 import Section from "../../../../../../../../../components/activity/section"
 import { FaStar, FaRegStar } from 'react-icons/fa'
 
-const LOADIN_MAXFRAMES = 5
+const LOADIN_MAXFRAMES = 9
 const LOADIN_DELAY = 180
 const LOADIN_INCREMENT = 15
 
@@ -38,7 +38,6 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 
 	const [page, setPage] = useState(0)
     const [open, setOpen] = useState(0)
-	const [sectionCount, setSectionCount] = useState(0)
  
     useEffect(() => {
         if(activity){
@@ -140,25 +139,28 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 		};
 	}, [setOpen]);
 	
+	const fullLoad = () => activity && courseName && unitName && lessonName && lessonActivities && lessonActivities.length > 0
 
 	if (loading) { return }
 	return (
 		<>
 		<div className={`absolute top-0 left-0 w-full h-full bg-black text-white 
-		${(!(activity && courseName && unitName && lessonName && lessonActivities && lessonActivities.length > 0) || loadState > -1) 
+		${(!fullLoad() || loadState > -1) 
 			? "z-[500] opacity-1" : "z-0 opacity-0"} 
 		flex flex-col gap-8 items-center justify-center text-4xl`}>
-			<div className="flex flex-col gap-2 items-center">
+			<div className="flex flex-col gap-2 items-center h-full">
+				<img src="/assets/loading/club-penguin.gif" className="w-[400px] h-[400px]"/>
 				<span>Building Activity...</span>
 				<span className="text-lg">(Temporary Loading Page)</span>
-			</div>
-			<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510]">
+				<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510]">
 				<div className="absolute top-0 left-0 bg-pink-300/[0.8] z-[520] h-full transition-all duration-[0.18s] ease-in-out"
 				style={{
-					width: `${((loadState > -1 ? (170 * (LOADIN_MAXFRAMES-loadState)/(LOADIN_MAXFRAMES)) : 0) + 
+					width: `${((loadState > -1 ? (170 * (LOADIN_MAXFRAMES-loadState)/(LOADIN_MAXFRAMES)) : 
+					fullLoad() ? 170 : 0) + 
 					(100 * (activity ? 1 : 0)) + (20 * (courseName ? 1 : 0)) + (20 * (unitName ? 1 : 0))
 					+ (20 * (lessonName ? 1 : 0)) + (20 * (lessonActivities && lessonActivities.length > 0 ? 1 : 0))).toFixed(0)}px`
 				}}/>
+			</div>
 			</div>
 		</div>
 		<div
@@ -245,7 +247,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 									backgroundColor: colorPalette.text1 + "C0" 
 								}}/>
 								<div id="container-activity-index" className="relative pb-10 overflow-y-scroll h-full flex flex-col gap-3 z-[15]">
-									<div className="rounded-md text-center transition-all duration-150 origin-center animate-pulse" style={{
+									{page < activity.pages.length && activity.pages[page].sections.length > 0 && 
+									<div className="rounded-md text-center transition-all duration-150 
+									origin-center animate-pulse" 
+									style={{
 										backgroundColor: colorPalette.white + "A0",
 										color:colorPalette.black,
 										transform: `scaleY(${open === 0 ? 1 : 0})`,
@@ -258,7 +263,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 										}}>
 											Press ENTER to continue
 										</div>
-									</div>
+									</div>}
 									{page < activity.pages.length ?
 									activity.pages[page].sections.map((section, key) => 
 										<div key={key}>
