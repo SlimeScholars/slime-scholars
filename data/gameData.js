@@ -6,7 +6,7 @@ export const gameData = {
     // "Slime Egg": [0, 0, 0, 1, 0],
     // "Slime Egg": [0, 0, 0, 0, 1],
     // "Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
-    "Slime Egg": [0.25, 0.35, 0.25, 0.10, 0.05],
+    "Slime Egg": [0.25, 0.35, 0.25, 0.1, 0.05],
     // "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },
 
@@ -44,6 +44,7 @@ export const gameData = {
       black: "#131520",
       text1: "#F8EBE6",
       text2: "#f9ebf3",
+      track: "pillar-space",
     },
 
     "Blue Space": {
@@ -64,10 +65,10 @@ export const gameData = {
       black: "#0D1616",
       text1: "#eaedfb",
       text2: "#eaedfb",
-
+      track: "pillar-space",
     },
 
-    "Castle": {
+    Castle: {
       itemName: "Castle",
       rarity: "Rare",
       desc: "A majestic castle fit for a king, or a slime, or a kingly slime.",
@@ -85,6 +86,7 @@ export const gameData = {
       black: "#141C1C",
       text1: "#e8f7fc",
       text2: "#e8f7fc",
+      track: "forest-jungle",
     },
 
     "Cosmic Lights": {
@@ -105,6 +107,7 @@ export const gameData = {
       black: "#070811",
       text1: "#f0e9fb",
       text2: "#f0e9fb",
+      track: "pillar-space",
     },
 
     "Day Sakura": {
@@ -125,7 +128,7 @@ export const gameData = {
       black: "#2E0109",
       text1: "#fecddf",
       text2: "#fecddf",
-
+      track: "forest-jungle",
     },
 
     "Fall Castle": {
@@ -146,7 +149,7 @@ export const gameData = {
       black: "#0D0605",
       text1: "#fef3e6",
       text2: "#fef3e6",
-
+      track: "forest-jungle",
     },
 
     "Fall Forest": {
@@ -162,13 +165,12 @@ export const gameData = {
       primary2: "#ffb24d",
       secondary1: "#FF9A13",
       secondary2: "#AA1402",
-
       white: "#fedecd",
       grey: "#DCE0E5",
       black: "#0F0200",
-
       text1: "#fff4e6",
       text2: "#fff4e6",
+      track: "forest-jungle",
     },
 
     "Fence Garden": {
@@ -189,6 +191,7 @@ export const gameData = {
       black: "#0E1206",
       text1: "#f1ffe6",
       text2: "#f1ffe6",
+      track: "forest-mountains",
     },
 
     "Flower Field": {
@@ -209,6 +212,7 @@ export const gameData = {
       black: "#FFFFFF",
       text1: "#084433",
       text2: "#084433",
+      track: "forest-mountains",
     },
 
     "Forest Jungle": {
@@ -229,6 +233,7 @@ export const gameData = {
       black: "#0B0506",
       text1: "#fffee6",
       text2: "#fffee6",
+      track: "forest-jungle",
     },
 
     "Forest Mountains": {
@@ -249,7 +254,7 @@ export const gameData = {
       black: "#0C1414",
       text1: "#e7f4fd",
       text2: "#e7f4fd",
-
+      track: "forest-mountains",
     },
 
     "Gem Space": {
@@ -270,6 +275,7 @@ export const gameData = {
       black: "#04010C",
       text1: "#eee8fc",
       text2: "#eee8fc",
+      track: "pillar-space",
     },
 
     "Green Field": {
@@ -290,6 +296,7 @@ export const gameData = {
       black: "#28221D",
       text1: "#e8f4fd",
       text2: "#e8f4fd",
+      track: "forest-mountains",
     },
 
     "Ice City": {
@@ -348,9 +355,9 @@ export const gameData = {
       white: "#F9E7E7",
       grey: "#6F6262",
       black: "#070011",
-
       text1: "#F9E7E7",
       text2: "#ffcccc",
+      track: "magma-caverns",
     },
 
     "Neon City": {
@@ -369,9 +376,9 @@ export const gameData = {
       white: "#FBECF6",
       grey: "#968792",
       black: "#06030B",
-
       text1: "#ffccff",
       text2: "#ffccff",
+      track: "pillar-space",
     },
 
     "Night Sakura": {
@@ -453,9 +460,9 @@ export const gameData = {
       white: "#FFF0E6",
       grey: "#8C8573",
       black: "#0E0300",
-
       text1: "#ffffcc",
       text2: "#ffffcc",
+      track: "sandy-ruins",
     },
 
     "Orange Sunset": {
@@ -474,9 +481,9 @@ export const gameData = {
       white: "#FCF2EE",
       grey: "#A29995",
       black: "#110C07",
-
       text1: "#ffcccc",
       text2: "#ffcccc",
+      track: "sandy-ruins",
     },
 
     "Pillar Space": {
@@ -516,9 +523,9 @@ export const gameData = {
       white: "#F9E9F1",
       grey: "#C7BCBE",
       black: "#230002",
-
       text1: "#ffccff",
       text2: "#cc0099",
+      track: "forest-jungle",
     },
 
     "Pink Pyramid": {
@@ -537,9 +544,9 @@ export const gameData = {
       white: "#F2D5C3",
       grey: "#585558",
       black: "#110E0F",
-
       text1: "#ffccff",
       text2: "#ffccff",
+      track: "sandy-ruins",
     },
 
     "Rainy City": {
@@ -624,7 +631,7 @@ export const gameData = {
 
       text1: "#ffcccc",
       text2: "#ffcccc",
-    }
+    },
   },
 
   baseProduction: {
@@ -759,157 +766,157 @@ export const gameData = {
     },
     "Ice Cream Slime": {
       slimeName: "Ice Cream Slime",
-      pfp: 'ice-cream-slime.png',
+      pfp: "ice-cream-slime.png",
       spritesheet: "ice-cream-slime.png",
       static: "ice-cream-slime.png",
     },
     "Bubble Slime": {
       slimeName: "Bubble Slime",
-      pfp: 'bubble-slime.png',
+      pfp: "bubble-slime.png",
       spritesheet: "bubble-slime.png",
       static: "bubble-slime.png",
     },
     "Cat Slime": {
       slimeName: "Cat Slime",
-      pfp: 'cat-slime.png',
+      pfp: "cat-slime.png",
       spritesheet: "cat-slime.png",
       static: "cat-slime.png",
     },
     "Cherry Slime": {
       slimeName: "Cherry Slime",
-      pfp: 'cherry-slime.png',
+      pfp: "cherry-slime.png",
       spritesheet: "cherry-slime.png",
       static: "cherry-slime.png",
     },
     "Cool Slime": {
       slimeName: "Cool Slime",
-      pfp: 'cool-slime.png',
+      pfp: "cool-slime.png",
       spritesheet: "cool-slime.png",
       static: "cool-slime.png",
     },
     "Earth Slime": {
       slimeName: "Earth Slime",
-      pfp: 'earth-slime.png',
+      pfp: "earth-slime.png",
       spritesheet: "earth-slime.png",
       static: "earth-slime.png",
     },
     "Electric Slime": {
       slimeName: "Electric Slime",
-      pfp: 'electric-slime.png',
+      pfp: "electric-slime.png",
       spritesheet: "electric-slime.png",
       static: "electric-slime.png",
     },
     "Fire Slime": {
       slimeName: "Fire Slime",
-      pfp: 'fire-slime.png',
+      pfp: "fire-slime.png",
       spritesheet: "fire-slime.png",
       static: "fire-slime.png",
     },
     "Flower Slime": {
       slimeName: "Flower Slime",
-      pfp: 'flower-slime.png',
+      pfp: "flower-slime.png",
       spritesheet: "flower-slime.png",
       static: "flower-slime.png",
     },
     "Frost Slime": {
       slimeName: "Frost Slime",
-      pfp: 'frost-slime.png',
+      pfp: "frost-slime.png",
       spritesheet: "frost-slime.png",
       static: "frost-slime.png",
     },
     "Glass Slime": {
       slimeName: "Glass Slime",
-      pfp: 'glass-slime.png',
+      pfp: "glass-slime.png",
       spritesheet: "glass-slime.png",
       static: "glass-slime.png",
     },
     "Glow Slime": {
       slimeName: "Glow Slime",
-      pfp: 'glow-slime.png',
+      pfp: "glow-slime.png",
       spritesheet: "glow-slime.png",
       static: "glow-slime.png",
     },
     "Hypno Slime": {
       slimeName: "Hypbo Slime",
-      pfp: 'hypno-slime.png',
+      pfp: "hypno-slime.png",
       spritesheet: "hypno-slime.png",
       static: "hypno-slime.png",
     },
     "Jello Slime": {
       slimeName: "Jello Slime",
-      pfp: 'jello-slime.png',
+      pfp: "jello-slime.png",
       spritesheet: "jello-slime.png",
       static: "jello-slime.png",
     },
     "Lava Slime": {
       slimeName: "Lava Slime",
-      pfp: 'lava-slime.png',
+      pfp: "lava-slime.png",
       spritesheet: "lava-slime.png",
       static: "lava-slime.png",
     },
     "Metal Slime": {
       slimeName: "Metal Slime",
-      pfp: 'metal-slime.png',
+      pfp: "metal-slime.png",
       spritesheet: "metal-slime.png",
       static: "metal-slime.png",
     },
     "Pineapple Slime": {
       slimeName: "Pineapple Slime",
-      pfp: 'pineapple-slime.png',
+      pfp: "pineapple-slime.png",
       spritesheet: "pineapple-slime.png",
       static: "pineapple-slime.png",
     },
     "Pixel Slime": {
       slimeName: "Pixel Slime",
-      pfp: 'pixel-slime.png',
+      pfp: "pixel-slime.png",
       spritesheet: "pixel-slime.png",
       static: "pixel-slime.png",
     },
     "Rock Slime": {
       slimeName: "Rock Slime",
-      pfp: 'rock-slime.png',
+      pfp: "rock-slime.png",
       spritesheet: "rock-slime.png",
       static: "rock-slime.png",
     },
     "Sleepy Slime": {
       slimeName: "Sleepy Slime",
-      pfp: 'sleepy-slime.png',
+      pfp: "sleepy-slime.png",
       spritesheet: "sleepy-slime.png",
       static: "sleepy-slime.png",
     },
     "Sparkle Slime": {
       slimeName: "Sparkle Slime",
-      pfp: 'sparkle-slime.png',
+      pfp: "sparkle-slime.png",
       spritesheet: "sparkle-slime.png",
       static: "sparkle-slime.png",
     },
     "Spike Slime": {
       slimeName: "Spike Slime",
-      pfp: 'spike-slime.png',
+      pfp: "spike-slime.png",
       spritesheet: "spike-slime.png",
       static: "spike-slime.png",
     },
     "Strawbunny Slime": {
       slimeName: "Strawbunny Slime",
-      pfp: 'strawbunny-slime.png',
+      pfp: "strawbunny-slime.png",
       spritesheet: "strawbunny-slime.png",
       static: "strawbunny-slime.png",
     },
     "Tanuki Slime": {
       slimeName: "Tanuki Slime",
-      pfp: 'tanuki-slime.png',
+      pfp: "tanuki-slime.png",
       spritesheet: "tanuki-slime.png",
       static: "tanuki-slime.png",
     },
     "Water Slime": {
       slimeName: "Water Slime",
-      pfp: 'water-slime.png',
+      pfp: "water-slime.png",
       spritesheet: "water-slime.png",
       static: "water-slime.png",
     },
     "Whale Slime": {
       slimeName: "Whale Slime",
-      pfp: 'whale-slime.png',
+      pfp: "whale-slime.png",
       spritesheet: "whale-slime.png",
       static: "whale-slime.png",
     },
@@ -918,7 +925,7 @@ export const gameData = {
 
     "Acid Slime": {
       slimeName: "Acid Slime",
-      pfp: 'acid-slime.png',
+      pfp: "acid-slime.png",
       spritesheet: "acid-slime.png",
       static: "acid-slime.png",
       abilityName: "Fallout",
@@ -930,7 +937,7 @@ export const gameData = {
     },
     "Block Slime": {
       slimeName: "Block Slime",
-      pfp: 'block-slime.png',
+      pfp: "block-slime.png",
       spritesheet: "block-slime.png",
       static: "block-slime.png",
       abilityName: "6 Face",
@@ -942,7 +949,7 @@ export const gameData = {
     },
     "Neon Slime": {
       slimeName: "Neon Slime",
-      pfp: 'neon-slime.png',
+      pfp: "neon-slime.png",
       spritesheet: "neon-slime.png",
       static: "neon-slime.png",
       abilityName: "Fluorescent",
@@ -954,14 +961,14 @@ export const gameData = {
     },
     "Octopus Slime": {
       slimeName: "Octopus Slime",
-      pfp: 'octopus-slime.png',
+      pfp: "octopus-slime.png",
       spritesheet: "octopus-slime.png",
       static: "octopus-slime.png",
       // TODO: Octopus slime ability
     },
     "Prismatic Slime": {
       slimeName: "Prismatic Slime",
-      pfp: 'prismatic-slime.png',
+      pfp: "prismatic-slime.png",
       spritesheet: "prismatic-slime.png",
       static: "prismatic-slime.png",
       abilityName: "Rainbow",
@@ -973,7 +980,7 @@ export const gameData = {
     },
     "Robo Slime": {
       slimeName: "Robo Slime",
-      pfp: 'robo-slime.png',
+      pfp: "robo-slime.png",
       spritesheet: "robo-slime.png",
       static: "robo-slime.png",
       abilityName: "Compute",
@@ -985,7 +992,7 @@ export const gameData = {
     },
     "Sakura Slime": {
       slimeName: "Sakura Slime",
-      pfp: 'sakura-slime.png',
+      pfp: "sakura-slime.png",
       spritesheet: "sakura-slime.png",
       static: "sakura-slime.png",
       abilityName: "Blossom",
@@ -997,7 +1004,7 @@ export const gameData = {
     },
     "Silver Slime": {
       slimeName: "Silver Slime",
-      pfp: 'silver-slime.png',
+      pfp: "silver-slime.png",
       spritesheet: "silver-slime.png",
       static: "silver-slime.png",
       abilityName: "Sterling",
@@ -1009,7 +1016,7 @@ export const gameData = {
     },
     "Vantablack Slime": {
       slimeName: "Vantablack Slime",
-      pfp: 'vantablack-slime.png',
+      pfp: "vantablack-slime.png",
       spritesheet: "vantablack-slime.png",
       static: "vantablack-slime.png",
       abilityName: "Shadow",
@@ -1021,7 +1028,7 @@ export const gameData = {
     },
     "Lucky Slime": {
       slimeName: "Lucky Slime",
-      pfp: 'lucky-slime.png',
+      pfp: "lucky-slime.png",
       spritesheet: "lucky-slime.png",
       static: "lucky-slime.png",
       abilityName: "Charm",
@@ -1033,7 +1040,7 @@ export const gameData = {
     },
     "Gold Slime": {
       slimeName: "Gold Slime",
-      pfp: 'gold-slime.png',
+      pfp: "gold-slime.png",
       spritesheet: "gold-slime.png",
       static: "gold-slime.png",
       abilityName: "24K",
@@ -1046,9 +1053,9 @@ export const gameData = {
     },
     "Black Hole Slime": {
       slimeName: "Black Hole Slime",
-      pfp: 'black-hole-slime.png',
+      pfp: "black-hole-slime.png",
       spritesheet: "black-hole-slime.png",
-      static: 'black-hole-slime.png',
+      static: "black-hole-slime.png",
       abilityName: "Singularity",
       abilityDesc: [
         "Its GP is equivalent to 100 percent of total base GP of all other active slimes.",
@@ -1059,7 +1066,7 @@ export const gameData = {
     },
     "Iridescent Slime": {
       slimeName: "Iridescent Slime",
-      pfp: 'iridescent-slime.png',
+      pfp: "iridescent-slime.png",
       spritesheet: "iridescent-slime.png",
       static: "iridescent-slime.png",
       abilityName: "Flex",
@@ -1071,7 +1078,7 @@ export const gameData = {
     },
     "Scholar Slime": {
       slimeName: "Scholar Slime",
-      pfp: 'scholar-slime.png',
+      pfp: "scholar-slime.png",
       spritesheet: "scholar-slime.png",
       static: "scholar-slime.png",
       abilityName: "Wisdom",
@@ -1084,7 +1091,7 @@ export const gameData = {
     },
     "Nebula Slime": {
       slimeName: "Nebula Slime",
-      pfp: 'nebula-slime.png',
+      pfp: "nebula-slime.png",
       spritesheet: "nebula-slime.png",
       static: "nebula-slime.png",
       abilityName: "Cosmic",
