@@ -102,7 +102,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
               courseName={course.courseName}
               courseBadge={course.courseBadge}
               colorPalette={colorPalette}
-              tier={course.tier}
+              course={course}
             />
           ))}
         </div>

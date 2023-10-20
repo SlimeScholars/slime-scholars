@@ -15,6 +15,32 @@ const unitSchema = new Schema(
       type: String,
       required: [true, "Missing latestAuthor"],
     },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
+    },
+    completed: {
+      type: {
+        lessons: {
+          type: Number,
+          required: [true, "Missing completed lessons"],
+        },
+        quizzes: {
+          type: Number,
+          required: [true, "Missing completed quizzes"],
+        },
+        tests: {
+          type: Number,
+          required: [true, "Missing completed tests"],
+        },
+      },
+      required: [true, "Missing completed"],
+      default: {
+        lessons: 0,
+        quizzes: 0,
+        tests: 0,
+      },
+    },
     lessons: {
       type: [
         {
@@ -47,6 +73,10 @@ const unitSchema = new Schema(
       ],
       required: [true, "Missing tests"],
       default: [],
+    },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
     },
   },
   {
