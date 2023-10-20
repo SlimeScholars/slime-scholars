@@ -11,6 +11,8 @@ export default function Course({
 }) {
   const router = useRouter();
 
+  console.log(course);
+
   return (
     <button
       className={`course-bar-default course-grid base
