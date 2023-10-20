@@ -317,7 +317,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 										<div>
 											<img
 											src={"/assets/misc/minion-happy.gif"}
-											className="absolute top-0 left-0 rounded-md"
+											className="absolute top-0 left-0 rounded-md fade-in-element"
 											style={{
 												height: "100%",
 												width: "100%",
