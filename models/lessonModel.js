@@ -59,6 +59,10 @@ const lessonSchema = new Schema(
       required: false,
       default: [],
     },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
+    },
   },
   {
     timestamps: true,

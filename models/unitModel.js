@@ -74,6 +74,10 @@ const unitSchema = new Schema(
       required: [true, "Missing tests"],
       default: [],
     },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
+    },
   },
   {
     timestamps: true,

@@ -26,6 +26,7 @@ export default function Units({
   const [courseId, setCourseId] = useState(router.query.courseId);
   const [units, setUnits] = useState([]);
   const [courseName, setCourseName] = useState(null);
+  const [counts, setCounts] = useState({ lessons: 0, quizzes: 0, tests: 0 });
 
   useEffect(() => {
     setLoading(true);
@@ -71,6 +72,13 @@ export default function Units({
       return;
     }
   }, [router.query.courseId]);
+
+  useEffect(() => {
+    if (units.length === 0) {
+      return;
+    }
+    setCounts(sumLessonsAndQuizzes(units));
+  }, [units]);
 
   if (loading) {
     return;
@@ -136,7 +144,8 @@ export default function Units({
                   color: !colorPalette ? "" : colorPalette.primary1,
                 }}
               >
-                135 lessons • 15 quizzes • 6,250
+                {counts.lessons} lessons • {counts.quizzes} quizzes •{" "}
+                {counts.tests} tests • 6,250
               </span>
               <Image
                 src="/assets/icons/flower.png"
@@ -167,3 +176,16 @@ export default function Units({
     </div>
   );
 }
+
+const sumLessonsAndQuizzes = (units) => {
+  let lessons = 0;
+  let quizzes = 0;
+  let tests = 0;
+  console.log(units);
+  units.forEach((unit) => {
+    lessons += unit.count.lessons;
+    quizzes += unit.count.quizzes;
+    tests += unit.count.tests;
+  });
+  return { lessons, quizzes, tests };
+};
