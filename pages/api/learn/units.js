@@ -3,6 +3,7 @@ import { verifyApiKey } from "../../../utils/verify";
 import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import Course from "../../../models/courseModel";
+import { rewardData } from "../../../data/lessonData";
 // Import for the populate
 import "../../../models/unitModel";
 
@@ -35,20 +36,36 @@ export default async function (req, res) {
     const { courseId } = req.query;
 
     const course = await Course.findById(courseId)
-      .select("courseName units")
+      .select("courseName units totalPoints")
       .populate({
         path: "units",
-        select: "_id unitName unitNumber",
+        select: "_id unitName unitNumber totalPoints lessons quizzes tests",
       });
+
+    const userProgress = user.progress.find((course) => {
+      return course._id === courseId;
+    });
 
     const modifiedUnits = [];
     // Check user for completed
     for (let i in course.units) {
+      const unitProgress = userProgress
+        ? userProgress.units.find((unit) => {
+            return unit._id === course.units[i]._id.valueOf();
+          })
+        : undefined;
       modifiedUnits.push({
         _id: course.units[i]._id,
         unitName: course.units[i].unitName,
         unitNumber: course.units[i].unitNumber,
-        completed: false,
+        count: {
+          lessons: course.units[i].lessons ? course.units[i].lessons.length : 0,
+          quizzes: course.units[i].quizzes ? course.units[i].quizzes.length : 0,
+          tests: course.units[i].tests ? course.units[i].tests.length : 0,
+        },
+        achievedPoints: unitProgress ? unitProgress.completion.achieved : 0,
+        totalPoints:
+          course.units[i].totalPoints || calculateTotalPoints(course.units[i]),
       });
       for (let j in user.completedUnits) {
         if (
@@ -69,3 +86,12 @@ export default async function (req, res) {
     res.status(400).json({ message: error.message });
   }
 }
+
+const calculateTotalPoints = (unit) => {
+  let totalPoints =
+    unit.quizzes &&
+    rewardData.quiz * unit.quizzes.length + unit.tests &&
+    rewardData.test * unit.tests.length + unit.lessons &&
+    rewardData.lesson * unit.lessons.length;
+  return totalPoints || 0;
+};

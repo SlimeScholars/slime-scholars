@@ -32,10 +32,10 @@ export default async function (req, res) {
     checkUserType(user, 1);
 
     const courses = await Course.find({})
-      .select("_id courseName units")
+      .select("_id courseName units totalPoints")
       .populate({
         path: "units",
-        select: "_id unitName unitNumber lessons quizzes tests",
+        select: "_id unitName unitNumber lessons quizzes tests totalPoints",
       });
 
     const modifiedCourses = [];
@@ -44,7 +44,6 @@ export default async function (req, res) {
       const courseProgress = user.progress.find((course) => {
         return course._id === courses[i]._id.valueOf();
       });
-      console.log(courseProgress);
       modifiedCourses.push({
         _id: courses[i]._id,
         courseName: courses[i].courseName,
@@ -53,7 +52,8 @@ export default async function (req, res) {
           courseProgress && courseProgress.completion
             ? courseProgress.completion.achieved
             : 0,
-        totalPoints: calculateTotalPoints(courses[i].units),
+        totalPoints:
+          courses[i].totalPoints || calculateTotalPoints(courses[i].units),
         completed: false,
       });
       for (let j in user.completedCourses) {
@@ -83,9 +83,4 @@ const calculateTotalPoints = (units) => {
       rewardData.lesson * units[i].lessons.length;
   }
   return totalPoints;
-};
-
-const calculatedAchievedPoints = (units, progress) => {
-  let achievedPoints = 0;
-  return achievedPoints;
 };

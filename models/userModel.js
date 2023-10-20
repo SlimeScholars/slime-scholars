@@ -212,26 +212,14 @@ const userSchema = new Schema(
               },
             ],
             completion: {
-              achieved: {
-                type: Number,
-                required: [true, "Missing achieved"],
-              },
-              total: {
-                type: Number,
-                required: [true, "Missing total"],
-              },
+              type: Number,
+              required: [true, "Missing achieved"],
             },
           },
         ],
         completion: {
-          achieved: {
-            type: Number,
-            required: [true, "Missing achieved"],
-          },
-          total: {
-            type: Number,
-            required: [true, "Missing total"],
-          },
+          type: Number,
+          required: [true, "Missing achieved"],
         },
       },
     ],
