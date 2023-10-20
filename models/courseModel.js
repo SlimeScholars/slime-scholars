@@ -26,17 +26,6 @@ const courseSchema = new Schema(
       required: [true, "Missing units"],
       default: [],
     },
-    quizzes: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Lesson",
-          required: [true, "Missing quizId"],
-        },
-      ],
-      required: [true, "Missing quizzes"],
-      default: [],
-    },
   },
   {
     timestamps: true,
