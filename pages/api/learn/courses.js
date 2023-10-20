@@ -41,14 +41,18 @@ export default async function (req, res) {
     const modifiedCourses = [];
     // Check user for completed
     for (let i in courses) {
+      const courseProgress = user.progress.find((course) => {
+        return course._id === courses[i]._id.valueOf();
+      });
+      console.log(courseProgress);
       modifiedCourses.push({
         _id: courses[i]._id,
         courseName: courses[i].courseName,
         units: courses[i].units,
-        achievedPoints: calculatedAchievedPoints(
-          courses[i].units,
-          user.completedUnits
-        ),
+        achievedPoints:
+          courseProgress && courseProgress.completion
+            ? courseProgress.completion.achieved
+            : 0,
         totalPoints: calculateTotalPoints(courses[i].units),
         completed: false,
       });
@@ -81,7 +85,7 @@ const calculateTotalPoints = (units) => {
   return totalPoints;
 };
 
-const calculatedAchievedPoints = (units, completedUnits) => {
+const calculatedAchievedPoints = (units, progress) => {
   let achievedPoints = 0;
   return achievedPoints;
 };
