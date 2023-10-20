@@ -144,8 +144,7 @@ export default function Units({
                   color: !colorPalette ? "" : colorPalette.primary1,
                 }}
               >
-                {counts.lessons} lessons • {counts.quizzes} quizzes •{" "}
-                {counts.tests} tests • {sumPoints(units)}
+                {units.length} units • {sumPoints(units)}
               </span>
               <Image
                 src="/assets/icons/flower.png"

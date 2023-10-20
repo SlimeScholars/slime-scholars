@@ -40,10 +40,11 @@ export default async function (req, res) {
 
     const modifiedCourses = [];
     // Check user for completed
+
     for (let i in courses) {
       const courseProgress = user.progress.find((course) => {
-        return course._id === courses[i]._id.valueOf();
-      });
+      return course._id === courses[i]._id.valueOf();
+      })
       modifiedCourses.push({
         _id: courses[i]._id,
         courseName: courses[i].courseName,
