@@ -1,6 +1,6 @@
 export const rewardData = {
-  activity: 5,
-  quiz: 10,
-  test: 20,
-  lesson: 2,
+  activity: 100,
+  quiz: 150,
+  test: 300,
+  lesson: 50,
 };

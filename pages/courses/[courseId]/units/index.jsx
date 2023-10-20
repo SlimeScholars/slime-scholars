@@ -145,7 +145,7 @@ export default function Units({
                 }}
               >
                 {counts.lessons} lessons • {counts.quizzes} quizzes •{" "}
-                {counts.tests} tests • 6,250
+                {counts.tests} tests • {sumPoints(units)}
               </span>
               <Image
                 src="/assets/icons/flower.png"
@@ -166,7 +166,8 @@ export default function Units({
               courseId={courseId}
               unitName={unit.unitName}
               unitNumber={unit.unitNumber}
-              unitBadge={unit.unitBadge}
+              unitPoints={unit.totalPoints}
+              unitCount={unit.count}
               colorPalette={colorPalette}
               tier={unit.tier}
             />
@@ -188,4 +189,10 @@ const sumLessonsAndQuizzes = (units) => {
     tests += unit.count.tests;
   });
   return { lessons, quizzes, tests };
+};
+
+const sumPoints = (units) => {
+  return units.reduce((accumulator, unit) => {
+    return accumulator + unit.totalPoints;
+  }, 0);
 };
