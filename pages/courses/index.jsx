@@ -79,14 +79,14 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
       <div
         className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
         style={{
-          backgroundColor: !colorPalette ? "" : colorPalette.text1 + "A0",
+          backgroundColor: !colorPalette ? "" : colorPalette.black + "C0",
         }}
       >
         <div className="pt-[1.5rem] pb-[1.5rem]">
           <section
             className="text-4xl font-bold"
             style={{
-              color: !colorPalette ? "" : colorPalette.black,
+              color: !colorPalette ? "" : colorPalette.white,
             }}
           >
             Courses
@@ -103,7 +103,6 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
               courseBadge={course.courseBadge}
               colorPalette={colorPalette}
               tier={course.tier}
-              course={course}
             />
           ))}
         </div>
