@@ -7,8 +7,6 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
 
     const [verified, setVerified] = useState(null)
     const [solHeight, setSolHeight] = useState(0)
-    const [initExpHeight, setInitExpHeight] = useState(0)
-    const [expHeight, setExpHeight] = useState(0)
 
     const [expOpen, setExpOpen] = useState(false)
 
@@ -22,8 +20,6 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
 
     useEffect(() => {
         if(solRef.current){setSolHeight(solRef.current.offsetHeight)}
-        if(initExpRef.current){setInitExpHeight(initExpRef.current.offsetHeight)}
-        if(expRef.current){setExpHeight(expRef.current.offsetHeight)}
     }, [verified, expOpen])
 
     const verify = useCallback((index) => {
@@ -36,7 +32,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
             color:colorPalette.black,
             backgroundColor: colorPalette.primary2 + "28",
             //FIXME: LINE HEIGHT
-            height: verified ? `${solHeight + (expOpen ? expHeight : initExpHeight) - 48}px` : "auto",
+            height: verified ? `${solHeight}px` : "auto",
             width: "auto"
         }}>
             <div className="flex flex-col gap-1 transition-opacity duration-200 z-[100]"
@@ -49,7 +45,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                         <div key={key} className={`w-full rounded-md px-3 py-1 transition-colors duration-200 
                         ${bold ? "font-bold" : "font-normal"} z-[100]`}
                         style={{
-                            backgroundColor: key === selectedIndex ? colorPalette.primary1 : colorPalette.text1 + "A0",
+                            backgroundColor: key === selectedIndex ? colorPalette.primary1 : colorPalette.primary2 + "58",
                             color: key === selectedIndex ? colorPalette.white: colorPalette.black,
                             width: horiz ? "100%" : "50%",
                             fontWeight: key === selectedIndex ? 700 : 500
@@ -61,9 +57,9 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                         </div>
                     )
                 })}
-                <button className="px-8 py-1 w-min rounded-md mt-2 font-bold hover:brightness-[0.85]"
+                <button className="px-8 py-1 w-min rounded-md mt-2 font-bold hover:brightness-[0.85] z-[100]"
                 style={{
-                    backgroundColor: colorPalette.text1 + "A0",
+                    backgroundColor: colorPalette.primary2 + "58",
                     color:colorPalette.black
                 }}
                 onClick={() => {

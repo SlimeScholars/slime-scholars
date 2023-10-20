@@ -48,9 +48,9 @@ export default function Navbar({ colorPalette, setUser, user }) {
 
     return (
         <>
-            <div className="flex flex-row px-2 items-center justify-between w-full h-[4.9rem]"
+            <div className="flex flex-row px-2 items-center justify-between w-full h-[calc(4.9rem_-_4px)]"
                 style={{
-                    backgroundColor: !colorPalette ? "black" : colorPalette.black
+                    backgroundColor: "black"
                 }}>
                 <section>
                     <a className="flex justify-center items-center h-auto" href="/">
@@ -135,9 +135,9 @@ export default function Navbar({ colorPalette, setUser, user }) {
                         </button>
                     </section>}
             </div>
-            <div className="w-full h-[0.1rem]"
+            <div className="w-full h-[4px] bg-gradient-to-b from-black to-black/[0.5]"
                 style={{
-                    backgroundColor: !colorPalette ? "" : colorPalette.primary2
+                    backgroundColor: !colorPalette ? "" : colorPalette.secondary2 + "40"
                 }} />
         </>
     )

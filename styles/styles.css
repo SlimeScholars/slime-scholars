@@ -247,6 +247,11 @@ input {
   animation: fadeInBottom 0.4s;
 }
 
+.fade-in-right-index{
+  opacity:1;
+  animation: fadeInRight 0.5s;
+}
+
 @keyframes fadeInBottom{
   0%{
     opacity:0;
@@ -255,6 +260,17 @@ input {
   100%{
     opacity:1;
     transform: translateY(0rem)
+  }
+}
+
+@keyframes fadeInRight{
+  0%{
+    opacity:0;
+    transform: translateX(40rem)
+  }
+  100%{
+    opacity:1;
+    transform: translateX(0rem)
   }
 }
 

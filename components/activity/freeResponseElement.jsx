@@ -7,8 +7,6 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
 
     const [verified, setVerified] = useState(null)
     const [solHeight, setSolHeight] = useState(0)
-    const [initExpHeight, setInitExpHeight] = useState(0)
-    const [expHeight, setExpHeight] = useState(0)
 
     const [expOpen, setExpOpen] = useState(false)
 
@@ -18,8 +16,6 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
 
     useEffect(() => {
         if(solRef.current){setSolHeight(solRef.current.offsetHeight)}
-        if(initExpRef.current){setInitExpHeight(initExpRef.current.offsetHeight)}
-        if(expRef.current){setExpHeight(expRef.current.offsetHeight)}
     }, [verified, expOpen])
 
     useEffect(() => {
@@ -43,7 +39,7 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
         style={{
             color:colorPalette.black,
             backgroundColor: colorPalette.primary2 + "28",
-            height: verified ? `${solHeight + (expOpen ? expHeight : initExpHeight) - 48}px` : "auto",
+            height: verified ? `${solHeight}px` : "auto",
             width: "auto"
         }}>
             <div className="flex flex-col gap-1 transition-opacity duration-200 z-[100]"
@@ -70,7 +66,7 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
                 </div>
                 <button className="px-8 py-1 w-min rounded-md mt-1 font-bold hover:brightness-[0.85]"
                 style={{
-                    backgroundColor: colorPalette.text1 + "A0",
+                    backgroundColor: colorPalette.primary2 + "58",
                     color:colorPalette.black
                 }}
                 onClick={() => {

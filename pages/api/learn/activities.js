@@ -62,6 +62,13 @@ export default async function (req, res) {
         select: '_id activityName',
       })
 
+    const modifiedLessons = []
+    for (let i in unit.lessons){
+      modifiedLessons.push({
+        ...unit.lessons[i]._doc
+      })
+    }
+
     const modifiedActivities = []
     // Check user for completed
     for (let i in lesson.activities) {
@@ -75,6 +82,7 @@ export default async function (req, res) {
       courseName: course.courseName,
       unitName: unit.unitName,
       unitNumber: unit.unitNumber,
+      lessons: modifiedLessons,
       lessonName: lesson.lessonName,
       lessonType: lesson.lessonType,
       activities: modifiedActivities
