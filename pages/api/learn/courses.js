@@ -3,6 +3,7 @@ import { verifyApiKey } from "../../../utils/verify";
 import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import Course from "../../../models/courseModel";
+import Unit from "../../../models/unitModel";
 import { rewardData } from "../../../data/lessonData";
 
 /**
