@@ -1,32 +1,38 @@
-import { Schema, model, models, mongoose} from 'mongoose'
+import { Schema, model, models, mongoose } from "mongoose";
 
 const lessonSchema = new Schema(
   {
-    lessonType:{
+    lessonType: {
       type: String,
-      default: 'lesson',
-      required: [true, "Missing lesson type (lesson | quiz | test)"]
+      default: "lesson",
+      required: [true, "Missing lesson type (lesson | quiz | test)"],
     },
     lessonNumber: {
       type: Number,
-      required: [true, 'Missing unitNumber'],
+      required: [true, "Missing unitNumber"],
     },
     lessonName: {
       type: String,
-      default: '',
+      default: "",
       required: false,
     },
     latestAuthor: {
       type: String,
-      required: [true, 'Missing latestAuthor'],
+      required: [true, "Missing latestAuthor"],
     },
-
+    completed: {
+      type: Boolean,
+      default: false,
+      required: [true, "Missing completed"],
+    },
     activities: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Activity',
-        required: [true, 'Missing activityId'],
-      }],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Activity",
+          required: [true, "Missing activityId"],
+        },
+      ],
       required: false,
       default: [],
       _id: false,
@@ -51,15 +57,18 @@ const lessonSchema = new Schema(
     starThresholds: {
       type: [Number],
       required: false,
-      default: []
+      default: [],
+    },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
     },
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
-const Lesson = models.Lesson || model('Lesson', lessonSchema)
+const Lesson = models.Lesson || model("Lesson", lessonSchema);
 
-export default Lesson
-
+export default Lesson;
