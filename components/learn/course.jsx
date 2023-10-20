@@ -11,8 +11,6 @@ export default function Course({
 }) {
   const router = useRouter();
 
-  console.log(course);
-
   return (
     <button
       className={`course-bar-default course-grid base
@@ -41,7 +39,8 @@ export default function Course({
           {courseName ? courseName : "[Untitled Course]"}
         </span>
         <span className="text-md font-normal">
-          Progress: ?/{course ? course.totalPoints : "?"}
+          Progress: {course ? course.achievedPoints : "?"}/
+          {course ? course.totalPoints : "?"}
         </span>
         <div className="w-[90%] h-[0.5rem] bg-black/[0.4] rounded-full overflow-hidden">
           <div
