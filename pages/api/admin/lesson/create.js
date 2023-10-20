@@ -17,7 +17,7 @@ export default async function (req, res) {
     if (req.method !== "POST") {
       throw new Error(`${req.method} is an invalid request method`);
     }
-    verifyApiKey(req.headers.apikey)
+    verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();
@@ -33,7 +33,7 @@ export default async function (req, res) {
     if (!unitId) {
       throw new Error("Missing unitId");
     }
-    if (['lesson', 'quiz', 'test'].indexOf(lessonType) == -1) {
+    if (["lesson", "quiz", "test"].indexOf(lessonType) == -1) {
       throw new Error("Invalid lesson type");
     }
     if (lessonNumber === undefined) {
@@ -63,7 +63,8 @@ export default async function (req, res) {
 
     const newUnit = await Unit.findById(unitId)
       .populate("lessons")
-      .populate("quizzes");
+      .populate("quizzes")
+      .populate("tests");
 
     res.status(201).json({ unit: newUnit });
   } catch (error) {
