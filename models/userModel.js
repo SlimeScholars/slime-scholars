@@ -144,7 +144,7 @@ const userSchema = new Schema(
           stars: {
             type: Number,
             required: false, // Stars can be 0
-          }
+          },
         },
       ],
       required: false,
@@ -169,7 +169,60 @@ const userSchema = new Schema(
       default: undefined,
       _id: false,
     },
-
+    progress: [
+      {
+        _id: false,
+        units: [
+          {
+            _id: false,
+            lessons: [
+              {
+                _id: false,
+                completion: {
+                  type: Number,
+                  required: [true, "Missing completion"],
+                },
+              },
+            ],
+            quizzes: [
+              {
+                _id: false,
+                completion: {
+                  type: Number,
+                  required: [true, "Missing completion"],
+                },
+              },
+            ],
+            tests: [
+              {
+                _id: false,
+                completion: {
+                  type: Number,
+                  required: [true, "Missing completion"],
+                },
+              },
+            ],
+            activities: [
+              {
+                _id: false,
+                completion: {
+                  type: Number,
+                  required: [true, "Missing completion"],
+                },
+              },
+            ],
+            completion: {
+              type: Number,
+              required: [true, "Missing achieved"],
+            },
+          },
+        ],
+        completion: {
+          type: Number,
+          required: [true, "Missing achieved"],
+        },
+      },
+    ],
     lastRewards: {
       type: [
         {

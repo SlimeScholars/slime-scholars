@@ -26,6 +26,10 @@ const courseSchema = new Schema(
       required: [true, "Missing units"],
       default: [],
     },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
+    },
   },
   {
     timestamps: true,
