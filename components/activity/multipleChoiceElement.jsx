@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { AiFillEye, AiOutlineCloseCircle} from 'react-icons/ai'
 
 export default function MultipleChoiceElement({element, index, colorPalette, bold, horiz}){
@@ -7,18 +7,24 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
 
     const [verified, setVerified] = useState(null)
     const [solHeight, setSolHeight] = useState(0)
+    const [initExpHeight, setInitExpHeight] = useState(0)
     const [expHeight, setExpHeight] = useState(0)
 
     const [expOpen, setExpOpen] = useState(false)
+
+    const solRef = useRef(null);
+    const initExpRef = useRef(null);
+    const expRef = useRef(null);
 
     useEffect(() => {
         setData(element)
     }, [element])
 
     useEffect(() => {
-        setSolHeight(document.getElementById(`solution-mc-${index}`).offsetHeight)
-        setExpHeight(document.getElementById(`exp-mc-${index}`) ? document.getElementById(`exp-mc-${index}`).offsetHeight : 0)
-    }, [document, verified, expOpen])
+        if(solRef.current){setSolHeight(solRef.current.offsetHeight)}
+        if(initExpRef.current){setInitExpHeight(initExpRef.current.offsetHeight)}
+        if(expRef.current){setExpHeight(expRef.current.offsetHeight)}
+    }, [verified, expOpen])
 
     const verify = useCallback((index) => {
         return data.options[index].correct
@@ -30,7 +36,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
             color:colorPalette.black,
             backgroundColor: colorPalette.primary2 + "28",
             //FIXME: LINE HEIGHT
-            height: verified ? `${solHeight + (expOpen ? expHeight-50 : 0)}px` : "auto",
+            height: verified ? `${solHeight + (expOpen ? expHeight : initExpHeight) - 48}px` : "auto",
             width: "auto"
         }}>
             <div className="flex flex-col gap-1 transition-opacity duration-200 z-[100]"
@@ -66,7 +72,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                     Submit
                 </button>
             </div>
-            <div className="absolute top-0 left-0 w-full p-4 z-[0]" id={`solution-mc-${index}`}>
+            <div className="absolute top-0 left-0 w-full p-4 z-[0]" ref={solRef}>
                 <div className="p-2 transition-opacity delay-200 duration-200 rounded-md"
                 style={{
                     color:colorPalette.black,
@@ -99,10 +105,10 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                             style={{
                                 backgroundColor: colorPalette.primary1 + "28"
                             }}
-                            onClick={() => {if(!expOpen){setExpOpen(true)}}}>
+                            onClick={() => {if(!expOpen){setExpOpen(true)}}} ref={initExpRef}>
                             {!expOpen ? 
                             <><AiFillEye/>View Explanation</>
-                            :<div className="flex flex-col items-center" id={`exp-mc-${index}`}>
+                            :<div className="flex flex-col items-center" ref={expRef}>
                                 <button 
                                 className="flex flex-row items-center gap-1"
                                 onClick={() => {setExpOpen(!expOpen)}}>

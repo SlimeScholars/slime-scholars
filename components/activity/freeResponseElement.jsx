@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { AiFillEye, AiOutlineCloseCircle} from 'react-icons/ai'
 
 export default function FreeResponseElement({element, index, colorPalette, bold, horiz}){
@@ -7,14 +7,20 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
 
     const [verified, setVerified] = useState(null)
     const [solHeight, setSolHeight] = useState(0)
+    const [initExpHeight, setInitExpHeight] = useState(0)
     const [expHeight, setExpHeight] = useState(0)
 
     const [expOpen, setExpOpen] = useState(false)
 
+    const solRef = useRef(null);
+    const initExpRef = useRef(null);
+    const expRef = useRef(null);
+
     useEffect(() => {
-        setSolHeight(document.getElementById(`solution-fr-${index}`).offsetHeight)
-        setExpHeight(document.getElementById(`exp-fr-${index}`) ? document.getElementById(`exp-fr-${index}`).offsetHeight : 0)
-    }, [document, verified, expOpen])
+        if(solRef.current){setSolHeight(solRef.current.offsetHeight)}
+        if(initExpRef.current){setInitExpHeight(initExpRef.current.offsetHeight)}
+        if(expRef.current){setExpHeight(expRef.current.offsetHeight)}
+    }, [verified, expOpen])
 
     useEffect(() => {
         setData(element)
@@ -24,6 +30,12 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
         return data.blank.indexOf(resp) > -1
     })
 
+    const handleKeyPress = (e) => {
+        if (e.key === 'Enter') {
+            setVerified(verify(input) ? "correct" : "incorrect")
+        }
+    }
+
     return(
         <div className={`flex relative transition-all
         flex-col gap-1 text-md ${bold ? "font-black" : "font-semibold"} 
@@ -31,7 +43,7 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
         style={{
             color:colorPalette.black,
             backgroundColor: colorPalette.primary2 + "28",
-            height: verified ? `${solHeight + (expOpen ? expHeight-50 : 0)}px` : "auto",
+            height: verified ? `${solHeight + (expOpen ? expHeight : initExpHeight) - 48}px` : "auto",
             width: "auto"
         }}>
             <div className="flex flex-col gap-1 transition-opacity duration-200 z-[100]"
@@ -49,6 +61,10 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
                     }}
                     onChange={(e) => {
                         setInput(e.target.value)
+                    }}
+                    onKeyDown={(e)=>{
+                        e.stopPropagation()
+                        handleKeyPress(e)
                     }}/>
                     <span>{data.afterBlank}</span>
                 </div>
@@ -63,7 +79,7 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
                     Submit
                 </button>
             </div>
-            <div className="absolute top-0 left-0 w-full p-4" id={`solution-fr-${index}`}>
+            <div className="absolute top-0 left-0 w-full p-4" ref={solRef}>
                 <div className="p-2 transition-opacity delay-200 duration-200 rounded-md"
                 style={{
                     color:colorPalette.black,
@@ -86,9 +102,9 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
                             <span className="italic">Correct Answer(s): {(() => {
                                 let output = ""
                                 data.blank.forEach((item) => {
-                                    if(item.correct){output += item.option + ", "}
+                                    output += item + ", "
                                 })
-                                return output.length > 0 ? output.substring(0, output.length-2) : "[No Answers]"
+                                return data.blank.length > 0 ? output.substring(0, output.length-2) : "[No Answers]"
                             })()}</span>
                             <span className="italic">Your Answer: {input ? input : "[Blank]"}</span>
                             <div className={`mt-2 flex flex-row gap-2 items-center rounded-md
@@ -96,10 +112,10 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
                             style={{
                                 backgroundColor: colorPalette.primary1 + "28"
                             }}
-                            onClick={() => {if(!expOpen){setExpOpen(true)}}}>
+                            onClick={() => {if(!expOpen){setExpOpen(true)}}} ref={initExpRef}>
                             {!expOpen ? 
                             <><AiFillEye/>View Explanation</>
-                            :<div className="flex flex-col items-center" id={`exp-fr-${index}`}>
+                            :<div className="flex flex-col items-center" ref={expRef}>
                                 <button 
                                 className="flex flex-row items-center gap-1"
                                 onClick={() => {setExpOpen(!expOpen)}}>
