@@ -62,85 +62,78 @@ export default async function (req, res) {
     }
 
     score = adjustScore(score, lesson.lessonType);
-    console.log(lesson);
-    console.log("before:", JSON.stringify(user.progress));
+    let progressCopy = [...user.progress];
     let courseIndex = -1;
     let unitIndex = -1;
     let lessonIndex = -1;
-    for (let i = 0; i < user.progress.length; i++) {
-      if (user.progress[i]._id.valueOf() === courseId) {
+    for (let i = 0; i < progressCopy.length; i++) {
+      if (progressCopy[i].courseId === courseId) {
         courseIndex = i;
-        for (let j = 0; j < user.progress[i].units.length; j++) {
-          if (user.progress[i].units[j]._id.valueOf() === unitId) {
+        for (let j = 0; j < progressCopy[i].units.length; j++) {
+          if (progressCopy[i].units[j].unitId === unitId) {
             unitIndex = j;
-            for (let k = 0; k < user.progress[i].units[j].lessons.length; k++) {
-              if (
-                user.progress[i].units[j].lessons[k]._id.valueOf() === lessonId
-              ) {
+            for (let k = 0; k < progressCopy[i].units[j].lessons.length; k++) {
+              if (progressCopy[i].units[j].lessons[k].lessonId === lessonId) {
                 lessonIndex = k;
+                if (score > progressCopy[i].units[j].lessons[k].completion) {
+                  progressCopy[i].units[j].completion +=
+                    score - progressCopy[i].units[j].lessons[k].completion;
+                  progressCopy[i].completion +=
+                    score - progressCopy[i].units[j].lessons[k].completion;
+                  progressCopy[i].units[j].lessons[k].completion = score;
+                }
                 break;
               }
+            }
+            if (lessonIndex === -1) {
+              progressCopy[i].units[j].lessons.push({
+                lessonId: lessonId,
+                completion: score,
+              });
+              progressCopy[i].units[j].completion += score;
+              progressCopy[i].completion += score;
             }
             break;
           }
         }
+        if (unitIndex === -1) {
+          progressCopy[i].units.push({
+            unitId: unitId,
+            lessons: [
+              {
+                lessonId: lessonId,
+                completion: score,
+              },
+            ],
+            completion: score,
+          });
+          progressCopy[i].completion += score;
+        }
         break;
       }
     }
-    console.log("after:", JSON.stringify(user.progress));
     if (courseIndex === -1) {
-      // push
-      // progress: {
-      //     _id: courseId,
-      //     units: [
-      //       {
-      //         _id: unitId,
-      //         lessons: [
-      //           {
-      //             _id: lessonId,
-      //             completion: score,
-      //           },
-      //         ],
-      //         completion: score,
-      //       },
-      //     ],
-      //     completion: score,
-      //   },
-      // },
-    } else if (unitIndex === -1) {
-      // push
-      // "progress.$.units": {
-      //   _id: unitId,
-      //   lessons: [
-      //     {
-      //       _id: lessonId,
-      //       completion: score,
-      //     },
-      //   ],
-      //   completion: score,
-      // },
-      // set
-      // "progress.$.completion":
-      //   user.progress[courseIndex].completion + score,
-    } else if (lessonIndex === -1) {
-      // push
-      // "progress.$.units.$.lessons": {
-      //   _id: lessonId,
-      //   completion: score,
-      // },
-      // set
-      // "progress.$.units.$.completion":
-      //   user.progress[courseIndex].units[unitIndex].completion + score,
-      // "progress.$.completion":
-      //   user.progress[courseIndex].completion + score,
-    } else {
-      // set
-      // "progress.$.units.$.lessons.$.completion": score,
-      // "progress.$.units.$.completion":
-      //   user.progress[courseIndex].units[unitIndex].completion + score,
-      // "progress.$.completion":
-      //   user.progress[courseIndex].completion + score,
+      progressCopy.push({
+        courseId: courseId,
+        units: [
+          {
+            unitId: unitId,
+            lessons: [
+              {
+                lessonId: lessonId,
+                completion: score,
+              },
+            ],
+            completion: score,
+          },
+        ],
+        completion: score,
+      });
     }
+
+    await User.findByIdAndUpdate(user._id, {
+      progress: progressCopy,
+    });
 
     res.status(200).json({
       message: "Success",
