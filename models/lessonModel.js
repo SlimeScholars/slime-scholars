@@ -20,11 +20,6 @@ const lessonSchema = new Schema(
       type: String,
       required: [true, "Missing latestAuthor"],
     },
-    completed: {
-      type: Boolean,
-      default: false,
-      required: [true, "Missing completed"],
-    },
     activities: {
       type: [
         {
