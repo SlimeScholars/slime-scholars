@@ -156,7 +156,7 @@ const userSchema = new Schema(
         {
           course: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "Coure",
+            ref: "Course",
             required: [true, "Missing courseId"],
           },
           tier: {
@@ -171,13 +171,18 @@ const userSchema = new Schema(
     },
     progress: [
       {
-        _id: false,
+        _id: {
+          type: String,
+          required: [true, "Missing id"],
+        },
         units: [
           {
-            _id: false,
+            _id: {
+              type: String,
+              required: [true, "Missing id"],
+            },
             lessons: [
               {
-                _id: false,
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
@@ -186,7 +191,6 @@ const userSchema = new Schema(
             ],
             quizzes: [
               {
-                _id: false,
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
@@ -195,7 +199,6 @@ const userSchema = new Schema(
             ],
             tests: [
               {
-                _id: false,
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
@@ -204,7 +207,6 @@ const userSchema = new Schema(
             ],
             activities: [
               {
-                _id: false,
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],

@@ -8,6 +8,7 @@ import { calculateStars, getQuizRewards } from "../../../../utils/stars";
 import { areDifferentDays } from "../../../../utils/areDifferentDays";
 import Unit from "../../../../models/unitModel";
 import Course from "../../../../models/courseModel";
+import { rewardData } from "../../../../data/lessonData";
 import { mongoose } from "mongoose";
 
 /**
@@ -15,7 +16,7 @@ import { mongoose } from "mongoose";
  * @route   POST /api/learn/lesson/complete
  * @access  Private - Students
  * @param   {string} req.body.lessonId - Id of lesson completed
- * @param   {string} req.body.score - Score achieved on the quiz section of the lesson
+ * @param   {string} req.body.score - Score achieved on the quiz section of the lesson - should be decimal between 0 and 1
  */
 export default async function (req, res) {
   try {
@@ -37,7 +38,7 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1);
 
-    const { lessonId, score } = req.body;
+    let { courseId, unitId, lessonId, score } = req.body;
 
     const lesson = await Lesson.findById(lessonId, {
       createdAt: 0,
@@ -60,12 +61,92 @@ export default async function (req, res) {
       }
     }
 
+    score = adjustScore(score, lesson.lessonType);
     console.log(lesson);
-    console.log(user.progress);
+    console.log("before:", JSON.stringify(user.progress));
+    let courseIndex = -1;
+    let unitIndex = -1;
+    let lessonIndex = -1;
+    for (let i = 0; i < user.progress.length; i++) {
+      if (user.progress[i]._id.valueOf() === courseId) {
+        courseIndex = i;
+        for (let j = 0; j < user.progress[i].units.length; j++) {
+          if (user.progress[i].units[j]._id.valueOf() === unitId) {
+            unitIndex = j;
+            for (let k = 0; k < user.progress[i].units[j].lessons.length; k++) {
+              if (
+                user.progress[i].units[j].lessons[k]._id.valueOf() === lessonId
+              ) {
+                lessonIndex = k;
+                break;
+              }
+            }
+            break;
+          }
+        }
+        break;
+      }
+    }
+    console.log("after:", JSON.stringify(user.progress));
+    if (courseIndex === -1) {
+      // push
+      // progress: {
+      //     _id: courseId,
+      //     units: [
+      //       {
+      //         _id: unitId,
+      //         lessons: [
+      //           {
+      //             _id: lessonId,
+      //             completion: score,
+      //           },
+      //         ],
+      //         completion: score,
+      //       },
+      //     ],
+      //     completion: score,
+      //   },
+      // },
+    } else if (unitIndex === -1) {
+      // push
+      // "progress.$.units": {
+      //   _id: unitId,
+      //   lessons: [
+      //     {
+      //       _id: lessonId,
+      //       completion: score,
+      //     },
+      //   ],
+      //   completion: score,
+      // },
+      // set
+      // "progress.$.completion":
+      //   user.progress[courseIndex].completion + score,
+    } else if (lessonIndex === -1) {
+      // push
+      // "progress.$.units.$.lessons": {
+      //   _id: lessonId,
+      //   completion: score,
+      // },
+      // set
+      // "progress.$.units.$.completion":
+      //   user.progress[courseIndex].units[unitIndex].completion + score,
+      // "progress.$.completion":
+      //   user.progress[courseIndex].completion + score,
+    } else {
+      // set
+      // "progress.$.units.$.lessons.$.completion": score,
+      // "progress.$.units.$.completion":
+      //   user.progress[courseIndex].units[unitIndex].completion + score,
+      // "progress.$.completion":
+      //   user.progress[courseIndex].completion + score,
+    }
+
     res.status(200).json({
       message: "Success",
     });
 
+    return;
     let completedIndex = -1;
     for (let i = 0; i < user.completedLessons.length; i++) {
       if (user.completedLessons[i].lesson.equals(lessonId)) {
@@ -341,3 +422,17 @@ export default async function (req, res) {
     res.status(400).json({ message: error.message });
   }
 }
+
+// multiply score by respective factors
+const adjustScore = (score, lessonType) => {
+  switch (lessonType) {
+    case "lesson":
+      return score * rewardData.lesson;
+    case "quiz":
+      return score * rewardData.quiz;
+    case "test":
+      return score * rewardData.test;
+    default:
+      return score;
+  }
+};

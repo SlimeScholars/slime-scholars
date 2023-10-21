@@ -82,14 +82,17 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
     //testing
     const token = localStorage.getItem("jwt");
     if (!token) {
+      console.log("no token");
       return;
     }
-    console.log("testing");
+    console.log("TEST");
     axios
       .post(
         "/api/learn/lesson/complete",
         {
-          lessonId: "65122eb51028dd4965c68b08",
+          lessonId: "65188f35d4566ab689a33c6a",
+          unitId: router.query.unitId,
+          courseId: router.query.courseId,
           score: 1,
         },
         {
