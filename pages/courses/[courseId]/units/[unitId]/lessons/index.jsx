@@ -85,15 +85,15 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       console.log("no token");
       return;
     }
-    console.log("TEST");
+    console.log("TESTTEST");
     axios
       .post(
         "/api/learn/lesson/complete",
         {
-          lessonId: "65188f35d4566ab689a33c6a",
+          lessonId: "6515eeb512d0ed72302bf830",
           unitId: router.query.unitId,
           courseId: router.query.courseId,
-          score: 1,
+          score: 0.5,
         },
         {
           headers: {

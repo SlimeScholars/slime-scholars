@@ -171,18 +171,25 @@ const userSchema = new Schema(
     },
     progress: [
       {
-        _id: {
+        _id: false,
+        courseId: {
           type: String,
           required: [true, "Missing id"],
         },
         units: [
           {
-            _id: {
+            _id: false,
+            unitId: {
               type: String,
               required: [true, "Missing id"],
             },
             lessons: [
               {
+                _id: false,
+                lessonId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
@@ -191,6 +198,11 @@ const userSchema = new Schema(
             ],
             quizzes: [
               {
+                _id: false,
+                quizId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
@@ -199,6 +211,11 @@ const userSchema = new Schema(
             ],
             tests: [
               {
+                _id: false,
+                testId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
@@ -207,6 +224,11 @@ const userSchema = new Schema(
             ],
             activities: [
               {
+                _id: false,
+                activityId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
                 completion: {
                   type: Number,
                   required: [true, "Missing completion"],
