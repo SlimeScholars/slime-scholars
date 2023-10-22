@@ -215,6 +215,7 @@ export default async function (req, res) {
           completedLessons: [],
           completedUnits: [],
           completedCourses: [],
+          progress: [],
 
           pfpSlime: "Blue Slime",
           pfpBg: "Forest Mountains",
