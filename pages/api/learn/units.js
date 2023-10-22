@@ -3,6 +3,7 @@ import { verifyApiKey } from "../../../utils/verify";
 import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import Course from "../../../models/courseModel";
+import Unit from "../../../models/unitModel";
 import { rewardData } from "../../../data/lessonData";
 // Import for the populate
 import "../../../models/unitModel";
@@ -54,15 +55,37 @@ export default async function (req, res) {
             return unit._id === course.units[i]._id.valueOf();
           })
         : undefined;
+      const unit = await Unit.findById(course.units[i]._id.valueOf())
+        .select("unitName unitNumber lessons")
+        .populate({
+          path: "lessons",
+          select: "_id lessonName lessonType",
+        });
+      const count = {
+        lessons: 0,
+        quizzes: 0,
+        tests: 0,
+      };
+      for (let j of unit.lessons) {
+        switch (j.lessonType) {
+          case "lesson":
+            count.lessons = count.lessons + 1;
+            break;
+          case "quiz":
+            count.quizzes = count.quizzes + 1;
+            break;
+          case "test":
+            count.tests = count.tests + 1;
+            break;
+          default:
+            break;
+        }
+      }
       modifiedUnits.push({
         _id: course.units[i]._id,
         unitName: course.units[i].unitName,
         unitNumber: course.units[i].unitNumber,
-        count: {
-          lessons: course.units[i].lessons ? course.units[i].lessons.length : 0,
-          quizzes: course.units[i].quizzes ? course.units[i].quizzes.length : 0,
-          tests: course.units[i].tests ? course.units[i].tests.length : 0,
-        },
+        count: count,
         achievedPoints: unitProgress ? unitProgress.completion.achieved : 0,
         totalPoints:
           course.units[i].totalPoints || calculateTotalPoints(course.units[i]),
