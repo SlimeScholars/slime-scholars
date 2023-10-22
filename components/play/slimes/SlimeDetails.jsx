@@ -85,6 +85,8 @@ export default function SlimeDetails({
         showToastError(error.message)
       }
       return
+    } finally{
+      setUser({...user})
     }
   };
   const handleClosePopup = () => {

@@ -79,7 +79,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       return;
     }
     setCounts(lessonCounter(lessons));
-  });
+  }, []);
 
   if (loading) {
     return;
