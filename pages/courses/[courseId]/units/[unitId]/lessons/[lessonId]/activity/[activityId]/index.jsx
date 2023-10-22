@@ -4,10 +4,11 @@ import { showToastError } from "../../../../../../../../../utils/toast"
 import axios from "axios"
 import { activityService } from "../../../../../../../../../services"
 import { BiSolidLeftArrow, BiSolidRightArrow} from "react-icons/bi"
+import { AiOutlineRedo } from "react-icons/ai"
 import Section from "../../../../../../../../../components/activity/section"
 import Image from "next/image"
 
-const LOADIN_MAXFRAMES = 2
+const LOADIN_MAXFRAMES = 9
 const LOADIN_DELAY = 150
 const LOADIN_INCREMENT = 15
 
@@ -165,7 +166,15 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 							behavior: "smooth"
 						});
 					}, 200)
-					return prev > 0 ? prev - 1 : prev
+					if(activity && activity.pages && activity.pages[page] && 
+						prev-1 < 0){
+							alert("HUHH!")
+						setPage((prev) => {
+							return prev-1 < 0 ? prev : prev-1
+						})
+						return 0;
+					} 
+					return prev - 1
 				})
 			}
 		};
@@ -232,7 +241,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 						router.push(`/courses/${router.query.courseId}/units/
 						${router.query.unitId}/lessons`)
 					}}>
-						{"<<"} Back to Lessons
+						&lt;&lt; Back to Lessons
 					</div>
 					<div className="text-2xl font-bold">
 						{lessonName}
@@ -353,14 +362,34 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 															<span className="ml-2 text-green-400">+50</span>
 														</span>
 													</div>
-													<div className="hover:text-blue-400 transition-all duration-200">
+													<div className="flex flex-col gap-1">
+														<div className="flex flex-row gap-1 items-center justify-end hover:text-blue-400 transition-all duration-200 text-right"
+														onClick={() => {
+															setPage(0)
+															setOpen(0)
+															setMaxPage(0)
+															setLoadState(LOADIN_MAXFRAMES)
+														}}>
+															<span>Retry This Activity</span>
+															<AiOutlineRedo className="rotate-90"/>
+														</div>
 														{(() => {
 															for(let i in lessonActivities){
 																if(lessonActivities[i]._id === activity._id && i < lessonActivities.length-1){
-																	return <span>Next Activity: <b>{lessonActivities[Number(i)+1].activityName}</b> {">>"}</span>
+																	return <span 
+																	onClick={() => {
+																		router.push(`/courses/${router.query.courseId}/units/
+																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${lessonActivities[Number(i)+1]._id}`)
+																	}}
+																	className="hover:text-blue-400 transition-all duration-200">Next Activity: <b>{lessonActivities[Number(i)+1].activityName}</b> &gt;&gt;</span>
 																}
 															}
-															return <span>Back to Lessons {">>"}</span>
+															return <span
+															onClick={() => {
+																router.push(`/courses/${router.query.courseId}/units/
+																${router.query.unitId}/lessons`)
+															}}
+															className="hover:text-blue-400 transition-all duration-200">Back to Lessons &gt;&gt;</span>
 														})()}
 													</div>
 												</section>

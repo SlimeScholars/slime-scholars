@@ -79,7 +79,6 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                     <div className="flex flex-col gap-2 items-center justify-center">
                         <img src="/assets/misc/bucktooth.png" className="w-auto h-[100px]"/>
                         <span className="text-xl font-bold">Correct!</span>
-                        <span>{data.explanation}</span>
                     </div>
                     :verified === "incorrect" ? 
                     <div className="flex flex-col gap-1 items-center justify-center">

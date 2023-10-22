@@ -11,6 +11,8 @@ export default function Course({
 }) {
   const router = useRouter();
 
+  console.log(course)
+
   return (
     <button
       className={`course-bar-default course-grid base
@@ -39,14 +41,14 @@ export default function Course({
           {courseName ? courseName : "[Untitled Course]"}
         </span>
         <span className="text-md font-normal">
-          Progress: {course ? course.achievedPoints : "?"}/
-          {course ? course.totalPoints : "?"}
+          Progress: {course ? `${course.totalPoints > 0 ? (100 * (course.achievedPoints/course.totalPoints)).toFixed(0) : 0}%` : "Loading..."}
         </span>
         <div className="w-[90%] h-[0.5rem] bg-black/[0.4] rounded-full overflow-hidden">
           <div
-            className={`${"w-[25%]"} h-[0.5rem] rounded-full transition-all duration-150 brightness-125`}
+            className={`h-[0.5rem] transition-all duration-150 brightness-125`}
             style={{
-              backgroundColor: !colorPalette ? "" : colorPalette.primary1,
+              backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+              width: `${(course && course.totalPoints > 0) ? (100 * (course.achievedPoints/course.totalPoints)).toFixed(2) : 0}%`
             }}
           />
         </div>
