@@ -254,11 +254,11 @@ export default function DisplaySlimes({
                   {slime.level < slime.maxLevel && (
                     <button
                       disabled={slime.levelUpCost > user.slimeGel}
-                      className={`px-1.5 py-1.5 rounded-lg transition-all duration-150
+                      className={`px-1.5 py-1.5 ml-2 rounded-lg transition-all duration-150 opacity-80
                       ${
                         slime.levelUpCost <= user.slimeGel
-                          ? "bg-green-500 hover:bg-green-600 ring-green-400 hover:ring-green-500 ring-4"
-                          : "bg-red-500 hover:bg-red-600 ring-red-400 hover:ring-red-500 ring-4"
+                          ? "bg-green-500 hover:bg-green-400 ring-green-300 hover:ring-green-400 ring-4"
+                          : "bg-red-500 hover:bg-red-400 ring-red-300 hover:ring-red-400 ring-4"
                       }`}
                       onClick={() => {
                         setOldSlime(slime);
