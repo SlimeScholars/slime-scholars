@@ -78,30 +78,6 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       return;
     }
     setCounts(lessonCounter(lessons));
-
-    //testing
-    const token = localStorage.getItem("jwt");
-    if (!token) {
-      return;
-    }
-    console.log("testing");
-    axios
-      .post(
-        "/api/learn/lesson/complete",
-        {
-          lessonId: "65122eb51028dd4965c68b08",
-          score: 1,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        console.log(response);
-      });
   }, []);
 
   if (loading) {

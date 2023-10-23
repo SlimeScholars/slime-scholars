@@ -92,7 +92,7 @@ export default function Units({
       <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
         <span
           className="hover:text-blue-400 transition-all duration-150"
-          onClick={() => {
+          onClick={() => {x
             router.push(`/courses`);
           }}
         >

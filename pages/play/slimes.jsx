@@ -67,7 +67,7 @@ export default function Slimes({
   useEffect(() => {
     if (user) {
       // If the user searched something
-      const searchSlimes = user.slimes.filter((slime) => {
+      const searchSlimes = {...user}.slimes.filter((slime) => {
         return slime.slimeName
           .toLowerCase()
           .includes(searchContent.toLowerCase());
