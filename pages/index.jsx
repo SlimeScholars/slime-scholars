@@ -38,8 +38,9 @@ export default function Home({ user, setUser }) {
               Make Learning Exciting with Slime Scholars
             </h1>
             <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-100">
-              Slime Scholars is a project that motivates students to learn by
-              making the process gratifying.
+              Slime Scholars is a project that aims to enhance the learning
+              experience for students through an interactive and fun
+              environment.
             </h2>
             {!user ? (
               <Link className={btn_tw} href="/signup">
