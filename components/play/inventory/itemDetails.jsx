@@ -159,14 +159,14 @@ export default function ItemDetails({
                     backgroundColor: colorPalette
                       ? `${colorPalette.black}66`
                       : "",
-                    color: colorPalette ? colorPalette.black : "",
+                    color: colorPalette ? colorPalette.white + "70" : "",
                   }}
                 >
                   Owned
                 </button>
               ) : (
                 <button
-                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${
+                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 hover:brightness-110 transition-all duration-150 ${
                     gameData.items[item.itemName].buyCurrency === 0
                       ? user.slimeGel < gameData.items[item.itemName].buyPrice
                         ? "grayscale"
