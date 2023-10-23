@@ -317,6 +317,7 @@ export const gameData = {
       black: "#06111D",
       text1: "#ecf1f8",
       text2: "#ecf1f8",
+      track: "ice-city",
     },
 
     "Japan Vibes": {
@@ -337,6 +338,7 @@ export const gameData = {
       black: "#FFFFFF",
       text1: "#4b0239",
       text2: "#4b0239",
+      track: "ice-city",
     },
 
     "Magma Caverns": {
@@ -397,9 +399,9 @@ export const gameData = {
       white: "#FFF9FC",
       grey: "#3E3F47",
       black: "#09020B",
-
       text1: "#ffccff",
       text2: "#ffccff",
+      track: "ice-city",
     },
 
     "Night View": {
@@ -418,9 +420,9 @@ export const gameData = {
       white: "#FEFEFD",
       grey: "#C3BDE8",
       black: "#07071B",
-
       text1: "#ccffff",
       text2: "#ccffff",
+      track: "ice-city",
     },
 
     "Ocean City": {
@@ -439,9 +441,9 @@ export const gameData = {
       white: "#F6FBFD",
       grey: "#A7ACB3",
       black: "#001217",
-
       text1: "#ccffff",
       text2: "#ccffff",
+      track: "forest-mountains",
     },
 
     "Orange Desert": {
@@ -502,9 +504,9 @@ export const gameData = {
       white: "#EEEBFE",
       grey: "#403E46",
       black: "#19063B",
-
       text1: "#ccccff",
       text2: "#ccccff",
+      track: "pillar-space",
     },
 
     "Pink Candy": {
@@ -565,9 +567,9 @@ export const gameData = {
       white: "#EFF0FB",
       grey: "#9697A1",
       black: "#09040A",
-
       text1: "#ccccff",
       text2: "#ccccff",
+      track: "ice-city",
     },
 
     "Rainy Forest": {
@@ -586,9 +588,9 @@ export const gameData = {
       white: "#F1F3FA",
       grey: "#A4A6AD",
       black: "#0B0D07",
-
       text1: "#ccffcc",
       text2: "#ccffcc",
+      track: "ice-city",
     },
 
     "Rainy Town": {
@@ -607,9 +609,9 @@ export const gameData = {
       white: "#E5F1F8",
       grey: "#6C7192",
       black: "#0A0A0D",
-
       text1: "#ccffff",
       text2: "#ccffff",
+      track: "ice-city",
     },
 
     "Red Space": {
