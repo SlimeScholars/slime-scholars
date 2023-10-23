@@ -26,7 +26,7 @@ export default function ItemDetails({
   const [sellItemsNum, setSellItemsNum] = useState(
     item && item.quantity !== undefined ? item.quantity : 0
   );
-  const [buyItemsNum, setBuyItemsNum] = useState(1)
+  const [buyItemsNum, setBuyItemsNum] = useState(1);
 
   // Check if item is purchase everytime itemOnClick changes
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function ItemDetails({
 
   const handleBuyItem = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = localStorage.getItem("jwt");
 
       // Set the authorization header
       const config = {
@@ -52,51 +52,54 @@ export default function ItemDetails({
         },
       };
 
-      const newUser = { ...user }
+      const newUser = { ...user };
       if (gameData.items[item.itemName].buyCurrency === 0) {
         if (user.slimeGel < gameData.items[item.itemName].buyPrice) {
-          showToastError("Insufficient slime gel.")
+          showToastError("Insufficient slime gel.");
           return;
         }
-        newUser.slimeGel -= gameData.items[item.itemName].buyPrice
-      }
-      else if (gameData.items[item.itemName].buyCurrency === 1) {
+        newUser.slimeGel -= gameData.items[item.itemName].buyPrice;
+      } else if (gameData.items[item.itemName].buyCurrency === 1) {
         if (user.flowers < gameData.items[item.itemName].buyPrice) {
-          showToastError("Insufficient flowers.")
+          showToastError("Insufficient flowers.");
           return;
         }
-        newUser.flowers -= gameData.items[item.itemName].buyPrice
+        newUser.flowers -= gameData.items[item.itemName].buyPrice;
       }
 
       const newItem = {
         itemName: item.itemName,
         quantity: 1,
-      }
-      newUser.items.push(newItem)
+      };
+      newUser.items.push(newItem);
 
-      setUser(newUser)
-      setOwned(true)
+      setUser(newUser);
+      setOwned(true);
 
       axios
-        .post("/api/user/buy-item", { itemName: item.itemName, quantity: 1 }, config)
-        .then((response) => {
-        })
+        .post(
+          "/api/user/buy-item",
+          { itemName: item.itemName, quantity: 1 },
+          config
+        )
+        .then((response) => {})
         .catch((error) => {
-          if (error?.response?.data?.message) showToastError(error.response.data.message)
+          if (error?.response?.data?.message)
+            showToastError(error.response.data.message);
           else if (error?.message) showToastError(error.message);
-          else showToastError(error)
-          refetchUser()
+          else showToastError(error);
+          refetchUser();
           return;
         });
-
     } catch (error) {
-      if (error?.response?.data?.message) showToastError(error.response.data.message)
+      if (error?.response?.data?.message)
+        showToastError(error.response.data.message);
       else if (error?.message) showToastError(error.message);
-      else showToastError(error)
-      refetchUser()
+      else showToastError(error);
+      refetchUser();
       return;
     }
-  }
+  };
 
   // for shopping page,only backgrounds would be displayed
   if (shopping) {
@@ -123,7 +126,11 @@ export default function ItemDetails({
             >
               <p
                 className={`text-2xl font-thin`}
-                style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
+                style={{
+                  color:
+                    gameData.rarityColours[gameData.items[item.itemName].rarity]
+                      .text,
+                }}
               >
                 {gameData.items[item.itemName].rarity}
               </p>
@@ -147,7 +154,7 @@ export default function ItemDetails({
               {owned ? (
                 <button
                   disabled
-                  className='py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8'
+                  className="py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8"
                   style={{
                     backgroundColor: colorPalette
                       ? `${colorPalette.black}66`
@@ -157,13 +164,17 @@ export default function ItemDetails({
                 >
                   Owned
                 </button>
-
               ) : (
                 <button
-                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${gameData.items[item.itemName].buyCurrency === 0 ?
-                    (user.slimeGel < gameData.items[item.itemName].buyPrice ? 'grayscale' : '') :
-                    (user.flowers < gameData.items[item.itemName].buyPrice ? 'grayscale' : '')
-                    }`}
+                  className={`py-1 px-4 rounded-lg 2xl:absolute 2xl:bottom-8 2xl:right-8 2xl:mt-0 mt-8 ${
+                    gameData.items[item.itemName].buyCurrency === 0
+                      ? user.slimeGel < gameData.items[item.itemName].buyPrice
+                        ? "grayscale"
+                        : ""
+                      : user.flowers < gameData.items[item.itemName].buyPrice
+                      ? "grayscale"
+                      : ""
+                  }`}
                   style={{
                     backgroundColor: colorPalette?.primary1,
                     color: colorPalette?.text1,
@@ -171,12 +182,8 @@ export default function ItemDetails({
                   onClick={handleBuyItem}
                 >
                   <div className="flex flex-row justify-center items-center">
-                    <div>
-                      Buy Item
-                    </div>
-                    <div className="mx-3">
-                      |
-                    </div>
+                    <div>Buy Item</div>
+                    <div className="mx-3">|</div>
                     <div className="flex flex-row items-center">
                       {gameData.items[item.itemName].buyPrice}
                       {gameData.items[item.itemName].buyCurrency === 0 ? (
@@ -209,10 +216,10 @@ export default function ItemDetails({
     }
     // Other items
     else {
-      const itemQuantity = { ...item }
+      const itemQuantity = { ...item };
       for (let userItem of user.items) {
         if (userItem.itemName === item.itemName) {
-          itemQuantity.quantity = userItem.quantity
+          itemQuantity.quantity = userItem.quantity;
         }
       }
 
@@ -237,7 +244,11 @@ export default function ItemDetails({
           >
             <p
               className={`text-2xl font-thin`}
-              style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
+              style={{
+                color:
+                  gameData.rarityColours[gameData.items[item.itemName].rarity]
+                    .text,
+              }}
             >
               {gameData.items[item.itemName].rarity}
             </p>
@@ -284,9 +295,19 @@ export default function ItemDetails({
                   type="range"
                   min="0"
                   max={
-                    user ? Math.max((gameData.items[item.itemName].sellCurrency === 0 ?
-                      Math.floor(user.slimeGel / gameData.items[item.itemName].buyPrice) :
-                      Math.floor(user.flowers / gameData.items[item.itemName].buyPrice)), 1)
+                    user
+                      ? Math.max(
+                          gameData.items[item.itemName].sellCurrency === 0
+                            ? Math.floor(
+                                user.slimeGel /
+                                  gameData.items[item.itemName].buyPrice
+                              )
+                            : Math.floor(
+                                user.flowers /
+                                  gameData.items[item.itemName].buyPrice
+                              ),
+                          1
+                        )
                       : 1
                   }
                   step="1"
@@ -315,29 +336,52 @@ export default function ItemDetails({
                   }}
                   value={buyItemsNum}
                   max={
-                    user ? Math.max((gameData.items[item.itemName].sellCurrency === 0 ?
-                      Math.floor(user.slimeGel / gameData.items[item.itemName].buyPrice) :
-                      Math.floor(user.flowers / gameData.items[item.itemName].buyPrice)), 1)
+                    user
+                      ? Math.max(
+                          gameData.items[item.itemName].sellCurrency === 0
+                            ? Math.floor(
+                                user.slimeGel /
+                                  gameData.items[item.itemName].buyPrice
+                              )
+                            : Math.floor(
+                                user.flowers /
+                                  gameData.items[item.itemName].buyPrice
+                              ),
+                          1
+                        )
                       : 1
                   }
                   onChange={(e) => {
-                    const newItemsNum = parseInt(e.target.value)
+                    const newItemsNum = parseInt(e.target.value);
                     if (!isNaN(newItemsNum)) {
                       // Enforce the max
-                      if (newItemsNum >
-                        (user ? Math.max((gameData.items[item.itemName].sellCurrency === 0 ?
-                          Math.floor(user.slimeGel / gameData.items[item.itemName].buyPrice) :
-                          Math.floor(user.flowers / gameData.items[item.itemName].buyPrice)), 1)
+                      if (
+                        newItemsNum >
+                        (user
+                          ? Math.max(
+                              gameData.items[item.itemName].sellCurrency === 0
+                                ? Math.floor(
+                                    user.slimeGel /
+                                      gameData.items[item.itemName].buyPrice
+                                  )
+                                : Math.floor(
+                                    user.flowers /
+                                      gameData.items[item.itemName].buyPrice
+                                  ),
+                              1
+                            )
                           : 1)
                       ) {
-                        return
+                        return;
                       }
                     }
-                    setBuyItemsNum(isNaN(newItemsNum) ? '' : newItemsNum.toString());
+                    setBuyItemsNum(
+                      isNaN(newItemsNum) ? "" : newItemsNum.toString()
+                    );
                   }}
                   onBlur={() => {
-                    if (buyItemsNum === '') {
-                      setBuyItemsNum('1')
+                    if (buyItemsNum === "") {
+                      setBuyItemsNum("1");
                     }
                   }}
                 ></input>
@@ -356,7 +400,9 @@ export default function ItemDetails({
                     onClick={(e) => {
                       const config = {
                         headers: {
-                          Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "jwt"
+                          )}`,
                         },
                       };
                       axios
@@ -369,20 +415,23 @@ export default function ItemDetails({
                           config
                         )
                         .then((response) => {
-
-                          refetchUser()
+                          refetchUser();
 
                           // Prompt message to gui
                           showToastError(
-                            buyItemsNum === 1 ? "Item purchased" : "Items purchased",
+                            buyItemsNum === 1
+                              ? "Item purchased"
+                              : "Items purchased",
                             true
                           );
                         })
                         .catch((error) => {
-                          if (error?.response?.data?.message) showToastError(error.response.data.message)
-                          else if (error?.message) showToastError(error.message);
-                          else showToastError(error)
-                          refetchUser()
+                          if (error?.response?.data?.message)
+                            showToastError(error.response.data.message);
+                          else if (error?.message)
+                            showToastError(error.message);
+                          else showToastError(error);
+                          refetchUser();
                           return;
                         });
                     }}
@@ -447,7 +496,11 @@ export default function ItemDetails({
           >
             <p
               className={`text-2xl font-thin`}
-              style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
+              style={{
+                color:
+                  gameData.rarityColours[gameData.items[item.itemName].rarity]
+                    .text,
+              }}
             >
               {gameData.items[item.itemName].rarity}
             </p>
@@ -488,7 +541,7 @@ export default function ItemDetails({
                     colorPalette === undefined
                       ? ""
                       : `5px solid ${colorPalette.primary1}`,
-                  cursor: "pointer"
+                  cursor: "pointer",
                 }}
                 onClick={() => {
                   router.push("/settings");
@@ -506,8 +559,7 @@ export default function ItemDetails({
                 }
                 <Image
                   src={
-                    "/assets/pfp/slimes/" +
-                    gameData.slimes[user.pfpSlime].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
                   }
                   alt={user.pfpSlime}
                   height={0}
@@ -549,8 +601,7 @@ export default function ItemDetails({
                 />
                 <Image
                   src={
-                    "/assets/pfp/slimes/" +
-                    gameData.slimes[user.pfpSlime].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
                   }
                   alt={user.pfpSlime}
                   height={0}
@@ -571,14 +622,14 @@ export default function ItemDetails({
                   backgroundColor: colorPalette
                     ? `${colorPalette.black}66`
                     : "",
-                  color: colorPalette ? colorPalette.black : "",
+                  color: colorPalette ? colorPalette.white + "70" : "",
                 }}
               >
                 Equipped as Profile
               </button>
             ) : (
               <button
-                className="rounded-lg py-4 h-full w-[15rem] mt-4"
+                className="rounded-lg py-4 h-full w-[15rem] mt-4 hover:brightness-110 transition-all duration-150"
                 style={{
                   backgroundColor: colorPalette ? colorPalette.primary1 : "",
                   color: colorPalette ? colorPalette.text1 : "",
@@ -600,15 +651,16 @@ export default function ItemDetails({
                       }
                     )
                     .then((response) => {
-                      refetchUser()
+                      refetchUser();
                       setPfpBg(response.data.pfpBg);
                       showToastError("Profile background was changed.", true);
                     })
                     .catch((error) => {
-                      if (error?.response?.data?.message) showToastError(error.response.data.message)
+                      if (error?.response?.data?.message)
+                        showToastError(error.response.data.message);
                       else if (error?.message) showToastError(error.message);
-                      else showToastError(error)
-                      refetchUser()
+                      else showToastError(error);
+                      refetchUser();
                       return;
                     });
                 }}
@@ -625,14 +677,14 @@ export default function ItemDetails({
                   backgroundColor: colorPalette
                     ? `${colorPalette.black}66`
                     : "",
-                  color: colorPalette ? colorPalette.black : "",
+                  color: colorPalette ? colorPalette.white + "70" : "",
                 }}
               >
                 Equipped as Background
               </button>
             ) : (
               <button
-                className="rounded-lg py-4 h-full w-[15rem] mt-4"
+                className="rounded-lg py-4 h-full w-[15rem] mt-4 hover:brightness-110 transition-all duration-150"
                 style={{
                   backgroundColor: colorPalette ? colorPalette.primary1 : "",
                   color: colorPalette ? colorPalette.text1 : "",
@@ -653,14 +705,15 @@ export default function ItemDetails({
                       }
                     )
                     .then((response) => {
-                      refetchUser()
+                      refetchUser();
                       setColorPalette(gameData.items[item.itemName]);
                     })
                     .catch((error) => {
-                      if (error?.response?.data?.message) showToastError(error.response.data.message)
+                      if (error?.response?.data?.message)
+                        showToastError(error.response.data.message);
                       else if (error?.message) showToastError(error.message);
-                      else showToastError(error)
-                      refetchUser()
+                      else showToastError(error);
+                      refetchUser();
                       return;
                     });
                 }}
@@ -686,9 +739,7 @@ export default function ItemDetails({
           backgroundColor: colorPalette ? `${colorPalette.white}88` : "",
         }}
       >
-        <div
-          className="grid 2xl:grid-cols-2 grid-cols-1 gap-8"
-        >
+        <div className="grid 2xl:grid-cols-2 grid-cols-1 gap-8">
           <ItemInventory
             item={item}
             displayOnly="true"
@@ -703,7 +754,11 @@ export default function ItemDetails({
           >
             <p
               className={`text-2xl font-thin`}
-              style={{ color: gameData.rarityColours[gameData.items[item.itemName].rarity].text }}
+              style={{
+                color:
+                  gameData.rarityColours[gameData.items[item.itemName].rarity]
+                    .text,
+              }}
             >
               {gameData.items[item.itemName].rarity}
             </p>
@@ -852,8 +907,8 @@ export default function ItemDetails({
                         const newUser = {
                           ...user,
                           flowers: response.data.flowers,
-                        }
-                        setUser(newUser)
+                        };
+                        setUser(newUser);
                         // WHY DO WE HAVE A SEPARATE FLOWERS FROM USER.FLOWERS?
                         setFlowers(response.data.flowers);
                         if (item.itemName === "Slime Egg") {
@@ -873,10 +928,11 @@ export default function ItemDetails({
                         );
                       })
                       .catch((error) => {
-                        if (error?.response?.data?.message) showToastError(error.response.data.message)
+                        if (error?.response?.data?.message)
+                          showToastError(error.response.data.message);
                         else if (error?.message) showToastError(error.message);
-                        else showToastError(error)
-                        refetchUser()
+                        else showToastError(error);
+                        refetchUser();
                         return;
                       });
                   }}
@@ -928,7 +984,7 @@ export default function ItemDetails({
             Open Egg
           </p>
         </div>
-      </div >
+      </div>
     );
   }
 }
