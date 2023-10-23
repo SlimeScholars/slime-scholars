@@ -65,7 +65,7 @@ export function Navbar({
       {/* home button */}
       {!onHome && (
         <button
-          className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-150 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem] mt-[0.5rem]"
+          className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-300 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem] mt-[0.5rem]"
           style={{
             color: !colorPalette ? "" : colorPalette.text1,
           }}
@@ -81,13 +81,16 @@ export function Navbar({
       {/* earn flowers button */}
       <div>
         <button
-          className={`pr-16 pl-16 rounded-md brightness-[1.05] hover:brightness-[1] font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] ${!onHome && 'absolute left-[6rem] top-3 max-xl:left-0'}`}
+          className={`pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] ${
+            !onHome && "absolute left-[6rem] top-3 max-xl:left-0"
+          }`}
           style={{
-            backgroundColor:
-              !colorPalette ? "" : colorPalette.primary2,
+            backgroundColor: !colorPalette ? "" : colorPalette.primary2,
             color: !colorPalette ? "" : colorPalette.text2,
             boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`,
-            background: `linear-gradient(90deg, ${!colorPalette ? "" : colorPalette.primary2} 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
+            background: `linear-gradient(90deg, ${
+              !colorPalette ? "" : colorPalette.primary2
+            } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
           }}
           onClick={(e) => {
             e.preventDefault();
@@ -98,16 +101,18 @@ export function Navbar({
         </button>
       </div>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md relative">
-        <div className="flex flex-col items-end mr-[4rem] max-xl:absolute top-2 right-[12rem]">
+        <div className="flex flex-col items-end mr-[4rem] max-xl:absolute top-2 right-[12rem] cursor-default">
           {/* slime gel */}
           <div
-            className="flex rounded-full py-1 px-6 w-fit"
+            className="flex rounded-full pt-2 pb-1 pl-3 pr-5 w-fit"
             style={{
-              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
-                }`,
+              backgroundColor: `${
+                colorPalette ? colorPalette.black + "55" : "#475569"
+              }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-                }`,
+              boxShadow: `${
+                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+              }`,
             }}
           >
             {user && (
@@ -127,13 +132,15 @@ export function Navbar({
 
           {/* flowers */}
           <div
-            className="flex rounded-full py-1 px-6 w-fit mt-1.5"
+            className="flex rounded-full pt-2 pb-1 pl-3 pr-5 w-fit mt-1.5 cursor-default"
             style={{
-              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
-                }`,
+              backgroundColor: `${
+                colorPalette ? colorPalette.black + "55" : "#475569"
+              }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-                }`,
+              boxShadow: `${
+                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+              }`,
             }}
           >
             {user && (
@@ -146,7 +153,9 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="max-xl:text-md">{flowers === null ? user.flowers : flowers}</p>
+                <p className="max-xl:text-md">
+                  {flowers === null ? user.flowers : flowers}
+                </p>
               </div>
             )}
           </div>
@@ -185,34 +194,40 @@ export function Navbar({
                   if (type.id === 6) {
                     router.push("/settings");
                     return;
-                  }
-                  else {
+                  } else {
                     router.push("/play/" + type.title.toLowerCase());
                   }
                 }}
                 style={
                   isActive
                     ? {
-                      backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
+                        backgroundColor: `${
+                          colorPalette ? colorPalette.primary1 : "#ffffff"
                         }`,
-                      border: `${type.id === 6 && colorPalette !== undefined
-                        ? `5px solid ${colorPalette.primary1}`
-                        : ""
+                        border: `${
+                          type.id === 6 && colorPalette !== undefined
+                            ? `5px solid ${colorPalette.primary1}`
+                            : ""
                         }`,
-                      padding: type.id === 6 ? "0.7rem" : undefined,
-                    }
+                        padding: type.id === 6 ? "0.7rem" : undefined,
+                      }
                     : {
-                      backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
+                        backgroundColor: `${
+                          colorPalette ? colorPalette.white : "#ffff"
                         }88`,
-                      border: `${type.id === 6 && colorPalette !== undefined
-                        ? `5px solid ${colorPalette.primary1}`
-                        : ""
+                        border: `${
+                          type.id === 6 && colorPalette !== undefined
+                            ? `5px solid ${colorPalette.primary1}`
+                            : ""
                         }`,
-                      padding: type.id === 6 ? "0.7rem" : undefined,
-                    }
+                        padding: type.id === 6 ? "0.7rem" : undefined,
+                      }
                 }
-                className={`hover:opacity-60 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem]${type.id === 6 ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem]" : "" // Apply larger size for 2xl screen and type.id 6
-                  }`}
+                className={`hover:opacity-100 hover:brightness-110 brightness-90 opacity-75 transition-all duration-300 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem] ${
+                  type.id === 6
+                    ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem] do-a-spin"
+                    : "shake" // Apply larger size for 2xl screen and type.id 6
+                }`}
                 key={type.id}
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={type.title}
@@ -220,11 +235,11 @@ export function Navbar({
                 {type.id === 6 ? (
                   user && user.pfpSlime ? (
                     <div className="relative flex items-center justify-center">
-                      <div className="absolute h-32 w-32 overflow-hidden"
-                      >
+                      <div className="absolute h-32 w-32 overflow-hidden">
                         <Image
                           src={
-                            "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                            "/assets/pfp/backgrounds/" +
+                            gameData.items[user.pfpBg].pfp
                           }
                           alt={user.pfpBg}
                           height={0}
@@ -266,22 +281,22 @@ export function Navbar({
           })}
         </div>
         <Tooltip
-                id="my-tooltip"
-                delayShow={200}
-                place="bottom"
-                offset={20}
-                style={{
-                  backgroundColor: "black",
-                  fontSize: "14px",
-                  zIndex: "200",
-                }}
-              />
-        {router.asPath === "/play" && 
-        <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm min-w-[15rem]">
-          <NextRewardTimer/>
-        </div>}
+          id="my-tooltip"
+          delayShow={200}
+          place="bottom"
+          offset={20}
+          style={{
+            backgroundColor: "black",
+            fontSize: "14px",
+            zIndex: "200",
+          }}
+        />
+        {router.asPath === "/play" && (
+          <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm min-w-[15rem]">
+            <NextRewardTimer />
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
