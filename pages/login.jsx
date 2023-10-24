@@ -45,7 +45,7 @@ export default function Login({ loading, user, setUser }) {
           headers: {
             post: {
               apikey: process.env.NEXT_PUBLIC_API_KEY,
-            }
+            },
           },
         }
       )
@@ -85,7 +85,7 @@ export default function Login({ loading, user, setUser }) {
             <input
               className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
               type="text"
-              placeholder="What name do you want others to see?"
+              placeholder="What is your username/email?"
               value={accountIdentifier}
               autoComplete="email"
               onChange={(e) => setAccountIdentifier(e.target.value)}
