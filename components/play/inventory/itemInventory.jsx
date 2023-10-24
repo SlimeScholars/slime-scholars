@@ -79,6 +79,9 @@ export default function ItemInventory({
               setItemOnClick(item);
             }
           }}
+          onMouseEnter={() => {
+            playSound("boop");
+          }}
           style={{
             border:
               colorPalette === undefined
@@ -116,6 +119,9 @@ export default function ItemInventory({
             itemOnClick.itemName === item.itemName &&
             "overflow-visible cursor-pointer")
         }
+        onMouseEnter={() => {
+          playSound("boop");
+        }}
         id={crypto.randomUUID()}
         onClick={(e) => {
           if (displayOnly !== "true") {
@@ -167,6 +173,9 @@ export default function ItemInventory({
             colorPalette === undefined
               ? ""
               : `5px solid ${colorPalette.primary1}`,
+        }}
+        onMouseEnter={() => {
+          playSound("boop");
         }}
       >
         <Image

@@ -6,6 +6,7 @@ import { HiHome } from "react-icons/hi";
 import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 import NextRewardTimer from "./slimes/NextRewardTimer";
+import { playSound } from "../../utils/playSound";
 
 /*
 Parameter:
@@ -226,11 +227,16 @@ export function Navbar({
                 className={`hover:opacity-100 hover:brightness-110 brightness-90 opacity-75 transition-all duration-300 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem] ${
                   type.id === 6
                     ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem] do-a-spin"
-                    : "shake" // Apply larger size for 2xl screen and type.id 6
+                    : "wiggle" // Apply larger size for 2xl screen and type.id 6
                 }`}
                 key={type.id}
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={type.title}
+                onMouseEnter={() => {
+                  type.id === 6
+                    ? playSound("whoop", 200)
+                    : playSound("chch", 0);
+                }}
               >
                 {type.id === 6 ? (
                   user && user.pfpSlime ? (

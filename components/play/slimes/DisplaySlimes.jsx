@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
 import { FaArrowUp } from "react-icons/fa";
+import { playSound } from "../../../utils/playSound";
 
 export default function DisplaySlimes({
   user,
@@ -276,6 +277,9 @@ export default function DisplaySlimes({
                     backgroundImage: `url(${slimeImg})`,
                   }}
                   className="mx-auto mb-2 md:h-60 md:w-60 sm:h-28 sm:w-28 slime-animate slime-size cursor-pointer"
+                  onMouseEnter={() => {
+                    playSound("squish");
+                  }}
                   onClick={() => {
                     router.push("/play/slimes");
                   }}

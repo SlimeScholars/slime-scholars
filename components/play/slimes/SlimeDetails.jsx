@@ -7,6 +7,7 @@ import axios from "axios";
 import Image from "next/image";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { FaAnglesRight } from "react-icons/fa6";
+import { playSound } from "../../../utils/playSound";
 
 export default function SlimeDetails({
   user,
@@ -32,18 +33,18 @@ export default function SlimeDetails({
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
+      };
 
       if (slime && slime._id != id) {
-        throw new Error('Invalid slime for leveling up')
+        throw new Error("Invalid slime for leveling up");
       }
 
       if (user.slimeGel < slime.levelUpCost) {
-        throw new Error('Insufficient slime gel')
+        throw new Error("Insufficient slime gel");
       }
 
       if (slime.level === slime.maxLevel) {
-        throw new Error('The slime is already at max level')
+        throw new Error("The slime is already at max level");
       }
 
       const newSlime = {
@@ -52,17 +53,18 @@ export default function SlimeDetails({
         // Future slime.level - 1 as index to adjust from level to index
         // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
         levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
-        baseProduction: slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
-      }
+        baseProduction:
+          slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
+      };
       const newUser = {
         ...user,
         slimeGel: user.slimeGel - slime.levelUpCost,
-      }
+      };
 
-      setUser(newUser)
-      setSlime(newSlime)
-      setRes({ slime: newSlime })
-      setShowLevelUpPopup(true)
+      setUser(newUser);
+      setSlime(newSlime);
+      setRes({ slime: newSlime });
+      setShowLevelUpPopup(true);
 
       // setLoading(true)
       axios
@@ -80,13 +82,12 @@ export default function SlimeDetails({
     } catch (error) {
       if (error?.response?.data?.message) {
         showToastError(error.response.data.message);
+      } else {
+        showToastError(error.message);
       }
-      else {
-        showToastError(error.message)
-      }
-      return
-    } finally{
-      setUser({...user})
+      return;
+    } finally {
+      setUser({ ...user });
     }
   };
   const handleClosePopup = () => {
@@ -102,7 +103,7 @@ export default function SlimeDetails({
   const maxLevel = slime.maxLevel;
   const colour = gameData.rarityColours[slime.rarity].text;
 
-  const tiers = ['I', 'II', 'III']
+  const tiers = ["I", "II", "III"];
 
   return (
     <div
@@ -120,9 +121,7 @@ export default function SlimeDetails({
             oldSlime={oldSlime}
           />
         )}
-        <div
-          className="grid slime-grid"
-        >
+        <div className="grid slime-grid">
           <div className="flex justify-center items-center flex-col relative p-8">
             <div className="w-[80%]">
               <Image
@@ -138,20 +137,18 @@ export default function SlimeDetails({
                 <div
                   className="rounded-full w-fit py-2 px-4 flex flex-row"
                   style={{
-                    backgroundColor:
-                      bg === undefined ? '' : `${bg.primary1}`,
-                    border:
-                      bg === undefined ? '' : `3px solid ${bg.primary2}`,
-                    color:
-                      bg === undefined ? '' : bg.text2,
+                    backgroundColor: bg === undefined ? "" : `${bg.primary1}`,
+                    border: bg === undefined ? "" : `3px solid ${bg.primary2}`,
+                    color: bg === undefined ? "" : bg.text2,
                   }}
                 >
                   {Array.from({ length: 3 }).map((_, index) => {
-                    return slime.starLevel > index ?
+                    return slime.starLevel > index ? (
                       <FaStar
                         key={`star-${index}`}
-                        className='text-yellow-300 text-2xl mx-1'
-                      /> :
+                        className="text-yellow-300 text-2xl mx-1"
+                      />
+                    ) : (
                       <FaRegStar
                         key={`star-${index}`}
                         style={{
@@ -159,6 +156,7 @@ export default function SlimeDetails({
                         }}
                         className="text-2xl mx-1"
                       />
+                    );
                   })}
                 </div>
               </div>
@@ -191,7 +189,10 @@ export default function SlimeDetails({
                 {slime.bonusLevel ? (
                   <>
                     <p>
-                      Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}{" "}
+                      Lvl.{" "}
+                      {slime.level === slime.maxLevel
+                        ? "MAX"
+                        : `${slime.level}/${slime.maxLevel}`}{" "}
                       + {slime.bonusLevel}
                     </p>
                     <p>
@@ -209,7 +210,10 @@ export default function SlimeDetails({
                 ) : (
                   <>
                     <p>
-                      Lvl. {slime.level === slime.maxLevel ? "MAX" : `${slime.level}/${slime.maxLevel}`}
+                      Lvl.{" "}
+                      {slime.level === slime.maxLevel
+                        ? "MAX"
+                        : `${slime.level}/${slime.maxLevel}`}
                     </p>
                     <p>
                       Production: {gelProduction}
@@ -224,11 +228,18 @@ export default function SlimeDetails({
                     </p>
                   </>
                 )}
-                {gameData.slimes[slime.slimeName]?.abilityName && (slime.starLevel > 0) && (
-                  <p className="mt-3 text-[0.9rem] leading-[1.3rem]">
-                    {`${gameData.slimes[slime.slimeName].abilityName} ${tiers[slime.starLevel - 1]}: ${gameData.slimes[slime.slimeName]?.abilityDesc[slime.starLevel - 1]}`}
-                  </p>
-                )}
+                {gameData.slimes[slime.slimeName]?.abilityName &&
+                  slime.starLevel > 0 && (
+                    <p className="mt-3 text-[0.9rem] leading-[1.3rem]">
+                      {`${gameData.slimes[slime.slimeName].abilityName} ${
+                        tiers[slime.starLevel - 1]
+                      }: ${
+                        gameData.slimes[slime.slimeName]?.abilityDesc[
+                          slime.starLevel - 1
+                        ]
+                      }`}
+                    </p>
+                  )}
                 {gameData.slimes[slime.slimeName]?.effects && (
                   <p className="mt-3 text-[0.9rem] leading-[1.3rem] italic">
                     {gameData.slimes[slime.slimeName]?.effects}
@@ -259,7 +270,9 @@ export default function SlimeDetails({
                       className="m-1 -mt-1 w-6 h-6 inline"
                     />
                     <FaAnglesRight className="inline mb-1 mx-1" />
-                    {`${gelProduction + gameData.baseLevelProduction[slime.rarity]} `}
+                    {`${
+                      gelProduction + gameData.baseLevelProduction[slime.rarity]
+                    } `}
                     <Image
                       src="/assets/icons/slime-gel.png"
                       alt="slime gel"
@@ -271,7 +284,7 @@ export default function SlimeDetails({
                   </p>
                   <div className="flex flex-row mt-3">
                     <button
-                      className="py-1 px-4 rounded-lg inline"
+                      className="py-1 px-4 rounded-lg inline hover:scale-105 transition-all duration-150 ease-out"
                       style={{
                         backgroundColor: bg.primary1,
                       }}
@@ -279,14 +292,13 @@ export default function SlimeDetails({
                         setOldSlime(slime);
                         handleClick(slime._id);
                       }}
+                      onMouseEnter={() => {
+                        playSound("boop");
+                      }}
                     >
                       <div className="flex flex-row justify-center items-center">
-                        <div>
-                          Level up
-                        </div>
-                        <div className="mx-3">
-                          |
-                        </div>
+                        <div>Level up</div>
+                        <div className="mx-3">|</div>
                         <div className="flex flex-row items-center">
                           {levelUpCost}
                           <Image
@@ -307,9 +319,7 @@ export default function SlimeDetails({
           </div>
         </div>
       </div>
-      <div
-        className="p-8 pt-0"
-      >
+      <div className="p-8 pt-0">
         <div
           className="rounded-lg py-6 px-10"
           style={{
@@ -337,21 +347,19 @@ export default function SlimeDetails({
           <div className="flex flex-row w-full items-center flex-wrap justify-center -mt-1.5">
             <div className="flex flex-col items-center">
               {/* Display current profile picture */}
-              <p style={{ color: bg ? bg.text1 : "" }}>
-                Current
-              </p>
+              <p style={{ color: bg ? bg.text1 : "" }}>Current</p>
               <div
                 className="relative rounded-full overflow-hidden"
                 style={{
-                  border:
-                    bg === undefined
-                      ? ""
-                      : `5px solid ${bg.primary1}`,
+                  border: bg === undefined ? "" : `5px solid ${bg.primary1}`,
                 }}
               >
                 {
                   <Image
-                    src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp}
+                    src={
+                      "/assets/pfp/backgrounds/" +
+                      gameData.items[user.pfpBg].pfp
+                    }
                     alt={user.pfpBg}
                     height={0}
                     width={0}
@@ -361,8 +369,7 @@ export default function SlimeDetails({
                 }
                 <Image
                   src={
-                    "/assets/pfp/slimes/" +
-                    gameData.slimes[user.pfpSlime].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
                   }
                   alt={user.pfpSlime}
                   height={0}
@@ -379,22 +386,16 @@ export default function SlimeDetails({
               arrow_forward
             </span>
             <div className="flex flex-col items-center">
-              <p style={{ color: bg ? bg.text1 : "" }}>
-                Updated
-              </p>
+              <p style={{ color: bg ? bg.text1 : "" }}>Updated</p>
               <div
                 className="relative rounded-full overflow-hidden"
                 style={{
-                  border:
-                    bg === undefined
-                      ? ""
-                      : `5px solid ${bg.primary1}`,
+                  border: bg === undefined ? "" : `5px solid ${bg.primary1}`,
                 }}
               >
                 <Image
                   src={
-                    "/assets/pfp/backgrounds/" +
-                    gameData.items[user.pfpBg].pfp
+                    "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
                   }
                   alt={user.pfpBg}
                   height={0}
@@ -404,8 +405,7 @@ export default function SlimeDetails({
                 />
                 <Image
                   src={
-                    "/assets/pfp/slimes/" +
-                    gameData.slimes[slime.slimeName].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[slime.slimeName].pfp
                   }
                   alt={slime.slimeName}
                   height={0}
@@ -423,20 +423,21 @@ export default function SlimeDetails({
                 disabled
                 className="rounded-lg py-4 w-[15rem] mt-4"
                 style={{
-                  backgroundColor: bg
-                    ? `${bg.black}66`
-                    : "",
-                  color: bg ? bg.black : "",
+                  backgroundColor: bg ? `${bg.black}66` : "",
+                  color: bg ? bg.white + "70" : "",
                 }}
               >
                 Equipped as Profile
               </button>
             ) : (
               <button
-                className="rounded-lg py-4 w-[15rem] mt-4"
+                className="rounded-lg py-4 w-[15rem] mt-4 hover:scale-105 transition-all duration-150 ease-out"
                 style={{
                   backgroundColor: bg ? bg.primary1 : "",
                   color: bg ? bg.text1 : "",
+                }}
+                onMouseEnter={() => {
+                  playSound("boop");
                 }}
                 onClick={(e) => {
                   axios
@@ -456,14 +457,19 @@ export default function SlimeDetails({
                     )
                     .then((response) => {
                       if (response?.data?.pfpSlime) {
-                        const newUser = { ...user, pfpSlime: response.data.pfpSlime }
-                        setUser(newUser)
+                        const newUser = {
+                          ...user,
+                          pfpSlime: response.data.pfpSlime,
+                        };
+                        setUser(newUser);
                       }
                     })
                     .catch((error) => {
-                      error?.response?.data?.message ? showToastError(error.response.data.message) :
-                        error?.message ? showToastError(error.message) :
-                          showToastError(error)
+                      error?.response?.data?.message
+                        ? showToastError(error.response.data.message)
+                        : error?.message
+                        ? showToastError(error.message)
+                        : showToastError(error);
                     });
                 }}
               >
@@ -474,7 +480,6 @@ export default function SlimeDetails({
         </div>
 
         {/* Change pfp comparison end */}
-
       </div>
     </div>
   );
