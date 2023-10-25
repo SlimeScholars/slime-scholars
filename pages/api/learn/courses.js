@@ -4,6 +4,7 @@ import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import Course from "../../../models/courseModel";
 import Unit from "../../../models/unitModel";
+import Lesson from "../../../models/lessonModel";
 import { rewardData } from "../../../data/lessonData";
 
 /**
@@ -43,8 +44,8 @@ export default async function (req, res) {
 
     for (let i in courses) {
       const courseProgress = user.progress.find((course) => {
-      return course._id === courses[i]._id.valueOf();
-      })
+        return course._id === courses[i]._id.valueOf();
+      });
       modifiedCourses.push({
         _id: courses[i]._id,
         courseName: courses[i].courseName,

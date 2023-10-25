@@ -4,6 +4,7 @@ import { checkUserType } from "../../../utils/checkUserType";
 import connectDB from "../../../utils/connectDB";
 import Course from "../../../models/courseModel";
 import Unit from "../../../models/unitModel";
+import Lesson from "../../../models/lessonModel";
 import { rewardData } from "../../../data/lessonData";
 // Import for the populate
 import "../../../models/unitModel";
