@@ -78,7 +78,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       return;
     }
     setCounts(lessonCounter(lessons));
-  }, []);
+  }, [lessons]);
 
   if (loading) {
     return;
@@ -182,8 +182,6 @@ const lessonCounter = (list) => {
       tests++;
     }
   }
-  console.log(list);
-
   return { lessons, quizzes, tests };
 };
 
