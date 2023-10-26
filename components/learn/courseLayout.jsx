@@ -20,9 +20,13 @@ export default function CourseLayout({children, colorPalette, setUser, user}){
             <Navbar colorPalette={colorPalette} setUser={setUser} user={user}/>
             {user ?
                 sidebarOverride() ? 
-                <div className={`transition-all duration-150 grid 
-                ${sidebarOpen ? "courselayout-grid-open" : "courselayout-grid-close"}`}>
-                    <div className={`transition-all duration-150 ${sidebarOpen ? "w-[300px]" : "w-[20px]"}`}>
+                <div className={`transition-all duration-150 grid`}
+                style={{
+                    gridTemplateColumns: window.innerWidth > 1536 ? 
+                    (sidebarOpen ? "300px auto" : "20px auto"):
+                    (sidebarOpen ? "250px auto" : "15px auto")
+                }}>
+                    <div className={`transition-all duration-150 ${sidebarOpen ? "w-[250px] 2xl:w-[300px]" : "w-[15px] 2xl:w-[20px]"}`}>
                         <CourseSidebar colorPalette={colorPalette} open={sidebarOpen} setOpen={setSidebarOpen} user={user}/>
                     </div>
                     <div className="relative"

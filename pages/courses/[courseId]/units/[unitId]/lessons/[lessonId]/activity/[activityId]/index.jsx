@@ -162,13 +162,12 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 					var scrollContainer = document.getElementById("container-activity-index");
 					setTimeout(() => {
 						scrollContainer.scrollTo({
-							top: prev-1 === 0 ? 0 : scrollContainer.scrollHeight,
+							top: prev-1 <= 0 ? 0 : scrollContainer.scrollHeight,
 							behavior: "smooth"
 						});
 					}, 200)
 					if(activity && activity.pages && activity.pages[page] && 
 						prev-1 < 0){
-							alert("HUHH!")
 						setPage((prev) => {
 							return prev-1 < 0 ? prev : prev-1
 						})
@@ -195,11 +194,17 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 		${(!fullLoad() || loadState > -1) 
 			? "z-[500] opacity-1" : "z-0 opacity-0"} 
 		flex flex-col gap-8 items-center justify-center text-4xl`}>
-			<div className="flex flex-col gap-2 items-center h-full">
+			<div className="flex flex-col gap-2 items-center h-full font-galindo">
 				<img src="/assets/misc/club-penguin.gif" className="w-[400px] h-[400px]"/>
-				<span>Building Activity...</span>
-				<span className="text-lg">(Temporary Loading Page)</span>
-				<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510]">
+				<div className="flex flex-row gap-2">
+				Building Activity
+					<div id="loading-wave">
+						<span className="dot bg-white"></span>
+						<span className="dot bg-white"></span>
+						<span className="dot bg-white"></span>
+					</div>
+				</div>
+				<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510] mt-5">
 				<div className="absolute top-0 left-0 z-[520] h-full transition-all duration-[0.18s] ease-in-out"
 				style={{
 					backgroundColor:colorPalette.secondary1,
@@ -216,7 +221,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 		style={{
 			backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
 			display:"grid",
-			gridTemplateColumns: "300px auto"
+			gridTemplateColumns: window.innerWidth > 1536 ? "300px auto" : "240px auto"
 		}}>
 			<div className="absolute w-full h-full"
 			style={{
@@ -236,36 +241,36 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 					backgroundColor: !colorPalette ? "" : colorPalette.black + "80",
 					color: colorPalette.white
 				}}>
-					<div className="text-sm mb-2 hover:text-blue-400 transition-all duration-150"
+					<div className="text-[0.8em] 2xl:text-sm mb-2 hover:text-blue-400 transition-all duration-150"
 					onClick={() => {
 						router.push(`/courses/${router.query.courseId}/units/
 						${router.query.unitId}/lessons`)
 					}}>
 						&lt;&lt; Back to Lessons
 					</div>
-					<div className="text-2xl font-bold">
+					<div className="text-lg 2xl:text-2xl font-bold">
 						{lessonName}
 					</div>
-					<div className="ml-2">
+					<div className="text-sm 2xl:text-md ml-1 2xl:ml-2">
 						{courseName}
 					</div>
-					<div className="ml-2">
+					<div className="text-sm 2xl:text-md ml-1 2xl:ml-2">
 						{unitName}
 					</div>
-					<div className="flex flex-col gap-4 mt-4 px-4 py-3 rounded-md"
+					<div className="flex flex-col gap-3 2xl:gap-4 mt-4 px-3 2xl:px-4 py-2 2xl:py-3 rounded-md"
 					style={{
 						backgroundColor: colorPalette.primary1 + "60"
 					}}>
 						{lessonActivities.map((item, key) => {
 							return (
-							<button className={`flex flex-row justify-between items-center`}
+							<button className={`flex flex-row justify-between items-center text-sm 2xl:text-md`}
 							onClick={() => {
 								router.push(`/courses/${router.query.courseId}/units/
 								${router.query.unitId}/lessons/
 								${router.query.lessonId}/activity/${item._id}`)
 							}}
 							key={key}>
-								<span className={`text-left text-md ${item._id === activityId ? "font-black" : ""}`}>
+								<span className={`text-left text-md ${item._id === activityId ? "font-extrabold 2xl:font-black" : ""}`}>
 									{item.activityName}
 								</span>
 								{item._id !== activityId && 
@@ -284,7 +289,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                {activity && 
 			   		<div className={`flex flex-col gap-4 w-full h-full transition-colors duration-300 p-5`}>
 						{activity.pages.length > 0 ?
-						<div className="w-full rounded-md px-[calc(8vw_+_40px)] h-full"
+						<div className="w-full rounded-md px-[calc(3vw_+_16px)] xl:px-[calc(5vw_+_32px)] 3xl:px-[calc(7vw_+_48px)] h-full"
 						style={{
 							display:"grid",
 							gridTemplateRows:"92.5% 7.5%"

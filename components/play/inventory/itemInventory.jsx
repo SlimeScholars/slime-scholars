@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { gameData } from "../../../data/gameData";
+import { playSound } from "../../../utils/playSound";
 
 export default function ItemInventory({
   setItemOnClick,

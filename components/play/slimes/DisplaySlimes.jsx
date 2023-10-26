@@ -204,13 +204,13 @@ export default function DisplaySlimes({
                 }`}
               >
                 <div
-                  className="flex flex-row gap-1 items-center mx-auto absolute top-0 left-[50%]"
+                  className="flex flex-row gap-1 items-center mx-auto absolute top-0 left-[50%] z-[500]"
                   style={{
                     transform: "translateX(-50%)",
                   }}
                 >
                   <div
-                    className="flex flex-col flex-wrap min-w-[12rem] max-w-full rounded-full phase px-1 py-1"
+                    className="flex flex-col flex-wrap min-w-[12rem] max-w-full rounded-full px-1 py-1"
                     style={{
                       border:
                         colorPalette !== undefined
@@ -255,7 +255,7 @@ export default function DisplaySlimes({
                   {slime.level < slime.maxLevel && (
                     <button
                       disabled={slime.levelUpCost > user.slimeGel}
-                      className={`px-1.5 py-1.5 ml-2 rounded-lg transition-all duration-150 opacity-80
+                      className={`px-1.5 py-1.5 ml-2 rounded-lg transition-all duration-150 opacity-80 
                       ${
                         slime.levelUpCost <= user.slimeGel
                           ? "bg-green-500 hover:bg-green-400 ring-green-300 hover:ring-green-400 ring-4"

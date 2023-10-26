@@ -23,7 +23,7 @@ export default function Course({
     >
       <div
         className="justify-self-center flex items-center justify-center border-2 rounded-full
-			w-20 h-20"
+			 w-14 h-14 xl:w-[4.25rem] xl:h-[4.25rem] 2xl:w-20 2xl:h-20"
         style={{
           backgroundColor: !colorPalette ? "" : colorPalette.primary2,
         }}
@@ -33,17 +33,17 @@ export default function Course({
           alt="blue slime"
           width={200}
           height={200}
-          className="w-16 h-16"
+          className="w-[2.75rem] h-[2.75rem] xl:w-[3.25rem] xl:h-[3.25rem] 2xl:w-16 2xl:h-16"
         />
       </div>
-      <div className="text-start flex flex-col gap-2">
-        <span className="text-xl font-bold">
+      <div className="text-start flex flex-col gap-0 2xl:gap-2">
+        <span className="text-lg 2xl:font-xl font-bold">
           {courseName ? courseName : "[Untitled Course]"}
         </span>
-        <span className="text-md font-normal">
+        <span className="text-sm 2xl:text-md font-normal">
           Progress: {course ? `${course.totalPoints > 0 ? (100 * (course.achievedPoints/course.totalPoints)).toFixed(0) : 0}%` : "Loading..."}
         </span>
-        <div className="w-[90%] h-[0.5rem] bg-black/[0.4] rounded-full overflow-hidden">
+        <div className="w-[90%] h-[0.5rem] bg-black/[0.4] rounded-full overflow-hidden mt-1 2xl:mt-0">
           <div
             className={`h-[0.5rem] transition-all duration-150 brightness-125`}
             style={{

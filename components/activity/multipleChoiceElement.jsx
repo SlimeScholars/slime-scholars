@@ -47,7 +47,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                         style={{
                             backgroundColor: key === selectedIndex ? colorPalette.primary1 : colorPalette.primary2 + "58",
                             color: key === selectedIndex ? colorPalette.white: colorPalette.black,
-                            width: horiz ? "100%" : "50%",
+                            width: horiz ? "100%" : window.innerWidth > 1536 ? "50%" : "60%",
                             fontWeight: key === selectedIndex ? 700 : 500
                         }}
                         onClick={() => {
