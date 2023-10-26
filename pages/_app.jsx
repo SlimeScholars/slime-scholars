@@ -324,7 +324,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {loading ? <MainSpinner /> : <></>}
-      <div className={`relative ${loading ? "hidden" : ""}`}>
+      <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
         {onPlay && !isMobile ? (
           <>

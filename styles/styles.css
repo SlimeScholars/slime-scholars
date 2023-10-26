@@ -240,7 +240,7 @@ input {
 .slime-animate:hover {
   filter: drop-shadow(0px 0px 15px #c5c4c4c7);
   background-position: 0 0;
-  transform: scale3d(1.02, 1.02, 1.02);
+  transform: scale(1.02)
 }
 
 .slime-animate {
@@ -326,11 +326,19 @@ input {
   }
 }
 
-.courselayout-grid-open {
+.courselayout-grid-open-md {
+  grid-template-columns: 250px auto;
+}
+
+.courselayout-grid-open-2xl {
   grid-template-columns: 300px auto;
 }
 
-.courselayout-grid-close {
+.courselayout-grid-close-md {
+  grid-template-columns: 15px auto;
+}
+
+.courselayout-grid-close-2xl {
   grid-template-columns: 20px auto;
 }
 
@@ -394,4 +402,53 @@ input {
   100% {
     filter: brightness(70%);
   }
+}
+
+.roll-button-animate:hover{
+  transition:ease-in-out 0.75s;
+  animation: roll-pulse 0.75s infinite;
+}
+
+@keyframes roll-pulse{
+  0%{
+    filter:brightness(1);
+    transform: scale(1.0);
+  }
+  50%{
+    filter:brightness(1.05);
+    transform: scale(1.02);
+  }
+  100%{
+    filter:brightness(1);
+    transform: scale(1.0);
+  }
+}
+
+div#loading-wave {
+	.dot {
+		display:inline-block;
+		width:0.3em;
+		height:0.3em;
+		border-radius:50%;
+		margin-right:3px;
+		animation: wave 1s ease-in-out infinite;
+
+		&:nth-child(2) {
+			animation-delay: 0.2s;
+		}
+
+		&:nth-child(3) {
+			animation-delay: 0.4s;
+		}
+	}
+}
+
+@keyframes wave {
+	0%, 40%, 100% {
+		transform: translateY(0.15em)
+	}
+
+	20% {
+		transform: translateY(-0.05em);
+	}
 }

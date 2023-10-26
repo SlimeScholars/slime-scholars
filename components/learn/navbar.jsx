@@ -141,7 +141,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
               {options.map((item) => (
                 <button
                   key={item.label}
-                  className="text-gray-500 hover:bg-fuchsia-100 px-8 py-4 w-full h-full transition-all duration-150 text-md font-bold"
+                  className="text-gray-500 hover:bg-fuchsia-100 px-8 py-2 w-full h-full transition-all duration-150 text-md font-bold"
                 >
                   <span onClick={item.onClick}>{item.label}</span>
                 </button>

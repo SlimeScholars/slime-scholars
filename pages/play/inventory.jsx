@@ -53,7 +53,9 @@ export default function Inventory({
   const pageRef = useRef(null);
 
   const scrollToTop = () => {
-    // TODO: scroll to top
+    if (pageRef && pageRef.current) {
+      pageRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (

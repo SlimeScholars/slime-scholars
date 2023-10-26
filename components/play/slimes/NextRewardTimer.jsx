@@ -36,7 +36,7 @@ export default function NextRewardTimer() {
   };
 
   return (
-    <div className="text-center bg-white/50 pt-2 phase pb-1 px-5 rounded-full text-slate-600/70">
+    <div className="text-center bg-white/[0.65] pt-2 pb-1 px-5 rounded-full text-slate-800">
       Next Reward in {convertToDisplay(msToNext)}
     </div>
   );

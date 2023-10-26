@@ -29,7 +29,7 @@ export default function Unit({
         router.push(`/courses/${courseId}/units/${unitId}/lessons`);
       }}
     >
-      <span className="text-start font-bold text-xl">
+      <span className="text-start font-bold text-lg 2xl:text-xl">
         Unit {unitNumber}: {unitName}
       </span>
       <span className="text-start text-md flex flex-row">
