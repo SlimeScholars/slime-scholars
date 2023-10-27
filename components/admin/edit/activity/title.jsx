@@ -23,11 +23,11 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
             await activityService.save({activityId: activity._id, activityName:activityName})
             refresh()
             setOpen(false)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 100)
         }
         catch(err){
             console.log(err)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 100)
         }
     }
 

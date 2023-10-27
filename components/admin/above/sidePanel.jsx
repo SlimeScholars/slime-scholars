@@ -18,7 +18,7 @@ export default function SidePanel({type, details, setSidePanelProperties, setLoa
         return (async(...params) => {
             setLoading(true)
             await method.apply(this, [...params])
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 100)
             await refreshPanel()
         })
     }

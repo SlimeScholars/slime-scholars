@@ -57,18 +57,18 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
             setUnitNumber(response.data.unitNumber);
             setUnitName(response.data.unitName);
             setLessons(response.data.lessons);
-            setLoading(false);
+            setTimeout(() => {setLoading(false)}, 100);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message);
           }
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 100);
         });
     } catch (error) {
       showToastError(error.message);
-      setLoading(false);
+      setTimeout(() => {setLoading(false)}, 100);
       return;
     }
   }, [router.query.courseId, router.query.unitId]);

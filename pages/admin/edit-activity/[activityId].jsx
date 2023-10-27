@@ -30,11 +30,11 @@ export default function EditActivity({setLoading}) {
       if(response.data.activity.length > 0){
         setActivity(response.data.activity[0])
       }
-      if(setLoad){setLoading(false)}
+      if(setLoad){setTimeout(() => {setLoading(false)}, 100)}
     }
     catch(err){
       console.log(err)
-      if(setLoad){setLoading(false)}
+      if(setLoad){setTimeout(() => {setLoading(false)}, 100)}
     }
   }
 
