@@ -204,7 +204,7 @@ export default function DisplaySlimes({
                 }`}
               >
                 <div
-                  className="flex flex-row gap-1 items-center mx-auto absolute top-0 left-[50%] z-[500]"
+                  className="flex flex-row gap-1 items-center mx-auto absolute top-0 left-[50%] z-[40]"
                   style={{
                     transform: "translateX(-50%)",
                   }}
