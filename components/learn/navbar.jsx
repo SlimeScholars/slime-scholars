@@ -55,6 +55,11 @@ export default function Navbar({ colorPalette, setUser, user }) {
     };
   }, [open]);
 
+  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
+  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"]
+
+  console.log(user)
+
   return (
     <>
       <div
@@ -64,7 +69,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
         }}
       >
         <section>
-          <a className="flex justify-center items-center h-auto" href="/">
+          <a className="flex justify-center items-center h-auto transition-all duration-150 course-nav-title" href="/">
             <Image
               src="/assets/icons/logo-light.png"
               alt="Slime Scholars Logo"
@@ -77,7 +82,18 @@ export default function Navbar({ colorPalette, setUser, user }) {
         </section>
         {user ? (
           <section className="flex flex-row gap-1 font-bold text-xl items-center text-white">
-            <div className="text-md">{user ? user.username : ""}</div>
+            <div className="flex flex-col gap-[-5px] justify-center items-end">
+              <div className="text-[0.85em] font-light font-galindo">
+                {user && user.username && user.username.trim().length > 0 ? 
+                  <span>{user.username}</span> : 
+                  <span>[No Username]</span>}
+              </div>
+              <div className="text-[0.7em] mt-[-0.5em] font-light italic"
+              style={{
+                color: user ? userColors[user.userType] : userColors[0]
+              }}
+              >{user ? userTypes[user.userType] : userTypes[0]}</div>
+            </div>
             <button
               onClick={() => {
                 setOpen((prev) => !prev);
@@ -86,17 +102,14 @@ export default function Navbar({ colorPalette, setUser, user }) {
                 backgroundColor: `${
                   colorPalette ? colorPalette.text1 : "#ffffff"
                 }`,
-                border: `2px solid ${
-                  colorPalette ? colorPalette.text1 + "80" : "#ffffff80"
-                }`,
                 padding: "0.7rem",
               }}
               className={`hover:opacity-80 rounded-full p-3 overflow-hidden relative box-border 
-                2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[3.6rem] max-xl:h-[3.6rem] scale-[0.65]`}
+                w-[5.6rem] h-[5.6rem] scale-[0.65]
+                course-nav-icon transition-all duration-150`}
             >
               <div
-                className="flex gap-[1rem] max-xl:grid max-xl:grid-cols-3 max-xl:grid-rows-2 
-                    max-xl:gap-[0.5rem]"
+                className="grid grid-rows-2 gap-[0.5rem]"
               >
                 {user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
@@ -121,7 +134,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
                       height={0}
                       width={0}
                       sizes="100vw"
-                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem] max-xl:w-[2rem] max-xl:h-[2rem] max-xl:scale-300"
+                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"
                     />
                   </div>
                 ) : (

@@ -190,12 +190,12 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 	if (loading) { return }
 	return (
 		<>
-		<div className={`absolute top-0 left-0 w-full h-full bg-black text-white 
+		<div className={`absolute top-[-6rem] left-0 w-full h-[calc(100vh_+_6rem)] bg-black text-white 
 		${(!fullLoad() || loadState > -1) 
-			? "z-[500] opacity-1" : "z-0 opacity-0"} 
+			? "z-[500] opacity-1" : "z-[-1] opacity-0"} 
 		flex flex-col gap-8 items-center justify-center text-4xl`}>
-			<div className="flex flex-col gap-2 items-center h-full font-galindo">
-				<img src="/assets/misc/club-penguin.gif" className="w-[400px] h-[400px]"/>
+			<div className="flex flex-col gap-2 items-center justify-center font-galindo">
+				<img src="/assets/misc/slime-loader.gif" className="mt-[-200px] w-[400px] h-[400px]"/>
 				<div className="flex flex-row gap-2">
 				Building Activity
 					<div id="loading-wave">
