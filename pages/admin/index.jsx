@@ -25,15 +25,15 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
   const [selected, setSelected] = useState(null);
   const [subjects, setSubjects] = useState(undefined);
 
-  // useEffect(() => {
-  //   if (!loading && subjects === undefined) {
-  //     setLoading(true)
-  //   }
-  //   else if (loading && subjects && initialLoad) {
-  //     setInitialLoad(false)
-  //     setLoading(false)
-  //   }
-  // }, [subjects, loading, initialLoad])
+  useEffect(() => {
+    if (!loading && subjects === undefined) {
+      setLoading(true)
+    }
+    else if (loading && subjects && initialLoad) {
+      setInitialLoad(false)
+      setLoading(false)
+    }
+  }, [subjects, loading, initialLoad])
 
   const fetch = () => {
     setLoading(true)

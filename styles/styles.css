@@ -452,3 +452,15 @@ div#loading-wave {
 		transform: translateY(-0.05em);
 	}
 }
+
+.course-nav-title:hover{
+  filter: drop-shadow(0px 0px 25px #f2f2f2f0);
+  background-position: 0 0;
+  transform: scale(1.02)
+}
+
+.course-nav-icon:hover{
+  filter: drop-shadow(0px 0px 12px #f2f2f2f0);
+  background-position: 0 0;
+  transform: scale(0.67)
+}

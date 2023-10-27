@@ -31,15 +31,19 @@ export default function Settings({ loading, user, setUser }) {
     if (loading) {
       return;
     }
-    if (!user || user.userType !== 1) {
-      router.push("/");
-    }
-    else {
-      setFirstName(user.firstName)
-      setLastName(user.lastName)
-      setUsername(user.username)
-      setEmail(user.email)
-    }
+    // if (!user || user.userType !== 1) {
+    //   router.push("/");
+    // }
+    // else {
+    //   setFirstName(user.firstName)
+    //   setLastName(user.lastName)
+    //   setUsername(user.username)
+    //   setEmail(user.email)
+    // }
+    setFirstName(user.firstName)
+    setLastName(user.lastName)
+    setUsername(user.username)
+    setEmail(user.email)
   }, [user, loading]);
 
   const onSubmit = (e) => {
@@ -147,6 +151,8 @@ export default function Settings({ loading, user, setUser }) {
                 router.push("/play/inventory");
               }}
             >
+              {user.pfpBg && 
+              <>
               <Image
                 src={
                   "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
@@ -167,6 +173,7 @@ export default function Settings({ loading, user, setUser }) {
                 sizes='100vw'
                 className="relative z-8 translate-y-1/4 scale-125 w-[4.5rem] h-[4rem]"
               />
+              </>}
             </div>
           </div>
 
