@@ -180,7 +180,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                 className={
                     (eggsLacked > 0 || afterRolling) ? ("w-full h-full brightness-75") : ("w-full h-full")
                 }>
-                <div className="relative ">
+                <div className="relative">
                     {/* Image as background */}
                     <div className="flex justify-center items-center">
 
