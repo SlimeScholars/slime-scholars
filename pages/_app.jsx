@@ -155,7 +155,7 @@ function MyApp({ Component, pageProps }) {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setLoading(false);
+        setTimeout(() => {setLoading(false)}, 100);
         return;
       }
 
@@ -192,7 +192,7 @@ function MyApp({ Component, pageProps }) {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setLoading(false);
+        setTimeout(() => {setLoading(false)}, 100);
         return;
       }
 
@@ -210,7 +210,7 @@ function MyApp({ Component, pageProps }) {
         .then((response) => {
           if (response.data && response.data.user) {
             setUser(response.data.user);
-            setLoading(false);
+            setTimeout(() => {setLoading(false)}, 100);
           }
         })
         .catch((err) => {
@@ -218,11 +218,11 @@ function MyApp({ Component, pageProps }) {
           // If the json web token is invalid, remove it so no more requests will be made with the same token
           localStorage.removeItem("jwt");
           setUser(null);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 100);
         });
     } catch (err) {
       console.log(err);
-      setLoading(false);
+      setTimeout(() => {setLoading(false)}, 100);
     }
   };
 

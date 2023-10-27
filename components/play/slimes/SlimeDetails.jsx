@@ -74,7 +74,7 @@ export default function SlimeDetails({
           // setSlime(response.data.slime);
           // setShowLevelUpPopup(true);
           // setRes(response.data);
-          // setLoading(false);
+          // setTimeout(() => {setLoading(false)}, 100);
         })
         .catch((error) => {
           showToastError(error.response.data.message);
