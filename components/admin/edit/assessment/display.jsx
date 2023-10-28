@@ -56,6 +56,8 @@ export default function EditAssessmentDisplay({assesssment, theme, displayOpen, 
                             <span className="flex flex-row gap-2 items-center justify-center w-full text-md">
                                 <FaStar/>
                                 <FaStar/>
+                                <FaStar/>
+                                <FaStar/>
                                 <FaRegStar/>
                             </span>
                         </div>}

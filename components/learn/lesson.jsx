@@ -124,7 +124,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 				className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
 				hover:brightness-[1.25] transition-all duration-150"
 				onClick={() => {
-					router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment`)
+					router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment/${lesson._id}`)
 				}}>
 					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>
@@ -195,7 +195,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 				className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
 				hover:brightness-[1.25] transition-all duration-150"
 				onClick={() => {
-					router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment`)
+					router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment/${lesson._id}`)
 				}}>
 					Start
 					<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]"/>

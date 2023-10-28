@@ -145,7 +145,14 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                             defaultIndex={opt.correct ? 1 : 0}/>
                         </div>)}
                     </div>
-                    <span className="font-semibold">Explanation:</span>
+                    <button className={`w-[300px] rounded-md px-4 py-1 text-sm ${options.length > 0 ? "mt-2" : ""}`}
+                    style={{backgroundColor:theme.medium, color:theme.ultra_light}}
+                    onClick={() => {
+                        setOptions([...options, {option: "Sample Response", correct: false}])
+                    }}>
+                        + Add Option
+                    </button>    
+                    <span className="font-semibold mt-1">Explanation:</span>
                     <textarea
                     value={expText}
                     className="bg-neutral-200 focus:bg-neutral-100 w-[500px] 
@@ -154,14 +161,7 @@ export default function MultipleChoiceElement({element, index, theme, handleChan
                         setExpText(e.target.value)
                     }}
                     onKeyDown={handleKeyPress}
-                    />
-                    <button className={`w-[300px] rounded-md px-4 py-1 text-sm ${options.length > 0 ? "mt-2" : ""}`}
-                    style={{backgroundColor:theme.medium, color:theme.ultra_light}}
-                    onClick={() => {
-                        setOptions([...options, {option: "Sample Response", correct: false}])
-                    }}>
-                        + Add Option
-                    </button>                   
+                    />               
                 </div>
             </>
             }
