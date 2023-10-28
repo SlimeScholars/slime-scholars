@@ -51,12 +51,12 @@ export default function Slimes({
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
-          setTimeout(() => {setLoading(false)}, 100);
+          setTimeout(() => {setLoading(false)}, 150);
         })
         .catch((error) => {
           showToastError(error.response.data.message);
           console.log(error);
-          setTimeout(() => {setLoading(false)}, 100);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);

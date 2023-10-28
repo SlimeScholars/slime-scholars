@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react"
-import { activityService } from "../../../../services"
+import { assessmentService } from "../../../../services"
 import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi"
 import Section from "./section"
 
-export default function EditActivitySide({activity, refresh, setLoading, theme}){
+export default function EditAssessmentSide({assessment, refresh, setLoading, theme}){
 
-    const [page, setPage] = useState(activity.pages.length > 0 ? 0 : null)
+    const [page, setPage] = useState(assessment.problemSet.length > 0 ? 0 : null)
 
     useEffect(() => {
-        if(page === null && activity.pages.length > 0){setPage(activity.pages.length-1)}
-    }, [activity])
+        if(page === null && assessment.problemSet.length > 0){setPage(assessment.problemSet.length-1)}
+    }, [assessment])
 
     const handleNewPage = async() => {
         setLoading(true)
         try{
-            await activityService.update(activity._id, [...activity.pages.map((page, num) => {return{...page, pageNumber:num+1}}), {sections:[], 
-                pageNumber:activity.pages.length+1}], activity.pages.length, 0)
+            await assessmentService.update(assessment._id, [...assessment.problemSet.map((page, num) => {return{...page, pageNumber:num+1}}), {sections:[], 
+                pageNumber:assessment.problemSet.length+1}], assessment.problemSet.length, 0)
             setTimeout(() => {setLoading(false)}, 150)
-            setPage(activity.pages.length)
+            setPage(assessment.problemSet.length)
             refresh(true)
         }
         catch(err){
@@ -29,12 +29,12 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
     const handleDeletePage = async() => {
         setLoading(true)
         try{
-            const clone = [...activity.pages]
+            const clone = [...assessment.problemSet]
             clone.splice(page, 1)
-            await activityService.update(activity._id, [...clone.map((page, num) => {return{...page, pageNumber:num+1}})], 
+            await assessmentService.update(assessment._id, [...clone.map((page, num) => {return{...page, pageNumber:num+1}})], 
                 page-1, 0)
             setTimeout(() => {setLoading(false)}, 150)
-            setPage((current) => current === 0 ? (activity.pages.length === 1 ? null : 0) : current-1)
+            setPage((current) => current === 0 ? (assessment.problemSet.length === 1 ? null : 0) : current-1)
             refresh(true)
         }
         catch(err){
@@ -46,7 +46,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
     const handleAppendSection = async() => {
         setLoading(true)
         try{
-            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+            await assessmentService.update(assessment._id, [...assessment.problemSet.map((pageData, num) => {
                 if(num != page){return {...pageData, pageNumber:num+1}}
                 else{
                     return {...pageData, pageNumber:num+1, sections:[...pageData.sections, 
@@ -66,7 +66,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
     const handleDeleteSection = async(sectionIndex) => {
         setLoading(true)
         try{
-            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+            await assessmentService.update(assessment._id, [...assessment.problemSet.map((pageData, num) => {
                 if(num != page){return {...pageData, pageNumber:num+1}}
                 else{
                     const clone = [...pageData.sections]
@@ -99,7 +99,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
         setLoading(true)
         try{
-            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+            await assessmentService.update(assessment._id, [...assessment.problemSet.map((pageData, num) => {
                 if(num != page){return {...pageData, pageNumber:num+1}}
                 else{
                     return {...pageData, pageNumber:num+1, sections:[...swap(pageData.sections, sectionIndex, swapIndex)]}
@@ -117,7 +117,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleModifySection = async(sectionIndex, params) => {
         try{
-            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+            await assessmentService.update(assessment._id, [...assessment.problemSet.map((pageData, num) => {
                 if(num != page){return {...pageData, pageNumber:num+1}}
                 else{
                     return {...pageData, pageNumber:num+1, sections:[...pageData.sections.map((sectionData, num) => {
@@ -139,7 +139,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
     const handleAppendElement = async(sectionIndex, params) => {
         setLoading(true)
         try{
-            await activityService.update(activity._id, [...activity.pages.map((pageData, num) => {
+            await assessmentService.update(assessment._id, [...assessment.problemSet.map((pageData, num) => {
                 if(num != page){return {...pageData, pageNumber:num+1}}
                 else{
                     return {...pageData, pageNumber:num+1, sections:[...pageData.sections.map((sectionData, num) => {
@@ -174,9 +174,9 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
         setLoading(true)
 
         try {
-            await activityService.update(
-              activity._id,
-              [...activity.pages.map((pageData, num) => ({
+            await assessmentService.update(
+              assessment._id,
+              [...assessment.problemSet.map((pageData, num) => ({
                   ...pageData, pageNumber: num + 1,
                   sections: [...pageData.sections.map((sectionData, snum) => ({
                       ...sectionData, sectionIndex: snum + 1,
@@ -196,9 +196,9 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleModifyElement = async (sectionIndex, elementIndex, params) => {
         try {
-          await activityService.update(
-            activity._id,
-            [...activity.pages.map((pageData, num) => {
+          await assessmentService.update(
+            assessment._id,
+            [...assessment.problemSet.map((pageData, num) => {
                 if(num !== page){
                     return {...pageData, pageNumber: num + 1}
                 }
@@ -222,9 +222,9 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
     const handleDeleteElement = async(sectionIndex, elementIndex) => {
         setLoading(true)
         try{
-            await activityService.update(
-                activity._id,
-                [...activity.pages.map((pageData, num) => ({
+            await assessmentService.update(
+                assessment._id,
+                [...assessment.problemSet.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
                         if(snum === sectionIndex){return{...sectionData, sectionIndex: snum + 1}}
@@ -259,7 +259,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
         </div>
     )}
 
-    if(activity.pages.length <= page){return(
+    if(assessment.problemSet.length <= page){return(
         <div className={`flex flex-col gap-4 items-center justify-center w-full h-full text-black
         transition-colors duration-300`}>
         </div>
@@ -272,13 +272,13 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             hover:brightness-[1.2] text-md px-10 rounded-xl py-1 shadow-lg`}
             style={{color: theme.ultra_light, backgroundColor: theme.dark}}
                 onClick={handleNewPage}>
-                + New Page
+                + New Problem
             </button>
             <button className={`absolute top-[1.5rem] left-[1.5rem]
             hover:brightness-[1.2] text-md px-10 rounded-xl py-1 shadow-lg`} 
             style={{color: theme.ultra_light, backgroundColor: theme.dark}}
                 onClick={handleDeletePage}>
-                Delete Page
+                Delete Problem
             </button>
             <div className="text-lg font- flex flex-row gap-7 items-center rounded-full px-4 py-1 shadow-xl"
             style={{backgroundColor: theme.ultra_light + "D0"}}>
@@ -287,16 +287,16 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                     <BiSolidLeftArrow className={page === 0 ? "text-neutral-400 cursor-not-allowed" : 
                     "hover:text-neutral-600"}/>
                 </button>
-                Page {page+1} / {activity.pages.length}
-                <button disabled={page === activity.pages.length-1}
+                Problem {page+1} / {assessment.problemSet.length}
+                <button disabled={page === assessment.problemSet.length-1}
                 onClick={() => {setPage((prev) => prev+1)}}>
-                    <BiSolidRightArrow className={page === activity.pages.length-1 ? "text-neutral-400 cursor-not-allowed" : 
+                    <BiSolidRightArrow className={page === assessment.problemSet.length-1 ? "text-neutral-400 cursor-not-allowed" : 
                     "hover:text-neutral-600"}/>
                 </button>
             </div>
             <div className="flex flex-col gap-4 mt-4 p-6 border-t-2 border-black/[0.4] w-full">
-                {activity.pages[page].sections.map((section, key) => 
-                <Section section={section} key={key} index={key+1} theme={theme} max={activity.pages[page].sections.length}
+                {assessment.problemSet[page].sections.map((section, key) => 
+                <Section section={section} key={key} index={key+1} theme={theme} max={assessment.problemSet[page].sections.length}
                 handleAppendElement={handleAppendElement}
                 handleModifyElement={handleModifyElement}
                 handleDeleteElement={handleDeleteElement}

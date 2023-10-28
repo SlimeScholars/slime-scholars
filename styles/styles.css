@@ -424,24 +424,23 @@ input {
   }
 }
 
-div#loading-wave {
-	.dot {
-		display:inline-block;
-		width:0.3em;
-		height:0.3em;
-		border-radius:50%;
-		margin-right:3px;
-		animation: wave 1s ease-in-out infinite;
-
-		&:nth-child(2) {
-			animation-delay: 0.2s;
-		}
-
-		&:nth-child(3) {
-			animation-delay: 0.4s;
-		}
-	}
+div#loading-wave .dot {
+  display: inline-block;
+  width: 0.3em;
+  height: 0.3em;
+  border-radius: 50%;
+  margin-right: 3px;
+  animation: wave 1s ease-in-out infinite;
 }
+
+div#loading-wave .dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+div#loading-wave .dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
 
 @keyframes wave {
 	0%, 40%, 100% {
@@ -463,4 +462,30 @@ div#loading-wave {
   filter: drop-shadow(0px 0px 12px #f2f2f2f0);
   background-position: 0 0;
   transform: scale(0.67)
+}
+
+.mc-button{
+  width: 22px;
+  height: 22px;
+  border-width: 2px;
+  border-color: black;
+  border-radius: 9999px;
+  transition-property: all;
+  transition-duration: 150ms;
+}
+
+@keyframes mc-pulse{
+  0%{
+    transform: scale(1.0);
+  }
+  50%{
+    transform: scale(1.08);
+  }
+  100%{
+    transform: scale(1.0);
+  }
+}
+
+.mc-button:hover{
+  animation: mc-pulse 0.65s infinite
 }

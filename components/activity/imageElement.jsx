@@ -11,7 +11,7 @@ export default function ImageElement({element, index, colorPalette, bold, horiz}
         <div>
             <img src={element.image}
             style={{
-                height: `${5 + 2.25 * element.size}rem`,
+                height: `${7 + 3.25 * element.size}rem`,
                 width: "auto",
                 borderWidth: element.border ? `${2 + 1 * element.size}px` : "0px",
                 borderColor: colorPalette.dark,

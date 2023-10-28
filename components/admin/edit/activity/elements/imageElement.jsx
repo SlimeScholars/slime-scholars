@@ -4,7 +4,7 @@ import {BsFillTrashFill} from 'react-icons/bs'
 import { HiOutlineExternalLink } from "react-icons/hi"
 import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
 import { showToastError } from "../../../../../utils/toast"
-import { ThinSegmented } from "../segmented"
+import { ThinSegmented } from "../../segmented"
 
 export default function ImageElement({element, index, theme, handleChanges, handleDelete, handleSwap, max}){
     const [data, setData] = useState(element)
