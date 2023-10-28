@@ -197,7 +197,7 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 			<div className="flex flex-col gap-2 items-center justify-center font-galindo">
 				<img src="/assets/misc/slime-loader.gif" className="mt-[-200px] w-[400px] h-[400px]"/>
 				<div className="flex flex-row gap-2">
-				Building {getType()}
+				{!assessment ? "Fetching Assessment" : `Building ${getType()}`}
 					<div id="loading-wave">
 						<span className="dot bg-white"></span>
 						<span className="dot bg-white"></span>
