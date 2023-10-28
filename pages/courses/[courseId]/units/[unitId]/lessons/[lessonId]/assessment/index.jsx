@@ -5,7 +5,7 @@ import axios from "axios"
 
 export default function Assessment({ user, loading, setLoading, colorPalette }){
     return(
-        <div>
+        <div className="text-white">
             ASSESSMENT
         </div>
     )

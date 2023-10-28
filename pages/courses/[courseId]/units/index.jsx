@@ -57,18 +57,18 @@ export default function Units({
           if (response?.data?.units) {
             setCourseName(response.data.courseName);
             setUnits(response.data.units);
-            setTimeout(() => {setLoading(false)}, 100);
+            setTimeout(() => {setLoading(false)}, 150);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message);
           }
-          setTimeout(() => {setLoading(false)}, 100);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
-      setTimeout(() => {setLoading(false)}, 100);
+      setTimeout(() => {setLoading(false)}, 150);
       return;
     }
   }, [router.query.courseId]);

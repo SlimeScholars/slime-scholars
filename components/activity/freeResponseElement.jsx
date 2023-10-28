@@ -34,11 +34,11 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
 
     return(
         <div className={`flex relative transition-all
-        flex-col gap-1 text-md ${bold ? "font-black" : "font-semibold"} 
-        rounded-md py-2 px-4`} 
+        flex-col gap-1 text-md 2xl:text-[1.07em] ${bold ? "font-black" : "font-semibold"} 
+        py-2 px-4`} 
         style={{
             color:colorPalette.black,
-            backgroundColor: colorPalette.primary2 + "28",
+            backgroundColor: colorPalette.primary2 + "18",
             height: verified ? `${solHeight}px` : "auto",
             width: "auto"
         }}>
@@ -46,7 +46,6 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
             style={{
                 opacity: verified ? 0 : 1,
             }}>
-                <span className="underline">Fill in the Blank:</span>
                 <div className={`${bold ? "font-bold" : "font-normal"}`}>
                     <span>{data.text}</span> 
                     <input className="mx-1 rounded-sm px-1 w-[7.5rem] focus:outline-none z-[100]"
@@ -66,7 +65,7 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
                 </div>
                 <button className="px-8 py-1 w-min rounded-md mt-1 font-bold hover:brightness-[0.85]"
                 style={{
-                    backgroundColor: colorPalette.primary2 + "58",
+                    backgroundColor: colorPalette.primary2 + "38",
                     color:colorPalette.black
                 }}
                 onClick={() => {

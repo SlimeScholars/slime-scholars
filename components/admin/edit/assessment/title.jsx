@@ -1,11 +1,11 @@
-import { activityService } from "../../../../services";
+import { assessmentService } from "../../../../services";
 import { AiFillEdit, AiFillSave, AiFillCloseCircle } from "react-icons/ai";
 import { BiPalette } from "react-icons/bi";
 import { useState, useEffect } from "react";
 
-export default function EditActivityTitle({activity, refresh, setLoading, colors, setTheme, theme}){
+export default function EditAssessmentTitle({assessment, refresh, setLoading, colors, setTheme, theme}){
     const [open, setOpen] = useState(false)
-    const [activityName, setActivityName] = useState("")
+    const [assessmentName, setAssessmentName] = useState("")
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter') {
@@ -14,13 +14,13 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
       };
 
     useEffect(() => {
-        setActivityName(activity.activityName)
-    }, [activity])
+        setAssessmentName(assessment.lessonName)
+    }, [assessment])
 
     const handleNameChange = async() => {
         setLoading(true)
         try{
-            await activityService.save({activityId: activity._id, activityName:activityName})
+            await assessmentService.save({lessonId: assessment._id, lessonName:assessmentName})
             refresh()
             setOpen(false)
             setTimeout(() => {setLoading(false)}, 150)
@@ -33,13 +33,14 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
 
     return(
         <nav className="flex flex-col text-white w-full bg-black justify-center h-[6rem] z-[500]">
-            <span className={`text-sm pl-[2.75rem]`}>Activity Editor</span>
+            <span className={`text-sm pl-[2.75rem]`}>Assessment Editor: {assessment.lessonType === "quiz" 
+            ? "Quiz" : assessment.lessonType === "test" ? "Test" : "[Missing Type]"}</span>
             <div className="flex flex-row justify-between">
                 <div className={`flex flex-row gap-6 ${open ? "pl-[2rem]" : "pl-[2.75rem]"} text-2xl`}>
                     {!open? 
                     <>
                         <span>
-                            {activityName}
+                            {assessmentName}
                         </span> 
                         <button className="hover:text-gray-300"
                         onClick={() => {setOpen(true)}}><AiFillEdit/></button>
@@ -47,11 +48,11 @@ export default function EditActivityTitle({activity, refresh, setLoading, colors
                     :
                     <>
                         <input
-                        value={activityName}
+                        value={assessmentName}
                         className="bg-neutral-800 focus:bg-neutral-600 ring-1 ring-black w-[350px] 
                         px-3 rounded-md transition-all duration-150 text-neutral-400 focus:text-neutral-100"
                         onChange={(e) => {
-                            setActivityName(e.target.value)
+                            setAssessmentName(e.target.value)
                         }}
                         onKeyDown={handleKeyPress}
                         />

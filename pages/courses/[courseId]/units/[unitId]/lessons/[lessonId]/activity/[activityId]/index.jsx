@@ -207,7 +207,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 				<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510] mt-5">
 				<div className="absolute top-0 left-0 z-[520] h-full transition-all duration-[0.18s] ease-in-out"
 				style={{
-					backgroundColor:colorPalette.secondary1,
+					backgroundColor:colorPalette.text1,
 					width: `${((loadState > -1 ? (170 * (LOADIN_MAXFRAMES-loadState)/(LOADIN_MAXFRAMES)) : 
 					fullLoad() ? 170 : 0) + 
 					(100 * (activity ? 1 : 0)) + (20 * (courseName ? 1 : 0)) + (20 * (unitName ? 1 : 0))
@@ -287,17 +287,17 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 			</div>
 			<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
                {activity && 
-			   		<div className={`flex flex-col gap-4 w-full h-full transition-colors duration-300 p-5`}>
+			   		<div className={`flex flex-col gap-4 w-full h-full transition-colors duration-300`}>
 						{activity.pages.length > 0 ?
-						<div className="w-full rounded-md px-[calc(3vw_+_16px)] xl:px-[calc(5vw_+_32px)] 3xl:px-[calc(7vw_+_48px)] h-full"
+						<div className="w-full px-[calc(1vw_+_16px)] xl:px-[calc(2vw_+_32px)] 3xl:px-[calc(3vw_+_48px)] h-full"
 						style={{
 							display:"grid",
-							gridTemplateRows:"92.5% 7.5%"
+							gridTemplateRows:"93% 7%"
 						}}>
-							<section className="relative z-[5] rounded-t-md p-4">
-								<div className="absolute top-0 left-0 w-full h-full rounded-t-md"
+							<section className="relative z-[5] p-2">
+								<div className="absolute top-0 left-0 w-full h-full"
 								style={{
-									backgroundColor: colorPalette.text1 + "C0" 
+									backgroundColor: colorPalette.text1 + "A0" 
 								}}/>
 								<div id="container-activity-index" className="relative overflow-y-scroll h-full flex flex-col gap-3 pb-10 z-[15]">
 									{page < activity.pages.length && activity.pages[page].sections.length > 0 && 
@@ -403,31 +403,31 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 									</div>}
 								</div>
 							</section>
-							<section className="relative z-[20] flex flex-row justify-between items-center rounded-b-md shadow-lg px-5"
+							<section className="relative z-[20] flex flex-row justify-between items-center shadow-lg px-5"
 							style={{
-								backgroundColor: colorPalette.primary1
+								backgroundColor: colorPalette.primary1 + "A0"
 							}}>
-								<div className="absolute top-0 left-0 w-full h-full bg-white/[0.2] rounded-b-md z-[21]"/>
+								<div className="absolute top-0 left-0 w-full h-full bg-white/[0.35] z-[21]"/>
 								<section className="flex flex-row items-center gap-2 z-[22]">
-									<div className="relative rounded-full w-[180px] h-[0.5rem]"
+									<div className="relative rounded-full w-[200px] h-[0.5rem]"
 									style={{
-										backgroundColor: colorPalette.text1 + "50"
+										backgroundColor: colorPalette.text1 + "A0"
 									}}>
 										<div className="absolute top-[0px] left-[0px] rounded-full h-[0.5rem] transition-all duration-150 ease-out"
 										style={{
-											backgroundColor: colorPalette.text1 + "A0",
-											width: `${(180 * page)/activity.pages.length}px`
+											backgroundColor: colorPalette.text1,
+											width: `${(200 * page)/activity.pages.length}px`
 										}}/>
 									</div>
-									<span className="font-semibold text-sm" style={{color: colorPalette.text1}}>
+									<span className="font-semibold text-sm" style={{color: colorPalette.white}}>
 										{`${(activity.pages && activity.pages.length > 0) ? ((100 * page)/activity.pages.length).toFixed(0) : 100}`}%
 									</span>
 								</section>
 								<section className="flex flex-row gap-2 items-center text-md origin-center scale-90 z-[22]">
 									<button className="text-md" disabled={page === 0}
 									onClick={() => {setPage((prev) => prev-1)}}>
-										<BiSolidLeftArrow className={page === 0 ? "text-neutral-400 cursor-not-allowed" : 
-										"text-neutral-200 hover:text-neutral-50"}/>
+										<BiSolidLeftArrow className={(page === 0 ? "text-neutral-400 cursor-not-allowed" : 
+										"text-neutral-100 hover:text-white") + " transition-all duration-150"}/>
 									</button>
 									<input className="text-md w-[4rem] text-center font-semibold rounded-md" 
 									value={activity.pages ? page < activity.pages.length ? page+1 : "✓" : ""}
@@ -436,8 +436,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 									</input>
 									<button className="text-md" disabled={page === activity.pages.length}
 									onClick={() => {setPage((prev) => prev+1)}}>
-										<BiSolidRightArrow className={page === activity.pages.length ? "text-neutral-400 cursor-not-allowed" : 
-										"text-neutral-200 hover:text-neutral-50"}/>
+										<BiSolidRightArrow className={(page === activity.pages.length ? "text-neutral-400 cursor-not-allowed" : 
+										"text-neutral-100 hover:text-white") + " transition-all duration-150"}/>
 									</button>
 								</section>
 							</section>

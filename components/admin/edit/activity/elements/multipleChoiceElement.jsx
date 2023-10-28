@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import {AiFillSave, AiFillCloseCircle, AiFillEdit, AiFillCheckCircle} from 'react-icons/ai'
 import {BsFillTrashFill} from 'react-icons/bs'
 import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
-import { IconSegmented } from "../segmented"
+import { IconSegmented } from "../../segmented"
 
 export default function MultipleChoiceElement({element, index, theme, handleChanges, handleDelete, handleSwap, max}){
     const [data, setData] = useState(element)

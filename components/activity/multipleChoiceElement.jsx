@@ -27,39 +27,36 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
     }, [data])
 
     return(
-        <div className={`text-md ${bold ? "font-black" : "font-semibold"} 
-        relative transition-all rounded-md py-2 px-4`} style={{
+        <div className={`text-md 2xl:text-[1.07em] ${bold ? "font-black" : "font-semibold"} 
+        relative transition-all py-2 px-4`} style={{
             color:colorPalette.black,
-            backgroundColor: colorPalette.primary2 + "28",
+            backgroundColor: colorPalette.primary2 + "18",
             //FIXME: LINE HEIGHT
             height: verified ? `${solHeight}px` : "auto",
             width: "auto"
         }}>
-            <div className="flex flex-col gap-1 transition-opacity duration-200 z-[100]"
+            <div className="flex flex-col gap-2 transition-opacity duration-200 z-[100]"
             style={{
                 opacity: verified ? 0 : 1,
             }}>
                 <span className="mb-1">{data.text}</span>
                 {data.options && data.options.map((item, key) => {
                     return(
-                        <div key={key} className={`w-full rounded-md px-3 py-1 transition-colors duration-200 
-                        ${bold ? "font-bold" : "font-normal"} z-[100]`}
-                        style={{
-                            backgroundColor: key === selectedIndex ? colorPalette.primary1 : colorPalette.primary2 + "58",
-                            color: key === selectedIndex ? colorPalette.white: colorPalette.black,
-                            width: horiz ? "100%" : window.innerWidth > 1536 ? "50%" : "60%",
-                            fontWeight: key === selectedIndex ? 700 : 500
-                        }}
-                        onClick={() => {
-                            setSelectedIndex(key)
-                        }}>
+                        <div className="flex flex-row items-center gap-4 z-[100]">
+                            <div className="mc-button z-[100] cursor-pointer"
+                            style={{
+                                backgroundColor: key === selectedIndex ? colorPalette.primary1 : "transparent"
+                            }}
+                            onClick={() => {
+                                setSelectedIndex(key)
+                            }}/>
                             {item.option}
                         </div>
                     )
                 })}
                 <button className="px-8 py-1 w-min rounded-md mt-2 font-bold hover:brightness-[0.85] z-[100]"
                 style={{
-                    backgroundColor: colorPalette.primary2 + "58",
+                    backgroundColor: colorPalette.primary2 + "38",
                     color:colorPalette.black
                 }}
                 onClick={() => {

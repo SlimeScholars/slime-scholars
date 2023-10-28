@@ -19,15 +19,14 @@ export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProp
           }}
 
         >
-        <p className={`${!(selected === lesson._id) ? "text-white" : "text-sky-300"} font-bold`}>
+        <p className={`${!(selected === lesson._id) ? "text-white" : "text-sky-100"} font-bold`}>
           {lesson.lessonType !== "test" ? 
           <>
-          {lesson.lessonNumber}.{" "}
-          {lesson.lessonType === "quiz" && <span className="text-cyan-400 font-black">(QUIZ){"  "}</span>}
+          {lesson.lessonType === "quiz" && <span className="text-cyan-100 text-lg font-extrabold">Quiz: {"  "}</span>}
           {lesson.lessonName ? lesson.lessonName : "New Lesson"}
           </> :  
           <>
-          <span className="text-cyan-100 font-black text-lg text-center">Unit Test:{"  "}</span>
+          <span className="text-cyan-100 font-extrabold text-lg">Unit Test:{"  "}</span>
           {lesson.lessonName ? lesson.lessonName : ""}
           </>}
         </p>

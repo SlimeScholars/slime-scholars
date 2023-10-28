@@ -5,10 +5,10 @@ import {TbTypography, TbAdjustmentsQuestion} from 'react-icons/tb'
 import {FiImage} from 'react-icons/fi'
 import {BsPencilSquare, BsFillTrashFill} from 'react-icons/bs'
 import { Segmented } from "../segmented";
-import TextElement from "./elements/textElement";
-import FreeResponseElement from "./elements/freeResponseElement";
-import ImageElement from "./elements/imageElement";
-import MultipleChoiceElement from "./elements/multipleChoiceElement";
+import TextElement from "./../activity/elements/textElement";
+import FreeResponseElement from "./../activity/elements/freeResponseElement";
+import ImageElement from "./../activity/elements/imageElement";
+import MultipleChoiceElement from "./../activity/elements/multipleChoiceElement";
 
 export default function Section({ section, index, max, theme, handleAppendElement, 
   handleModifyElement, handleDeleteElement, handleModifySection, handleSectionSwap, handleElementSwap, 

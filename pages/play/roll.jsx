@@ -101,13 +101,13 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         setSlimes(newSlimes);
                         setOriginalSlimes(response.data.originSlimeObjects);
                         refetchUser()
-                        setTimeout(() => {setLoading(false)}, 100)
+                        setTimeout(() => {setLoading(false)}, 150)
                     })
                     .catch(error => {
                         error?.response?.data?.message ? showToastError(error.response.data.message) :
                             error?.message ? showToastError(error.message) :
                                 showToastError(error);
-                        setTimeout(() => {setLoading(false)}, 100)
+                        setTimeout(() => {setLoading(false)}, 150)
                     });
             } else {
 
@@ -127,7 +127,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         setAfterRolling(2);
 
                         refetchUser()
-                        setTimeout(() => {setLoading(false)}, 100)
+                        setTimeout(() => {setLoading(false)}, 150)
                     })
                     .catch(error => showToastError(error.message));
             }

@@ -51,13 +51,13 @@ export default function AddToRoster({
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          setTimeout(() => {setLoading(false)}, 100);
+          setTimeout(() => {setLoading(false)}, 150);
           refetchUser()
         })
         .catch((error) => {
           showToastError(error.response.data.message);
           console.log(error);
-          setTimeout(() => {setLoading(false)}, 100);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
