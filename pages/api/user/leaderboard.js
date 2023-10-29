@@ -16,6 +16,7 @@ export default async function (req, res) {
     if (req.method !== "GET") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apikey);
 
     // Connect to the database
     await connectDB();
@@ -39,8 +40,6 @@ export default async function (req, res) {
       .sort({ exp: -1 })
       .limit(20)
       .select("_id");
-
-
 
     const userIds = [];
     for (let i = 0; i < sortedLeaderboard.length; i++) {
