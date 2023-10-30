@@ -11,6 +11,8 @@ import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
+import { TutorialPanels } from "../components/tutorial/tutorialPanels";
+import { panels } from "../data/editTutorial";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
@@ -155,7 +157,9 @@ function MyApp({ Component, pageProps }) {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setTimeout(() => {setLoading(false)}, 150);
+        setTimeout(() => {
+          setLoading(false);
+        }, 150);
         return;
       }
 
@@ -192,7 +196,9 @@ function MyApp({ Component, pageProps }) {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setTimeout(() => {setLoading(false)}, 150);
+        setTimeout(() => {
+          setLoading(false);
+        }, 150);
         return;
       }
 
@@ -210,7 +216,9 @@ function MyApp({ Component, pageProps }) {
         .then((response) => {
           if (response.data && response.data.user) {
             setUser(response.data.user);
-            setTimeout(() => {setLoading(false)}, 150);
+            setTimeout(() => {
+              setLoading(false);
+            }, 150);
           }
         })
         .catch((err) => {
@@ -218,11 +226,15 @@ function MyApp({ Component, pageProps }) {
           // If the json web token is invalid, remove it so no more requests will be made with the same token
           localStorage.removeItem("jwt");
           setUser(null);
-          setTimeout(() => {setLoading(false)}, 150);
+          setTimeout(() => {
+            setLoading(false);
+          }, 150);
         });
     } catch (err) {
       console.log(err);
-      setTimeout(() => {setLoading(false)}, 150);
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
     }
   };
 
@@ -326,6 +338,9 @@ function MyApp({ Component, pageProps }) {
       {loading ? <MainSpinner /> : <></>}
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
+        <div className="fixed inset-0 flex items-center justify-center">
+          <TutorialPanels panels={panels} />
+        </div>
         {onPlay && !isMobile ? (
           <>
             {/* Each component is wrapped in a relative div to allow use to z-index*/}
