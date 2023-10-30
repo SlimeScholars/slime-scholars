@@ -37,25 +37,25 @@ export function TutorialPanels({ panels }) {
 
   return (
     <>
-      <div className="flex flex-col rounded-2xl bg-neutral-700/[0.75] h-[53rem] w-[85rem] rounded shadow-md">
+      <div className="flex flex-col rounded-2xl bg-neutral-700/[0.75] h-[43rem] w-[75rem] rounded shadow-md">
         <div className="flex-1 flex justify-center items-center px-[2.5rem]">
-          <div className="flex flex-col gap-[1rem] flex-[60%]">
+          <div className="flex flex-col gap-[1rem] flex-[50%]">
             <Image
               src={panels[index].image1}
               width={0}
               height={0}
               sizes="100vw"
-              className="w-[43rem]"
+              className="w-[33rem]"
             />
             <Image
               src={panels[index].image2}
               width={0}
               height={0}
               sizes="100vw"
-              className="w-[43rem]"
+              className="w-[33rem]"
             />
           </div>
-          <div className="text-center text-white flex-[40%]">
+          <div className="text-center text-white flex-[50%]">
             {panels[index].description}
           </div>
         </div>
