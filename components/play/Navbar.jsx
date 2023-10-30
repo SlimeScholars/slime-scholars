@@ -7,6 +7,8 @@ import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 import NextRewardTimer from "./slimes/NextRewardTimer";
 import { playSound } from "../../utils/playSound";
+import { TutorialPanels } from "../tutorial/tutorialPanels";
+import { panels } from "../../data/editTutorial";
 
 /*
 Parameter:
@@ -300,6 +302,10 @@ export function Navbar({
         {router.asPath === "/play" && (
           <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm w-[16rem]">
             <NextRewardTimer />
+            {/**/}
+            <div className="fixed inset-0 flex items-center justify-center">
+              <TutorialPanels panels={panels} />
+            </div>
           </div>
         )}
       </div>

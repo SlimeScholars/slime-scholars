@@ -11,8 +11,6 @@ import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
-import { TutorialPanels } from "../components/tutorial/tutorialPanels";
-import { panels } from "../data/editTutorial";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
@@ -338,13 +336,12 @@ function MyApp({ Component, pageProps }) {
       {loading ? <MainSpinner /> : <></>}
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
-        <div className="fixed inset-0 flex items-center justify-center">
-          <TutorialPanels panels={panels} />
-        </div>
+
         {onPlay && !isMobile ? (
           <>
             {/* Each component is wrapped in a relative div to allow use to z-index*/}
             {/* Home page */}
+
             <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
                 user={user}
