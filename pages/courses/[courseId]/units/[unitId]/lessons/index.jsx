@@ -91,7 +91,6 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       console.log("no token");
       return;
     }
-    console.log("TESTTEST");
     axios
       .post(
         "/api/learn/lesson/complete",
@@ -111,7 +110,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       .then((response) => {
         console.log(response);
       });
-  }, []);
+  }, [lessons]);
 
   if (loading) {
     return;
