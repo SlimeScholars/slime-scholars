@@ -57,18 +57,18 @@ export default function Units({
           if (response?.data?.units) {
             setCourseName(response.data.courseName);
             setUnits(response.data.units);
-            setLoading(false);
+            setTimeout(() => {setLoading(false)}, 150);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message);
           }
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
-      setLoading(false);
+      setTimeout(() => {setLoading(false)}, 150);
       return;
     }
   }, [router.query.courseId]);
@@ -109,9 +109,9 @@ export default function Units({
         </span>
       </div>
       <div
-        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
+        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[3rem] 2xl:pl-[3.75rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
         style={{
-          backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0",
+          backgroundColor: !colorPalette ? "" : colorPalette.black + "C0",
         }}
       >
         <div className="flex flex-row gap-4 pt-[1.5rem] pb-[1.5rem]">
@@ -131,17 +131,17 @@ export default function Units({
             />
           </div>
           <section
-            className="text-4xl font-bold flex flex-col gap-2"
+            className="text-4xl font-bold flex flex-col justify-center h-full"
             style={{
-              color: !colorPalette ? "" : colorPalette.black,
+              color: !colorPalette ? "" : colorPalette.white,
             }}
           >
             {courseName}
             <div className="flex flex-row">
               <span
-                className="brightness-[0.5] text-lg italic font-normal"
+                className="text-lg italic font-normal"
                 style={{
-                  color: !colorPalette ? "" : colorPalette.primary1,
+                  color: !colorPalette ? "" : colorPalette.text1 + "C0",
                 }}
               >
                 {units.length} units • {sumPoints(units)}

@@ -155,7 +155,9 @@ function MyApp({ Component, pageProps }) {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 150);
         return;
       }
 
@@ -192,7 +194,9 @@ function MyApp({ Component, pageProps }) {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 150);
         return;
       }
 
@@ -210,7 +214,9 @@ function MyApp({ Component, pageProps }) {
         .then((response) => {
           if (response.data && response.data.user) {
             setUser(response.data.user);
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 150);
           }
         })
         .catch((err) => {
@@ -218,11 +224,15 @@ function MyApp({ Component, pageProps }) {
           // If the json web token is invalid, remove it so no more requests will be made with the same token
           localStorage.removeItem("jwt");
           setUser(null);
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 150);
         });
     } catch (err) {
       console.log(err);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
     }
   };
 
@@ -324,12 +334,14 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       {loading ? <MainSpinner /> : <></>}
-      <div className={`relative ${loading ? "hidden" : ""}`}>
+      <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
+
         {onPlay && !isMobile ? (
           <>
             {/* Each component is wrapped in a relative div to allow use to z-index*/}
             {/* Home page */}
+
             <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
                 user={user}

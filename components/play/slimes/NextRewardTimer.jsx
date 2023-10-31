@@ -30,12 +30,14 @@ export default function NextRewardTimer() {
     const minutes = Math.floor((time % 3600) / 60);
     const seconds = time % 60;
 
-    return `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
-  }
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+  };
 
   return (
-    <div className="text-center bg-white/[0.55] py-2 px-3 rounded-full text-slate-900">
-        Next Reward in {convertToDisplay(msToNext)}
+    <div className="text-center bg-white/[0.65] pt-2 pb-1 px-5 rounded-full text-slate-800">
+      Next Reward in {convertToDisplay(msToNext)}
     </div>
-  )
+  );
 }

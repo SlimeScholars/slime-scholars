@@ -101,13 +101,13 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         setSlimes(newSlimes);
                         setOriginalSlimes(response.data.originSlimeObjects);
                         refetchUser()
-                        setLoading(false)
+                        setTimeout(() => {setLoading(false)}, 150)
                     })
                     .catch(error => {
                         error?.response?.data?.message ? showToastError(error.response.data.message) :
                             error?.message ? showToastError(error.message) :
                                 showToastError(error);
-                        setLoading(false)
+                        setTimeout(() => {setLoading(false)}, 150)
                     });
             } else {
 
@@ -127,7 +127,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                         setAfterRolling(2);
 
                         refetchUser()
-                        setLoading(false)
+                        setTimeout(() => {setLoading(false)}, 150)
                     })
                     .catch(error => showToastError(error.message));
             }
@@ -180,9 +180,9 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                 className={
                     (eggsLacked > 0 || afterRolling) ? ("w-full h-full brightness-75") : ("w-full h-full")
                 }>
-                <div className="relative ">
+                <div className="relative">
                     {/* Image as background */}
-                    <div className="flex justify-center">
+                    <div className="flex justify-center items-center">
 
                         <Image
                             src="/assets/roll-bg/primary-banner.png"
@@ -190,20 +190,20 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                             height={0}
                             width={0}
                             sizes='100vw'
-                            className="bg-cover w-[60%] h-auto inset-0 "
+                            className="ml-[50px] bg-cover w-[60%] h-auto inset-0 "
                         />
                     </div>
                     {/* Buttons to roll */}
-                    <div className="absolute bottom--30 w-full mt-20">
+                    <div className="absolute bottom--30 w-full mt-5">
                         <div className="flex justify-center">
-                            <div className="flex gap-4 content-en">
+                            <div className="flex gap-8 content-en">
                                 <button
                                     style={{
                                         backgroundColor: colorPalette ? colorPalette.primary1 : "",
                                         color: colorPalette ? colorPalette.text1 : "",
                                         border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
                                     }}
-                                    className="hover:brightness-110 pr-[5vw] flex flex-col justify-between rounded-lg text-white p-4 "
+                                    className="roll-button-animate pr-[5vw] w-[300px] flex flex-col justify-between rounded-lg text-white p-4 "
                                     onClick={() => handleRollBtnClick(1)}>
                                     <div className="flex flex-row font-galindo text-lg">
                                         <p>Roll x1</p>
@@ -224,7 +224,7 @@ export default function Roll({ loading, user, setUser, setLoading, colorPalette,
                                         color: colorPalette ? colorPalette.text1 : "",
                                         border: colorPalette ? `3px solid ${colorPalette.primary2}` : ""
                                     }}
-                                    className="hover:brightness-110 pr-[5vw] flex flex-col justify-between rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
+                                    className="roll-button-animate pr-[5vw] w-[300px] flex flex-col justify-between rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
                                     onClick={() => handleRollBtnClick(10)}>
                                     <div className="flex flex-row font-galindo text-lg">
                                         <p>Roll x10</p>

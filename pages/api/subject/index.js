@@ -45,15 +45,12 @@ export default async function (req, res) {
             },
           ],
         },
-        {
-          path: "quizzes",
-          model: "Lesson",
-        },
       ],
     });
 
     res.status(200).json({ subjects });
   } catch (error) {
+    console.log(error)
     res.status(400).json({ message: error.message });
   }
 }

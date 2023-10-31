@@ -17,16 +17,16 @@ export default function DisplayMultipleChoiceElement({element, index, key, theme
             <div className="mt-2 flex flex-col gap-1">
             {data.options && data.options.map((item, key) => {
                 return(
-                    <div key={key} className={`w-full rounded-md px-3 py-1 transition-all duration-200 ${bold ? "font-bold" : "font-normal"}`}
-                    style={{
-                        backgroundColor: key === selectedIndex ? theme.medium + "C0" : theme.demi_light + "A0",
-                        color: key === selectedIndex ? theme.ultra_light: theme.dark,
-                        width: horiz ? "100%" : "50%",
-                        fontWeight: key === selectedIndex ? 700 : 500
-                    }}
-                    onClick={() => {
-                        setSelectedIndex(key)
-                    }}>
+                    <div className="flex flex-row items-center gap-4 z-[100]">
+                        <div className="mc-button z-[100] cursor-pointer"
+                        style={{
+                            width: "16px",
+                            height: "16px",
+                            backgroundColor: key === selectedIndex ? theme.semi_dark : "transparent"
+                        }}
+                        onClick={() => {
+                            setSelectedIndex(key)
+                        }}/>
                         {item.option}
                     </div>
                 )

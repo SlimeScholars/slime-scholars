@@ -57,18 +57,24 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
             setUnitNumber(response.data.unitNumber);
             setUnitName(response.data.unitName);
             setLessons(response.data.lessons);
-            setLoading(false);
+            setTimeout(() => {
+              setLoading(false);
+            }, 150);
           }
         })
         .catch((error) => {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message);
           }
-          setLoading(false);
+          setTimeout(() => {
+            setLoading(false);
+          }, 150);
         });
     } catch (error) {
       showToastError(error.message);
-      setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
       return;
     }
   }, [router.query.courseId, router.query.unitId]);
@@ -145,24 +151,24 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
         </span>
       </div>
       <div
-        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
+        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[3rem] 2xl:pl-[3.75rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
         style={{
-          backgroundColor: !colorPalette ? "" : colorPalette.text1 + "C0",
+          backgroundColor: !colorPalette ? "" : colorPalette.black + "C0",
         }}
       >
         <div className="pt-[1.5rem] pb-[1.5rem]">
           <section
-            className="text-4xl font-bold flex flex-col gap-2"
+            className="text-4xl font-bold flex flex-col justify-center h-full"
             style={{
-              color: !colorPalette ? "" : colorPalette.black,
+              color: !colorPalette ? "" : colorPalette.white,
             }}
           >
             {unitName}
             <div className="flex flex-row">
               <span
-                className="brightness-[0.5] text-lg italic font-normal"
+                className="text-lg italic font-normal"
                 style={{
-                  color: !colorPalette ? "" : colorPalette.primary1,
+                  color: !colorPalette ? "" : colorPalette.text1 + "C0",
                 }}
               >
                 {counts.lessons} lessons • {counts.quizzes} quizzes •{" "}
@@ -209,8 +215,6 @@ const lessonCounter = (list) => {
       tests++;
     }
   }
-  console.log(list);
-
   return { lessons, quizzes, tests };
 };
 

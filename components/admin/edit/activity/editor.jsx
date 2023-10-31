@@ -16,13 +16,13 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
         try{
             await activityService.update(activity._id, [...activity.pages.map((page, num) => {return{...page, pageNumber:num+1}}), {sections:[], 
                 pageNumber:activity.pages.length+1}], activity.pages.length, 0)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
             setPage(activity.pages.length)
             refresh(true)
         }
         catch(err){
             console.log(err) 
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     }
 
@@ -33,13 +33,13 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             clone.splice(page, 1)
             await activityService.update(activity._id, [...clone.map((page, num) => {return{...page, pageNumber:num+1}})], 
                 page-1, 0)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
             setPage((current) => current === 0 ? (activity.pages.length === 1 ? null : 0) : current-1)
             refresh(true)
         }
         catch(err){
             console.log(err) 
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     }
     
@@ -54,12 +54,12 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 }
             })], 
             page, 0)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
             refresh(true)
         }
         catch(err){
             console.log(err)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     }
 
@@ -78,11 +78,11 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             })], 
             page, 0)
             refresh(true)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
         catch(err){
             console.log(err) 
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     }
 
@@ -107,11 +107,11 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             })], 
             page, 0)
             refresh(true)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
         catch(err){
             console.log(err)
-            setLoading(false) 
+            setTimeout(() => {setLoading(false)}, 150) 
         }
     }
 
@@ -153,11 +153,11 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
             })], 
             page, 0)
             refresh(true)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
         catch(err){ 
             console.log(err)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     }
 
@@ -186,11 +186,11 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
               }))],
             page, 0);
             refresh()
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
           } 
         catch(err){
             console.log(err)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     }
 
@@ -237,11 +237,11 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 }))],
             page, 0);
             refresh(true);    
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
         catch(err){
             console.log(err)
-            setLoading(false)
+            setTimeout(() => {setLoading(false)}, 150)
         }
     } 
 
