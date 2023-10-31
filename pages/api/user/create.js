@@ -237,6 +237,8 @@ export default async function (req, res) {
           ],
           lastRewards: [0, 0],
           lastSlimeRewards: new Date(),
+
+          tutorialActive: true
         })
       )._id;
 
@@ -267,7 +269,7 @@ export default async function (req, res) {
       })
         .populate({
           path: "parent",
-          select: "_id userType firstName lastName honorific email",
+          select: "_id userType firstName lastName honorific email tutorialActive",
         })
         .populate({
           path: "slimes",
