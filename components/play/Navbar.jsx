@@ -300,12 +300,10 @@ export function Navbar({
           }}
         />
         {router.asPath === "/play" && (
-          <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm w-[16rem]">
+          <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm w-[18rem]">
             <NextRewardTimer />
-            {/**/}
-            <div className="fixed inset-0 flex items-center justify-center">
-              <TutorialPanels panels={panels} />
-            </div>
+
+            <TutorialPanels panels={panels} />
           </div>
         )}
       </div>
