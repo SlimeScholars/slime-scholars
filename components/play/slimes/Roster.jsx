@@ -3,14 +3,24 @@ import { showToastError } from "../../../utils/toast";
 import { gameData } from "../../../data/gameData";
 import Image from "next/image";
 import { useEffect } from "react";
+import { playSound } from "../../../utils/playSound";
 
-export default function Roster({ user, loading, setLoading, slime, setUser, bg, refetchUser, colorPalette }) {
+export default function Roster({
+  user,
+  loading,
+  setLoading,
+  slime,
+  setUser,
+  bg,
+  refetchUser,
+  colorPalette,
+}) {
   if (loading) {
     return;
   }
 
   const handleClick = (id, index) => {
-    setLoading(true)
+    setLoading(true);
     try {
       if (id === null) {
         return;
@@ -47,13 +57,13 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          setLoading(false);
-          refetchUser()
+          setTimeout(() => {setLoading(false)}, 150);
+          refetchUser();
         })
         .catch((error) => {
           showToastError(error.response.data.message);
           console.log(error);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
@@ -64,11 +74,18 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
   return (
     // if slime not selected, don't allow user to add
     <div className="grid 2xl:grid-cols-4 grid-cols-2 gap-6">
-      {user && Array.isArray(user.roster) &&
+      {user &&
+        Array.isArray(user.roster) &&
         user.roster.map((char, index) => {
           if (char === null) {
             return (
-              <div className="relative" key={index}>
+              <div
+                className="relative hover:m-1 transition-all duration-150 ease-out"
+                key={index}
+                onMouseEnter={() => {
+                  playSound("boop");
+                }}
+              >
                 <button
                   onClick={() => {
                     handleClick(slime._id, index);
@@ -78,19 +95,15 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                     border: `5px solid ${bg.primary1}`,
                   }}
                 >
-                  <div
-                    className="absolute w-full h-full text-center flex items-center justify-center text-3xl font-bold"
-                  >
+                  <div className="absolute w-full h-full text-center flex items-center justify-center text-3xl font-bold">
                     +
                   </div>
                   <Image
-                    src={
-                      "/assets/pfp/slimes/shadow-slime.png"
-                    }
+                    src={"/assets/pfp/slimes/shadow-slime.png"}
                     alt="Slime"
                     height={0}
                     width={0}
-                    sizes='100vw'
+                    sizes="100vw"
                     className="h-auto w-[80%] mx-auto mb-3"
                   />
                 </button>
@@ -98,12 +111,20 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
             );
           }
           return (
-            <div className="relative" key={index}>
+            <div
+              className="relative hover:m-1 transition-all duration-150 ease-out"
+              key={index}
+              onMouseEnter={() => {
+                playSound("boop");
+              }}
+            >
               <button
                 onClick={() => {
                   handleClick(slime._id, index);
                 }}
-                className={`relative rounded-lg ${gameData.rarityColours[char.rarity].bg}`}
+                className={`relative rounded-lg ${
+                  gameData.rarityColours[char.rarity].bg
+                }`}
                 style={{
                   border: `5px solid ${bg.primary1}`,
                 }}
@@ -116,7 +137,7 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
                   alt={char.slimeName}
                   height={0}
                   width={0}
-                  sizes='100vw'
+                  sizes="100vw"
                   className="h-auto w-[80%] mx-auto mb-3"
                 />
               </button>
@@ -131,18 +152,18 @@ export default function Roster({ user, loading, setLoading, slime, setUser, bg, 
               >
                 {char.bonusLevel ? (
                   <p className="text-center text-sm mt-1">
-                    Lvl. {char.level === char.maxLevel ? 'MAX' : char.level} + {char.bonusLevel}
+                    Lvl. {char.level === char.maxLevel ? "MAX" : char.level} +{" "}
+                    {char.bonusLevel}
                   </p>
                 ) : (
                   <p className="text-center text-sm mt-1">
-                    Lvl. {char.level === char.maxLevel ? 'MAX' : char.level}
+                    Lvl. {char.level === char.maxLevel ? "MAX" : char.level}
                   </p>
                 )}
               </div>
-
             </div>
           );
         })}
-    </div >
+    </div>
   );
 }

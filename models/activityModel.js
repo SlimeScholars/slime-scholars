@@ -115,7 +115,6 @@ const pageSchema = new Schema(
       type: [sectionSchema],
       required: [true, "Missing sections"],
       default: [],
-      _id: false,
     },
   },
   {

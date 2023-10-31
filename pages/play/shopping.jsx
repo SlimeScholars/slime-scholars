@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import { gameData } from "../../data/gameData";
@@ -56,13 +56,17 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 		}
 
 	}, [searchContent]);
+	
+	const pageRef = useRef(null)
 
 	const scrollToTop = () => {
-		// TODO: scroll to top
-	}
+		if (pageRef && pageRef.current) {
+		  pageRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	  };
 
 	return (
-		<div className="">
+		<div className="" ref={pageRef}>
 			{/* Shopping bar */}
 			<div className="items-center justify-between h-full">
 				<div className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"

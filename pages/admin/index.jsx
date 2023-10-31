@@ -31,7 +31,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
     }
     else if (loading && subjects && initialLoad) {
       setInitialLoad(false)
-      setLoading(false)
+      setTimeout(() => {setLoading(false)}, 150)
     }
   }, [subjects, loading, initialLoad])
 
@@ -56,12 +56,12 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
           }
           //console.log(responseSubjects)
           setSubjects(responseSubjects)
-          setLoading(false)
+          setTimeout(() => {setLoading(false)}, 150)
         }
       })
       .catch((error) => {
         showToastError(error.message)
-        setLoading(false);
+        setTimeout(() => {setLoading(false)}, 150);
       });
   }
 
@@ -92,13 +92,13 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
                 id: subjects.length,
               },
             ]);
-            setLoading(false);
+            setTimeout(() => {setLoading(false)}, 150);
             console.log(loading)
           }
         })
         .catch((error) => {
           showToastError(error.message)
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
 
     } catch (error) {

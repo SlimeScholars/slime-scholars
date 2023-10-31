@@ -43,7 +43,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message);
           }
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
@@ -53,7 +53,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 
   useEffect(() => {
     if (courses.length > 0) {
-      setLoading(false);
+      setTimeout(() => {setLoading(false)}, 150);
     }
   }, [courses]);
 
@@ -66,7 +66,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
       }}
     >
-      <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
+      <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[3rem] 2xl:pl-[3.75rem]">
         <span
           className="hover:text-blue-400 transition-all duration-150"
           onClick={() => {
@@ -77,7 +77,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         </span>
       </div>
       <div
-        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[4rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
+        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[3rem] 2xl:pl-[3.75rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
         style={{
           backgroundColor: !colorPalette ? "" : colorPalette.black + "C0",
         }}

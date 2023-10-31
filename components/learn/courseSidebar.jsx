@@ -10,8 +10,8 @@ export default function CourseSidebar({ colorPalette, open, setOpen, user }) {
 
   return (
     <div
-      className={`relative h-full transition-all duration-150 p-4 w-[300px] z-[80]
-        ${open ? "translate-x-0" : "translate-x-[-280px]"}`}
+      className={`relative h-full transition-all duration-150 p-4 w-[250px] 2xl:w-[300px] z-[80]
+        ${open ? "translate-x-0" : "translate-x-[-235px] 2xl:translate-x-[-280px]"}`}
     >
       <div
         className="absolute top-0 left-0 w-full h-full"
@@ -121,11 +121,8 @@ export default function CourseSidebar({ colorPalette, open, setOpen, user }) {
         </div>
         <div>
           <div
-            className="w-full bg-white/[0.55] rounded-full text-center text-lg mb-2 py-1 hover:bg-white/[0.75] 
+            className="w-full bg-white/[0.65] rounded-full text-center text-lg mb-2 py-1
                     transition-all duration-150"
-            onClick={() => {
-              router.push("/play");
-            }}
           >
             My Slimes
           </div>

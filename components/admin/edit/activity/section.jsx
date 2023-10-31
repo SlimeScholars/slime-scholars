@@ -4,7 +4,7 @@ import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
 import {TbTypography, TbAdjustmentsQuestion} from 'react-icons/tb'
 import {FiImage} from 'react-icons/fi'
 import {BsPencilSquare, BsFillTrashFill} from 'react-icons/bs'
-import { Segmented } from "./segmented";
+import { Segmented } from "../segmented";
 import TextElement from "./elements/textElement";
 import FreeResponseElement from "./elements/freeResponseElement";
 import ImageElement from "./elements/imageElement";

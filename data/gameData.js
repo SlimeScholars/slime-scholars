@@ -317,6 +317,7 @@ export const gameData = {
       black: "#06111D",
       text1: "#ecf1f8",
       text2: "#ecf1f8",
+      track: "ice-city",
     },
 
     "Japan Vibes": {
@@ -337,6 +338,7 @@ export const gameData = {
       black: "#FFFFFF",
       text1: "#4b0239",
       text2: "#4b0239",
+      track: "ice-city",
     },
 
     "Magma Caverns": {
@@ -397,9 +399,9 @@ export const gameData = {
       white: "#FFF9FC",
       grey: "#3E3F47",
       black: "#09020B",
-
       text1: "#ffccff",
       text2: "#ffccff",
+      track: "ice-city",
     },
 
     "Night View": {
@@ -418,9 +420,9 @@ export const gameData = {
       white: "#FEFEFD",
       grey: "#C3BDE8",
       black: "#07071B",
-
       text1: "#ccffff",
       text2: "#ccffff",
+      track: "ice-city",
     },
 
     "Ocean City": {
@@ -439,9 +441,9 @@ export const gameData = {
       white: "#F6FBFD",
       grey: "#A7ACB3",
       black: "#001217",
-
       text1: "#ccffff",
       text2: "#ccffff",
+      track: "forest-mountains",
     },
 
     "Orange Desert": {
@@ -502,9 +504,9 @@ export const gameData = {
       white: "#EEEBFE",
       grey: "#403E46",
       black: "#19063B",
-
       text1: "#ccccff",
       text2: "#ccccff",
+      track: "pillar-space",
     },
 
     "Pink Candy": {
@@ -565,9 +567,9 @@ export const gameData = {
       white: "#EFF0FB",
       grey: "#9697A1",
       black: "#09040A",
-
       text1: "#ccccff",
       text2: "#ccccff",
+      track: "ice-city",
     },
 
     "Rainy Forest": {
@@ -586,9 +588,9 @@ export const gameData = {
       white: "#F1F3FA",
       grey: "#A4A6AD",
       black: "#0B0D07",
-
       text1: "#ccffcc",
       text2: "#ccffcc",
+      track: "ice-city",
     },
 
     "Rainy Town": {
@@ -607,9 +609,9 @@ export const gameData = {
       white: "#E5F1F8",
       grey: "#6C7192",
       black: "#0A0A0D",
-
       text1: "#ccffff",
       text2: "#ccffff",
+      track: "ice-city",
     },
 
     "Red Space": {
@@ -631,6 +633,113 @@ export const gameData = {
       text1: "#ffcccc",
       text2: "#ffcccc",
       track: "pillar-space",
+    },
+
+    // CHANGE UP COLOR PALETTE AND TRACKS OF THESE BELOW
+
+    "Sandy Ruins": {
+      itemName: "Sandy Ruins",
+      rarity: "Rare",
+      desc: "The ruins of an ancient civilization. A dangerous place to be, but fit for adventure.",
+      isBg: true,
+      pfp: "sandy-ruins.png",
+      bg: "sandy-ruins.png",
+      buyPrice: 1000,
+      buyCurrency: 0,
+      primary1: "#e0bba2",
+      primary2: "#bd9479",
+      secondary1: "#7a5a42",
+      secondary2: "#4d3625",
+      white: "#faf6f2",
+      grey: "#aba39b",
+      black: "#0a0704",
+      text1: "#f5efe9",
+      text2: "#f5efe9",
+      track: "sandy-ruins",
+    },
+
+    "Stony Beach": {
+      itemName: "Stony Beach",
+      rarity: "Rare",
+      desc: "You know that feeling you get when you step on rocks while at the beach? Yeah, that's what this is.",
+      isBg: true,
+      pfp: "stony-beach.png",
+      bg: "stony-beach.png",
+      buyPrice: 1000,
+      buyCurrency: 0,
+      primary1: "#97d651",
+      primary2: "#6ba621",
+      secondary1: "#CBF9EC",
+      secondary2: "#ECC23E",
+      white: "#F1FDFC",
+      grey: "#E1E5E4",
+      black: "#000000",
+      text1: "#e8fad2",
+      text2: "#c9d9b6",
+      track: "forest-mountains",
+    },
+
+    "Thunder City": {
+      itemName: "Thunder City",
+      rarity: "Rare",
+      desc: "Some people hate the rain. Most people hate standing in a thunderstorm. But not you apparently.",
+      isBg: true,
+      pfp: "thunder-city.png",
+      bg: "thunder-city.png",
+      buyPrice: 1000,
+      buyCurrency: 0,
+      primary1: "#7e3b91",
+      primary2: "#a85cbc",
+      secondary1: "#7e3b91",
+      secondary2: "#4A42B2",
+      white: "#EFF0FB",
+      grey: "#9697A1",
+      black: "#09040A",
+      text1: "#ccccff",
+      text2: "#ccccff",
+      track: "ice-city",
+    },
+
+    "Underwater Shipwreck": {
+      itemName: "Underwater Shipwreck",
+      rarity: "Rare",
+      desc: "It's said that this ship was once belonged to the legendary pirate slime, Captain Slimebeard.",
+      isBg: true,
+      pfp: "underwater-shipwreck.png",
+      bg: "underwater-shipwreck.png",
+      buyPrice: 1000,
+      buyCurrency: 0,
+      primary1: "#3d428a",
+      primary2: "#262875",
+      secondary1: "#1A1C74",
+      secondary2: "#2F64B5",
+      white: "#FEFEFD",
+      grey: "#C3BDE8",
+      black: "#07071B",
+      text1: "#ccffff",
+      text2: "#ccffff",
+      track: "magma-caverns",
+    },
+
+    "Underwater Ruins": {
+      itemName: "Underwater Ruins",
+      rarity: "Rare",
+      desc: "A shrine for Poslimedon, slime of the sea.",
+      isBg: true,
+      pfp: "underwater-ruins.png",
+      bg: "underwater-ruins.png",
+      buyPrice: 1000,
+      buyCurrency: 0,
+      primary1: "#3d428a",
+      primary2: "#262875",
+      secondary1: "#1A1C74",
+      secondary2: "#2F64B5",
+      white: "#FEFEFD",
+      grey: "#C3BDE8",
+      black: "#07071B",
+      text1: "#ccffff",
+      text2: "#ccffff",
+      track: "magma-caverns",
     },
   },
 

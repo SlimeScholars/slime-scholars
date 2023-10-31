@@ -51,12 +51,12 @@ export default function Slimes({
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         })
         .catch((error) => {
           showToastError(error.response.data.message);
           console.log(error);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
@@ -67,7 +67,7 @@ export default function Slimes({
   useEffect(() => {
     if (user) {
       // If the user searched something
-      const searchSlimes = user.slimes.filter((slime) => {
+      const searchSlimes = {...user}.slimes.filter((slime) => {
         return slime.slimeName
           .toLowerCase()
           .includes(searchContent.toLowerCase());

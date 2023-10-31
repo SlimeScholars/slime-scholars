@@ -4,10 +4,11 @@ import { showToastError } from "../../../../../../../../../utils/toast"
 import axios from "axios"
 import { activityService } from "../../../../../../../../../services"
 import { BiSolidLeftArrow, BiSolidRightArrow} from "react-icons/bi"
+import { AiOutlineRedo } from "react-icons/ai"
 import Section from "../../../../../../../../../components/activity/section"
 import Image from "next/image"
 
-const LOADIN_MAXFRAMES = 2
+const LOADIN_MAXFRAMES = 9
 const LOADIN_DELAY = 150
 const LOADIN_INCREMENT = 15
 
@@ -161,11 +162,18 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 					var scrollContainer = document.getElementById("container-activity-index");
 					setTimeout(() => {
 						scrollContainer.scrollTo({
-							top: prev-1 === 0 ? 0 : scrollContainer.scrollHeight,
+							top: prev-1 <= 0 ? 0 : scrollContainer.scrollHeight,
 							behavior: "smooth"
 						});
 					}, 200)
-					return prev > 0 ? prev - 1 : prev
+					if(activity && activity.pages && activity.pages[page] && 
+						prev-1 < 0){
+						setPage((prev) => {
+							return prev-1 < 0 ? prev : prev-1
+						})
+						return 0;
+					} 
+					return prev - 1
 				})
 			}
 		};
@@ -182,18 +190,24 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 	if (loading) { return }
 	return (
 		<>
-		<div className={`absolute top-0 left-0 w-full h-full bg-black text-white 
+		<div className={`absolute top-[-6rem] left-0 w-full h-[calc(100vh_+_6rem)] bg-black text-white 
 		${(!fullLoad() || loadState > -1) 
-			? "z-[500] opacity-1" : "z-0 opacity-0"} 
+			? "z-[500] opacity-1" : "z-[-1] opacity-0"} 
 		flex flex-col gap-8 items-center justify-center text-4xl`}>
-			<div className="flex flex-col gap-2 items-center h-full">
-				<img src="/assets/misc/club-penguin.gif" className="w-[400px] h-[400px]"/>
-				<span>Building Activity...</span>
-				<span className="text-lg">(Temporary Loading Page)</span>
-				<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510]">
+			<div className="flex flex-col gap-2 items-center justify-center font-galindo">
+				<img src="/assets/misc/slime-loader.gif" className="mt-[-200px] w-[400px] h-[400px]"/>
+				<div className="flex flex-row gap-2">
+				Building Activity
+					<div id="loading-wave">
+						<span className="dot bg-white"></span>
+						<span className="dot bg-white"></span>
+						<span className="dot bg-white"></span>
+					</div>
+				</div>
+				<div className="relative rounded-full w-[350px] h-[12px] bg-neutral-500 overflow-hidden z-[510] mt-5">
 				<div className="absolute top-0 left-0 z-[520] h-full transition-all duration-[0.18s] ease-in-out"
 				style={{
-					backgroundColor:colorPalette.secondary1,
+					backgroundColor:colorPalette.text1,
 					width: `${((loadState > -1 ? (170 * (LOADIN_MAXFRAMES-loadState)/(LOADIN_MAXFRAMES)) : 
 					fullLoad() ? 170 : 0) + 
 					(100 * (activity ? 1 : 0)) + (20 * (courseName ? 1 : 0)) + (20 * (unitName ? 1 : 0))
@@ -207,7 +221,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 		style={{
 			backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
 			display:"grid",
-			gridTemplateColumns: "300px auto"
+			gridTemplateColumns: window.innerWidth > 1536 ? "300px auto" : "240px auto"
 		}}>
 			<div className="absolute w-full h-full"
 			style={{
@@ -227,36 +241,36 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 					backgroundColor: !colorPalette ? "" : colorPalette.black + "80",
 					color: colorPalette.white
 				}}>
-					<div className="text-sm mb-2 hover:text-blue-400 transition-all duration-150"
+					<div className="text-[0.8em] 2xl:text-sm mb-2 hover:text-blue-400 transition-all duration-150"
 					onClick={() => {
 						router.push(`/courses/${router.query.courseId}/units/
 						${router.query.unitId}/lessons`)
 					}}>
-						{"<<"} Back to Lessons
+						&lt;&lt; Back to Lessons
 					</div>
-					<div className="text-2xl font-bold">
+					<div className="text-lg 2xl:text-2xl font-bold">
 						{lessonName}
 					</div>
-					<div className="ml-2">
+					<div className="text-sm 2xl:text-md ml-1 2xl:ml-2">
 						{courseName}
 					</div>
-					<div className="ml-2">
+					<div className="text-sm 2xl:text-md ml-1 2xl:ml-2">
 						{unitName}
 					</div>
-					<div className="flex flex-col gap-4 mt-4 px-4 py-3 rounded-md"
+					<div className="flex flex-col gap-3 2xl:gap-4 mt-4 px-3 2xl:px-4 py-2 2xl:py-3 rounded-md"
 					style={{
 						backgroundColor: colorPalette.primary1 + "60"
 					}}>
 						{lessonActivities.map((item, key) => {
 							return (
-							<button className={`flex flex-row justify-between items-center`}
+							<button className={`flex flex-row justify-between items-center text-sm 2xl:text-md`}
 							onClick={() => {
 								router.push(`/courses/${router.query.courseId}/units/
 								${router.query.unitId}/lessons/
 								${router.query.lessonId}/activity/${item._id}`)
 							}}
 							key={key}>
-								<span className={`text-left text-md ${item._id === activityId ? "font-black" : ""}`}>
+								<span className={`text-left text-md ${item._id === activityId ? "font-extrabold 2xl:font-black" : ""}`}>
 									{item.activityName}
 								</span>
 								{item._id !== activityId && 
@@ -273,17 +287,17 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 			</div>
 			<div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
                {activity && 
-			   		<div className={`flex flex-col gap-4 w-full h-full transition-colors duration-300 p-5`}>
+			   		<div className={`flex flex-col gap-4 w-full h-full transition-colors duration-300`}>
 						{activity.pages.length > 0 ?
-						<div className="w-full rounded-md px-[calc(8vw_+_40px)] h-full"
+						<div className="w-full px-[calc(1vw_+_16px)] xl:px-[calc(2vw_+_32px)] 3xl:px-[calc(3vw_+_48px)] h-full"
 						style={{
 							display:"grid",
-							gridTemplateRows:"92.5% 7.5%"
+							gridTemplateRows:"93% 7%"
 						}}>
-							<section className="relative z-[5] rounded-t-md p-4">
-								<div className="absolute top-0 left-0 w-full h-full rounded-t-md"
+							<section className="relative z-[5] p-2">
+								<div className="absolute top-0 left-0 w-full h-full"
 								style={{
-									backgroundColor: colorPalette.text1 + "C0" 
+									backgroundColor: colorPalette.text1 + "A0" 
 								}}/>
 								<div id="container-activity-index" className="relative overflow-y-scroll h-full flex flex-col gap-3 pb-10 z-[15]">
 									{page < activity.pages.length && activity.pages[page].sections.length > 0 && 
@@ -353,14 +367,34 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 															<span className="ml-2 text-green-400">+50</span>
 														</span>
 													</div>
-													<div className="hover:text-blue-400 transition-all duration-200">
+													<div className="flex flex-col gap-1">
+														<div className="flex flex-row gap-1 items-center justify-end hover:text-blue-400 transition-all duration-200 text-right"
+														onClick={() => {
+															setPage(0)
+															setOpen(0)
+															setMaxPage(0)
+															setLoadState(LOADIN_MAXFRAMES)
+														}}>
+															<span>Retry This Activity</span>
+															<AiOutlineRedo className="rotate-90"/>
+														</div>
 														{(() => {
 															for(let i in lessonActivities){
 																if(lessonActivities[i]._id === activity._id && i < lessonActivities.length-1){
-																	return <span>Next Activity: <b>{lessonActivities[Number(i)+1].activityName}</b> {">>"}</span>
+																	return <span 
+																	onClick={() => {
+																		router.push(`/courses/${router.query.courseId}/units/
+																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${lessonActivities[Number(i)+1]._id}`)
+																	}}
+																	className="hover:text-blue-400 transition-all duration-200">Next Activity: <b>{lessonActivities[Number(i)+1].activityName}</b> &gt;&gt;</span>
 																}
 															}
-															return <span>Back to Lessons {">>"}</span>
+															return <span
+															onClick={() => {
+																router.push(`/courses/${router.query.courseId}/units/
+																${router.query.unitId}/lessons`)
+															}}
+															className="hover:text-blue-400 transition-all duration-200">Back to Lessons &gt;&gt;</span>
 														})()}
 													</div>
 												</section>
@@ -369,31 +403,31 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 									</div>}
 								</div>
 							</section>
-							<section className="relative z-[20] flex flex-row justify-between items-center rounded-b-md shadow-lg px-5"
+							<section className="relative z-[20] flex flex-row justify-between items-center shadow-lg px-5"
 							style={{
-								backgroundColor: colorPalette.primary1
+								backgroundColor: colorPalette.primary1 + "A0"
 							}}>
-								<div className="absolute top-0 left-0 w-full h-full bg-white/[0.2] rounded-b-md z-[21]"/>
+								<div className="absolute top-0 left-0 w-full h-full bg-white/[0.35] z-[21]"/>
 								<section className="flex flex-row items-center gap-2 z-[22]">
-									<div className="relative rounded-full w-[180px] h-[0.5rem]"
+									<div className="relative rounded-full w-[200px] h-[0.5rem]"
 									style={{
-										backgroundColor: colorPalette.text1 + "50"
+										backgroundColor: colorPalette.text1 + "A0"
 									}}>
 										<div className="absolute top-[0px] left-[0px] rounded-full h-[0.5rem] transition-all duration-150 ease-out"
 										style={{
-											backgroundColor: colorPalette.text1 + "A0",
-											width: `${(180 * page)/activity.pages.length}px`
+											backgroundColor: colorPalette.text1,
+											width: `${(200 * page)/activity.pages.length}px`
 										}}/>
 									</div>
-									<span className="font-semibold text-sm" style={{color: colorPalette.text1}}>
+									<span className="font-semibold text-sm" style={{color: colorPalette.white}}>
 										{`${(activity.pages && activity.pages.length > 0) ? ((100 * page)/activity.pages.length).toFixed(0) : 100}`}%
 									</span>
 								</section>
 								<section className="flex flex-row gap-2 items-center text-md origin-center scale-90 z-[22]">
 									<button className="text-md" disabled={page === 0}
 									onClick={() => {setPage((prev) => prev-1)}}>
-										<BiSolidLeftArrow className={page === 0 ? "text-neutral-400 cursor-not-allowed" : 
-										"text-neutral-200 hover:text-neutral-50"}/>
+										<BiSolidLeftArrow className={(page === 0 ? "text-neutral-400 cursor-not-allowed" : 
+										"text-neutral-100 hover:text-white") + " transition-all duration-150"}/>
 									</button>
 									<input className="text-md w-[4rem] text-center font-semibold rounded-md" 
 									value={activity.pages ? page < activity.pages.length ? page+1 : "✓" : ""}
@@ -402,8 +436,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 									</input>
 									<button className="text-md" disabled={page === activity.pages.length}
 									onClick={() => {setPage((prev) => prev+1)}}>
-										<BiSolidRightArrow className={page === activity.pages.length ? "text-neutral-400 cursor-not-allowed" : 
-										"text-neutral-200 hover:text-neutral-50"}/>
+										<BiSolidRightArrow className={(page === activity.pages.length ? "text-neutral-400 cursor-not-allowed" : 
+										"text-neutral-100 hover:text-white") + " transition-all duration-150"}/>
 									</button>
 								</section>
 							</section>
