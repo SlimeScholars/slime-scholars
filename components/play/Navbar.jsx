@@ -301,9 +301,12 @@ export function Navbar({
         />
         {router.asPath === "/play" && (
           <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm w-[18rem]">
-            <NextRewardTimer />
+            <div className="flex flex-row gap-4"> 
+              <NextRewardTimer />
+              
+            </div>
 
-            <TutorialPanels panels={panels} />
+            <TutorialPanels panels={panels} user={user}/>
           </div>
         )}
       </div>
