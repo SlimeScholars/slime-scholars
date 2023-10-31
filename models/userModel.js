@@ -307,7 +307,8 @@ const userSchema = new Schema(
 
     tutorialActive:{
       type: Boolean,
-      required: false
+      required: true,
+      default: true
     },
   },
   {

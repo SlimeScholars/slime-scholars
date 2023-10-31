@@ -3,16 +3,20 @@ import Image from "next/image";
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi"
 import { AiOutlineClose } from "react-icons/ai";
 
-export function TutorialPanels({ panels, user }) {
+export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }) {
   const [index, setIndex] = useState(0);
   const [visitedPanels, setVisitedPanels] = useState([0]);
-  const [panelsVisible, setPanelsVisible] = useState(false)
 
   useEffect(() => {
-    if(user && user.tutorialActive){
+    if(false || (user && user.tutorialActive)){
       setPanelsVisible(true)
     }
   }, [user])
+
+  useEffect(() => {
+    setIndex(0)
+    setVisitedPanels([0])
+  }, [panelsVisible])
 
   function previous() {
     const isFirstPanel = index === 0;
