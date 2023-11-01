@@ -55,7 +55,7 @@ export default async function (req, res) {
             ? courseProgress.completion.achieved
             : 0,
         totalPoints:
-          courses[i].totalPoints || calculateTotalPoints(courses[i].units),
+          calculateTotalPoints(courses[i].units),
         completed: false,
       });
       for (let j in user.completedCourses) {
