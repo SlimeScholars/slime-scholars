@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function DisplayMultipleChoiceElement({element, index, key, theme, bold, horiz}){
+export default function DisplayMultipleChoiceElement({element, index, theme, bold, horiz}){
     const [data, setData] = useState(element)
     const [selectedIndex, setSelectedIndex] = useState(-1)
 

@@ -163,12 +163,13 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleElementSwap = async(sectionIndex, elementIndex, swapIndex) => {
         const swap = (arr, index1, index2) => {
+            console.log(arr)
             let clone = [...arr]
             let output = [...arr]
-            output[index1] = {...clone[index2]}
-            output[index1].index = clone[index1].index
-            output[index2] = {...clone[index1]}
-            output[index2].index = clone[index2].index
+            console.log(clone)
+            output[index1] = {...clone[index2], index:clone[index1].index}
+            output[index2] = {...clone[index1], index:clone[index2].index}
+            console.log(output)
             return output
         }
         setLoading(true)
@@ -178,11 +179,12 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
               activity._id,
               [...activity.pages.map((pageData, num) => ({
                   ...pageData, pageNumber: num + 1,
-                  sections: [...pageData.sections.map((sectionData, snum) => ({
+                  sections: [...pageData.sections.map((sectionData, snum) => {
+                    return({ 
                       ...sectionData, sectionIndex: snum + 1,
                       elements: snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
                       : [...sectionData.elements],
-                  }))],
+                  })})],
               }))],
             page, 0);
             refresh()
@@ -227,11 +229,12 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 [...activity.pages.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
-                        if(snum === sectionIndex){return{...sectionData, sectionIndex: snum + 1}}
+                        if(snum === sectionIndex){
+                            return{...sectionData, sectionIndex: snum + 1}}
                         else{
                             const clone = [...sectionData.elements]
                             clone.splice(elementIndex, 1)
-                            return {...sectionData, sectionIndex: snum + 1, elements:clone}
+                            return {...sectionData, sectionIndex: snum + 1, elements:[...clone]}
                         }
                     })],
                 }))],
