@@ -229,7 +229,8 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 [...activity.pages.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
-                        if(snum === sectionIndex){
+                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${snum === sectionIndex-1}`)
+                        if(snum !== sectionIndex-1){
                             return{...sectionData, sectionIndex: snum + 1}}
                         else{
                             const clone = [...sectionData.elements]
