@@ -42,12 +42,6 @@ export default async function (req, res) {
       user.screen_display_notif = null
     }
 
-    if (user.tutorialActive){
-      const update = await User.findById(user._id)
-      update.tutorialActive = false
-      await update.save()
-    }
-
     res.status(200).json({ user })
   } catch (error) {
     res.status(400).json({ message: error.message })
