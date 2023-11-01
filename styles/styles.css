@@ -489,3 +489,17 @@ div#loading-wave .dot:nth-child(3) {
 .mc-button:hover{
   animation: mc-pulse 0.65s infinite
 }
+
+.tutorial-dots{
+  width: 0.9em;
+  height: 0.9em;
+  border-radius: 9999px;
+  border-width: 2px;
+  border-color: #ffffff40;
+  transition-property: all;
+  transition-duration: 150ms;
+}
+
+.tutorial-dots:hover{
+  transform: scale(1.4)
+}
