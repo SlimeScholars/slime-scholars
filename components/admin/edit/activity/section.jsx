@@ -18,18 +18,6 @@ export default function Section({ section, index, max, theme, handleAppendElemen
   const [elementsVisible, setElementsVisible] = useState(false)
   const [addElementWidth, setAddElementWidth] = useState(null)
 
-  const memoHandleModify = useCallback((elementId, params) => {
-    handleModifyElement(index-1, elementId, params)
-  }, [section, handleModifyElement])
-
-  const memoHandleDelete = useCallback((elementId) => {
-    handleDeleteElement(index, elementId)
-  }, [section, handleDeleteElement])
-
-  const memoHandleSwap = useCallback((index1, index2) => {
-    handleElementSwap(index-1, index1, index2)
-  }, [section, handleElementSwap])
-
   useEffect(() => {
     const element = document.getElementById("add-element");
     if (element) {
@@ -108,9 +96,15 @@ export default function Section({ section, index, max, theme, handleAppendElemen
             <div className="flex flex-col gap-3">
               {data.elements.map((element, key) => 
                 {const props = {element:element, index:key+1, key:key, theme:theme, max:data.elements.length,
-                handleChanges:memoHandleModify,
-                handleDelete:memoHandleDelete,
-                handleSwap:memoHandleSwap}
+                handleChanges:(elementId, params) => {
+                  handleModifyElement(index-1, elementId, params)
+                },
+                handleDelete:(elementId) => {
+                  handleDeleteElement(index, elementId)
+                },
+                handleSwap:(index1, index2) => {
+                  handleElementSwap(index-1, index1, index2)
+                }}
                 return(
                 element.elementType === 0 ? <TextElement {...props}/> : 
                 element.elementType === 1 ? <ImageElement {...props}/> : 
