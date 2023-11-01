@@ -9,6 +9,7 @@ import NextRewardTimer from "./slimes/NextRewardTimer";
 import { playSound } from "../../utils/playSound";
 import { TutorialPanels } from "../tutorial/tutorialPanels";
 import { panels } from "../../data/editTutorial";
+import { AiFillQuestionCircle } from "react-icons/ai";
 
 /*
 Parameter:
@@ -35,6 +36,7 @@ export function Navbar({
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
+  const [panelsVisible, setPanelsVisible] = useState(false);
 
   let onHome = true;
   for (let type of types) {
@@ -300,12 +302,25 @@ export function Navbar({
           }}
         />
         {router.asPath === "/play" && (
-          <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm w-[16rem]">
-            <NextRewardTimer />
-            {/*
-            <div className="fixed inset-0 flex items-center justify-center">
-              <TutorialPanels panels={panels} />
-            </div>*/}
+          <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm">
+            <div className="flex flex-row gap-4 items-center">
+              <NextRewardTimer />
+              <button
+                className="flex items-center justify-center text-white/[0.65] hover:text-white/[0.8] text-[2.25em]"
+                onClick={() => {
+                  setPanelsVisible(true);
+                }}
+              >
+                <AiFillQuestionCircle />
+              </button>
+            </div>
+
+            <TutorialPanels
+              panels={panels}
+              user={user}
+              panelsVisible={panelsVisible}
+              setPanelsVisible={setPanelsVisible}
+            />
           </div>
         )}
       </div>

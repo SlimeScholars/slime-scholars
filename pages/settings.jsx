@@ -28,7 +28,7 @@ export default function Settings({ loading, user, setUser }) {
   const [newPassword, setNewPassword] = useState("");
 
   useEffect(() => {
-    if (loading) {
+    if (loading || !user) {
       return;
     }
     // if (!user || user.userType !== 1) {
@@ -40,10 +40,10 @@ export default function Settings({ loading, user, setUser }) {
     //   setUsername(user.username)
     //   setEmail(user.email)
     // }
-    setFirstName(user.firstName)
-    setLastName(user.lastName)
-    setUsername(user.username)
-    setEmail(user.email)
+    setFirstName(user?.firstName)
+    setLastName(user?.lastName)
+    setUsername(user?.username)
+    setEmail(user?.email)
   }, [user, loading]);
 
   const onSubmit = (e) => {
@@ -291,7 +291,7 @@ export default function Settings({ loading, user, setUser }) {
               Update Profile
             </button>
             <button
-              className="w-full h-10 bg-red-300 rounded-md ring-2 ring-red-400 font-galindo text-xl text-red-500 px-3 py-2 my-1 focus:outline-none hover:bg-red-400 hover:ring-red-300 duration-300 ease-in-out"
+              className="w-full h-10 bg-red-100 rounded-md ring-2 ring-red-400 font-galindo text-xl text-red-700 px-3 py-2 my-1 focus:outline-none hover:bg-red-300 hover:ring-red-500 duration-300 ease-in-out"
               onClick={onLogOut}
             >
               Log Out

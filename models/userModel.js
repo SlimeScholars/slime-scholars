@@ -33,7 +33,6 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
-
     // Parents and teachers must have email, students can choose to have email
     email: {
       type: String,
@@ -328,6 +327,12 @@ const userSchema = new Schema(
       required: false,
       default: undefined,
       _id: false,
+    },
+
+    tutorialActive:{
+      type: Boolean,
+      required: true,
+      default: true
     },
   },
   {

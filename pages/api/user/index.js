@@ -23,6 +23,8 @@ export default async function (req, res) {
     const user = await authenticate(req.headers.authorization)
     const data = calcSlimeGel(user?.lastSlimeRewards, user?.roster)
 
+    //console.log(user)
+
     if (data) {
       const update = await User.findById(user._id)
       update.lastSlimeRewards = data.newDate
@@ -38,6 +40,12 @@ export default async function (req, res) {
     }
     else {
       user.screen_display_notif = null
+    }
+
+    if (user.tutorialActive){
+      const update = await User.findById(user._id)
+      update.tutorialActive = false
+      await update.save()
     }
 
     res.status(200).json({ user })
