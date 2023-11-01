@@ -42,6 +42,12 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
   const [open, setOpen] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
 
+  const [updateFlowers, setUpdateFlowers] = useState({
+    old: user.flowers,
+    new: user.flowers,
+    inc: 0,
+  });
+
   useEffect(() => {
     if (activity) {
       if (page === null && activity.pages.length > 0) {
@@ -209,24 +215,28 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
       if (!token) {
         return;
       }
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
       axios
         .post(
           "/api/learn/activity/complete",
           {
             courseId: router.query.courseId,
             unitId: router.query.unitId,
-            lessonId: router.query.lessonId,
             activityId: activityId,
+            score: 1, //change this for partial completions
           },
-          config
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
         )
         .then((response) => {
-          console.log(response);
+          setUpdateFlowers({
+            old: response.data.oldFlowers,
+            new: response.data.newFlowers,
+            inc: response.data.score,
+          });
         })
         .catch((error) => {
           console.log(error);
@@ -489,13 +499,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                       sizes="100vw"
                                       className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                                     />
-                                    {user.flowers === null ? 0 : user.flowers}{" "}
-                                    &rarr;{" "}
-                                    {user.flowers === null
-                                      ? 50
-                                      : user.flowers + 50}
+                                    {updateFlowers.old || 0} &rarr;{" "}
+                                    {updateFlowers.new || 0}
                                     <span className="ml-2 text-green-400">
-                                      +50
+                                      +{updateFlowers.inc || 0}
                                     </span>
                                   </span>
                                 </div>
