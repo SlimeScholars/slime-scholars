@@ -52,28 +52,28 @@ const unitSchema = new Schema(
       required: [true, "Missing lessons"],
       default: [],
     },
-    quizzes: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Lesson",
-          required: [true, "Missing quizId"],
-        },
-      ],
-      required: [true, "Missing quizzes"],
-      default: [],
-    },
-    tests: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Lesson",
-          required: [true, "Missing testId"],
-        },
-      ],
-      required: [true, "Missing tests"],
-      default: [],
-    },
+    // quizzes: {
+    //   type: [
+    //     {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "Lesson",
+    //       required: [true, "Missing quizId"],
+    //     },
+    //   ],
+    //   required: [true, "Missing quizzes"],
+    //   default: [],
+    // },
+    // tests: {
+    //   type: [
+    //     {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "Lesson",
+    //       required: [true, "Missing testId"],
+    //     },
+    //   ],
+    //   required: [true, "Missing tests"],
+    //   default: [],
+    // },
     totalPoints: {
       type: Number,
       required: [true, "Missing totalPoints"],

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function DisplayTextElement({element, index, key, theme, bold, horiz}){
+export default function DisplayTextElement({element, index, theme, bold, horiz}){
     const [data, setData] = useState(element)
 
     useEffect(() => {

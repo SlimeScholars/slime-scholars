@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export default function DisplayImageElement({element, index, key, theme, bold, horiz}){
+export default function DisplayImageElement({element, index, theme, bold, horiz}){
     const [data, setData] = useState(element)
 
     useEffect(() => {

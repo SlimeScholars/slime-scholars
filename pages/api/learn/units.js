@@ -89,7 +89,7 @@ export default async function (req, res) {
         count: count,
         achievedPoints: unitProgress ? unitProgress.completion.achieved : 0,
         totalPoints:
-          course.units[i].totalPoints || calculateTotalPoints(course.units[i]),
+          calculateTotalPoints(count.lessons, count.quizzes, count.tests),
       });
       for (let j in user.completedUnits) {
         if (
@@ -111,11 +111,10 @@ export default async function (req, res) {
   }
 }
 
-const calculateTotalPoints = (unit) => {
+const calculateTotalPoints = (lesson, quiz, test) => {
   let totalPoints =
-    unit.quizzes &&
-    rewardData.quiz * unit.quizzes.length + unit.tests &&
-    rewardData.test * unit.tests.length + unit.lessons &&
-    rewardData.lesson * unit.lessons.length;
+    rewardData.quiz * quiz +
+    rewardData.test * test +
+    rewardData.lesson * lesson;
   return totalPoints || 0;
 };
