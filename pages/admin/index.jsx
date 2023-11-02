@@ -112,6 +112,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
       localStorage.removeItem('jwt');
     }
     setUser(null);
+    router.push('/login')
   }
 
   return (

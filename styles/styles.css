@@ -553,15 +553,15 @@ div#loading-wave .dot:nth-child(3) {
 }
 
 @keyframes svg-text-anim {
-  40% {
+  10% {
      stroke-dashoffset: 0;
      fill: transparent;
    }
-   50% {
+   15% {
      stroke-dashoffset: 0;
      fill: #fff0fa;
    }
-   60% {
+   100% {
      stroke-dashoffset: 0;
      fill: #fff0fa;
    }

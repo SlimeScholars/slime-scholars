@@ -14,15 +14,6 @@ export default function Units({
 }) {
   const router = useRouter();
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (!user || user.userType !== 1) {
-      router.push("/");
-    }
-  }, [user, loading]);
-
   const [courseId, setCourseId] = useState(router.query.courseId);
   const [units, setUnits] = useState([]);
   const [courseName, setCourseName] = useState(null);

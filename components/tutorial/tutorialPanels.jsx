@@ -69,11 +69,6 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
         display: "grid",
         gridTemplateRows: "15% 70% 15%",
       }}>
-      <div className="relative bg-neutral-800/[0.80] h-[85vh] w-[70vw] rounded-2xl shadow-md items-center justify-center"
-        style={{
-          display: "grid",
-          gridTemplateRows: "10% 80% 10%"
-        }}>
         <button className="absolute top-0 right-0 m-6 text-white text-[1.5em] hover:text-neutral-200 transition-all duration-150"
           onClick={handleClosePanels}>
           <AiOutlineClose />
@@ -106,9 +101,6 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
         </section>
         <section className="relative flex flex-row gap-8 items-center mx-auto mb-[1rem] mt-4 w-full justify-center">
           <div className="flex flex-row gap-2 items-center">
-            {/* <span className="text-[0.9em] text-white w-[400px] text-right">
-                {panels[index-1] ? panels[index-1].slidename : ""}
-            </span> */}
             <button
               className={`text-2xl transition-colors duration-150 ${index > 0 ? 
                 "text-white hover:text-neutral-200" : "text-neutral-500 cursor-not-allowed"}`}
@@ -146,9 +138,6 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
             onClick={next}>
               <BiSolidRightArrow/>
             </button>
-            {/* <span className="text-[0.9em] text-white w-[400px] text-left">
-                {panels[index+1] ? panels[index+1].slidename : "Finish"}
-            </span> */}
           </div>
           {index === panels.length - 1 && 
           <div className="absolute right-0 pr-12">
@@ -160,7 +149,6 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
           </div>}
         </section>
       </div>
-    </div>
     </div>
   );
 }
