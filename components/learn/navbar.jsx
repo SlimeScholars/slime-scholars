@@ -7,8 +7,8 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
   const dropdown = useRef(null);
   const [open, setOpen] = useState(false);
-  const btn_tw =
-    "px-5 py-2 rounded-lg bg-pink-500 hover:bg-pink-400 transition-all duration-150 text-white text-lg font-bold";
+  // const btn_tw =
+  //   "px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo";
   const options = [
     {
       label: "My Slimes",
@@ -31,6 +31,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
     {
       label: "Logout",
       onClick: () => {
+        router.push('/login')
         if (typeof window !== "undefined") {
           localStorage.removeItem("jwt");
         }
@@ -57,8 +58,6 @@ export default function Navbar({ colorPalette, setUser, user }) {
 
   const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
   const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"]
-
-  console.log(user)
 
   return (
     <>
@@ -164,7 +163,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
         ) : (
           <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
             <button
-              className={btn_tw}
+              className="px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo hover-highlight hover:scale-[1.08]"
               onClick={() => {
                 router.push("/login");
               }}

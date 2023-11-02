@@ -15,7 +15,7 @@ export function MainTitle({props}){
             path.style.animationDelay = `${i * delay}s`;
         }
     }
-    useEffect(() => {setTextAnimation(0.1,4,2,'linear','#fafafa',true)}, [])
+    useEffect(() => {setTextAnimation(0.1,8,2,'linear','#fafafa',false)}, [])
     return(
         <div className="">
             <svg className={props} viewBox="0 0 1137.964 117.627" xmlns="http://www.w3.org/2000/svg">
