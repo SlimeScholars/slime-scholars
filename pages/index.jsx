@@ -5,7 +5,7 @@ import { gameData } from "../data/gameData";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 
-export default function Home({ user, setUser }) {
+export default function Home({ user, setUser, colorPalette }) {
   const router = useRouter();
 
   const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
@@ -80,6 +80,25 @@ export default function Home({ user, setUser }) {
           }}
         >
           <div className="absolute top-0 left-0 w-full h-full bg-black/[0.8]"/>
+          {user && user.userType === 1 && <div className="absolute top-0 left-0 m-9">
+            <button
+              className={`relative pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-xl h-[3.5rem] transition-brightness duration-150`}
+              style={{
+                backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+                color: !colorPalette ? "" : colorPalette.text2,
+                boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`,
+                background: `linear-gradient(90deg, ${!colorPalette ? "" : colorPalette.primary2
+                  } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                router.push("/courses");
+              }}
+            >
+              <span className="relative z-[800] brightness-[0.8]">Courses</span>
+              <div className="absolute top-0 left-0 bg-black/[0.5] w-full h-full z-[100]"/>
+            </button>
+          </div>}
           <div className="absolute top-0 right-0 m-6">
           {user ? (
           <section className="flex flex-row gap-1 font-bold text-xl items-center text-white">
