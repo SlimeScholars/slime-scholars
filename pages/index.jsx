@@ -3,7 +3,7 @@ import { MainTitle } from "../components/svg/titles";
 import { useRouter } from "next/router";
 import { gameData } from "../data/gameData";
 import { useState, useRef, useEffect } from "react";
-import Image from "next/image";
+import { Image } from "antd";
 
 export default function Home({ user, setUser, colorPalette }) {
   const router = useRouter();
@@ -74,11 +74,10 @@ export default function Home({ user, setUser, colorPalette }) {
       <main className="w-screen flex flex-col items-center justify-center flex-1">
         <header
           className="relative w-screen h-[100vh] flex flex-col items-center justify-center text-white"
-          style={{
-            backgroundImage: `url('/assets/backgrounds/pillar-space.png')`,
-            backgroundSize: "100vw auto",
-          }}
         >
+          <Image src={"/assets/backgrounds/pillar-space.png"}
+          placeholder={<div className="absolute top-0 left-0 w-full h-full bg-black"/>}
+          className="absolute top-0 left-0 w-full h-auto"/>
           <div className="absolute top-0 left-0 w-full h-full bg-black/[0.8]"/>
           {user && user.userType === 1 && <div className="absolute top-0 left-0 m-9">
             <button
@@ -95,8 +94,8 @@ export default function Home({ user, setUser, colorPalette }) {
                 router.push("/courses");
               }}
             >
-              <span className="relative z-[800] brightness-[0.8]">Courses</span>
-              <div className="absolute top-0 left-0 bg-black/[0.5] w-full h-full z-[100]"/>
+              <span className="relative z-[800] brightness-[0.9]">Courses</span>
+              <div className="absolute top-0 left-0 bg-black/[0.2] w-full h-full z-[100]"/>
             </button>
           </div>}
           <div className="absolute top-0 right-0 m-6">
@@ -139,9 +138,8 @@ export default function Home({ user, setUser, colorPalette }) {
                           "/assets/pfp/backgrounds/" +
                           gameData.items[user.pfpBg].pfp
                         }
+                        preview={false}
                         alt={user.pfpBg}
-                        height={0}
-                        width={0}
                         className="absolute h-32 w-32"
                       />
                     </div>
@@ -151,8 +149,7 @@ export default function Home({ user, setUser, colorPalette }) {
                         gameData.slimes[user.pfpSlime].pfp
                       }
                       alt={user.pfpSlime}
-                      height={0}
-                      width={0}
+                      preview={false}
                       sizes="100vw"
                       className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"
                     />
@@ -191,14 +188,6 @@ export default function Home({ user, setUser, colorPalette }) {
             >
               Login
             </button>
-            {/* <button
-              className={btn_tw}
-              onClick={() => {
-                router.push("/signup");
-              }}
-            >
-              Sign Up
-            </button> */}
           </section>
         )}
           </div>
