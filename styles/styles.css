@@ -503,3 +503,68 @@ div#loading-wave .dot:nth-child(3) {
 .tutorial-dots:hover{
   transform: scale(1.4)
 }
+
+.cor-img{
+  transition-property: all;
+  filter: drop-shadow(5px 5px 15px #4491c5);
+  background-position: 0 0;
+  animation: drop-fluctuate-cor 3s infinite ease-in-out
+}
+
+@keyframes drop-fluctuate-cor{
+  0%{
+    filter: drop-shadow(5px 5px 10px #4491c5);
+  }
+  50%{
+    filter: drop-shadow(5px 5px 16px #4491c5);
+  }
+  100%{
+    filter: drop-shadow(5px 5px 10px #4491c5);
+  }
+}
+
+.incor-img{
+  transition-property: all;
+  filter: drop-shadow(5px 5px 15px #c54487);
+  background-position: 0 0;
+  animation: drop-fluctuate-inccor 3s infinite ease-in-out
+}
+
+@keyframes drop-fluctuate-incor{
+  0%{
+    filter: drop-shadow(5px 5px 10px #c54487);
+  }
+  50%{
+    filter: drop-shadow(5px 5px 16px #c54487);
+  }
+  100%{
+    filter: drop-shadow(5px 5px 10px #c54487);
+  }
+}
+
+.hover-highlight{
+  transition-property: all;
+  transition-duration: 200ms;
+}
+
+.hover-highlight:hover{
+  transform: scale(1.02);
+  filter: drop-shadow(0px 0px 12px rgba(214, 218, 221, 0.9))
+}
+
+@keyframes svg-text-anim {
+  40% {
+     stroke-dashoffset: 0;
+     fill: transparent;
+   }
+   50% {
+     stroke-dashoffset: 0;
+     fill: #fff0fa;
+   }
+   60% {
+     stroke-dashoffset: 0;
+     fill: #fff0fa;
+   }
+   
+}
+     

@@ -60,6 +60,8 @@ function MyApp({ Component, pageProps }) {
   const [onPlay, setOnPlay] = useState(false);
   const [current, setCurrent] = useState(0);
 
+  const [panelsVisible, setPanelsVisible] = useState(false)
+
   const [audio, setAudio] = useState(null);
 
   const [windowSize, setWindowSize] = useState(
@@ -254,6 +256,8 @@ function MyApp({ Component, pageProps }) {
     setPfpBg,
     refetchUser,
     isMobile,
+    panelsVisible,
+    setPanelsVisible
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
@@ -361,16 +365,7 @@ function MyApp({ Component, pageProps }) {
               >
                 <div className="h-full relative">
                   <div className="z-20 mb-10">
-                    <Navbar
-                      user={user}
-                      setUser={setUser}
-                      current={current}
-                      numEggs={numEggs}
-                      setNumEggs={setNumEggs}
-                      flowers={flowers}
-                      colorPalette={colorPalette}
-                      setColorPalette={setColorPalette}
-                    />
+                    <Navbar {...modifiedPageProps}/>
                   </div>
                   <Component {...modifiedPageProps} />
                 </div>

@@ -27,7 +27,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
     }, [data])
 
     return(
-        <div className={`text-md 2xl:text-[1.07em] ${bold ? "font-black" : "font-semibold"} 
+        <div className={`text-md 2xl:text-[1.07em] shadow-md ${bold ? "font-black" : "font-semibold"} 
         relative transition-all py-2 px-4`} style={{
             color:colorPalette.black,
             backgroundColor: colorPalette.primary2 + "18",
@@ -74,12 +74,12 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                 }}>
                     {verified === "correct" ? 
                     <div className="flex flex-col gap-2 items-center justify-center">
-                        <img src="/assets/misc/bucktooth.png" className="w-auto h-[100px]"/>
+                        <img src="/assets/icons/happy-slime.png" className="w-auto h-[120px] cor-img"/>
                         <span className="text-xl font-bold">Correct!</span>
                     </div>
                     :verified === "incorrect" ? 
                     <div className="flex flex-col gap-1 items-center justify-center">
-                        <img src="/assets/misc/angryred.png" className="w-auto h-[100px]"/>
+                        <img src="/assets/icons/sad-slime.png" className="w-auto h-[120px] incor-img"/>
                         <span className="text-xl font-bold">Incorrect...</span>
                     </div>
                     :<></>}
@@ -93,7 +93,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                             })()}</span>
                             <span className="italic">Your Answer: {selectedIndex > -1 ? data.options[selectedIndex].option : "[Blank]"}</span>
                             <div className={`mt-2 flex flex-row gap-2 items-center rounded-md
-                            px-8 py-2 transition-all ${expOpen ? "cursor-auto" : "cursor-pointer"}`}
+                            px-8 py-2 transition-all shadow-md ${expOpen ? "cursor-auto" : "cursor-pointer"}`}
                             style={{
                                 backgroundColor: colorPalette.primary1 + "28"
                             }}

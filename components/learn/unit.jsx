@@ -24,7 +24,7 @@ export default function Unit({
   return (
     <button
       className={`course-bar-default base
-		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg`}
+		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg hover-highlight`}
       onClick={() => {
         router.push(`/courses/${courseId}/units/${unitId}/lessons`);
       }}

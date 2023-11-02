@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import { Image } from "antd";
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi"
 import { AiOutlineClose } from "react-icons/ai";
 
@@ -8,14 +8,16 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
   const [visitedPanels, setVisitedPanels] = useState([0]);
 
   useEffect(() => {
-    if(false || (user && user.tutorialActive)){
+    if(true || (user && user.tutorialActive)){ //USE TRUE FOR NOW
       setPanelsVisible(true)
     }
   }, [user])
 
   useEffect(() => {
-    setIndex(0)
-    setVisitedPanels([0])
+    setTimeout(() => {
+      setIndex(0)
+      setVisitedPanels([0])
+    }, 300)
   }, [panelsVisible])
 
   function previous() {
@@ -47,7 +49,7 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
   }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center transition-all duration-300"
+    <div className="absolute top-0 left-0 flex w-full h-full items-center justify-center transition-all duration-300"
     style={{
       opacity: panelsVisible ? 1 : 0,
       zIndex: panelsVisible? 800 : -100
@@ -55,43 +57,51 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
       <div className="relative bg-neutral-800/[0.80] h-[85vh] w-[70vw] rounded-2xl shadow-md items-center justify-center"
       style={{
         display: "grid",
-        gridTemplateRows: "10% 80% 10%"
+        gridTemplateRows: "15% 70% 15%",
       }}>
         <button className="absolute top-0 right-0 m-6 text-white text-[1.5em] hover:text-neutral-200 transition-all duration-150"
         onClick={handleClosePanels}>
           <AiOutlineClose/>
         </button>
         <section className="flex flex-row items-center justify-center w-full h-full text-4xl font-galindo text-white">
-          Tutorial
+          Tutorial: {panels[index].slidename}
         </section>
         <section className="grid grid-cols-2 justify-center items-center px-8 gap-8 h-full overflow-hidden">
           <div className="flex flex-col px-4 gap-[1rem]">
             <Image
               src={panels[index].image1}
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-full"
+              preview={false}
+              className="w-auto min-h-[50%] h-[50%]"
+              placeholder={
+                <></>
+              }
             />
             <Image
               src={panels[index].image2}
-              width={0}
-              height={0}
-              sizes="100vw"
-              className="w-full"
+              preview={false}
+              className="w-auto min-h-[50%] h-[50%]"
+              placeholder={
+                <></>
+              }
             />
           </div>
-          <div className="text-center text-white flex-[50%]">
+          <div className="text-center text-white flex-[50%] font-galindo font-light text-xl">
             {panels[index].description}
           </div>
         </section>
-        <section className="flex flex-row gap-8 items-center mx-auto mb-[1rem]">
-          <button
-            className="text-2xl text-white transition-colors duration-150 hover:text-neutral-200"
-            onClick={() => previous()}
-          >
-            <BiSolidLeftArrow />
-          </button>
+        <section className="relative flex flex-row gap-8 items-center mx-auto mb-[1rem] mt-4 w-full justify-center">
+          <div className="flex flex-row gap-2 items-center">
+            {/* <span className="text-[0.9em] text-white w-[400px] text-right">
+                {panels[index-1] ? panels[index-1].slidename : ""}
+            </span> */}
+            <button
+              className={`text-2xl transition-colors duration-150 ${index > 0 ? 
+                "text-white hover:text-neutral-200" : "text-neutral-500 cursor-not-allowed"}`}
+              onClick={previous}
+            >
+              <BiSolidLeftArrow />
+            </button>
+          </div>
           <div className="flex items-center">
             {panels.map((panel, panelIndex) => {
               return (
@@ -114,10 +124,25 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
               );
             })}
           </div>
-
-          <button className="text-2xl  text-white transition-colors duration-150 hover:text-neutral-200" onClick={() => next()}>
-            <BiSolidRightArrow/>
-          </button>
+          
+          <div className="flex flex-row gap-2 items-center ">
+            <button className={`text-2xl transition-colors duration-150 ${index < panels.length - 1 ? 
+            "text-white hover:text-neutral-200" : "text-neutral-500 cursor-not-allowed"}`}
+            onClick={next}>
+              <BiSolidRightArrow/>
+            </button>
+            {/* <span className="text-[0.9em] text-white w-[400px] text-left">
+                {panels[index+1] ? panels[index+1].slidename : "Finish"}
+            </span> */}
+          </div>
+          {index === panels.length - 1 && 
+          <div className="absolute right-0 pr-12">
+            <button className="text-white hover:text-neutral-200 transition-colors 
+            duration-150 text-2xl font-galindo"
+            onClick={() => {setPanelsVisible(false)}}>
+              Finish
+            </button>
+          </div>}
         </section>
       </div>
     </div>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "antd": "^5.10.3",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
     "big-integer": "^1.6.51",
