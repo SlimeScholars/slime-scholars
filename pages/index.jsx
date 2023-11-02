@@ -74,10 +74,13 @@ export default function Home({ user, setUser, colorPalette }) {
       <main className="w-screen flex flex-col items-center justify-center flex-1">
         <header
           className="relative w-screen h-[100vh] flex flex-col items-center justify-center text-white"
+          style={{
+            backgroundImage: "url(/assets/backgrounds/pillar-space.png)",
+            backgroundSize: "100vw auto"
+          }}
         >
-          <Image src={"/assets/backgrounds/pillar-space.png"}
-          placeholder={<div className="absolute top-0 left-0 w-full h-full bg-black"/>}
-          className="absolute top-0 left-0 w-full h-auto"/>
+          {/* <Image src={"/assets/backgrounds/pillar-space.png"}
+          className="absolute top-0 left-0 w-full h-auto"/> */}
           <div className="absolute top-0 left-0 w-full h-full bg-black/[0.8]"/>
           {user && user.userType === 1 && <div className="absolute top-0 left-0 m-9">
             <button
