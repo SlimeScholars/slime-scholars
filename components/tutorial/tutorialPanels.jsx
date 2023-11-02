@@ -9,8 +9,11 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
   const [visitedPanels, setVisitedPanels] = useState([0]);
 
   useEffect(() => {
-    if(true || (user && user.tutorialActive)){ //USE TRUE FOR NOW
+    if (user && user.tutorialActive) {
       setPanelsVisible(true)
+    }
+    else {
+      setPanelsVisible(false)
     }
   }, [user])
 
@@ -60,15 +63,15 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
 
   return (
     <div className="absolute top-0 left-0 flex w-full h-full items-center justify-center transition-all duration-300"
-    style={{
-      opacity: panelsVisible ? 1 : 0,
-      zIndex: panelsVisible? 800 : -100
-    }}>
-      <div className="relative bg-neutral-800/[0.80] h-[85vh] w-[70vw] rounded-2xl shadow-md items-center justify-center"
       style={{
-        display: "grid",
-        gridTemplateRows: "15% 70% 15%",
+        opacity: panelsVisible ? 1 : 0,
+        zIndex: panelsVisible ? 800 : -100
       }}>
+      <div className="relative bg-neutral-800/[0.80] h-[85vh] w-[70vw] rounded-2xl shadow-md items-center justify-center"
+        style={{
+          display: "grid",
+          gridTemplateRows: "15% 70% 15%",
+        }}>
         <button className="absolute top-0 right-0 m-6 text-white text-[1.5em] hover:text-neutral-200 transition-all duration-150"
           onClick={handleClosePanels}>
           <AiOutlineClose />
@@ -102,7 +105,7 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
         <section className="relative flex flex-row gap-8 items-center mx-auto mb-[1rem] mt-4 w-full justify-center">
           <div className="flex flex-row gap-2 items-center">
             <button
-              className={`text-2xl transition-colors duration-150 ${index > 0 ? 
+              className={`text-2xl transition-colors duration-150 ${index > 0 ?
                 "text-white hover:text-neutral-200" : "text-neutral-500 cursor-not-allowed"}`}
               onClick={previous}
             >
@@ -131,22 +134,22 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
               );
             })}
           </div>
-          
+
           <div className="flex flex-row gap-2 items-center ">
-            <button className={`text-2xl transition-colors duration-150 ${index < panels.length - 1 ? 
-            "text-white hover:text-neutral-200" : "text-neutral-500 cursor-not-allowed"}`}
-            onClick={next}>
-              <BiSolidRightArrow/>
+            <button className={`text-2xl transition-colors duration-150 ${index < panels.length - 1 ?
+              "text-white hover:text-neutral-200" : "text-neutral-500 cursor-not-allowed"}`}
+              onClick={next}>
+              <BiSolidRightArrow />
             </button>
           </div>
-          {index === panels.length - 1 && 
-          <div className="absolute right-0 pr-12">
-            <button className="text-white hover:text-neutral-200 transition-colors 
+          {index === panels.length - 1 &&
+            <div className="absolute right-0 pr-12">
+              <button className="text-white hover:text-neutral-200 transition-colors 
             duration-150 text-2xl font-galindo"
-            onClick={() => {setPanelsVisible(false)}}>
-              Finish
-            </button>
-          </div>}
+                onClick={() => { setPanelsVisible(false) }}>
+                Finish
+              </button>
+            </div>}
         </section>
       </div>
     </div>

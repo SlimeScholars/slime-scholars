@@ -67,9 +67,9 @@ function MyApp({ Component, pageProps }) {
   const [windowSize, setWindowSize] = useState(
     isClient
       ? {
-          width: window.innerWidth,
-          height: window.innerHeight,
-        }
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
       : { width: 10000, height: 10000 } // Provide default values for server-side rendering
   );
 
@@ -218,7 +218,7 @@ function MyApp({ Component, pageProps }) {
             setUser(response.data.user);
             setTimeout(() => {
               setLoading(false);
-            }, 150);
+            }, 150)
           }
         })
         .catch((err) => {
@@ -365,7 +365,7 @@ function MyApp({ Component, pageProps }) {
               >
                 <div className="h-full relative">
                   <div className="z-20 mb-10">
-                    <Navbar {...modifiedPageProps}/>
+                    <Navbar {...modifiedPageProps} />
                   </div>
                   <Component {...modifiedPageProps} />
                 </div>
