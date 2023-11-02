@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Image } from "antd";
 import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi"
 import { AiOutlineClose } from "react-icons/ai";
+import axios from "axios";
 
 export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }) {
   const [index, setIndex] = useState(0);
@@ -45,6 +46,15 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
   }
 
   function handleClosePanels() {
+    const token = localStorage.getItem('jwt')
+
+    // Set the authorization header
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    axios.post("/api/user/end-tutorial", {}, config)
     setPanelsVisible(false);
   }
 
@@ -59,9 +69,14 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
         display: "grid",
         gridTemplateRows: "15% 70% 15%",
       }}>
+      <div className="relative bg-neutral-800/[0.80] h-[85vh] w-[70vw] rounded-2xl shadow-md items-center justify-center"
+        style={{
+          display: "grid",
+          gridTemplateRows: "10% 80% 10%"
+        }}>
         <button className="absolute top-0 right-0 m-6 text-white text-[1.5em] hover:text-neutral-200 transition-all duration-150"
-        onClick={handleClosePanels}>
-          <AiOutlineClose/>
+          onClick={handleClosePanels}>
+          <AiOutlineClose />
         </button>
         <section className="flex flex-row items-center justify-center w-full h-full text-4xl font-galindo text-white">
           Tutorial: {panels[index].slidename}
@@ -113,13 +128,13 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
                   }}
                   className="cursor-pointer m-[5px]"
                 >
-                  {index === panelIndex ? 
-                    <div className="tutorial-dots bg-white scale-125"/>
-                  : visitedPanels.includes(panelIndex) ? 
-                    <div className="tutorial-dots bg-white/[0.8]"/>
-                    : (
-                    <div className="tutorial-dots bg-transparent"/>
-                  )}
+                  {index === panelIndex ?
+                    <div className="tutorial-dots bg-white scale-125" />
+                    : visitedPanels.includes(panelIndex) ?
+                      <div className="tutorial-dots bg-white/[0.8]" />
+                      : (
+                        <div className="tutorial-dots bg-transparent" />
+                      )}
                 </div>
               );
             })}
@@ -146,16 +161,6 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
         </section>
       </div>
     </div>
-    //   ) : (
-    //     <div className="flex justify-center">
-    //       <button
-    //         className="px-10 py-2 rounded-lg bg-pink-500 hover:bg-pink-500/75 transition-all duration-300 text-white font-bold mt-[0.7rem]"
-    //         onClick={() => setPanelsVisible(true)}
-    //       >
-    //         Begin Tutorial
-    //       </button>
-    //     </div>
-    //   )}
-    // </>
+    </div>
   );
 }
