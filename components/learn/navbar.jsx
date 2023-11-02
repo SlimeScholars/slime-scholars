@@ -171,14 +171,14 @@ export default function Navbar({ colorPalette, setUser, user }) {
             >
               Login
             </button>
-            <button
+            {/* <button
               className={btn_tw}
               onClick={() => {
                 router.push("/signup");
               }}
             >
               Sign Up
-            </button>
+            </button> */}
           </section>
         )}
       </div>
