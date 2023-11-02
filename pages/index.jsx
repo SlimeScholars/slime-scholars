@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import Navbar from "../components/learn/navbar";
+import { MainTitle } from "../components/svg/titles";
 
 export default function Home({ user, setUser }) {
   const btn_tw =
@@ -34,9 +35,12 @@ export default function Home({ user, setUser }) {
             <h1 className="font-bold text-2xl max-w-2xl text-center">
               Coming to App Store soon
             </h1>
-            <h1 className="font-black text-6xl max-w-4xl text-center mt-2">
+            <div className="mt-6">
+              <MainTitle props="w-[800px] h-auto"/>
+            </div>
+            {/* <h1 className="font-black text-6xl max-w-4xl text-center mt-2">
               Make Learning Exciting with Slime Scholars
-            </h1>
+            </h1> */}
             <h2 className="font-light text-3xl my-6 text-center max-w-4xl leading-relaxed text-gray-100">
               Slime Scholars is a project that aims to enhance the learning
               experience for students through an interactive and fun

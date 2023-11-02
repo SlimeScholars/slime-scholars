@@ -24,6 +24,8 @@ export function Navbar({
   flowers,
   colorPalette,
   setColorPalette,
+  panelsVisible, 
+  setPanelsVisible
 }) {
   const types = [
     { title: "Shopping", src: "shopping", id: 1 },
@@ -36,7 +38,6 @@ export function Navbar({
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
-  const [panelsVisible, setPanelsVisible] = useState(false)
 
   let onHome = true;
   for (let type of types) {
@@ -310,8 +311,6 @@ export function Navbar({
                 <AiFillQuestionCircle/>
               </button>
             </div>
-
-            <TutorialPanels panels={panels} user={user} panelsVisible={panelsVisible} setPanelsVisible={setPanelsVisible}/>
           </div>
         )}
       </div>
