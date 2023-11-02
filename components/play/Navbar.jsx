@@ -161,7 +161,7 @@ export function Navbar({
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
                 <p className="max-xl:text-md">
-                  {flowers === null ? user.flowers : flowers}
+                  {user.flowers}
                 </p>
               </div>
             )}
