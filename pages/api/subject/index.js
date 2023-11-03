@@ -39,10 +39,6 @@ export default async function (req, res) {
                 model: "Activity",
               },
             },
-            {
-              path: "quizzes",
-              model: "Lesson",
-            },
           ],
         },
       ],

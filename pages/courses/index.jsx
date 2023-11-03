@@ -7,15 +7,6 @@ import Course from "../../components/learn/course";
 export default function Courses({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (!user || user.userType !== 1) {
-      //router.push('/')
-    }
-  }, [user, loading]);
-
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
