@@ -47,14 +47,14 @@ export const panels = [
     image2: "/assets/tutorialImages/Roll2.png",
   },
   {
-    slidename: "Customizing",
+    slidename: "Rolling",
     description:
       "Want to obtain epic slimes? Click on the Roll button in the navigation bar to visit the summonin page. On summoning page you will trade in eggs or flowers to roll for your desired slimes",
     image1: "/assets/tutorialImages/Settings1.png",
     image2: "/assets/tutorialImages/Settings2.png",
   },
   {
-    slidename: "Last Page",
+    slidename: "Customizing",
     description:
       "Want to change your account settings? Start by clicking on the settings button in the navigation bar. Once you are on the navigation page, you will be able to change things like your name, email, and password!",
   },

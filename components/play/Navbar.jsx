@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { gameData } from "../../data/gameData";
 import { FaChevronLeft } from "react-icons/fa";
@@ -35,6 +35,8 @@ export function Navbar({
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
+
+  const tutRef = useRef(null)
 
   useEffect(() => {
     if (!user) {
@@ -293,7 +295,7 @@ export function Navbar({
             <div className="flex flex-row gap-4 items-center">
               <NextRewardTimer />
               <button className="flex items-center justify-center text-white/[0.65] hover:text-white/[0.8] text-[2.25em]"
-                onClick={() => { setPanelsVisible(true) }}>
+                onClick={() => { setTimeout(() => {setPanelsVisible(true)}, 150) }} ref={tutRef}>
                 <AiFillQuestionCircle />
               </button>
             </div>
