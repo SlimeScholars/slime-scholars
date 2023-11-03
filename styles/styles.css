@@ -30,6 +30,47 @@ a {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 
+/* tutorial book */
+.page {
+  transform-origin: left center;
+  transition: all 1s cubic-bezier(0.59, 0.1, 0, 0.96);
+  display: grid;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.page-front {
+  position: absolute;
+  transform: rotateY(0deg) translateZ(1px);
+}
+
+.page-front > div {
+  box-shadow: inset 90px 0 90px -90px rgba(69, 63, 30, 0.7);
+}
+
+.page-back {
+  position: absolute;
+  transform: rotateY(180deg) translateZ(1px);
+}
+
+.page-back > div {
+  box-shadow: inset -90px 0 90px -90px rgba(69, 63, 30, 0.7);
+}
+
+.flip-page {
+  transform: rotateY(-180deg) translateZ(1px);
+}
+
+.outer {
+  display: grid;
+  grid-template: 1fr / 1fr;
+  place-items: end;
+}
+.outer > * {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
+}
+
 /* animations */
 .stretch:hover {
   animation: stretch 1.5s normal;
@@ -240,7 +281,7 @@ input {
 .slime-animate:hover {
   filter: drop-shadow(0px 0px 15px #c5c4c4c7);
   background-position: 0 0;
-  transform: scale(1.02)
+  transform: scale(1.02);
 }
 
 .slime-animate {
@@ -404,23 +445,23 @@ input {
   }
 }
 
-.roll-button-animate:hover{
-  transition:ease-in-out 0.75s;
+.roll-button-animate:hover {
+  transition: ease-in-out 0.75s;
   animation: roll-pulse 0.75s infinite;
 }
 
-@keyframes roll-pulse{
-  0%{
-    filter:brightness(1);
-    transform: scale(1.0);
+@keyframes roll-pulse {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
   }
-  50%{
-    filter:brightness(1.05);
+  50% {
+    filter: brightness(1.05);
     transform: scale(1.02);
   }
-  100%{
-    filter:brightness(1);
-    transform: scale(1.0);
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
   }
 }
 
@@ -441,30 +482,31 @@ div#loading-wave .dot:nth-child(3) {
   animation-delay: 0.4s;
 }
 
-
 @keyframes wave {
-	0%, 40%, 100% {
-		transform: translateY(0.15em)
-	}
+  0%,
+  40%,
+  100% {
+    transform: translateY(0.15em);
+  }
 
-	20% {
-		transform: translateY(-0.05em);
-	}
+  20% {
+    transform: translateY(-0.05em);
+  }
 }
 
-.course-nav-title:hover{
+.course-nav-title:hover {
   filter: drop-shadow(0px 0px 25px #f2f2f2f0);
   background-position: 0 0;
-  transform: scale(1.02)
+  transform: scale(1.02);
 }
 
-.course-nav-icon:hover{
+.course-nav-icon:hover {
   filter: drop-shadow(0px 0px 12px #f2f2f2f0);
   background-position: 0 0;
-  transform: scale(0.67)
+  transform: scale(0.67);
 }
 
-.mc-button{
+.mc-button {
   width: 22px;
   height: 22px;
   border-width: 2px;
@@ -474,23 +516,23 @@ div#loading-wave .dot:nth-child(3) {
   transition-duration: 150ms;
 }
 
-@keyframes mc-pulse{
-  0%{
-    transform: scale(1.0);
+@keyframes mc-pulse {
+  0% {
+    transform: scale(1);
   }
-  50%{
+  50% {
     transform: scale(1.08);
   }
-  100%{
-    transform: scale(1.0);
+  100% {
+    transform: scale(1);
   }
 }
 
-.mc-button:hover{
-  animation: mc-pulse 0.65s infinite
+.mc-button:hover {
+  animation: mc-pulse 0.65s infinite;
 }
 
-.tutorial-dots{
+.tutorial-dots {
   width: 0.9em;
   height: 0.9em;
   border-radius: 9999px;
@@ -500,71 +542,69 @@ div#loading-wave .dot:nth-child(3) {
   transition-duration: 150ms;
 }
 
-.tutorial-dots:hover{
-  transform: scale(1.4)
+.tutorial-dots:hover {
+  transform: scale(1.4);
 }
 
-.cor-img{
+.cor-img {
   transition-property: all;
   filter: drop-shadow(5px 5px 15px #4491c5);
   background-position: 0 0;
-  animation: drop-fluctuate-cor 3s infinite ease-in-out
+  animation: drop-fluctuate-cor 3s infinite ease-in-out;
 }
 
-@keyframes drop-fluctuate-cor{
-  0%{
+@keyframes drop-fluctuate-cor {
+  0% {
     filter: drop-shadow(5px 5px 10px #4491c5);
   }
-  50%{
+  50% {
     filter: drop-shadow(5px 5px 16px #4491c5);
   }
-  100%{
+  100% {
     filter: drop-shadow(5px 5px 10px #4491c5);
   }
 }
 
-.incor-img{
+.incor-img {
   transition-property: all;
   filter: drop-shadow(5px 5px 15px #c54487);
   background-position: 0 0;
-  animation: drop-fluctuate-inccor 3s infinite ease-in-out
+  animation: drop-fluctuate-inccor 3s infinite ease-in-out;
 }
 
-@keyframes drop-fluctuate-incor{
-  0%{
+@keyframes drop-fluctuate-incor {
+  0% {
     filter: drop-shadow(5px 5px 10px #c54487);
   }
-  50%{
+  50% {
     filter: drop-shadow(5px 5px 16px #c54487);
   }
-  100%{
+  100% {
     filter: drop-shadow(5px 5px 10px #c54487);
   }
 }
 
-.hover-highlight{
+.hover-highlight {
   transition-property: all;
   transition-duration: 200ms;
 }
 
-.hover-highlight:hover{
+.hover-highlight:hover {
   transform: scale(1.02);
-  filter: drop-shadow(0px 0px 12px rgba(214, 218, 221, 0.9))
+  filter: drop-shadow(0px 0px 12px rgba(214, 218, 221, 0.9));
 }
 
 @keyframes svg-text-anim {
   10% {
-     stroke-dashoffset: 0;
-     fill: transparent;
-   }
-   15% {
-     stroke-dashoffset: 0;
-     fill: #fff0fa;
-   }
-   100% {
-     stroke-dashoffset: 0;
-     fill: #fff0fa;
-   }
-   
+    stroke-dashoffset: 0;
+    fill: transparent;
+  }
+  15% {
+    stroke-dashoffset: 0;
+    fill: #fff0fa;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    fill: #fff0fa;
+  }
 }
-     
