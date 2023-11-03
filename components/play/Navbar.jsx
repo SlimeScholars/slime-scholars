@@ -7,8 +7,6 @@ import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 import NextRewardTimer from "./slimes/NextRewardTimer";
 import { playSound } from "../../utils/playSound";
-import { TutorialPanels } from "../tutorial/tutorialPanels";
-import { panels } from "../../data/editTutorial";
 import { AiFillQuestionCircle } from "react-icons/ai";
 
 /*
@@ -24,6 +22,7 @@ export function Navbar({
   flowers,
   colorPalette,
   setColorPalette,
+  setPanelsVisible,
 }) {
   const types = [
     { title: "Shopping", src: "shopping", id: 1 },
@@ -36,7 +35,6 @@ export function Navbar({
 
   const router = useRouter();
   const current_id = parseInt(current, 10);
-  const [panelsVisible, setPanelsVisible] = useState(false);
 
   let onHome = true;
   for (let type of types) {
@@ -47,6 +45,9 @@ export function Navbar({
   }
 
   useEffect(() => {
+    if (!user) {
+      return;
+    }
     if (user && user.items) {
       user.items.map((item) => {
         if (item.itemName === "Slime Egg") {
@@ -158,9 +159,7 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="max-xl:text-md">
-                  {flowers === null ? user.flowers : flowers}
-                </p>
+                <p className="max-xl:text-md">{user.flowers}</p>
               </div>
             )}
           </div>
@@ -314,13 +313,6 @@ export function Navbar({
                 <AiFillQuestionCircle />
               </button>
             </div>
-
-            <TutorialPanels
-              panels={panels}
-              user={user}
-              panelsVisible={panelsVisible}
-              setPanelsVisible={setPanelsVisible}
-            />
           </div>
         )}
       </div>

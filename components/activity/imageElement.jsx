@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Image } from "antd";
 
 export default function ImageElement({element, index, colorPalette, bold, horiz}){
     const [data, setData] = useState(element)
@@ -9,7 +10,7 @@ export default function ImageElement({element, index, colorPalette, bold, horiz}
 
     return(
         <div>
-            <img src={element.image}
+            <Image src={element.image}
             style={{
                 height: `${7 + 3.25 * element.size}rem`,
                 width: "auto",

@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { TutorialPanels } from "../../components/tutorial/tutorialPanels";
 
-export default function Play({ loading, user, setLoading, setUser }) {
+export default function Play({
+  loading,
+  user,
+  setLoading,
+  setUser,
+  panelsVisible,
+  setPanelsVisible,
+}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -15,6 +23,10 @@ export default function Play({ loading, user, setLoading, setUser }) {
 
   // Home will be rendered via the Home component found on app. This is to prevent a rerendering of home when switching between pages
   return (
-    <></>
-  )
+    <TutorialPanels
+      user={user}
+      panelsVisible={panelsVisible}
+      setPanelsVisible={setPanelsVisible}
+    />
+  );
 }
