@@ -12,6 +12,7 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
   const [index, setIndex] = useState(0);
   const [visitedPanels, setVisitedPanels] = useState([0]);
   const [page, setPage] = useState(0);
+  const [toClose, setToClose] = useState({ in: false, out: false });
 
   useEffect(() => {
     if (user && user.tutorialActive) {
@@ -41,56 +42,87 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
     setPanelsVisible(false);
   }
 
+  useEffect(() => {
+    if (toClose.out && !toClose.in) {
+      setTimeout(() => {
+        setPanelsVisible(false);
+      }, 300);
+    } else {
+      setToClose({ in: false, out: false });
+    }
+  }, [toClose]);
+
   return (
-    <div
-      className="absolute top-0 left-0 flex w-full h-full items-center justify-center transition-all duration-300"
+    <button
+      className="fixed top-0 left-0 flex w-screen h-screen backdrop-blur-md bg-gray-900/60 items-center justify-center transition-all duration-300"
       style={{
         opacity: panelsVisible ? 1 : 0,
         zIndex: panelsVisible ? 800 : -100,
       }}
+      onClick={() => {
+        setToClose((prev) => ({ ...prev, out: true }));
+      }}
     >
-      <section className="h-[85vh] w-[70vw] shadow-md relative outer bg-orange-950 p-4">
-        <FrontCover
-          pageNum={0}
-          totalPages={panels.length}
-          content={panels[0]}
-        />
-        {panels.map((panel, panelIndex) => {
-          if (panelIndex === 0 || panelIndex === panels.length - 1) return;
-          return (
-            <Page
-              pageNum={panelIndex}
-              currentPage={page}
-              setPage={setPage}
-              totalPages={panels.length}
-              cover={false}
-            >
-              <div className="text-center text-white flex-[50%] font-galindo font-light text-xl">
-                {panel.description}
+      <button
+        className="h-[85vh] w-[70vw] shadow-md relative bg-yellow-950 rounded-md cursor-default flex items-center justify-center p-2"
+        onClick={() => {
+          setToClose((prev) => ({ ...prev, in: true }));
+        }}
+      >
+        <div className="w-full h-full bg-yellow-900/50 rounded-sm p-2">
+          <div className="bg-gray-500 w-full h-full px-[3px] py-0">
+            <div className="bg-gray-400 w-full h-full px-[3px] py-0">
+              <div className="bg-gray-300 w-full h-full px-[3px] py-0">
+                <div className="bg-gray-200 w-full h-full px-[3px] py-0">
+                  <div className="w-full h-full outer">
+                    <FrontCover
+                      pageNum={0}
+                      totalPages={panels.length}
+                      content={panels[0]}
+                    />
+                    {panels.map((panel, panelIndex) => {
+                      if (panelIndex === 0 || panelIndex === panels.length - 1)
+                        return;
+                      return (
+                        <Page
+                          pageNum={panelIndex}
+                          currentPage={page}
+                          setPage={setPage}
+                          totalPages={panels.length}
+                          cover={false}
+                        >
+                          <div className="text-centerflex-[50%] font-galindo font-light text-xl">
+                            {panel.description}
+                          </div>
+                          <div className="flex flex-col px-4 gap-[1rem]">
+                            <Image
+                              src={panel.image1}
+                              preview={false}
+                              className="w-auto min-h-[50%] h-[50%]"
+                              placeholder={<></>}
+                            />
+                            <Image
+                              src={panel.image2}
+                              preview={false}
+                              className="w-auto min-h-[50%] h-[50%]"
+                              placeholder={<></>}
+                            />
+                          </div>
+                        </Page>
+                      );
+                    })}
+                    <BackCover
+                      pageNum={panels.length - 1}
+                      totalPages={panels.length}
+                      content={panels[panels.length - 1]}
+                    />
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col px-4 gap-[1rem]">
-                <Image
-                  src={panel.image1}
-                  preview={false}
-                  className="w-auto min-h-[50%] h-[50%]"
-                  placeholder={<></>}
-                />
-                <Image
-                  src={panel.image2}
-                  preview={false}
-                  className="w-auto min-h-[50%] h-[50%]"
-                  placeholder={<></>}
-                />
-              </div>
-            </Page>
-          );
-        })}
-        <BackCover
-          pageNum={panels.length - 1}
-          totalPages={panels.length}
-          content={panels[panels.length - 1]}
-        />
-      </section>
+            </div>
+          </div>
+        </div>
+      </button>
       {/*
         <button className="absolute top-0 right-0 m-6 text-white text-[1.5em] hover:text-neutral-200 transition-all duration-150"
           onClick={handleClosePanels}>
@@ -171,6 +203,6 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
               </button>
             </div>}
           </section>*/}
-    </div>
+    </button>
   );
 }
