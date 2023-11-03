@@ -7,8 +7,6 @@ import Image from "next/image";
 import { Tooltip } from "react-tooltip";
 import NextRewardTimer from "./slimes/NextRewardTimer";
 import { playSound } from "../../utils/playSound";
-import { TutorialPanels } from "../tutorial/tutorialPanels";
-import { panels } from "../../data/editTutorial";
 import { AiFillQuestionCircle } from "react-icons/ai";
 
 /*
@@ -24,7 +22,6 @@ export function Navbar({
   flowers,
   colorPalette,
   setColorPalette,
-  panelsVisible, 
   setPanelsVisible
 }) {
   const types = [
@@ -61,10 +58,6 @@ export function Navbar({
 
     if (user) {
       setColorPalette(gameData.items[user.pfpBbg]);
-    }
-
-    if (user.tutorialActive) {
-      setPanelsVisible(true)
     }
   }, [user]);
 
