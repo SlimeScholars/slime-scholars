@@ -1,55 +1,35 @@
 import { useState, useEffect } from "react";
 import { Image } from "antd";
-import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi"
+import { BiSolidRightArrow, BiSolidLeftArrow } from "react-icons/bi";
 import { AiOutlineClose } from "react-icons/ai";
 import axios from "axios";
+import Page from "./book/page";
+import FrontCover from "./book/sections/frontCover";
+import BackCover from "./book/sections/backCover";
+import { panels } from "../../data/editTutorial";
 
-export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }) {
+export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
   const [index, setIndex] = useState(0);
   const [visitedPanels, setVisitedPanels] = useState([0]);
+  const [page, setPage] = useState(0);
 
   useEffect(() => {
     if (user && user.tutorialActive) {
-      setPanelsVisible(true)
+      setPanelsVisible(true);
+    } else {
+      setPanelsVisible(false);
     }
-    else {
-      setPanelsVisible(false)
-    }
-  }, [user])
+  }, [user]);
 
   useEffect(() => {
     setTimeout(() => {
-      setIndex(0)
-      setVisitedPanels([0])
-    }, 300)
-  }, [panelsVisible])
-
-  function previous() {
-    const isFirstPanel = index === 0;
-    const newIndex = isFirstPanel ? index : index - 1;
-    markPanelAsVisited(newIndex);
-    setIndex(newIndex);
-  }
-
-  function next() {
-    const isLastPanel = index === panels.length - 1;
-    const newIndex = isLastPanel ? index : index + 1;
-    markPanelAsVisited(newIndex);
-    setIndex(newIndex);
-  }
-
-  function goToPanel(panelIndex) {
-    setIndex(panelIndex);
-  }
-
-  function markPanelAsVisited(panelIndex) {
-    if (!visitedPanels.includes(panelIndex)) {
-      setVisitedPanels([...visitedPanels, panelIndex]);
-    }
-  }
+      setIndex(0);
+      setVisitedPanels([0]);
+    }, 300);
+  }, [panelsVisible]);
 
   function handleClosePanels() {
-    const token = localStorage.getItem('jwt')
+    const token = localStorage.getItem("jwt");
 
     // Set the authorization header
     const config = {
@@ -57,21 +37,61 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
         Authorization: `Bearer ${token}`,
       },
     };
-    axios.post("/api/user/end-tutorial", {}, config)
+    axios.post("/api/user/end-tutorial", {}, config);
     setPanelsVisible(false);
   }
 
   return (
-    <div className="absolute top-0 left-0 flex w-full h-full items-center justify-center transition-all duration-300"
+    <div
+      className="absolute top-0 left-0 flex w-full h-full items-center justify-center transition-all duration-300"
       style={{
         opacity: panelsVisible ? 1 : 0,
-        zIndex: panelsVisible ? 800 : -100
-      }}>
-      <div className="relative bg-neutral-800/[0.80] h-[85vh] w-[70vw] rounded-2xl shadow-md items-center justify-center"
-        style={{
-          display: "grid",
-          gridTemplateRows: "15% 70% 15%",
-        }}>
+        zIndex: panelsVisible ? 800 : -100,
+      }}
+    >
+      <section className="h-[85vh] w-[70vw] shadow-md relative outer bg-orange-950 p-4">
+        <FrontCover
+          pageNum={0}
+          totalPages={panels.length}
+          content={panels[0]}
+        />
+        {panels.map((panel, panelIndex) => {
+          if (panelIndex === 0 || panelIndex === panels.length - 1) return;
+          return (
+            <Page
+              pageNum={panelIndex}
+              currentPage={page}
+              setPage={setPage}
+              totalPages={panels.length}
+              cover={false}
+            >
+              <div className="text-center text-white flex-[50%] font-galindo font-light text-xl">
+                {panel.description}
+              </div>
+              <div className="flex flex-col px-4 gap-[1rem]">
+                <Image
+                  src={panel.image1}
+                  preview={false}
+                  className="w-auto min-h-[50%] h-[50%]"
+                  placeholder={<></>}
+                />
+                <Image
+                  src={panel.image2}
+                  preview={false}
+                  className="w-auto min-h-[50%] h-[50%]"
+                  placeholder={<></>}
+                />
+              </div>
+            </Page>
+          );
+        })}
+        <BackCover
+          pageNum={panels.length - 1}
+          totalPages={panels.length}
+          content={panels[panels.length - 1]}
+        />
+      </section>
+      {/*
         <button className="absolute top-0 right-0 m-6 text-white text-[1.5em] hover:text-neutral-200 transition-all duration-150"
           onClick={handleClosePanels}>
           <AiOutlineClose />
@@ -150,8 +170,7 @@ export function TutorialPanels({ panels, user, panelsVisible, setPanelsVisible }
                 Finish
               </button>
             </div>}
-        </section>
-      </div>
+          </section>*/}
     </div>
   );
 }
