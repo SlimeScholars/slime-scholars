@@ -38,8 +38,6 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
     const [lessonName, setLessonName] = useState(null)
 
 	const [page, setPage] = useState(0)
-    const [open, setOpen] = useState(0)
-	const [maxPage, setMaxPage] = useState(0)
  
     useEffect(() => {
         if(assessment){
@@ -50,26 +48,7 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
     }, [assessment])
 
     useEffect(() => {
-		setMaxPage((prev) => {
-			setOpen(page < prev ? assessment.problemSet[page].sections.length-1 : 0)
-			return Math.max(prev, page)
-		})
-		if(page < maxPage){
-			var scrollContainer = document.getElementById("container-assessment-index");
-			setTimeout(() => {
-				scrollContainer.scrollTo({
-					top: scrollContainer.scrollHeight,
-					behavior: "smooth"
-				});
-			}, 50)
-		}
-
-    }, [page])
-
-    useEffect(() => {
 		setPage(0)
-		setOpen(0)
-		setMaxPage(0)
         if(assessmentId){
 			setLoadState(LOADIN_MAXFRAMES)
 			setTimeout(() => {
@@ -138,41 +117,13 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 		const handleKeyDown = (e) => {
 			if (e.code === "Enter" || e.keyCode === arrows["ArrowRight"]
 				|| e.keyCode === arrows["ArrowUp"] || e.code === "Space") {
-				setOpen((prev) => {
-					var scrollContainer = document.getElementById("container-assessment-index");
-					setTimeout(() => {
-						scrollContainer.scrollTo({
-							top: scrollContainer.scrollHeight,
-							behavior: "smooth"
-						});
-					}, 200)
-					if(assessment && assessment.problemSet && assessment.problemSet[page] && assessment.problemSet[page].sections && 
-						prev+1 > assessment.problemSet[page].sections.length-1){
-						setPage((prev) => {
-							return prev+1 > assessment.problemSet.length ? prev : prev+1
-						})
-						return 0;
-					} 
-					return prev + 1;
-				});
+				setPage((prev) => {
+					return prev+1 > assessment.problemSet.length ? prev : prev+1
+				})
 			} else if (e.code === "Backspace" || e.keyCode === arrows["ArrowLeft"]
 				|| e.keyCode === arrows["ArrowDown"]) {
-				setOpen((prev) => {
-					var scrollContainer = document.getElementById("container-assessment-index");
-					setTimeout(() => {
-						scrollContainer.scrollTo({
-							top: prev-1 <= 0 ? 0 : scrollContainer.scrollHeight,
-							behavior: "smooth"
-						});
-					}, 200)
-					if(assessment && assessment.problemSet && assessment.problemSet[page] && 
-						prev-1 < 0){
-						setPage((prev) => {
-							return prev-1 < 0 ? prev : prev-1
-						})
-						return 0;
-					} 
-					return prev - 1
+				setPage((prev) => {
+					return prev-1 < 0 ? prev : prev-1
 				})
 			}
 		};
@@ -274,28 +225,10 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 									backgroundColor: colorPalette.text1 + "A0" 
 								}}/>
 								<div id="container-assessment-index" className="relative overflow-y-scroll h-full flex flex-col gap-3 pb-10 z-[15]">
-									{page < assessment.problemSet.length && assessment.problemSet[page].sections.length > 0 && 
-										<div className="rounded-md text-center transition-all duration-150 
-										origin-center animate-pulse" 
-										style={{
-											backgroundColor: colorPalette.white + "A0",
-											color:colorPalette.black,
-											transform: `scaleY(${open === 0 ? 1 : 0})`,
-											height: open === 0 ? "auto" : "0px",
-											paddingTop: open === 0 ? "0.25rem" : "0px"
-										}}>
-											<div className="text-sm assessment-helper-text"
-											style={{
-												color: colorPalette.primary1
-											}}>
-												Press ENTER to continue
-											</div>
-										</div>
-									}
 									{page < assessment.problemSet.length ?
 									assessment.problemSet[page].sections.map((section, key) => 
 										<div key={key}>
-											{open >= key ? <Section section={section} colorPalette={colorPalette}/> : <></>}
+											<Section section={section} colorPalette={colorPalette} animate={false}/>
 										</div>
 									) : 
 									<div className="relative flex items-center justify-center rounded-md p-4 text-center w-full h-full overflow-hidden"
@@ -345,8 +278,6 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 														<div className="flex flex-row gap-1 items-center justify-end hover:text-blue-400 transition-all duration-200 text-right"
 														onClick={() => {
 															setPage(0)
-															setOpen(0)
-															setMaxPage(0)
 															setLoadState(LOADIN_MAXFRAMES)
 														}}>
 															<span>Retry This Assessment</span>

@@ -152,53 +152,13 @@ function MyApp({ Component, pageProps }) {
     }
   }, [audio]);
 
-  const refetchUserNonLoad = async () => {
-    try {
-      const token = localStorage.getItem("jwt");
-      if (!token) {
-        setUser(null);
-        setTimeout(() => {
-          setLoading(false);
-        }, 150);
-        return;
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          common: {
-            apikey: process.env.NEXT_PUBLIC_API_KEY,
-          },
-        },
-      };
-
-      axios
-        .get("/api/user", config)
-        .then((response) => {
-          if (response.data && response.data.user) {
-            setUser(response.data.user);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          // If the json web token is invalid, remove it so no more requests will be made with the same token
-          localStorage.removeItem("jwt");
-          setUser(null);
-        });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const refetchUser = async () => {
     setLoading(true);
     try {
       const token = localStorage.getItem("jwt");
       if (!token) {
         setUser(null);
-        setTimeout(() => {
-          setLoading(false);
-        }, 150);
+        setLoading(false)
         return;
       }
 
@@ -350,7 +310,7 @@ function MyApp({ Component, pageProps }) {
               <Home
                 user={user}
                 active={current === 0}
-                setLoading={current === 0 ? setLoading : () => null}
+                setLoading={setTimeout(current === 0 ? setLoading : () => null, 150)}
                 setUser={current === 0 ? setUser : () => null}
                 colorPalette={colorPalette}
                 setColorPalette={setColorPalette}
