@@ -9,8 +9,6 @@ import BackCover from "./book/sections/backCover";
 import { panels } from "../../data/editTutorial";
 
 export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
-  const [index, setIndex] = useState(0);
-  const [visitedPanels, setVisitedPanels] = useState([0]);
   const [page, setPage] = useState(0);
   const [toClose, setToClose] = useState({ in: false, out: false });
 
@@ -21,13 +19,6 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
       setPanelsVisible(false);
     }
   }, [user]);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIndex(0);
-      setVisitedPanels([0]);
-    }, 300);
-  }, [panelsVisible]);
 
   function handleClosePanels() {
     const token = localStorage.getItem("jwt");
@@ -64,7 +55,7 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
       }}
     >
       <button
-        className="h-[85vh] w-[70vw] shadow-md relative bg-yellow-950 rounded-md cursor-default flex items-center justify-center p-2"
+        className="h-[85vh] w-[70vw] shadow-md relative bg-yellow-950 rounded-md cursor-default flex flex-col items-center justify-center p-2"
         onClick={() => {
           setToClose((prev) => ({ ...prev, in: true }));
         }}
@@ -91,8 +82,13 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
                           totalPages={panels.length}
                           cover={false}
                         >
-                          <div className="text-centerflex-[50%] font-galindo font-light text-xl">
-                            {panel.description}
+                          <div className="flex flex-col gap-8">
+                            <div className="text-2xl font-galindo">
+                              Tutorial: {panel.slidename}
+                            </div>
+                            <div className="text-centerflex-[50%] font-galindo font-light text-xl">
+                              {panel.description}
+                            </div>
                           </div>
                           <div className="flex flex-col px-4 gap-[1rem]">
                             <Image
