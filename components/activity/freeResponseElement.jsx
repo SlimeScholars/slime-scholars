@@ -15,6 +15,12 @@ export default function FreeResponseElement({element, index, colorPalette, bold,
     const expRef = useRef(null);
 
     useEffect(() => {
+        setInput("")
+        setVerified(null)
+        setExpOpen(false)
+    }, [data])
+
+    useEffect(() => {
         if(solRef.current){setSolHeight(solRef.current.offsetHeight)}
     }, [verified, expOpen])
 

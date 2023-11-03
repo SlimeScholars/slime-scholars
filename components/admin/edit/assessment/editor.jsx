@@ -175,9 +175,9 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
         setLoading(true)
 
         try {
-            await activityService.update(
-              activity._id,
-              [...activity.pages.map((pageData, num) => ({
+            await assessmentService.update(
+              assessment._id,
+              [...assessment.problemSet.map((pageData, num) => ({
                   ...pageData, pageNumber: num + 1,
                   sections: [...pageData.sections.map((sectionData, snum) => {
                     return({ 
@@ -198,9 +198,9 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
 
     const handleModifyElement = async (sectionIndex, elementIndex, params) => {
         try {
-          await activityService.update(
-            activity._id,
-            [...activity.pages.map((pageData, num) => {
+          await assessmentService.update(
+            assessment._id,
+            [...assessment.problemSet.map((pageData, num) => {
                 if(num !== page){
                     return {...pageData, pageNumber: num + 1}
                 }
@@ -224,9 +224,9 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
     const handleDeleteElement = async(sectionIndex, elementIndex) => {
         setLoading(true)
         try{
-            await activityService.update(
-                activity._id,
-                [...activity.pages.map((pageData, num) => ({
+            await assessmentService.update(
+                assessment._id,
+                [...assessment.problemSet.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
                         //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${snum === sectionIndex-1}`)

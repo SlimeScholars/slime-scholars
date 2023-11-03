@@ -20,6 +20,15 @@ export default function Units({
   const [counts, setCounts] = useState({ lessons: 0, quizzes: 0, tests: 0 });
 
   useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (!user || user.userType !== 1) {
+      router.push("/");
+    }
+  }, [user, loading]);
+
+  useEffect(() => {
     setLoading(true);
     try {
       if (!router.query.courseId) {
