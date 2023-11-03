@@ -16,6 +16,7 @@ export default function Page(props) {
       props.setPage(props.pageNum + next); // set current page tracker to next page
     }
   };
+  
   return (
     Math.abs(props.currentPage - props.pageNum) <= 2 && ( // only render if within 2 pages of current page
       <button
