@@ -10,8 +10,8 @@ export default function BackCover(props) {
       }}
     >
       <div className={"w-full h-full page-front bg-transparent"}>
-        <div className={"w-full h-full bg-orange-200 rounded-r-xl p-4"}>
-          <div className="text-center text-white flex-[50%] font-galindo font-light text-xl">
+        <div className={"w-full h-full bg-gray-100 p-10"}>
+          <div className="text-center text-gray-800 flex-[50%] font-galindo font-light text-xl">
             {props.content.description}
           </div>
         </div>

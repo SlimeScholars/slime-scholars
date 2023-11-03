@@ -12,7 +12,7 @@ export default function FrontCover(props) {
     >
       <></>
       <div className={"w-full h-full page-back bg-transparent"}>
-        <div className={"w-full h-full bg-orange-200 rounded-l-xl p-4"}>
+        <div className={"w-full h-full bg-gray-100 p-10"}>
           <div className="flex flex-col px-4 gap-[1rem]">
             <Image
               src={props.content.image1}

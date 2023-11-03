@@ -32,15 +32,17 @@ export default function Page(props) {
         }}
         onClick={flipPage}
       >
-        <div className={"w-full h-full page-front bg-transparent p-4 pl-0"}>
-          <div className={"w-full h-full bg-orange-200"}>
+        <div className={"w-full h-full page-front bg-transparent"}>
+          <div className={"w-full h-full bg-gray-100 text-gray-800 p-10"}>
             {props.children[0]}
           </div>
+          <span className="fold-corner-right"></span>
         </div>
-        <div className={"w-full h-full page-back bg-transparent p-4 pr-0"}>
-          <div className={"w-full h-full bg-orange-200"}>
+        <div className={"w-full h-full page-back bg-transparent"}>
+          <div className={"w-full h-full bg-gray-100 text-gray-800 p-10"}>
             {props.children[1]}
           </div>
+          <span className="fold-corner-left"></span>
         </div>
       </button>
     )
