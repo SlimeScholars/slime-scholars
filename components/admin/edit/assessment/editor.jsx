@@ -182,7 +182,7 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
                   sections: [...pageData.sections.map((sectionData, snum) => {
                     return({ 
                       ...sectionData, sectionIndex: snum + 1,
-                      elements: snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
+                      elements: num === page && snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
                       : [...sectionData.elements],
                   })})],
               }))],
@@ -210,7 +210,7 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
                     ...sectionData, sectionIndex: snum + 1,
                         elements: [...sectionData.elements.map((elementData, num) => ({
                             ...elementData, index: num + 1,
-                            ...(num === elementIndex && snum === sectionIndex ? params : {}),
+                            ...(num === elementIndex && num === page && snum === sectionIndex ? params : {}),
                         }))],
                     }))],
                 }}})],
@@ -229,7 +229,7 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
                 [...assessment.problemSet.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
-                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${snum === sectionIndex-1}`)
+                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${num === page && snum === sectionIndex-1}`)
                         if(snum !== sectionIndex-1){
                             return{...sectionData, sectionIndex: snum + 1}}
                         else{
