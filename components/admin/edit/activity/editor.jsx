@@ -163,10 +163,8 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleElementSwap = async(sectionIndex, elementIndex, swapIndex) => {
         const swap = (arr, index1, index2) => {
-            console.log(arr)
             let clone = [...arr]
             let output = [...arr]
-            console.log(clone)
             output[index1] = {...clone[index2], index:clone[index1].index}
             output[index2] = {...clone[index1], index:clone[index2].index}
             console.log(output)
@@ -210,7 +208,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                     ...sectionData, sectionIndex: snum + 1,
                         elements: [...sectionData.elements.map((elementData, num) => ({
                             ...elementData, index: num + 1,
-                            ...(num === elementIndex && num === page && snum === sectionIndex ? params : {}),
+                            ...(num === page && snum === sectionIndex ? params : {}),
                         }))],
                     }))],
                 }}})],

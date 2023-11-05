@@ -137,6 +137,7 @@ export default async function (req, res) {
           element.sectionNumber < 0 ||
           element.elementType > 3
         ) {
+          console.log(element)
           throw new Error("Element type is invalid");
         }
 
@@ -144,7 +145,6 @@ export default async function (req, res) {
           index: element.index,
           elementType: element.elementType,
         };
-        console.log(processedElement);
         // text
         if (element.elementType === 0) {
           const processedText = processMarkdown(element.text);
