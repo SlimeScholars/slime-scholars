@@ -77,6 +77,7 @@ const unitSchema = new Schema(
     totalPoints: {
       type: Number,
       required: [true, "Missing totalPoints"],
+      default: 100,
     },
   },
   {
