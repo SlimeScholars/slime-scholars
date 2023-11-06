@@ -4,7 +4,35 @@ import { BiSolidDownArrow } from "react-icons/bi";
 
 export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
+  const handleActivitySwap = async(activityIndex, swapIndex) => {
+    const swap = (arr, index1, index2) => {
+        let clone = [...arr]
+        let output = [...arr]
+        output[index1] = {...clone[index2]}
+        output[index1].activityIndex = clone[index1].activityIndex
+        output[index2] = {...clone[index1]}
+        output[index2].activityIndex = clone[index2].activityIndex
+        return output
+    }
 
+    setLoading(true)
+    try{
+        await lessonService.update(lesson._id, [...lesson.activities.map((activityData, num) => {
+            // if(num != activity){return {...activityData, activityNumber:num+1}}
+            // else{
+                return {...activityData, activityNumber:num+1, activities:[...swap(activityData.pages, activityIndex, swapIndex)]}
+            // }
+        })], 
+        activity, 0)
+        refresh(true)
+        setTimeout(() => {setLoading(false)}, 150)
+    }
+    catch(err){
+        console.log(err)
+        setTimeout(() => {setLoading(false)}, 150) 
+    }
+  }
+    
   return (
     <>
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
@@ -50,6 +78,7 @@ export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProp
                 selected = {selected}
                 setSelected = {setSelected}
                 activity={activity}
+                handleActivitySwap={handleActivitySwap}
               />
               </div>
             ))}

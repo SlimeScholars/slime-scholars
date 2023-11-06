@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-export default function Activity({ activity, setSidePanelProperties, selected, setSelected }) {
+import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
+export default function Activity({ activity, setSidePanelProperties, selected, setSelected, handleActivitySwap }) {
 
   return (
     <>
@@ -26,6 +26,14 @@ export default function Activity({ activity, setSidePanelProperties, selected, s
               </p>
             )
           }
+        </button>
+        <button 
+            disabled={activity.activityNumber === 1}
+            className={`${activity.activityNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 
+            onClick={() => {
+              handleActivitySwap(activity.activityNumber-1, activity.activityNumber-2)
+            }}>
+              <IoIosArrowUp/>
         </button>
       </div>
     </>
