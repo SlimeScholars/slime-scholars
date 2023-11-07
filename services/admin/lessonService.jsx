@@ -22,4 +22,22 @@ export class LessonService{
     post = async(params) => this.instance.post("/api/admin/lesson/create", params, applyHeaders())
         .then((response) => response)
         .catch((error) => {showToastError(error.message)});
+
+        update = async (id, newActivitiesArray, act1id, act2id, act1n, act2n) => {
+            try {
+                console.log(id)
+                console.log(newActivitiesArray)
+              const response = await this.instance.put(
+                "/api/admin/lesson/update-activities",
+                { lessonId: id, newActivitiesArray: newActivitiesArray, act1id, act2id, act1n, act2n },
+                applyHeaders()
+              );
+              return response;
+            } catch (error) {
+              console.log(error);
+              showToastError(error.message);
+              throw error; // rethrow the error if needed
+            }
+          };
+          
 }

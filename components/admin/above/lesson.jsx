@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Activity from "./activity"; 
 import { BiSolidDownArrow } from "react-icons/bi";
+import { lessonService } from "../../../services";
 
 export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,22 +11,24 @@ export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProp
         let output = [...arr]
         output[index1] = {...clone[index2]}
         output[index1].activityIndex = clone[index1].activityIndex
+        output[index1].activityNumber = clone[index1].activityNumber
         output[index2] = {...clone[index1]}
         output[index2].activityIndex = clone[index2].activityIndex
+        output[index2].activityNumber = clone[index2].activityNumber
         return output
     }
 
     setLoading(true)
     try{
-        await lessonService.update(lesson._id, [...lesson.activities.map((activityData, num) => {
-            // if(num != activity){return {...activityData, activityNumber:num+1}}
-            // else{
-                return {...activityData, activityNumber:num+1, activities:[...swap(activityData.pages, activityIndex, swapIndex)]}
-            // }
-        })], 
-        activity, 0)
-        refresh(true)
-        setTimeout(() => {setLoading(false)}, 150)
+      console.log(activityIndex, swapIndex)
+      console.log(lesson.activities)
+      console.log(swap(lesson.activities, activityIndex, swapIndex))
+      const newActivitiesArray = swap(lesson.activities, activityIndex, swapIndex);
+      await lessonService.update(lesson._id, newActivitiesArray, lesson.activities[activityIndex]._id, lesson.activities[swapIndex]._id, lesson.activities[activityIndex].activityNumber, lesson.activities[swapIndex].activityNumber);
+      setLesson({...lesson, activities: newActivitiesArray,});
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
     }
     catch(err){
         console.log(err)
