@@ -27,7 +27,7 @@ export default async function (req, res) {
     if (req.method !== "PUT") {
       throw new Error(`${req.method} is an invalid request method`);
     }
-    verifyApiKey(req.headers.apikey)
+    verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();
@@ -137,7 +137,7 @@ export default async function (req, res) {
           element.sectionNumber < 0 ||
           element.elementType > 3
         ) {
-          console.log(element)
+          console.log(element);
           throw new Error("Element type is invalid");
         }
 
@@ -159,7 +159,10 @@ export default async function (req, res) {
         else if (element.elementType === 1) {
           processedElement.image = element.image;
           // check if image has size, border, and rounded properties
-          if ((element.size === 0 || element.size) && (element.rounded === 0 || element.rounded)) {
+          if (
+            (element.size === 0 || element.size) &&
+            (element.rounded === 0 || element.rounded)
+          ) {
             processedElement.size = element.size;
             processedElement.border = element.border ? element.border : false;
             processedElement.rounded = element.rounded;
@@ -171,7 +174,7 @@ export default async function (req, res) {
         }
         //multiple choice
         else if (element.elementType === 2) {
-          processedElement.text = element.text
+          processedElement.text = element.text;
           processedElement.options = element.options;
           processedElement.explanation = element.explanation;
         }
