@@ -36,7 +36,7 @@ export class LessonService{
             } catch (error) {
               console.log(error);
               showToastError(error.message);
-              throw error; // rethrow the error if needed
+              throw error; 
             }
           };
           
