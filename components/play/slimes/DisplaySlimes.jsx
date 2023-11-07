@@ -7,6 +7,7 @@ import PopUpDetails from "./PopUpDetails";
 import Image from "next/image";
 import { FaArrowUp } from "react-icons/fa";
 import { playSound } from "../../../utils/playSound";
+import VerifyUpgradePopup from './VerifyUpgradePopup'
 
 export default function DisplaySlimes({
   user,
@@ -18,96 +19,109 @@ export default function DisplaySlimes({
 }) {
   const router = useRouter();
 
+  const [verifyLevelUpPopup, setVerifyLevelUpPopup] = useState(false);
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
   const [oldSlime, setOldSlime] = useState(null);
 
   //handle click should automatically level up the slime and update the user
-  const handleClick = (id) => {
-    try {
-      const token = localStorage.getItem("jwt");
 
-      // Set the authorization header
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  const handleClick = (id, index) => {
+    setVerifyLevelUpPopup(true);
+    
+  }
 
-      let slime;
-      for (let i in user.roster) {
-        if (user.roster[i]?._id == id) {
-          slime = user.roster[i];
-          break;
+  const handleSlimeUpgrade = (id) => {
+
+        try {
+        const token = localStorage.getItem("jwt");
+
+        // Set the authorization header
+        const config = {
+            headers: {
+            Authorization: `Bearer ${token}`,
+            },
+        };
+
+        let slime;
+        for (let i in user.roster) {
+            if (user.roster[i]?._id == id) {
+            slime = user.roster[i];
+            break;
+            }
         }
-      }
-      if (!slime) throw new Error("Invalid slime for leveling up");
+        if (!slime) throw new Error("Invalid slime for leveling up");
 
-      if (slime && slime._id != id) {
-        throw new Error("Invalid slime for leveling up");
-      }
-
-      if (user.slimeGel < slime.levelUpCost) {
-        throw new Error("Insufficient slime gel");
-      }
-
-      setOldSlime(slime);
-      const newSlime = {
-        ...slime,
-        level: slime.level + 1,
-        // Future slime.level - 1 as index to adjust from level to index
-        // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
-        levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
-        baseProduction:
-          slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
-      };
-      const newRoster = [...user.roster];
-      for (let i in user.roster) {
-        if (user.roster[i]?._id == id) {
-          newRoster[i] = newSlime;
+        if (slime && slime._id != id) {
+            throw new Error("Invalid slime for leveling up");
         }
-      }
-      const newSlimes = [...user.slimes];
-      for (let i in user.slimes) {
-        if (user.slimes[i]?._id == id) {
-          newSlimes[i] = newSlime;
+
+        if (user.slimeGel < slime.levelUpCost) {
+            throw new Error("Insufficient slime gel");
         }
-      }
 
-      const newUser = {
-        ...user,
-        slimeGel: user.slimeGel - slime.levelUpCost,
-        roster: newRoster,
-        slimes: newSlimes,
-      };
+        setOldSlime(slime);
+        const newSlime = {
+            ...slime,
+            level: slime.level + 1,
+            // Future slime.level - 1 as index to adjust from level to index
+            // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
+            levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
+            baseProduction:
+            slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
+        };
+        const newRoster = [...user.roster];
+        for (let i in user.roster) {
+            if (user.roster[i]?._id == id) {
+            newRoster[i] = newSlime;
+            }
+        }
+        const newSlimes = [...user.slimes];
+        for (let i in user.slimes) {
+            if (user.slimes[i]?._id == id) {
+            newSlimes[i] = newSlime;
+            }
+        }
 
-      setUser(newUser);
-      setRes({ slime: newSlime });
-      setShowLevelUpPopup(true);
+        const newUser = {
+            ...user,
+            slimeGel: user.slimeGel - slime.levelUpCost,
+            roster: newRoster,
+            slimes: newSlimes,
+        };
 
-      axios
-        .post("/api/slime/level-up", { slimeId: id }, config)
-        .then((response) => {
-          // refetchUser()
-          // setShowLevelUpPopup(true);
-          // setRes(response.data);
-        })
-        .catch((error) => {
-          refetchUser();
-          showToastError(error?.response?.data?.message);
-        });
-    } catch (error) {
-      if (error?.response?.data?.message) {
-        showToastError(error?.response?.data?.message);
-      } else if (error?.message) {
-        showToastError(error?.message);
-      } else {
-        showToastError(error);
-      }
-      return;
-    }
+        setUser(newUser);
+        setRes({ slime: newSlime });
+        
+
+        axios
+            .post("/api/slime/level-up", { slimeId: id }, config)
+            .then((response) => {
+            // refetchUser()
+            // setShowLevelUpPopup(true);
+            // setRes(response.data);
+            })
+            .catch((error) => {
+            refetchUser();
+            showToastError(error?.response?.data?.message);
+            });
+        } catch (error) {
+        if (error?.response?.data?.message) {
+            showToastError(error?.response?.data?.message);
+        } else if (error?.message) {
+            showToastError(error?.message);
+        } else {
+            showToastError(error);
+        }
+        return;
+        }
   };
-  const handleClosePopup = () => {
+
+  const handleCloseVerifyLevelUpPopup = () => {
+    setVerifyLevelUpPopup(false); // Set showLevelUpPopup to false to close the popup
+  };
+
+  const handleCloseLevelUpPopup = () => {
     setShowLevelUpPopup(false); // Set showLevelUpPopup to false to close the popup
   };
 
@@ -149,11 +163,23 @@ export default function DisplaySlimes({
   return (
     <div className="flex flex-row fixed bottom-0 items-center justify-center w-full">
       <div className="flex flex-row ">
+        {verifyLevelUpPopup && (
+          <VerifyUpgradePopup
+            user={user}
+            res={res}
+            onClose={handleCloseVerifyLevelUpPopup}
+            oldSlime={oldSlime}
+            setShowLevelUpPopup={setShowLevelUpPopup}
+            handleSlimeUpgrade={handleSlimeUpgrade}
+          />
+        )}
+        
         {showLevelUpPopup && (
+        
           <PopUpDetails
             user={user}
             res={res}
-            onClose={handleClosePopup}
+            onClose={handleCloseLevelUpPopup}
             oldSlime={oldSlime}
           />
         )}
