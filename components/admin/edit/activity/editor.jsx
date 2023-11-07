@@ -196,23 +196,37 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleModifyElement = async (sectionIndex, elementIndex, params) => {
         try {
-          await activityService.update(
-            activity._id,
-            [...activity.pages.map((pageData, num) => {
-                if(num !== page){
-                    return {...pageData, pageNumber: num + 1}
-                }
-                else{
-                    return{...pageData, pageNumber: num + 1,
-                    sections: [...pageData.sections.map((sectionData, snum) => ({
-                    ...sectionData, sectionIndex: snum + 1,
-                        elements: [...sectionData.elements.map((elementData, num) => ({
-                            ...elementData, index: num + 1,
-                            ...(num === page && snum === sectionIndex ? params : {}),
-                        }))],
-                    }))],
-                }}})],
-          page, 0);
+            await activityService.update(
+                activity._id,
+                [
+                    ...activity.pages.map((pageData, num) => {
+                        if (num !== page) {
+                            return { ...pageData, pageNumber: num + 1 };
+                        } else {
+                            return {
+                                ...pageData,
+                                pageNumber: num + 1,
+                                sections: [
+                                    ...pageData.sections.map((sectionData, snum) => ({
+                                        ...sectionData,
+                                        sectionIndex: snum + 1,
+                                        elements: [
+                                            ...sectionData.elements.map((elementData, elnum) => ({
+                                                ...elementData,
+                                                index: num + 1,
+                                                ...(num === page && snum === sectionIndex && elnum === elementIndex ? params : {}),
+                                            })),
+                                        ],
+                                    })),
+                                ],
+                            };
+                        }
+                    }),
+                ],
+                page,
+                0
+            );
+            
           refresh(false);
         } catch (err) {
           console.log(err);
