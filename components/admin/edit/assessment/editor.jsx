@@ -208,9 +208,9 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
                     return{...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => ({
                     ...sectionData, sectionIndex: snum + 1,
-                        elements: [...sectionData.elements.map((elementData, num) => ({
+                        elements: [...sectionData.elements.map((elementData, elnum) => ({
                             ...elementData, index: num + 1,
-                            ...(num === elementIndex && num === page && snum === sectionIndex ? params : {}),
+                            ...(elnum === elementIndex && num === page && snum === sectionIndex ? params : {}),
                         }))],
                     }))],
                 }}})],
