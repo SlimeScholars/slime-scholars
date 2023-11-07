@@ -54,8 +54,6 @@ export default async function (req, res) {
     const { lessonId, newActivitiesArray, act1id, act2id, act1n, act2n } =
       data.fields;
 
-    console.log(act1id, act2id, act1n, act2n);
-
     if (!lessonId) {
       throw new Error("Please send a lessonId");
     }
@@ -86,8 +84,6 @@ export default async function (req, res) {
     });
 
     const lesson = await Lesson.findById(lessonId);
-
-    console.log(lesson.activities);
 
     res.status(200).json({ lesson });
   } catch (error) {

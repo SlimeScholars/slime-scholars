@@ -20,9 +20,6 @@ export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProp
 
     setLoading(true)
     try{
-      console.log(activityIndex, swapIndex)
-      console.log(lesson.activities)
-      console.log(swap(lesson.activities, activityIndex, swapIndex))
       const newActivitiesArray = swap(lesson.activities, activityIndex, swapIndex);
       await lessonService.update(lesson._id, newActivitiesArray, lesson.activities[activityIndex]._id, lesson.activities[swapIndex]._id, lesson.activities[activityIndex].activityNumber, lesson.activities[swapIndex].activityNumber);
       setLesson({...lesson, activities: newActivitiesArray,});
