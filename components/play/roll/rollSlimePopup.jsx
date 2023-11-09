@@ -26,7 +26,7 @@ export default function RollSlimePopup({
   return (originalSlime === null || originalSlime === undefined) &&
     updatedSlime !== null ? (
     // new slime is created
-    <div className="flex flex-col p-4 w-full text-center items-center w-[10rem] pop-out-element">
+    <div className="flex flex-col p-4 w-full text-center items-center w-[50rem] pop-out-element">
       <h3 className="font-galindo text-green-400 text-3xl">
         New Slime Unlocked!
       </h3>
