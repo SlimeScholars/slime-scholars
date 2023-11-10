@@ -26,7 +26,7 @@ export default function RollSlimePopup({
   return (originalSlime === null || originalSlime === undefined) &&
     updatedSlime !== null ? (
     // new slime is created
-    <div className="flex flex-col p-4 w-full text-center items-center w-[50rem] pop-out-element">
+    <div className="flex flex-col p-4 w-[50rem] text-center items-center ">
       <h3 className="font-galindo text-green-400 text-3xl">
         New Slime Unlocked!
       </h3>
@@ -41,10 +41,12 @@ export default function RollSlimePopup({
         height={0}
         width={0}
         sizes="100vw"
-        className="w-1/3 h-auto"
+        className="w-2/3 h-auto pop-out-element"
       />
       <div className="flex flex-col gap-2 mb-4">
-        <p className="font-galindo text-black px-2">{updatedSlime.slimeName}</p>
+        <p className="font-galindo text-black px-2 text-2xl">
+          {updatedSlime.slimeName}
+        </p>
         <p
           className="text-2xl"
           style={{ color: gameData.rarityColours[updatedSlime.rarity].text }}
