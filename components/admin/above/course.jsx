@@ -4,6 +4,7 @@ import Unit from "./unit";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
+import { courseService } from "../../../services";
 
 export default function Course({ course, setCourse, setLoading, deleteCourse, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,6 +48,36 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
 
     } catch (error) {
       showToastError(error.message);
+    }
+  }
+
+  const handleUnitSwap = async(unitIndex, swapIndex) => {
+    const swap = (arr, index1, index2) => {
+        let clone = [...arr]
+        let output = [...arr]
+        output[index1] = {...clone[index2]}
+        output[index1].unitIndex = clone[index1].unitIndex
+        output[index1].unitNumber = clone[index1].unitNumber
+        output[index2] = {...clone[index1]}
+        output[index2].unitIndex = clone[index2].unitIndex
+        output[index2].unitNumber = clone[index2].unitNumber
+        return output
+    }
+
+    setLoading(true)
+    try{
+      console.log(course.units);
+      const newUnitsArray = swap(course.units, unitIndex, swapIndex);
+      console.log(newUnitsArray);
+      await courseService.update(course._id, newUnitsArray, course.units[unitIndex]._id, course.units[swapIndex]._id, course.units[unitIndex].unitNumber, course.units[swapIndex].unitNumber);
+      setCourse({...course, units: newUnitsArray,});
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
+    }
+    catch(err){
+        console.log(err)
+        setTimeout(() => {setLoading(false)}, 150) 
     }
   }
 
@@ -101,6 +132,7 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
                 }}
                 deleteUnit={() => deleteUnit(index)}
                 setLoading={setLoading}
+                handleUnitSwap={handleUnitSwap}
               />
               </div>
             ))}
