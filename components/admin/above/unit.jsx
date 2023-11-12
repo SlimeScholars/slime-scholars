@@ -3,7 +3,7 @@ import Lesson from "./lesson";
 import axios from "axios";
 
 import { BiSolidDownArrow } from "react-icons/bi";
-import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 import { showToastError } from "../../../utils/toast";
 
 export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePanelProperties, selected, setSelected, handleUnitSwap }) {
@@ -107,13 +107,13 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
 
           </div>
         </div>
-        <button 
-            disabled={unit.unitNumber === 1}
-            className={`${unit.unitNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 
-            onClick={() => {
-              handleUnitSwap(unit.unitNumber-1, unit.unitNumber-2)
-            }}>
-              <IoIosArrowUp/>
+        <button
+          disabled={unit.unitNumber === 1}
+          className={`${unit.unitNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`}
+          onClick={() => {
+            handleUnitSwap(unit.unitNumber - 1, unit.unitNumber - 2)
+          }}>
+          <IoIosArrowUp />
         </button>
       </div>
     </>
