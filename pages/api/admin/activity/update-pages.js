@@ -7,15 +7,6 @@ import {
   processMarkdown,
   verifyNesting,
 } from "../../../../utils/processMarkdown";
-// TODO: investigate the ts error
-import formidable from "formidable-serverless";
-import { v2 as cloudinary } from "cloudinary";
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 /**
  * @desc    Update the section content of a activity
@@ -38,45 +29,7 @@ export default async function (req, res) {
     // Make sure user is a teacher
     checkUserType(user, 4);
 
-    const form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-    const data = await new Promise((resolve, reject) => {
-      form.parse(req, (err, fields, files) => {
-        if (err) {
-          reject(err);
-        } else {
-          resolve({ fields, files });
-        }
-      });
-    });
-
-    const imageFiles = [];
-    for (let i = 0; i < data.fields.imageLength; i++) {
-      if (data.files && data.files[`image${i} `]) {
-        imageFiles.push(data.files[`image${i} `]);
-      }
-    }
-
-    cloudinary.config({
-      cloud_name: process.env.CLOUD_NAME,
-      api_key: process.env.CLOUDINARY_KEY,
-      api_secret: process.env.CLOUDINARY_SECRET,
-    });
-
-    const uploadedImages = [];
-
-    for (const image of imageFiles) {
-      // Upload the file to Cloudinary
-      await cloudinary.uploader.upload(image.path, (error, result) => {
-        if (error) {
-          throw new Error(`Error uploading file: ${error} `);
-        } else {
-          uploadedImages.push(result.secure_url);
-        }
-      });
-    }
-
-    const { activityId, pages, pageIndex, imageLength } = data.fields;
+    const { activityId, pages, pageIndex, imageLength } = req.body;
 
     //if no page index is specified... do nothing to the pages, only refresh by the array
     if (pageIndex === -1) {
