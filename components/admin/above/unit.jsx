@@ -54,6 +54,14 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
     <>
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
         <button
+          disabled={unit.unitNumber === 1}
+          className={`${unit.unitNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`}
+          onClick={() => {
+            handleUnitSwap(unit.unitNumber - 1, unit.unitNumber - 2)
+          }}>
+          <IoIosArrowUp />
+        </button>
+        <button
           className={
             `w-full h-12 flex items-center justify-between pl-4 py-1 rounded-lg transition-all duration-150 mb-2
              text-black ${(selected === unit._id) ? "bg-sky-700 hover:bg-sky-700" : "bg-slate-600 hover:bg-slate-600"}`
@@ -82,6 +90,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
             transition-all duration-150`} />
           </button>}
         </button>
+
         <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
@@ -107,14 +116,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
 
           </div>
         </div>
-        <button
-          disabled={unit.unitNumber === 1}
-          className={`${unit.unitNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`}
-          onClick={() => {
-            handleUnitSwap(unit.unitNumber - 1, unit.unitNumber - 2)
-          }}>
-          <IoIosArrowUp />
-        </button>
+
       </div>
     </>
   );
