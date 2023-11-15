@@ -2,8 +2,8 @@ import { authenticate } from "../../../../utils/authenticate";
 import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
+import Lesson from "../../../../models/lessonModel";
 import Unit from "../../../../models/unitModel";
-import Lesson from "../../../../models/courseModel";
 
 // TODO: investigate the ts error
 import formidable from "formidable-serverless";
@@ -81,7 +81,7 @@ export default async function (req, res) {
     });
 
     await Unit.findByIdAndUpdate(unitId, {
-      lessons: newLessonsArray,
+      units: newLessonsArray,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
