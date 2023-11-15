@@ -2,8 +2,8 @@ import { authenticate } from "../../../../utils/authenticate";
 import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
-import Course from "../../../../models/courseModel";
 import Unit from "../../../../models/unitModel";
+import Lesson from "../../../../models/courseModel";
 
 // TODO: investigate the ts error
 import formidable from "formidable-serverless";
@@ -47,41 +47,47 @@ export default async function (req, res) {
       });
     });
 
-    const { courseId, newUnitsArray, unit1id, unit2id, unit1n, unit2n } =
-      data.fields;
+    const {
+      unitId,
+      newLessonsArray,
+      lesson1id,
+      lesson2id,
+      lesson1n,
+      lesson2n,
+    } = data.fields;
 
-    if (!courseId) {
-      throw new Error("Please send a courseId");
+    if (!unitId) {
+      throw new Error("Please send a unitId");
     }
 
-    const courseExists = Course.findById(courseId);
+    const unitExists = Unit.findById(unitId);
 
-    if (!courseExists) {
-      throw new Error("Could not find the course to update");
+    if (!unitExists) {
+      throw new Error("Could not find the unit to update");
     }
 
-    if (!newUnitsArray) {
-      throw new Error("Please send newUnitsArray");
+    if (!newLessonsArray) {
+      throw new Error("Please send newLessonsArray");
     }
 
-    await Unit.findByIdAndUpdate(unit1id, {
-      unitNumber: unit2n,
+    await Lesson.findByIdAndUpdate(lesson1id, {
+      lessonNumber: lesson2n,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
-    await Unit.findByIdAndUpdate(unit2id, {
-      unitNumber: unit1n,
+    await Lesson.findByIdAndUpdate(lesson2id, {
+      lessonNumber: lesson1n,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
-    await Course.findByIdAndUpdate(courseId, {
-      units: newUnitsArray,
+    await Unit.findByIdAndUpdate(unitId, {
+      lessons: newLessonsArray,
       latestAuthor: `${user.firstName} ${user.lastName} `,
     });
 
-    const course = await Course.findById(courseId);
+    const unit = await Unit.findById(unitId);
 
-    res.status(200).json({ course });
+    res.status(200).json({ unit });
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ message: error.message });
