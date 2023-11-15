@@ -51,12 +51,13 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
   }
 
   const handleLessonSwap = async(lessonIndex, swapIndex) => {
+    console.log(lessonIndex, swapIndex);
     const swap = (arr, index1, index2) => {
         let clone = [...arr]
         let output = [...arr]
         output[index1] = {...clone[index2]}
-        console.log(index1);
-        console.log(index2);
+        console.log(output[index1].lessonIndex);
+        console.log(clone[index1].lessonIndex);
         output[index1].lessonIndex = clone[index1].lessonIndex
         output[index1].lessonNumber = clone[index1].lessonNumber
         output[index2] = {...clone[index1]}
@@ -67,6 +68,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
 
     setLoading(true)
     try{
+      console.log(unit.lessons)
       const newLessonsArray = swap(unit.lessons, lessonIndex, swapIndex);
       console.log(newLessonsArray);
       await unitService.update(unit._id, newLessonsArray, unit.lessons[lessonIndex]._id, unit.lessons[swapIndex]._id, unit.lessons[lessonIndex].lessonNumber, unit.lessons[swapIndex].lessonNumber);
