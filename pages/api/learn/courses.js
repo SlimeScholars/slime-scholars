@@ -58,15 +58,6 @@ export default async function (req, res) {
           calculateTotalPoints(courses[i].units),
         completed: false,
       });
-      for (let j in user.completedCourses) {
-        if (
-          (user.completedCourses[j].course._id &&
-            user.completedCourses[j].course._id.equals(courses[i]._id)) ||
-          user.completedCourses[j].course.equals(courses[i]._id)
-        ) {
-          modifiedCourses[i].completed = true;
-        }
-      }
     }
 
     res.json({ courses: modifiedCourses });

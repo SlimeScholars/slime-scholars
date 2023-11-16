@@ -31,7 +31,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
     {
       label: "Logout",
       onClick: () => {
-        router.push('/login')
+        router.push("/login");
         if (typeof window !== "undefined") {
           localStorage.removeItem("jwt");
         }
@@ -56,8 +56,8 @@ export default function Navbar({ colorPalette, setUser, user }) {
     };
   }, [open]);
 
-  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
-  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"]
+  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"];
+  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"];
 
   return (
     <>
@@ -68,7 +68,10 @@ export default function Navbar({ colorPalette, setUser, user }) {
         }}
       >
         <section>
-          <a className="flex justify-center items-center h-auto transition-all duration-150 course-nav-title" href="/">
+          <a
+            className="flex justify-center items-center h-auto transition-all duration-150 course-nav-title"
+            href="/"
+          >
             <Image
               src="/assets/icons/logo-light.png"
               alt="Slime Scholars Logo"
@@ -83,15 +86,20 @@ export default function Navbar({ colorPalette, setUser, user }) {
           <section className="flex flex-row gap-1 font-bold text-xl items-center text-white">
             <div className="flex flex-col gap-[-5px] justify-center items-end">
               <div className="text-[0.85em] font-light font-galindo">
-                {user && user.username && user.username.trim().length > 0 ? 
-                  <span>{user.username}</span> : 
-                  <span>[No Username]</span>}
+                {user && user.username && user.username.trim().length > 0 ? (
+                  <span>{user.username}</span>
+                ) : (
+                  <span>[No Username]</span>
+                )}
               </div>
-              <div className="text-[0.7em] mt-[-0.5em] font-light italic"
-              style={{
-                color: user ? userColors[user.userType] : userColors[0]
-              }}
-              >{user ? userTypes[user.userType] : userTypes[0]}</div>
+              <div
+                className="text-[0.7em] mt-[-0.5em] font-light italic"
+                style={{
+                  color: user ? userColors[user.userType] : userColors[0],
+                }}
+              >
+                {user ? userTypes[user.userType] : userTypes[0]}
+              </div>
             </div>
             <button
               onClick={() => {
@@ -107,9 +115,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
                 w-[5.6rem] h-[5.6rem] scale-[0.65]
                 course-nav-icon transition-all duration-150`}
             >
-              <div
-                className="grid grid-rows-2 gap-[0.5rem]"
-              >
+              <div className="grid grid-rows-2 gap-[0.5rem]">
                 {user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
                     <div className="absolute h-32 w-32 overflow-hidden">

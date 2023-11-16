@@ -43,7 +43,9 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
           if (error?.response?.data?.message) {
             showToastError(error.response.data.message);
           }
-          setTimeout(() => {setLoading(false)}, 150);
+          setTimeout(() => {
+            setLoading(false);
+          }, 150);
         });
     } catch (error) {
       showToastError(error.message);
@@ -53,7 +55,9 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
 
   useEffect(() => {
     if (courses.length > 0) {
-      setTimeout(() => {setLoading(false)}, 150);
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
     }
   }, [courses]);
 
