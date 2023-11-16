@@ -30,13 +30,12 @@ export default function Parent({ loading, user, setUser }) {
 
     // FIXME
     if (!user) {
-      router.push('/signup/student')
+      router.push("/signup/student");
     }
 
     if (user && user.userType === 1) {
-      router.push('/play')
-    }
-    else if (user) {
+      router.push("/play");
+    } else if (user) {
       router.push("/");
     }
   }, [loading, user]);
@@ -67,19 +66,22 @@ export default function Parent({ loading, user, setUser }) {
     }
 
     const config = {
-      headers: {
-      },
-    }
+      headers: {},
+    };
     axios
-      .post("/api/user/create", {
-        // userType 2 represents parent
-        userType: 2,
-        honorific,
-        firstName,
-        lastName,
-        email,
-        password,
-      }, config)
+      .post(
+        "/api/user/create",
+        {
+          // userType 2 represents parent
+          userType: 2,
+          honorific,
+          firstName,
+          lastName,
+          email,
+          password,
+        },
+        config
+      )
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);
@@ -101,7 +103,7 @@ export default function Parent({ loading, user, setUser }) {
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back to={"/"} />
       <ToastContainer />
-      <div className="w-1/3 relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
+      <div className="w-[600px] relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
         <h1 className="text-center text-6xl font-cabin font-bold text-ink/90 mb-2 drop-shadow-sm">
           Parent Sign-Up
         </h1>
@@ -248,7 +250,7 @@ export default function Parent({ loading, user, setUser }) {
             src="/assets/graphics/slimes/slime-special.png"
             width={0}
             height={0}
-            sizes='100vw'
+            sizes="100vw"
             className="absolute -top-12 -left-8 drop-shadow-xl h-[200px] w-[200px]"
             alt="Slime"
           />
