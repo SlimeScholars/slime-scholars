@@ -55,8 +55,7 @@ export default function Student({ loading, user, setUser }) {
     }
 
     const config = {
-      headers: {
-      },
+      headers: {},
     };
 
     const encryptedPassword = encrypt(
@@ -98,7 +97,7 @@ export default function Student({ loading, user, setUser }) {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       {/* FIXME <Back to={"/"} /> */}
-      <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
+      <div className="w-[600px] bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <form
           className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
           onSubmit={(e) => onSubmit(e)}
