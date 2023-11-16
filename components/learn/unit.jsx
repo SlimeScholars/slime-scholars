@@ -9,7 +9,7 @@ export default function Unit({
   unitNumber,
   unitPoints,
   unitCount,
-  tier,
+  attempted,
 }) {
   const router = useRouter();
 
@@ -24,14 +24,21 @@ export default function Unit({
   return (
     <button
       className={`course-bar-default base
-		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg hover-highlight`}
+		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg hover-highlight hover:opacity-100 ${
+      !attempted && "opacity-50"
+    }`}
       onClick={() => {
         router.push(`/courses/${courseId}/units/${unitId}/lessons`);
       }}
     >
-      <span className="text-start font-bold text-lg 2xl:text-xl">
-        Unit {unitNumber}: {unitName}
-      </span>
+      <div className="w-full flex items-center justify-between">
+        <span className="text-start font-bold text-lg 2xl:text-xl">
+          Unit {unitNumber}: {unitName}
+        </span>
+        <span className="text-end italic font-normal text-gray-400 text-lg 2xl:text-xl">
+          {!attempted && "Not started"}
+        </span>
+      </div>
       <span className="text-start text-md flex flex-row">
         {unitCount.lessons} lessons • {unitCount.quizzes} quizzes •{" "}
         {unitCount.tests} tests • {unitPoints}

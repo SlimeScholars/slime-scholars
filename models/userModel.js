@@ -104,70 +104,6 @@ const userSchema = new Schema(
       required: false,
       default: undefined,
     },
-
-    completedLessons: {
-      type: [
-        {
-          lesson: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Lesson",
-            required: [true, "Missing lessonId"],
-          },
-          stars: {
-            type: Number,
-            required: false, // Stars can be 0
-          },
-          looted: {
-            type: Boolean,
-            required: [true, "Missing looted"],
-          },
-        },
-      ],
-      required: false,
-      default: undefined,
-      _id: false,
-    },
-    completedUnits: {
-      type: [
-        {
-          unit: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Unit",
-            required: [true, "Missing unitId"],
-          },
-          tier: {
-            type: Number,
-            required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
-          },
-          // Stars on the unit test
-          stars: {
-            type: Number,
-            required: false, // Stars can be 0
-          },
-        },
-      ],
-      required: false,
-      default: undefined,
-      _id: false,
-    },
-    completedCourses: {
-      type: [
-        {
-          course: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Course",
-            required: [true, "Missing courseId"],
-          },
-          tier: {
-            type: Number,
-            required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
-          },
-        },
-      ],
-      required: false,
-      default: undefined,
-      _id: false,
-    },
     progress: [
       {
         _id: false,
@@ -329,10 +265,10 @@ const userSchema = new Schema(
       _id: false,
     },
 
-    tutorialActive:{
+    tutorialActive: {
       type: Boolean,
       required: true,
-      default: true
+      default: true,
     },
   },
   {
