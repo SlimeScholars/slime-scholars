@@ -36,7 +36,7 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1);
 
-    const { courseId, unitId, score } = req.body;
+    let { courseId, unitId, score } = req.body;
 
     const unit = await Unit.findById(unitId, {
       createdAt: 0,
