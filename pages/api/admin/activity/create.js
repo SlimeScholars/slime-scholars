@@ -47,11 +47,13 @@ export default async function (req, res) {
 
     const element = {
       index: 0,
-      elementType: "text",
+      elementType: 0,
       text: "this is a default text element",
     };
     const section = {
       sectionIndex: 1,
+      sectionDirection: "vertical",
+      sectionStyle: "plain",
       elements: [element],
     };
     const page = {

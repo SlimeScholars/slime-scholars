@@ -163,10 +163,8 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleElementSwap = async(sectionIndex, elementIndex, swapIndex) => {
         const swap = (arr, index1, index2) => {
-            console.log(arr)
             let clone = [...arr]
             let output = [...arr]
-            console.log(clone)
             output[index1] = {...clone[index2], index:clone[index1].index}
             output[index2] = {...clone[index1], index:clone[index2].index}
             console.log(output)
@@ -182,7 +180,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                   sections: [...pageData.sections.map((sectionData, snum) => {
                     return({ 
                       ...sectionData, sectionIndex: snum + 1,
-                      elements: snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
+                      elements: num === page && snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
                       : [...sectionData.elements],
                   })})],
               }))],
@@ -198,23 +196,37 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
 
     const handleModifyElement = async (sectionIndex, elementIndex, params) => {
         try {
-          await activityService.update(
-            activity._id,
-            [...activity.pages.map((pageData, num) => {
-                if(num !== page){
-                    return {...pageData, pageNumber: num + 1}
-                }
-                else{
-                    return{...pageData, pageNumber: num + 1,
-                    sections: [...pageData.sections.map((sectionData, snum) => ({
-                    ...sectionData, sectionIndex: snum + 1,
-                        elements: [...sectionData.elements.map((elementData, num) => ({
-                            ...elementData, index: num + 1,
-                            ...(num === elementIndex && snum === sectionIndex ? params : {}),
-                        }))],
-                    }))],
-                }}})],
-          page, 0);
+            await activityService.update(
+                activity._id,
+                [
+                    ...activity.pages.map((pageData, num) => {
+                        if (num !== page) {
+                            return { ...pageData, pageNumber: num + 1 };
+                        } else {
+                            return {
+                                ...pageData,
+                                pageNumber: num + 1,
+                                sections: [
+                                    ...pageData.sections.map((sectionData, snum) => ({
+                                        ...sectionData,
+                                        sectionIndex: snum + 1,
+                                        elements: [
+                                            ...sectionData.elements.map((elementData, elnum) => ({
+                                                ...elementData,
+                                                index: num + 1,
+                                                ...(num === page && snum === sectionIndex && elnum === elementIndex ? params : {}),
+                                            })),
+                                        ],
+                                    })),
+                                ],
+                            };
+                        }
+                    }),
+                ],
+                page,
+                0
+            );
+            
           refresh(false);
         } catch (err) {
           console.log(err);
@@ -229,7 +241,7 @@ export default function EditActivitySide({activity, refresh, setLoading, theme})
                 [...activity.pages.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
-                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${snum === sectionIndex-1}`)
+                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${num === page && snum === sectionIndex-1}`)
                         if(snum !== sectionIndex-1){
                             return{...sectionData, sectionIndex: snum + 1}}
                         else{

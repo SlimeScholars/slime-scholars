@@ -79,7 +79,7 @@ export default async function (req, res) {
           },
         ],
       })
-      .populate("quizzes");
+    //   .populate("quizzes");
 
     res.status(201).json({ course: newCourse });
   } catch (error) {

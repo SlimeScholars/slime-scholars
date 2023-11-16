@@ -15,6 +15,12 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
     const expRef = useRef(null);
 
     useEffect(() => {
+        setSelectedIndex(-1)
+        setVerified(null)
+        setExpOpen(false)
+    }, [data])
+
+    useEffect(() => {
         setData(element)
     }, [element])
 
@@ -66,7 +72,7 @@ export default function MultipleChoiceElement({element, index, colorPalette, bol
                 </button>
             </div>
             <div className="absolute top-0 left-0 w-full p-4 z-[0]" ref={solRef}>
-                <div className="p-2 transition-opacity delay-200 duration-200 rounded-md"
+                <div className="p-2 rounded-md"
                 style={{
                     color:colorPalette.black,
                     //backgroundColor: colorPalette.primary2 + "40",

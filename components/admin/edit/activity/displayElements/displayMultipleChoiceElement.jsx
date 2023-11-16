@@ -17,7 +17,7 @@ export default function DisplayMultipleChoiceElement({element, index, theme, bol
             <div className="mt-2 flex flex-col gap-1">
             {data.options && data.options.map((item, key) => {
                 return(
-                    <div className="flex flex-row items-center gap-4 z-[100]">
+                    <div key={key} className="flex flex-row items-center gap-4 z-[100]">
                         <div className="mc-button z-[100] cursor-pointer"
                         style={{
                             width: "16px",
