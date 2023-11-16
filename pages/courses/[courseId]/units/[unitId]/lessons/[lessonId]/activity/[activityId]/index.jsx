@@ -7,14 +7,35 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { AiOutlineRedo } from "react-icons/ai";
 import Section from "../../../../../../../../../components/activity/section";
 import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { showToastError } from "../../../../../../../../../utils/toast";
+import axios from "axios";
+import { activityService } from "../../../../../../../../../services";
+import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
+import { AiOutlineRedo } from "react-icons/ai";
+import Section from "../../../../../../../../../components/activity/section";
+import Image from "next/image";
 
+const LOADIN_MAXFRAMES = 9;
+const LOADIN_DELAY = 150;
+const LOADIN_INCREMENT = 15;
 const LOADIN_MAXFRAMES = 9;
 const LOADIN_DELAY = 150;
 const LOADIN_INCREMENT = 15;
 
 export default function Activity({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
+  const router = useRouter();
 
+  // useEffect(() => {
+  // 	if (loading) {
+  // 		return
+  // 	}
+  // 	if (!user || user.userType !== 1) {
+  // 		router.push('/')
+  // 	}
+  // }, [user, loading])
   // useEffect(() => {
   // 	if (loading) {
   // 		return
@@ -42,6 +63,12 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
   const [open, setOpen] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
 
+  const [updateFlowers, setUpdateFlowers] = useState({
+    old: user.flowers,
+    new: user.flowers,
+    inc: 0,
+  });
+
   useEffect(() => {
     if (activity) {
       if (page === null && activity.pages.length > 0) {
@@ -50,6 +77,21 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
     }
   }, [activity]);
 
+  useEffect(() => {
+    setMaxPage((prev) => {
+      setOpen(page < prev ? activity.pages[page].sections.length - 1 : 0);
+      return Math.max(prev, page);
+    });
+    if (page < maxPage) {
+      var scrollContainer = document.getElementById("container-activity-index");
+      setTimeout(() => {
+        scrollContainer.scrollTo({
+          top: scrollContainer.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 50);
+    }
+  }, [page]);
   useEffect(() => {
     setMaxPage((prev) => {
       setOpen(page < prev ? activity.pages[page].sections.length - 1 : 0);
@@ -77,7 +119,31 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
       }, 500);
     }
   }, [activityId]);
+  useEffect(() => {
+    setPage(0);
+    setOpen(0);
+    setMaxPage(0);
+    if (activityId) {
+      setLoadState(LOADIN_MAXFRAMES);
+      setTimeout(() => {
+        fetch();
+      }, 500);
+    }
+  }, [activityId]);
 
+  useEffect(() => {
+    if (loadState >= 0) {
+      setTimeout(() => {
+        setLoadState((prev) => prev - 1);
+      }, LOADIN_DELAY + loadState * LOADIN_INCREMENT);
+    }
+  }, [loadState]);
+
+  const fetch = async () => {
+    try {
+      const response = await activityService.get(activityId);
+      setActivity(response.data.activity[0]);
+      //console.log(response.data.activity[0])
   useEffect(() => {
     if (loadState >= 0) {
       setTimeout(() => {
@@ -197,11 +263,151 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
     };
 
     document.addEventListener("keydown", handleKeyDown);
+      const token = localStorage.getItem("jwt");
+      if (!token) {
+        return;
+      }
+      const config = {
+        params: {
+          courseId: router.query.courseId,
+          unitId: router.query.unitId,
+          lessonId: router.query.lessonId,
+        },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      axios
+        .get("/api/learn/activities", config)
+        .then((response) => {
+          console.log(response.data);
+          setCourseName(response.data.courseName);
+          setUnitName(response.data.unitName);
+          setUnitLessons(response.data.lessons);
+          setLessonName(response.data.lessonName);
+          setLessonActivities(response.data.activities);
+        })
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message);
+          }
+        });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    const arrows = {
+      ArrowLeft: 37,
+      ArrowUp: 38,
+      ArrowRight: 39,
+      ArrowDown: 40,
+    };
+
+    const handleKeyDown = (e) => {
+      if (
+        e.code === "Enter" ||
+        e.keyCode === arrows["ArrowRight"] ||
+        e.keyCode === arrows["ArrowUp"] ||
+        e.code === "Space"
+      ) {
+        setOpen((prev) => {
+          var scrollContainer = document.getElementById(
+            "container-activity-index"
+          );
+          setTimeout(() => {
+            scrollContainer.scrollTo({
+              top: scrollContainer.scrollHeight,
+              behavior: "smooth",
+            });
+          }, 200);
+          if (
+            activity &&
+            activity.pages &&
+            activity.pages[page] &&
+            activity.pages[page].sections &&
+            prev + 1 > activity.pages[page].sections.length - 1
+          ) {
+            setPage((prev) => {
+              return prev + 1 > activity.pages.length ? prev : prev + 1;
+            });
+            return 0;
+          }
+          return prev + 1;
+        });
+      } else if (
+        e.code === "Backspace" ||
+        e.keyCode === arrows["ArrowLeft"] ||
+        e.keyCode === arrows["ArrowDown"]
+      ) {
+        setOpen((prev) => {
+          var scrollContainer = document.getElementById(
+            "container-activity-index"
+          );
+          setTimeout(() => {
+            scrollContainer.scrollTo({
+              top: prev - 1 <= 0 ? 0 : scrollContainer.scrollHeight,
+              behavior: "smooth",
+            });
+          }, 200);
+          if (
+            activity &&
+            activity.pages &&
+            activity.pages[page] &&
+            prev - 1 < 0
+          ) {
+            setPage((prev) => {
+              return prev - 1 < 0 ? prev : prev - 1;
+            });
+            return 0;
+          }
+          return prev - 1;
+        });
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
 
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
   }, [activity, page]);
+
+  useEffect(() => {
+    if (activity && page === activity.pages.length) {
+      const token = localStorage.getItem("jwt");
+      if (!token) {
+        return;
+      }
+      axios
+        .post(
+          "/api/learn/activity/complete",
+          {
+            courseId: router.query.courseId,
+            unitId: router.query.unitId,
+            activityId: activityId,
+            score: 1, //change this for partial completions
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          setUpdateFlowers({
+            old: response.data.oldFlowers,
+            new: response.data.newFlowers,
+            inc: response.data.score,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [page]);
 
   const fullLoad = () =>
     activity &&
@@ -429,6 +635,115 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                           </div>
                           <div
                             className="z-[250] absolute top-[-35%] left-[20%]
+								${router.query.lessonId}/activity/${item._id}`);
+                    }}
+                    key={key}
+                  >
+                    <span
+                      className={`text-left text-md ${
+                        item._id === activityId
+                          ? "font-extrabold 2xl:font-black"
+                          : ""
+                      }`}
+                    >
+                      {item.activityName}
+                    </span>
+                    {item._id !== activityId && (
+                      <div
+                        className={`relative transition-all duration-150 arrow-container px-1 py-1 
+								arrow-container cursor-pointer`}
+                      >
+                        <div className="z-[40] transition-all duration-150 sub-arrow">
+                          <BiSolidRightArrow />
+                        </div>
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        <div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
+          {activity && (
+            <div
+              className={`flex flex-col gap-4 w-full h-full transition-colors duration-300`}
+            >
+              {activity.pages.length > 0 ? (
+                <div
+                  className="w-full px-[calc(1vw_+_16px)] xl:px-[calc(2vw_+_32px)] 3xl:px-[calc(3vw_+_48px)] h-full"
+                  style={{
+                    display: "grid",
+                    gridTemplateRows: "93% 7%",
+                  }}
+                >
+                  <section className="relative z-[5] p-2">
+                    <div
+                      className="absolute top-0 left-0 w-full h-full"
+                      style={{
+                        backgroundColor: colorPalette.text1 + "A0",
+                      }}
+                    />
+                    <div
+                      id="container-activity-index"
+                      className="relative overflow-y-scroll h-full flex flex-col gap-3 pb-10 z-[15]"
+                    >
+                      {page < activity.pages.length &&
+                        activity.pages[page].sections.length > 0 && (
+                          <div
+                            className="rounded-md text-center transition-all duration-150 
+										origin-center animate-pulse"
+                            style={{
+                              backgroundColor: colorPalette.white + "A0",
+                              color: colorPalette.black,
+                              transform: `scaleY(${open === 0 ? 1 : 0})`,
+                              height: open === 0 ? "auto" : "0px",
+                              paddingTop: open === 0 ? "0.25rem" : "0px",
+                            }}
+                          >
+                            <div
+                              className="text-sm activity-helper-text"
+                              style={{
+                                color: colorPalette.primary1,
+                              }}
+                            >
+                              Press ENTER to continue
+                            </div>
+                          </div>
+                        )}
+                      {page < activity.pages.length ? (
+                        activity.pages[page].sections.map((section, key) => (
+                          <div key={key}>
+                            {open >= key ? (
+                              <Section
+                                section={section}
+                                colorPalette={colorPalette}
+                              />
+                            ) : (
+                              <></>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <div
+                          className="relative flex items-center justify-center rounded-md p-4 text-center w-full h-full overflow-hidden"
+                          style={{
+                            backgroundColor: colorPalette.white,
+                          }}
+                        >
+                          <div>
+                            <img
+                              src={"/assets/misc/minion-happy.gif"}
+                              className="absolute top-0 left-0 rounded-md fade-in-element"
+                              style={{
+                                height: "100%",
+                                width: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </div>
+                          <div
+                            className="z-[250] absolute top-[-35%] left-[20%]
 										rounded-md rounded-l-full w-[80%] h-[170%] fade-in-right-index bg-gradient-to-r from-black/[0.55] to-black/[0.9]"
                             style={{
                               backgroundColor: colorPalette.primary1 + "90",
@@ -458,13 +773,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                       sizes="100vw"
                                       className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                                     />
-                                    {user.flowers === null ? 0 : user.flowers}{" "}
-                                    &rarr;{" "}
-                                    {user.flowers === null
-                                      ? 50
-                                      : user.flowers + 50}
+                                    {updateFlowers.old || 0} &rarr;{" "}
+                                    {updateFlowers.new || 0}
                                     <span className="ml-2 text-green-400">
-                                      +50
+                                      +{updateFlowers.inc || 0}
                                     </span>
                                   </span>
                                 </div>
@@ -647,3 +959,4 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
     </>
   );
 }
+

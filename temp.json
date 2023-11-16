@@ -1,56 +1,47 @@
 {
   "progress": [
     {
-      "_id": "6515dedf997b076cce6a03a0",
+      "courseId": "651224410802e3dc14d5da7d",
       "units": [
         {
-          "_id": "6515dedf997b076cce6a03a0",
+          "unitId": "6515dedf997b076cce6a03a0",
           "lessons": [
             {
-              "_id": "65122eb51028dd4965c68b08",
-              "completion": 1
+              "lessonId": "65122eb51028dd4965c68b08",
+              "completion": 50
             },
             {
-              "_id": "6513470c519051af79dc5d5a",
-              "completion": 1
+              "lessonId": "6513470c519051af79dc5d5a",
+              "completion": 50
             },
             {
-              "_id": "65185d37d4566ab689a3329e",
-              "completion": 0.5
+              "lessonId": "65185d37d4566ab689a3329e",
+              "completion": 40
             },
             {
-              "_id": "651874bee2bf988932ca14d7",
-              "completion": 0.3
+              "lessonId": "651874bee2bf988932ca14d7",
+              "completion": 30
             },
             {
-              "_id": "65188f35d4566ab689a33c6a",
-              "completion": 0.2
+              "lessonId": "65188f35d4566ab689a33c6a",
+              "completion": 20
             }
           ],
           "quizzes": [],
           "tests": [],
           "activities": [],
-          "completion": {
-            "achieved": 6,
-            "total": 16
-          }
+          "completion": 190
         },
         {
-          "_id": "6518954bd4566ab689a33ccb",
+          "unitId": "6518954bd4566ab689a33ccb",
           "lessons": [],
           "quizzes": [],
           "tests": [],
           "activities": [],
-          "completion": {
-            "achieved": 0,
-            "total": 0
-          }
+          "completion": 0
         }
       ],
-      "completion": {
-        "achieved": 6,
-        "total": 16
-      }
+      "completion": 190
     }
   ]
 }

@@ -22,7 +22,7 @@ export function Navbar({
   flowers,
   colorPalette,
   setColorPalette,
-  setPanelsVisible
+  setPanelsVisible,
 }) {
   const types = [
     { title: "Shopping", src: "shopping", id: 1 },
@@ -36,11 +36,11 @@ export function Navbar({
   const router = useRouter();
   const current_id = parseInt(current, 10);
 
-  const tutRef = useRef(null)
+  const tutRef = useRef(null);
 
   useEffect(() => {
     if (!user) {
-      return
+      return;
     }
     if (user && user.items) {
       user.items.map((item) => {
@@ -55,7 +55,7 @@ export function Navbar({
     }
   }, [user]);
 
-  const onHome = () => router.asPath == "/play"
+  const onHome = () => router.asPath == "/play";
 
   return (
     <div
@@ -66,7 +66,7 @@ export function Navbar({
     >
       <div className="flex flex-row gap-2 items-center">
         {/* home button */}
-        {!onHome()  && (
+        {!onHome() && (
           <button
             className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-300 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem] mt-[0.5rem]"
             style={{
@@ -85,14 +85,16 @@ export function Navbar({
         <div>
           <button
             className={`pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] 
-            ${onHome() ? "left-0 top-3" : "left-0"
-              }`}
+            ${onHome() ? "left-0 top-3" : "left-0"}`}
             style={{
               backgroundColor: !colorPalette ? "" : colorPalette.primary2,
               color: !colorPalette ? "" : colorPalette.text2,
-              boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`,
-              background: `linear-gradient(90deg, ${!colorPalette ? "" : colorPalette.primary2
-                } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
+              boxShadow: !colorPalette
+                ? ""
+                : `0 0 2px ${colorPalette.primary2}`,
+              background: `linear-gradient(90deg, ${
+                !colorPalette ? "" : colorPalette.primary2
+              } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
             }}
             onClick={(e) => {
               e.preventDefault();
@@ -109,11 +111,13 @@ export function Navbar({
           <div
             className="flex rounded-full pt-2 pb-1 pl-3 pr-5 w-fit"
             style={{
-              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
-                }`,
+              backgroundColor: `${
+                colorPalette ? colorPalette.black + "55" : "#475569"
+              }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-                }`,
+              boxShadow: `${
+                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+              }`,
             }}
           >
             {user && (
@@ -135,11 +139,13 @@ export function Navbar({
           <div
             className="flex rounded-full pt-2 pb-1 pl-3 pr-5 w-fit mt-1.5 cursor-default"
             style={{
-              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
-                }`,
+              backgroundColor: `${
+                colorPalette ? colorPalette.black + "55" : "#475569"
+              }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-                }`,
+              boxShadow: `${
+                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+              }`,
             }}
           >
             {user && (
@@ -152,9 +158,7 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="max-xl:text-md">
-                  {user.flowers}
-                </p>
+                <p className="max-xl:text-md">{user.flowers}</p>
               </div>
             )}
           </div>
@@ -200,28 +204,33 @@ export function Navbar({
                 style={
                   isActive
                     ? {
-                      backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
+                        backgroundColor: `${
+                          colorPalette ? colorPalette.primary1 : "#ffffff"
                         }`,
-                      border: `${type.id === 6 && colorPalette !== undefined
-                        ? `5px solid ${colorPalette.primary1}`
-                        : ""
+                        border: `${
+                          type.id === 6 && colorPalette !== undefined
+                            ? `5px solid ${colorPalette.primary1}`
+                            : ""
                         }`,
-                      padding: type.id === 6 ? "0.7rem" : undefined,
-                    }
+                        padding: type.id === 6 ? "0.7rem" : undefined,
+                      }
                     : {
-                      backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
+                        backgroundColor: `${
+                          colorPalette ? colorPalette.white : "#ffff"
                         }88`,
-                      border: `${type.id === 6 && colorPalette !== undefined
-                        ? `5px solid ${colorPalette.primary1}`
-                        : ""
+                        border: `${
+                          type.id === 6 && colorPalette !== undefined
+                            ? `5px solid ${colorPalette.primary1}`
+                            : ""
                         }`,
-                      padding: type.id === 6 ? "0.7rem" : undefined,
-                    }
+                        padding: type.id === 6 ? "0.7rem" : undefined,
+                      }
                 }
-                className={`hover:opacity-100 hover:brightness-110 brightness-90 opacity-75 transition-all duration-300 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem] ${type.id === 6
-                  ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem] do-a-spin"
-                  : "wiggle" // Apply larger size for 2xl screen and type.id 6
-                  }`}
+                className={`hover:opacity-100 hover:brightness-110 brightness-90 opacity-75 transition-all duration-300 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem] ${
+                  type.id === 6
+                    ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem] do-a-spin"
+                    : "wiggle" // Apply larger size for 2xl screen and type.id 6
+                }`}
                 key={type.id}
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={type.title}
@@ -294,8 +303,15 @@ export function Navbar({
           <div className="absolute top-[6.5rem] max-xl:top-[11rem] max-xl:text-sm">
             <div className="flex flex-row gap-4 items-center">
               <NextRewardTimer />
-              <button className="flex items-center justify-center text-white/[0.65] hover:text-white/[0.8] text-[2.25em]"
-                onClick={() => { setTimeout(() => {setPanelsVisible(true)}, 150) }} ref={tutRef}>
+              <button
+                className="flex items-center justify-center text-white/[0.65] hover:text-white/[0.8] text-[2.25em]"
+                onClick={() => {
+                  setTimeout(() => {
+                    setPanelsVisible(true);
+                  }, 150);
+                }}
+                ref={tutRef}
+              >
                 <AiFillQuestionCircle />
               </button>
             </div>
