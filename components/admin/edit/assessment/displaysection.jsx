@@ -7,7 +7,7 @@ import DisplayMultipleChoiceElement from "./../activity/displayElements/displayM
 const verticalMapMethod = (arr, extprops) => {
     return <div className="flex flex-col gap-2">
         {arr.map((element, key) => {
-        const props = {key:key, index:key+1, element:element, horiz:false}
+        const props = {key: key, index:key+1, element:element, horiz:false}
         return(
             element.elementType === 0 ? <DisplayTextElement {...props} {...extprops}/> : 
             element.elementType === 1 ? <DisplayImageElement {...props} {...extprops}/> : 
@@ -33,9 +33,9 @@ const horizontalMapMethod = (arr, extprops) => {
     return <div className="flex flex-col gap-2">
     {pairs.map((pair, key) => {
         return(
-            <div className="horizontal-display-grid">
-                {pair.map((element) => {
-                    const props = {key:2*key+1, index:key+1, element:element, horiz:true}
+            <div key={key} className="horizontal-display-grid">
+                {pair.map((element, mod) => {
+                    const props = {key:mod, index:key+1, element:element, horiz:true}
                     return(
                         element ? 
                         element.elementType === 0 ? <DisplayTextElement {...props} {...extprops}/> : 

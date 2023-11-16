@@ -66,7 +66,7 @@ export default function Home({ user, setUser, colorPalette }) {
         <title>Slime Scholars</title>
         <meta
           name="description"
-          content="Make Learning Exiting with Slime Scholars"
+          content="Slime Scholars: Making Learning Exciting"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

@@ -52,6 +52,7 @@ export default async function (req, res) {
       lessonType,
       latestAuthor,
       quizQuestions: [[]],
+      totalPoints:0,
     });
 
     unit.lessons.push(lesson._id);

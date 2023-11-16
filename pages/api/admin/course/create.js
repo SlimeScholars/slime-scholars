@@ -14,7 +14,7 @@ export default async function (req, res) {
     if (req.method !== "POST") {
       throw new Error(`${req.method} is an invalid request method`);
     }
-    verifyApiKey(req.headers.apikey)
+    verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();
@@ -44,6 +44,7 @@ export default async function (req, res) {
     const course = await Course.create({
       courseNumber,
       latestAuthor,
+      //totalPoints: 100,
     });
 
     subject.courses.push(course._id);

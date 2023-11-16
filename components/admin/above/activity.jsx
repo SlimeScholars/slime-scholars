@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-
-export default function Activity({ activity, setSidePanelProperties, selected, setSelected }) {
+import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
+export default function Activity({ activity, setSidePanelProperties, selected, setSelected, handleActivitySwap }) {
 
   return (
     <>
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
+        <button 
+            disabled={activity.activityNumber === 1}
+            className={`${activity.activityNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 
+            onClick={() => {
+              handleActivitySwap(activity.activityNumber-1, activity.activityNumber-2)
+            }}>
+              <IoIosArrowUp/>
+        </button>
         <button
           className={
             `w-full h-12 flex items-center justify-between pl-4 py-1 rounded-lg transition-all duration-150 mb-2
@@ -27,6 +35,7 @@ export default function Activity({ activity, setSidePanelProperties, selected, s
             )
           }
         </button>
+        
       </div>
     </>
   );

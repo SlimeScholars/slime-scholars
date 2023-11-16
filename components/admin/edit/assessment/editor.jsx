@@ -175,14 +175,14 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
         setLoading(true)
 
         try {
-            await activityService.update(
-              activity._id,
-              [...activity.pages.map((pageData, num) => ({
+            await assessmentService.update(
+              assessment._id,
+              [...assessment.problemSet.map((pageData, num) => ({
                   ...pageData, pageNumber: num + 1,
                   sections: [...pageData.sections.map((sectionData, snum) => {
                     return({ 
                       ...sectionData, sectionIndex: snum + 1,
-                      elements: snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
+                      elements: num === page && snum === sectionIndex ? [...swap(sectionData.elements, elementIndex, swapIndex)] 
                       : [...sectionData.elements],
                   })})],
               }))],
@@ -198,9 +198,9 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
 
     const handleModifyElement = async (sectionIndex, elementIndex, params) => {
         try {
-          await activityService.update(
-            activity._id,
-            [...activity.pages.map((pageData, num) => {
+          await assessmentService.update(
+            assessment._id,
+            [...assessment.problemSet.map((pageData, num) => {
                 if(num !== page){
                     return {...pageData, pageNumber: num + 1}
                 }
@@ -208,9 +208,9 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
                     return{...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => ({
                     ...sectionData, sectionIndex: snum + 1,
-                        elements: [...sectionData.elements.map((elementData, num) => ({
+                        elements: [...sectionData.elements.map((elementData, elnum) => ({
                             ...elementData, index: num + 1,
-                            ...(num === elementIndex && snum === sectionIndex ? params : {}),
+                            ...(elnum === elementIndex && num === page && snum === sectionIndex ? params : {}),
                         }))],
                     }))],
                 }}})],
@@ -224,12 +224,12 @@ export default function EditAssessmentSide({assessment, refresh, setLoading, the
     const handleDeleteElement = async(sectionIndex, elementIndex) => {
         setLoading(true)
         try{
-            await activityService.update(
-                activity._id,
-                [...activity.pages.map((pageData, num) => ({
+            await assessmentService.update(
+                assessment._id,
+                [...assessment.problemSet.map((pageData, num) => ({
                     ...pageData, pageNumber: num + 1,
                     sections: [...pageData.sections.map((sectionData, snum) => {
-                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${snum === sectionIndex-1}`)
+                        //alert(`Comparing: section ${snum} to ${sectionIndex-1} -> ${num === page && snum === sectionIndex-1}`)
                         if(snum !== sectionIndex-1){
                             return{...sectionData, sectionIndex: snum + 1}}
                         else{

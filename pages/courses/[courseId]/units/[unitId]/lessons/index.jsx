@@ -8,14 +8,14 @@ import Image from "next/image";
 export default function Lessons({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
 
-  // useEffect(() => {
-  //   if (loading) {
-  //     return;
-  //   }
-  //   if (!user || user.userType !== 1) {
-  //     router.push("/");
-  //   }
-  // }, [user, loading]);
+  useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (!user || user.userType !== 1) {
+      router.push("/");
+    }
+  }, [user, loading]);
 
   const [courseId, setCourseId] = useState(router.query.courseId);
   const [unitId, setUnitId] = useState(router.query.unitId);

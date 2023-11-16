@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import { gameData } from "../../data/gameData";
 import { FaChevronLeft } from "react-icons/fa";
@@ -36,13 +36,7 @@ export function Navbar({
   const router = useRouter();
   const current_id = parseInt(current, 10);
 
-  let onHome = true;
-  for (let type of types) {
-    if (type.id === current_id) {
-      onHome = false;
-      break;
-    }
-  }
+  const tutRef = useRef(null);
 
   useEffect(() => {
     if (!user) {
@@ -61,50 +55,55 @@ export function Navbar({
     }
   }, [user]);
 
+  const onHome = () => router.asPath == "/play";
+
   return (
     <div
       className="flex items-center justify-between z-20 w-full relative"
       style={{
-        gridTemplateColumns: onHome ? "12rem 1fr" : "9rem 12rem 1fr",
+        gridTemplateColumns: !onHome() ? "12rem 1fr" : "9rem 12rem 1fr",
       }}
     >
-      {/* home button */}
-      {!onHome && (
-        <button
-          className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-300 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem] mt-[0.5rem]"
-          style={{
-            color: !colorPalette ? "" : colorPalette.text1,
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            router.push("/play");
-          }}
-        >
-          <FaChevronLeft className="inline text-lg max-2xl:h-3 max-xl:w-3 ml-2" />
-          <HiHome className="inline text-5xl ml-1 -mt-0.5 mr-10 max-xl:h-6 max-xl:w-6" />
-        </button>
-      )}
-      {/* earn flowers button */}
-      <div>
-        <button
-          className={`pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] ${
-            !onHome && "absolute left-[6rem] top-3 max-xl:left-0"
-          }`}
-          style={{
-            backgroundColor: !colorPalette ? "" : colorPalette.primary2,
-            color: !colorPalette ? "" : colorPalette.text2,
-            boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`,
-            background: `linear-gradient(90deg, ${
-              !colorPalette ? "" : colorPalette.primary2
-            } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            router.push("/courses");
-          }}
-        >
-          Earn Flowers
-        </button>
+      <div className="flex flex-row gap-2 items-center">
+        {/* home button */}
+        {!onHome() && (
+          <button
+            className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-300 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem] mt-[0.5rem]"
+            style={{
+              color: !colorPalette ? "" : colorPalette.text1,
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/play");
+            }}
+          >
+            <FaChevronLeft className="inline text-lg max-2xl:h-3 max-xl:w-3 ml-2" />
+            <HiHome className="inline text-5xl ml-1 -mt-0.5 mr-10 max-xl:h-6 max-xl:w-6" />
+          </button>
+        )}
+        {/* earn flowers button */}
+        <div>
+          <button
+            className={`pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] 
+            ${onHome() ? "left-0 top-3" : "left-0"}`}
+            style={{
+              backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+              color: !colorPalette ? "" : colorPalette.text2,
+              boxShadow: !colorPalette
+                ? ""
+                : `0 0 2px ${colorPalette.primary2}`,
+              background: `linear-gradient(90deg, ${
+                !colorPalette ? "" : colorPalette.primary2
+              } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              router.push("/courses");
+            }}
+          >
+            Earn Flowers
+          </button>
+        </div>
       </div>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md relative">
         <div className="flex flex-col items-end mr-[4rem] max-xl:absolute top-2 right-[12rem] cursor-default">
@@ -307,8 +306,11 @@ export function Navbar({
               <button
                 className="flex items-center justify-center text-white/[0.65] hover:text-white/[0.8] text-[2.25em]"
                 onClick={() => {
-                  setPanelsVisible(true);
+                  setTimeout(() => {
+                    setPanelsVisible(true);
+                  }, 150);
                 }}
+                ref={tutRef}
               >
                 <AiFillQuestionCircle />
               </button>

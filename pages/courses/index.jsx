@@ -10,6 +10,15 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
   const [courses, setCourses] = useState([]);
 
   useEffect(() => {
+    if (loading) {
+      return;
+    }
+    if (!user || user.userType !== 1) {
+      router.push("/");
+    }
+  }, [user, loading]);
+
+  useEffect(() => {
     setLoading(true);
     try {
       const token = localStorage.getItem("jwt");

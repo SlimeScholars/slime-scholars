@@ -3,9 +3,10 @@ import Lesson from "./lesson";
 import axios from "axios";
 
 import { BiSolidDownArrow } from "react-icons/bi";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 import { showToastError } from "../../../utils/toast";
-
-export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePanelProperties, selected, setSelected }) {
+import { unitService } from "../../../services";
+export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePanelProperties, selected, setSelected, handleUnitSwap }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const deleteLesson = (index) => {
@@ -49,9 +50,50 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
     }
   }
 
+  const handleLessonSwap = async(lessonIndex, swapIndex) => {
+    console.log(lessonIndex, swapIndex);
+    const swap = (arr, index1, index2) => {
+        let clone = [...arr]
+        let output = [...arr]
+        output[index1] = {...clone[index2]}
+        console.log(output[index1].lessonIndex);
+        console.log(clone[index1].lessonIndex);
+        output[index1].lessonIndex = clone[index1].lessonIndex
+        output[index1].lessonNumber = clone[index1].lessonNumber
+        output[index2] = {...clone[index1]}
+        output[index2].lessonIndex = clone[index2].lessonIndex
+        output[index2].lessonNumber = clone[index2].lessonNumber
+        return output
+    }
+
+    setLoading(true)
+    try{
+      console.log(unit.lessons)
+      const newLessonsArray = swap(unit.lessons, lessonIndex, swapIndex);
+      console.log(newLessonsArray);
+      await unitService.update(unit._id, newLessonsArray, unit.lessons[lessonIndex]._id, unit.lessons[swapIndex]._id, unit.lessons[lessonIndex].lessonNumber, unit.lessons[swapIndex].lessonNumber);
+      setUnit({...unit, lessons: newLessonsArray,});
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
+    }
+    catch(err){
+        console.log(err)
+        setTimeout(() => {setLoading(false)}, 150) 
+    }
+  }
+
   return (
     <>
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
+        <button
+          disabled={unit.unitNumber === 1}
+          className={`${unit.unitNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`}
+          onClick={() => {
+            handleUnitSwap(unit.unitNumber - 1, unit.unitNumber - 2)
+          }}>
+          <IoIosArrowUp />
+        </button>
         <button
           className={
             `w-full h-12 flex items-center justify-between pl-4 py-1 rounded-lg transition-all duration-150 mb-2
@@ -81,6 +123,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
             transition-all duration-150`} />
           </button>}
         </button>
+
         <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
           <div className="w-full flex flex-col pl-10 items-start justify-start">
             {unit.lessons.map((lesson, index) => (
@@ -100,12 +143,14 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
                   }}
                   deleteLesson={() => deleteLesson(index)}
                   setLoading={setLoading}
+                  handleLessonSwap={handleLessonSwap}
                 />
               </div>
             ))}
 
           </div>
         </div>
+
       </div>
     </>
   );
