@@ -76,8 +76,8 @@ export default async function (req, res) {
     for (let i in unit.lessons) {
       const lessonProgress = userProgress
         ? userProgress.lessons.find((lesson) => {
-            return lesson._id === unit.lessons[i]._id.valueOf();
-          })
+          return lesson._id === unit.lessons[i]._id.valueOf();
+        })
         : undefined;
       modifiedLessons.push({
         ...unit.lessons[i]._doc,
