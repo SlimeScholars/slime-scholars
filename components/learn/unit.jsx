@@ -13,19 +13,11 @@ export default function Unit({
 }) {
   const router = useRouter();
 
-  // TODO: unit badges
-  const tierClass = {
-    0: "not-started",
-    1: "bronze",
-    2: "silver",
-    3: "gold",
-  };
-
   return (
     <button
       className={`course-bar-default base
 		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg hover-highlight hover:opacity-100 ${
-      !attempted && "opacity-50"
+      !attempted && "opacity-[0.8]"
     }`}
       onClick={() => {
         router.push(`/courses/${courseId}/units/${unitId}/lessons`);

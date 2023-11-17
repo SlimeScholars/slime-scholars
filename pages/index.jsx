@@ -95,14 +95,14 @@ export default function Home({ user, setUser  }) {
             >
               <span className="relative z-[800]">Courses</span>
             </button>
-            <div className="flex flex-row gap-2 items-center">
+            {/* <div className="flex flex-row gap-2 items-center">
               <span className="text-neutral-500 text-3xl">
                 <AiOutlineSearch/>
               </span>
               <input className="bg-black rounded-full w-[325px] py-2 px-6 border-2 border-neutral-600 focus:outline-none
               focus:bg-neutral-700 focus:border-transparent transition-colors duration-300 font-galindo text-neutral-300"
               placeholder="Search..."/>
-            </div>
+            </div> */}
           </div>}
           <div className="absolute top-0 right-0 m-6">
           {user ? (
@@ -136,25 +136,25 @@ export default function Home({ user, setUser  }) {
               <div
                 className="grid grid-rows-2 gap-[0.5rem]"
               >
-                {user && user.pfpSlime ? (
+                {user && user?.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
                     <div className="absolute h-32 w-32 overflow-hidden">
                       <Image
                         src={
                           "/assets/pfp/backgrounds/" +
-                          gameData.items[user.pfpBg].pfp
+                          gameData.items[user?.pfpBg]?.pfp
                         }
                         preview={false}
-                        alt={user.pfpBg}
+                        alt={user?.pfpBg}
                         className="absolute h-32 w-32"
                       />
                     </div>
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimes[user.pfpSlime].pfp
+                        gameData.slimes[user?.pfpSlime]
                       }
-                      alt={user.pfpSlime}
+                      alt={user?.pfpSlime}
                       preview={false}
                       sizes="100vw"
                       className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"

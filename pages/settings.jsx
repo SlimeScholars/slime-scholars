@@ -151,13 +151,13 @@ export default function Settings({ loading, user, setUser }) {
                 router.push("/play/inventory");
               }}
             >
-              {user.pfpBg && 
+              {user?.pfpBg && 
               <>
               <Image
                 src={
-                  "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                  "/assets/pfp/backgrounds/" + gameData.items[user?.pfpBg]?.pfp
                 }
-                alt={user.pfpBg}
+                alt={user?.pfpBg}
                 height={0}
                 width={0}
                 sizes='100vw'
@@ -165,9 +165,9 @@ export default function Settings({ loading, user, setUser }) {
               />
               <Image
                 src={
-                  "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
+                  "/assets/pfp/slimes/" + gameData.slimes[user?.pfpSlime]
                 }
-                alt={user.pfpSlime}
+                alt={user?.pfpSlime}
                 height={0}
                 width={0}
                 sizes='100vw'

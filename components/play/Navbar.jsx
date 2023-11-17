@@ -241,15 +241,15 @@ export function Navbar({
                 }}
               >
                 {type.id === 6 ? (
-                  user && user.pfpSlime ? (
+                  user && user?.pfpSlime ? (
                     <div className="relative flex items-center justify-center">
                       <div className="absolute h-32 w-32 overflow-hidden">
                         <Image
                           src={
                             "/assets/pfp/backgrounds/" +
-                            gameData.items[user.pfpBg].pfp
+                            gameData.items[user?.pfpBg]?.pfp
                           }
-                          alt={user.pfpBg}
+                          alt={user?.pfpBg}
                           height={0}
                           width={0}
                           sizes="100vw"
@@ -259,9 +259,9 @@ export function Navbar({
                       <Image
                         src={
                           "/assets/pfp/slimes/" +
-                          gameData.slimes[user.pfpSlime].pfp
+                          gameData.slimes[user?.pfpSlime]
                         }
-                        alt={user.pfpSlime}
+                        alt={user?.pfpSlime}
                         height={0}
                         width={0}
                         sizes="100vw"
@@ -269,7 +269,7 @@ export function Navbar({
                       />
                     </div>
                   ) : (
-                    // Handle the case when user or user.pfpSlime is null or undefined
+                    // Handle the case when user or user?.pfpSlime is null or undefined
                     <div className="default-image">
                       {"/assets/pfp/slimes/blue-slime.png"}
                     </div>

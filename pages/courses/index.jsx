@@ -81,7 +81,8 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         </span>
       </div>
       <div
-        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[3rem] 2xl:pl-[3.75rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
+        className="relative z-[1] w-full h-[calc(100vh_-_5rem_-_2.5rem)] flex flex-col pl-[3rem] 
+        2xl:pl-[3.75rem] pr-[1rem] pb-[15rem] overflow-y-scroll"
         style={{
           backgroundColor: !colorPalette ? "" : colorPalette.black + "C0",
         }}

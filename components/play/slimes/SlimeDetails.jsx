@@ -70,11 +70,11 @@ export default function SlimeDetails({
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          // refetchUser()
-          // setSlime(response.data.slime);
-          // setShowLevelUpPopup(true);
-          // setRes(response.data);
-          // setTimeout(() => {setLoading(false)}, 150);
+          refetchUser(false)
+          setSlime(response.data.slime);
+          setShowLevelUpPopup(true);
+          setRes(response.data);
+          setTimeout(() => {setLoading(false)}, 150);
         })
         .catch((error) => {
           showToastError(error.response.data.message);
@@ -133,6 +133,13 @@ export default function SlimeDetails({
                 className="h-auto w-full"
               />
               {/* Stars */}
+              {gameData.canStar.includes(((str) => str.replace(
+                  /\w\S*/g,
+                  function(txt) {
+                    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+                  }
+                )
+              )(rarity)) &&
               <div className="w-full flex justify-center">
                 <div
                   className="rounded-full w-fit py-2 px-4 flex flex-row"
@@ -159,7 +166,7 @@ export default function SlimeDetails({
                     );
                   })}
                 </div>
-              </div>
+              </div>}
             </div>
           </div>
           <div className="p-8">
@@ -358,9 +365,9 @@ export default function SlimeDetails({
                   <Image
                     src={
                       "/assets/pfp/backgrounds/" +
-                      gameData.items[user.pfpBg].pfp
+                      gameData.items[user?.pfpBg]?.pfp
                     }
-                    alt={user.pfpBg}
+                    alt={user?.pfpBg}
                     height={0}
                     width={0}
                     sizes="100vw"
@@ -369,9 +376,9 @@ export default function SlimeDetails({
                 }
                 <Image
                   src={
-                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[user?.pfpSlime]
                   }
-                  alt={user.pfpSlime}
+                  alt={user?.pfpSlime}
                   height={0}
                   width={0}
                   sizes="100vw"
@@ -395,9 +402,9 @@ export default function SlimeDetails({
               >
                 <Image
                   src={
-                    "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].pfp
+                    "/assets/pfp/backgrounds/" + gameData.items[user?.pfpBg]?.pfp
                   }
-                  alt={user.pfpBg}
+                  alt={user?.pfpBg}
                   height={0}
                   width={0}
                   sizes="100vw"
@@ -418,7 +425,7 @@ export default function SlimeDetails({
           </div>
 
           <div className="flex justify-center items-center">
-            {user.pfpSlime === slime.slimeName ? (
+            {user?.pfpSlime === slime.slimeName ? (
               <button
                 disabled
                 className="rounded-lg py-4 w-[15rem] mt-4"
@@ -445,7 +452,7 @@ export default function SlimeDetails({
                       "/api/user/change-pfp",
                       {
                         pfpSlime: slime.slimeName,
-                        pfpBg: user.pfpBg,
+                        pfpBg: user?.pfpBg,
                       },
                       {
                         headers: {
