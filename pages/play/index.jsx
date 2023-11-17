@@ -17,7 +17,7 @@ export default function Play({
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
+      // router.push("/");
     }
   }, [user, loading]);
 

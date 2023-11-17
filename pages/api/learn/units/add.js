@@ -40,10 +40,6 @@ export default async function (req, res) {
 
     let { courseId, unitId } = req.body;
 
-    if (!lesson) {
-      throw new Error("Could not find lesson");
-    }
-
     let progressCopy = [...user.progress];
     for (let i = 0; i < progressCopy.length; i++) {
       if (progressCopy[i].courseId === courseId) {
