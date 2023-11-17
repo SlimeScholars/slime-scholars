@@ -24,6 +24,8 @@ export default function Roll({
   const [originalSlimes, setOriginalSlimes] = useState({});
   const [rolling, setRolling] = useState(false);
 
+  const rollAnimationTimeout = 2900;
+
   useEffect(() => {
     if (loading) {
       return;
@@ -114,7 +116,7 @@ export default function Roll({
               setTimeout(() => {
                 setRolling(false);
                 setAfterRolling(2);
-              }, 3700);
+              }, rollAnimationTimeout);
             }, 150);
           })
           .catch((error) => {
@@ -152,7 +154,7 @@ export default function Roll({
               setTimeout(() => {
                 setRolling(false);
                 setAfterRolling(2);
-              }, 3700);
+              }, rollAnimationTimeout);
             }, 150);
           })
           .catch((error) => showToastError(error.message));
