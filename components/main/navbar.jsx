@@ -7,6 +7,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
   const dropdown = useRef(null);
   const [open, setOpen] = useState(false);
+
   // const btn_tw =
   //   "px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo";
   const options = [
@@ -85,6 +86,8 @@ export default function Navbar({ colorPalette, setUser, user }) {
               <div className="text-[0.85em] font-light font-galindo">
                 {user && user.username && user.username.trim().length > 0 ? 
                   <span>{user.username}</span> : 
+                  user && user.firstName && user.lastName ? 
+                  <span>{user.firstName}{" "}{user.lastName}</span>:
                   <span>[No Username]</span>}
               </div>
               <div className="text-[0.7em] mt-[-0.5em] font-light italic"
@@ -137,9 +140,17 @@ export default function Navbar({ colorPalette, setUser, user }) {
                     />
                   </div>
                 ) : (
-                  <div className="default-image">
-                    {"/assets/pfp/slimes/blue-slime.png"}
-                  </div>
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute h-32 w-32 overflow-hidden flex items-center justify-center">
+                        <Image
+                        src={"/assets/pfp/slimes/blue-slime.png"}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="absolute h-24 w-24">
+                        </Image>
+                    </div>
+                </div>
                 )}
               </div>
             </button>

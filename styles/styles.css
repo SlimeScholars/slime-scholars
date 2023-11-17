@@ -661,3 +661,30 @@ div#loading-wave .dot:nth-child(3) {
     fill: #fff0fa;
   }
 }
+
+.HAHA{
+  animation: FLICKER 0.1s infinite;
+}
+
+@keyframes FLICKER{
+  0%{
+    filter:brightness(1);
+    transform: scale(1);
+  }
+  35%{
+    filter:brightness(1);
+    transform: scale(1);
+  }
+  50%{
+    filter:brightness(3);
+    transform: scale(1.2);
+  }
+  65%{
+    filter:brightness(1);
+    transform: scale(1);
+  }
+  100%{
+    filter:brightness(1);
+    transform: scale(1);
+  }
+}
