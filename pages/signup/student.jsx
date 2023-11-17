@@ -54,8 +54,7 @@ export default function Student({ loading, user, setUser }) {
     }
 
     const config = {
-      headers: {
-      },
+      headers: {},
     };
 
     const encryptedPassword = encrypt(

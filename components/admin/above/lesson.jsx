@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Activity from "./activity"; 
 import { BiSolidDownArrow } from "react-icons/bi";
+import {IoIosArrowDown, IoIosArrowUp} from "react-icons/io"
 import { lessonService } from "../../../services";
 
-export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProperties, selected, setSelected }) {
+export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProperties, selected, setSelected, handleLessonSwap }) {
   const [isOpen, setIsOpen] = useState(false);
   const handleActivitySwap = async(activityIndex, swapIndex) => {
     const swap = (arr, index1, index2) => {
@@ -36,6 +37,14 @@ export default function Lesson({ lesson, setLesson, setLoading, setSidePanelProp
   return (
     <>
       <div className="w-full flex flex-col justify-start items-start overflow-hidden">
+        <button 
+            disabled={lesson.lessonNumber === 1}
+            className={`${lesson.lessonNumber === 1 ? "text-neutral-500 cursor-not-allowed" : "hover:text-neutral-500"}`} 
+            onClick={() => {
+              handleLessonSwap(lesson.lessonNumber-1, lesson.lessonNumber-2)
+            }}>
+              <IoIosArrowUp/>
+        </button>
         <button
           className={
             `w-full h-12 flex items-center justify-between pl-4 py-1 rounded-lg transition-all duration-150 mb-2

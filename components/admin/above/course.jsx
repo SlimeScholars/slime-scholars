@@ -56,6 +56,8 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
         let clone = [...arr]
         let output = [...arr]
         output[index1] = {...clone[index2]}
+        console.log(index1);
+        console.log(index2);
         output[index1].unitIndex = clone[index1].unitIndex
         output[index1].unitNumber = clone[index1].unitNumber
         output[index2] = {...clone[index1]}

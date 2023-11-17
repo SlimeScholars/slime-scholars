@@ -22,4 +22,26 @@ export class UnitService{
     post = async(params) => this.instance.post("/api/admin/unit/create", params, applyHeaders())
         .then((response) => response)
         .catch((error) => {showToastError(error.message)});
+    
+    update = async (id, newLessonsArray, lesson1id, lesson2id, lesson1n, lesson2n) => {
+        try {
+            const response = await this.instance.put(
+            "/api/admin/unit/update-lessons",
+            {
+                unitId: id,
+                newLessonsArray,
+                lesson1id,
+                lesson2id,
+                lesson1n,
+                lesson2n,
+            },
+            applyHeaders()
+            );
+            return response;
+        } catch (error) {
+            console.log(error);
+            showToastError(error.message);
+            throw error;
+        }
+        };
 }
