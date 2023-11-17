@@ -75,9 +75,8 @@ export default function Teacher({ loading, user, setUser }) {
     );
 
     const config = {
-      headers: {
-      },
-    }
+      headers: {},
+    };
     axios
       .post("/api/user/create", {
         userType: 3,
@@ -252,7 +251,7 @@ export default function Teacher({ loading, user, setUser }) {
             src="/assets/graphics/slimes/slime-special.png"
             width={0}
             height={0}
-            sizes='100vw'
+            sizes="100vw"
             className="absolute -top-12 -left-8 drop-shadow-xl w-[200px] h-[200px]"
             alt="Slime"
           />

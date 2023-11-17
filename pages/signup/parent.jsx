@@ -31,13 +31,12 @@ export default function Parent({ loading, user, setUser }) {
 
     // FIXME
     if (!user) {
-      router.push('/signup/student')
+      router.push("/signup/student");
     }
 
     if (user && user.userType === 1) {
-      router.push('/play')
-    }
-    else if (user) {
+      router.push("/play");
+    } else if (user) {
       router.push("/");
     }
   }, [loading, user]);
@@ -74,9 +73,8 @@ export default function Parent({ loading, user, setUser }) {
     );
 
     const config = {
-      headers: {
-      },
-    }
+      headers: {},
+    };
     axios
       .post("/api/user/create", {
         // userType 2 represents parent
@@ -255,7 +253,7 @@ export default function Parent({ loading, user, setUser }) {
             src="/assets/graphics/slimes/slime-special.png"
             width={0}
             height={0}
-            sizes='100vw'
+            sizes="100vw"
             className="absolute -top-12 -left-8 drop-shadow-xl h-[200px] w-[200px]"
             alt="Slime"
           />
