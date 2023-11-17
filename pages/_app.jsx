@@ -152,8 +152,8 @@ function MyApp({ Component, pageProps }) {
     }
   }, [audio]);
 
-  const refetchUser = async () => {
-    setLoading(true);
+  const refetchUser = async (load=true) => {
+    setLoading(load);
     try {
       const token = localStorage.getItem("jwt");
       if (!token) {
@@ -268,8 +268,8 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    if (user && user.pfpBg) {
-      setPfpBg(user.pfpBg);
+    if (user && user?.pfpBg) {
+      setPfpBg(user?.pfpBg);
     }
 
     if (user && user.bg && gameData.items[user.bg].bg) {

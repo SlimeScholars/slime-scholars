@@ -112,15 +112,15 @@ export default function Navbar({ colorPalette, setUser, user }) {
               <div
                 className="grid grid-rows-2 gap-[0.5rem]"
               >
-                {user && user.pfpSlime ? (
+                {user && user?.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
                     <div className="absolute h-32 w-32 overflow-hidden">
                       <Image
                         src={
                           "/assets/pfp/backgrounds/" +
-                          gameData.items[user.pfpBg].pfp
+                          gameData.items[user?.pfpBg]?.pfp
                         }
-                        alt={user.pfpBg}
+                        alt={user?.pfpBg}
                         height={0}
                         width={0}
                         className="absolute h-32 w-32"
@@ -129,9 +129,9 @@ export default function Navbar({ colorPalette, setUser, user }) {
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimes[user.pfpSlime].pfp
+                        gameData.slimes[user?.pfpSlime]
                       }
-                      alt={user.pfpSlime}
+                      alt={user?.pfpSlime}
                       height={0}
                       width={0}
                       sizes="100vw"

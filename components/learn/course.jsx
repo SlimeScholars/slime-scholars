@@ -16,7 +16,8 @@ export default function Course({
   return (
     <button
       className={`course-bar-default course-grid base
-			 w-[calc(32%_-_1.5rem)] m-5 h-[125px] items-center shadow-lg hover-highlight`}
+			 w-[calc(28%_-_1rem)] m-3 xl:m-4 2xl:m-5 h-[110px] 2xl:w-[calc(32%_-_1.5rem)] 2xl:h-[125px] 
+       items-center shadow-lg hover-highlight`}
       onClick={() => {
         router.push(`/courses/${courseId}/units`);
       }}
