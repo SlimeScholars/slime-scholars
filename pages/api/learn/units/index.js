@@ -49,12 +49,14 @@ export default async function (req, res) {
     });
 
     const modifiedUnits = [];
-    console.log(user.progress);
     for (let i of course.units) {
-      const userUnit = userProgress.units.find((u) => {
-        return u.unitId === i._id.valueOf();
-      });
-      console.log(userUnit);
+      let userUnit = undefined
+      if (userProgress !== undefined) {
+        userUnit = userProgress.units.find((u) => {
+          return u.unitId === i._id.valueOf();
+        });
+      }
+
       const fullUnit = await Unit.findById(i._id).populate({
         path: "lessons",
         select: "lessonType",
