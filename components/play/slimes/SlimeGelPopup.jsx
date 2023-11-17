@@ -15,7 +15,7 @@ export default function SlimeGelPopup({ user, details, close }) {
   // }
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 fade-in-element text-white">
+    <div className="fixed inset-0 flex items-center justify-center z-[5000] fade-in-element text-white">
       {/* TODO backgorund should match colour palette */}
       <div className="relative bg-black/80 py-8 rounded-lg shadow-lg px-20">
         <button className="text-white hover:text-slate-300 absolute top-[1rem] right-[2rem] text-[2.5rem]"
@@ -24,7 +24,7 @@ export default function SlimeGelPopup({ user, details, close }) {
         </button>
         <div>
           <div className="flex flex-col gap-3">
-            <div className="text-2xl font-semibold">Welcome back, {user.username}!</div>
+            <div className="text-2xl font-semibold">Welcome back, {user?.username}!</div>
             {/* <div className="text-lg">You were gone for{" "}
               <span className="text-red-300">{timeData.days}</span>
               {" "}days,{" "}
@@ -35,7 +35,7 @@ export default function SlimeGelPopup({ user, details, close }) {
             </div> */}
             <div className="flex flex-row items-center">
               <p className="text-lg font-semibold">
-                While you were gone, you gained {details.newSlime-details.previousSlime}
+                While you were gone, you gained {details?.newSlime-details?.previousSlime}
               </p>
               <Image
                 src="/assets/icons/slime-gel.png"
@@ -49,7 +49,7 @@ export default function SlimeGelPopup({ user, details, close }) {
             </div>
             <div className="flex flex-row items-center">
               <p className="text-lg font-semibold">
-                Slime Gel: {details.previousSlime}
+                Slime Gel: {details?.previousSlime}
               </p>
               <Image
                 src="/assets/icons/slime-gel.png"
@@ -59,7 +59,7 @@ export default function SlimeGelPopup({ user, details, close }) {
                 sizes='100vw'
                 className="h-4 w-4 mx-1"
               />
-              <p className="text-lg font-semibold"> → <span className="text-green-400">{details.newSlime}</span></p>
+              <p className="text-lg font-semibold"> → <span className="text-green-400">{details?.newSlime}</span></p>
               <Image
                 src="/assets/icons/slime-gel.png"
                 alt="slime gel"

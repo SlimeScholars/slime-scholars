@@ -4,8 +4,9 @@ import { useRouter } from "next/router";
 import { gameData } from "../data/gameData";
 import { useState, useRef, useEffect } from "react";
 import { Image } from "antd";
+import { AiOutlineSearch } from "react-icons/ai";
 
-export default function Home({ user, setUser, colorPalette }) {
+export default function Home({ user, setUser  }) {
   const router = useRouter();
 
   const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
@@ -82,24 +83,26 @@ export default function Home({ user, setUser, colorPalette }) {
           {/* <Image src={"/assets/backgrounds/pillar-space.png"}
           className="absolute top-0 left-0 w-full h-auto"/> */}
           <div className="absolute top-0 left-0 w-full h-full bg-black/[0.8]"/>
-          {user && user.userType === 1 && <div className="absolute top-0 left-0 m-9">
+          {user && user.userType === 1 && 
+          <div className="absolute top-0 left-0 m-9 flex flex-row items-center">
             <button
-              className={`relative pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-xl h-[3.5rem] transition-brightness duration-150`}
-              style={{
-                backgroundColor: !colorPalette ? "" : colorPalette.primary2,
-                color: !colorPalette ? "" : colorPalette.text2,
-                boxShadow: !colorPalette ? "" : `0 0 2px ${colorPalette.primary2}`,
-                background: `linear-gradient(90deg, ${!colorPalette ? "" : colorPalette.primary2
-                  } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
-              }}
+              className={`relative pr-16 pl-16 rounded-md hover:scale-[1.05] font-galindo 
+              text-xl py-1 px-4 transition-transform duration-150 text-white`}
               onClick={(e) => {
                 e.preventDefault();
                 router.push("/courses");
               }}
             >
-              <span className="relative z-[800] brightness-[0.9]">Courses</span>
-              <div className="absolute top-0 left-0 bg-black/[0.2] w-full h-full z-[100]"/>
+              <span className="relative z-[800]">Courses</span>
             </button>
+            <div className="flex flex-row gap-2 items-center">
+              <span className="text-neutral-500 text-3xl">
+                <AiOutlineSearch/>
+              </span>
+              <input className="bg-black rounded-full w-[325px] py-2 px-6 border-2 border-neutral-600 focus:outline-none
+              focus:bg-neutral-700 focus:border-transparent transition-colors duration-300 font-galindo text-neutral-300"
+              placeholder="Search..."/>
+            </div>
           </div>}
           <div className="absolute top-0 right-0 m-6">
           {user ? (
@@ -108,6 +111,8 @@ export default function Home({ user, setUser, colorPalette }) {
               <div className="text-[0.85em] font-light font-galindo">
                 {user && user.username && user.username.trim().length > 0 ? 
                   <span>{user.username}</span> : 
+                  user && user.firstName && user.lastName ? 
+                  <span>{user.firstName}{" "}{user.lastName}</span>:
                   <span>[No Username]</span>}
               </div>
               <div className="text-[0.7em] mt-[-0.5em] font-light italic"
@@ -121,9 +126,7 @@ export default function Home({ user, setUser, colorPalette }) {
                 setOpen((prev) => !prev);
               }}
               style={{
-                backgroundColor: `${
-                  user?.colorPalette ? user?.colorPalette.text1 : "#ffffff"
-                }`,
+                backgroundColor: "white",
                 padding: "0.7rem",
               }}
               className={`hover:opacity-80 rounded-full p-3 overflow-hidden relative box-border 
@@ -158,9 +161,17 @@ export default function Home({ user, setUser, colorPalette }) {
                     />
                   </div>
                 ) : (
-                  <div className="default-image">
-                    {"/assets/pfp/slimes/blue-slime.png"}
-                  </div>
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute h-32 w-32 overflow-hidden flex items-center justify-center">
+                        <Image
+                        src={"/assets/pfp/slimes/blue-slime.png"}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="absolute h-24 w-24">
+                        </Image>
+                    </div>
+                </div>
                 )}
               </div>
             </button>
@@ -211,12 +222,19 @@ export default function Home({ user, setUser, colorPalette }) {
             </h2>
             <button className="px-8 py-3 rounded-lg transition-all duration-300 text-white text-[1.35em] border-2 border-white/[0.3] font-bold hover-highlight hover:scale-[1.02]"
             onClick={() => {
-              router.push(!user ? "/signup" : user.userType === 4 ? "/admin" : "/play")
+              router.push(!user ? "/signup" : 
+              user.userType === 4 ? 
+              "/admin" : 
+              user.userType === 3 ?
+              "/classrooms" : 
+              "/play")
             }}>
                 {!user? 
                 "Create your free account" :
                 user.userType === 4 ? 
                 "Edit lessons" : 
+                user.userType === 3 ?
+                "View classroom":
                 "Continue your learning"}
             </button>
           </div>

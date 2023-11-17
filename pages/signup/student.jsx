@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Back from "../../components/signup/back";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
@@ -98,9 +97,9 @@ export default function Student({ loading, user, setUser }) {
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       {/* FIXME <Back to={"/"} /> */}
-      <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
+      <div className="w-[725px] bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl h-[95vh] p-3">
         <form
-          className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
+          className="relative w-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-y-scroll h-full"
           onSubmit={(e) => onSubmit(e)}
         >
           <div className="rotate-[14deg] absolute -bottom-8 -left-11 opacity-100 z-0">
