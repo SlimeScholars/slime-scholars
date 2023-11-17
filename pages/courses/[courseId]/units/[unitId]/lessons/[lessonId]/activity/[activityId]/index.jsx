@@ -42,6 +42,12 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
   const [open, setOpen] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
 
+  const [updateFlowers, setUpdateFlowers] = useState({
+    old: user?.flowers,
+    new: user?.flowers,
+    inc: 0,
+  });
+
   useEffect(() => {
     if (activity) {
       if (page === null && activity.pages.length > 0) {
@@ -203,6 +209,41 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
     };
   }, [activity, page]);
 
+  useEffect(() => {
+    if (activity && page === activity.pages.length) {
+      const token = localStorage.getItem("jwt");
+      if (!token) {
+        return;
+      }
+      axios
+        .post(
+          "/api/learn/activity/complete",
+          {
+            courseId: router.query.courseId,
+            unitId: router.query.unitId,
+            activityId: activityId,
+            score: 1, //change this for partial completions
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        )
+        .then((response) => {
+          setUpdateFlowers({
+            old: response.data.oldFlowers,
+            new: response.data.newFlowers,
+            inc: response.data.score,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [page]);
+
   const fullLoad = () =>
     activity &&
     courseName &&
@@ -243,8 +284,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                   (loadState > -1
                     ? (170 * (LOADIN_MAXFRAMES - loadState)) / LOADIN_MAXFRAMES
                     : fullLoad()
-                    ? 170
-                    : 0) +
+                      ? 170
+                      : 0) +
                   100 * (activity ? 1 : 0) +
                   20 * (courseName ? 1 : 0) +
                   20 * (unitName ? 1 : 0) +
@@ -325,11 +366,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                     key={key}
                   >
                     <span
-                      className={`text-left text-md ${
-                        item._id === activityId
-                          ? "font-extrabold 2xl:font-black"
-                          : ""
-                      }`}
+                      className={`text-left text-md ${item._id === activityId
+                        ? "font-extrabold 2xl:font-black"
+                        : ""
+                        }`}
                     >
                       {item.activityName}
                     </span>
@@ -458,13 +498,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                       sizes="100vw"
                                       className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                                     />
-                                    {user.flowers === null ? 0 : user.flowers}{" "}
-                                    &rarr;{" "}
-                                    {user.flowers === null
-                                      ? 50
-                                      : user.flowers + 50}
+                                    {updateFlowers.old || 0} &rarr;{" "}
+                                    {updateFlowers.new || 0}
                                     <span className="ml-2 text-green-400">
-                                      +50
+                                      +{updateFlowers.inc || 0}
                                     </span>
                                   </span>
                                 </div>
@@ -485,19 +522,17 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                     for (let i in lessonActivities) {
                                       if (
                                         lessonActivities[i]._id ===
-                                          activity._id &&
+                                        activity._id &&
                                         i < lessonActivities.length - 1
                                       ) {
                                         return (
                                           <span
                                             onClick={() => {
-                                              router.push(`/courses/${
-                                                router.query.courseId
-                                              }/units/
-																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${
-                                                lessonActivities[Number(i) + 1]
+                                              router.push(`/courses/${router.query.courseId
+                                                }/units/
+																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${lessonActivities[Number(i) + 1]
                                                   ._id
-                                              }`);
+                                                }`);
                                             }}
                                             className="hover:text-blue-400 transition-all duration-200"
                                           >
@@ -559,11 +594,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                         className="font-semibold text-sm"
                         style={{ color: colorPalette.white }}
                       >
-                        {`${
-                          activity.pages && activity.pages.length > 0
-                            ? ((100 * page) / activity.pages.length).toFixed(0)
-                            : 100
-                        }`}
+                        {`${activity.pages && activity.pages.length > 0
+                          ? ((100 * page) / activity.pages.length).toFixed(0)
+                          : 100
+                          }`}
                         %
                       </span>
                     </section>

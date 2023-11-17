@@ -84,16 +84,16 @@ export default function Navbar({ colorPalette, setUser, user }) {
           <section className="flex flex-row gap-1 font-bold text-xl items-center text-white">
             <div className="flex flex-col gap-[-5px] justify-center items-end">
               <div className="text-[0.85em] font-light font-galindo">
-                {user && user.username && user.username.trim().length > 0 ? 
-                  <span>{user.username}</span> : 
-                  user && user.firstName && user.lastName ? 
-                  <span>{user.firstName}{" "}{user.lastName}</span>:
-                  <span>[No Username]</span>}
+                {user && user.username && user.username.trim().length > 0 ?
+                  <span>{user.username}</span> :
+                  user && user.firstName && user.lastName ?
+                    <span>{user.firstName}{" "}{user.lastName}</span> :
+                    <span>[No Username]</span>}
               </div>
               <div className="text-[0.7em] mt-[-0.5em] font-light italic"
-              style={{
-                color: user ? userColors[user.userType] : userColors[0]
-              }}
+                style={{
+                  color: user ? userColors[user.userType] : userColors[0]
+                }}
               >{user ? userTypes[user.userType] : userTypes[0]}</div>
             </div>
             <button
@@ -101,9 +101,8 @@ export default function Navbar({ colorPalette, setUser, user }) {
                 setOpen((prev) => !prev);
               }}
               style={{
-                backgroundColor: `${
-                  colorPalette ? colorPalette.text1 : "#ffffff"
-                }`,
+                backgroundColor: `${colorPalette ? colorPalette.text1 : "#ffffff"
+                  }`,
                 padding: "0.7rem",
               }}
               className={`hover:opacity-80 rounded-full p-3 overflow-hidden relative box-border 
@@ -142,23 +141,22 @@ export default function Navbar({ colorPalette, setUser, user }) {
                 ) : (
                   <div className="relative flex items-center justify-center">
                     <div className="absolute h-32 w-32 overflow-hidden flex items-center justify-center">
-                        <Image
+                      <Image
                         src={"/assets/pfp/slimes/blue-slime.png"}
                         width={0}
                         height={0}
                         sizes="100vw"
                         className="absolute h-24 w-24">
-                        </Image>
+                      </Image>
                     </div>
-                </div>
+                  </div>
                 )}
               </div>
             </button>
             <div
               className={`flex flex-col absolute bg-white z-[500] top-[5rem] right-[2rem] rounded-none transition-all duration-100 
-                                 origin-top ${
-                                   open ? "scale-y-100" : "scale-y-0"
-                                 } drop-shadow font-normal`}
+                                 origin-top ${open ? "scale-y-100" : "scale-y-0"
+                } drop-shadow font-normal`}
               ref={dropdown}
             >
               {options.map((item) => (

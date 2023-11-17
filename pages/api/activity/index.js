@@ -16,13 +16,15 @@ export default async function (req, res) {
     }
     verifyApiKey(req.headers.apikey);
 
-    const { activityId } = req.query
+    const { activityId } = req.query;
 
     // Connect to database
     await connectDB();
 
     // Get all activity
-    const activity = await Activity.find(activityId ? { _id: activityId } : {}).populate({
+    const activity = await Activity.find(
+      activityId ? { _id: activityId } : {}
+    ).populate({
       path: "pages",
       model: "Page",
       populate: [
@@ -40,7 +42,7 @@ export default async function (req, res) {
     });
     res.status(200).json({ activity });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 }
