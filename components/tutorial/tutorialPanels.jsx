@@ -13,13 +13,13 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
 
   useEffect(() => {
     if (user && user.tutorialActive) {
-      setTimeout(() => {setPanelsVisible(true)}, 150);
+      setTimeout(() => { setPanelsVisible(true) }, 150);
     } else {
       setPanelsVisible(false);
     }
   }, [user]);
 
-  const handleClick = e => {
+  const handleClick = (e) => {
     if (bookRef && bookRef.current && !bookRef.current.contains(e.target)) {
       handleClosePanels()
     }
@@ -49,14 +49,14 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
   const bookRef = useRef(null)
 
   return (
-    <button
+    <div
       className="fixed top-0 left-0 flex w-screen h-screen backdrop-blur-md bg-gray-900/60 items-center justify-center transition-all duration-300"
       style={{
         opacity: panelsVisible ? 1 : 0,
         zIndex: panelsVisible ? 400 : -100,
       }}
     >
-      <button
+      <div
         className="h-[85vh] w-[70vw] shadow-md relative bg-yellow-950 rounded-md cursor-default flex flex-col items-center justify-center p-2"
         ref={bookRef}>
         <div className="w-full h-full bg-yellow-900/50 rounded-sm p-2">
@@ -118,7 +118,7 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
             </div>
           </div>
         </div>
-      </button>
-    </button>
+      </div>
+    </div>
   );
 }
