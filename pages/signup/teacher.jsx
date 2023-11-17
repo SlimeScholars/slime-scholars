@@ -3,6 +3,7 @@ import Back from "../../components/signup/back";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
+import { encrypt } from "../../utils/rsa";
 
 import {
   verifyEmail,
@@ -23,22 +24,23 @@ import { useRouter } from "next/router";
 export default function Teacher({ loading, user, setUser }) {
   const router = useRouter();
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (loading) {
+  //     return;
+  //   }
 
-    // FIXME
-    if (!user) {
-      router.push("/signup/student");
-    }
+  //   // FIXME
+  //   if (!user) {
+  //     router.push('/signup/student')
+  //   }
 
-    if (user && user.userType === 1) {
-      router.push("/play");
-    } else if (user) {
-      router.push("/");
-    }
-  }, [loading, user]);
+  //   if (user && user.userType === 1) {
+  //     router.push('/play')
+  //   }
+  //   else if (user) {
+  //     router.push("/");
+  //   }
+  // }, [loading, user]);
 
   const [honorific, setHonorific] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -66,22 +68,24 @@ export default function Teacher({ loading, user, setUser }) {
       return;
     }
 
+    const encryptedPassword = encrypt(
+      password,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY_2,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
+
     const config = {
       headers: {},
     };
     axios
-      .post(
-        "/api/user/create",
-        {
-          userType: 3,
-          honorific,
-          firstName,
-          lastName,
-          email,
-          password,
-        },
-        config
-      )
+      .post("/api/user/create", {
+        userType: 3,
+        honorific,
+        firstName,
+        lastName,
+        email,
+        encryptedPassword,
+      }, config)
       .then((response) => {
         if (response.data) {
           localStorage.setItem("jwt", response.data.token);
@@ -103,7 +107,7 @@ export default function Teacher({ loading, user, setUser }) {
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back to={"/"} />
       <ToastContainer />
-      <div className="w-[600px] relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
+      <div className="w-[725px] relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
         <h1 className="text-center text-6xl font-cabin font-bold text-ink/90 mb-2 drop-shadow-sm">
           Teacher Sign-Up
         </h1>

@@ -7,6 +7,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
   const dropdown = useRef(null);
   const [open, setOpen] = useState(false);
+
   // const btn_tw =
   //   "px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo";
   const options = [
@@ -31,7 +32,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
     {
       label: "Logout",
       onClick: () => {
-        router.push("/login");
+        router.push('/login')
         if (typeof window !== "undefined") {
           localStorage.removeItem("jwt");
         }
@@ -56,8 +57,8 @@ export default function Navbar({ colorPalette, setUser, user }) {
     };
   }, [open]);
 
-  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"];
-  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"];
+  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
+  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"]
 
   return (
     <>
@@ -68,10 +69,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
         }}
       >
         <section>
-          <a
-            className="flex justify-center items-center h-auto transition-all duration-150 course-nav-title"
-            href="/"
-          >
+          <a className="flex justify-center items-center h-auto transition-all duration-150 course-nav-title" href="/">
             <Image
               src="/assets/icons/logo-light.png"
               alt="Slime Scholars Logo"
@@ -86,36 +84,34 @@ export default function Navbar({ colorPalette, setUser, user }) {
           <section className="flex flex-row gap-1 font-bold text-xl items-center text-white">
             <div className="flex flex-col gap-[-5px] justify-center items-end">
               <div className="text-[0.85em] font-light font-galindo">
-                {user && user.username && user.username.trim().length > 0 ? (
-                  <span>{user.username}</span>
-                ) : (
-                  <span>[No Username]</span>
-                )}
+                {user && user.username && user.username.trim().length > 0 ?
+                  <span>{user.username}</span> :
+                  user && user.firstName && user.lastName ?
+                    <span>{user.firstName}{" "}{user.lastName}</span> :
+                    <span>[No Username]</span>}
               </div>
-              <div
-                className="text-[0.7em] mt-[-0.5em] font-light italic"
+              <div className="text-[0.7em] mt-[-0.5em] font-light italic"
                 style={{
-                  color: user ? userColors[user.userType] : userColors[0],
+                  color: user ? userColors[user.userType] : userColors[0]
                 }}
-              >
-                {user ? userTypes[user.userType] : userTypes[0]}
-              </div>
+              >{user ? userTypes[user.userType] : userTypes[0]}</div>
             </div>
             <button
               onClick={() => {
                 setOpen((prev) => !prev);
               }}
               style={{
-                backgroundColor: `${
-                  colorPalette ? colorPalette.text1 : "#ffffff"
-                }`,
+                backgroundColor: `${colorPalette ? colorPalette.text1 : "#ffffff"
+                  }`,
                 padding: "0.7rem",
               }}
               className={`hover:opacity-80 rounded-full p-3 overflow-hidden relative box-border 
                 w-[5.6rem] h-[5.6rem] scale-[0.65]
                 course-nav-icon transition-all duration-150`}
             >
-              <div className="grid grid-rows-2 gap-[0.5rem]">
+              <div
+                className="grid grid-rows-2 gap-[0.5rem]"
+              >
                 {user && user.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
                     <div className="absolute h-32 w-32 overflow-hidden">
@@ -143,17 +139,24 @@ export default function Navbar({ colorPalette, setUser, user }) {
                     />
                   </div>
                 ) : (
-                  <div className="default-image">
-                    {"/assets/pfp/slimes/blue-slime.png"}
+                  <div className="relative flex items-center justify-center">
+                    <div className="absolute h-32 w-32 overflow-hidden flex items-center justify-center">
+                      <Image
+                        src={"/assets/pfp/slimes/blue-slime.png"}
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        className="absolute h-24 w-24">
+                      </Image>
+                    </div>
                   </div>
                 )}
               </div>
             </button>
             <div
               className={`flex flex-col absolute bg-white z-[500] top-[5rem] right-[2rem] rounded-none transition-all duration-100 
-                                 origin-top ${
-                                   open ? "scale-y-100" : "scale-y-0"
-                                 } drop-shadow font-normal`}
+                                 origin-top ${open ? "scale-y-100" : "scale-y-0"
+                } drop-shadow font-normal`}
               ref={dropdown}
             >
               {options.map((item) => (
