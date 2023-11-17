@@ -23,14 +23,13 @@ export default async function (req, res) {
     if (req.method !== "POST") {
       throw new Error(`${req.method} is an invalid request method`);
     }
-    console.log(req.body, req.headers);
     verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();
 
     // Authenticate and get user with completed lessons, units, courses
-    const user = await authenticate(req.headers.Authorization, {
+    const user = await authenticate(req.headers.authorization, {
       lessons: 1,
       units: 1,
       courses: 1,

@@ -70,7 +70,15 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
           }, 150);
         });
 
-      axios.post("/api/learn/units/add", config).catch((error) => {
+      const postConfig = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+      axios.post("/api/learn/units/add", {
+        courseId: router.query.courseId,
+        unitId: router.query.unitId,
+      }, postConfig).catch((error) => {
         if (error?.response?.data?.message) {
           showToastError(error.response.data.message);
         }
