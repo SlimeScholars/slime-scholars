@@ -4,6 +4,7 @@ import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import User from "../../../../models/userModel";
 import Lesson from "../../../../models/lessonModel";
+import Activity from "../../../../models/activityModel";
 import { calculateStars, getQuizRewards } from "../../../../utils/stars";
 import { areDifferentDays } from "../../../../utils/areDifferentDays";
 import Unit from "../../../../models/unitModel";
@@ -15,7 +16,7 @@ import { mongoose } from "mongoose";
  * @desc    Completion of lesson for rewards and exp
  * @route   POST /api/learn/lesson/complete
  * @access  Private - Students
- * @param   {string} req.body.lessonId - Id of lesson completed
+ * @param   {string} req.body.activityId - Id of lesson completed
  * @param   {string} req.body.score - Score achieved on the quiz section of the lesson - should be decimal between 0 and 1
  */
 export default async function (req, res) {
@@ -28,9 +29,9 @@ export default async function (req, res) {
     // Connect to database
     await connectDB();
 
-    // Authenticate and get user with completed lessons, units, courses
+    // Authenticate and get user with completed activities, units, courses
     const user = await authenticate(req.headers.authorization, {
-      lessons: 1,
+      activities: 1,
       units: 1,
       courses: 1,
     });
@@ -38,56 +39,61 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1);
 
-    let { courseId, unitId, lessonId, score } = req.body;
+    let { courseId, unitId, activityId, score } = req.body;
 
-    const lesson = await Lesson.findById(lessonId, {
+    const activity = await Activity.findById(activityId, {
       createdAt: 0,
       updatedAt: 0,
       __v: 0,
     });
 
-    if (!lesson) {
-      throw new Error("Could not find lesson");
+    if (!activity) {
+      throw new Error("Could not find activity");
     }
 
-    let canLoot = false;
-    const today = new Date();
-    const newLastRewards = [...user.lastRewards];
-    for (let i = 0; i < user.lastRewards.length; i++) {
-      if (areDifferentDays(today, user.lastRewards[i])) {
-        canLoot = true;
-        newLastRewards[i] = today;
-        break;
-      }
-    }
-
-    score = adjustScore(score, lesson.lessonType);
+    score = score * rewardData.activity;
     let progressCopy = [...user.progress];
     let courseIndex = -1;
     let unitIndex = -1;
-    let lessonIndex = -1;
+    let activityIndex = -1;
     for (let i = 0; i < progressCopy.length; i++) {
       if (progressCopy[i].courseId === courseId) {
         courseIndex = i;
         for (let j = 0; j < progressCopy[i].units.length; j++) {
           if (progressCopy[i].units[j].unitId === unitId) {
             unitIndex = j;
-            for (let k = 0; k < progressCopy[i].units[j].lessons.length; k++) {
-              if (progressCopy[i].units[j].lessons[k].lessonId === lessonId) {
-                lessonIndex = k;
-                if (score > progressCopy[i].units[j].lessons[k].completion) {
+            for (
+              let k = 0;
+              k < progressCopy[i].units[j].activities.length;
+              k++
+            ) {
+              if (
+                progressCopy[i].units[j].activities[k].activityId === activityId
+              ) {
+                activityIndex = k;
+                if (
+                  score === progressCopy[i].units[j].activities[k].completion
+                ) {
+                  res.status(200).json({
+                    message: "Activity completed",
+                    score: 0,
+                    oldFlowers: user.flowers,
+                    newFlowers: user.flowers,
+                  });
+                }
+                if (score > progressCopy[i].units[j].activities[k].completion) {
                   progressCopy[i].units[j].completion +=
-                    score - progressCopy[i].units[j].lessons[k].completion;
+                    score - progressCopy[i].units[j].activities[k].completion;
                   progressCopy[i].completion +=
-                    score - progressCopy[i].units[j].lessons[k].completion;
-                  progressCopy[i].units[j].lessons[k].completion = score;
+                    score - progressCopy[i].units[j].activities[k].completion;
+                  progressCopy[i].units[j].activities[k].completion = score;
                 }
                 break;
               }
             }
-            if (lessonIndex === -1) {
-              progressCopy[i].units[j].lessons.push({
-                lessonId: lessonId,
+            if (activityIndex === -1) {
+              progressCopy[i].units[j].activities.push({
+                activityId: activityId,
                 completion: score,
               });
               progressCopy[i].units[j].completion += score;
@@ -99,9 +105,9 @@ export default async function (req, res) {
         if (unitIndex === -1) {
           progressCopy[i].units.push({
             unitId: unitId,
-            lessons: [
+            activities: [
               {
-                lessonId: lessonId,
+                activityId: activityId,
                 completion: score,
               },
             ],
@@ -118,9 +124,9 @@ export default async function (req, res) {
         units: [
           {
             unitId: unitId,
-            lessons: [
+            activities: [
               {
-                lessonId: lessonId,
+                activityId: activityId,
                 completion: score,
               },
             ],
@@ -133,27 +139,17 @@ export default async function (req, res) {
 
     await User.findByIdAndUpdate(user._id, {
       progress: progressCopy,
+      flowers: user.flowers + score,
     });
 
     res.status(200).json({
-      message: "Success",
+      message: "Activity completed",
+      score: score,
+      oldFlowers: user.flowers,
+      newFlowers: user.flowers + score,
     });
   } catch (error) {
     console.log(error);
     res.status(400).json({ message: error.message });
   }
 }
-
-// multiply score by respective factors
-const adjustScore = (score, lessonType) => {
-  switch (lessonType) {
-    case "lesson":
-      return score * rewardData.lesson;
-    case "quiz":
-      return score * rewardData.quiz;
-    case "test":
-      return score * rewardData.test;
-    default:
-      return score;
-  }
-};

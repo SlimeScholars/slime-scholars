@@ -76,8 +76,8 @@ export default async function (req, res) {
     for (let i in unit.lessons) {
       const lessonProgress = userProgress
         ? userProgress.lessons.find((lesson) => {
-            return lesson._id === unit.lessons[i]._id.valueOf();
-          })
+          return lesson._id === unit.lessons[i]._id.valueOf();
+        })
         : undefined;
       modifiedLessons.push({
         ...unit.lessons[i]._doc,
@@ -87,26 +87,6 @@ export default async function (req, res) {
         achievedPoints: lessonProgress ? lessonProgress.achieved : 0,
         totalPoints: calculateTotalPoints(unit.lessons[i]),
       });
-      // for (let j in user.completedLessons) {
-      //   if (
-      //     (user.completedLessons[j].lesson._id &&
-      //       user.completedLessons[j].lesson._id.equals(unit.lessons[i]._id)) ||
-      //     (user.completedLessons[j].lesson &&
-      //       user.completedLessons[j].lesson.equals(unit.lessons[i]._id))
-      //   ) {
-      //     modifiedLessons[i].stars = user.completedLessons[j].stars;
-      //     modifiedLessons[i].looted = user.completedLessons[j].looted;
-      //   }
-      // }
-    }
-
-    let unitTestStars = -1;
-    // Check for unit test completion
-    for (let i in user.completedUnits) {
-      if (user.completedUnits[i].unit == unitId) {
-        unitTestStars = user.completedUnits[i].stars;
-        break;
-      }
     }
 
     res.json({
@@ -114,7 +94,6 @@ export default async function (req, res) {
       unitName: unit.unitName,
       unitNumber: unit.unitNumber,
       lessons: modifiedLessons,
-      unitTestStars,
     });
   } catch (error) {
     res.status(400).json({ message: error.message });

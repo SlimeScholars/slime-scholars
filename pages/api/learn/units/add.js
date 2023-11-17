@@ -3,18 +3,20 @@ import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
 import User from "../../../../models/userModel";
+import Lesson from "../../../../models/lessonModel";
+import { calculateStars, getQuizRewards } from "../../../../utils/stars";
+import { areDifferentDays } from "../../../../utils/areDifferentDays";
 import Unit from "../../../../models/unitModel";
-import { calculateTestStars, getTestRewards } from "../../../../utils/stars";
 import Course from "../../../../models/courseModel";
-import { mongoose } from "mongoose";
 import { rewardData } from "../../../../data/lessonData";
+import { mongoose } from "mongoose";
 
 /**
- * @desc    Completion of unit test for rewards and exp
- * @route   POST /api/learn/unit-test/complete
+ * @desc    Completion of lesson for rewards and exp
+ * @route   POST /api/learn/lesson/complete
  * @access  Private - Students
- * @param   {string} req.body.unitId - Id of unit completed
- * @param   {string} req.body.score - Score achieved on the unit test
+ * @param   {string} req.body.lessonId - Id of lesson completed
+ * @param   {string} req.body.score - Score achieved on the quiz section of the lesson - should be decimal between 0 and 1
  */
 export default async function (req, res) {
   try {
@@ -36,69 +38,37 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1);
 
-    let { courseId, unitId, score } = req.body;
+    let { courseId, unitId } = req.body;
 
-    const unit = await Unit.findById(unitId, {
-      createdAt: 0,
-      updatedAt: 0,
-      __v: 0,
-    });
-
-    if (!unit) {
-      throw new Error("Could not find unit");
-    }
-
-    score *= rewardData.test;
     let progressCopy = [...user.progress];
-    let courseIndex = -1;
-    let unitIndex = -1;
     for (let i = 0; i < progressCopy.length; i++) {
       if (progressCopy[i].courseId === courseId) {
-        courseIndex = i;
         for (let j = 0; j < progressCopy[i].units.length; j++) {
           if (progressCopy[i].units[j].unitId === unitId) {
-            unitIndex = j;
-            break;
+            res.json({ message: "Unit already present" });
           }
         }
-        if (unitIndex === -1) {
-          progressCopy[i].units.push({
-            unitId: unitId,
-            lessons: [],
-            completion: score,
-          });
-          progressCopy[i].completion += score;
-        }
+        progressCopy[i].units.push({
+          unitId: unitId,
+          lessons: [],
+          quizzes: [],
+          tests: [],
+          activities: [],
+          completion: 0,
+        });
         break;
       }
-    }
-    if (courseIndex === -1) {
-      progressCopy.push({
-        courseId: courseId,
-        units: [
-          {
-            unitId: unitId,
-            lessons: [],
-            completion: score,
-          },
-        ],
-        completion: score,
-      });
     }
 
     await User.findByIdAndUpdate(user._id, {
       progress: progressCopy,
-      flowers: user.flowers + score,
     });
 
     res.status(200).json({
-      message: "Unit test completed",
-      score: score,
-      oldFlowers: user.flowers,
-      newFlowers: user.flowers + score,
+      message: "Success",
     });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
     res.status(400).json({ message: error.message });
   }
 }

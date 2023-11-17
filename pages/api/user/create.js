@@ -211,10 +211,6 @@ export default async function (req, res) {
           friends: [],
           receivedFriendRequests: [],
           sentFriendRequests: [],
-
-          completedLessons: [],
-          completedUnits: [],
-          completedCourses: [],
           progress: [],
 
           pfpSlime: "Blue Slime",
@@ -238,7 +234,7 @@ export default async function (req, res) {
           lastRewards: [0, 0],
           lastSlimeRewards: new Date(),
 
-          tutorialActive: true
+          tutorialActive: true,
         })
       )._id;
 
@@ -262,14 +258,12 @@ export default async function (req, res) {
         password: 0,
         createdAt: 0,
         updatedAt: 0,
-        completedLessons: 0,
-        completedUnits: 0,
-        completedCourses: 0,
         __v: 0,
       })
         .populate({
           path: "parent",
-          select: "_id userType firstName lastName honorific email tutorialActive",
+          select:
+            "_id userType firstName lastName honorific email tutorialActive",
         })
         .populate({
           path: "slimes",
