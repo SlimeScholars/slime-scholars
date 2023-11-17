@@ -5,6 +5,7 @@ import { gameData } from "../../data/gameData";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import { AiOutlineClose } from "react-icons/ai";
 
 export default function Roll({
   loading,
@@ -163,48 +164,60 @@ export default function Roll({
   return (
     <div className="w-full h-full">
       {/* Popup Message for Lacking Eggs */}
-      {eggsLacked > 0 && (
-        <div className="fixed inset-0 z-40 text-white flex items-center justify-center">
-          <div className="grid grid-rows-2 place-content-center m-20 rounded-lg p-8 bg-slate-400">
-            <div className="flex flex-col p-4 w-full text-center">
-              <h3 className="font-galindo text-black text-lg">
-                {"You need " +
-                  eggsLacked +
-                  " more slime egg" +
-                  (eggsLacked !== 1 ? "s" : "") +
-                  " to roll"}
-              </h3>
-              <p className="text-sm">
-                {"Purchase " +
-                  eggsLacked +
-                  " slime egg" +
-                  (eggsLacked !== 1 ? "s" : "") +
-                  " with " +
-                  eggsLacked * gameData.items["Slime Egg"].buyPrice +
-                  " flowers."}
-              </p>
-            </div>
-            <div className="flex flex-row justify-center items-center">
-              <button
-                className="rounded-sm bg-white text-black mr-2 p-2 hover:bg-white/75"
-                onClick={(e) => {
-                  setEggsLacked(0);
-                }}
-              >
-                Cancel
-              </button>
-              <button
-                className="rounded-sm bg-red-300 text-white p-2 hover:bg-red-300/75"
-                onClick={() => {
-                  handlePurchaseEggs(eggsLacked);
-                }}
-              >
-                Purchase
-              </button>
-            </div>
+      <div className="fixed inset-0 z-40 text-white flex items-center justify-center transition-opacity duration-300
+      bg-black/[0.4]"
+      style={{
+        opacity: eggsLacked > 0 ? 1 : 0,
+        zIndex: eggsLacked > 0 ? 2000 : -100,
+      }}>
+        <div className="relative flex flex-col gap-4 text-center bg-black/[0.8] px-12 pt-16 pb-12 rounded-lg">
+          <div className="absolute top-0 right-0 m-4">
+            <button className="text-2xl"
+            onClick={() => {
+              setEggsLacked(0)
+            }}>
+              <AiOutlineClose/>
+            </button>
           </div>
+          <div className="flex flex-row gap-[0.25em] font-galindo text-white text-2xl items-center">
+            <span className="">
+             You're missing {eggsLacked}
+            </span>
+            <Image
+                src="/assets/items/slime-egg.png"
+                alt="slime gel"
+                height={0}
+                width={0}
+                sizes="100vw"
+                className="w-[2rem] h-[2rem]"
+            />
+            <span>
+              to roll!
+            </span>
+          </div>
+          <button
+            className="px-8 py-1 rounded-md bg-neutral-700/[0.6] text-white"
+            onClick={() => {
+              handlePurchaseEggs(eggsLacked);
+            }}
+          >
+            <div className="flex flex-col gap-1 items-center">
+              <span className="text-lg">Purchase</span>
+              <div className="flex flex-row gap-[0.35em] text-md items-center justify-center">
+                {eggsLacked * gameData.items["Slime Egg"].buyPrice}
+                <Image
+                  src="/assets/icons/flower.png"
+                  alt="slime gel"
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  className="w-[1.5rem] h-[1.5rem]"
+                />
+              </div>
+            </div>
+          </button>
         </div>
-      )}
+      </div>
       {rolling && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-white">
           <img src="/assets/misc/egg_rolling.gif" alt="Rolling Egg" />
