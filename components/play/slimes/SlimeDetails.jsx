@@ -70,11 +70,11 @@ export default function SlimeDetails({
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          // refetchUser()
-          // setSlime(response.data.slime);
-          // setShowLevelUpPopup(true);
-          // setRes(response.data);
-          // setTimeout(() => {setLoading(false)}, 150);
+          refetchUser(false)
+          setSlime(response.data.slime);
+          setShowLevelUpPopup(true);
+          setRes(response.data);
+          setTimeout(() => {setLoading(false)}, 150);
         })
         .catch((error) => {
           showToastError(error.response.data.message);

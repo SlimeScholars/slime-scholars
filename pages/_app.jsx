@@ -152,8 +152,8 @@ function MyApp({ Component, pageProps }) {
     }
   }, [audio]);
 
-  const refetchUser = async () => {
-    setLoading(true);
+  const refetchUser = async (load=true) => {
+    setLoading(load);
     try {
       const token = localStorage.getItem("jwt");
       if (!token) {

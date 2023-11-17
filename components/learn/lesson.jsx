@@ -6,7 +6,6 @@ import Image from "next/image";
 const maxStars = [3, 3, 5]
 
 const Activity = ({courseId, unitId, lesson, activity, router, stars}) => {
-
  	return (
 	<button className="bg-white rounded-lg py-2 px-4 w-[95%] course-bar-default border-2 border-gray-30 shadow-md"
 	onClick={() => {
@@ -44,7 +43,7 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 						{lesson?.lessonName}
 					</span>
 					<div className="flex flex-row items-center text-start text-md">
-						50
+						{lesson.totalPoints-lesson.achievedPoints}
 						<Image
 						src="/assets/icons/flower.png"
 						alt="flowers"
