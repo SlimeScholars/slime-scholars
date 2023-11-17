@@ -24,5 +24,11 @@ export const landingContent = {
       quote:
         "ANTON MOMENT ANTON MOMENT ANTON MOMENT ANTON MOMENT ANTON MOMENT ANTON MOMENT ANTON MOMENT",
     },
+    {
+      name: "John Liu",
+      title: "Supreme Leader",
+      quote:
+        "在寂静的午夜，影子与被遗忘的故事的低语共舞，一场宇宙芭蕾正在上演。 星尘的琴弦上奏响着天国的旋律，编织出一幅时间的织锦，星系在广阔的宇宙舞厅中跳着华尔兹。 每一次旋转和旋转都会留下闪烁的光芒，就像宇宙挂毯上的萤火虫一样，讲述着用星座语言写成的不为人知的故事。 跨越宇宙海洋，可能性的波浪在宇宙结构中荡漾，承载着遥远国度的秘密和古老宇宙摇篮曲的回声。 当宇宙时钟在无限安静的角落滴答作响时，存在之舞仍在继续，这是宇宙大舞台上永恒的表演。",
+    },
   ],
 };

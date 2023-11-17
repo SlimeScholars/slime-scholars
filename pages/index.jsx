@@ -136,25 +136,25 @@ export default function Home({ user, setUser  }) {
               <div
                 className="grid grid-rows-2 gap-[0.5rem]"
               >
-                {user && user.pfpSlime ? (
+                {user && user?.pfpSlime ? (
                   <div className="relative flex items-center justify-center">
                     <div className="absolute h-32 w-32 overflow-hidden">
                       <Image
                         src={
                           "/assets/pfp/backgrounds/" +
-                          gameData.items[user.pfpBg].pfp
+                          gameData.items[user?.pfpBg]?.pfp
                         }
                         preview={false}
-                        alt={user.pfpBg}
+                        alt={user?.pfpBg}
                         className="absolute h-32 w-32"
                       />
                     </div>
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimes[user.pfpSlime].pfp
+                        gameData.slimes[user?.pfpSlime]
                       }
-                      alt={user.pfpSlime}
+                      alt={user?.pfpSlime}
                       preview={false}
                       sizes="100vw"
                       className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"

@@ -193,9 +193,6 @@ export default function Roll({
                 sizes="100vw"
                 className="w-[2rem] h-[2rem]"
             />
-            <span>
-              to roll!
-            </span>
           </div>
           <button
             className="px-8 py-1 rounded-md bg-neutral-700/[0.6] text-white"
@@ -244,20 +241,33 @@ export default function Roll({
             : "w-full h-full"
         }
       >
-        <div className="relative">
+        <div className="flex flex-col items-center justify-center relative">
+          <div className="flex flex-row gap-2 items-center font-galindo text-[1.75em]"
+          style={{
+            color: colorPalette ? colorPalette.text1 : "white"
+          }}>
+            Slime Eggs: {eggsOwned}
+            {/* <Image
+                src="/assets/items/slime-egg.png"
+                alt="slime gel"
+                height={0}
+                width={0}
+                sizes="100vw"
+                className="w-[1.5em] h-[1.5em]"
+            /> */}
+          </div>
           {/* Image as background */}
-          <div className="flex justify-center items-center">
-            <Image
-              src="/assets/roll-bg/primary-banner.png"
-              alt="slime banner"
-              height={0}
-              width={0}
-              sizes="100vw"
-              className="ml-[50px] bg-cover w-[60%] h-auto inset-0 "
-            />
+          <Image
+            src="/assets/roll-bg/primary-banner.png"
+            alt="slime banner"
+            height={0}
+            width={0}
+            sizes="100vw"
+            className="ml-[50px] bg-cover w-[60%] h-auto inset-0 "
+          />
           </div>
           {/* Buttons to roll */}
-          <div className="absolute bottom--30 w-full mt-5">
+          <div className="w-full mt-5">
             <div className="flex justify-center">
               <div className="flex gap-8 content-en">
                 <button
@@ -328,6 +338,5 @@ export default function Roll({
           </div>
         </div>
       </div>
-    </div>
   );
 }

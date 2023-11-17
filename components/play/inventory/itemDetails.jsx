@@ -559,9 +559,9 @@ export default function ItemDetails({
                 }
                 <Image
                   src={
-                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[user?.pfpSlime]
                   }
-                  alt={user.pfpSlime}
+                  alt={user?.pfpSlime}
                   height={0}
                   width={0}
                   sizes="100vw"
@@ -601,9 +601,9 @@ export default function ItemDetails({
                 />
                 <Image
                   src={
-                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
+                    "/assets/pfp/slimes/" + gameData.slimes[user?.pfpSlime]
                   }
-                  alt={user.pfpSlime}
+                  alt={user?.pfpSlime}
                   height={0}
                   width={0}
                   sizes="100vw"
@@ -639,7 +639,7 @@ export default function ItemDetails({
                     .put(
                       "/api/user/change-pfp",
                       {
-                        pfpSlime: user.pfpSlime,
+                        pfpSlime: user?.pfpSlime,
                         pfpBg: item.itemName,
                       },
                       {
