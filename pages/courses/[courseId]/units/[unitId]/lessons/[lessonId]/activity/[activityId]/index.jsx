@@ -43,8 +43,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
   const [maxPage, setMaxPage] = useState(0);
 
   const [updateFlowers, setUpdateFlowers] = useState({
-    old: user.flowers,
-    new: user.flowers,
+    old: user?.flowers,
+    new: user?.flowers,
     inc: 0,
   });
 
@@ -367,8 +367,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                   >
                     <span
                       className={`text-left text-md ${item._id === activityId
-                          ? "font-extrabold 2xl:font-black"
-                          : ""
+                        ? "font-extrabold 2xl:font-black"
+                        : ""
                         }`}
                     >
                       {item.activityName}
@@ -595,8 +595,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                         style={{ color: colorPalette.white }}
                       >
                         {`${activity.pages && activity.pages.length > 0
-                            ? ((100 * page) / activity.pages.length).toFixed(0)
-                            : 100
+                          ? ((100 * page) / activity.pages.length).toFixed(0)
+                          : 100
                           }`}
                         %
                       </span>
