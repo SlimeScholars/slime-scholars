@@ -103,8 +103,6 @@ export default function SlimeDetails({
   const maxLevel = slime.maxLevel;
   const colour = gameData.rarityColours[slime.rarity].text;
 
-  const tiers = ["I", "II", "III"];
-
   return (
     <div
       style={{
@@ -182,7 +180,7 @@ export default function SlimeDetails({
               <p
                 className="text-3xl pb-1"
                 style={{
-                  color: bg.text1,
+                  color: "white",
                 }}
               >
                 {name}
@@ -190,7 +188,7 @@ export default function SlimeDetails({
               <div
                 className="text-lg"
                 style={{
-                  color: bg.text1,
+                  color: "white",
                 }}
               >
                 {slime.bonusLevel ? (
@@ -198,12 +196,13 @@ export default function SlimeDetails({
                     <p>
                       Lvl.{" "}
                       {slime.level === slime.maxLevel
-                        ? "MAX"
-                        : `${slime.level}/${slime.maxLevel}`}{" "}
-                      + {slime.bonusLevel}
+                        ? <span>MAX</span>
+                        : <span>{slime.level}/{slime.maxLevel}</span>}
+                      {" "}
+                      <span className="text-sky-300">(+{slime.bonusLevel})</span>
                     </p>
                     <p>
-                      Production: {gelProduction} + {slime.bonusProduction}
+                      Production: {gelProduction} <span className="text-sky-300">(+{slime.bonusProduction})</span>
                       <Image
                         src="/assets/icons/slime-gel.png"
                         alt="slime gel"
@@ -235,25 +234,31 @@ export default function SlimeDetails({
                     </p>
                   </>
                 )}
-                {gameData.slimes[slime.slimeName]?.abilityName &&
-                  slime.starLevel > 0 && (
-                    <p className="mt-3 text-[0.9rem] leading-[1.3rem]">
-                      {`${gameData.slimes[slime.slimeName].abilityName} ${
-                        tiers[slime.starLevel - 1]
-                      }: ${
-                        gameData.slimes[slime.slimeName]?.abilityDesc[
-                          slime.starLevel - 1
-                        ]
-                      }`}
-                    </p>
-                  )}
-                {gameData.slimes[slime.slimeName]?.effects && (
-                  <p className="mt-3 text-[0.9rem] leading-[1.3rem] italic">
-                    {gameData.slimes[slime.slimeName]?.effects}
-                  </p>
-                )}
               </div>
             </div>
+            {gameData.slimes[slime.slimeName]?.abilityName &&
+              slime.starLevel > 0 && 
+            <div className="rounded-lg mb-2 py-4 px-7 mt-3 text-white"
+            style={{
+              backgroundColor: `${bg.black}88`,
+            }}>
+              <div className="flex flex-col">
+                <span className="text-xl text-indigo-300">{`${gameData.slimes[slime.slimeName].abilityName}`}</span>
+                <span className="flex flex-row gap-[0.35em]">
+                {[...Array(slime.starLevel).keys()].map((index, key) => <div key={key}><FaStar/></div>)}
+                </span>
+              </div>
+              <span className="text-md">
+                <div className="mt-3">{gameData.slimes[slime.slimeName]?.abilityDesc[
+                  slime.starLevel - 1
+                ]}</div>
+              </span>
+              {gameData.slimes[slime.slimeName]?.effects && (
+              <p className="italic text-sm mt-3">
+                {gameData.slimes[slime.slimeName]?.effects}
+              </p>
+              )}
+            </div>}
             {slime.level === slime.maxLevel ? (
               <></>
             ) : (
@@ -262,7 +267,7 @@ export default function SlimeDetails({
                   className="rounded-lg items-center py-4 px-7 mt-4 text-lg"
                   style={{
                     backgroundColor: `${bg.black}88`,
-                    color: bg.text1,
+                    color: "white",
                   }}
                 >
                   <p>
@@ -303,7 +308,7 @@ export default function SlimeDetails({
                         playSound("boop");
                       }}
                     >
-                      <div className="flex flex-row justify-center items-center">
+                      <div className="flex flex-row justify-center items-center font-galindo">
                         <div>Level up</div>
                         <div className="mx-3">|</div>
                         <div className="flex flex-row items-center">
@@ -328,7 +333,7 @@ export default function SlimeDetails({
       </div>
       <div className="p-8 pt-0">
         <div
-          className="rounded-lg py-6 px-10"
+          className="rounded-lg pt-6 pb-8 px-10"
           style={{
             backgroundColor: `${bg.black}88`,
           }}
@@ -354,7 +359,7 @@ export default function SlimeDetails({
           <div className="flex flex-row w-full items-center flex-wrap justify-center -mt-1.5">
             <div className="flex flex-col items-center">
               {/* Display current profile picture */}
-              <p style={{ color: bg ? bg.text1 : "" }}>Current</p>
+              <p style={{ color: bg ? "white" : "" }}>Current</p>
               <div
                 className="relative rounded-full overflow-hidden"
                 style={{
@@ -388,12 +393,12 @@ export default function SlimeDetails({
             </div>
             <span
               className="material-symbols-outlined scale-150 mx-6"
-              style={{ color: bg ? bg.text1 : "" }}
+              style={{ color: bg ? "white" : "" }}
             >
               arrow_forward
             </span>
             <div className="flex flex-col items-center">
-              <p style={{ color: bg ? bg.text1 : "" }}>Updated</p>
+              <p style={{ color: bg ? "white" : "" }}>Updated</p>
               <div
                 className="relative rounded-full overflow-hidden"
                 style={{
@@ -441,7 +446,7 @@ export default function SlimeDetails({
                 className="rounded-lg py-4 w-[15rem] mt-4 hover:scale-105 transition-all duration-150 ease-out"
                 style={{
                   backgroundColor: bg ? bg.primary1 : "",
-                  color: bg ? bg.text1 : "",
+                  color: bg ? "white" : "",
                 }}
                 onMouseEnter={() => {
                   playSound("boop");

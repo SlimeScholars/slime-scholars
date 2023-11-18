@@ -72,11 +72,8 @@ export default function AddToRoster({
         color: bg.text1,
       }}
     >
-      {inRoster ? (
+      {inRoster &&
         <div className="flex flex-row justify-between">
-          <div>
-            <p className="text-2xl mx-1"> Add to team</p>
-          </div>
           <div>
             <button
               className="px-5 py-1 text-xl rounded-lg"
@@ -91,11 +88,7 @@ export default function AddToRoster({
             </button>
           </div>
         </div>
-      ) : (
-        <div>
-          <p className="text-md mx-1"> Add to team</p>
-        </div>
-      )}
+      }
       <p className="text-xl mb-2 mx-1 text-center mt-5">
         Choose a slime to replace
       </p>
