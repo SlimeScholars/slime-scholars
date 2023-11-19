@@ -370,9 +370,9 @@ export default function SlimeDetails({
                   <Image
                     src={
                       "/assets/pfp/backgrounds/" +
-                      gameData.items[user?.pfpBg]?.pfp
+                      gameData.items[user.pfpBg].bg
                     }
-                    alt={user?.pfpBg}
+                    alt={user.pfpBg}
                     height={0}
                     width={0}
                     sizes="100vw"
@@ -381,9 +381,9 @@ export default function SlimeDetails({
                 }
                 <Image
                   src={
-                    "/assets/pfp/slimes/" + gameData.slimes[user?.pfpSlime]
+                    "/assets/pfp/slimes/" + gameData.slimes[user.pfpSlime].pfp
                   }
-                  alt={user?.pfpSlime}
+                  alt={user.pfpSlime}
                   height={0}
                   width={0}
                   sizes="100vw"
@@ -407,9 +407,9 @@ export default function SlimeDetails({
               >
                 <Image
                   src={
-                    "/assets/pfp/backgrounds/" + gameData.items[user?.pfpBg]?.pfp
+                    "/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].bg
                   }
-                  alt={user?.pfpBg}
+                  alt={user.pfpBg}
                   height={0}
                   width={0}
                   sizes="100vw"
@@ -430,7 +430,7 @@ export default function SlimeDetails({
           </div>
 
           <div className="flex justify-center items-center">
-            {user?.pfpSlime === slime.slimeName ? (
+            {user.pfpSlime === slime.slimeName ? (
               <button
                 disabled
                 className="rounded-lg py-4 w-[15rem] mt-4"
@@ -457,7 +457,7 @@ export default function SlimeDetails({
                       "/api/user/change-pfp",
                       {
                         pfpSlime: slime.slimeName,
-                        pfpBg: user?.pfpBg,
+                        pfpBg: user.pfpBg,
                       },
                       {
                         headers: {
@@ -468,7 +468,7 @@ export default function SlimeDetails({
                       }
                     )
                     .then((response) => {
-                      if (response?.data?.pfpSlime) {
+                      if (response?.data.pfpSlime) {
                         const newUser = {
                           ...user,
                           pfpSlime: response.data.pfpSlime,

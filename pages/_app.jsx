@@ -268,8 +268,8 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    if (user && user?.pfpBg) {
-      setPfpBg(user?.pfpBg);
+    if (user && user.pfpBg) {
+      setPfpBg(user.pfpBg);
     }
 
     if (user && user.bg && gameData.items[user.bg].bg) {

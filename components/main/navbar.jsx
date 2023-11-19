@@ -2,6 +2,7 @@ import Image from "next/image";
 import { gameData } from "../../data/gameData";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
+import ProfilePicture from "./profilePicture";
 
 export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
@@ -109,49 +110,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
                 w-[5.6rem] h-[5.6rem] scale-[0.65]
                 course-nav-icon transition-all duration-150`}
             >
-              <div
-                className="grid grid-rows-2 gap-[0.5rem]"
-              >
-                {user && user?.pfpSlime ? (
-                  <div className="relative flex items-center justify-center">
-                    <div className="absolute h-32 w-32 overflow-hidden">
-                      <Image
-                        src={
-                          "/assets/pfp/backgrounds/" +
-                          gameData.items[user?.pfpBg]?.pfp
-                        }
-                        alt={user?.pfpBg}
-                        height={0}
-                        width={0}
-                        className="absolute h-32 w-32"
-                      />
-                    </div>
-                    <Image
-                      src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimes[user?.pfpSlime]
-                      }
-                      alt={user?.pfpSlime}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="relative z-10 translate-y-1/3 scale-150 w-[3.5rem] h-[3.5rem]"
-                    />
-                  </div>
-                ) : (
-                  <div className="relative flex items-center justify-center">
-                    <div className="absolute h-32 w-32 overflow-hidden flex items-center justify-center">
-                      <Image
-                        src={"/assets/pfp/slimes/blue-slime.png"}
-                        width={0}
-                        height={0}
-                        sizes="100vw"
-                        className="absolute h-24 w-24">
-                      </Image>
-                    </div>
-                  </div>
-                )}
-              </div>
+              <ProfilePicture user={user}/>
             </button>
             <div
               className={`flex flex-col absolute bg-white z-[500] top-[5rem] right-[2rem] rounded-none transition-all duration-100 

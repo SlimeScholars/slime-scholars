@@ -124,9 +124,9 @@ export default function FriendsEditor({
                     <Image
                       src={
                         "/assets/pfp/backgrounds/" +
-                        gameData.items[user?.pfpBg]?.pfp
+                        gameData.items[user.pfpBg].bg
                       }
-                      alt={user?.pfpBg}
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes="100vw"
@@ -135,9 +135,9 @@ export default function FriendsEditor({
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimes[user?.pfpSlime]
+                        gameData.slimes[user.pfpSlime].pfp
                       }
-                      alt={user?.pfpSlime}
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes="100vw"
@@ -186,9 +186,9 @@ export default function FriendsEditor({
                     <Image
                       src={
                         "/assets/pfp/backgrounds/" +
-                        gameData.items[user?.pfpBg]?.pfp
+                        gameData.items[user.pfpBg].bg
                       }
-                      alt={user?.pfpBg}
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes="100vw"
@@ -198,9 +198,9 @@ export default function FriendsEditor({
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimes[user?.pfpSlime]
+                        gameData.slimes[user.pfpSlime].pfp
                       }
-                      alt={user?.pfpSlime}
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes="100vw"
