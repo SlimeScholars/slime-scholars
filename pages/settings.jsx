@@ -16,6 +16,7 @@ import { showToastError } from "../utils/toast";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import ProfilePicture from "../components/main/profilePicture";
 
 export default function Settings({ loading, user, setUser }) {
   const router = useRouter();
@@ -151,29 +152,7 @@ export default function Settings({ loading, user, setUser }) {
                 router.push("/play/inventory");
               }}
             >
-              {user?.pfpBg && 
-              <>
-              <Image
-                src={
-                  "/assets/pfp/backgrounds/" + gameData.items[user?.pfpBg]?.pfp
-                }
-                alt={user?.pfpBg}
-                height={0}
-                width={0}
-                sizes='100vw'
-                className="absolute h-32 w-32 inset-0"
-              />
-              <Image
-                src={
-                  "/assets/pfp/slimes/" + gameData.slimes[user?.pfpSlime]
-                }
-                alt={user?.pfpSlime}
-                height={0}
-                width={0}
-                sizes='100vw'
-                className="relative z-8 translate-y-1/4 scale-125 w-[4.5rem] h-[4rem]"
-              />
-              </>}
+              <ProfilePicture user={user}/>
             </div>
           </div>
 

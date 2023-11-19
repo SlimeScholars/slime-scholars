@@ -6,8 +6,8 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
     <div id="friends-listing">
       {Array.isArray(users) ? (
         users.map((user, index) => {
-          const pfpBg = user?.pfpBg || ''; // Ensure pfpBg has a default value
-          const pfpSlime = user?.pfpSlime || ''; // Ensure pfpSlime has a default value
+          const pfpBg = user.pfpBg || ''; // Ensure pfpBg has a default value
+          const pfpSlime = user.pfpSlime || ''; // Ensure pfpSlime has a default value
           if (user._id === userId) {
             return (
               <div
@@ -25,7 +25,7 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                         "/assets/pfp/backgrounds/" +
                         gameData.items[pfpBg].pfp
                       }
-                      alt={user?.pfpBg}
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -36,7 +36,7 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                         "/assets/pfp/slimes/" +
                         gameData.slimes[pfpSlime].pfp
                       }
-                      alt={user?.pfpSlime}
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -57,9 +57,9 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                     <Image
                       src={
                         "/assets/pfp/backgrounds/" +
-                        gameData.items[user?.pfpBg]?.pfp
+                        gameData.items[user.pfpBg].bg
                       }
-                      alt={user?.pfpBg}
+                      alt={user.pfpBg}
                       height={0}
                       width={0}
                       sizes='100vw'
@@ -68,9 +68,9 @@ export default function LeadboardListing({ user, userRank, users, userId, colorP
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimes[user?.pfpSlime]
+                        gameData.slimes[user.pfpSlime].pfp
                       }
-                      alt={user?.pfpSlime}
+                      alt={user.pfpSlime}
                       height={0}
                       width={0}
                       sizes='100vw'
