@@ -39,7 +39,7 @@ export default function Home({ user, setUser  }) {
       onClick: () => {
         logout()
         setUser(null);
-        router.push('/login')
+        router.push('/login') 
       },
     },
   ];
