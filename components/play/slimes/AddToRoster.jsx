@@ -51,6 +51,7 @@ export default function AddToRoster({
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
+          setUser({...user})
           setTimeout(() => {setLoading(false)}, 150);
           
         })

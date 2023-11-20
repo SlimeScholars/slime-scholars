@@ -97,9 +97,7 @@ export default function DisplaySlimes({
         axios
             .post("/api/slime/level-up", { slimeId: id }, config)
             .then((response) => {
-            // 
-            // setShowLevelUpPopup(true);
-            // setRes(response.data);
+              setUser({...user})
             })
             .catch((error) => {
             ;

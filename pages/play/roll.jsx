@@ -14,7 +14,6 @@ export default function Roll({
   setUser,
   setLoading,
   colorPalette,
-  setColorPalette,
 }) {
   const router = useRouter();
   const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
@@ -72,12 +71,11 @@ export default function Roll({
         config
       )
       .then((response) => {
-        // Close popup dialog
         setEggsLacked(0);
         if (user) {
           setOriginalSlimes(user.slimes);
-        }
-        ;
+        };
+        setUser({...user})
         showToastError("Purchased successfully.", true);
       })
       .catch((error) => showToastError(error.message));
@@ -113,7 +111,7 @@ export default function Roll({
             newSlimes.push(response.data.slime);
             setSlimes(newSlimes);
             setOriginalSlimes(response.data.originSlimeObjects);
-            ;
+            setUser({...user})
             setTimeout(() => {
               setLoading(false);
               setTimeout(() => {
@@ -232,7 +230,6 @@ export default function Roll({
             slimes={slimes}
             originalSlimes={originalSlimes}
             router={router}
-            
           />
         )
       }

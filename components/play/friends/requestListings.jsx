@@ -28,7 +28,7 @@ export default function RequestListings({
         }
       )
       .then((response) => {
-        
+        setUser({...user})
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
       })
@@ -62,6 +62,7 @@ export default function RequestListings({
           const updatedRequestListing = response.data.sentFriendRequests;
           setSentFriendRequests(updatedRequestListing);
         }
+        setUser({...user})
         showToastError("Friend request deleted.", true);
       })
       .catch((error) => {

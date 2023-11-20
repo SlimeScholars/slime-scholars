@@ -16,10 +16,11 @@ export default function useLogin(){
             }}).then((response) => {
                 if (response.data) {
                     cookies.set("slime-scholars-webapp-token", response.data.token)
+                    return response
                 }
-                return response
+                return null;
             }).catch(err => {
-                return null
+                return err
             });
     }
 
