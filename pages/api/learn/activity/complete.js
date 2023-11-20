@@ -52,6 +52,7 @@ export default async function (req, res) {
     }
 
     score = score * rewardData.activity;
+    let exp = score;
     let progressCopy = [...user.progress];
     let courseIndex = -1;
     let unitIndex = -1;
@@ -71,15 +72,14 @@ export default async function (req, res) {
                 progressCopy[i].units[j].activities[k].activityId === activityId
               ) {
                 activityIndex = k;
+                console.log(
+                  score,
+                  progressCopy[i].units[j].activities[k].completion
+                );
                 if (
                   score === progressCopy[i].units[j].activities[k].completion
                 ) {
-                  res.status(200).json({
-                    message: "Activity completed",
-                    score: 0,
-                    oldFlowers: user.flowers,
-                    newFlowers: user.flowers,
-                  });
+                  score = 0;
                 }
                 if (score > progressCopy[i].units[j].activities[k].completion) {
                   progressCopy[i].units[j].completion +=
@@ -140,6 +140,7 @@ export default async function (req, res) {
     await User.findByIdAndUpdate(user._id, {
       progress: progressCopy,
       flowers: user.flowers + score,
+      exp: user.exp + exp,
     });
 
     res.status(200).json({

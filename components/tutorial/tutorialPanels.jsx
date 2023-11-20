@@ -13,7 +13,9 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
 
   useEffect(() => {
     if (user && user.tutorialActive) {
-      setTimeout(() => { setPanelsVisible(true) }, 150);
+      setTimeout(() => {
+        setPanelsVisible(true);
+      }, 150);
     } else {
       setPanelsVisible(false);
     }
@@ -21,7 +23,7 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
 
   const handleClick = (e) => {
     if (bookRef && bookRef.current && !bookRef.current.contains(e.target)) {
-      handleClosePanels()
+      handleClosePanels();
     }
   };
 
@@ -46,7 +48,7 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
     setPanelsVisible(false);
   }
 
-  const bookRef = useRef(null)
+  const bookRef = useRef(null);
 
   return (
     <div
@@ -58,7 +60,8 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
     >
       <div
         className="h-[85vh] w-[70vw] shadow-md relative bg-yellow-950 rounded-md cursor-default flex flex-col items-center justify-center p-2"
-        ref={bookRef}>
+        ref={bookRef}
+      >
         <div className="w-full h-full bg-yellow-900/50 rounded-sm p-2">
           <div className="bg-gray-500 w-full h-full px-[3px] py-0">
             <div className="bg-gray-400 w-full h-full px-[3px] py-0">
@@ -80,6 +83,7 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
                           setPage={setPage}
                           totalPages={panels.length}
                           cover={false}
+                          key={panelIndex}
                         >
                           <div className="flex flex-col gap-8">
                             <div className="text-2xl font-galindo">
