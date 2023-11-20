@@ -14,7 +14,7 @@ import { mongoose } from "mongoose";
 
 /**
  * @desc    Completion of lesson for rewards and exp
- * @route   POST /api/learn/lesson/complete
+ * @route   POST /api/learn/activity/complete
  * @access  Private - Students
  * @param   {string} req.body.activityId - Id of lesson completed
  * @param   {string} req.body.score - Score achieved on the quiz section of the lesson - should be decimal between 0 and 1
@@ -39,7 +39,7 @@ export default async function (req, res) {
     // Make sure user is a student
     checkUserType(user, 1);
 
-    let { courseId, unitId, activityId, score } = req.body;
+    let { courseId, unitId, lessonId, activityId, score } = req.body;
 
     const activity = await Activity.findById(activityId, {
       createdAt: 0,
@@ -56,6 +56,7 @@ export default async function (req, res) {
     let progressCopy = [...user.progress];
     let courseIndex = -1;
     let unitIndex = -1;
+    let lessonIndex = -1;
     let activityIndex = -1;
     for (let i = 0; i < progressCopy.length; i++) {
       if (progressCopy[i].courseId === courseId) {
@@ -63,37 +64,67 @@ export default async function (req, res) {
         for (let j = 0; j < progressCopy[i].units.length; j++) {
           if (progressCopy[i].units[j].unitId === unitId) {
             unitIndex = j;
-            for (
-              let k = 0;
-              k < progressCopy[i].units[j].activities.length;
-              k++
-            ) {
-              if (
-                progressCopy[i].units[j].activities[k].activityId === activityId
-              ) {
-                activityIndex = k;
-                console.log(
-                  score,
-                  progressCopy[i].units[j].activities[k].completion
-                );
-                if (
-                  score === progressCopy[i].units[j].activities[k].completion
+            for (let k = 0; k < progressCopy[i].units[j].lessons.length; k++) {
+              if (progressCopy[i].units[j].lessons[k].lessonId === lessonId) {
+                lessonIndex = k;
+                for (
+                  let l = 0;
+                  l < progressCopy[i].units[j].lessons[k].activities.length;
+                  l++
                 ) {
-                  score = 0;
+                  if (
+                    progressCopy[i].units[j].lessons[k].activities[l]
+                      .activityId === activityId
+                  ) {
+                    activityIndex = l;
+                    if (
+                      score ===
+                      progressCopy[i].units[j].lessons[k].activities[l]
+                        .completion
+                    ) {
+                      score = 0;
+                    }
+                    if (
+                      score >
+                      progressCopy[i].units[j].lessons[k].activities[l]
+                        .completion
+                    ) {
+                      let increase =
+                        score -
+                        progressCopy[i].units[j].lessons[k].activities[l]
+                          .completion;
+                      progressCopy[i].units[j].lessons[k].completion +=
+                        increase;
+                      progressCopy[i].units[j].completion += increase;
+                      progressCopy[i].completion += increase;
+                      progressCopy[i].units[j].lessons[k].activities[
+                        l
+                      ].completion = score;
+                    }
+                    break;
+                  }
                 }
-                if (score > progressCopy[i].units[j].activities[k].completion) {
-                  progressCopy[i].units[j].completion +=
-                    score - progressCopy[i].units[j].activities[k].completion;
-                  progressCopy[i].completion +=
-                    score - progressCopy[i].units[j].activities[k].completion;
-                  progressCopy[i].units[j].activities[k].completion = score;
+                if (activityIndex === -1) {
+                  progressCopy[i].units[j].lessons[k].activities.push({
+                    activityId: activityId,
+                    completion: score,
+                  });
+                  progressCopy[i].units[j].lessons[k].completion += score;
+                  progressCopy[i].units[j].completion += score;
+                  progressCopy[i].completion += score;
                 }
                 break;
               }
             }
-            if (activityIndex === -1) {
-              progressCopy[i].units[j].activities.push({
-                activityId: activityId,
+            if (lessonIndex === -1) {
+              progressCopy[i].units[j].lessons.push({
+                lessonId: lessonId,
+                activities: [
+                  {
+                    activityId: activityId,
+                    completion: score,
+                  },
+                ],
                 completion: score,
               });
               progressCopy[i].units[j].completion += score;
@@ -105,9 +136,15 @@ export default async function (req, res) {
         if (unitIndex === -1) {
           progressCopy[i].units.push({
             unitId: unitId,
-            activities: [
+            lessons: [
               {
-                activityId: activityId,
+                lessonId: lessonId,
+                activities: [
+                  {
+                    activityId: activityId,
+                    completion: score,
+                  },
+                ],
                 completion: score,
               },
             ],
@@ -124,9 +161,15 @@ export default async function (req, res) {
         units: [
           {
             unitId: unitId,
-            activities: [
+            lessons: [
               {
-                activityId: activityId,
+                lessonId: lessonId,
+                activities: [
+                  {
+                    activityId: activityId,
+                    completion: score,
+                  },
+                ],
                 completion: score,
               },
             ],
@@ -136,7 +179,6 @@ export default async function (req, res) {
         completion: score,
       });
     }
-
     await User.findByIdAndUpdate(user._id, {
       progress: progressCopy,
       flowers: user.flowers + score,

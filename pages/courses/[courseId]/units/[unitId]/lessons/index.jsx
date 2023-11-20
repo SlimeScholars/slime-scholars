@@ -75,14 +75,20 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      axios.post("/api/learn/units/add", {
-        courseId: router.query.courseId,
-        unitId: router.query.unitId,
-      }, postConfig).catch((error) => {
-        if (error?.response?.data?.message) {
-          showToastError(error.response.data.message);
-        }
-      });
+      axios
+        .post(
+          "/api/learn/units/add",
+          {
+            courseId: router.query.courseId,
+            unitId: router.query.unitId,
+          },
+          postConfig
+        )
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message);
+          }
+        });
     } catch (error) {
       showToastError(error.message);
       setTimeout(() => {
@@ -97,32 +103,6 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       return;
     }
     setCounts(lessonCounter(lessons));
-
-    // //testing
-    // const token = localStorage.getItem("jwt");
-    // if (!token) {
-    //   console.log("no token");
-    //   return;
-    // }
-    // axios
-    //   .post(
-    //     "/api/learn/lesson/complete",
-    //     {
-    //       lessonId: "6515eeb512d0ed72302bf830",
-    //       unitId: router.query.unitId,
-    //       courseId: router.query.courseId,
-    //       score: 0.5,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
   }, [lessons]);
 
   if (loading) {

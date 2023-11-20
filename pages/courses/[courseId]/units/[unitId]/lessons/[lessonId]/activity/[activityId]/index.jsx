@@ -221,6 +221,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
           {
             courseId: router.query.courseId,
             unitId: router.query.unitId,
+            lessonId: router.query.lessonId,
             activityId: activityId,
             score: 1, //change this for partial completions
           },
@@ -284,8 +285,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                   (loadState > -1
                     ? (170 * (LOADIN_MAXFRAMES - loadState)) / LOADIN_MAXFRAMES
                     : fullLoad()
-                      ? 170
-                      : 0) +
+                    ? 170
+                    : 0) +
                   100 * (activity ? 1 : 0) +
                   20 * (courseName ? 1 : 0) +
                   20 * (unitName ? 1 : 0) +
@@ -366,10 +367,11 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                     key={key}
                   >
                     <span
-                      className={`text-left text-md ${item._id === activityId
-                        ? "font-extrabold 2xl:font-black"
-                        : ""
-                        }`}
+                      className={`text-left text-md ${
+                        item._id === activityId
+                          ? "font-extrabold 2xl:font-black"
+                          : ""
+                      }`}
                     >
                       {item.activityName}
                     </span>
@@ -522,17 +524,19 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                     for (let i in lessonActivities) {
                                       if (
                                         lessonActivities[i]._id ===
-                                        activity._id &&
+                                          activity._id &&
                                         i < lessonActivities.length - 1
                                       ) {
                                         return (
                                           <span
                                             onClick={() => {
-                                              router.push(`/courses/${router.query.courseId
-                                                }/units/
-																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${lessonActivities[Number(i) + 1]
+                                              router.push(`/courses/${
+                                                router.query.courseId
+                                              }/units/
+																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${
+                                                lessonActivities[Number(i) + 1]
                                                   ._id
-                                                }`);
+                                              }`);
                                             }}
                                             className="hover:text-blue-400 transition-all duration-200"
                                           >
@@ -594,10 +598,11 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                         className="font-semibold text-sm"
                         style={{ color: colorPalette.white }}
                       >
-                        {`${activity.pages && activity.pages.length > 0
-                          ? ((100 * page) / activity.pages.length).toFixed(0)
-                          : 100
-                          }`}
+                        {`${
+                          activity.pages && activity.pages.length > 0
+                            ? ((100 * page) / activity.pages.length).toFixed(0)
+                            : 100
+                        }`}
                         %
                       </span>
                     </section>
