@@ -7,6 +7,7 @@ import Page from "./book/page";
 import FrontCover from "./book/sections/frontCover";
 import BackCover from "./book/sections/backCover";
 import { panels } from "../../data/editTutorial";
+import useClosePanels from "../../hooks/useClosePanels";
 
 export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
   const [page, setPage] = useState(0);
@@ -33,16 +34,10 @@ export function TutorialPanels({ user, panelsVisible, setPanelsVisible }) {
     };
   });
 
-  function handleClosePanels() {
-    const token = localStorage.getItem("jwt");
+  const {closePanels} = useClosePanels()
 
-    // Set the authorization header
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    axios.post("/api/user/end-tutorial", {}, config);
+  function handleClosePanels() {
+    closePanels()
     setPanelsVisible(false);
   }
 

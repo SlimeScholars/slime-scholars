@@ -6,6 +6,7 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
 import { showToastError } from "../../../../../utils/toast"
 import { ThinSegmented } from "../../segmented"
 import axios from "axios"
+import cookies from "../../../../../services/cookies/cookies"
 
 export default function ImageElement({ element, index, theme, handleChanges, handleDelete, handleSwap, max }) {
     const [data, setData] = useState(element)
@@ -40,7 +41,7 @@ export default function ImageElement({ element, index, theme, handleChanges, han
             const file = e.target.files[0]
             console.log(file)
 
-            const token = localStorage.getItem('jwt')
+            const token = cookies.get("slime-scholars-webapp-token")
 
             // Set the authorization header
             const config = {

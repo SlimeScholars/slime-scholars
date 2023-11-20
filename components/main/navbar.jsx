@@ -3,11 +3,14 @@ import { gameData } from "../../data/gameData";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "./profilePicture";
+import useLogout from "../../hooks/useLogout";
 
 export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
   const dropdown = useRef(null);
   const [open, setOpen] = useState(false);
+
+  const {logout} = useLogout()
 
   // const btn_tw =
   //   "px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo";
@@ -34,9 +37,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
       label: "Logout",
       onClick: () => {
         router.push('/login')
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("jwt");
-        }
+        logout()
         setUser(null);
       },
     },

@@ -7,6 +7,7 @@ import { BiSolidLeftArrow, BiSolidRightArrow} from "react-icons/bi"
 import { AiOutlineRedo } from "react-icons/ai"
 import Section from "../../../../../../../../../components/activity/section"
 import Image from "next/image"
+import cookies from "../../../../../../../../../services/cookies/cookies"
 
 const LOADIN_MAXFRAMES = 9
 const LOADIN_DELAY = 150
@@ -48,11 +49,12 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
     }, [assessment])
 
     useEffect(() => {
+		refetch()
 		setPage(0)
         if(assessmentId){
 			setLoadState(LOADIN_MAXFRAMES)
 			setTimeout(() => {
-				fetch()
+				
 			}, 500)
 		}
     }, [assessmentId])
@@ -65,13 +67,13 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 		}
 	}, [loadState])
 
-    const fetch = async() => {
+    const refetch = async() => {
         try{
             const response = await assessmentService.get(assessmentId)
             setAssessment(response.data.lesson)
             //console.log(response.data.lesson)
 
-			const token = localStorage.getItem('jwt')
+			const token = cookies.get("slime-scholars-webapp-token")
 			if (!token) {
 				return
 			}

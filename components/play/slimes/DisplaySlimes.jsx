@@ -8,13 +8,13 @@ import Image from "next/image";
 import { FaArrowUp } from "react-icons/fa";
 import { playSound } from "../../../utils/playSound";
 import VerifyUpgradePopup from './VerifyUpgradePopup'
+import cookies from "../../../services/cookies/cookies";
 
 export default function DisplaySlimes({
   user,
   setLoading,
   setUser,
   colorPalette,
-  refetchUser,
   bg,
 }) {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function DisplaySlimes({
   const handleSlimeUpgrade = (id) => {
 
         try {
-        const token = localStorage.getItem("jwt");
+        const token = cookies.get("slime-scholars-webapp-token")
 
         // Set the authorization header
         const config = {
@@ -97,12 +97,12 @@ export default function DisplaySlimes({
         axios
             .post("/api/slime/level-up", { slimeId: id }, config)
             .then((response) => {
-            // refetchUser()
+            // 
             // setShowLevelUpPopup(true);
             // setRes(response.data);
             })
             .catch((error) => {
-            refetchUser();
+            ;
             showToastError(error?.response?.data?.message);
             });
         } catch (error) {

@@ -4,6 +4,7 @@ import { showToastError } from "../../../../../../utils/toast";
 import axios from "axios";
 import Lesson from "../../../../../../components/learn/lesson";
 import Image from "next/image";
+import cookies from "../../../../../../services/cookies/cookies";
 
 export default function Lessons({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
@@ -34,7 +35,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       setCourseId(router.query.courseId);
       setUnitId(router.query.unitId);
 
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
       if (!token) {
         return;
       }
@@ -97,32 +98,6 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
       return;
     }
     setCounts(lessonCounter(lessons));
-
-    // //testing
-    // const token = localStorage.getItem("jwt");
-    // if (!token) {
-    //   console.log("no token");
-    //   return;
-    // }
-    // axios
-    //   .post(
-    //     "/api/learn/lesson/complete",
-    //     {
-    //       lessonId: "6515eeb512d0ed72302bf830",
-    //       unitId: router.query.unitId,
-    //       courseId: router.query.courseId,
-    //       score: 0.5,
-    //     },
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //         "Content-Type": "application/json",
-    //       },
-    //     }
-    //   )
-    //   .then((response) => {
-    //     console.log(response);
-    //   });
   }, [lessons]);
 
   if (loading) {

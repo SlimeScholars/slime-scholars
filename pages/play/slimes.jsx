@@ -6,14 +6,14 @@ import axios from "axios";
 import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 import Image from "next/image";
+import cookies from "../../services/cookies/cookies";
 
 export default function Slimes({
   loading,
   user,
   setLoading,
   setUser,
-  colorPalette,
-  refetchUser
+  colorPalette
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -35,7 +35,7 @@ export default function Slimes({
 
   const handleClick = () => {
     try {
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -47,7 +47,7 @@ export default function Slimes({
       axios
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
-          refetchUser()
+          
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
@@ -198,7 +198,7 @@ export default function Slimes({
               setSlime={setSlime}
               setUser={setUser}
               bg={colorPalette}
-              refetchUser={refetchUser}
+              
             />
           </div>
         </div>

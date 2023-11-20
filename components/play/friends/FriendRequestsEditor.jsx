@@ -9,8 +9,7 @@ export default function FriendRequestsEditor({
   receivedFriendRequests,
   setReceivedFriendRequests,
   setSentFriendRequests,
-  colorPalette,
-  refetchUser
+  colorPalette
 }) {
   const [currentType, setCurrentType] = useState("received");
 
@@ -45,7 +44,7 @@ export default function FriendRequestsEditor({
           receivedFriendRequests={receivedFriendRequests}
           setReceivedFriendRequests={setReceivedFriendRequests}
           setSentFriendRequests={setSentFriendRequests}
-          refetchUser={refetchUser}
+          
         />
       </div>
     </div>

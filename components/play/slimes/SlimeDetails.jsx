@@ -8,6 +8,7 @@ import Image from "next/image";
 import { FaStar, FaRegStar } from "react-icons/fa";
 import { FaAnglesRight } from "react-icons/fa6";
 import { playSound } from "../../../utils/playSound";
+import cookies from "../../../services/cookies/cookies";
 
 export default function SlimeDetails({
   user,
@@ -17,7 +18,6 @@ export default function SlimeDetails({
   setSlime,
   setUser,
   bg,
-  refetchUser,
 }) {
   const [showLevelUpPopup, setShowLevelUpPopup] = useState(false);
   const [res, setRes] = useState([]);
@@ -26,7 +26,7 @@ export default function SlimeDetails({
   //   handle click should automatically level up the slime and update the user
   const handleClick = (id) => {
     try {
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -70,7 +70,6 @@ export default function SlimeDetails({
       axios
         .post("/api/slime/level-up", { slimeId: id }, config)
         .then((response) => {
-          refetchUser(false)
           setSlime(response.data.slime);
           setShowLevelUpPopup(true);
           setRes(response.data);
@@ -345,7 +344,7 @@ export default function SlimeDetails({
             slime={slime}
             setUser={setUser}
             bg={bg}
-            refetchUser={refetchUser}
+            
           />
         </div>
 
@@ -452,6 +451,7 @@ export default function SlimeDetails({
                   playSound("boop");
                 }}
                 onClick={(e) => {
+                  const token = cookies.get("slime-scholars-webapp-token")
                   axios
                     .put(
                       "/api/user/change-pfp",
@@ -461,9 +461,7 @@ export default function SlimeDetails({
                       },
                       {
                         headers: {
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "jwt"
-                          )}`,
+                          Authorization: `Bearer ${token}`,
                         },
                       }
                     )

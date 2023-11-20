@@ -5,8 +5,9 @@ import ManageFriends from "../../components/play/friends/ManageFriends";
 import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEditor";
 import axios from "axios";
 import Image from "next/image";
+import cookies from "../../services/cookies/cookies";
 
-export default function Friends({ loading, setLoading, user, setUser, colorPalette, refetchUser }) {
+export default function Friends({ loading, setLoading, user, setUser, colorPalette }) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -51,7 +52,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
 
     // Get allplayers for playerListings in leaderboard
     // Fetching top 20 players in order of exp
-    const token = localStorage.getItem("jwt");
+    const token = cookies.get("slime-scholars-webapp-token")
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -167,7 +168,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setReceivedFriendRequests={setReceivedFriendRequests}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              refetchUser={refetchUser}
+              
             />
           )}
         </div>
@@ -189,7 +190,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              refetchUser={refetchUser}
+              
               toDoChanged={toDoChanged}
               setToDoChanged={setToDoChanged}
             />

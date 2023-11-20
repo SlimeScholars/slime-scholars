@@ -3,6 +3,7 @@ import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import cookies from "../../../services/cookies/cookies";
 
 export default function RequestListings({
   currentType,
@@ -10,10 +11,10 @@ export default function RequestListings({
   sentFriendRequests,
   receivedFriendRequests,
   setReceivedFriendRequests,
-  setSentFriendRequests,
-  refetchUser
+  setSentFriendRequests
 }) {
   function handleAcceptRequest(friendId) {
+    const token = cookies.get("slime-scholars-webapp-token")
     axios
       .post(
         "/api/user/friend/accept",
@@ -22,12 +23,12 @@ export default function RequestListings({
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
-        refetchUser()
+        
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
       })
@@ -35,7 +36,7 @@ export default function RequestListings({
   }
 
   function handleDeleteRequest(friendId) {
-    const token = localStorage.getItem("jwt");
+    const token = cookies.get("slime-scholars-webapp-token")
 
     // Set the authorization header
     const config = {
@@ -53,7 +54,7 @@ export default function RequestListings({
         config
       )
       .then((response) => {
-        refetchUser()
+        
         if (currentType === "received") {
           const updatedRequestListing = response.data.receivedFriendRequests;
           setReceivedFriendRequests(updatedRequestListing);

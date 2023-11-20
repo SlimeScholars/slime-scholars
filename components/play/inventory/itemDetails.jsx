@@ -6,6 +6,7 @@ import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
 import { set } from "mongoose";
+import cookies from "../../../services/cookies/cookies";
 
 export default function ItemDetails({
   item,
@@ -20,7 +21,6 @@ export default function ItemDetails({
   colorPalette,
   setColorPalette,
   shopping,
-  refetchUser,
 }) {
   const [owned, setOwned] = useState(null);
   const [sellItemsNum, setSellItemsNum] = useState(
@@ -43,7 +43,7 @@ export default function ItemDetails({
 
   const handleBuyItem = () => {
     try {
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -88,7 +88,7 @@ export default function ItemDetails({
             showToastError(error.response.data.message);
           else if (error?.message) showToastError(error.message);
           else showToastError(error);
-          refetchUser();
+          ;
           return;
         });
     } catch (error) {
@@ -96,7 +96,7 @@ export default function ItemDetails({
         showToastError(error.response.data.message);
       else if (error?.message) showToastError(error.message);
       else showToastError(error);
-      refetchUser();
+      ;
       return;
     }
   };
@@ -398,11 +398,10 @@ export default function ItemDetails({
                         : "",
                     }}
                     onClick={(e) => {
+                      const token = cookies.get("slime-scholars-webapp-token")
                       const config = {
                         headers: {
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "jwt"
-                          )}`,
+                          Authorization: `Bearer ${token}`,
                         },
                       };
                       axios
@@ -415,7 +414,7 @@ export default function ItemDetails({
                           config
                         )
                         .then((response) => {
-                          refetchUser();
+                          ;
 
                           // Prompt message to gui
                           showToastError(
@@ -431,7 +430,7 @@ export default function ItemDetails({
                           else if (error?.message)
                             showToastError(error.message);
                           else showToastError(error);
-                          refetchUser();
+                          ;
                           return;
                         });
                     }}
@@ -635,6 +634,7 @@ export default function ItemDetails({
                   color: colorPalette ? colorPalette.text1 : "",
                 }}
                 onClick={(e) => {
+                  const token = cookies.get("slime-scholars-webapp-token")
                   axios
                     .put(
                       "/api/user/change-pfp",
@@ -644,14 +644,12 @@ export default function ItemDetails({
                       },
                       {
                         headers: {
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "jwt"
-                          )}`,
+                          Authorization: `Bearer ${token}`,
                         },
                       }
                     )
                     .then((response) => {
-                      refetchUser();
+                      ;
                       setPfpBg(response.data.pfpBg);
                       showToastError("Profile background was changed.", true);
                     })
@@ -660,7 +658,7 @@ export default function ItemDetails({
                         showToastError(error.response.data.message);
                       else if (error?.message) showToastError(error.message);
                       else showToastError(error);
-                      refetchUser();
+                      ;
                       return;
                     });
                 }}
@@ -690,6 +688,7 @@ export default function ItemDetails({
                   color: colorPalette ? colorPalette.text1 : "",
                 }}
                 onClick={(e) => {
+                  const token = cookies.get("slime-scholars-webapp-token")
                   axios
                     .put(
                       "/api/user/change-bg",
@@ -698,14 +697,12 @@ export default function ItemDetails({
                       },
                       {
                         headers: {
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "jwt"
-                          )}`,
+                          Authorization: `Bearer ${token}`,
                         },
                       }
                     )
                     .then((response) => {
-                      refetchUser();
+                      ;
                       setColorPalette(gameData.items[item.itemName]);
                     })
                     .catch((error) => {
@@ -713,7 +710,7 @@ export default function ItemDetails({
                         showToastError(error.response.data.message);
                       else if (error?.message) showToastError(error.message);
                       else showToastError(error);
-                      refetchUser();
+                      ;
                       return;
                     });
                 }}
@@ -875,9 +872,10 @@ export default function ItemDetails({
                       : "",
                   }}
                   onClick={(e) => {
+                    const token = cookies.get("slime-scholars-webapp-token")
                     const config = {
                       headers: {
-                        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                        Authorization: `Bearer ${token}`,
                       },
                     };
                     axios
@@ -932,7 +930,7 @@ export default function ItemDetails({
                           showToastError(error.response.data.message);
                         else if (error?.message) showToastError(error.message);
                         else showToastError(error);
-                        refetchUser();
+                        ;
                         return;
                       });
                   }}

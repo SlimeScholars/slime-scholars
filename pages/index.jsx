@@ -1,11 +1,9 @@
 import Head from "next/head";
 import { MainTitle } from "../components/svg/titles";
 import { useRouter } from "next/router";
-import { gameData } from "../data/gameData";
 import { useState, useRef, useEffect } from "react";
-import { Image } from "antd";
-import { AiOutlineSearch } from "react-icons/ai";
 import ProfilePicture from "../components/main/profilePicture";
+import useLogout from "../hooks/useLogout";
 
 export default function Home({ user, setUser  }) {
   const router = useRouter();
@@ -14,6 +12,8 @@ export default function Home({ user, setUser  }) {
   const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"]
   const [open, setOpen] = useState(false);
   const dropdown = useRef(null);
+
+  const {logout} = useLogout()
 
   const options = [
     {
@@ -37,9 +37,7 @@ export default function Home({ user, setUser  }) {
     {
       label: "Logout",
       onClick: () => {
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("jwt");
-        }
+        logout()
         setUser(null);
         router.push('/login')
       },

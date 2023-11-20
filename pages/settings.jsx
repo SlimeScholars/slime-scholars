@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import Back from "../components/signup/back";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../components/signup/modal";
-import Image from "next/image";
-import { gameData } from "../data/gameData";
+import cookies from "../services/cookies/cookies";
 
 import {
   verifyEmail,
@@ -17,6 +16,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
+import useLogout from "../hooks/useLogout";
 
 export default function Settings({ loading, user, setUser }) {
   const router = useRouter();
@@ -54,7 +54,7 @@ export default function Settings({ loading, user, setUser }) {
       verifyName(lastName);
       verifyUsername(username);
       verifyEmail(email);
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -116,13 +116,13 @@ export default function Settings({ loading, user, setUser }) {
     }
   };
 
+  const {logout} = useLogout()
+
   const onLogOut = () => {
-    if (typeof window !== "undefined") {
-      localStorage.removeItem("jwt");
-    }
-    router.push("/");
+    logout()
     setUser(null);
-  };
+    router.push('/login')
+  }
 
   if (!user) {
     return <></>;

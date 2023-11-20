@@ -17,6 +17,7 @@
     "dotenv": "^16.3.1",
     "formidable": "^3.5.0",
     "formidable-serverless": "^1.1.1",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.1",
     "mongoose": "^7.3.3",
     "next": "13.4.9",

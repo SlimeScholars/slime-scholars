@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import Lesson from "./lesson";
 import axios from "axios";
+import cookies from "../../../services/cookies/cookies";
 
 import { BiSolidDownArrow } from "react-icons/bi";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io"
@@ -20,7 +21,7 @@ export default function Unit({ unit, setUnit, setLoading, deleteUnit, setSidePan
 
       setUnit({ ...unit, lessons: newLessons })
 
-      const token = localStorage.getItem('jwt')
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {

@@ -7,6 +7,7 @@ import { BiSolidLeftArrow, BiSolidRightArrow } from "react-icons/bi";
 import { AiOutlineRedo } from "react-icons/ai";
 import Section from "../../../../../../../../../components/activity/section";
 import Image from "next/image";
+import cookies from "../../../../../../../../../services/cookies/cookies";
 
 const LOADIN_MAXFRAMES = 9;
 const LOADIN_DELAY = 150;
@@ -73,13 +74,14 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
   }, [page]);
 
   useEffect(() => {
+    refetch()
     setPage(0);
     setOpen(0);
     setMaxPage(0);
     if (activityId) {
       setLoadState(LOADIN_MAXFRAMES);
       setTimeout(() => {
-        fetch();
+        ;
       }, 500);
     }
   }, [activityId]);
@@ -92,13 +94,13 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
     }
   }, [loadState]);
 
-  const fetch = async () => {
+  const refetch = async () => {
     try {
       const response = await activityService.get(activityId);
       setActivity(response.data.activity[0]);
       //console.log(response.data.activity[0])
 
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
       if (!token) {
         return;
       }
@@ -211,7 +213,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
 
   useEffect(() => {
     if (activity && page === activity.pages.length) {
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
       if (!token) {
         return;
       }
