@@ -39,6 +39,8 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
     const [lessonName, setLessonName] = useState(null)
 
 	const [page, setPage] = useState(0)
+
+	const isClient = typeof window === "object";
  
     useEffect(() => {
         if(assessment){
@@ -174,7 +176,8 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 		style={{
 			backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
 			display:"grid",
-			gridTemplateColumns: window.innerWidth > 1536 ? "300px auto" : "240px auto"
+			gridTemplateColumns: 
+			 (isClient && window.innerWidth > 1536) ? "300px auto" : "240px auto"
 		}}>
 			<div className="absolute w-full h-full"
 			style={{
