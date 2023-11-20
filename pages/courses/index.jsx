@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { showToastError } from "../../utils/toast";
 import axios from "axios";
 import Course from "../../components/learn/course";
+import cookies from "../../services/cookies/cookies";
 
 export default function Courses({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
   useEffect(() => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
       if (!token) {
         return;
       }

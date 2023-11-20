@@ -11,6 +11,7 @@ import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
+import useCurrentUser from "../hooks/useCurrentUser";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
@@ -38,12 +39,7 @@ axios.interceptors.response.use(
 );
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(true);
-  const [axiosLoading, setAxiosLoading] = useState(false); // Used for axios loading
-  const [user, setUser] = useState(null);
-  const [initUser, setInitUser] = useState(null);
-  const [numEggs, setNumEggs] = useState(0);
-  const [flowers, setFlowers] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
   const [colorPalette, setColorPalette] = useState({});
   const [pfpBg, setPfpBg] = useState(null);
@@ -63,6 +59,8 @@ function MyApp({ Component, pageProps }) {
   const [panelsVisible, setPanelsVisible] = useState(false)
 
   const [audio, setAudio] = useState(null);
+
+  const {user, setUser} = useCurrentUser()
 
   const [windowSize, setWindowSize] = useState(
     isClient
@@ -152,69 +150,18 @@ function MyApp({ Component, pageProps }) {
     }
   }, [audio]);
 
-  const refetchUser = async (load=true) => {
-    setLoading(load);
-    try {
-      const token = localStorage.getItem("jwt");
-      if (!token) {
-        setUser(null);
-        setLoading(false)
-        return;
-      }
-
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          common: {
-            apikey: process.env.NEXT_PUBLIC_API_KEY,
-          },
-        },
-      };
-
-      axios
-        .get("/api/user", config)
-        .then((response) => {
-          if (response.data && response.data.user) {
-            setUser(response.data.user);
-            setTimeout(() => {
-              setLoading(false);
-            }, 150)
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-          // If the json web token is invalid, remove it so no more requests will be made with the same token
-          localStorage.removeItem("jwt");
-          setUser(null);
-          setTimeout(() => {
-            setLoading(false);
-          }, 150);
-        });
-    } catch (err) {
-      console.log(err);
-      setTimeout(() => {
-        setLoading(false);
-      }, 150);
-    }
-  };
-
   const modifiedPageProps = {
     ...pageProps,
     user,
     setUser,
     loading,
     setLoading,
-    axiosLoading,
-    setAxiosLoading,
-    setNumEggs,
-    setFlowers,
     items,
     setItems,
     colorPalette,
     setColorPalette,
     pfpBg,
     setPfpBg,
-    refetchUser,
     isMobile,
     panelsVisible,
     setPanelsVisible
@@ -222,7 +169,7 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      refetchUser();
+      ;
     }
   }, []);
 
@@ -310,11 +257,10 @@ function MyApp({ Component, pageProps }) {
               <Home
                 user={user}
                 active={current === 0}
-                setLoading={setTimeout(current === 0 ? setLoading : () => null, 150)}
+                setLoading={setLoading}
                 setUser={current === 0 ? setUser : () => null}
                 colorPalette={colorPalette}
                 setColorPalette={setColorPalette}
-                refetchUser={refetchUser}
               />
             </div>
 

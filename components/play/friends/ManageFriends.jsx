@@ -3,6 +3,7 @@ import SearchFriends from "./searchFriends";
 import FriendsEditor from "./friendsEditor";
 import SearchBar from "../searchBar";
 import axios from "axios";
+import cookies from "../../../services/cookies/cookies";
 
 /**
  * @param   {table} userFriends - friends of current user
@@ -19,7 +20,6 @@ export default function ManageFriends({
   setUser,
   setSentFriendRequests,
   colorPalette,
-  refetchUser,
   toDoChanged,
   setToDoChanged,
 }) {
@@ -76,7 +76,7 @@ export default function ManageFriends({
         return
       }
 
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -218,7 +218,7 @@ export default function ManageFriends({
           user={user}
           setSentFriendRequests={setSentFriendRequests}
           colorPalette={colorPalette}
-          refetchUser={refetchUser}
+          
           searchContent={searchContent}
           findingLoading={findingLoading || findingLoading2}
         />

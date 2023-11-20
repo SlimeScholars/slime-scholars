@@ -4,6 +4,7 @@ import { gameData } from "../../../data/gameData";
 import Image from "next/image";
 import { useEffect } from "react";
 import { playSound } from "../../../utils/playSound";
+import cookies from "../../../services/cookies/cookies";
 
 export default function Roster({
   user,
@@ -12,7 +13,6 @@ export default function Roster({
   slime,
   setUser,
   bg,
-  refetchUser,
   colorPalette,
 }) {
   if (loading) {
@@ -46,7 +46,7 @@ export default function Roster({
       } else {
         roster[index] = id;
       }
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -58,7 +58,7 @@ export default function Roster({
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
           setTimeout(() => {setLoading(false)}, 150);
-          refetchUser();
+          ;
         })
         .catch((error) => {
           showToastError(error.response.data.message);

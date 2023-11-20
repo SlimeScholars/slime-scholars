@@ -7,8 +7,10 @@ import { showToastError } from "../../utils/toast";
 import axios from "axios";
 import Subject from "../../components/admin/above/subject";
 import SidePanel from "../../components/admin/above/sidePanel";
+import useLogout from "../../hooks/useLogout";
+import cookies from "../../services/cookies/cookies";
 
-export default function AdminHomepage({ user, setUser, loading, setLoading }) {
+export default function AdminHomepage({ user, setUser, loading, setLoading}) {
   const router = useRouter()
 
   useEffect(() => {
@@ -35,7 +37,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
     }
   }, [subjects, loading, initialLoad])
 
-  const fetch = () => {
+  const refetch = () => {
     setLoading(true)
 
     const config = {
@@ -66,12 +68,12 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
   }
 
   useEffect(() => {
-    fetch()
+    refetch()
   }, [])
 
   const onAddSubject = () => {
     try {
-      const token = localStorage.getItem('jwt')
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -107,10 +109,10 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
     }
   }
 
+  const {logout} = useLogout()
+
   const onLogOut = () => {
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('jwt');
-    }
+    logout()
     setUser(null);
     router.push('/login')
   }
@@ -122,7 +124,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
           <button
             className="w-full h-12 bg-teal-100 font-black hover:bg-teal-50 border-2 border-teal-300 
             hover:border-teal-200 text-teal-800 mb-4 transition-all duration-150 rounded-lg"
-            onClick={fetch}
+            onClick={refetch}
           >
             Refresh
           </button>
@@ -163,7 +165,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
           onClick={async () => {
             setLoading(true)
             await subjectService.post()
-            fetch()
+            
           }}
         >
           + New Subject
@@ -175,7 +177,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
         {...sidePanelProperties}
         setSidePanelProperties={setSidePanelProperties}
         setLoading={setLoading}
-        refreshPanel={fetch} />
+        refreshPanel={refetch} />
     </div>
   );
 }

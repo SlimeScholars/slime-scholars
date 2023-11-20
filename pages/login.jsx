@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-
 import { showToastError } from "../utils/toast";
-
-import axios from "axios";
 import { useRouter } from "next/router";
-
-import { encrypt } from "../utils/rsa";
+import useLogin from "../hooks/useLogin";
 
 export default function Login({ loading, user, setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
@@ -22,7 +18,9 @@ export default function Login({ loading, user, setUser }) {
     }
   }, [loading, user]);
 
-  const onSubmit = (e) => {
+  const {login} = useLogin()
+
+  const onSubmit = async(e) => {
     e.preventDefault();
     if (!accountIdentifier) {
       showToastError("Username/email cannot be left blank");
@@ -32,38 +30,11 @@ export default function Login({ loading, user, setUser }) {
       showToastError("Password cannot be left blank");
       return;
     }
-    const encryptedPassword = encrypt(
-      password,
-      process.env.NEXT_PUBLIC_ENCRYPTION_KEY_2,
-      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
-    );
-    axios
-      .post(
-        "/api/user/login",
-        { accountIdentifier, encryptedPassword },
-        {
-          headers: {
-            post: {
-              apikey: process.env.NEXT_PUBLIC_API_KEY,
-            },
-          },
-        }
-      )
-      .then((response) => {
-        if (response.data) {
-          localStorage.setItem("jwt", response.data.token);
-          setUser(response.data.user);
-        }
-      })
-      .catch((error) => {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          showToastError(error.response.data.message);
-        }
-      });
+    const response = await login(accountIdentifier, password)
+    if(response){
+      setUser(response.data.user)
+      router.push('/')
+    }
   };
 
   return (

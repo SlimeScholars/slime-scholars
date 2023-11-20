@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Roster from "./Roster";
 import axios from "axios";
 import { showToastError } from "../../../utils/toast";
+import cookies from "../../../services/cookies/cookies";
 
 export default function AddToRoster({
   user,
@@ -10,7 +11,6 @@ export default function AddToRoster({
   slime,
   setUser,
   bg,
-  refetchUser,
 }) {
   const [inRoster, setInRoster] = useState(false);
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function AddToRoster({
         }
       }
 
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -52,7 +52,7 @@ export default function AddToRoster({
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
           setTimeout(() => {setLoading(false)}, 150);
-          refetchUser()
+          
         })
         .catch((error) => {
           showToastError(error.response.data.message);
@@ -100,7 +100,7 @@ export default function AddToRoster({
           slime={slime}
           setUser={setUser}
           bg={bg}
-          refetchUser={refetchUser}
+          
         />
       </div>
     </div>

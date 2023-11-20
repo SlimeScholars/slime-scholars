@@ -3,6 +3,7 @@ import Course from "./course";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import { BiSolidDownArrow } from "react-icons/bi"
+import cookies from "../../../services/cookies/cookies";
 
 export default function Subject({ subject, setSubject, setLoading, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,7 @@ export default function Subject({ subject, setSubject, setLoading, setSidePanelP
 
       setSubject({ ...subject, courses: newCourses })
 
-      const token = localStorage.getItem('jwt')
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {

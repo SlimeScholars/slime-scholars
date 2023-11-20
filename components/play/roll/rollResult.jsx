@@ -12,7 +12,6 @@ export default function RollResult({
   slimes,
   originalSlimes,
   router,
-  refetchUser,
 }) {
   const [updatedSlime, setUpdatedSlime] = useState(null);
   const [originalSlime, setOriginalSlime] = useState(null);

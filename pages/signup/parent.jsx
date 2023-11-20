@@ -4,6 +4,7 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
 import { encrypt } from "../../utils/rsa";
+import cookies from "../../services/cookies/cookies";
 
 import {
   verifyEmail,
@@ -87,7 +88,7 @@ export default function Parent({ loading, user, setUser }) {
       }, config)
       .then((response) => {
         if (response.data) {
-          localStorage.setItem("jwt", response.data.token);
+          cookies.set("slime-scholars-webapp-token", response.data.token);
           setUser(response.data.user);
         }
       })

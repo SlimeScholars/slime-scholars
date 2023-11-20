@@ -16,7 +16,6 @@ export default function Inventory({
   setColorPalette,
   pfpBg,
   setPfpBg,
-  refetchUser,
 }) {
   const router = useRouter();
   const [itemOnClick, setItemOnClick] = useState("empty for now");
@@ -121,7 +120,7 @@ export default function Inventory({
             itemOnClick={itemOnClick}
             setItemOnClick={setItemOnClick}
             colorPalette={colorPalette}
-            refetchUser={refetchUser}
+            
             searchContent={searchContent}
             scrollToTop={scrollToTop}
           />
@@ -141,7 +140,7 @@ export default function Inventory({
             setFlowers={setFlowers}
             colorPalette={colorPalette}
             setColorPalette={setColorPalette}
-            refetchUser={refetchUser}
+            
           />
         </div>
       </div>

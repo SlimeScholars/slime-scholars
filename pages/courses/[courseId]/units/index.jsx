@@ -4,12 +4,12 @@ import { showToastError } from "../../../../utils/toast";
 import axios from "axios";
 import Unit from "../../../../components/learn/unit";
 import Image from "next/image";
+import cookies from "../../../../services/cookies/cookies";
 
 export default function Units({
   user,
   loading,
   setLoading,
-  setAxiosLoading,
   colorPalette,
 }) {
   const router = useRouter();
@@ -36,7 +36,7 @@ export default function Units({
       }
       setCourseId(router.query.courseId);
 
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
       if (!token) {
         return;
       }
@@ -50,7 +50,6 @@ export default function Units({
           Authorization: `Bearer ${token}`,
         },
       };
-      setAxiosLoading(true);
       axios
         .get("/api/learn/units", config)
         .then((response) => {

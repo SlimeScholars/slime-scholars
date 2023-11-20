@@ -2,6 +2,7 @@ import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
+import cookies from "../../../services/cookies/cookies";
 
 /**
  * @param   {table} userFriends - all friends of current user
@@ -21,12 +22,11 @@ export default function FriendsEditor({
   user,
   setSentFriendRequests,
   colorPalette,
-  refetchUser,
   searchContent,
   findingLoading,
 }) {
   const handleManageFriend = (friendId) => {
-    const token = localStorage.getItem("jwt");
+    const token = cookies.get("slime-scholars-webapp-token")
 
     // Set the authorization header
     const config = {
@@ -45,7 +45,7 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          refetchUser()
+          
           showToastError("Friend removed", true);
         })
         .catch((error) => {

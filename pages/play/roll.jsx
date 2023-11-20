@@ -6,6 +6,7 @@ import { showToastError } from "../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
 import { AiOutlineClose } from "react-icons/ai";
+import cookies from "../../services/cookies/cookies";
 
 export default function Roll({
   loading,
@@ -14,7 +15,6 @@ export default function Roll({
   setLoading,
   colorPalette,
   setColorPalette,
-  refetchUser,
 }) {
   const router = useRouter();
   const [eggsLacked, setEggsLacked] = useState(0); // Used only if user does not have enough to buy eggs
@@ -54,9 +54,11 @@ export default function Roll({
       return;
     }
 
+    const token = cookies.get("slime-scholars-webapp-token")
+
     const config = {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+        Authorization: `Bearer ${token}`,
       },
     };
 
@@ -75,7 +77,7 @@ export default function Roll({
         if (user) {
           setOriginalSlimes(user.slimes);
         }
-        refetchUser();
+        ;
         showToastError("Purchased successfully.", true);
       })
       .catch((error) => showToastError(error.message));
@@ -90,7 +92,7 @@ export default function Roll({
 
       // only 1 egg works for now
       if (eggsNeed === 1) {
-        //console.log('xd')
+        const token = cookies.get("slime-scholars-webapp-token")
         setLoading(true);
         axios
           .post(
@@ -100,7 +102,7 @@ export default function Roll({
             },
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                Authorization: `Bearer ${token}`,
               },
             }
           )
@@ -111,7 +113,7 @@ export default function Roll({
             newSlimes.push(response.data.slime);
             setSlimes(newSlimes);
             setOriginalSlimes(response.data.originSlimeObjects);
-            refetchUser();
+            ;
             setTimeout(() => {
               setLoading(false);
               setTimeout(() => {
@@ -131,7 +133,7 @@ export default function Roll({
             }, 150);
           });
       } else {
-        // Rolling 10 slimes
+        const token = cookies.get("slime-scholars-webapp-token")
         axios
           .post(
             "/api/slime/open-10eggs",
@@ -140,7 +142,7 @@ export default function Roll({
             },
             {
               headers: {
-                Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+                Authorization: `Bearer ${token}`,
               },
             }
           )
@@ -149,7 +151,7 @@ export default function Roll({
             setOriginalSlimes(response.data.originSlimeObjects);
             setRolling(true);
 
-            refetchUser();
+            ;
             setTimeout(() => {
               setLoading(false);
               setTimeout(() => {
@@ -230,7 +232,7 @@ export default function Roll({
             slimes={slimes}
             originalSlimes={originalSlimes}
             router={router}
-            refetchUser={refetchUser}
+            
           />
         )
       }

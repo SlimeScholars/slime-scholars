@@ -7,7 +7,7 @@ import ItemDetails from "../../components/play/inventory/itemDetails";
 import Image from "next/image";
 
 export default function Shopping({ loading, user, pfpBg, setPfpBg,
-	colorPalette, setColorPalette, setUser, refetchUser }) {
+	colorPalette, setColorPalette, setUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
 	const [itemOnClick, setItemOnClick] = useState(null);
@@ -126,7 +126,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 							colorPalette={colorPalette}
 							setColorPalette={setColorPalette}
 							shopping="true"
-							refetchUser={refetchUser}
+							
 						/>
 					)
 					}

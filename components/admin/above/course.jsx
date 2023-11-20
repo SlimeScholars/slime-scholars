@@ -5,6 +5,7 @@ import { BiSolidDownArrow } from "react-icons/bi";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import { courseService } from "../../../services";
+import cookies from "../../../services/cookies/cookies";
 
 export default function Course({ course, setCourse, setLoading, deleteCourse, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +22,7 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
 
       setCourse({ ...course, units: newUnits })
 
-      const token = localStorage.getItem('jwt')
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
