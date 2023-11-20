@@ -1,15 +1,21 @@
 import { useState, useEffect } from "react";
 import cookies from "../services/cookies/cookies";
 import axios from "axios"
+import { useRouter } from "next/router";
 
 export default function useCurrentUser(){
     const [user, rsetUser] = useState(null)
+    const {router} = useRouter()
+
+    const handleFetchErr = (err) => {
+        router.push("/no-user")
+    }
 
     const refetch = async() => {
         try {
             const token = cookies.get("slime-scholars-webapp-token")
             if (!token) {
-                setUser(null);
+                rsetUser(null);
                 return;
             }
             const config = {
@@ -21,14 +27,14 @@ export default function useCurrentUser(){
             await axios.get("/api/user", config)
             .then((response) => {
                 if (response.data && response.data.user) {
-                    setUser(response.data.user, false);
+                    rsetUser(response.data.user, false);
                 }
             })
             .catch((err) => {
-                console.log(err)
+                handleFetchErr(err)
             });
         } catch (err) {
-            console.log(err);
+            handleFetchErr(err)
         }
     }
 
