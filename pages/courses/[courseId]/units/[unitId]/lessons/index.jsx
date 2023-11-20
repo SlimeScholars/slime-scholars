@@ -27,7 +27,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
   const [counts, setCounts] = useState({ lessons: 0, quizzes: 0, tests: 0 });
 
   useEffect(() => {
-    setLoading(true);
+    //setLoading(true)
     try {
       if (!router.query.courseId || !router.query.unitId) {
         return;

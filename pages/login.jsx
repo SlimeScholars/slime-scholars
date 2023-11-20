@@ -3,20 +3,11 @@ import { showToastError } from "../utils/toast";
 import { useRouter } from "next/router";
 import useLogin from "../hooks/useLogin";
 
-export default function Login({ loading, user, setUser }) {
+export default function Login({ setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
   const router = useRouter();
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (user) {
-      router.push("/");
-    }
-  }, [loading, user]);
 
   const {login} = useLogin()
 

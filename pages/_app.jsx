@@ -150,6 +150,10 @@ function MyApp({ Component, pageProps }) {
     }
   }, [audio]);
 
+  useEffect(() => {
+    console.log(loading)
+  }, [loading])
+
   const modifiedPageProps = {
     ...pageProps,
     user,
@@ -250,9 +254,6 @@ function MyApp({ Component, pageProps }) {
 
         {onPlay && !isMobile ? (
           <>
-            {/* Each component is wrapped in a relative div to allow use to z-index*/}
-            {/* Home page */}
-
             <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
                 user={user}
@@ -264,7 +265,6 @@ function MyApp({ Component, pageProps }) {
               />
             </div>
 
-            {/* Other play pages */}
             <div className={`relative h-0`}>
               <div
                 className={`absolute inset-0 py-10 px-20 h-screen overflow-y-scroll`}
@@ -281,7 +281,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
-        {!isMobile && rewardsModalOpen && (
+        {!isMobile && rewardsModalOpen && ( 
           <SlimeGelPopup
             user={initUser}
             details={rewardsData}

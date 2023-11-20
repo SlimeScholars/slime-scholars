@@ -20,7 +20,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
   }, [user, loading]);
 
   useEffect(() => {
-    setLoading(true);
+    //setLoading(true)
     try {
       const token = cookies.get("slime-scholars-webapp-token")
       if (!token) {
@@ -50,6 +50,9 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         });
     } catch (error) {
       showToastError(error.message);
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
       return;
     }
   }, []);

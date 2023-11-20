@@ -29,7 +29,7 @@ export default function Units({
   }, [user, loading]);
 
   useEffect(() => {
-    setLoading(true);
+    //setLoading(true);
     try {
       if (!router.query.courseId) {
         return;
