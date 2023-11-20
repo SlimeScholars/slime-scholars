@@ -38,10 +38,10 @@ export default async function (req, res) {
     const { courseId } = req.query;
 
     const course = await Course.findById(courseId)
-      .select("courseName units totalPoints")
+      .select("courseName units")
       .populate({
         path: "units",
-        select: "_id unitName unitNumber totalPoints lessons quizzes tests",
+        select: "_id unitName unitNumber lessons quizzes tests",
       });
 
     const userProgress = user.progress.find((c) => {
@@ -50,7 +50,7 @@ export default async function (req, res) {
 
     const modifiedUnits = [];
     for (let i of course.units) {
-      let userUnit = undefined
+      let userUnit = undefined;
       if (userProgress !== undefined) {
         userUnit = userProgress.units.find((u) => {
           return u.unitId === i._id.valueOf();
@@ -59,17 +59,19 @@ export default async function (req, res) {
 
       const fullUnit = await Unit.findById(i._id).populate({
         path: "lessons",
-        select: "lessonType",
+        select: "lessonType activities",
       });
       const count = {
         lessons: 0,
         quizzes: 0,
         tests: 0,
+        activities: 0,
       };
       for (let j of fullUnit.lessons) {
         switch (j.lessonType) {
           case "lesson":
             count.lessons = count.lessons + 1;
+            count.activities = count.activities + j.activities.length;
             break;
           case "quiz":
             count.quizzes = count.quizzes + 1;
@@ -80,6 +82,9 @@ export default async function (req, res) {
           default:
             break;
         }
+      }
+      if (fullUnit.quizzes) {
+        count.quizzes = count.quizzes + fullUnit.quizzes.length;
       }
       modifiedUnits.push({
         _id: i._id,
@@ -105,6 +110,7 @@ const calculateTotalPoints = (count) => {
   let totalPoints =
     rewardData.quiz * count.quizzes +
     rewardData.test * count.tests +
-    rewardData.lesson * count.lessons;
+    rewardData.lesson * count.lessons +
+    rewardData.activity * count.activities;
   return totalPoints || 0;
 };
