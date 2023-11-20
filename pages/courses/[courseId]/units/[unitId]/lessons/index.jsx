@@ -76,14 +76,20 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
           Authorization: `Bearer ${token}`,
         },
       };
-      axios.post("/api/learn/units/add", {
-        courseId: router.query.courseId,
-        unitId: router.query.unitId,
-      }, postConfig).catch((error) => {
-        if (error?.response?.data?.message) {
-          showToastError(error.response.data.message);
-        }
-      });
+      axios
+        .post(
+          "/api/learn/units/add",
+          {
+            courseId: router.query.courseId,
+            unitId: router.query.unitId,
+          },
+          postConfig
+        )
+        .catch((error) => {
+          if (error?.response?.data?.message) {
+            showToastError(error.response.data.message);
+          }
+        });
     } catch (error) {
       showToastError(error.message);
       setTimeout(() => {
