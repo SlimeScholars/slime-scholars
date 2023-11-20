@@ -61,9 +61,9 @@ export default async function (req, res) {
     // Get user progress for this unit
     let userProgress;
     for (let i in user.progress) {
-      if (user.progress[i]._id === courseId) {
+      if (user.progress[i].courseId === courseId) {
         for (let j in user.progress[i].units) {
-          if (user.progress[i].units[j]._id === unitId) {
+          if (user.progress[i].units[j].unitId === unitId) {
             userProgress = user.progress[i].units[j];
             break;
           }
@@ -76,15 +76,15 @@ export default async function (req, res) {
     for (let i in unit.lessons) {
       const lessonProgress = userProgress
         ? userProgress.lessons.find((lesson) => {
-          return lesson._id === unit.lessons[i]._id.valueOf();
-        })
+            return lesson.lessonId === unit.lessons[i]._id.valueOf();
+          })
         : undefined;
       modifiedLessons.push({
         ...unit.lessons[i]._doc,
         activities: unit.lessons[i].activities
           ? await Promise.all(unit.lessons[i].activities.map(retrieve_activity))
           : [],
-        achievedPoints: lessonProgress ? lessonProgress.achieved : 0,
+        achievedPoints: calculateAchievedPoints(lessonProgress),
         totalPoints: calculateTotalPoints(unit.lessons[i]),
       });
     }
@@ -111,4 +111,16 @@ const calculateTotalPoints = (lesson) => {
     default:
       return 0;
   }
+};
+
+const calculateAchievedPoints = (lessonProgress) => {
+  if (lessonProgress === undefined) {
+    return 0;
+  }
+
+  let achievedPoints = 0;
+  for (let i in lessonProgress.activities) {
+    achievedPoints += lessonProgress.activities[i].completion;
+  }
+  return achievedPoints;
 };
