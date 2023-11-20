@@ -125,9 +125,22 @@ const userSchema = new Schema(
                   type: String,
                   required: [true, "Missing id"],
                 },
+                activities: [
+                  {
+                    _id: false,
+                    activityId: {
+                      type: String,
+                      required: [true, "Missing id"],
+                    },
+                    completion: {
+                      type: Number,
+                      required: [true, "Missing completion"],
+                    },
+                  },
+                ],
                 completion: {
                   type: Number,
-                  required: [true, "Missing completion"],
+                  required: [true, "Missing achieved"],
                 },
               },
             ],
@@ -148,19 +161,6 @@ const userSchema = new Schema(
               {
                 _id: false,
                 testId: {
-                  type: String,
-                  required: [true, "Missing id"],
-                },
-                completion: {
-                  type: Number,
-                  required: [true, "Missing completion"],
-                },
-              },
-            ],
-            activities: [
-              {
-                _id: false,
-                activityId: {
                   type: String,
                   required: [true, "Missing id"],
                 },
