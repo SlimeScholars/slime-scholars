@@ -44,7 +44,6 @@ export default async function (req, res) {
     const course = await Course.create({
       courseNumber,
       latestAuthor,
-      //totalPoints: 100,
     });
 
     subject.courses.push(course._id);

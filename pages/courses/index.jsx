@@ -23,7 +23,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
   useEffect(() => {
     //setLoading(true)
     try {
-      const token = cookies.get("slime-scholars-webapp-token")
+      const token = cookies.get("slime-scholars-webapp-token");
       if (!token) {
         return;
       }
@@ -108,12 +108,10 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         <div className="flex flex-row flex-wrap">
           {courses.map((course) => (
             //TRIPLE THE COURSES FOR VIEW
-
             <Course
               key={course._id}
               courseId={course._id}
               courseName={course.courseName}
-              courseBadge={course.courseBadge}
               colorPalette={colorPalette}
               course={course}
             />
