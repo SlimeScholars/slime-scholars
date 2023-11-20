@@ -6,8 +6,8 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import Image from "next/image";
 
-export default function Shopping({ loading, user, pfpBg, setPfpBg,
-	colorPalette, setColorPalette, setUser }) {
+export default function Shopping({ loading, user,
+	colorPalette, setUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
 	const [itemOnClick, setItemOnClick] = useState(null);
@@ -120,11 +120,8 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 						<ItemDetails
 							item={itemOnClick}
 							user={user}
-							pfpBg={pfpBg}
-							setPfpBg={setPfpBg}
 							setUser={setUser}
 							colorPalette={colorPalette}
-							setColorPalette={setColorPalette}
 							shopping="true"
 							
 						/>

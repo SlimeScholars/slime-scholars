@@ -1,14 +1,7 @@
 import { useRouter } from "next/router";
 import Image from "next/image";
 
-export default function Course({
-  courseId,
-  courseName,
-  courseBadge,
-  tier,
-  colorPalette,
-  course,
-}) {
+export default function Course({ courseId, courseName, colorPalette, course }) {
   const router = useRouter();
 
   return (
@@ -40,14 +33,32 @@ export default function Course({
           {courseName ? courseName : "[Untitled Course]"}
         </span>
         <span className="text-sm 2xl:text-md font-normal">
-          Progress: {course ? `${course.totalPoints > 0 ? (100 * (course.achievedPoints/course.totalPoints)).toFixed(0) : 0}%` : "Loading..."}
+          Progress:{" "}
+          {course
+            ? `${
+                course.totalPoints > 0
+                  ? (
+                      100 *
+                      (course.achievedPoints / course.totalPoints)
+                    ).toFixed(0)
+                  : 0
+              }%`
+            : "Loading..."}
+          {course && ` (${course.achievedPoints}/${course.totalPoints})`}
         </span>
         <div className="w-[90%] h-[0.5rem] bg-black/[0.4] rounded-full overflow-hidden mt-1 2xl:mt-0">
           <div
             className={`h-[0.5rem] transition-all duration-150 brightness-125`}
             style={{
               backgroundColor: !colorPalette ? "" : colorPalette.primary2,
-              width: `${(course && course.totalPoints > 0) ? (100 * (course.achievedPoints/course.totalPoints)).toFixed(2) : 0}%`
+              width: `${
+                course && course.totalPoints > 0
+                  ? (
+                      100 *
+                      (course.achievedPoints / course.totalPoints)
+                    ).toFixed(2)
+                  : 0
+              }%`,
             }}
           />
         </div>

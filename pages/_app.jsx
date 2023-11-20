@@ -39,10 +39,8 @@ axios.interceptors.response.use(
 );
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [colorPalette, setColorPalette] = useState({});
-  const [pfpBg, setPfpBg] = useState(null);
 
   const [rewardsData, setRewardsData] = useState(null);
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false);
@@ -110,16 +108,16 @@ function MyApp({ Component, pageProps }) {
 
   // music
   useEffect(() => {
-    if (colorPalette) {
-      if (colorPalette.track) {
+    if (user?.colorPalette) {
+      if (gameData.items[user.colorPalette].track) {
         const track = new Audio(
-          "/assets/audio/tracks/" + colorPalette.track + ".mp3"
+          "/assets/audio/tracks/" + gameData.items[user.colorPalette] + ".mp3"
         );
         if (audio) {
           audio.pause();
           audio.currentTime = 0;
         }
-        if (colorPalette.track === gameData.items[user.bg].track) {
+        if (gameData.items[user.colorPalette] === gameData.items[user.bg].track) {
           track.currentTime = 0;
           track.muted = true;
           track.onended = () => {
@@ -139,7 +137,7 @@ function MyApp({ Component, pageProps }) {
         }
       }
     }
-  }, [colorPalette]);
+  }, [user?.colorPalette]);
 
   useEffect(() => {
     if (audio) {
@@ -162,10 +160,7 @@ function MyApp({ Component, pageProps }) {
     setLoading,
     items,
     setItems,
-    colorPalette,
-    setColorPalette,
-    pfpBg,
-    setPfpBg,
+    colorPalette:gameData.items[user?.bg],
     isMobile,
     panelsVisible,
     setPanelsVisible
@@ -186,6 +181,9 @@ function MyApp({ Component, pageProps }) {
       setInitUser({ ...user });
       setRewardsModalOpen(true);
       setRewardsData(user.screen_display_notif);
+    }
+    if(user){
+      setTimeout(() => {setLoading(false)}, 150)
     }
   }, [user]);
 
@@ -218,24 +216,14 @@ function MyApp({ Component, pageProps }) {
     }
   }, [router.pathname]);
 
-  useEffect(() => {
-    if (user && user.pfpBg) {
-      setPfpBg(user.pfpBg);
-    }
-
-    if (user && user.bg && gameData.items[user.bg].bg) {
-      setColorPalette(gameData.items[user.bg]);
-    }
-  }, [user]);
-
   if (router.asPath.startsWith("/courses")) {
     return (
       <>
-        {loading ? <MainSpinner /> : <></>}
+        {loading ? <div className="relative w-screen h-screen"><MainSpinner/></div> : <></>}
         <div className={`relative ${loading ? "hidden" : ""}`}>
           <ToastContainer />
           <CourseLayout
-            colorPalette={colorPalette}
+            colorPalette={gameData.items[user?.bg]}
             setUser={setUser}
             user={user}
           >
@@ -248,7 +236,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading ? <MainSpinner /> : <></>}
+      {loading ? <div className="relative w-screen h-screen"><MainSpinner/></div> : <></>}
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
@@ -260,8 +248,7 @@ function MyApp({ Component, pageProps }) {
                 active={current === 0}
                 setLoading={setLoading}
                 setUser={current === 0 ? setUser : () => null}
-                colorPalette={colorPalette}
-                setColorPalette={setColorPalette}
+                colorPalette={gameData.items[user?.bg]}
               />
             </div>
 

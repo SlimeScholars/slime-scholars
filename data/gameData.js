@@ -946,7 +946,7 @@ export const gameData = {
       static: "glow-slime.png",
     },
     "Hypno Slime": {
-      slimeName: "Hypbo Slime",
+      slimeName: "Hypno Slime",
       pfp: "hypno-slime.png",
       spritesheet: "hypno-slime.png",
       static: "hypno-slime.png",

@@ -95,6 +95,7 @@ export default function ManageFriends({
           const newFoundUsers = response.data.users.filter((foundUser) => {
             return !user.friends.some((friend) => friend._id === foundUser._id);
           });
+          setUser({...user})
           setFoundUsers(newFoundUsers);
           setFindingLoading2(false);
         })

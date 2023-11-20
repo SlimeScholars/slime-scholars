@@ -8,14 +8,10 @@ export default function Inventory({
   loading,
   user,
   setUser,
-  setNumEggs,
   setFlowers,
   items,
   setItems,
   colorPalette,
-  setColorPalette,
-  pfpBg,
-  setPfpBg,
 }) {
   const router = useRouter();
   const [itemOnClick, setItemOnClick] = useState("empty for now");
@@ -131,16 +127,11 @@ export default function Inventory({
           <ItemDetails
             item={itemOnClick}
             user={user}
-            pfpBg={pfpBg}
-            setPfpBg={setPfpBg}
             setItems={setItems}
             setItemOnClick={setItemOnClick}
             setUser={setUser}
-            setNumEggs={setNumEggs}
             setFlowers={setFlowers}
             colorPalette={colorPalette}
-            setColorPalette={setColorPalette}
-            
           />
         </div>
       </div>
