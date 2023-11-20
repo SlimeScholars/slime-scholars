@@ -5,6 +5,7 @@ import axios from "axios";
 import Lesson from "../../../../../../components/learn/lesson";
 import Image from "next/image";
 import cookies from "../../../../../../services/cookies/cookies";
+import MainSpinner from "../../../../../../components/misc/mainSpinner";
 
 export default function Lessons({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
@@ -53,10 +54,12 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
         .get("/api/learn/lessons", config)
         .then((response) => {
           if (response?.data?.lessons) {
-            setCourseName(response.data.courseName);
-            setUnitNumber(response.data.unitNumber);
-            setUnitName(response.data.unitName);
-            setLessons(response.data.lessons);
+            setTimeout(() => {
+              setCourseName(response.data.courseName);
+              setUnitNumber(response.data.unitNumber);
+              setUnitName(response.data.unitName);
+              setLessons(response.data.lessons);
+            }, 150)
             setTimeout(() => {
               setLoading(false);
             }, 150);
@@ -115,6 +118,12 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
         backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
       }}
     >
+      {lessons.length == 0 ? 
+      <div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
+        <MainSpinner bgStyle={{backgroundColor: "#000000A0", color: "white"}} text="Fetching Lessons"/>
+      </div>
+      :
+      <>
       <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
         <span
           className="hover:text-blue-400 transition-all duration-150"
@@ -189,7 +198,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
             />
           ))}
         </div>
-      </div>
+      </div></>}
     </div>
   );
 }

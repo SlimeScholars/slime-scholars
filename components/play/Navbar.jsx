@@ -18,11 +18,7 @@ Parameter:
 export function Navbar({
   current,
   user,
-  numEggs,
-  setNumEggs,
-  flowers,
   colorPalette,
-  setColorPalette,
   setPanelsVisible,
 }) {
   const types = [
@@ -38,23 +34,6 @@ export function Navbar({
   const current_id = parseInt(current, 10);
 
   const tutRef = useRef(null);
-
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-    if (user && user.items) {
-      user.items.map((item) => {
-        if (item.itemName === "Slime Egg") {
-          setNumEggs(item.quantity);
-        }
-      });
-    }
-
-    if (user) {
-      setColorPalette(gameData.items[user.pfpBbg]);
-    }
-  }, [user]);
 
   const onHome = () => router.asPath == "/play";
 
@@ -163,27 +142,6 @@ export function Navbar({
               </div>
             )}
           </div>
-
-          {/*
-          FIXME
-          Slime Egg
-          {
-            (user && current_id === 5) && (
-              <div className="flex bg-white/50 opacity-60 rounded-md mt-1 p-1">
-                {user && (
-                  <div className="flex flex-row items-center">
-                    <img
-                      src="/assets/icons/slime-egg.png"
-                      alt="Icon"
-                      className="h-4 w-4 ml-1 mr-2"
-                    />
-                    <p className="text-black text-sm">{numEggs}</p>
-                  </div>
-                )}
-              </div>
-            )
-          }
-        */}
         </div>
 
         {/* buttons and icons */}
