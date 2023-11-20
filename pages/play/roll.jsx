@@ -148,7 +148,7 @@ export default function Roll({
             setSlimes(response.data.slimeObjects);
             setOriginalSlimes(response.data.originSlimeObjects);
             setRolling(true);
-
+            setUser({...user})
             ;
             setTimeout(() => {
               setLoading(false);
