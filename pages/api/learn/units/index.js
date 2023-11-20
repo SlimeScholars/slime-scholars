@@ -83,6 +83,9 @@ export default async function (req, res) {
             break;
         }
       }
+      if (fullUnit.quizzes) {
+        count.quizzes = count.quizzes + fullUnit.quizzes.length;
+      }
       modifiedUnits.push({
         _id: i._id,
         unitName: i.unitName,

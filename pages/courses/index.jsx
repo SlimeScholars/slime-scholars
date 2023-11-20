@@ -4,6 +4,7 @@ import { showToastError } from "../../utils/toast";
 import axios from "axios";
 import Course from "../../components/learn/course";
 import cookies from "../../services/cookies/cookies";
+import MainSpinner from "../../components/misc/mainSpinner";
 
 export default function Courses({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
   useEffect(() => {
     //setLoading(true)
     try {
-      const token = cookies.get("slime-scholars-webapp-token")
+      const token = cookies.get("slime-scholars-webapp-token");
       if (!token) {
         return;
       }
@@ -37,7 +38,7 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         .get("/api/learn/courses", config)
         .then((response) => {
           if (response?.data?.courses) {
-            setCourses(response.data.courses);
+            setTimeout(() => {setCourses(response.data.courses);}, 150)
           }
         })
         .catch((error) => {
@@ -65,15 +66,18 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
     }
   }, [courses]);
 
-  if (loading) {
-    return;
-  }
   return (
     <div
       style={{
         backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
       }}
     >
+      {courses.length == 0 ? 
+      <div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
+        <MainSpinner bgStyle={{backgroundColor: "#000000A0", color: "white"}} text="Fetching Courses"/>
+      </div>
+      :
+      <>
       <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[3rem] 2xl:pl-[3.75rem]">
         <span
           className="hover:text-blue-400 transition-all duration-150"
@@ -104,18 +108,16 @@ export default function Courses({ user, loading, setLoading, colorPalette }) {
         <div className="flex flex-row flex-wrap">
           {courses.map((course) => (
             //TRIPLE THE COURSES FOR VIEW
-
             <Course
               key={course._id}
               courseId={course._id}
               courseName={course.courseName}
-              courseBadge={course.courseBadge}
               colorPalette={colorPalette}
               course={course}
             />
           ))}
         </div>
-      </div>
+      </div></>}
     </div>
   );
 }

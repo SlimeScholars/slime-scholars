@@ -45,7 +45,7 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          
+          setUser({...user})
           showToastError("Friend removed", true);
         })
         .catch((error) => {
@@ -71,7 +71,7 @@ export default function FriendsEditor({
         )
         .then((response) => {
           setUserFriends(response.data.friends)
-
+          setUser({...user})
           const updatedRequestListing = response.data.sentFriendRequests;
           setSentFriendRequests(updatedRequestListing);
           showToastError("Friend request sent", true);

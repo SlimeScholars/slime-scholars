@@ -3,14 +3,8 @@ import { gameData } from "../../data/gameData";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Home({ user, setLoading, setUser, active, colorPalette, setColorPalette }) {
+export default function Home({ user, setLoading, setUser, active, colorPalette }) {
   const router = useRouter();
-
-  useEffect(() => {
-    if (user && user.bg && gameData.items[user.bg] && setColorPalette) {
-      setColorPalette(gameData.items[user.bg]);
-    }
-  });
 
   if (!user) {
     return <></>;

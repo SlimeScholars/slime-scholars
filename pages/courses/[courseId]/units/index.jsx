@@ -5,6 +5,7 @@ import axios from "axios";
 import Unit from "../../../../components/learn/unit";
 import Image from "next/image";
 import cookies from "../../../../services/cookies/cookies";
+import MainSpinner from "../../../../components/misc/mainSpinner";
 
 export default function Units({
   user,
@@ -55,7 +56,7 @@ export default function Units({
         .then((response) => {
           if (response?.data?.units) {
             setCourseName(response.data.courseName);
-            setUnits(response.data.units);
+            setTimeout(() => {setUnits(response.data.units)}, 150)
             setTimeout(() => {
               setLoading(false);
             }, 150);
@@ -94,6 +95,12 @@ export default function Units({
         backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
       }}
     >
+      {units.length == 0 ? 
+      <div className="relative z-[1] w-full h-[calc(100vh_-_5rem)]">
+        <MainSpinner bgStyle={{backgroundColor: "#000000A0", color: "white"}} text="Fetching Units"/>
+      </div>
+      :
+      <>
       <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
         <span
           className="hover:text-blue-400 transition-all duration-150"
@@ -178,7 +185,7 @@ export default function Units({
             />
           ))}
         </div>
-      </div>
+      </div></>}
     </div>
   );
 }
