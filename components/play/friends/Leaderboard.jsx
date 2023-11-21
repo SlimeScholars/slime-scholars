@@ -11,7 +11,7 @@ export default function Leaderbaord({
   colorPalette,
 }) {
   const [currentType, setCurrentType] = useState("friends");
-  const [fold, setFold] = useState(true);
+  const [fold, setFold] = useState(false);
   return (
     <div
       className="p-8 max-xl:w-full cursor-pointer"
