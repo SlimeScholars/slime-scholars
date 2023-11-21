@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import cookies from "../services/cookies/cookies";
 import axios from "axios"
-import { useRouter } from "next/router";
 
 export default function useCurrentUser({ setLoading }) {
     const [user, rsetUser] = useState(null)
