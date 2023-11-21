@@ -39,7 +39,7 @@ axios.interceptors.response.use(
 );
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
 
   const [rewardsData, setRewardsData] = useState(null);
