@@ -39,7 +39,7 @@ axios.interceptors.response.use(
 );
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
 
   const [rewardsData, setRewardsData] = useState(null);
@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }) {
 
   const [audio, setAudio] = useState(null);
 
-  const { user, setUser } = useCurrentUser()
+  const { user, setUser } = useCurrentUser({ setLoading })
   const [initUser, setInitUser] = useState(null)
 
   const [windowSize, setWindowSize] = useState(

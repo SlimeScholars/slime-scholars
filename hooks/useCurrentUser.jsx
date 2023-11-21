@@ -3,36 +3,36 @@ import cookies from "../services/cookies/cookies";
 import axios from "axios"
 import { useRouter } from "next/router";
 
-export default function useCurrentUser(){
+export default function useCurrentUser({ setLoading }) {
     const [user, rsetUser] = useState(null)
-    const {router} = useRouter()
 
     const handleFetchErr = (err) => {
-        router.push("/no-user")
+        rsetUser(null)
+        setLoading(false)
     }
 
-    const refetch = async() => {
+    const refetch = async () => {
         try {
             const token = cookies.get("slime-scholars-webapp-token")
             if (!token) {
-                rsetUser(null);
-                return;
+                throw new Error('No token found')
             }
             const config = {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                common: {apikey: process.env.NEXT_PUBLIC_API_KEY},
-            }};
-    
-            await axios.get("/api/user", config)
-            .then((response) => {
-                if (response.data && response.data.user) {
-                    rsetUser(response.data.user, false);
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    common: { apikey: process.env.NEXT_PUBLIC_API_KEY },
                 }
-            })
-            .catch((err) => {
-                handleFetchErr(err)
-            });
+            };
+
+            await axios.get("/api/user", config)
+                .then((response) => {
+                    if (response.data && response.data.user) {
+                        rsetUser(response.data.user, false);
+                    }
+                })
+                .catch((err) => {
+                    throw new Error(err)
+                });
         } catch (err) {
             handleFetchErr(err)
         }
@@ -48,5 +48,5 @@ export default function useCurrentUser(){
         cookies.logChange()
     }, [])
 
-    return {user, setUser}
+    return { user, setUser }
 }
