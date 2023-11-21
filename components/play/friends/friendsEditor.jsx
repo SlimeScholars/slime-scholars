@@ -174,54 +174,56 @@ export default function FriendsEditor({
         {!findingLoading && Array.isArray(usersOnlist) ? (
           usersOnlist.map((user, index) => {
             return (
-              <div
-                key={index}
-                className="rounded-xl flex flex-row items-center p-4"
-                style={{
-                  background: colorPalette ? colorPalette.primary1 : "none",
-                }}
-              >
-                <div className="w-10 h-10 rounded-full overflow-hidden">
-                  <div className="relative">
-                    <Image
-                      src={
-                        "/assets/pfp/backgrounds/" +
-                        gameData.items[user.pfpBg].bg
-                      }
-                      alt={user.pfpBg}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="absolute inset-0 w-full h-full"
-                      onClick={() => handleManageFriend(user._id)}
-                    />
-                    <Image
-                      src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimes[user.pfpSlime].pfp
-                      }
-                      alt={user.pfpSlime}
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
-                      onClick={() => handleManageFriend(user._id)}
-                    />
+                <div
+                  key={index}
+                  className="rounded-xl items-center p-4 flex flex-row justify-between"
+                  style={{
+                    background: colorPalette ? colorPalette.primary1 : "none",
+                  }}
+                >
+                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                    <div className="relative">
+                      <Image
+                        src={
+                          "/assets/pfp/backgrounds/" +
+                          gameData.items[user.pfpBg].bg
+                        }
+                        alt={user.pfpBg}
+                        height={0}
+                        width={0}
+                        sizes="100vw"
+                        className="absolute inset-0 w-full h-full"
+                        onClick={() => handleManageFriend(user._id)}
+                      />
+                      <Image
+                        src={
+                          "/assets/pfp/slimes/" +
+                          gameData.slimes[user.pfpSlime].pfp
+                        }
+                        alt={user.pfpSlime}
+                        height={0}
+                        width={0}
+                        sizes="100vw"
+                        className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
+                        onClick={() => handleManageFriend(user._id)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="grow px-4 relative">{user.username}</div>
-                {(
-                  <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl absolute"
-                    style={{
-                      background: colorPalette ? colorPalette.primary2 : "none",
-                    }}
-                    onClick={() => handleManageFriend(user._id)}
-                  >
-                    <div className="mt-1">+</div>
-                  </button>
-                )}
-              </div>
+                  <div className="grow px-2 mt-2 relative">
+                    {user.username}
+                  </div>
+                  {(<div>
+                    <button
+                      className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl relative"
+                      style={{
+                        background: colorPalette ? colorPalette.primary2 : "none",
+                      }}
+                      onClick={() => handleManageFriend(user._id)}
+                    >
+                      <div className="mt-2">+</div>
+                    </button>
+                  </div>)}
+                  </div>
             );
           })
         ) : (
