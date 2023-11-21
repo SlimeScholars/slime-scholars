@@ -50,9 +50,10 @@ export default async function (req, res) {
     if (!activity) {
       throw new Error("Could not find activity");
     }
-
     score = score * rewardData.activity;
     let exp = score;
+    let claimable = true;
+
     let progressCopy = [...user.progress];
     let courseIndex = -1;
     let unitIndex = -1;
@@ -83,8 +84,8 @@ export default async function (req, res) {
                         .completion
                     ) {
                       score = 0;
-                    }
-                    if (
+                      claimable = false;
+                    } else if (
                       score >
                       progressCopy[i].units[j].lessons[k].activities[l]
                         .completion
@@ -179,17 +180,42 @@ export default async function (req, res) {
         completion: score,
       });
     }
-    await User.findByIdAndUpdate(user._id, {
-      progress: progressCopy,
-      flowers: user.flowers + score,
-      exp: user.exp + exp,
-    });
+
+    let claimedRewards = user.lastRewards;
+    if (claimable) {
+      // check if user has claimed 2 rewards today already
+      //current date in millis
+      const now = new Date();
+      const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
+      if (now - claimedRewards[0] > oneDay) {
+        // if last reward was claimed more than 24 hours ago
+        claimedRewards[0] = claimedRewards[1];
+        claimedRewards[1] = now;
+      } else {
+        score = 0;
+        claimable = false;
+      }
+    }
+
+    if (claimable) {
+      await User.findByIdAndUpdate(user._id, {
+        progress: progressCopy,
+        flowers: user.flowers + score,
+        exp: user.exp + exp,
+        lastRewards: claimedRewards,
+      });
+    } else {
+      await User.findByIdAndUpdate(user._id, {
+        exp: user.exp + exp,
+      });
+    }
 
     res.status(200).json({
       message: "Activity completed",
       score: score,
       oldFlowers: user.flowers,
       newFlowers: user.flowers + score,
+      claimed: claimable,
     });
   } catch (error) {
     console.log(error);

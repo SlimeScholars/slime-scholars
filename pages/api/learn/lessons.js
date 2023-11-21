@@ -52,10 +52,10 @@ export default async function (req, res) {
     const course = await Course.findById(courseId).select("courseName");
 
     const unit = await Unit.findById(unitId)
-      .select("unitName unitNumber lessons totalPoints")
+      .select("unitName unitNumber lessons")
       .populate({
         path: "lessons",
-        select: "_id lessonName lessonType activities totalPoints",
+        select: "_id lessonName lessonType activities",
       });
 
     // Get user progress for this unit
@@ -103,11 +103,13 @@ export default async function (req, res) {
 const calculateTotalPoints = (lesson) => {
   switch (lesson.lessonType) {
     case "lesson":
-      return rewardData.lesson;
+      return lesson.activities.length * rewardData.activity;
     case "quiz":
       return rewardData.quiz;
     case "test":
       return rewardData.test;
+    case "activity":
+      return rewardData.activity;
     default:
       return 0;
   }

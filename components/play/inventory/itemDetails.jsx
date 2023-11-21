@@ -11,15 +11,11 @@ import cookies from "../../../services/cookies/cookies";
 export default function ItemDetails({
   item,
   user,
-  pfpBg,
-  setPfpBg,
   setItems,
   setItemOnClick,
   setUser,
-  setNumEggs,
   setFlowers,
   colorPalette,
-  setColorPalette,
   shopping,
 }) {
   const [owned, setOwned] = useState(null);
@@ -82,7 +78,9 @@ export default function ItemDetails({
           { itemName: item.itemName, quantity: 1 },
           config
         )
-        .then((response) => {})
+        .then((response) => {
+          setUser({...user})
+        })
         .catch((error) => {
           if (error?.response?.data?.message)
             showToastError(error.response.data.message);
@@ -548,8 +546,8 @@ export default function ItemDetails({
               >
                 {
                   <Image
-                    src={"/assets/pfp/backgrounds/" + gameData.items[pfpBg].pfp}
-                    alt={pfpBg}
+                    src={"/assets/pfp/backgrounds/" + gameData.items[user.pfpBg].bg}
+                    alt={gameData.items[user.pfpBg].bg}
                     height={0}
                     width={0}
                     sizes="100vw"
@@ -613,7 +611,7 @@ export default function ItemDetails({
           </div>
 
           <div className="flex flex-col justify-center items-center">
-            {pfpBg === item.itemName ? (
+            {gameData.items[user.pfpBg].bg === item.itemName ? (
               <button
                 disabled
                 className="rounded-lg py-4 h-full w-[15rem] mt-4"
@@ -649,8 +647,7 @@ export default function ItemDetails({
                       }
                     )
                     .then((response) => {
-                      ;
-                      setPfpBg(response.data.pfpBg);
+                      setUser({...user})
                       showToastError("Profile background was changed.", true);
                     })
                     .catch((error) => {
@@ -702,8 +699,7 @@ export default function ItemDetails({
                       }
                     )
                     .then((response) => {
-                      ;
-                      setColorPalette(gameData.items[item.itemName]);
+                      setUser({...user})
                     })
                     .catch((error) => {
                       if (error?.response?.data?.message)
@@ -909,10 +905,6 @@ export default function ItemDetails({
                         setUser(newUser);
                         // WHY DO WE HAVE A SEPARATE FLOWERS FROM USER.FLOWERS?
                         setFlowers(response.data.flowers);
-                        if (item.itemName === "Slime Egg") {
-                          setNumEggs(numItemsLeft);
-                        }
-
                         if (numItemsLeft === 0) {
                           setItemOnClick(response.data.items[0]);
                         }

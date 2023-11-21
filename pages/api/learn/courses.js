@@ -33,10 +33,14 @@ export default async function (req, res) {
     checkUserType(user, 1);
 
     const courses = await Course.find({})
-      .select("_id courseName units totalPoints")
+      .select("_id courseName units")
       .populate({
         path: "units",
-        select: "_id unitName unitNumber lessons quizzes tests totalPoints",
+        select: "_id unitName unitNumber lessons quizzes tests",
+        populate: {
+          path: "lessons",
+          select: "_id lessonName lessonType activities",
+        },
       });
 
     const modifiedCourses = [];
@@ -44,18 +48,14 @@ export default async function (req, res) {
 
     for (let i in courses) {
       const courseProgress = user.progress.find((course) => {
-        return course._id === courses[i]._id.valueOf();
+        return course.courseId === courses[i]._id.valueOf();
       });
       modifiedCourses.push({
         _id: courses[i]._id,
         courseName: courses[i].courseName,
         units: courses[i].units,
-        achievedPoints:
-          courseProgress && courseProgress.completion
-            ? courseProgress.completion.achieved
-            : 0,
-        totalPoints:
-          calculateTotalPoints(courses[i].units),
+        achievedPoints: courseProgress ? courseProgress.completion : 0,
+        totalPoints: calculateTotalPoints(courses[i].units),
         completed: false,
       });
     }
@@ -69,11 +69,25 @@ export default async function (req, res) {
 const calculateTotalPoints = (units) => {
   let totalPoints = 0;
   for (let i in units) {
-    totalPoints +=
-      units[i].quizzes &&
-      rewardData.quiz * units[i].quizzes.length + units[i].tests &&
-      rewardData.test * units[i].tests.length + units[i].lessons &&
-      rewardData.lesson * units[i].lessons.length;
+    for (let lesson of units[i].lessons) {
+      switch (lesson.lessonType) {
+        case "lesson":
+          totalPoints += rewardData.activity * lesson.activities.length;
+          totalPoints += rewardData.lesson;
+          break;
+        case "quiz":
+          totalPoints += rewardData.quiz;
+          break;
+        case "test":
+          totalPoints += rewardData.test;
+          break;
+        default:
+          break;
+      }
+    }
+    if (units[i].quizzes) {
+      totalPoints += rewardData.quiz * units[i].quizzes.length;
+    }
   }
   return totalPoints;
 };
