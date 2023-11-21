@@ -199,8 +199,10 @@ export function Navbar({
                     : playSound("chch", 0);
                 }}
               >
-                {type.id === 6 ? <ProfilePicture user={user}/>
-                : <Image
+                {type.id === 6 ? (
+                  <ProfilePicture user={user} />
+                ) : (
+                  <Image
                     src={imgLink}
                     alt={type.src}
                     height={0}
@@ -208,7 +210,7 @@ export function Navbar({
                     sizes="100vw"
                     className="h-[4rem] w-[4rem] max-xl:w-[3rem] max-xl:h-[3rem]"
                   />
-                }
+                )}
               </button>
             );
           })}

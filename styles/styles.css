@@ -662,29 +662,49 @@ div#loading-wave .dot:nth-child(3) {
   }
 }
 
-.HAHA{
+.HAHA {
   animation: FLICKER 0.1s infinite;
 }
 
-@keyframes FLICKER{
-  0%{
-    filter:brightness(1);
+@keyframes FLICKER {
+  0% {
+    filter: brightness(1);
     transform: scale(1);
   }
-  35%{
-    filter:brightness(1);
+  35% {
+    filter: brightness(1);
     transform: scale(1);
   }
-  50%{
-    filter:brightness(3);
+  50% {
+    filter: brightness(3);
     transform: scale(1.2);
   }
-  65%{
-    filter:brightness(1);
+  65% {
+    filter: brightness(1);
     transform: scale(1);
   }
-  100%{
-    filter:brightness(1);
+  100% {
+    filter: brightness(1);
     transform: scale(1);
   }
+}
+
+.search:hover::placeholder {
+  color: rgb(50, 50, 50);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.pulse:hover {
+  animation: pulse 1s infinite;
 }
