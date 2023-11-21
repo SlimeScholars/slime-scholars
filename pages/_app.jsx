@@ -39,7 +39,7 @@ axios.interceptors.response.use(
 );
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [items, setItems] = useState([]);
 
   const [rewardsData, setRewardsData] = useState(null);
@@ -58,7 +58,7 @@ function MyApp({ Component, pageProps }) {
 
   const [audio, setAudio] = useState(null);
 
-  const {user, setUser} = useCurrentUser()
+  const { user, setUser } = useCurrentUser({ setLoading })
   const [initUser, setInitUser] = useState(null)
 
   const [windowSize, setWindowSize] = useState(
@@ -161,7 +161,7 @@ function MyApp({ Component, pageProps }) {
     setLoading,
     items,
     setItems,
-    colorPalette:gameData.items[user?.bg],
+    colorPalette: gameData.items[user?.bg],
     isMobile,
     panelsVisible,
     setPanelsVisible
@@ -183,8 +183,8 @@ function MyApp({ Component, pageProps }) {
       setRewardsModalOpen(true);
       setRewardsData(user.screen_display_notif);
     }
-    if(user){
-      setTimeout(() => {setLoading(false)}, 150)
+    if (user) {
+      setTimeout(() => { setLoading(false) }, 150)
     }
   }, [user]);
 
@@ -220,7 +220,7 @@ function MyApp({ Component, pageProps }) {
   if (router.asPath.startsWith("/courses")) {
     return (
       <>
-        {loading ? <div className="relative w-screen h-screen"><MainSpinner/></div> : <></>}
+        {loading ? <div className="relative w-screen h-screen"><MainSpinner /></div> : <></>}
         <div className={`relative ${loading ? "hidden" : ""}`}>
           <ToastContainer />
           <CourseLayout
@@ -237,7 +237,7 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading ? <div className="relative w-screen h-screen"><MainSpinner/></div> : <></>}
+      {loading ? <div className="relative w-screen h-screen"><MainSpinner /></div> : <></>}
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
@@ -269,7 +269,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
-        {!isMobile && rewardsModalOpen && ( 
+        {!isMobile && rewardsModalOpen && (
           <SlimeGelPopup
             user={initUser}
             details={rewardsData}
