@@ -284,13 +284,13 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
             <div
               className="absolute top-0 left-0 z-[520] h-full transition-all duration-[0.18s] ease-in-out"
               style={{
-                backgroundColor: colorPalette.text1,
+                backgroundColor: colorPalette?.text1 ? colorPalette.text1 : "",
                 width: `${(
                   (loadState > -1
                     ? (170 * (LOADIN_MAXFRAMES - loadState)) / LOADIN_MAXFRAMES
                     : fullLoad()
-                    ? 170
-                    : 0) +
+                      ? 170
+                      : 0) +
                   100 * (activity ? 1 : 0) +
                   20 * (courseName ? 1 : 0) +
                   20 * (unitName ? 1 : 0) +
@@ -336,7 +336,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
             className="relative z-[1] w-full h-[calc(100vh_-_5rem)] flex flex-col py-4 pl-8 pr-8 rounded-r-md"
             style={{
               backgroundColor: !colorPalette ? "" : colorPalette.black + "80",
-              color: colorPalette.white,
+              color: colorPalette ? colorPalette.white : "",
             }}
           >
             <div
@@ -356,7 +356,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
             <div
               className="flex flex-col gap-3 2xl:gap-4 mt-4 px-3 2xl:px-4 py-2 2xl:py-3 rounded-md"
               style={{
-                backgroundColor: colorPalette.primary1 + "60",
+                backgroundColor: colorPalette ? colorPalette.primary1 + "60" : '',
               }}
             >
               {lessonActivities.map((item, key) => {
@@ -371,11 +371,10 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                     key={key}
                   >
                     <span
-                      className={`text-left text-md ${
-                        item._id === activityId
-                          ? "font-extrabold 2xl:font-black"
-                          : ""
-                      }`}
+                      className={`text-left text-md ${item._id === activityId
+                        ? "font-extrabold 2xl:font-black"
+                        : ""
+                        }`}
                     >
                       {item.activityName}
                     </span>
@@ -412,7 +411,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                     <div
                       className="absolute top-0 left-0 w-full h-full"
                       style={{
-                        backgroundColor: colorPalette.text1 + "A0",
+                        backgroundColor: colorPalette ? colorPalette.text1 + "A0" : '',
                       }}
                     />
                     <div
@@ -425,8 +424,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                             className="rounded-md text-center transition-all duration-150 
 										origin-center animate-pulse"
                             style={{
-                              backgroundColor: colorPalette.white + "A0",
-                              color: colorPalette.black,
+                              backgroundColor: colorPalette ? colorPalette.white + "A0" : '',
+                              color: colorPalette ? colorPalette.black : '',
                               transform: `scaleY(${open === 0 ? 1 : 0})`,
                               height: open === 0 ? "auto" : "0px",
                               paddingTop: open === 0 ? "0.25rem" : "0px",
@@ -435,7 +434,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                             <div
                               className="text-sm activity-helper-text"
                               style={{
-                                color: colorPalette.primary1,
+                                color: colorPalette ? colorPalette.primary1 : '',
                               }}
                             >
                               Press ENTER to continue
@@ -459,7 +458,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                         <div
                           className="relative flex items-center justify-center rounded-md p-4 text-center w-full h-full overflow-hidden"
                           style={{
-                            backgroundColor: colorPalette.white,
+                            backgroundColor: colorPalette ? colorPalette.white : '',
                           }}
                         >
                           <div>
@@ -477,7 +476,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                             className="z-[250] absolute top-[-35%] left-[20%]
 										rounded-md rounded-l-full w-[80%] h-[170%] fade-in-right-index bg-gradient-to-r from-black/[0.55] to-black/[0.9]"
                             style={{
-                              backgroundColor: colorPalette.primary1 + "90",
+                              backgroundColor: colorPalette ? colorPalette.primary1 + "90" : '',
                             }}
                           ></div>
                           <div className="z-[350] w-full fade-in-right-index">
@@ -528,19 +527,17 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                     for (let i in lessonActivities) {
                                       if (
                                         lessonActivities[i]._id ===
-                                          activity._id &&
+                                        activity._id &&
                                         i < lessonActivities.length - 1
                                       ) {
                                         return (
                                           <span
                                             onClick={() => {
-                                              router.push(`/courses/${
-                                                router.query.courseId
-                                              }/units/
-																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${
-                                                lessonActivities[Number(i) + 1]
+                                              router.push(`/courses/${router.query.courseId
+                                                }/units/
+																		${router.query.unitId}/lessons/${router.query.lessonId}/activity/${lessonActivities[Number(i) + 1]
                                                   ._id
-                                              }`);
+                                                }`);
                                             }}
                                             className="hover:text-blue-400 transition-all duration-200"
                                           >
@@ -579,7 +576,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                   <section
                     className="relative z-[20] flex flex-row justify-between items-center shadow-lg px-5"
                     style={{
-                      backgroundColor: colorPalette.primary1 + "A0",
+                      backgroundColor: colorPalette ? colorPalette.primary1 + "A0" : '',
                     }}
                   >
                     <div className="absolute top-0 left-0 w-full h-full bg-white/[0.35] z-[21]" />
@@ -587,26 +584,25 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                       <div
                         className="relative rounded-full w-[200px] h-[0.5rem]"
                         style={{
-                          backgroundColor: colorPalette.text1 + "A0",
+                          backgroundColor: colorPalette ? colorPalette.text1 + "A0" : '',
                         }}
                       >
                         <div
                           className="absolute top-[0px] left-[0px] rounded-full h-[0.5rem] transition-all duration-150 ease-out"
                           style={{
-                            backgroundColor: colorPalette.text1,
+                            backgroundColor: colorPalette ? colorPalette.text1 : '',
                             width: `${(200 * page) / activity.pages.length}px`,
                           }}
                         />
                       </div>
                       <span
                         className="font-semibold text-sm"
-                        style={{ color: colorPalette.white }}
+                        style={{ color: colorPalette ? colorPalette.white : '' }}
                       >
-                        {`${
-                          activity.pages && activity.pages.length > 0
-                            ? ((100 * page) / activity.pages.length).toFixed(0)
-                            : 100
-                        }`}
+                        {`${activity.pages && activity.pages.length > 0
+                          ? ((100 * page) / activity.pages.length).toFixed(0)
+                          : 100
+                          }`}
                         %
                       </span>
                     </section>
@@ -638,8 +634,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                         }
                         disabled={true}
                         style={{
-                          color: colorPalette.black,
-                          backgroundColor: colorPalette.white,
+                          color: colorPalette ? colorPalette.black : '',
+                          backgroundColor: colorPalette ? colorPalette.white : '',
                         }}
                       ></input>
                       <button
@@ -670,7 +666,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                     <div
                       className="absolute top-0 left-0 w-full h-full rounded-md"
                       style={{
-                        backgroundColor: colorPalette.text1 + "C0",
+                        backgroundColor: colorPalette ? colorPalette.text1 + "C0" : '',
                       }}
                     />
                     <span className="text-black text-2xl z-[10]">
