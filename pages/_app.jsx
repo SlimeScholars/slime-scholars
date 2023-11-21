@@ -58,7 +58,8 @@ function MyApp({ Component, pageProps }) {
 
   const [audio, setAudio] = useState(null);
 
-  const { user, setUser } = useCurrentUser()
+  const { user, setUser } = useCurrentUser({ setLoading })
+  const [initUser, setInitUser] = useState(null)
 
   const [windowSize, setWindowSize] = useState(
     isClient
