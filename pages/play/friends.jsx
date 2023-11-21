@@ -7,7 +7,13 @@ import axios from "axios";
 import Image from "next/image";
 import cookies from "../../services/cookies/cookies";
 
-export default function Friends({ loading, setLoading, user, setUser, colorPalette }) {
+export default function Friends({
+  loading,
+  setLoading,
+  user,
+  setUser,
+  colorPalette,
+}) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
@@ -52,7 +58,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
 
     // Get allplayers for playerListings in leaderboard
     // Fetching top 20 players in order of exp
-    const token = cookies.get("slime-scholars-webapp-token")
+    const token = cookies.get("slime-scholars-webapp-token");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -62,12 +68,11 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
     axios
       .get("/api/user/leaderboard", config)
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         setUserRank(response.data.userRank);
         setAllPlayers(response.data.leaderboard);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   }, [user, loading]);
 
   return (
@@ -75,8 +80,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
       {/* Header */}
       <div
         style={{
-          backgroundColor:
-            !colorPalette ? "" : `${colorPalette.white}88`,
+          backgroundColor: !colorPalette ? "" : `${colorPalette.white}88`,
           color: !colorPalette ? "" : colorPalette.text1,
         }}
         className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
@@ -84,10 +88,10 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
         <div className="grow-0 pl-4">
           <Image
             src="/assets/icons/friends.png"
-            alt='friends'
+            alt="friends"
             height={0}
             width={0}
-            sizes='100vw'
+            sizes="100vw"
             className="w-[4.5rem] h-[4.5rem]"
           />
         </div>
@@ -102,52 +106,58 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
             <div className="flex flex-row cursor-pointer">
               <div
                 onClick={() => {
-                  if (toDo === 'add') {
-                    setToDoChanged(true)
+                  if (toDo === "add") {
+                    setToDoChanged(true);
                   } else {
-                    setToDoChanged(false)
+                    setToDoChanged(false);
                   }
-                  setToDo('manage')
+                  setToDo("manage");
                 }}
                 style={{
-                  background: toDo === 'manage' && colorPalette ? colorPalette.primary1 : "none",
+                  background:
+                    toDo === "manage" && colorPalette
+                      ? colorPalette.primary1
+                      : "none",
                 }}
-                className={`py-2 pl-3 rounded-full text-center ${toDo === 'manage' ? 'pr-4' : 'pr-2'}`}
+                className={`py-2 pl-3 rounded-full text-center ${
+                  toDo === "manage" ? "pr-4 " : "pr-2 pulse"
+                }`}
               >
                 Manage Friends
               </div>
               <div
                 onClick={() => {
-                  if (toDo === 'manage') {
-                    setToDoChanged(true)
+                  if (toDo === "manage") {
+                    setToDoChanged(true);
                   } else {
-                    setToDoChanged(false)
+                    setToDoChanged(false);
                   }
-                  setToDo('add')
+                  setToDo("add");
                 }}
                 style={{
-                  background: toDo === 'add' && colorPalette ? colorPalette.primary1 : "none",
+                  background:
+                    toDo === "add" && colorPalette
+                      ? colorPalette.primary1
+                      : "none",
                 }}
-                className={`py-2 pr-3 rounded-full text-center ${toDo === 'add' ? 'pl-4' : 'pl-2'}`}
+                className={`py-2 pr-3 rounded-full text-center ${
+                  toDo === "add" ? "pl-4 " : "pl-2 pulse"
+                }`}
               >
                 Add Friends
               </div>
-            </div >
+            </div>
           </div>
-
         </div>
       </div>
 
       {/* Default: leaderboard and managing friends */}
-      <div
-        className="pt-8 flex flex-row gap-8 items-start font-galindo"
-      >
+      <div className="pt-8 flex xl:flex-row gap-8 items-start font-galindo flex-col max-xl:gap-[0]">
         {/* Leaderboard */}
         <div
-          className="basis-1/2 rounded-lg mb-10"
+          className="basis-1/2 rounded-lg mb-10 w-full"
           style={{
-            backgroundColor:
-              !colorPalette ? "" : `${colorPalette.white}88`,
+            backgroundColor: !colorPalette ? "" : `${colorPalette.white}88`,
           }}
         >
           {toDo == "manage" ? (
@@ -168,20 +178,18 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setReceivedFriendRequests={setReceivedFriendRequests}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              
             />
           )}
         </div>
 
         {/* Manage Friends */}
         <div
-          className="basis-1/2 rounded-lg h-full"
+          className="basis-1/2 rounded-lg h-full w-full"
           style={{
-            backgroundColor:
-              !colorPalette ? "" : `${colorPalette.white}88`,
+            backgroundColor: !colorPalette ? "" : `${colorPalette.white}88`,
           }}
         >
-          <div className="flex flex-row">
+          <div className="flex flex-row w-full">
             <ManageFriends
               user={user}
               userFriends={userFriends}
@@ -190,7 +198,6 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              
               toDoChanged={toDoChanged}
               setToDoChanged={setToDoChanged}
             />
