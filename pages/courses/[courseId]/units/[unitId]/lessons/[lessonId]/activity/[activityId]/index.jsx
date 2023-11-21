@@ -39,6 +39,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
   const [lessonName, setLessonName] = useState(null);
   const [lessonActivities, setLessonActivities] = useState([]);
 
+  const isClient = typeof window === "object";
+
   const [page, setPage] = useState(0);
   const [open, setOpen] = useState(0);
   const [maxPage, setMaxPage] = useState(0);
@@ -306,7 +308,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
           backgroundColor: !colorPalette ? "" : colorPalette.primary2 + "50",
           display: "grid",
           gridTemplateColumns:
-            window.innerWidth > 1536 ? "300px auto" : "240px auto",
+            (isClient && window.innerWidth > 1536) ? "300px auto" : "240px auto",
         }}
       >
         <div

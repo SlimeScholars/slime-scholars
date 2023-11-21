@@ -22,9 +22,15 @@ export default function Login({ setUser }) {
       return;
     }
     const response = await login(accountIdentifier, password)
-    if(response){
+    if(response?.data?.user){
       setUser(response.data.user)
       router.push('/')
+    }
+    else if(response.status){
+      showToastError("Internal Server Error")
+    }
+    else{
+      showToastError("Invalid Credentials")
     }
   };
 

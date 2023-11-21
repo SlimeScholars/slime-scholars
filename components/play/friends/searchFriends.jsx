@@ -31,6 +31,7 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
             axios
                 .get("/api/user/search", config)
                 .then(response => {
+                    setUser({...user})
                     setFriends(response.data.users);
                 })
                 .catch(error => {
@@ -40,6 +41,7 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
             axios
                 .get("/api/user/friend/search", config)
                 .then(response => {
+                    setUser({...user})
                     setFriends(response.data.matchingFriends);
                 })
                 .catch(error =>
