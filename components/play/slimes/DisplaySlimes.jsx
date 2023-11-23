@@ -60,40 +60,16 @@ export default function DisplaySlimes({
             throw new Error("Insufficient slime gel");
         }
 
-        setOldSlime(slime);
         const newSlime = {
-            ...slime,
-            level: slime.level + 1,
-            // Future slime.level - 1 as index to adjust from level to index
-            // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
-            levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
-            baseProduction:
-            slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
+          ...slime,
+          level: slime.level + 1,
+          // Future slime.level - 1 as index to adjust from level to index
+          // Since the slime.level does not update yet, we don't need a slime.level - 1 for level up cost
+          levelUpCost: gameData.levelUpCost[slime.rarity][slime.level],
+          baseProduction:
+          slime.baseProduction + gameData.baseLevelProduction[slime.rarity],
         };
-        const newRoster = [...user.roster];
-        for (let i in user.roster) {
-            if (user.roster[i]?._id == id) {
-            newRoster[i] = newSlime;
-            }
-        }
-        const newSlimes = [...user.slimes];
-        for (let i in user.slimes) {
-            if (user.slimes[i]?._id == id) {
-            newSlimes[i] = newSlime;
-            }
-        }
-
-        const newUser = {
-            ...user,
-            slimeGel: user.slimeGel - slime.levelUpCost,
-            roster: newRoster,
-            slimes: newSlimes,
-        };
-
-        setUser(newUser);
         setRes({ slime: newSlime });
-        
-
         axios
             .post("/api/slime/level-up", { slimeId: id }, config)
             .then((response) => {
@@ -172,8 +148,7 @@ export default function DisplaySlimes({
           />
         )}
         
-        {showLevelUpPopup && (
-        
+        {res && res.slime && showLevelUpPopup && (
           <PopUpDetails
             user={user}
             res={res}
@@ -264,6 +239,8 @@ export default function DisplaySlimes({
                             : `${slime.level}/${slime.maxLevel}`}
                         </p>
                       )}
+                      {slime.levelUpCost && slime.level < slime.maxLevel && 
+                      <>
                       <span className="mx-2">|</span>
                       <p>{slime.levelUpCost}</p>
                       <Image
@@ -274,6 +251,7 @@ export default function DisplaySlimes({
                         sizes="100vw"
                         className="h-4 w-4 ml-1"
                       />
+                      </>}
                     </div>
                   </div>
                   {slime.level < slime.maxLevel && (

@@ -19,28 +19,7 @@ import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
 export default function Parent({ loading, user, setUser }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    // FIXME
-    if (!user) {
-      router.push("/signup/student");
-    }
-
-    if (user && user.userType === 1) {
-      router.push("/play");
-    } else if (user) {
-      router.push("/");
-    }
-  }, [loading, user]);
 
   const [honorific, setHonorific] = useState(undefined);
   const [firstName, setFirstName] = useState("");

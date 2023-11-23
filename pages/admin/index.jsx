@@ -13,15 +13,6 @@ import cookies from "../../services/cookies/cookies";
 export default function AdminHomepage({ user, setUser, loading, setLoading}) {
   const router = useRouter()
 
-  useEffect(() => {
-    if (loading) {
-      return
-    }
-    if (!user || user.userType !== 4) {
-      router.push('/')
-    }
-  }, [user, loading])
-
   const [initialLoad, setInitialLoad] = useState(true)
   const [sidePanelProperties, setSidePanelProperties] = useState({ type: "blank", details: null })
   const [selected, setSelected] = useState(null);

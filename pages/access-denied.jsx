@@ -2,14 +2,9 @@ import Image from "next/image"
 import Link from "next/link"
 import Navbar from '../components/main/navbar.jsx'
 import { useRouter } from "next/router.js"
-import { useEffect } from "react"
 
-export default function NotFound({ user }) {
+export default function AccessDenied({ user }) {
     const router = useRouter()
-
-    useEffect(() => {
-        router.push('/404')
-    }, [])
 
     return (
         <div className="relative h-[calc(100vh_-_5rem)]">
@@ -25,9 +20,9 @@ export default function NotFound({ user }) {
                 </p>
                 <Image src="/assets/icons/sad-slime.png" width={300} height={300} alt="404" className="z-[200]" />
                 <p className="text-center z-[200] font-semibold text-xl">
-                    (Status 404: Page Not Found)
+                    (Status 401: Unauthorized)
                     <br/>
-                    We could not find the page you are looking for!
+                    You do not have permission to view this page!
                 </p>
                 <p className="font-bold text-black hover:text-blue-700 mt-4 font-galindo text-2xl transition-colors
                 z-[200]">

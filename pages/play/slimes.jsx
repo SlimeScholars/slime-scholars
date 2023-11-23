@@ -122,7 +122,7 @@ export default function Slimes({
               className="w-[4.5rem] h-[4.5rem]"
             />
           </div>
-          <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
+          <h2 className="grow pl-4 font-galindo text-2xl text-white">Slimes</h2>
           <div className="grow-0 flex pr-4">
             <div
               style={{

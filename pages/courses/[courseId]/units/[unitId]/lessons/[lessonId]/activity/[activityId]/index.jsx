@@ -16,15 +16,6 @@ const LOADIN_INCREMENT = 15;
 export default function Activity({ user, loading, setLoading, colorPalette }) {
   const router = useRouter();
 
-  // useEffect(() => {
-  // 	if (loading) {
-  // 		return
-  // 	}
-  // 	if (!user || user.userType !== 1) {
-  // 		router.push('/')
-  // 	}
-  // }, [user, loading])
-
   useEffect(() => {
     setActivityId(router.query.activityId);
   }, [router.query.activityId]);
