@@ -27,11 +27,7 @@ export default function ItemDetails({
   // Check if item is purchase everytime itemOnClick changes
   useEffect(() => {
     if (user && user.items) {
-      if (user.items.find((userItem) => userItem.itemName === item.itemName)) {
-        setOwned(true);
-      } else {
-        setOwned(false);
-      }
+      setOwned(user.items.find((userItem) => userItem.itemName === item.itemName));
     }
   }, [item, user]);
 
@@ -48,29 +44,17 @@ export default function ItemDetails({
         },
       };
 
-      const newUser = { ...user };
       if (gameData.items[item.itemName].buyCurrency === 0) {
         if (user.slimeGel < gameData.items[item.itemName].buyPrice) {
           showToastError("Insufficient slime gel.");
           return;
         }
-        newUser.slimeGel -= gameData.items[item.itemName].buyPrice;
       } else if (gameData.items[item.itemName].buyCurrency === 1) {
         if (user.flowers < gameData.items[item.itemName].buyPrice) {
           showToastError("Insufficient flowers.");
           return;
         }
-        newUser.flowers -= gameData.items[item.itemName].buyPrice;
       }
-
-      const newItem = {
-        itemName: item.itemName,
-        quantity: 1,
-      };
-      newUser.items.push(newItem);
-
-      setUser(newUser);
-      setOwned(true);
 
       axios
         .post(

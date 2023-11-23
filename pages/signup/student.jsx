@@ -15,21 +15,11 @@ import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 import { encrypt } from "../../utils/rsa";
 
 export default function Student({ loading, user, setUser }) {
   const router = useRouter();
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (user) {
-      router.push("/");
-    }
-  }, [loading, user]);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");

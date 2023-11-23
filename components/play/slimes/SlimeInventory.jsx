@@ -97,7 +97,7 @@ export default function SlimeInventory({
                 {slime.bonusLevel ? (
                   <p className="text-center text-sm mt-1">
                     Lvl. {slime.level === slime.maxLevel ? "MAX" : slime.level}{" "}
-                    + {slime.bonusLevel}
+                    <span style={{color:"white"}}>(+{slime.bonusLevel})</span>
                   </p>
                 ) : (
                   <p className="text-center text-sm mt-1">

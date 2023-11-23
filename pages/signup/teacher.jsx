@@ -19,29 +19,7 @@ import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
 export default function Teacher({ loading, user, setUser }) {
-  const router = useRouter();
-
-  // useEffect(() => {
-  //   if (loading) {
-  //     return;
-  //   }
-
-  //   // FIXME
-  //   if (!user) {
-  //     router.push('/signup/student')
-  //   }
-
-  //   if (user && user.userType === 1) {
-  //     router.push('/play')
-  //   }
-  //   else if (user) {
-  //     router.push("/");
-  //   }
-  // }, [loading, user]);
 
   const [honorific, setHonorific] = useState("");
   const [firstName, setFirstName] = useState("");
