@@ -1,5 +1,5 @@
 import { useState, useEffect, Fragment } from "react";
-import ReactHtmlParser from 'react-html-parser';
+import parse from 'html-react-parser'
 
 export default function TextElement({ element, index, colorPalette, bold, horiz }) {
     // Not sure why we did this:
@@ -12,7 +12,7 @@ export default function TextElement({ element, index, colorPalette, bold, horiz 
     const [parsedText, setParsedText] = useState(<Fragment></Fragment>)
 
     useEffect(() => {
-        setParsedText(ReactHtmlParser(element.text))
+        setParsedText(parse(element.text))
     }, [element])
 
     return (
