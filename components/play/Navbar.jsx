@@ -15,12 +15,7 @@ Parameter:
   current: the id of the web page that the user is currently on
 */
 
-export function Navbar({
-  current,
-  user,
-  colorPalette,
-  setPanelsVisible,
-}) {
+export function Navbar({ current, user, colorPalette, setPanelsVisible }) {
   const types = [
     { title: "Shopping", src: "shopping", id: 1 },
     { title: "Friends", src: "friends", id: 2 },
@@ -110,7 +105,9 @@ export function Navbar({
                   sizes="100vw"
                   className="2xl:h-[1.7rem] 2xl:w-[1.7rem] h-[1.4rem] w-[1.4rem] 2xl:ml-1 mr-2 -mt-0.5"
                 />
-                <p className="max-xl:pr-5 max-xl:text-md text-white">{user.slimeGel}</p>
+                <p className="max-xl:pr-5 max-xl:text-md text-white">
+                  {user.slimeGel}
+                </p>
               </div>
             )}
           </div>
