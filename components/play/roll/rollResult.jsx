@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import RollSlimePopup from "./rollSlimePopup";
+import { gameData } from "../../../data/gameData";
 
 /**
  *
@@ -12,6 +13,8 @@ export default function RollResult({
   slimes,
   originalSlimes,
   router,
+  colorPalette,
+  item,
 }) {
   const [updatedSlime, setUpdatedSlime] = useState(null);
   const [originalSlime, setOriginalSlime] = useState(null);
@@ -40,17 +43,7 @@ export default function RollResult({
   }, [updatedSlime]);
 
   return (
-    <div
-      className={"fixed inset-0 z-40 flex items-center justify-center bg-white"}
-    >
-      <button
-        className="text-black hover:text-slate-300 absolute top-[1rem] right-[2rem] text-[2.5rem]"
-        onClick={() => {
-          setAfterRolling(0);
-        }}
-      >
-        &times;
-      </button>
+    <div className="fixed inset-0 z-40 flex items-center justify-center">
       <div className="relative grid rollgrid place-content-center m-10 p-10">
         {index > 0 ? (
           <button
@@ -60,7 +53,7 @@ export default function RollResult({
               setIndex(index - 1);
             }}
           >
-            <span className="text-black material-symbols-outlined text-[2.5rem]">
+            <span className="text-black material-symbols-outlined text-[2.5rem] z-40 absolute -left-[9.5rem] -top-[2rem]">
               arrow_back_ios
             </span>
           </button>
@@ -83,7 +76,7 @@ export default function RollResult({
               setIndex(index + 1);
             }}
           >
-            <span className="text-black material-symbols-outlined text-[2.5rem]">
+            <span className="text-black material-symbols-outlined text-[2.5rem] z-997 absolute -right-[10rem] -top-[2rem]">
               arrow_forward_ios
             </span>
           </button>
