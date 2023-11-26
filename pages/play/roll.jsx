@@ -53,7 +53,7 @@ export default function Roll({
       return;
     }
 
-    const token = cookies.get("slime-scholars-webapp-token")
+    const token = cookies.get("slime-scholars-webapp-token");
 
     const config = {
       headers: {
@@ -74,8 +74,8 @@ export default function Roll({
         setEggsLacked(0);
         if (user) {
           setOriginalSlimes(user.slimes);
-        };
-        setUser({...user})
+        }
+        setUser({ ...user });
         showToastError("Purchased successfully.", true);
       })
       .catch((error) => showToastError(error.message));
@@ -90,7 +90,7 @@ export default function Roll({
 
       // only 1 egg works for now
       if (eggsNeed === 1) {
-        const token = cookies.get("slime-scholars-webapp-token")
+        const token = cookies.get("slime-scholars-webapp-token");
         setLoading(true);
         axios
           .post(
@@ -111,7 +111,7 @@ export default function Roll({
             newSlimes.push(response.data.slime);
             setSlimes(newSlimes);
             setOriginalSlimes(response.data.originSlimeObjects);
-            setUser({...user})
+            setUser({ ...user });
             setTimeout(() => {
               setLoading(false);
               setTimeout(() => {
@@ -131,7 +131,7 @@ export default function Roll({
             }, 150);
           });
       } else {
-        const token = cookies.get("slime-scholars-webapp-token")
+        const token = cookies.get("slime-scholars-webapp-token");
         axios
           .post(
             "/api/slime/open-10eggs",
@@ -148,8 +148,7 @@ export default function Roll({
             setSlimes(response.data.slimeObjects);
             setOriginalSlimes(response.data.originSlimeObjects);
             setRolling(true);
-            setUser({...user})
-            ;
+            setUser({ ...user });
             setTimeout(() => {
               setLoading(false);
               setTimeout(() => {
@@ -166,32 +165,34 @@ export default function Roll({
   return (
     <div className="w-full h-full">
       {/* Popup Message for Lacking Eggs */}
-      <div className="fixed inset-0 z-40 text-white flex items-center justify-center transition-opacity duration-300
+      <div
+        className="fixed inset-0 z-40 text-white flex items-center justify-center transition-opacity duration-300
       bg-black/[0.4]"
-      style={{
-        opacity: eggsLacked > 0 ? 1 : 0,
-        zIndex: eggsLacked > 0 ? 2000 : -100,
-      }}>
+        style={{
+          opacity: eggsLacked > 0 ? 1 : 0,
+          zIndex: eggsLacked > 0 ? 2000 : -100,
+        }}
+      >
         <div className="relative flex flex-col gap-4 text-center bg-black/[0.8] px-12 pt-16 pb-12 rounded-lg">
           <div className="absolute top-0 right-0 m-4">
-            <button className="text-2xl"
-            onClick={() => {
-              setEggsLacked(0)
-            }}>
-              <AiOutlineClose/>
+            <button
+              className="text-2xl"
+              onClick={() => {
+                setEggsLacked(0);
+              }}
+            >
+              <AiOutlineClose />
             </button>
           </div>
           <div className="flex flex-row gap-[0.25em] font-galindo text-white text-2xl items-center">
-            <span className="">
-             You're missing {eggsLacked}
-            </span>
+            <span className="">You're missing {eggsLacked}</span>
             <Image
-                src="/assets/items/slime-egg.png"
-                alt="slime gel"
-                height={0}
-                width={0}
-                sizes="100vw"
-                className="w-[2rem] h-[2rem]"
+              src="/assets/items/slime-egg.png"
+              alt="slime gel"
+              height={0}
+              width={0}
+              sizes="100vw"
+              className="w-[2rem] h-[2rem]"
             />
           </div>
           <button
@@ -241,10 +242,12 @@ export default function Roll({
         }
       >
         <div className="flex flex-col items-center justify-center relative">
-          <div className="flex flex-row gap-2 items-center font-galindo text-[1.75em]"
-          style={{
-            color: colorPalette ? colorPalette.text1 : "white"
-          }}>
+          <div
+            className="flex flex-row gap-2 items-center font-galindo text-[1.75em]"
+            style={{
+              color: colorPalette ? colorPalette.text1 : "white",
+            }}
+          >
             Slime Eggs: {eggsOwned}
             {/* <Image
                 src="/assets/items/slime-egg.png"
@@ -264,78 +267,78 @@ export default function Roll({
             sizes="100vw"
             className="ml-[50px] bg-cover w-[60%] h-auto inset-0 "
           />
-          </div>
-          {/* Buttons to roll */}
-          <div className="w-full mt-5">
-            <div className="flex justify-center">
-              <div className="flex gap-8 content-en">
-                <button
-                  style={{
-                    backgroundColor: colorPalette ? colorPalette.primary1 : "",
-                    color: colorPalette ? colorPalette.text1 : "",
-                    border: colorPalette
-                      ? `3px solid ${colorPalette.primary2}`
-                      : "",
-                  }}
-                  className="roll-button-animate pr-[5vw] w-[300px] flex flex-col justify-between rounded-lg text-white p-4 "
-                  onClick={() => handleRollBtnClick(1)}
-                >
-                  <div className="flex flex-row font-galindo text-lg">
-                    <p>Roll x1</p>
-                    <Image
-                      src="/assets/icons/slime-egg.png"
-                      alt="slime egg"
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="h-6 w-auto px-2"
-                    />
-                  </div>
-                  <p className=" text-xl font-galindo text-left">
-                    {gameData.items["Slime Egg"].buyPrice + " FL"}
-                  </p>
-                </button>
-                <button
-                  style={{
-                    backgroundColor: colorPalette ? colorPalette.primary1 : "",
-                    color: colorPalette ? colorPalette.text1 : "",
-                    border: colorPalette
-                      ? `3px solid ${colorPalette.primary2}`
-                      : "",
-                  }}
-                  className="roll-button-animate pr-[5vw] w-[300px] flex flex-col justify-between rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
-                  onClick={() => handleRollBtnClick(10)}
-                >
-                  <div className="flex flex-row font-galindo text-lg">
-                    <p>Roll x10</p>
-                    <Image
-                      src="/assets/icons/slime-egg.png"
-                      alt="slime egg"
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="h-6 w-auto px-2"
-                    />
-                  </div>
+        </div>
+        {/* Buttons to roll */}
+        <div className="w-full mt-5">
+          <div className="flex justify-center">
+            <div className="flex gap-8 content-en">
+              <button
+                style={{
+                  backgroundColor: colorPalette ? colorPalette.primary1 : "",
+                  color: colorPalette ? colorPalette.text1 : "",
+                  border: colorPalette
+                    ? `3px solid ${colorPalette.primary2}`
+                    : "",
+                }}
+                className="roll-button-animate pr-[5vw] w-[300px] flex flex-col justify-between rounded-lg text-white p-4 "
+                onClick={() => handleRollBtnClick(1)}
+              >
+                <div className="flex flex-row font-galindo text-lg">
+                  <p>Roll x1</p>
+                  <Image
+                    src="/assets/icons/slime-egg.png"
+                    alt="slime egg"
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="h-6 w-auto px-2"
+                  />
+                </div>
+                <p className=" text-xl font-galindo text-left">
+                  {gameData.items["Slime Egg"].buyPrice + " FL"}
+                </p>
+              </button>
+              <button
+                style={{
+                  backgroundColor: colorPalette ? colorPalette.primary1 : "",
+                  color: colorPalette ? colorPalette.text1 : "",
+                  border: colorPalette
+                    ? `3px solid ${colorPalette.primary2}`
+                    : "",
+                }}
+                className="roll-button-animate pr-[5vw] w-[300px] flex flex-col justify-between rounded-lg bg-red-400 text-white p-4 hover:bg-red-300"
+                onClick={() => handleRollBtnClick(10)}
+              >
+                <div className="flex flex-row font-galindo text-lg">
+                  <p>Roll x10</p>
+                  <Image
+                    src="/assets/icons/slime-egg.png"
+                    alt="slime egg"
+                    height={0}
+                    width={0}
+                    sizes="100vw"
+                    className="h-6 w-auto px-2"
+                  />
+                </div>
 
-                  <div className="flex flex-row text-left">
-                    <p className="pr-1">GUARANTEED </p>
-                    <p
-                      className="font-bold"
-                      style={{ color: gameData.rarityColours["Epic"].text }}
-                    >
-                      EPIC
-                    </p>
-                  </div>
-
-                  <p className="text-xl font-galindo text-left pt-1">
-                    {gameData.items["Slime Egg"].buyPrice * 10 + " FL"}
+                <div className="flex flex-row text-left">
+                  <p className="pr-1">GUARANTEED </p>
+                  <p
+                    className="font-bold"
+                    style={{ color: gameData.rarityColours["Epic"].text }}
+                  >
+                    EPIC
                   </p>
-                </button>
-              </div>
+                </div>
+
+                <p className="text-xl font-galindo text-left pt-1">
+                  {gameData.items["Slime Egg"].buyPrice * 10 + " FL"}
+                </p>
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
   );
 }
