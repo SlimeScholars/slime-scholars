@@ -233,7 +233,7 @@ export default function Assessment({ user, loading, setLoading, colorPalette }) 
 													}}>
 													<div>
 														<img
-															src={"/assets/misc/minion-happy.gif"}
+															src={"/assets/misc/finish-banner-alt.png"}
 															className="absolute top-0 left-0 rounded-md fade-in-element"
 															style={{
 																height: "100%",

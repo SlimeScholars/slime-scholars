@@ -214,7 +214,7 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const student_noperms = ['/admin', '/classrooms', '/signup/parent', '/signup/teacher']
+    const student_noperms = ['/admin', '/classrooms']
     let permitted = true;
 
     student_noperms.forEach((start) => {
@@ -231,7 +231,7 @@ function MyApp({ Component, pageProps }) {
   }, [user, router, router.asPath])
 
   useEffect(() => {
-    const teacher_noperms = ['/admin', '/signup/parent', '/signup/student']
+    const teacher_noperms = ['/admin']
     let permitted = true;
 
     teacher_noperms.forEach((start) => {
@@ -248,7 +248,7 @@ function MyApp({ Component, pageProps }) {
   }, [user, router, router.asPath])
 
   useEffect(() => {
-    const parent_noperms = ['/admin', '/classrooms', '/signup/student', '/signup/student']
+    const parent_noperms = ['/admin', '/classrooms']
     let permitted = true;
 
     parent_noperms.forEach((start) => {

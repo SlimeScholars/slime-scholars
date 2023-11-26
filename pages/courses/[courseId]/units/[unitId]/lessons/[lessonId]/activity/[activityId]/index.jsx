@@ -454,7 +454,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                         >
                           <div>
                             <img
-                              src={"/assets/misc/minion-happy.gif"}
+                              src={"/assets/misc/finish-banner-alt.png"}
                               className="absolute top-0 left-0 rounded-md fade-in-element"
                               style={{
                                 height: "100%",
@@ -464,8 +464,8 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                             />
                           </div>
                           <div
-                            className="z-[250] absolute top-[-35%] left-[20%]
-										rounded-md rounded-l-full w-[80%] h-[170%] fade-in-right-index bg-gradient-to-r from-black/[0.55] to-black/[0.9]"
+                            className="z-[250] absolute top-[-35%] left-[60%]
+										rounded-md rounded-l-full w-[40%] h-[170%] fade-in-right-index bg-gradient-to-r from-black/[0.25] to-black/[0.7]"
                             style={{
                               backgroundColor: colorPalette ? colorPalette.primary1 + "90" : '',
                             }}

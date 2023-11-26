@@ -13,11 +13,6 @@ export default function AccessDenied({ user }) {
                 <div className="absolute top-0 left-0 w-full h-full z-[100] bg-rhombus">
                     
                 </div>
-                <p className="absolute top-8 left-8 font-bold text-black hover:text-blue-700 font-galindo text-2xl transition-colors
-                z-[200]"
-                onClick={() => {router.back()}}>
-                    <a>Back</a>
-                </p>
                 <Image src="/assets/icons/sad-slime.png" width={300} height={300} alt="404" className="z-[200]" />
                 <p className="text-center z-[200] font-semibold text-xl">
                     (Status 401: Unauthorized)
