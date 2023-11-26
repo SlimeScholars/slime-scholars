@@ -69,6 +69,7 @@ export default function Parent({ loading, user, setUser }) {
         if (response.data) {
           cookies.set("slime-scholars-webapp-token", response.data.token);
           setUser(response.data.user);
+          router.push('/')
         }
       })
       .catch((error) => {
