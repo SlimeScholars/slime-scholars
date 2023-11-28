@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
-import "../styles/styles.css";
+import "../styles/main.css";
+import "../styles/rarity-gradients.css"
 import axios from "axios";
 import MainSpinner from "../components/misc/mainSpinner";
 //import AxiosSpinner from "../components/misc/axiosSpinner";

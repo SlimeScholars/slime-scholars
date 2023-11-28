@@ -29,6 +29,7 @@ export default async function (req, res) {
       const update = await User.findById(user._id)
       update.lastSlimeRewards = data.newDate
       update.slimeGel += data.rewards
+      
       await update.save()
       user.screen_display_notif = {
         intervals: data.intervals,

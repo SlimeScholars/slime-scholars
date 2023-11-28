@@ -278,36 +278,6 @@ input {
 }
 
 /* gradient borders and backgrounds */
-.common-gradient-background {
-  background: linear-gradient(45deg, #8f8f8d 1.9%, #fffff3 97.5%);
-  -webkit-background-clip: content-box;
-  background-clip: content-box;
-}
-
-.uncommon-gradient-background {
-  background: linear-gradient(45deg, #146b2a 1.9%, #6be38a 97.5%);
-  -webkit-background-clip: content-box;
-  background-clip: content-box;
-}
-
-.rare-gradient-background {
-  background: linear-gradient(45deg, #043788 1.9%, #11a7ff 97.5%);
-  -webkit-background-clip: content-box;
-  background-clip: content-box;
-}
-
-.epic-gradient-background {
-  background: linear-gradient(45deg, #5420a0 1.9%, #9c63db 97.5%);
-  -webkit-background-clip: content-box;
-  background-clip: content-box;
-}
-
-.legendary-gradient-background {
-  background: linear-gradient(45deg, #a48435 1.9%, #f2d467 97.5%);
-  -webkit-background-clip: content-box;
-  background-clip: content-box;
-}
-
 .slime-size {
   background-size: 64rem 48rem;
 }

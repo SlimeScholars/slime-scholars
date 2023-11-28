@@ -24,7 +24,6 @@ export default function Inventory({
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
       return;
     }
   }, [user, loading]);

@@ -1400,26 +1400,31 @@ export const gameData = {
   rarityColours: {
     Common: {
       text: "#fff",
+      blacktext: "#2B2B2B",
       bord: "common-gradient-border",
       bg: "common-gradient-background",
     },
     Uncommon: {
       text: "#14DC24",
+      blacktext: "#105201",
       bord: "uncommon-gradient-border",
       bg: "uncommon-gradient-background",
     },
     Rare: {
       text: "#0061ff",
+      blacktext: "#013452",
       bord: "rare-gradient-border",
       bg: "rare-gradient-background",
     },
     Epic: {
       text: "#BC19F7",
+      blacktext: "#430152",
       bord: "epic-gradient-border",
       bg: "epic-gradient-background",
     },
     Legendary: {
       text: "#F7E818",
+      blacktext: "#524101",
       bord: "legendary-gradient-border",
       bg: "legendary-gradient-background",
     },

@@ -31,7 +31,7 @@ export default function Roll({
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
+      return;
     } else if (user.items) {
       // Set # eggs owned
       user.items.map((item) => {
@@ -223,24 +223,20 @@ export default function Roll({
           <img src="/assets/misc/egg_rolling.gif" alt="Rolling Egg" />
         </div>
       )}
-      {
-        // Popup Message for Rolling Result
-        afterRolling !== 0 && slimes && (
-          <RollResult
+        {afterRolling !== 0 && slimes && 
+        <RollResult
             setAfterRolling={setAfterRolling}
             slimes={slimes}
             originalSlimes={originalSlimes}
             router={router}
-          />
-        )
-      }
-      <div
-        className={
-          eggsLacked > 0 || afterRolling
-            ? "w-full h-full brightness-75"
-            : "w-full h-full"
-        }
-      >
+        />}
+        <div
+          className={
+            eggsLacked > 0 || afterRolling
+              ? "w-full h-full brightness-75"
+              : "w-full h-full"
+          }
+        >
         <div className="flex flex-col items-center justify-center relative">
           <div
             className="flex flex-row gap-2 items-center font-galindo text-[1.75em]"
