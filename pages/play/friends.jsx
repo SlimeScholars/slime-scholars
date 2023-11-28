@@ -31,7 +31,7 @@ export default function Friends({
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
+      return
     }
 
     // Get userfriends for userfriendListings in leaderboard

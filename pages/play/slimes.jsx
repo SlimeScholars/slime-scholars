@@ -29,7 +29,7 @@ export default function Slimes({
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
+      return
     }
   }, [user, loading]);
 

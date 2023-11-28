@@ -28,19 +28,21 @@ export default function RollResult({
 
   useEffect(() => {
     // If is duplicate, reset originalSlime
-    if (
-      originalSlimes.find(
-        (slime) => slime.slimeName === updatedSlime?.slimeName
-      )
-    ) {
-      const newOriginalSlime = originalSlimes.find(
-        (slime) => slime.slimeName === updatedSlime.slimeName
-      );
-      setOriginalSlime(newOriginalSlime);
-    } else {
-      setOriginalSlime(null);
+    if(originalSlimes && originalSlimes.find){
+      if (
+        originalSlimes.find(
+          (slime) => slime.slimeName === updatedSlime?.slimeName
+        )
+      ) {
+        const newOriginalSlime = originalSlimes.find(
+          (slime) => slime.slimeName === updatedSlime.slimeName
+        );
+        setOriginalSlime(newOriginalSlime);
+      } else {
+        setOriginalSlime(null);
+      }
     }
-  }, [updatedSlime]);
+  }, [updatedSlime, originalSlimes]);
 
   return (
     <div className="fixed inset-0 z-40 flex items-center justify-center">

@@ -22,7 +22,7 @@ export default function Shopping({ loading, user,
 			return;
 		}
 		if (!user || user.userType !== 1) {
-			router.push("/");
+			return
 		}
 
 		if (user && user.items) {

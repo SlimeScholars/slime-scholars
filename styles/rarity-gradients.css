@@ -1,0 +1,90 @@
+.common-gradient-background {
+    background-color: rgb(221, 222, 230);
+    background-image: linear-gradient(135deg, rgb(234, 234, 234) 25%, transparent 75%),
+      linear-gradient(225deg, rgb(234, 234, 234) 25%, transparent 25%),
+      linear-gradient(45deg, rgb(234, 234, 234) 25%, transparent 25%),
+      linear-gradient(315deg, rgb(234, 234, 234) 25%, rgb(221, 222, 230) 25%);
+    background-position: 5vw 0, 5vw 0, 0 0, 0 0;
+    background-size: 5vw 5vw;
+    background-repeat: repeat;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 450ms;
+}
+
+.uncommon-gradient-background {
+    background-color: rgb(185, 223, 190);
+    background-image: linear-gradient(135deg, rgb(214, 235, 217) 25%, transparent 75%),
+        linear-gradient(225deg, rgb(214, 235, 217)  25%, transparent 25%),
+        linear-gradient(45deg, rgb(214, 235, 217)  25%, transparent 25%),
+        linear-gradient(315deg, rgb(214, 235, 217)  25%, rgb(185, 223, 190) 25%);
+    background-position: 5vw 0, 5vw 0, 0 0, 0 0;
+    background-size: 5vw 5vw;
+    background-repeat: repeat;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 450ms;
+}
+
+.rare-gradient-background {
+    background-color: rgb(179, 206, 224);
+    background-image: linear-gradient(135deg, rgb(214, 223, 235) 25%, transparent 75%),
+        linear-gradient(225deg, rgb(214, 223, 235)  25%, transparent 25%),
+        linear-gradient(45deg, rgb(214, 223, 235)  25%, transparent 25%),
+        linear-gradient(315deg, rgb(214, 223, 235)  25%, rgb(179, 206, 224) 25%);
+    background-position: 5vw 0, 5vw 0, 0 0, 0 0;
+    background-size: 5vw 5vw;
+    background-repeat: repeat;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 450ms;
+}
+
+.epic-gradient-background {
+    background-color: rgb(198, 177, 220);
+    background-image: linear-gradient(135deg, rgb(215, 199, 228) 25%, transparent 75%),
+        linear-gradient(225deg, rgb(215, 199, 228)  25%, transparent 25%),
+        linear-gradient(45deg, rgb(215, 199, 228)  25%, transparent 25%),
+        linear-gradient(315deg, rgb(215, 199, 228)  25%, rgb(198, 177, 220) 25%);
+    background-position: 5vw 0, 5vw 0, 0 0, 0 0;
+    background-size: 5vw 5vw;
+    background-repeat: repeat;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 450ms;
+}
+
+.legendary-gradient-background {
+    background-color: rgb(206, 196, 145);
+    background-image: linear-gradient(135deg, rgb(218, 213, 174) 25%, transparent 75%),
+        linear-gradient(225deg, rgb(218, 213, 174)  25%, transparent 25%),
+        linear-gradient(45deg, rgb(218, 213, 174) 25%, transparent 25%),
+        linear-gradient(315deg, rgb(218, 213, 174)  25%, rgb(206, 196, 145) 25%);
+    background-position: 5vw 0, 5vw 0, 0 0, 0 0;
+    background-size: 5vw 5vw;
+    background-repeat: repeat;
+    transition-property: opacity;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 450ms;
+}
+
+.roll-slide{
+    position:absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    width: 200vw;
+    height: 100vh;
+    animation: move-rhombus 12.5s linear infinite
+}
+
+@keyframes
+move-rhombus{
+    0%{
+        transform: translateX(0vw)
+    }
+    100%{
+        transform: translateX(-100vw)
+    }
+}
