@@ -245,6 +245,37 @@ input {
   }
 }
 
+.shine {
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  -webkit-mask-image: linear-gradient(
+    -75deg,
+    rgba(0, 0, 0, 0.6) 30%,
+    #000 50%,
+    rgba(0, 0, 0, 0.6) 70%
+  );
+  -webkit-mask-size: 200%;
+  mask-image: linear-gradient(
+    -75deg,
+    rgba(0, 0, 0, 0.6) 30%,
+    #000 50%,
+    rgba(0, 0, 0, 0.6) 70%
+  );
+  mask-size: 200%;
+  animation: 3s linear infinite shine;
+}
+
+@keyframes shine {
+  0%,
+  30% {
+    -webkit-mask-position: 150%;
+  }
+  100% {
+    -webkit-mask-position: -50%;
+  }
+}
+
 .course-bar-default {
   display: grid;
   border-radius: 0.5rem;
@@ -695,13 +726,13 @@ div#loading-wave .dot:nth-child(3) {
   text-shadow: 2px 3px 5px rgba(0, 0, 0.8);
 }
 
-.btn {
+.btn-animated {
   color: #fff;
   position: relative;
   transition: all 0.3s linear;
 }
 
-.btn svg {
+.btn-animated svg {
   height: 100%;
   left: 0;
   position: absolute;
@@ -709,7 +740,7 @@ div#loading-wave .dot:nth-child(3) {
   width: 100%;
 }
 
-.btn rect {
+.btn-animated rect {
   fill: none;
   stroke: #fff;
   stroke-width: 4;
@@ -717,7 +748,7 @@ div#loading-wave .dot:nth-child(3) {
   transition: all 0.35s linear;
 }
 
-.btn:hover rect {
+.btn-animated:hover rect {
   stroke-width: 6;
   stroke-dasharray: 15, 310;
   stroke-dashoffset: 48;

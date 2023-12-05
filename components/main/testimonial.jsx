@@ -52,7 +52,7 @@ export default function Testimonials() {
         alt="Strawbunny Slime"
         width={400}
         height={400}
-        className="absolute -bottom-7 -right-10 w-64 h-64 rotate-12"
+        className="absolute -bottom-7 -right-10 w-64 h-64 rotate-12 z-10"
       />
       <h2 className="text-4xl font-medium font-galindo text-primary text-center mt-16 mb-8">
         Make Learning Rewarding

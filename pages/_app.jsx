@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
 import "../styles/main.css";
-import "../styles/rarity-gradients.css"
+import "../styles/rarity-gradients.css";
 import axios from "axios";
 import MainSpinner from "../components/misc/mainSpinner";
 //import AxiosSpinner from "../components/misc/axiosSpinner";
@@ -55,19 +55,19 @@ function MyApp({ Component, pageProps }) {
   const [onPlay, setOnPlay] = useState(false);
   const [current, setCurrent] = useState(0);
 
-  const [panelsVisible, setPanelsVisible] = useState(false)
+  const [panelsVisible, setPanelsVisible] = useState(false);
 
   const [audio, setAudio] = useState(null);
 
-  const { user, setUser } = useCurrentUser({ setLoading })
-  const [initUser, setInitUser] = useState(null)
+  const { user, setUser } = useCurrentUser({ setLoading });
+  const [initUser, setInitUser] = useState(null);
 
   const [windowSize, setWindowSize] = useState(
     isClient
       ? {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }
       : { width: 10000, height: 10000 } // Provide default values for server-side rendering
   );
 
@@ -119,7 +119,9 @@ function MyApp({ Component, pageProps }) {
           audio.pause();
           audio.currentTime = 0;
         }
-        if (gameData.items[user.colorPalette] === gameData.items[user.bg].track) {
+        if (
+          gameData.items[user.colorPalette] === gameData.items[user.bg].track
+        ) {
           track.currentTime = 0;
           track.muted = true;
           track.onended = () => {
@@ -161,12 +163,11 @@ function MyApp({ Component, pageProps }) {
     colorPalette: gameData.items[user?.bg],
     isMobile,
     panelsVisible,
-    setPanelsVisible
+    setPanelsVisible,
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      ;
     }
   }, []);
 
@@ -181,7 +182,9 @@ function MyApp({ Component, pageProps }) {
       setRewardsData(user.screen_display_notif);
     }
     if (user) {
-      setTimeout(() => { setLoading(false) }, 150)
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
     }
   }, [user]);
 
@@ -215,60 +218,66 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const student_noperms = ['/admin', '/classrooms']
+    const student_noperms = ["/admin", "/classrooms"];
     let permitted = true;
 
     student_noperms.forEach((start) => {
-      if(router.asPath.startsWith(start)){
-        permitted = false
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
       }
-    })
+    });
 
-    if(!permitted){
-      if (user && user.userType === 1  && router.asPath !== "/404") {
-        router.push('/access-denied')
+    if (!permitted) {
+      if (user && user.userType === 1 && router.asPath !== "/404") {
+        router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath])
+  }, [user, router, router.asPath]);
 
   useEffect(() => {
-    const teacher_noperms = ['/admin']
+    const teacher_noperms = ["/admin"];
     let permitted = true;
 
     teacher_noperms.forEach((start) => {
-      if(router.asPath.startsWith(start)){
-        permitted = false
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
       }
-    })
+    });
 
-    if(!permitted){
+    if (!permitted) {
       if (user && user.userType === 1 && router.asPath !== "/404") {
-        router.push('/access-denied')
+        router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath])
+  }, [user, router, router.asPath]);
 
   useEffect(() => {
-    const parent_noperms = ['/admin', '/classrooms']
+    const parent_noperms = ["/admin", "/classrooms"];
     let permitted = true;
 
     parent_noperms.forEach((start) => {
-      if(router.asPath.startsWith(start)){
-        permitted = false
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
       }
-    })
+    });
 
-    if(!permitted){
+    if (!permitted) {
       if (user && user.userType === 1 && router.asPath !== "/404") {
-        router.push('/access-denied')
+        router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath])
+  }, [user, router, router.asPath]);
 
   if (router.asPath.startsWith("/courses")) {
     return (
       <>
-        {loading ? <div className="relative w-screen h-screen"><MainSpinner /></div> : <></>}
+        {loading ? (
+          <div className="relative w-screen h-screen">
+            <MainSpinner />
+          </div>
+        ) : (
+          <></>
+        )}
         <div className={`relative ${loading ? "hidden" : ""}`}>
           <ToastContainer />
           <CourseLayout
@@ -285,7 +294,13 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading ? <div className="relative w-screen h-screen"><MainSpinner /></div> : <></>}
+      {loading ? (
+        <div className="relative w-screen h-screen">
+          <MainSpinner />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
