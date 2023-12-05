@@ -30,6 +30,24 @@ a {
   font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 48;
 }
 
+/* scrollbar */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #d5e3d4;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #92b38f;
+  border-radius: 0.5rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
 /* tutorial book */
 .page {
   transform-origin: left center;

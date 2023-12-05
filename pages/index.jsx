@@ -9,6 +9,8 @@ import Testinomials from "../components/main/testimonial";
 import Mission from "../components/main/mission";
 import Details from "../components/main/details";
 import Banner from "../components/main/banner";
+import Contact from "../components/main/contact";
+import Footer from "../components/main/footer";
 
 export default function Home({ user, setUser }) {
   const router = useRouter();
@@ -76,6 +78,8 @@ export default function Home({ user, setUser }) {
         <Mission />
         <Details />
         <Banner />
+        <Contact />
+        <Footer />
       </main>
     </div>
   );

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function Banner() {
   return (
-    <section className="w-full h-[300px] relative mb-96">
+    <section className="w-full h-[300px] relative">
       <Image
         src="/assets/graphics/concentric-circles.svg"
         width={600}
