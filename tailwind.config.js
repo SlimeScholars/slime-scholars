@@ -13,9 +13,9 @@ module.exports = {
       },
       colors: {
         "bg-light": "#FEF8FF",
-        primary: "#F649DA",
-        "primary-light": "#EC5ED6",
-        "primary-dark": "#D125B5",
+        primary: "#43774B",
+        "primary-light": "#D4F2D1",
+        "primary-dark": "#26502D",
         ink: "#4E5A84",
         "bg-completed": "#151515",
       },

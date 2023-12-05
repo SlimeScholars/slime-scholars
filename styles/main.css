@@ -694,3 +694,32 @@ div#loading-wave .dot:nth-child(3) {
 .text-shadow {
   text-shadow: 2px 3px 5px rgba(0, 0, 0.8);
 }
+
+.btn {
+  color: #fff;
+  position: relative;
+  transition: all 0.3s linear;
+}
+
+.btn svg {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.btn rect {
+  fill: none;
+  stroke: #fff;
+  stroke-width: 4;
+  stroke-dasharray: 422, 0;
+  transition: all 0.35s linear;
+}
+
+.btn:hover rect {
+  stroke-width: 6;
+  stroke-dasharray: 15, 310;
+  stroke-dashoffset: 48;
+  transition: all 1.35s cubic-bezier(0.19, 1, 0.22, 1);
+}
