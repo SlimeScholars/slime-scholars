@@ -24,7 +24,7 @@ const content = [
 
 export default function Mission() {
   return (
-    <section className="w-[140vw] rounded-[50%] h-[400px] bg-primary z-20 flex items-center justify-center">
+    <section className="w-[140vw] rounded-[50%] h-[400px] bg-primary z-30 flex items-center justify-center -mb-14">
       <div className="w-screen h-full grid grid-cols-3 gap-10 px-32">
         {content.map((item) => (
           <div className="w-full h-full flex flex-col items-center justify-start">

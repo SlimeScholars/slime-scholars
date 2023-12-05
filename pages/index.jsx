@@ -7,6 +7,8 @@ import useLogout from "../hooks/useLogout";
 import Navbar from "../components/main/navbar";
 import Testinomials from "../components/main/testimonial";
 import Mission from "../components/main/mission";
+import Details from "../components/main/details";
+import Banner from "../components/main/banner";
 
 export default function Home({ user, setUser }) {
   const router = useRouter();
@@ -37,7 +39,7 @@ export default function Home({ user, setUser }) {
         <h2 className="text-2xl text-white mt-2 mb-2">Grade 4-12</h2>
         <a
           href="/signup/student"
-          className="btn w-96 my-1 py-4 bg-green-900/70 flex items-center justify-center"
+          className="btn-animated w-96 my-1 py-4 bg-green-900/70 flex items-center justify-center"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
@@ -48,7 +50,7 @@ export default function Home({ user, setUser }) {
         </a>
         <a
           href="/signup/student"
-          className="btn w-96 my-1 py-4 bg-green-900/50 flex items-center justify-center"
+          className="btn-animated w-96 my-1 py-4 bg-green-900/50 flex items-center justify-center"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
@@ -59,7 +61,7 @@ export default function Home({ user, setUser }) {
         </a>
         <a
           href="/signup/student"
-          className="btn w-96 my-1 py-4 bg-primary/30 flex items-center justify-center"
+          className="btn-animated w-96 my-1 py-4 bg-primary/30 flex items-center justify-center"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
@@ -72,6 +74,8 @@ export default function Home({ user, setUser }) {
       <main className="w-full flex flex-col overflow-x-hidden items-center justify-center bg-bg-light">
         <Testinomials />
         <Mission />
+        <Details />
+        <Banner />
       </main>
     </div>
   );
