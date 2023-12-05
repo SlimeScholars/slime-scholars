@@ -5,6 +5,8 @@ import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
 import useLogout from "../hooks/useLogout";
 import Navbar from "../components/main/navbar";
+import Testinomials from "../components/main/testimonial";
+import Mission from "../components/main/mission";
 
 export default function Home({ user, setUser }) {
   const router = useRouter();
@@ -67,8 +69,10 @@ export default function Home({ user, setUser }) {
           </p>
         </a>
       </header>
-
-      <main className="w-full flex flex-col items-center justify-center"></main>
+      <main className="w-full flex flex-col overflow-x-hidden items-center justify-center bg-bg-light">
+        <Testinomials />
+        <Mission />
+      </main>
     </div>
   );
 }

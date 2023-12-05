@@ -63,7 +63,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"];
 
   return (
-    <nav className="flex fixed top-0 flex-row px-10 bg-stone-100 items-center justify-between w-full h-[calc(4.9rem_-_4px)]">
+    <nav className="flex fixed z-50 top-0 flex-row px-10 bg-stone-100 items-center justify-between w-full h-[calc(4.9rem_-_4px)]">
       <section>
         <a
           className="flex justify-center w-1/3items-center h-auto transition-all duration-150 course-nav-title"
