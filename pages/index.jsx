@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { MainTitle } from "../components/svg/titles";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
 import useLogout from "../hooks/useLogout";
@@ -51,7 +52,7 @@ export default function Home({ user, setUser }) {
         >
           Grade 4-12
         </h2>
-        <a
+        <Link
           href="/signup/student"
           className="btn-animated w-96 my-1 py-4 bg-green-700/70 flex items-center justify-center"
           data-aos="fade-right"
@@ -63,8 +64,8 @@ export default function Home({ user, setUser }) {
           <p className="text-white font-extrabold text-lg">
             Learners: Play now!
           </p>
-        </a>
-        <a
+        </Link>
+        <Link
           href="/signup/student"
           className="btn-animated w-96 my-1 py-4 bg-green-600/50 flex items-center justify-center"
           data-aos="fade-left"
@@ -76,8 +77,8 @@ export default function Home({ user, setUser }) {
           <p className="text-white font-extrabold text-lg">
             Teachers: Modernize your classroom!
           </p>
-        </a>
-        <a
+        </Link>
+        <Link
           href="/signup/student"
           className="btn-animated w-96 my-1 py-4 bg-green-500/30 flex items-center justify-center"
           data-aos="fade-right"
@@ -89,7 +90,7 @@ export default function Home({ user, setUser }) {
           <p className="text-white font-extrabold text-lg">
             Parents: Unlock your child's potential!
           </p>
-        </a>
+        </Link>
       </header>
       <main className="w-full flex flex-col overflow-x-hidden items-center justify-center bg-bg-light">
         <Testinomials />

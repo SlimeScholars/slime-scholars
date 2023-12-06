@@ -11,7 +11,6 @@ export function MainTitle({ props }) {
   ) => {
     let paths = document.querySelectorAll("path");
     let mode = repeat ? "infinite" : "forwards";
-    console.log(paths);
     for (let i = 0; i <= Math.min(12, paths.length); i++) {
       const path = paths[i];
       const length = path.getTotalLength();

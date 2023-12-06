@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
-import "../styles/main.css";
-import "../styles/rarity-gradients.css";
+
 import axios from "axios";
 import MainSpinner from "../components/misc/mainSpinner";
 //import AxiosSpinner from "../components/misc/axiosSpinner";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
@@ -14,7 +12,12 @@ import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
 import useCurrentUser from "../hooks/useCurrentUser";
 import Aos from "aos";
-import { Head } from "next/document";
+
+import "../styles/main.css";
+import "../styles/animations.css";
+import "../styles/game.css";
+import "../styles/rarity-gradients.css";
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
