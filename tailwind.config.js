@@ -13,10 +13,10 @@ module.exports = {
       },
       colors: {
         "bg-light": "#FEF8FF",
-        primary: "#43774B",
+        primary: "#4bad5a",
         "primary-light": "#D4F2D1",
         "primary-medium": "#AACEA7",
-        "primary-dark": "#26502D",
+        "primary-dark": "#2a5932",
         ink: "#4E5A84",
         "bg-completed": "#151515",
       },

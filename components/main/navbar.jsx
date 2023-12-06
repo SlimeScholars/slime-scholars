@@ -70,7 +70,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
           href="/"
         >
           <Image
-            src="/assets/icons/logo.png"
+            src="/assets/icons/logo.svg"
             alt="Slime Scholars Logo"
             height={0}
             width={0}

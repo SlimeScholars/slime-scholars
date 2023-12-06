@@ -14,13 +14,13 @@ export default function Footer() {
         Terms of Service
       </a>
       <div className="flex flex-row items-center justify-center space-x-3">
-        <a href="https://www.instagram.com/slime_scholars/" target="_blank">
+        <a href="/" target="_blank">
           <IoLogoInstagram className="text-primary-light text-2xl" />
         </a>
-        <a href="https://twitter.com/slime_scholars" target="_blank">
+        <a href="/" target="_blank">
           <IoLogoTwitter className="text-primary-light text-2xl" />
         </a>
-        <a href="https://www.tiktok.com/@slime_scholars" target="_blank">
+        <a href="/" target="_blank">
           <IoLogoTiktok className="text-primary-light text-2xl" />
         </a>
       </div>

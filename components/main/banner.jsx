@@ -15,16 +15,15 @@ export default function Banner() {
       />
       <section className="relative w-full bg-primary-dark h-[300px] flex flex-row items-center justify-start px-40 py-5 z-10">
         <div
-          className="relative w-1/3 px-10 -mt-7 h-full flex items-center justify-center"
+          className="relative w-1/3 -mt-7 h-full flex items-center justify-center"
           data-aos="flip-left"
           data-aos-delay="400"
         >
           <Image
             src="/assets/slimes/slime-static/lucky-slime.png"
             alt="Lucky Slime"
-            width={400}
-            height={400}
-            className="w-full twirl"
+            fill={true}
+            className="h-full twirl object-contain"
           />
         </div>
         <div className="w-2/3 flex flex-col items-start justify-evenly">
