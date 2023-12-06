@@ -4,15 +4,16 @@ import { userData } from "../data/userData";
 export const verifyApiKey = (apiKey) => {
   //FIXME
   if (!apiKey) {
-    throw new Error('Must send an API key')
+    throw new Error("Must send an API key");
   }
   if (apiKey !== process.env.API_KEY) {
-    throw new Error('Incorrect API key')
+    throw new Error("Incorrect API key");
   }
-}
+};
 
 // Verify if email is acceptable
 export const verifyEmail = (email) => {
+  email = email.toLowerCase().trim();
   if (!email) {
     throw new Error("Email cannot be left blank");
   }
@@ -24,6 +25,25 @@ export const verifyEmail = (email) => {
   if (!email.includes("@")) {
     throw new Error('Email must contain "@"');
   }
+  if (!email.includes(".")) {
+    throw new Error('Email must contain "."');
+  }
+  if (email.indexOf("@") > email.indexOf(".")) {
+    throw new Error('Email must contain "." after "@"');
+  }
+  if (email.indexOf("@") === 0) {
+    throw new Error('Email must contain characters before "@"');
+  }
+  if (email.indexOf("@") === email.length - 1) {
+    throw new Error('Email must contain characters after "@"');
+  }
+  if (email.indexOf(".") === 0) {
+    throw new Error('Email must contain characters before "."');
+  }
+  if (email.indexOf(".") === email.length - 1) {
+    throw new Error('Email must contain characters after "."');
+  }
+  return true;
 };
 
 export const verifyName = (name) => {
