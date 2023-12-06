@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { gameData } from "../../data/gameData";
 import { useRouter } from "next/router";
 import { useState, useRef, useEffect } from "react";
@@ -65,8 +66,8 @@ export default function Navbar({ colorPalette, setUser, user }) {
   return (
     <nav className="flex fixed z-50 top-0 flex-row px-10 bg-stone-100 items-center justify-between w-full h-[calc(4.9rem_-_4px)]">
       <section>
-        <a
-          className="flex justify-center w-1/3items-center h-auto transition-all duration-150 course-nav-title"
+        <Link
+          className="flex justify-center h-auto transition-all duration-200 course-nav-title"
           href="/"
         >
           <Image
@@ -77,62 +78,74 @@ export default function Navbar({ colorPalette, setUser, user }) {
             sizes="100vw"
             className="w-[225px] h-auto pl-4"
           />
-        </a>
+        </Link>
       </section>
       <ul className="flex flex-row justify-around w-1/2 items-center">
         <li className="hidden lg:flex">
-          <a
-            className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
             href="/about"
           >
             About Us
-          </a>
+          </Link>
         </li>
         <li className="hidden lg:flex">
-          <a
-            className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
             href="/#details"
           >
             Parents
-          </a>
+          </Link>
         </li>
         <li className="hidden lg:flex">
-          <a
-            className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
             href="/#details"
           >
             Teachers
-          </a>
+          </Link>
         </li>
         <li className="hidden lg:flex">
-          <a
-            className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
             href="/#contact"
           >
             Contact Us
-          </a>
+          </Link>
         </li>
       </ul>
       {user ? (
         <section className="flex flex-row gap-1 font-bold text-xl items-center text-green-900">
-          <a href="/play" className="rounded-sm bg-primary px-4 py-2 font-bold">
-            Play
-          </a>
+          <Link
+            href="/play"
+            className="btn-animated px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Play</p>
+          </Link>
         </section>
       ) : (
         <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
-          <a
-            href="/Log In"
-            className="rounded-sm bg-white ring-primary ring-2 text-primary px-4 py-2 font-bold hover:px-5 duration-300 ease-in-out"
+          <Link
+            href="/login"
+            className="btn-animated px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
           >
-            Log In
-          </a>
-          <a
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Log In</p>
+          </Link>
+          <Link
             href="/signup"
-            className="rounded-sm bg-primary px-4 py-2 text-white ring-2 ring-primary font-bold hover:px-5 duration-300 ease-in-out"
+            className="btn-animated px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
           >
-            Sign Up
-          </a>
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Sign Up</p>
+          </Link>
         </section>
       )}
     </nav>
