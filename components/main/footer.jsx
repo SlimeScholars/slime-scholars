@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import { IoLogoInstagram, IoLogoTiktok, IoLogoTwitter } from "react-icons/io5";
 
 export default function Footer() {
@@ -7,12 +8,12 @@ export default function Footer() {
       <p className="text-primary-light text-xs">
         © 2023 Slime Scholars. All rights reserved.
       </p>
-      <a href="/privacy" className="text-primary-light text-xs">
+      <Link href="/privacy" className="text-primary-light text-xs">
         Privacy Policy
-      </a>
-      <a href="/terms" className="text-primary-light text-xs">
+      </Link>
+      <Link href="/terms" className="text-primary-light text-xs">
         Terms of Service
-      </a>
+      </Link>
       <div className="flex flex-row items-center justify-center space-x-3">
         <a href="/" target="_blank">
           <IoLogoInstagram className="text-primary-light text-2xl" />

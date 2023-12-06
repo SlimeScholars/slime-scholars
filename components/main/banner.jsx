@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Banner() {
   return (
@@ -33,14 +34,14 @@ export default function Banner() {
           >
             Ready to enhance your learning?
           </h2>
-          <a
+          <Link
             href="/signup/student"
             className="shake rounded-md bg-primary-light text-primary font-galindo text-xl text-center px-7 py-3 mt-5"
             data-aos="fade-right"
             data-aos-delay="200"
           >
             Play Now!
-          </a>
+          </Link>
         </div>
       </section>
     </section>
