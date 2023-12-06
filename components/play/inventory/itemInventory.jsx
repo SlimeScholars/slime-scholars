@@ -36,7 +36,6 @@ export default function ItemInventory({
               itemOnClick.itemName === item.itemName &&
               "overflow-visible cursor-pointer")
           }
-          id={crypto.randomUUID()}
           onClick={(e) => {
             if (displayOnly !== "true") {
               scrollToTop();
@@ -73,7 +72,6 @@ export default function ItemInventory({
               itemOnClick.itemName === item.itemName &&
               "overflow-visible cursor-pointer")
           }
-          id={crypto.randomUUID()}
           onClick={(e) => {
             if (displayOnly !== "true") {
               scrollToTop();
@@ -123,7 +121,6 @@ export default function ItemInventory({
         onMouseEnter={() => {
           playSound("boop");
         }}
-        id={crypto.randomUUID()}
         onClick={(e) => {
           if (displayOnly !== "true") {
             scrollToTop();
@@ -162,7 +159,6 @@ export default function ItemInventory({
             itemOnClick.itemName === item.itemName &&
             "overflow-visible cursor-pointer")
         }
-        id={crypto.randomUUID()}
         onClick={(e) => {
           if (displayOnly !== "true") {
             scrollToTop();
