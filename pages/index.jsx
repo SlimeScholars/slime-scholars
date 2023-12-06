@@ -24,6 +24,10 @@ export default function Home({ user, setUser }) {
           content="Slime Scholars: Making Learning Exciting"
         />
         <link rel="icon" href="/favicon.ico" />
+        <link
+          href="https://unpkg.com/aos@2.3.1/dist/aos.css"
+          rel="stylesheet"
+        />
       </Head>
       <Navbar user={user} setUser={setUser} />
       <header
@@ -34,14 +38,28 @@ export default function Home({ user, setUser }) {
         }}
       >
         <h1 className="hidden">Slime Scholars</h1> {/* for SEO */}
-        <div className="mt-6">
+        <div className="mt-6" data-aos="fade-up">
           <MainTitle props="w-[800px] h-auto" />
         </div>
-        <h2 className="text-2xl text-white mt-6">Level up your learning</h2>
-        <h2 className="text-2xl text-white mt-2 mb-2">Grade 4-12</h2>
+        <h2
+          className="text-2xl text-white mt-6"
+          data-aos="fade-up"
+          data-aos-delay="100"
+        >
+          Level up your learning today.
+        </h2>
+        <h2
+          className="text-2xl text-white mt-2 mb-2"
+          data-aos="fade-up"
+          data-aos-delay="200"
+        >
+          Grade 4-12
+        </h2>
         <a
           href="/signup/student"
           className="btn-animated w-96 my-1 py-4 bg-green-900/70 flex items-center justify-center"
+          data-aos="fade-right"
+          data-aos-delay="600"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
@@ -53,6 +71,8 @@ export default function Home({ user, setUser }) {
         <a
           href="/signup/student"
           className="btn-animated w-96 my-1 py-4 bg-green-900/50 flex items-center justify-center"
+          data-aos="fade-left"
+          data-aos-delay="800"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
@@ -64,6 +84,8 @@ export default function Home({ user, setUser }) {
         <a
           href="/signup/student"
           className="btn-animated w-96 my-1 py-4 bg-primary/30 flex items-center justify-center"
+          data-aos="fade-right"
+          data-aos-delay="1000"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />

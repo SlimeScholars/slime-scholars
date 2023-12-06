@@ -5,6 +5,7 @@ import Image from "next/image";
 export default function Details() {
   return (
     <section
+      id="details"
       className="w-screen py-32 bg-bg-light relative flex flex-col items-center justify-center px-52"
       style={{
         backgroundImage: "url('/assets/graphics/bg-graphic-2.svg')",
@@ -18,12 +19,18 @@ export default function Details() {
         height={600}
         alt="Concentric Circles"
         className="absolute w-[600px] h-[600px] -top-80 -right-24 z-0"
+        data-aos="zoom-in"
+        data-aos-offset="400"
       />
-      <div className="w-full h-[300px]">
+      <div className="w-full h-[300px]" data-aos="zoom-in-up">
         <Preview />
       </div>
       <div className="w-full grid grid-cols-2 gap-10 z-10">
-        <div className="relative w-full h-full ring-8 ring-primary bg-white mt-10">
+        <div
+          className="relative w-full h-full ring-8 ring-primary bg-white mt-10"
+          data-aos="zoom-in-left"
+          data-aos-delay="100"
+        >
           <Image
             src="/assets/slimes/slime-static/octopus-slime.png"
             width={200}
@@ -59,7 +66,11 @@ export default function Details() {
             </a>
           </div>
         </div>
-        <div className="relative w-full h-full ring-8 ring-primary bg-white mt-10">
+        <div
+          className="relative w-full h-full ring-8 ring-primary bg-white mt-10"
+          data-aos="zoom-in-right"
+          data-aos-delay="200"
+        >
           <Image
             src="/assets/slimes/slime-static/flower-slime.png"
             width={200}

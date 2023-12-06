@@ -13,6 +13,7 @@ import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
 import useCurrentUser from "../hooks/useCurrentUser";
+import Aos from "aos";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
@@ -167,8 +168,7 @@ function MyApp({ Component, pageProps }) {
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-    }
+    Aos.init({ duration: 1200 });
   }, []);
 
   useEffect(() => {
