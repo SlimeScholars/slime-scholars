@@ -6,7 +6,7 @@ export const gameData = {
     // "Slime Egg": [0, 0, 0, 1, 0],
     // "Slime Egg": [0, 0, 0, 0, 1],
     // "Slime Egg": [0.2, 0.2, 0.2, 0.2, 0.2],
-    "Slime Egg": [0.30, 0.30, 0.25, 0.1, 0.05],
+    "Slime Egg": [0.3, 0.3, 0.25, 0.1, 0.05],
     // "Rotten Egg": [0.6, 0.1, 0.1, 0.1, 0.1]
   },
 
@@ -962,6 +962,12 @@ export const gameData = {
       pfp: "lava-slime.png",
       spritesheet: "lava-slime.png",
       static: "lava-slime.png",
+    },
+    "Mercury Slime": {
+      slimename: "Mercury Slime",
+      pfp: "mercury-slime.png",
+      spritesheet: "mercury-slime.png",
+      static: "mercury-slime.png",
     },
     "Metal Slime": {
       slimeName: "Metal Slime",

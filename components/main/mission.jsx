@@ -28,7 +28,7 @@ const content = [
 export default function Mission() {
   return (
     <section className="w-[140vw] rounded-[50%] h-[400px] bg-primary z-30 flex items-center justify-center -mb-14">
-      <div className="w-screen h-full grid grid-cols-3 gap-10 px-32">
+      <div className="w-screen h-full grid grid-cols-3 gap-10 px-56">
         {content.map((item, index) => (
           <div
             className="w-full h-full flex flex-col items-center justify-start"
@@ -51,7 +51,7 @@ export default function Mission() {
               data-aos-delay={index * 200}
             />
             <p
-              className="text-base text-white text-center"
+              className="text-lg text-white text-center"
               data-aos="fade-up"
               data-aos-delay={index * 200}
             >

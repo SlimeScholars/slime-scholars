@@ -14,6 +14,7 @@ import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
 import useCurrentUser from "../hooks/useCurrentUser";
 import Aos from "aos";
+import { Head } from "next/document";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
@@ -46,11 +47,7 @@ function MyApp({ Component, pageProps }) {
 
   const [rewardsData, setRewardsData] = useState(null);
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false);
-
-  const [isMobile, setIsMobile] = useState(false);
-  const [mobileDevice, setMobileDevice] = useState(false);
   const isClient = typeof window === "object";
-  const mobileSize = { width: 900 };
 
   const router = useRouter();
   const [onPlay, setOnPlay] = useState(false);
@@ -79,35 +76,6 @@ function MyApp({ Component, pageProps }) {
       height: window.innerHeight,
     });
   };
-
-  // Step 5: Use the useEffect hook to add a resize event listener
-  useEffect(() => {
-    if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
-    ) {
-      setMobileDevice(true);
-    }
-    if (isClient) {
-      // Add event listener on component mount
-      window.addEventListener("resize", updateWindowSize);
-
-      // Clean up the event listener on component unmount
-      return () => {
-        window.removeEventListener("resize", updateWindowSize);
-      };
-    }
-  }, [isClient]); // Re-run the effect if isClient changes
-
-  useEffect(() => {
-    if (windowSize.width < mobileSize.width || mobileDevice) {
-      setIsMobile(true);
-      router.push("/mobile");
-    } else {
-      setIsMobile(false);
-    }
-  }, [windowSize, mobileDevice]);
 
   // music
   useEffect(() => {
@@ -162,7 +130,6 @@ function MyApp({ Component, pageProps }) {
     items,
     setItems,
     colorPalette: gameData.items[user?.bg],
-    isMobile,
     panelsVisible,
     setPanelsVisible,
   }; // Include user in modifiedPageProps
@@ -189,10 +156,6 @@ function MyApp({ Component, pageProps }) {
   }, [user]);
 
   useEffect(() => {
-    if (isMobile) {
-      return;
-    }
-
     const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
     if (
       router.pathname.startsWith("/play") &&
@@ -304,7 +267,7 @@ function MyApp({ Component, pageProps }) {
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
-        {onPlay && !isMobile ? (
+        {onPlay ? (
           <>
             <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
@@ -332,7 +295,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
-        {!isMobile && rewardsModalOpen && (
+        {rewardsModalOpen && (
           <SlimeGelPopup
             user={initUser}
             details={rewardsData}

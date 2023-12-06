@@ -162,10 +162,6 @@ a {
   }
 }
 
-input {
-  color: gray;
-}
-
 .shake:hover {
   animation: shake 2s infinite;
 }
@@ -698,18 +694,18 @@ div#loading-wave .dot:nth-child(3) {
   filter: drop-shadow(0px 0px 12px rgba(214, 218, 221, 0.9));
 }
 
-@keyframes svg-text-anim {
+@keyframes title-anim {
   10% {
     stroke-dashoffset: 0;
     fill: transparent;
   }
   15% {
     stroke-dashoffset: 0;
-    fill: #fff0fa;
+    fill: #fef8ff;
   }
   100% {
     stroke-dashoffset: 0;
-    fill: #fff0fa;
+    fill: #fef8ff;
   }
 }
 

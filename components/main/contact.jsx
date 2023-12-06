@@ -33,11 +33,11 @@ export default function Contact() {
             <div className="w-32 h-9 flex flex-row items-center justify-center flex-nowrap -translate-x-20 group-hover:translate-x-0 duration-700 ease-in-out">
               <HiPaperAirplane className="w-12 h-0 text-4xl text-green-500 group-hover:h-9 duration-300 ease-in-out" />
               <div className="w-8 h-9" />
-              <HiMiniEnvelope className="w-12 h-9 text-4xl text-primary group-hover:h-0 duration-300 ease-in-out" />
+              <HiMiniEnvelope className="w-12 h-9 text-4xl text-primary-dark group-hover:h-0 duration-300 ease-in-out" />
             </div>
           </div>
           <a
-            className="text-xl text-primary ml-2 group-hover:text-green-500 group-hover:tracking-wider duration-300 ease-in-out"
+            className="text-xl text-primary-dark ml-2 group-hover:text-green-500 group-hover:tracking-wider duration-300 ease-in-out"
             href="mailto:letmeknoweducation@gmail.com"
             target="_blank"
           >
@@ -50,21 +50,21 @@ export default function Contact() {
           <input
             type="text"
             placeholder="Name"
-            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-200 ease-in-out z-[12]"
+            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-300 transition-all ease-in-out z-[12]"
             onChange={(e) => setName(e.target.value)}
             data-aos="fade-left"
           />
           <input
             type="text"
             placeholder="Email"
-            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-200 ease-in-out z-[11]"
+            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-300 transition-all ease-in-out z-[11]"
             onChange={(e) => setEmail(e.target.value)}
             data-aos="fade-left"
             data-aos-delay="100"
           />
           <textarea
             placeholder="Message"
-            className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-200 ease-in-out resize-none"
+            className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-300 transition-all ease-in-out resize-none"
             onChange={(e) => setMessage(e.target.value)}
             data-aos="fade-left"
             data-aos-delay="200"

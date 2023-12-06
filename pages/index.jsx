@@ -18,16 +18,12 @@ export default function Home({ user, setUser }) {
   return (
     <div className="w-full flex flex-col">
       <Head>
-        <title>Slime Scholars</title>
+        <title>Slime Scholars | Level Up Your Learning (Grade 4-12)</title>
         <meta
           name="description"
-          content="Slime Scholars: Making Learning Exciting"
+          content="Collect adorable slimes while learning from lessons designed to help maximize success in our modern world. Slime Scholars is a gamified learning platform for students, teachers, and parents."
         />
         <link rel="icon" href="/favicon.ico" />
-        <link
-          href="https://unpkg.com/aos@2.3.1/dist/aos.css"
-          rel="stylesheet"
-        />
       </Head>
       <Navbar user={user} setUser={setUser} />
       <header
@@ -57,7 +53,7 @@ export default function Home({ user, setUser }) {
         </h2>
         <a
           href="/signup/student"
-          className="btn-animated w-96 my-1 py-4 bg-green-900/70 flex items-center justify-center"
+          className="btn-animated w-96 my-1 py-4 bg-green-700/70 flex items-center justify-center"
           data-aos="fade-right"
           data-aos-delay="600"
         >
@@ -70,7 +66,7 @@ export default function Home({ user, setUser }) {
         </a>
         <a
           href="/signup/student"
-          className="btn-animated w-96 my-1 py-4 bg-green-900/50 flex items-center justify-center"
+          className="btn-animated w-96 my-1 py-4 bg-green-600/50 flex items-center justify-center"
           data-aos="fade-left"
           data-aos-delay="800"
         >
@@ -83,7 +79,7 @@ export default function Home({ user, setUser }) {
         </a>
         <a
           href="/signup/student"
-          className="btn-animated w-96 my-1 py-4 bg-primary/30 flex items-center justify-center"
+          className="btn-animated w-96 my-1 py-4 bg-green-500/30 flex items-center justify-center"
           data-aos="fade-right"
           data-aos-delay="1000"
         >

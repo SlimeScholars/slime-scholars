@@ -5,7 +5,7 @@ import { landingContent } from "../../data/landingPage";
 export default function Testimonials() {
   return (
     <section
-      className="relative w-full flex flex-col items-center justify-center pb-36 -mb-12 overflow-hidden"
+      className="relative w-full flex flex-col items-center justify-center pb-36 -mb-16 overflow-hidden"
       style={{
         backgroundImage: "url('/assets/graphics/bg-graphic-1.png')",
         backgroundSize: "cover",
@@ -42,7 +42,7 @@ export default function Testimonials() {
         alt="Pineapple Slime"
         width={400}
         height={400}
-        className="absolute -bottom-2 -left-10 w-60 h-60 -rotate-12"
+        className="absolute bottom-0 -left-10 w-60 h-60 -rotate-12"
         data-aos="fade-right"
       />
       <Image
@@ -71,7 +71,7 @@ export default function Testimonials() {
         Collect adorable slimes while learning from lessons designed to help
         maximize success in our modern world.
       </p>
-      <section className="relative w-full px-40 grid grid-cols-3 gap-12">
+      <section className="relative w-full px-64 grid grid-cols-3 gap-12">
         {landingContent.testimonials.map((testimonial, index) => (
           <div
             className="relative flex p-8 flex-col items-start justify-start bg-gray-100 ring-1 ring-gray-200 shadow-xl"
@@ -93,7 +93,7 @@ export default function Testimonials() {
                 {testimonial.title}
               </h4>
             </div>
-            <p className="text-left text-base">{testimonial.quote}</p>
+            <p className="text-left text-sm">{testimonial.quote}</p>
           </div>
         ))}
       </section>
