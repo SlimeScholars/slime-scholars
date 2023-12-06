@@ -1,10 +1,68 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useRef, useState } from "react";
 import { HiMiniEnvelope, HiPaperAirplane } from "react-icons/hi2";
+import { showToastError } from "../../utils/toast";
+import "react-toastify/dist/ReactToastify.css";
+import emailjs from "@emailjs/browser";
+import { verifyEmail } from "../../utils/verify";
+import { set } from "mongoose";
 
 export default function Contact() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const form = useRef();
+  const [sendState, setSendState] = useState(0); // 0 = not sent, 1 = sending, 2 = sent
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+    if (sendState > 0) return;
+    if (!form.current.name.value) {
+      showToastError("Please enter a name.", false);
+      return;
+    }
+    if (!form.current.email.value) {
+      showToastError("Please enter an email.", false);
+      return;
+    }
+    if (!verifyEmail(form.current.email.value)) {
+      showToastError("Please enter a valid email.", false);
+      return;
+    }
+    if (!form.current.message.value) {
+      showToastError("Please enter a message.", false);
+      return;
+    }
+    setSendState(1);
+    emailjs
+      .sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
+        form.current,
+        process.env.NEXT_PUBLIC_EMAILJS_USER_ID
+      )
+      .then(
+        (result) => {
+          showToastError(
+            "Message sent! We'll get back to you as soon as possible.",
+            true
+          );
+          form.current.reset();
+          setSendState(2);
+        },
+        (error) => {
+          showToastError(
+            "Failed to send message. Please try again later, or email us directly at slimescholarsedu@gmail.com",
+            false
+          );
+          setSendState(0);
+        }
+      )
+      .catch((err) => {
+        showToastError(
+          "Failed to send message. Please try again later, or email us directly at slimescholarsedu@gmail.com.",
+          false
+        );
+        setSendState(0);
+      });
+  };
   return (
     <section
       id="contact"
@@ -41,43 +99,56 @@ export default function Contact() {
             href="mailto:letmeknoweducation@gmail.com"
             target="_blank"
           >
-            letmeknoweducation@gmail.com
+            slimescholarsedu@gmail.com
           </a>
         </div>
       </div>
       <div className="w-full h-full flex flex-col items-center justify-center">
-        <form className="w-full h-full flex flex-col items-center justify-center px-10 text-primary">
+        <form
+          className="w-full h-full flex flex-col items-center justify-center px-10 text-primary"
+          ref={form}
+          onSubmit={sendEmail}
+        >
           <input
             type="text"
+            name="name"
             placeholder="Name"
-            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-300 transition-all ease-in-out z-[12]"
-            onChange={(e) => setName(e.target.value)}
+            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[12]"
             data-aos="fade-left"
           />
           <input
-            type="text"
+            type="email"
+            name="email"
             placeholder="Email"
-            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-300 transition-all ease-in-out z-[11]"
-            onChange={(e) => setEmail(e.target.value)}
+            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[11]"
             data-aos="fade-left"
             data-aos-delay="100"
           />
           <textarea
+            type="text"
+            name="message"
             placeholder="Message"
-            className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary duration-300 transition-all ease-in-out resize-none"
-            onChange={(e) => setMessage(e.target.value)}
+            className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 resize-none"
             data-aos="fade-left"
             data-aos-delay="200"
           />
           <button
-            className="btn-animated w-full my-1 py-4 bg-primary/70 hover:bg-primary/95 flex items-center justify-center mt-5"
+            className="btn-animated w-full my-1 py-4 disabled:bg-primary/80 bg-primary enabled:hover:bg-primary/80 flex items-center justify-center mt-5"
             data-aos="fade-left"
             data-aos-delay="300"
+            type="submit"
+            disabled={sendState > 0}
           >
             <svg>
               <rect x="0" y="0" fill="none" width="100%" height="100%" />
             </svg>
-            <p className="text-white font-extrabold text-lg">Send</p>
+            <p className="text-white font-extrabold text-lg">
+              {sendState === 0
+                ? "Send"
+                : sendState === 1
+                ? "Sending..."
+                : "Sent!"}
+            </p>
           </button>
         </form>
       </div>
