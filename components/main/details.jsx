@@ -1,6 +1,7 @@
 import React from "react";
 import Preview from "./preview";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Details() {
   return (
@@ -51,7 +52,7 @@ export default function Details() {
               <li>Get insights on your child's learning</li>
               <li>Help your child learn at home</li>
             </ul>
-            <a
+            <Link
               href="/signup/parent"
               className="btn-animated px-6 py-4 mt-10 bg-primary/70 hover:bg-primary/95 z-20"
             >
@@ -61,7 +62,7 @@ export default function Details() {
               <p className="text-white font-extrabold text-lg">
                 SlimeScholars Parents
               </p>
-            </a>
+            </Link>
           </div>
         </div>
         <div
@@ -91,7 +92,7 @@ export default function Details() {
               <li>Reward your students' learning</li>
               <li>Manage assignments and homework</li>
             </ul>
-            <a
+            <Link
               href="/signup/teacher"
               className="btn-animated px-6 py-4 mt-10 bg-primary/70 hover:bg-primary/95 z-20"
             >
@@ -101,7 +102,7 @@ export default function Details() {
               <p className="text-white font-extrabold text-lg">
                 SlimeScholars Teachers
               </p>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
