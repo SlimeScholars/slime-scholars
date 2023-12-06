@@ -1,6 +1,5 @@
 import React from "react";
-import { FiInstagram, FiTwitter } from "react-icons/fi";
-import { RiTiktokLine } from "react-icons/ri";
+import { IoLogoInstagram, IoLogoTiktok, IoLogoTwitter } from "react-icons/io5";
 
 export default function Footer() {
   return (
@@ -14,27 +13,15 @@ export default function Footer() {
       <a href="/terms" className="text-primary-light text-xs">
         Terms of Service
       </a>
-      <div className="flex flex-row items-center justify-center">
-        <a
-          href="https://www.instagram.com/slime_scholars/"
-          target="_blank"
-          className="text-primary-light text-2xl mr-5"
-        >
-          <FiInstagram />
+      <div className="flex flex-row items-center justify-center space-x-3">
+        <a href="https://www.instagram.com/slime_scholars/" target="_blank">
+          <IoLogoInstagram className="text-primary-light text-2xl" />
         </a>
-        <a
-          href="https://twitter.com/slime_scholars"
-          target="_blank"
-          className="text-primary-light text-2xl mr-5"
-        >
-          <FiTwitter />
+        <a href="https://twitter.com/slime_scholars" target="_blank">
+          <IoLogoTwitter className="text-primary-light text-2xl" />
         </a>
-        <a
-          href="https://www.tiktok.com/@slime_scholars"
-          target="_blank"
-          className="text-primary-light text-2xl"
-        >
-          <RiTiktokLine />
+        <a href="https://www.tiktok.com/@slime_scholars" target="_blank">
+          <IoLogoTiktok className="text-primary-light text-2xl" />
         </a>
       </div>
     </footer>

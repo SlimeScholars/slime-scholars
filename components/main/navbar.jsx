@@ -13,7 +13,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const { logout } = useLogout();
 
   // const btn_tw =
-  //   "px-5 py-2 rounded-md transition-all duration-150 text-green-900 text-[1.35em] font-galindo";
+  //   "px-5 py-2 rounded-sm transition-all duration-150 text-green-900 text-[1.35em] font-galindo";
   const options = [
     {
       label: "My Slimes",
@@ -83,7 +83,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
         <li className="hidden lg:flex">
           <a
             className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
-            href="/#about"
+            href="/about"
           >
             About Us
           </a>
@@ -91,7 +91,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
         <li className="hidden lg:flex">
           <a
             className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
-            href="/#courses"
+            href="/#details"
           >
             Parents
           </a>
@@ -99,7 +99,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
         <li className="hidden lg:flex">
           <a
             className="text-green-900 text-lg font-normal hover:mx-4 duration-300 ease-in-out"
-            href="/#courses"
+            href="/#details"
           >
             Teachers
           </a>
@@ -115,7 +115,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
       </ul>
       {user ? (
         <section className="flex flex-row gap-1 font-bold text-xl items-center text-green-900">
-          <a href="/play" className="rounded-md bg-primary px-4 py-2 font-bold">
+          <a href="/play" className="rounded-sm bg-primary px-4 py-2 font-bold">
             Play
           </a>
         </section>
@@ -123,13 +123,13 @@ export default function Navbar({ colorPalette, setUser, user }) {
         <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
           <a
             href="/Log In"
-            className="rounded-md bg-white ring-primary ring-2 text-primary px-4 py-2 font-bold hover:px-5 duration-300 ease-in-out"
+            className="rounded-sm bg-white ring-primary ring-2 text-primary px-4 py-2 font-bold hover:px-5 duration-300 ease-in-out"
           >
             Log In
           </a>
           <a
             href="/signup"
-            className="rounded-md bg-primary px-4 py-2 text-white ring-2 ring-primary font-bold hover:px-5 duration-300 ease-in-out"
+            className="rounded-sm bg-primary px-4 py-2 text-white ring-2 ring-primary font-bold hover:px-5 duration-300 ease-in-out"
           >
             Sign Up
           </a>

@@ -15,6 +15,7 @@ body {
   font-family: "Nunito Sans", sans-serif;
   background: #fef8ff;
   color: #404040;
+  scroll-behavior: smooth;
 }
 
 a {
@@ -291,6 +292,37 @@ input {
   }
   100% {
     -webkit-mask-position: -50%;
+  }
+}
+
+.twirl:hover {
+  animation: 1.32s twirl 0.2s linear;
+}
+
+@keyframes twirl {
+  0% {
+    transform: rotateY(0deg);
+  }
+  4% {
+    transform: rotateY(0deg);
+  }
+  22% {
+    transform: rotateY(180deg) scale3d(1.07, 1.07, 1.07);
+  }
+  35% {
+    transform: rotateY(360deg) scale3d(1.07, 1.07, 1.07);
+  }
+  45% {
+    transform: rotateY(540deg) scale3d(1.07, 1.07, 1.07);
+  }
+  52% {
+    transform: rotateY(620deg) scale3d(1.05, 1.05, 1.05);
+  }
+  64% {
+    transform: rotateY(720deg);
+  }
+  100% {
+    transform: rotateY(720deg);
   }
 }
 
