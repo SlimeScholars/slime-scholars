@@ -35,8 +35,6 @@ export default function Home({ user, setUser }) {
     }
   }, [width]);
 
-  console.log(screenType);
-
   return (
     <div className="w-full flex flex-col">
       <Head>
