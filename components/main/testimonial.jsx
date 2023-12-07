@@ -42,7 +42,7 @@ export default function Testimonials() {
         alt="Pineapple Slime"
         width={400}
         height={400}
-        className="absolute bottom-0 -left-10 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 -rotate-12"
+        className="absolute bottom-0 -left-10 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 -rotate-12 z-10"
         data-aos="fade-right"
       />
       <Image
@@ -75,7 +75,7 @@ export default function Testimonials() {
         maximize success in our modern world.
       </p>
       <section className="px-5 md:px-10 lg:px-20 w-full h-fit overflow-visible">
-        <section className="relative px-12 w-full flex flex-row flex-nowrap overflow-x-scroll gap-12">
+        <section className="relative px-12 w-full h-fit flex flex-row flex-nowrap overflow-x-scroll gap-12">
           {landingContent.testimonials.map((testimonial, index) => (
             <div
               className="relative w-1/3 min-w-[260px] flex p-8 flex-col items-start justify-start bg-gray-100 ring-1 ring-gray-200 shadow-xl"

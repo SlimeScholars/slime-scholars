@@ -138,7 +138,7 @@ function MyApp({ Component, pageProps }) {
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
-    Aos.init({ duration: 1200 });
+    Aos.init({ duration: 1000 });
   }, []);
 
   useEffect(() => {

@@ -66,9 +66,9 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="w-full py-20 grid grid-cols-2 gap-10 z-10 px-40"
+      className="w-full py-20 flex flex-col justify-start items-center md:grid md:grid-cols-2 gap-10 z-10 px-10 sm:px-14 lg:px-20 xl:px-40"
     >
-      <div className="w-full h-full flex flex-col items-start justify-center pt-32">
+      <div className="w-full h-full flex flex-col items-start justify-center pt-10 md:pt-32">
         <h1
           className="text-4xl text-primary font-galindo text-center"
           data-aos="fade-right"
@@ -105,7 +105,7 @@ export default function Contact() {
       </div>
       <div className="w-full h-full flex flex-col items-center justify-center">
         <form
-          className="w-full h-full flex flex-col items-center justify-center px-10 text-primary"
+          className="w-full h-full flex flex-col items-center lg:px-7 xl:px-10 justify-center text-primary"
           ref={form}
           onSubmit={sendEmail}
         >
@@ -113,14 +113,14 @@ export default function Contact() {
             type="text"
             name="name"
             placeholder="Name"
-            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[12]"
+            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-transparent px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[12]"
             data-aos="fade-left"
           />
           <input
             type="email"
             name="email"
             placeholder="Email"
-            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[11]"
+            className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-transparent px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[11]"
             data-aos="fade-left"
             data-aos-delay="100"
           />
@@ -128,7 +128,7 @@ export default function Contact() {
             type="text"
             name="message"
             placeholder="Message"
-            className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-bg-light px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 resize-none"
+            className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-transparent px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 resize-none"
             data-aos="fade-left"
             data-aos-delay="200"
           />
