@@ -27,15 +27,15 @@ const content = [
 
 export default function Mission() {
   return (
-    <section className="w-[140vw] rounded-[50%] h-[400px] bg-primary z-30 flex items-center justify-center -mb-14">
-      <div className="w-screen h-full grid grid-cols-3 gap-10 px-56">
+    <section className="w-[200vw] md:w-[140vw] rounded-[50%] py-16 md:py-12 bg-primary z-30 flex items-center justify-center -mb-14">
+      <div className="w-screen h-full flex flex-col justify-center items-center md:grid md:grid-cols-3 gap-10 px-5 sm:px-10 md:px-20 lg:px-56">
         {content.map((item, index) => (
           <div
             className="w-full h-full flex flex-col items-center justify-start"
             key={item.title}
           >
             <h4
-              className="text-3xl font-extrabold text-white mt-20"
+              className="text-2xl lg:text-3xl mb-3 font-extrabold text-white"
               data-aos="fade-down"
               data-aos-delay={index * 200}
             >
@@ -46,12 +46,12 @@ export default function Mission() {
               alt="Cool Slime"
               width={400}
               height={400}
-              className="w-40 h-40 -mt-5"
+              className="w-16 h-16 md:w-24 md:h-24 lg:w-40 lg:h-40 -mt-5"
               data-aos="flip-left"
               data-aos-delay={index * 200}
             />
             <p
-              className="text-lg text-white text-center"
+              className="text-base lg:text-lg text-white text-center"
               data-aos="fade-up"
               data-aos-delay={index * 200}
             >

@@ -5,7 +5,7 @@ import { landingContent } from "../../data/landingPage";
 export default function Testimonials() {
   return (
     <section
-      className="relative w-full flex flex-col items-center justify-center pb-36 -mb-16 overflow-hidden"
+      className="relative w-full flex flex-col items-center justify-center pb-36 -mb-5 md:-mb-12 lg:-mb-16 overflow-hidden"
       style={{
         backgroundImage: "url('/assets/graphics/bg-graphic-1.png')",
         backgroundSize: "cover",
