@@ -35,6 +35,8 @@ export default function Home({ user, setUser }) {
     }
   }, [width]);
 
+  console.log(screenType);
+
   return (
     <div className="w-full flex flex-col">
       <Head>
@@ -62,7 +64,7 @@ export default function Home({ user, setUser }) {
                 : screenType === 1
                 ? 400
                 : screenType < 4
-                ? 550
+                ? 500
                 : 800
             }px]`}
           />

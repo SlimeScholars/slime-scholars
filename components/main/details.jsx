@@ -26,9 +26,9 @@ export default function Details() {
       <div className="w-full h-[300px]" data-aos="zoom-in-up">
         <Preview />
       </div>
-      <div className="w-full flex flex-col sm:grid sm:grid-cols-2 sm:gap-10 z-10">
+      <div className="w-full flex flex-col sm:grid sm:grid-cols-2 sm:gap-10 z-10 first-line">
         <div
-          className="relative w-full h-fit pb-5 ring-8 ring-primary bg-white mt-10"
+          className="relative w-full h-full mt-10 pb-5 ring-8 ring-primary bg-white"
           data-aos="zoom-in-left"
           data-aos-delay="100"
         >
@@ -68,7 +68,7 @@ export default function Details() {
           </div>
         </div>
         <div
-          className="relative w-full h-fit pb-5 ring-8 ring-primary bg-white mt-10"
+          className="relative w-full h-full mt-10 pb-5 ring-8 ring-primary bg-white"
           data-aos="zoom-in-right"
           data-aos-delay="200"
         >

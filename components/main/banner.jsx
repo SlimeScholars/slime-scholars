@@ -10,7 +10,7 @@ export default function Banner() {
         width={600}
         height={600}
         alt="Concentric Circles"
-        className="absolute w-[600px] h-[600px] z-0 left-10 -top-32"
+        className="absolute w-[500px] h-[500px] lg:w-[600px] lg:h-[600px] z-0 -left-12 md:-left-5 lg:left-10 -top-32"
         data-aos="zoom-in"
         data-aos-offset="400"
       />
