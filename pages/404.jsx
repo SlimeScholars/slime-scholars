@@ -4,7 +4,7 @@ import Navbar from "../components/main/navbar.jsx";
 import { useRouter } from "next/router.js";
 import { useEffect } from "react";
 
-export default function NotFound({ user }) {
+export default function NotFound() {
   const router = useRouter();
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function NotFound({ user }) {
 
   return (
     <div className="relative h-screen">
-      <Navbar user={user} />
+      <Navbar />
       <div className="relative w-full flex items-center justify-center h-full text-xl flex-col">
         <div className="absolute top-0 left-0 w-full h-full bg-rhombus" />
         <h1 className="absolute px-5 py-10 text-[400px] font-bold font-galindo text-green-900/5">

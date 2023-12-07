@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -7,17 +7,18 @@ import useLogout from "../../hooks/useLogout";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { FiMenu } from "react-icons/fi";
 
-export default function Navbar({ colorPalette, setUser, user }) {
-  const router = useRouter();
+export default function Navbar({ user }) {
   const { logout } = useLogout();
   const [isMobile, setIsMobile] = useState(false);
   const { width, height } = useWindowSize();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-  useEffect(() => {
-    if (width < 1024 && !isMobile) {
+  useIsomorphicLayoutEffect(() => {
+    if (!isMobile && width < 1024) {
       setIsMobile(true);
-    } else if (width >= 1024 && isMobile) {
+    } else if (isMobile && width >= 1024) {
       setIsMobile(false);
     }
   }, [width]);
@@ -26,13 +27,13 @@ export default function Navbar({ colorPalette, setUser, user }) {
     return (
       <nav
         className={
-          "fixed z-50 top-0 px-3 sm:px-5 md:px-8 bg-bg-light items-center justify-between w-full pb-5 overflow-hidden duration-500 ease-out " +
+          "fixed z-50 top-0 px-3 sm:px-5 md:px-8 bg-bg-light items-center justify-between w-screen pb-5 overflow-hidden duration-500 ease-out " +
           (isMenuOpen ? "max-h-[600px]" : "max-h-20")
         }
       >
         <section className="w-full h-20 flex flex-row justify-between items-center">
           <Link
-            className="flex justify-center h-auto transition-all duration-200 course-nav-title"
+            className="flex w-1/2 sm:w-1/3 md:1/4 justify-center h-auto transition-all duration-200 course-nav-title"
             href="/"
           >
             <Image
@@ -41,7 +42,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
               height={0}
               width={0}
               sizes="100vw"
-              className="w-[225px] h-auto pl-4"
+              className="w-full h-auto pl-4"
             />
           </Link>
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="mr-4">
