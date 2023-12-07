@@ -46,8 +46,10 @@ export default function Preview() {
             backgroundSize: "cover",
           }}
         >
-          <h1 className="text-3xl text-white font-bold">{content.title}</h1>
-          <p className="text-base font-thin text-white">
+          <h1 className="text-xl md:text-2xl lg:text-3xl text-white font-bold">
+            {content.title}
+          </h1>
+          <p className="text-xs sm:text-sm lg:text-base font-thin text-white">
             {content.description}
           </p>
         </div>

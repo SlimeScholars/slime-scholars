@@ -14,7 +14,7 @@ export default function Banner() {
         data-aos="zoom-in"
         data-aos-offset="400"
       />
-      <section className="relative w-full bg-primary-dark h-[300px] flex flex-row items-center justify-start px-40 py-5 z-10">
+      <section className="relative w-full bg-primary-dark h-[300px] flex flex-row items-center justify-start px-5 md:px-10 lg:px-32 xl:px-40 py-5 z-10">
         <div
           className="relative w-1/3 -mt-7 h-full flex items-center justify-center"
           data-aos="flip-left"
@@ -29,14 +29,14 @@ export default function Banner() {
         </div>
         <div className="w-2/3 flex flex-col items-start justify-evenly">
           <h2
-            className="text-4xl font-medium font-galindo text-primary-light shine"
+            className="text-2xl sm:text-3xl lg:text-4xl font-medium font-galindo text-primary-light shine"
             data-aos="fade-right"
           >
             Ready to enhance your learning?
           </h2>
           <Link
             href="/signup/student"
-            className="shake rounded-md bg-primary-light text-primary font-galindo text-xl text-center px-7 py-3 mt-5"
+            className="shake rounded-md bg-primary-light text-primary font-galindo text-lg sm:text-xl text-center px-7 py-3 mt-5"
             data-aos="fade-right"
             data-aos-delay="200"
           >
