@@ -1,70 +1,124 @@
+import React, { useState, useRef, useEffect } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
-import { gameData } from "../../data/gameData";
 import { useRouter } from "next/router";
-import { useState, useRef, useEffect } from "react";
-import ProfilePicture from "./profilePicture";
 import useLogout from "../../hooks/useLogout";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { FiMenu } from "react-icons/fi";
 
 export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
-  const dropdown = useRef(null);
-  const [open, setOpen] = useState(false);
-
   const { logout } = useLogout();
-
-  // const btn_tw =
-  //   "px-5 py-2 rounded-sm transition-all duration-150 text-green-900 text-[1.35em] font-galindo";
-  const options = [
-    {
-      label: "My Slimes",
-      onClick: () => {
-        router.push("/play");
-      },
-    },
-    {
-      label: "Learn",
-      onClick: () => {
-        router.push("/courses");
-      },
-    },
-    {
-      label: "Settings",
-      onClick: () => {
-        router.push("/settings");
-      },
-    },
-    {
-      label: "Logout",
-      onClick: () => {
-        router.push("/login");
-        logout();
-        setUser(null);
-      },
-    },
-  ];
+  const [isMobile, setIsMobile] = useState(false);
+  const { width, height } = useWindowSize();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        open &&
-        dropdown.current &&
-        !dropdown.current.contains(event.target)
-      ) {
-        setOpen(false);
-      }
-    };
-    window.addEventListener("mouseup", handleClickOutside);
-    return () => {
-      window.removeEventListener("mouseup", handleClickOutside);
-    };
-  }, [open]);
+    if (width < 1024 && !isMobile) {
+      setIsMobile(true);
+    } else if (width >= 1024 && isMobile) {
+      setIsMobile(false);
+    }
+  }, [width]);
 
-  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"];
-  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"];
+  if (isMobile) {
+    return (
+      <nav
+        className={
+          "fixed z-50 top-0 px-3 sm:px-5 md:px-8 bg-bg-light items-center justify-between w-full pb-5 overflow-hidden duration-500 ease-out " +
+          (isMenuOpen ? "max-h-[600px]" : "max-h-20")
+        }
+      >
+        <section className="w-full h-20 flex flex-row justify-between items-center">
+          <Link
+            className="flex justify-center h-auto transition-all duration-200 course-nav-title"
+            href="/"
+          >
+            <Image
+              src="/assets/icons/logo.svg"
+              alt="Slime Scholars Logo"
+              height={0}
+              width={0}
+              sizes="100vw"
+              className="w-[225px] h-auto pl-4"
+            />
+          </Link>
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="mr-4">
+            <FiMenu className="text-3xl text-primary" />
+          </button>
+        </section>
+        <ul className="flex flex-col bg-bg-light w-full justify-start font-bold items-start space-y-5 h-auto px-10 py-4">
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/about"
+            >
+              About Us
+            </Link>
+          </li>
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full  text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/#details"
+            >
+              Parents
+            </Link>
+          </li>
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full  text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/#details"
+            >
+              Teachers
+            </Link>
+          </li>
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full  text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/#contact"
+            >
+              Contact Us
+            </Link>
+          </li>
+        </ul>
+        {user ? (
+          <div className="w-full px-5 gap-5">
+            <Link
+              href="/play"
+              className="px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
+            >
+              <p className="text-white font-extrabold text-lg">Play</p>
+            </Link>
+            <button
+              className="px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
+              onClick={logout}
+            >
+              <p className="text-white font-extrabold text-lg">Log Out</p>
+            </button>
+          </div>
+        ) : (
+          <div className="w-full px-5 gap-5">
+            <Link
+              href="/login"
+              className="px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
+            >
+              <p className="text-white font-extrabold text-lg">Log In</p>
+            </Link>
+            <Link
+              href="/signup"
+              className="px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
+            >
+              <p className="text-white font-extrabold text-lg">Sign Up</p>
+            </Link>
+          </div>
+        )}
+      </nav>
+    );
+  }
 
   return (
-    <nav className="flex fixed z-50 top-0 flex-row px-10 bg-stone-100 items-center justify-between w-full h-[calc(4.9rem_-_4px)]">
+    <nav className="flex fixed z-50 top-0 flex-row px-10 bg-bg-light items-center justify-between w-full h-20">
       <section>
         <Link
           className="flex justify-center h-auto transition-all duration-200 course-nav-title"
@@ -125,6 +179,15 @@ export default function Navbar({ colorPalette, setUser, user }) {
             </svg>
             <p className="text-white font-extrabold text-lg">Play</p>
           </Link>
+          <button
+            className="btn-animated px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
+            onClick={logout}
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Log Out</p>
+          </button>
         </section>
       ) : (
         <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
@@ -135,7 +198,9 @@ export default function Navbar({ colorPalette, setUser, user }) {
             <svg>
               <rect x="0" y="0" fill="none" width="100%" height="100%" />
             </svg>
-            <p className="text-white font-extrabold text-lg">Log In</p>
+            <p className="text-white font-extrabold text-lg whitespace-nowrap">
+              Log In
+            </p>
           </Link>
           <Link
             href="/signup"
@@ -144,7 +209,9 @@ export default function Navbar({ colorPalette, setUser, user }) {
             <svg>
               <rect x="0" y="0" fill="none" width="100%" height="100%" />
             </svg>
-            <p className="text-white font-extrabold text-lg">Sign Up</p>
+            <p className="text-white font-extrabold text-lg whitespace-nowrap">
+              Sign Up
+            </p>
           </Link>
         </section>
       )}

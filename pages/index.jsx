@@ -12,9 +12,28 @@ import Details from "../components/main/details";
 import Banner from "../components/main/banner";
 import Contact from "../components/main/contact";
 import Footer from "../components/main/footer";
+import { useWindowSize } from "@uidotdev/usehooks";
 
 export default function Home({ user, setUser }) {
   const router = useRouter();
+  const [screenType, setScreenType] = useState(3); // 0 = xs, 1 = sm, 2 = md, 3 = lg, 4 = xl, 5 = 2xl
+  const { width, height } = useWindowSize();
+
+  useEffect(() => {
+    if (width < 640 && screenType !== 0) {
+      setScreenType(0);
+    } else if (width >= 640 && width < 768 && screenType !== 1) {
+      setScreenType(1);
+    } else if (width >= 768 && width < 1024 && screenType !== 2) {
+      setScreenType(2);
+    } else if (width >= 1024 && width < 1280 && screenType !== 3) {
+      setScreenType(3);
+    } else if (width >= 1280 && width < 1536 && screenType !== 4) {
+      setScreenType(4);
+    } else if (width >= 1536 && screenType !== 5) {
+      setScreenType(5);
+    }
+  }, [width]);
 
   return (
     <div className="w-full flex flex-col">
@@ -36,7 +55,7 @@ export default function Home({ user, setUser }) {
       >
         <h1 className="hidden">Slime Scholars</h1> {/* for SEO */}
         <div className="mt-6" data-aos="fade-up">
-          <MainTitle props="w-[800px] h-auto" />
+          <MainTitle props={`h-auto w-[${300 + 100 * screenType}px]`} />
         </div>
         <h2
           className="text-2xl text-white mt-6"

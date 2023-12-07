@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
 
 import axios from "axios";
@@ -256,6 +256,10 @@ function MyApp({ Component, pageProps }) {
         </div>
       </>
     );
+  }
+
+  if (typeof document === "undefined") {
+    React.useLayoutEffect = React.useEffect;
   }
 
   return (
