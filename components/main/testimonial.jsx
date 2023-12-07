@@ -5,7 +5,7 @@ import { landingContent } from "../../data/landingPage";
 export default function Testimonials() {
   return (
     <section
-      className="relative w-full flex flex-col items-center justify-center pb-36 -mb-5 md:-mb-12 lg:-mb-16 overflow-hidden"
+      className="relative w-full flex flex-col items-center justify-center pb-36 -mb-5 md:-mb-12 lg:-mb-16 overflow-visible"
       style={{
         backgroundImage: "url('/assets/graphics/bg-graphic-1.png')",
         backgroundSize: "cover",
@@ -17,7 +17,7 @@ export default function Testimonials() {
         alt=""
         width={400}
         height={400}
-        className="absolute -top-7 -left-4 w-40 h-40 md:w-52 md:h-52 lg:w-64 lg:h-64 -rotate-3 opacity-70"
+        className="absolute -top-10 sm:-top-7 -left-10 sm:-left-4 w-40 h-40 md:w-52 md:h-52 lg:w-64 lg:h-64 -rotate-3 opacity-70"
         data-aos="fade-right"
       />
       <Image
@@ -25,7 +25,7 @@ export default function Testimonials() {
         alt="Sleepy Slime"
         width={400}
         height={400}
-        className="absolute top-10 -left-10 w-40 h-40 md:w-52 md:h-52 lg:w-64 lg:h-64 -rotate-3"
+        className="absolute top-0 sm:top-10 -left-20 sm:-left-10 w-40 h-40 md:w-52 md:h-52 lg:w-64 lg:h-64 -rotate-3"
         data-aos="fade-right"
         data-aos-offset="200"
       />
@@ -34,7 +34,7 @@ export default function Testimonials() {
         alt="Glass Slime"
         width={400}
         height={400}
-        className="absolute -top-10 -right-10 w-44 h-44 md:w-56 md:h-56 lg:w-72 lg:h-72 rotate-6"
+        className="absolute -top-20 sm:-top-10 -right-24 sm:-right-10 w-44 h-44 md:w-56 md:h-56 lg:w-72 lg:h-72 rotate-6"
         data-aos="fade-left"
       />
       <Image
@@ -42,7 +42,7 @@ export default function Testimonials() {
         alt="Pineapple Slime"
         width={400}
         height={400}
-        className="absolute bottom-0 -left-10 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 -rotate-12 z-10"
+        className="absolute -bottom-5 sm:bottom-0 -left-10 w-40 h-40 md:w-52 md:h-52 lg:w-60 lg:h-60 -rotate-12 z-10"
         data-aos="fade-right"
       />
       <Image
