@@ -35,6 +35,8 @@ export default function Home({ user, setUser }) {
     }
   }, [width]);
 
+  console.log(screenType);
+
   return (
     <div className="w-full flex flex-col">
       <Head>
@@ -55,17 +57,27 @@ export default function Home({ user, setUser }) {
       >
         <h1 className="hidden">Slime Scholars</h1> {/* for SEO */}
         <div className="mt-6" data-aos="fade-up">
-          <MainTitle props={`h-auto w-[${300 + 100 * screenType}px]`} />
+          <MainTitle
+            props={`h-auto w-[${
+              screenType === 0
+                ? 250
+                : screenType === 1
+                ? 400
+                : screenType < 4
+                ? 550
+                : 800
+            }px]`}
+          />
         </div>
         <h2
-          className="text-2xl text-white mt-6"
+          className="text-lg md:text-xl lg:text-2xl text-white mt-6"
           data-aos="fade-up"
           data-aos-delay="100"
         >
           Level up your learning today.
         </h2>
         <h2
-          className="text-2xl text-white mt-2 mb-2"
+          className="text-lg md:text-xl lg:text-2xl text-white mt-2 mb-2"
           data-aos="fade-up"
           data-aos-delay="200"
         >
@@ -73,40 +85,40 @@ export default function Home({ user, setUser }) {
         </h2>
         <Link
           href="/signup/student"
-          className="btn-animated w-96 my-1 py-4 bg-green-700/70 flex items-center justify-center"
+          className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-700/70 flex items-center justify-center"
           data-aos="fade-right"
           data-aos-delay="600"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
           </svg>
-          <p className="text-white font-extrabold text-lg">
+          <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
             Learners: Play now!
           </p>
         </Link>
         <Link
           href="/signup/student"
-          className="btn-animated w-96 my-1 py-4 bg-green-600/50 flex items-center justify-center"
+          className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-600/50 flex items-center justify-center"
           data-aos="fade-left"
           data-aos-delay="800"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
           </svg>
-          <p className="text-white font-extrabold text-lg">
+          <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
             Teachers: Modernize your classroom!
           </p>
         </Link>
         <Link
           href="/signup/student"
-          className="btn-animated w-96 my-1 py-4 bg-green-500/30 flex items-center justify-center"
+          className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-500/30 flex items-center justify-center"
           data-aos="fade-right"
           data-aos-delay="1000"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
           </svg>
-          <p className="text-white font-extrabold text-lg">
+          <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
             Parents: Unlock your child's potential!
           </p>
         </Link>
