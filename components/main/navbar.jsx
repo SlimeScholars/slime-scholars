@@ -11,8 +11,24 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const router = useRouter();
   const { logout } = useLogout();
   const [isMobile, setIsMobile] = useState(false);
-  const { width, height } = useWindowSize();
+  const isClient = typeof window === "object";
+  const [width, setWidth] = useState(
+    isClient ? window.innerWidth : 10000, // default value for SSR
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  useEffect(() => {
+    if (width < 1024 && !isMobile) {
+      setIsMobile(true);
+    } else if (width >= 1024 && isMobile) {
+      setIsMobile(false);
+    }
+
+  }, [width]);
+
+  const updateWindowSize = () => {
+    setWidth(window.innerWidth);
+  }
 
   useEffect(() => {
     if (
@@ -22,13 +38,18 @@ export default function Navbar({ colorPalette, setUser, user }) {
     ) {
       setIsMobile(true);
     }
-    else if (width < 1024 && !isMobile) {
-      setIsMobile(true);
-    } else if (width >= 1024 && isMobile) {
-      setIsMobile(false);
+
+    if (isClient) {
+      // Add event listener on component mount
+      window.addEventListener("resize", updateWindowSize);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("resize", updateWindowSize);
+      }
     }
 
-  }, [width]);
+  }, [isClient])
 
   if (isMobile) {
     return (
