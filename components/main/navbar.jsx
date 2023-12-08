@@ -15,11 +15,19 @@ export default function Navbar({ colorPalette, setUser, user }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    if (width < 1024 && !isMobile) {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      setIsMobile(true);
+    }
+    else if (width < 1024 && !isMobile) {
       setIsMobile(true);
     } else if (width >= 1024 && isMobile) {
       setIsMobile(false);
     }
+
   }, [width]);
 
   if (isMobile) {
