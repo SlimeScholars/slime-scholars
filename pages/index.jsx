@@ -64,7 +64,7 @@ export default function Home({ user, setUser }) {
                 ? "w-[400px]"
                 : screenType < 4
                 ? "w-[500px]"
-                : "w-[800px]")
+                : "w-[500px] scale-[1.6]")
             }
           />
         </div>
