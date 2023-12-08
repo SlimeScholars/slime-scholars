@@ -16,7 +16,7 @@ import { useWindowSize } from "@uidotdev/usehooks";
 
 export default function Home({ user, setUser }) {
   const router = useRouter();
-  const [screenType, setScreenType] = useState(3); // 0 = xs, 1 = sm, 2 = md, 3 = lg, 4 = xl, 5 = 2xl
+  const [screenType, setScreenType] = useState(0); // 0 = xs, 1 = sm, 2 = md, 3 = lg, 4 = xl, 5 = 2xl
   const { width, height } = useWindowSize();
 
   useEffect(() => {
@@ -35,10 +35,8 @@ export default function Home({ user, setUser }) {
     }
   }, [width]);
 
-  console.log(screenType);
-
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-screen flex flex-col overflow-x-hidden">
       <Head>
         <title>Slime Scholars | Level Up Your Learning (Grade 4-12)</title>
         <meta
@@ -47,7 +45,7 @@ export default function Home({ user, setUser }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar user={user} setUser={setUser} />
+      <Navbar user={user} />
       <header
         className="w-full h-screen flex flex-col items-center justify-center pt-20"
         style={{
@@ -58,15 +56,16 @@ export default function Home({ user, setUser }) {
         <h1 className="hidden">Slime Scholars</h1> {/* for SEO */}
         <div className="mt-6" data-aos="fade-up">
           <MainTitle
-            props={`h-auto w-[${
-              screenType === 0
-                ? 250
+            props={
+              `h-auto ` +
+              (screenType === 0
+                ? "w-[250px]"
                 : screenType === 1
-                ? 400
+                ? "w-[400px]"
                 : screenType < 4
-                ? 500
-                : 800
-            }px]`}
+                ? "w-[500px]"
+                : "w-[500px] scale-[1.6]")
+            }
           />
         </div>
         <h2
@@ -114,6 +113,7 @@ export default function Home({ user, setUser }) {
           className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-500/30 flex items-center justify-center"
           data-aos="fade-right"
           data-aos-delay="1000"
+          data-aos-offset="-500"
         >
           <svg>
             <rect x="0" y="0" fill="none" width="100%" height="100%" />
