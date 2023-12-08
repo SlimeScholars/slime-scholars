@@ -23,8 +23,9 @@ export function MainTitle({ props }) {
     }
   };
   useEffect(() => {
-    setTextAnimation(0.1, 8, 2, "linear", "#fafafa", false);
+    setTextAnimation(0.1, 8, 1, "linear", "#fafafa", false);
   }, []);
+
   return (
     <div className="">
       <svg
@@ -37,9 +38,9 @@ export function MainTitle({ props }) {
           fillRule="evenodd"
           fontSize="9pt"
           stroke="#000"
-          strokeWidth="0.25mm"
+          strokeWidth="0.1mm"
           fill="none"
-          style={{ stroke: "#000", strokeWidth: "0.25mm", fill: "none" }}
+          style={{ stroke: "#000", strokeWidth: "0.1mm", fill: "none" }}
           d="M100,200"
         >
           <path
