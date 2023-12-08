@@ -10,7 +10,10 @@ import { FiMenu } from "react-icons/fi";
 export default function Navbar({ user }) {
   const { logout } = useLogout();
   const [isMobile, setIsMobile] = useState(false);
-  const { width, height } = useWindowSize();
+  const isClient = typeof window === "object";
+  const [width, setWidth] = useState(
+    isClient ? window.innerWidth : 10000, // default value for SSR
+  );
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const useIsomorphicLayoutEffect =
     typeof window !== "undefined" ? useLayoutEffect : useEffect;
@@ -21,7 +24,33 @@ export default function Navbar({ user }) {
     } else if (isMobile && width >= 1024) {
       setIsMobile(false);
     }
+
   }, [width]);
+
+  const updateWindowSize = () => {
+    setWidth(window.innerWidth);
+  }
+
+  useEffect(() => {
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      setIsMobile(true);
+    }
+
+    if (isClient) {
+      // Add event listener on component mount
+      window.addEventListener("resize", updateWindowSize);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("resize", updateWindowSize);
+      }
+    }
+
+  }, [isClient])
 
   if (isMobile) {
     return (
