@@ -115,6 +115,7 @@ export default function Contact() {
             placeholder="Name"
             className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-transparent px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[12]"
             data-aos="fade-left"
+            data-aos-offset="-100"
           />
           <input
             type="email"
@@ -123,6 +124,7 @@ export default function Contact() {
             className="w-full h-12 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-transparent px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 z-[11]"
             data-aos="fade-left"
             data-aos-delay="100"
+            data-aos-offset="-100"
           />
           <textarea
             type="text"
@@ -131,11 +133,13 @@ export default function Contact() {
             className="w-full h-32 placeholder:text-green-800/50 text-primary border-b-2 border-b-primary bg-transparent px-4 py-2 text-xl outline-none focus:ring-2 focus:ring-primary hover:bg-primary/5 resize-none"
             data-aos="fade-left"
             data-aos-delay="200"
+            data-aos-offset="-200"
           />
           <button
             className="btn-animated w-full my-1 py-4 disabled:bg-primary/80 bg-primary enabled:hover:bg-primary/80 flex items-center justify-center mt-5"
             data-aos="fade-left"
             data-aos-delay="300"
+            data-aos-offset="-200"
             type="submit"
             disabled={sendState > 0}
           >
