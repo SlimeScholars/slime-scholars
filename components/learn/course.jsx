@@ -14,10 +14,14 @@ export default function Course({ courseId, courseName, colorPalette, course }) {
       }}
     >
       <div
-        className="justify-self-center flex items-center justify-center border-2 rounded-full
+        className="m-2 justify-self-center flex items-center justify-center border-3 rounded-full
 			 w-14 h-14 xl:w-[4.25rem] xl:h-[4.25rem] 2xl:w-20 2xl:h-20"
         style={{
-          backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+            borderStyle: "solid",
+            borderWidth: "3px", 
+            borderColor: !colorPalette ? "" : colorPalette.primary2,
+            backgroundColor: !colorPalette ? "" : colorPalette.white,
+
         }}
       >
         <Image
