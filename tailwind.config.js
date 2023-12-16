@@ -13,9 +13,10 @@ module.exports = {
       },
       colors: {
         "bg-light": "#FEF8FF",
-        primary: "#F649DA",
-        "primary-light": "#EC5ED6",
-        "primary-dark": "#D125B5",
+        primary: "#4bad5a",
+        "primary-light": "#D4F2D1",
+        "primary-medium": "#AACEA7",
+        "primary-dark": "#2a5932",
         ink: "#4E5A84",
         "bg-completed": "#151515",
       },
@@ -27,6 +28,7 @@ module.exports = {
     },
     dropShadow: {
       sm: "0px 3px 2px rgba(0, 0, 0, 0.6)",
+      glow: "0px 0px 15px rgba(255, 255, 255, 0.5)",
     },
   },
   plugins: [],
