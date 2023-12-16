@@ -1,161 +1,250 @@
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+
 import Image from "next/image";
-import { gameData } from "../../data/gameData";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useState, useRef, useEffect } from "react";
-import ProfilePicture from "./profilePicture";
 import useLogout from "../../hooks/useLogout";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { FiMenu } from "react-icons/fi";
 
-export default function Navbar({ colorPalette, setUser, user }) {
-  const router = useRouter();
-  const dropdown = useRef(null);
-  const [open, setOpen] = useState(false);
+export default function Navbar({ user }) {
+  const { logout } = useLogout();
+  const [isMobile, setIsMobile] = useState(false);
+  const isClient = typeof window === "object";
+  const [width, setWidth] = useState(
+    isClient ? window.innerWidth : 10000, // default value for SSR
+  );
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const useIsomorphicLayoutEffect =
+    typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-  const {logout} = useLogout()
+  useIsomorphicLayoutEffect(() => {
+    if (!isMobile && width < 1024) {
+      setIsMobile(true);
+    } else if (isMobile && width >= 1024) {
+      setIsMobile(false);
+    }
 
-  // const btn_tw =
-  //   "px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo";
-  const options = [
-    {
-      label: "My Slimes",
-      onClick: () => {
-        router.push("/play");
-      },
-    },
-    {
-      label: "Learn",
-      onClick: () => {
-        router.push("/courses");
-      },
-    },
-    {
-      label: "Settings",
-      onClick: () => {
-        router.push("/settings");
-      },
-    },
-    {
-      label: "Logout",
-      onClick: () => {
-        router.push('/login')
-        logout()
-        setUser(null);
-      },
-    },
-  ];
+  }, [width]);
+
+  const updateWindowSize = () => {
+    setWidth(window.innerWidth);
+  }
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        open &&
-        dropdown.current &&
-        !dropdown.current.contains(event.target)
-      ) {
-        setOpen(false);
+    if (
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      )
+    ) {
+      setIsMobile(true);
+    }
+
+    if (isClient) {
+      // Add event listener on component mount
+      window.addEventListener("resize", updateWindowSize);
+
+      // Clean up the event listener on component unmount
+      return () => {
+        window.removeEventListener("resize", updateWindowSize);
       }
-    };
-    window.addEventListener("mouseup", handleClickOutside);
-    return () => {
-      window.removeEventListener("mouseup", handleClickOutside);
-    };
-  }, [open]);
+    }
 
-  const userTypes = ["", "Student", "Parent", "Teacher", "Admin"]
-  const userColors = ["#ffffff", "#e1eff0", "#e5e1f0", "#e1f0e3", "#f0e1ef"]
+  }, [isClient])
 
-  return (
-    <>
-      <div
-        className="flex flex-row px-2 items-center justify-between w-full h-[calc(4.9rem_-_4px)]"
-        style={{
-          backgroundColor: "black",
-        }}
+  if (isMobile) {
+    return (
+      <nav
+        className={
+          "fixed z-50 top-0 px-3 sm:px-5 md:px-8 bg-bg-light items-center justify-between w-screen pb-5 overflow-hidden duration-500 ease-out " +
+          (isMenuOpen ? "max-h-[600px]" : "max-h-20")
+        }
       >
-        <section>
-          <a className="flex justify-center items-center h-auto transition-all duration-150 course-nav-title" href="/">
+        <section className="w-full h-20 flex flex-row justify-between items-center">
+          <Link
+            className="flex w-1/2 sm:w-1/3 md:1/4 justify-center h-auto transition-all duration-200 course-nav-title"
+            href="/"
+          >
             <Image
-              src="/assets/icons/logo-light.png"
+              src="/assets/icons/logo.svg"
               alt="Slime Scholars Logo"
               height={0}
               width={0}
               sizes="100vw"
-              className="w-[225px] h-auto pl-4"
+              className="w-full h-auto pl-4"
             />
-          </a>
+          </Link>
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="mr-4">
+            <FiMenu className="text-3xl text-primary" />
+          </button>
         </section>
+        <ul className="flex flex-col bg-bg-light w-full justify-start font-bold items-start space-y-5 h-auto px-10 py-4">
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/about"
+            >
+              About Us
+            </Link>
+          </li>
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full  text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/#details"
+            >
+              Parents
+            </Link>
+          </li>
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full  text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/#details"
+            >
+              Teachers
+            </Link>
+          </li>
+          <li className="flex flex-row w-full justify-center">
+            <Link
+              className="text-green-900 w-full  text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+              href="/#contact"
+            >
+              Contact Us
+            </Link>
+          </li>
+        </ul>
         {user ? (
-          <section className="flex flex-row gap-1 font-bold text-xl items-center text-white">
-            <div className="flex flex-col gap-[-5px] justify-center items-end">
-              <div className="text-[0.85em] font-light font-galindo">
-                {user && user.username && user.username.trim().length > 0 ?
-                  <span>{user.username}</span> :
-                  user && user.firstName && user.lastName ?
-                    <span>{user.firstName}{" "}{user.lastName}</span> :
-                    <span>[No Username]</span>}
-              </div>
-              <div className="text-[0.7em] mt-[-0.5em] font-light italic"
-                style={{
-                  color: user ? userColors[user.userType] : userColors[0]
-                }}
-              >{user ? userTypes[user.userType] : userTypes[0]}</div>
-            </div>
+          <div className="w-full px-5 gap-5">
+            <Link
+              href="/play"
+              className="px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
+            >
+              <p className="text-white font-extrabold text-lg">Play</p>
+            </Link>
             <button
-              onClick={() => {
-                setOpen((prev) => !prev);
-              }}
-              style={{
-                backgroundColor: `${colorPalette ? colorPalette.text1 : "#ffffff"
-                  }`,
-                padding: "0.7rem",
-              }}
-              className={`hover:opacity-80 rounded-full p-3 overflow-hidden relative box-border 
-                w-[5.6rem] h-[5.6rem] scale-[0.65]
-                course-nav-icon transition-all duration-150`}
+              className="px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
+              onClick={logout}
             >
-              <ProfilePicture user={user}/>
+              <p className="text-white font-extrabold text-lg">Log Out</p>
             </button>
-            <div
-              className={`flex flex-col absolute bg-white z-[500] top-[5rem] right-[2rem] rounded-none transition-all duration-100 
-                                 origin-top ${open ? "scale-y-100" : "scale-y-0"
-                } drop-shadow font-normal`}
-              ref={dropdown}
-            >
-              {options.map((item) => (
-                <button
-                  key={item.label}
-                  className="text-gray-500 hover:bg-fuchsia-100 px-8 py-2 w-full h-full transition-all duration-150 text-md font-bold"
-                >
-                  <span onClick={item.onClick}>{item.label}</span>
-                </button>
-              ))}
-            </div>
-          </section>
+          </div>
         ) : (
-          <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
-            <button
-              className="px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo hover-highlight hover:scale-[1.08]"
-              onClick={() => {
-                router.push("/login");
-              }}
+          <div className="w-full px-5 gap-5">
+            <Link
+              href="/login"
+              className="px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
             >
-              Login
-            </button>
-            {/* <button
-              className={btn_tw}
-              onClick={() => {
-                router.push("/signup");
-              }}
+              <p className="text-white font-extrabold text-lg">Log In</p>
+            </Link>
+            <Link
+              href="/signup"
+              className="px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
             >
-              Sign Up
-            </button> */}
-          </section>
+              <p className="text-white font-extrabold text-lg">Sign Up</p>
+            </Link>
+          </div>
         )}
-      </div>
-      <div
-        className="w-full h-[4px] bg-gradient-to-b from-black to-black/[0.5]"
-        style={{
-          backgroundColor: !colorPalette ? "" : colorPalette.secondary2 + "40",
-        }}
-      />
-    </>
+      </nav>
+    );
+  }
+
+  return (
+    <nav className="flex fixed z-50 top-0 flex-row px-10 bg-bg-light items-center justify-between w-full h-20">
+      <section>
+        <Link
+          className="flex justify-center h-auto transition-all duration-200 course-nav-title"
+          href="/"
+        >
+          <Image
+            src="/assets/icons/logo.svg"
+            alt="Slime Scholars Logo"
+            height={0}
+            width={0}
+            sizes="100vw"
+            className="w-[225px] h-auto pl-4"
+          />
+        </Link>
+      </section>
+      <ul className="flex flex-row justify-around w-1/2 items-center">
+        <li className="hidden lg:flex">
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+            href="/about"
+          >
+            About Us
+          </Link>
+        </li>
+        <li className="hidden lg:flex">
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+            href="/#details"
+          >
+            Parents
+          </Link>
+        </li>
+        <li className="hidden lg:flex">
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+            href="/#details"
+          >
+            Teachers
+          </Link>
+        </li>
+        <li className="hidden lg:flex">
+          <Link
+            className="text-green-900 text-lg font-normal hover:tracking-wider hover:font-bold duration-300 ease-in-out"
+            href="/#contact"
+          >
+            Contact Us
+          </Link>
+        </li>
+      </ul>
+      {user ? (
+        <section className="flex flex-row gap-1 font-bold text-xl items-center text-green-900">
+          <Link
+            href="/play"
+            className="btn-animated px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Play</p>
+          </Link>
+          <button
+            className="btn-animated px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
+            onClick={logout}
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Log Out</p>
+          </button>
+        </section>
+      ) : (
+        <section className="hidden lg:flex lg:z-10 p-2 pr-5 gap-4">
+          <Link
+            href="/login"
+            className="btn-animated px-6 my-1 py-3 bg-green-800/80 flex items-center justify-center"
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg whitespace-nowrap">
+              Log In
+            </p>
+          </Link>
+          <Link
+            href="/signup"
+            className="btn-animated px-6 my-1 py-3 bg-primary/80 flex items-center justify-center"
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg whitespace-nowrap">
+              Sign Up
+            </p>
+          </Link>
+        </section>
+      )}
+    </nav>
   );
 }

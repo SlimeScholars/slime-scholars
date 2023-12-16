@@ -1,0 +1,11 @@
+.elasticbeanstalk/
+.git/
+.vscode/
+node_modules/
+.next/
+.DS_Store
+.eslintrc.json
+.gitignore
+examplejson.js
+README.md
+tmp_package.json

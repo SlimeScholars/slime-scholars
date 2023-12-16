@@ -1,18 +1,23 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
-import "../styles/main.css";
-import "../styles/rarity-gradients.css"
+
 import axios from "axios";
 import MainSpinner from "../components/misc/mainSpinner";
 //import AxiosSpinner from "../components/misc/axiosSpinner";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
 import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
 import CourseLayout from "../components/learn/courseLayout";
 import useCurrentUser from "../hooks/useCurrentUser";
+import Aos from "aos";
+
+import "../styles/main.css";
+import "../styles/animations.css";
+import "../styles/game.css";
+import "../styles/rarity-gradients.css";
+import "react-toastify/dist/ReactToastify.css";
 
 axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
 axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
@@ -45,29 +50,25 @@ function MyApp({ Component, pageProps }) {
 
   const [rewardsData, setRewardsData] = useState(null);
   const [rewardsModalOpen, setRewardsModalOpen] = useState(false);
-
-  const [isMobile, setIsMobile] = useState(false);
-  const [mobileDevice, setMobileDevice] = useState(false);
   const isClient = typeof window === "object";
-  const mobileSize = { width: 900 };
 
   const router = useRouter();
   const [onPlay, setOnPlay] = useState(false);
   const [current, setCurrent] = useState(0);
 
-  const [panelsVisible, setPanelsVisible] = useState(false)
+  const [panelsVisible, setPanelsVisible] = useState(false);
 
   const [audio, setAudio] = useState(null);
 
-  const { user, setUser } = useCurrentUser({ setLoading })
-  const [initUser, setInitUser] = useState(null)
+  const { user, setUser } = useCurrentUser({ setLoading });
+  const [initUser, setInitUser] = useState(null);
 
   const [windowSize, setWindowSize] = useState(
     isClient
       ? {
-        width: window.innerWidth,
-        height: window.innerHeight,
-      }
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }
       : { width: 10000, height: 10000 } // Provide default values for server-side rendering
   );
 
@@ -78,35 +79,6 @@ function MyApp({ Component, pageProps }) {
       height: window.innerHeight,
     });
   };
-
-  // Step 5: Use the useEffect hook to add a resize event listener
-  useEffect(() => {
-    if (
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      )
-    ) {
-      setMobileDevice(true);
-    }
-    if (isClient) {
-      // Add event listener on component mount
-      window.addEventListener("resize", updateWindowSize);
-
-      // Clean up the event listener on component unmount
-      return () => {
-        window.removeEventListener("resize", updateWindowSize);
-      };
-    }
-  }, [isClient]); // Re-run the effect if isClient changes
-
-  useEffect(() => {
-    if (windowSize.width < mobileSize.width || mobileDevice) {
-      setIsMobile(true);
-      router.push("/mobile");
-    } else {
-      setIsMobile(false);
-    }
-  }, [windowSize, mobileDevice]);
 
   // music
   useEffect(() => {
@@ -119,7 +91,9 @@ function MyApp({ Component, pageProps }) {
           audio.pause();
           audio.currentTime = 0;
         }
-        if (gameData.items[user.colorPalette] === gameData.items[user.bg].track) {
+        if (
+          gameData.items[user.colorPalette] === gameData.items[user.bg].track
+        ) {
           track.currentTime = 0;
           track.muted = true;
           track.onended = () => {
@@ -159,15 +133,12 @@ function MyApp({ Component, pageProps }) {
     items,
     setItems,
     colorPalette: gameData.items[user?.bg],
-    isMobile,
     panelsVisible,
-    setPanelsVisible
+    setPanelsVisible,
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      ;
-    }
+    Aos.init({ duration: 1000 });
   }, []);
 
   useEffect(() => {
@@ -181,15 +152,13 @@ function MyApp({ Component, pageProps }) {
       setRewardsData(user.screen_display_notif);
     }
     if (user) {
-      setTimeout(() => { setLoading(false) }, 150)
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
     }
   }, [user]);
 
   useEffect(() => {
-    if (isMobile) {
-      return;
-    }
-
     const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
     if (
       router.pathname.startsWith("/play") &&
@@ -215,60 +184,66 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const student_noperms = ['/admin', '/classrooms']
+    const student_noperms = ["/admin", "/classrooms"];
     let permitted = true;
 
     student_noperms.forEach((start) => {
-      if(router.asPath.startsWith(start)){
-        permitted = false
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
       }
-    })
+    });
 
-    if(!permitted){
-      if (user && user.userType === 1  && router.asPath !== "/404") {
-        router.push('/access-denied')
+    if (!permitted) {
+      if (user && user.userType === 1 && router.asPath !== "/404") {
+        router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath])
+  }, [user, router, router.asPath]);
 
   useEffect(() => {
-    const teacher_noperms = ['/admin']
+    const teacher_noperms = ["/admin"];
     let permitted = true;
 
     teacher_noperms.forEach((start) => {
-      if(router.asPath.startsWith(start)){
-        permitted = false
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
       }
-    })
+    });
 
-    if(!permitted){
+    if (!permitted) {
       if (user && user.userType === 1 && router.asPath !== "/404") {
-        router.push('/access-denied')
+        router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath])
+  }, [user, router, router.asPath]);
 
   useEffect(() => {
-    const parent_noperms = ['/admin', '/classrooms']
+    const parent_noperms = ["/admin", "/classrooms"];
     let permitted = true;
 
     parent_noperms.forEach((start) => {
-      if(router.asPath.startsWith(start)){
-        permitted = false
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
       }
-    })
+    });
 
-    if(!permitted){
+    if (!permitted) {
       if (user && user.userType === 1 && router.asPath !== "/404") {
-        router.push('/access-denied')
+        router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath])
+  }, [user, router, router.asPath]);
 
   if (router.asPath.startsWith("/courses")) {
     return (
       <>
-        {loading ? <div className="relative w-screen h-screen"><MainSpinner /></div> : <></>}
+        {loading ? (
+          <div className="relative w-screen h-screen">
+            <MainSpinner />
+          </div>
+        ) : (
+          <></>
+        )}
         <div className={`relative ${loading ? "hidden" : ""}`}>
           <ToastContainer />
           <CourseLayout
@@ -283,13 +258,23 @@ function MyApp({ Component, pageProps }) {
     );
   }
 
+  if (typeof document === "undefined") {
+    React.useLayoutEffect = React.useEffect;
+  }
+
   return (
     <>
-      {loading ? <div className="relative w-screen h-screen"><MainSpinner /></div> : <></>}
+      {loading ? (
+        <div className="relative w-screen h-screen">
+          <MainSpinner />
+        </div>
+      ) : (
+        <></>
+      )}
       <div className={`relative ${loading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
-        {onPlay && !isMobile ? (
+        {onPlay ? (
           <>
             <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
@@ -317,7 +302,7 @@ function MyApp({ Component, pageProps }) {
         ) : (
           <Component {...modifiedPageProps} />
         )}
-        {!isMobile && rewardsModalOpen && (
+        {rewardsModalOpen && (
           <SlimeGelPopup
             user={initUser}
             details={rewardsData}
