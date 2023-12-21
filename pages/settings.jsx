@@ -121,7 +121,7 @@ export default function Settings({ loading, user, setUser }) {
   const onLogOut = () => {
     logout()
     setUser(null);
-    router.push('/login')
+    //router.push('/login')
   }
 
   if (!user) {

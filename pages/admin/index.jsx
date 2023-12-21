@@ -105,7 +105,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading}) {
   const onLogOut = () => {
     logout()
     setUser(null);
-    router.push('/login')
+    //router.push('/login')
   }
 
   return (
