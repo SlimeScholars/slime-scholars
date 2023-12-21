@@ -34,7 +34,7 @@ export default function Home({ user, setUser }) {
       setScreenType(5);
     }
   }, [width]);
-  console.log(user);
+  //console.log(user);
   return (
     <div className="w-screen flex flex-col overflow-x-hidden">
       <Head>
