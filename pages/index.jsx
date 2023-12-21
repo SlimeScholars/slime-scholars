@@ -34,7 +34,7 @@ export default function Home({ user, setUser }) {
       setScreenType(5);
     }
   }, [width]);
-
+  console.log(user);
   return (
     <div className="w-screen flex flex-col overflow-x-hidden">
       <Head>
@@ -82,7 +82,7 @@ export default function Home({ user, setUser }) {
         >
           Grade 4-12
         </h2>
-        {user ? (
+        {user && user.userType === 1 ? (
           <Link
             href="/play"
             className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-700/70 flex items-center justify-center"
@@ -109,7 +109,7 @@ export default function Home({ user, setUser }) {
         {!user && (
           <>
             <Link
-              href="/signup/student"
+              href="/signup/teacher"
               className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-600/50 flex items-center justify-center"
               data-aos="fade-left"
               data-aos-delay="800"
@@ -122,7 +122,7 @@ export default function Home({ user, setUser }) {
               </p>
             </Link>
             <Link
-              href="/signup/student"
+              href="/signup/parent"
               className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-500/30 flex items-center justify-center"
               data-aos="fade-right"
               data-aos-delay="1000"
