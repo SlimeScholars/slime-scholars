@@ -36,7 +36,7 @@ export default function Navbar({ colorPalette, setUser, user }) {
     {
       label: "Logout",
       onClick: () => {
-        router.push('/login')
+        //router.push('/login')
         logout()
         setUser(null);
       },
