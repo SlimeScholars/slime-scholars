@@ -61,10 +61,10 @@ export default function Home({ user, setUser }) {
               (screenType === 0
                 ? "w-[250px]"
                 : screenType === 1
-                ? "w-[400px]"
-                : screenType < 4
-                ? "w-[500px]"
-                : "w-[500px] scale-[1.6]")
+                  ? "w-[400px]"
+                  : screenType < 4
+                    ? "w-[500px]"
+                    : "w-[500px] scale-[1.6]")
             }
           />
         </div>
@@ -82,46 +82,61 @@ export default function Home({ user, setUser }) {
         >
           Grade 4-12
         </h2>
-        <Link
-          href="/signup/student"
-          className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-700/70 flex items-center justify-center"
-          data-aos="fade-right"
-          data-aos-delay="600"
-        >
-          <svg>
-            <rect x="0" y="0" fill="none" width="100%" height="100%" />
-          </svg>
-          <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
-            Learners: Play now!
-          </p>
-        </Link>
-        <Link
-          href="/signup/student"
-          className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-600/50 flex items-center justify-center"
-          data-aos="fade-left"
-          data-aos-delay="800"
-        >
-          <svg>
-            <rect x="0" y="0" fill="none" width="100%" height="100%" />
-          </svg>
-          <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
-            Teachers: Modernize your classroom!
-          </p>
-        </Link>
-        <Link
-          href="/signup/student"
-          className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-500/30 flex items-center justify-center"
-          data-aos="fade-right"
-          data-aos-delay="1000"
-          data-aos-offset="-500"
-        >
-          <svg>
-            <rect x="0" y="0" fill="none" width="100%" height="100%" />
-          </svg>
-          <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
-            Parents: Unlock your child's potential!
-          </p>
-        </Link>
+        {user ? (
+          <Link
+            href="/play"
+            className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-700/70 flex items-center justify-center"
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white font-extrabold text-lg">Learners: Play now!</p>
+          </Link>
+        ) : (
+          <Link
+            href="/signup/student"
+            className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-700/70 flex items-center justify-center"
+            data-aos="fade-right"
+            data-aos-delay="600"
+          >
+            <svg>
+              <rect x="0" y="0" fill="none" width="100%" height="100%" />
+            </svg>
+            <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
+              Learners: Play now!
+            </p>
+          </Link>)}
+        {!user && (
+          <>
+            <Link
+              href="/signup/student"
+              className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-600/50 flex items-center justify-center"
+              data-aos="fade-left"
+              data-aos-delay="800"
+            >
+              <svg>
+                <rect x="0" y="0" fill="none" width="100%" height="100%" />
+              </svg>
+              <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
+                Teachers: Modernize your classroom!
+              </p>
+            </Link>
+            <Link
+              href="/signup/student"
+              className="btn-animated w-4/5 sm:w-1/2 lg:w-1/3 my-1 py-4 bg-green-500/30 flex items-center justify-center"
+              data-aos="fade-right"
+              data-aos-delay="1000"
+              data-aos-offset="-500"
+            >
+              <svg>
+                <rect x="0" y="0" fill="none" width="100%" height="100%" />
+              </svg>
+              <p className="text-white text-center font-extrabold text-base md:text-lg px-3">
+                Parents: Unlock your child's potential!
+              </p>
+            </Link>
+          </>
+        )}
       </header>
       <main className="w-full flex flex-col overflow-x-hidden items-center justify-center bg-bg-light">
         <Testinomials />
