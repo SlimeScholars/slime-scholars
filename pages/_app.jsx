@@ -184,7 +184,24 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const student_noperms = ["/admin", "/classrooms"];
+    const normal_noperms = ["/settings", "/play", "/courses", "/admin", "/classrooms"];
+    let permitted = true;
+
+    normal_noperms.forEach((start) => {
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
+      }
+    });
+
+    if (!permitted) {
+      if (!user && router.asPath !== "/404") {
+        router.push("/access-denied");
+      }
+    }
+  }, [user, router, router.asPath]);
+
+  useEffect(() => {
+    const student_noperms = ["/admin", "/signup", "/login"];
     let permitted = true;
 
     student_noperms.forEach((start) => {
@@ -201,7 +218,7 @@ function MyApp({ Component, pageProps }) {
   }, [user, router, router.asPath]);
 
   useEffect(() => {
-    const teacher_noperms = ["/admin"];
+    const teacher_noperms = ["/play", "/admin", "/signup", "/login"];
     let permitted = true;
 
     teacher_noperms.forEach((start) => {
@@ -211,14 +228,14 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 1 && router.asPath !== "/404") {
+      if (user && user.userType === 3 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
   }, [user, router, router.asPath]);
 
   useEffect(() => {
-    const parent_noperms = ["/admin", "/classrooms"];
+    const parent_noperms = ["/play", "/admin", "/classrooms", "/signup", "/login"];
     let permitted = true;
 
     parent_noperms.forEach((start) => {
@@ -228,7 +245,7 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 1 && router.asPath !== "/404") {
+      if (user && user.userType === 2 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
