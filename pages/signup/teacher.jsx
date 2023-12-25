@@ -16,8 +16,10 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
+import { useEffect } from "react";
 
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Teacher({ loading, user, setUser }) {
 
@@ -82,6 +84,14 @@ export default function Teacher({ loading, user, setUser }) {
         }
       });
   };
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if(user){
+      router.push('/')
+    }
+  }, [user])
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">

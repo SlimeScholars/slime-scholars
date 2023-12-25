@@ -3,6 +3,7 @@ import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
 import cookies from "../../services/cookies/cookies";
+import { useEffect } from "react";
 
 import {
   verifyEmail,
@@ -19,6 +20,7 @@ import { useRouter } from "next/router";
 import { encrypt } from "../../utils/rsa";
 
 export default function Student({ loading, user, setUser }) {
+
   const router = useRouter();
 
   const [firstName, setFirstName] = useState("");
@@ -27,6 +29,12 @@ export default function Student({ loading, user, setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+
+  useEffect(() => {
+    if(user){
+      router.push('/')
+    }
+  }, [user])
 
   const onSubmit = (e) => {
     e.preventDefault();
