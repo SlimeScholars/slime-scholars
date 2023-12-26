@@ -21,17 +21,17 @@ jobs:
           EOF 
 
       - name: Get current date time
-        run: echo "CURR_TIME=$(date +'D%Y_%m_%d_T%H_%M_%S')" >> $GITHUB_ENV
+        run: echo "CURR_TIME=$(date +'D%Y_%m_%d_T%H_%M_%S')" >> "$GITHUB_ENV"
 
       - name: Create source bundle
         run: zip -r source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip ./ -x ".elasticbeanstalk/*" ".git/*" ".vscode/*"
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: "us-east-1"
+          aws-region: us-east-1
 
       - name: Upload source bundle to S3 bucket
         run: aws s3 cp source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip s3://elasticbeanstalk-us-east-1-272476913275/slime-scholars/
