@@ -40,7 +40,7 @@ jobs:
         run: |
           aws elasticbeanstalk create-application-version \
           --application-name slime-scholars \
-          --source-bundle S3Bucket="elasticbeanstalk-us-east-1-272476913275/slime-scholars/",S3Key="source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip" \
+          --source-bundle S3Bucket="elasticbeanstalk-us-east-1-272476913275",S3Key="slime-scholars/source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip" \
           --version-label "ver-${{ env.CURR_TIME }}-${{ github.sha }}" \
           --description "${{ env.CURR_TIME }}-commit-sha-${{ github.sha }}"
 
