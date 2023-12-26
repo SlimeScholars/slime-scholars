@@ -13,9 +13,9 @@ jobs:
 
       - name: Add environment variables
         run: |
-          cat > .env.local << EOF\
-          ${{ secrets.ENV_LOCAL }} \
-          EOF \
+          cat > .env.local << EOF
+          ${{ secrets.ENV_LOCAL }} 
+          EOF 
 
       - name: Get current date time
         run: echo "CURR_TIME=$(date +'%Y_%m_%dT_%H_%M_%S')" >> $GITHUB_ENV
