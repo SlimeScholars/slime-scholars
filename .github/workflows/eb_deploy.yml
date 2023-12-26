@@ -1,11 +1,11 @@
-name: auto-deploy to AWS EB on push
+name: (dev) auto-deploy to AWS EB on push
 on:
   push:
     branches:
       - dev
 
 jobs:
-  deploy-to-aws-eb:
+  dev-auto-deploy-to-aws-eb:
     runs-on: ubuntu-latest
     steps:
       - name: Check out source code
@@ -13,18 +13,18 @@ jobs:
 
       - name: Add environment variables
         run: |
+          cat > .env << EOF
+          ${{ secrets.ENV }} 
+          EOF 
           cat > .env.local << EOF
           ${{ secrets.ENV_LOCAL }} 
           EOF 
 
       - name: Get current date time
-        run: echo "CURR_TIME=$(date +'%Y_%m_%dT_%H_%M_%S')" >> $GITHUB_ENV
+        run: echo "CURR_TIME=$(date +'D%Y_%m_%d_T%H_%M_%S')" >> $GITHUB_ENV
 
       - name: Create source bundle
         run: zip -r source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip ./ -x ".elasticbeanstalk/*" ".git/*" ".vscode/*"
-
-      # - name: Get color
-      #   run: echo "The selected color is $SELECTED_COLOR"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -44,20 +44,5 @@ jobs:
           --version-label "ver-${{ env.CURR_TIME }}-${{ github.sha }}" \
           --description "${{ env.CURR_TIME }}-commit-sha-${{ github.sha }}"
 
-      - name: Deploy new ElasticBeanstalk Application Version
+      - name: Deploy new EB application version
         run: aws elasticbeanstalk update-environment --environment-name slime-scholars-dev --version-label "ver-${{ env.CURR_TIME }}-${{ github.sha }}"     
-          # - name: Setup yarn
-          #   uses: actions/setup-node@v3
-          #   with:
-          #     node-version: '21'
-          #   run: npm install --global yarn
-          #
-          # - name: Install dependencies
-          #   run: yarn install
-          #
-          # - name: Build project
-          #   run: yarn build
-          #
-          # - name: Deploy to AWS EB
-          #   uses
-
