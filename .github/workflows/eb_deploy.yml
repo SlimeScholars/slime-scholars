@@ -13,9 +13,9 @@ jobs:
 
       - name: Add environment variables
         run: |
-          cat > .env << EOF\
-          ${{ secrets.ENV }} \
-          EOF\
+          # cat > .env << EOF\
+          # ${{ secrets.ENV }} \
+          # EOF\
           cat > .env.local << EOF\
           ${{ secrets.ENV_LOCAL }} \
           EOF \
