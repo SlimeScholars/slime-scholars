@@ -1,0 +1,66 @@
+name: auto-deploy to AWS EB on push
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  deploy-to-aws-eb:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source code
+        uses: actions/checkout@v4
+
+      - name: Add environment variables
+        run: |
+          cat > .env << EOF\
+          ${{ secrets.ENV }} \
+          EOF\
+          cat > .env.local << EOF\
+          ${{ secrets.ENV_LOCAL }} \
+          EOF \
+
+      - name: Get current date time
+        run: echo "CURR_TIME=$(date +'%Y_%m_%dT_%H_%M_%S')" >> $GITHUB_ENV
+
+      - name: Create source bundle
+        run: zip -r source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip ./
+
+      # - name: Get color
+      #   run: echo "The selected color is $SELECTED_COLOR"
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "us-east-1"
+
+      - name: Upload source bundle to S3 bucket
+        run: aws s3 cp source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip s3://elasticbeanstalk-us-east-1-272476913275/slime-scholars/
+
+      - name: Create new EB version
+        run: |
+          aws elasticbeanstalk create-application-version \
+          --application-name slime-scholars \
+          --source-bundle S3Bucket="elasticbeanstalk-us-east-1-272476913275/slime-scholars/",S3Key="source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip" \
+          --version-label "ver-${{ env.CURR_TIME }}-${{ github.sha }}" \
+          --description "${{ env.CURR_TIME }}-commit-sha-${{ github.sha }}"
+
+      - name: Deploy new ElasticBeanstalk Application Version
+        run: aws elasticbeanstalk update-environment --environment-name slime-scholars-dev --version-label "ver-${{ env.CURR_TIME }}-${{ github.sha }}"     
+          # - name: Setup yarn
+          #   uses: actions/setup-node@v3
+          #   with:
+          #     node-version: '21'
+          #   run: npm install --global yarn
+          #
+          # - name: Install dependencies
+          #   run: yarn install
+          #
+          # - name: Build project
+          #   run: yarn build
+          #
+          # - name: Deploy to AWS EB
+          #   uses
+
