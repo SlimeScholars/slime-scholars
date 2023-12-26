@@ -21,7 +21,7 @@ jobs:
         run: echo "CURR_TIME=$(date +'%Y_%m_%dT_%H_%M_%S')" >> $GITHUB_ENV
 
       - name: Create source bundle
-        run: zip -r source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip ./
+        run: zip -r source_bundle_${{ env.CURR_TIME }}_${{ github.sha }}.zip ./ -x ".elasticbeanstalk/*" ".git/*" ".vscode/*"
 
       # - name: Get color
       #   run: echo "The selected color is $SELECTED_COLOR"
