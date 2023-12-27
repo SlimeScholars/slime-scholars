@@ -255,14 +255,14 @@ function MyApp({ Component, pageProps }) {
   if (router.asPath.startsWith("/courses")) {
     return (
       <>
-        {loading ? (
+        {loading || userLoading ? (
           <div className="relative w-screen h-screen">
             <MainSpinner />
           </div>
         ) : (
           <></>
         )}
-        <div className={`relative ${loading ? "hidden" : ""}`}>
+        <div className={`relative ${loading || userLoading ? "hidden" : ""}`}>
           <ToastContainer />
           <CourseLayout
             colorPalette={gameData.items[user?.bg]}
@@ -282,14 +282,14 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading ? (
+      {loading || userLoading ? (
         <div className="relative w-screen h-screen">
           <MainSpinner />
         </div>
       ) : (
         <></>
       )}
-      <div className={`relative ${loading ? "hidden" : ""}`} id="body">
+      <div className={`relative ${loading || userLoading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
         {onPlay ? (
