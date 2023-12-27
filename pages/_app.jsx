@@ -46,6 +46,7 @@ axios.interceptors.response.use(
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
   const [items, setItems] = useState([]);
 
   const [rewardsData, setRewardsData] = useState(null);
@@ -60,7 +61,7 @@ function MyApp({ Component, pageProps }) {
 
   const [audio, setAudio] = useState(null);
 
-  const { user, setUser } = useCurrentUser({ setLoading });
+  const { user, setUser } = useCurrentUser({ setLoading: setUserLoading });
   const [initUser, setInitUser] = useState(null);
 
   const [windowSize, setWindowSize] = useState(
@@ -194,11 +195,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (!user && router.asPath !== "/404") {
+      if (!userLoading && !user && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   useEffect(() => {
     const student_noperms = ["/admin"];
@@ -211,11 +212,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 1 && router.asPath !== "/404") {
+      if (!userLoading && user && user.userType === 1 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   useEffect(() => {
     const teacher_noperms = ["/play", "/admin"];
@@ -228,11 +229,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 3 && router.asPath !== "/404") {
+      if (!userLoading && user && user.userType === 3 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   useEffect(() => {
     const parent_noperms = ["/play", "/admin", "/classrooms"];
@@ -245,11 +246,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 2 && router.asPath !== "/404") {
+      if (!userLoading && user && user.userType === 2 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   if (router.asPath.startsWith("/courses")) {
     return (
