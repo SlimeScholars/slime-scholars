@@ -47,5 +47,11 @@ export default function useCurrentUser({ setLoading }) {
         cookies.logChange()
     }, [])
 
+    useEffect(() => {
+        if (user) {
+            setLoading(false)
+        }
+    }, [user])
+
     return { user, setUser }
 }
