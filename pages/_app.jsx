@@ -46,6 +46,7 @@ axios.interceptors.response.use(
 
 function MyApp({ Component, pageProps }) {
   const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
   const [items, setItems] = useState([]);
 
   const [rewardsData, setRewardsData] = useState(null);
@@ -60,15 +61,15 @@ function MyApp({ Component, pageProps }) {
 
   const [audio, setAudio] = useState(null);
 
-  const { user, setUser } = useCurrentUser({ setLoading });
+  const { user, setUser } = useCurrentUser({ setLoading: setUserLoading });
   const [initUser, setInitUser] = useState(null);
 
   const [windowSize, setWindowSize] = useState(
     isClient
       ? {
-          width: window.innerWidth,
-          height: window.innerHeight,
-        }
+        width: window.innerWidth,
+        height: window.innerHeight,
+      }
       : { width: 10000, height: 10000 } // Provide default values for server-side rendering
   );
 
@@ -194,11 +195,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (!user && router.asPath !== "/404") {
+      if (!userLoading && !user && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   useEffect(() => {
     const student_noperms = ["/admin"];
@@ -211,11 +212,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 1 && router.asPath !== "/404") {
+      if (!userLoading && user && user.userType === 1 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   useEffect(() => {
     const teacher_noperms = ["/play", "/admin"];
@@ -228,11 +229,11 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 3 && router.asPath !== "/404") {
+      if (!userLoading && user && user.userType === 3 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   useEffect(() => {
     const parent_noperms = ["/play", "/admin", "/classrooms"];
@@ -245,23 +246,23 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (user && user.userType === 2 && router.asPath !== "/404") {
+      if (!userLoading && user && user.userType === 2 && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
-  }, [user, router, router.asPath]);
+  }, [user, router, router.asPath, userLoading]);
 
   if (router.asPath.startsWith("/courses")) {
     return (
       <>
-        {loading ? (
+        {loading || userLoading ? (
           <div className="relative w-screen h-screen">
             <MainSpinner />
           </div>
         ) : (
           <></>
         )}
-        <div className={`relative ${loading ? "hidden" : ""}`}>
+        <div className={`relative ${loading || userLoading ? "hidden" : ""}`}>
           <ToastContainer />
           <CourseLayout
             colorPalette={gameData.items[user?.bg]}
@@ -281,14 +282,14 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      {loading ? (
+      {loading || userLoading ? (
         <div className="relative w-screen h-screen">
           <MainSpinner />
         </div>
       ) : (
         <></>
       )}
-      <div className={`relative ${loading ? "hidden" : ""}`} id="body">
+      <div className={`relative ${loading || userLoading ? "hidden" : ""}`} id="body">
         <ToastContainer />
 
         {onPlay ? (
