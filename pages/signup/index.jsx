@@ -69,6 +69,12 @@ export default function Signup({ loading, user }) {
   //   }
   // }, [loading, user]);
 
+  useEffect(() => {
+    if(user){
+      router.push('/')
+    }
+  }, [user])
+
   return (
     <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
       <Back to={"/"} />

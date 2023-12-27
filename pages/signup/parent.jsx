@@ -5,6 +5,7 @@ import Modal from "../../components/signup/modal";
 import Image from "next/image";
 import { encrypt } from "../../utils/rsa";
 import cookies from "../../services/cookies/cookies";
+import { useEffect } from "react";
 
 import {
   verifyEmail,
@@ -18,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
+import { useRouter } from "next/router";
 
 export default function Parent({ loading, user, setUser }) {
 
@@ -82,6 +84,14 @@ export default function Parent({ loading, user, setUser }) {
         }
       });
   };
+
+  const router = useRouter()
+  
+  useEffect(() => {
+    if(user){
+      router.push('/')
+    }
+  }, [user])
 
   return (
     <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">

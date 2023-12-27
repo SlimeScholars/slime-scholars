@@ -3,13 +3,19 @@ import { showToastError } from "../utils/toast";
 import { useRouter } from "next/router";
 import useLogin from "../hooks/useLogin";
 
-export default function Login({ setUser }) {
+export default function Login({ user, setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
-  const router = useRouter();
+  const router = useRouter()
 
   const {login} = useLogin()
+
+  useEffect(() => {
+    if(user){
+      router.push('/')
+    }
+  }, [user])
 
   const onSubmit = async(e) => {
     e.preventDefault();
