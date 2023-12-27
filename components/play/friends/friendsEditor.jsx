@@ -104,11 +104,12 @@ export default function FriendsEditor({
     // may need a loading screen here
     return (
       <div className="grid grid-cols-2 gap-4">
-        {friends.length === 0 && (
+        {friends.length === 0 && searchContent !== "" && (
           <p className="col-span-4">
             You have no friends by the name "{searchContent}"
           </p>
         )}
+        
         {Array.isArray(friends) ? (
           friends.map((user, index) => {
             return (
