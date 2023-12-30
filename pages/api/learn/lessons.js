@@ -39,6 +39,7 @@ export default async function (req, res) {
 
     // Authenticate and get user with completed lessons, units, courses
     const user = await authenticate(req.headers.authorization, {
+      activities: 1,
       lessons: 1,
       units: 1,
       courses: 1,
@@ -76,14 +77,30 @@ export default async function (req, res) {
     for (let i in unit.lessons) {
       const lessonProgress = userProgress
         ? userProgress.lessons.find((lesson) => {
-            return lesson.lessonId === unit.lessons[i]._id.valueOf();
-          })
+          return lesson.lessonId === unit.lessons[i]._id.valueOf();
+        })
         : undefined;
+
+      let activityProgress = []
+      for (const activity of unit.lessons[i].activities) {
+        if (lessonProgress) {
+          const activityCompleted = lessonProgress.activities.find((activityProgress) => {
+            return activityProgress.activityId === activity._id.valueOf();
+          })
+          const populatedActivity = (await retrieve_activity(activity)).toJSON()
+          populatedActivity.completion = activityCompleted ? activityCompleted.completion : 0
+          activityProgress.push(populatedActivity)
+        }
+        else {
+          const populatedActivity = (await retrieve_activity(activity)).toJSON()
+          populatedActivity.completion = 0
+          activityProgress.push(populatedActivity)
+        }
+      }
+
       modifiedLessons.push({
         ...unit.lessons[i]._doc,
-        activities: unit.lessons[i].activities
-          ? await Promise.all(unit.lessons[i].activities.map(retrieve_activity))
-          : [],
+        activities: activityProgress,
         achievedPoints: calculateAchievedPoints(lessonProgress),
         totalPoints: calculateTotalPoints(unit.lessons[i]),
       });
