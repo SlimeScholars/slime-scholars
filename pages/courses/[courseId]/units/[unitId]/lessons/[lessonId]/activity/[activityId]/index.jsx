@@ -407,7 +407,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                     />
                     <div
                       id="container-activity-index"
-                      className="relative overflow-y-scroll h-full flex flex-col gap-3 pb-10 z-[15]"
+                      className="relative h-full max-h-full flex flex-col gap-3 pb-10 z-[15] max-w-full overflow-x-hidden overflow-auto"
                     >
                       {page < activity.pages.length &&
                         activity.pages[page].sections.length > 0 && (
