@@ -550,7 +550,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
                                           router.push(`/courses/${router.query.courseId}/units/
 																${router.query.unitId}/lessons`);
                                         }}
-                                        className="hover:text-blue-400 transition-all duration-200"
+                                        className="hover:text-blue-400 transition-all duration-200 cursor-pointer"
                                       >
                                         Back to Lessons &gt;&gt;
                                       </span>
