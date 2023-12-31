@@ -331,7 +331,7 @@ export default function Activity({ user, loading, setLoading, colorPalette }) {
             }}
           >
             <div
-              className="text-[0.8em] 2xl:text-sm mb-2 hover:text-blue-400 transition-all duration-150"
+              className="text-[0.8em] 2xl:text-sm mb-2 hover:text-blue-400 transition-all duration-150 cursor-pointer"
               onClick={() => {
                 router.push(`/courses/${router.query.courseId}/units/
 						${router.query.unitId}/lessons`);

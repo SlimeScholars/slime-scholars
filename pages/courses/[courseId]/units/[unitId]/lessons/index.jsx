@@ -124,7 +124,7 @@ export default function Lessons({ user, loading, setLoading, colorPalette }) {
         </div>
         :
         <>
-          <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem]">
+          <div className="h-[2.5rem] bg-white flex flex-row gap-3 items-center pl-[4rem] cursor-pointer">
             <span
               className="hover:text-blue-400 transition-all duration-150"
               onClick={() => {
