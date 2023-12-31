@@ -121,7 +121,7 @@ export default function RequestListings({
                 )
               }
               <button
-                className="bg-none rounded-full pr-4 hover:bg-white p-3"
+                className="bg-none rounded-full pr-4 hover:bg-white hover:text-gray-500 p-3"
                 onClick={() => handleDeleteRequest(friendRequest._id)}
               >
                 <span className="p-2 material-symbols-outlined">delete</span>
@@ -172,7 +172,7 @@ export default function RequestListings({
                 // To accept friend request
                 currentType == "received" ? (
                   <button
-                    className="bg-none rounded-full pr-4 hover:bg-white p-3"
+                    className="bg-none rounded-full pr-4 hover:bg-white hover:text-gray-500 p-3"
                     onClick={() => handleAcceptRequest(friendRequest._id)}
                   >
                     <span className="p-2 material-symbols-outlined">done</span>
@@ -182,7 +182,7 @@ export default function RequestListings({
                 )
               }
               <button
-                className="bg-none rounded-full pr-4 hover:bg-white p-3"
+                className="bg-none rounded-full pr-4 hover:bg-white hover:text-gray-500 p-3 "
                 onClick={() => handleDeleteRequest(friendRequest._id)}
               >
                 <span className="p-2 material-symbols-outlined">delete</span>
