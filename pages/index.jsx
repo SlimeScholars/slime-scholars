@@ -36,7 +36,7 @@ export default function Home({ user, setUser }) {
   }, [width]);
   //console.log(user);
   return (
-    <div className="w-screen flex flex-col overflow-x-hidden">
+    <div className="w-screen flex flex-col max-w-full" >
       <Head>
         <title>Slime Scholars | Level Up Your Learning (Grade 4-12)</title>
         <meta
