@@ -76,7 +76,7 @@ export default function Signup({ loading, user }) {
   }, [user])
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')]">
       <Back to={"/"} />
       <h1 className="text-7xl font-cabin font-bold text-bg-light mb-14">
         I am a...

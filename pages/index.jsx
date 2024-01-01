@@ -49,7 +49,7 @@ export default function Home({ user, setUser }) {
       <header
         className="w-full h-screen flex flex-col items-center justify-center pt-20"
         style={{
-          backgroundImage: "url('/assets/backgrounds/hero.png')",
+          backgroundImage: "url('/assets/graphics/hero.png')",
           backgroundSize: "cover",
         }}
       >
