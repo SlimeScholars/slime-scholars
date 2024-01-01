@@ -31,7 +31,6 @@ export default async function (req, res) {
     checkUserType(user, 4);
 
     const { subjectId } = req.query;
-    console.log(subjectId);
 
     if (!subjectId) {
       throw new Error("subjectId is required");

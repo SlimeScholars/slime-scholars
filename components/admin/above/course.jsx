@@ -9,7 +9,6 @@ import cookies from "../../../services/cookies/cookies";
 
 export default function Course({ course, setCourse, setLoading, deleteCourse, setSidePanelProperties, selected, setSelected }) {
   const [isOpen, setIsOpen] = useState(false);
-  //console.log(course)
 
   const deleteUnit = (index) => {
     try {
@@ -52,35 +51,30 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
     }
   }
 
-  const handleUnitSwap = async(unitIndex, swapIndex) => {
+  const handleUnitSwap = async (unitIndex, swapIndex) => {
     const swap = (arr, index1, index2) => {
-        let clone = [...arr]
-        let output = [...arr]
-        output[index1] = {...clone[index2]}
-        console.log(index1);
-        console.log(index2);
-        output[index1].unitIndex = clone[index1].unitIndex
-        output[index1].unitNumber = clone[index1].unitNumber
-        output[index2] = {...clone[index1]}
-        output[index2].unitIndex = clone[index2].unitIndex
-        output[index2].unitNumber = clone[index2].unitNumber
-        return output
+      let clone = [...arr]
+      let output = [...arr]
+      output[index1] = { ...clone[index2] }
+      output[index1].unitIndex = clone[index1].unitIndex
+      output[index1].unitNumber = clone[index1].unitNumber
+      output[index2] = { ...clone[index1] }
+      output[index2].unitIndex = clone[index2].unitIndex
+      output[index2].unitNumber = clone[index2].unitNumber
+      return output
     }
 
     setLoading(true)
-    try{
-      console.log(course.units);
+    try {
       const newUnitsArray = swap(course.units, unitIndex, swapIndex);
-      console.log(newUnitsArray);
       await courseService.update(course._id, newUnitsArray, course.units[unitIndex]._id, course.units[swapIndex]._id, course.units[unitIndex].unitNumber, course.units[swapIndex].unitNumber);
-      setCourse({...course, units: newUnitsArray,});
+      setCourse({ ...course, units: newUnitsArray, });
       setTimeout(() => {
         setLoading(false);
       }, 150);
     }
-    catch(err){
-        console.log(err)
-        setTimeout(() => {setLoading(false)}, 150) 
+    catch (err) {
+      setTimeout(() => { setLoading(false) }, 150)
     }
   }
 
@@ -94,8 +88,8 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
           }
           onClick={() => {
             setSelected(course._id);
-            setSidePanelProperties({type:"course", details:course})
-            ;
+            setSidePanelProperties({ type: "course", details: course })
+              ;
           }}
         >
           {course.courseName ? (
@@ -109,34 +103,34 @@ export default function Course({ course, setCourse, setLoading, deleteCourse, se
             </p>
           )}
           {course.units.length > 0 && <button className={`text-xl z-[300] p-1 pl-20 pr-4 ${!(selected === course._id) ? "text-white" : "text-sky-300"}`}
-          onClick={(e) => {
-            setIsOpen(!isOpen)
-          }}>
+            onClick={(e) => {
+              setIsOpen(!isOpen)
+            }}>
             <BiSolidDownArrow className={`${!isOpen ? "rotate-90" : "rotate-0"} 
-            transition-all duration-150`}/>
+            transition-all duration-150`} />
           </button>}
         </button>
         <div className={`${isOpen ? "scale-y-100 h-auto" : "scale-y-0 h-0"} origin-top transition-all duration-150 w-full`}>
           <div className="w-full flex flex-col pl-5 items-start justify-start">
             {course.units.map((unit, index) => (
               <div className="flex flex-row w-full gap-2">
-              <span className="font-bold text-2xl">L</span>
-              <Unit
-                key={index}
-                setSidePanelProperties={setSidePanelProperties}
-            selected = {selected}
-            setSelected = {setSelected}
-                unit={unit}
-                setUnit={(newUnit) => {
-                  let newUnits = [...course.units];
-                  newUnits[index] = newUnit;
-                  course.units = newUnits;
-                  setCourse(course);
-                }}
-                deleteUnit={() => deleteUnit(index)}
-                setLoading={setLoading}
-                handleUnitSwap={handleUnitSwap}
-              />
+                <span className="font-bold text-2xl">L</span>
+                <Unit
+                  key={index}
+                  setSidePanelProperties={setSidePanelProperties}
+                  selected={selected}
+                  setSelected={setSelected}
+                  unit={unit}
+                  setUnit={(newUnit) => {
+                    let newUnits = [...course.units];
+                    newUnits[index] = newUnit;
+                    course.units = newUnits;
+                    setCourse(course);
+                  }}
+                  deleteUnit={() => deleteUnit(index)}
+                  setLoading={setLoading}
+                  handleUnitSwap={handleUnitSwap}
+                />
               </div>
             ))}
             {/* {course.quizzes.map((courseQuiz, index) => (
