@@ -4,19 +4,17 @@ export default function Page(props) {
   const [flipped, setFlipped] = useState(-1); // -1: not flipped, 0: flipping, 1: flipped
 
   const flipPage = () => {
-    console.log(props.pageNum, props.currentPage);
     if (
       // flip this page
       props.currentPage <= props.pageNum ||
       (props.currentPage === props.pageNum + 1 && flipped === 1)
     ) {
       let next = -flipped;
-      console.log("flip", props.pageNum);
       setFlipped(next);
       props.setPage(props.pageNum + next); // set current page tracker to next page
     }
   };
-  
+
   return (
     Math.abs(props.currentPage - props.pageNum) <= 2 && ( // only render if within 2 pages of current page
       <button

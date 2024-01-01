@@ -1,11 +1,12 @@
 import React from "react";
 import { FaChevronCircleLeft } from "react-icons/fa";
 import { HiHome } from "react-icons/hi";
+import Link from "next/link";
 
 export default function Back({ to }) {
   return (
     <nav className="w-screen h-32 flex justify-start items-center fixed top-0">
-      <a
+      <Link
         href={to}
         className="h-full flex justify-start items-center px-10"
       >
@@ -14,7 +15,7 @@ export default function Back({ to }) {
           Back to
         </p>
         <HiHome className="text-3xl text-bg-light/90" />
-      </a>
+      </Link>
 
     </nav>
   );

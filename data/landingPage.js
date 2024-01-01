@@ -33,13 +33,43 @@ export const landingContent = {
         "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
     },
     {
-      image: "/assets/graphics/cosmic-lights.png",
+      image: "/assets/backgrounds/neon-city.png",
       title: "Customize your background",
       description:
         "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
     },
     {
-      image: "/assets/graphics/cosmic-lights.png",
+      image: "/assets/backgrounds/blue-planet.png",
+      title: "Customize your background",
+      description:
+        "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
+    },
+    {
+      image: "/assets/backgrounds/underwater-shipwreck.png",
+      title: "Customize your background",
+      description:
+        "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
+    },
+    {
+      image: "/assets/backgrounds/forest-jungle.png",
+      title: "Customize your background",
+      description:
+        "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
+    },
+    {
+      image: "/assets/backgrounds/fall-castle.png",
+      title: "Customize your background",
+      description:
+        "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
+    },
+    {
+      image: "/assets/backgrounds/orange-desert.png",
+      title: "Customize your background",
+      description:
+        "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",
+    },
+    {
+      image: "/assets/backgrounds/red-space.png",
       title: "Customize your background",
       description:
         "An array of mesmerizing backgrounds allows you to customize your learning space to make something as beautiful on your screen as the learning in your head.",

@@ -12,7 +12,6 @@ export default async function (req, res) {
       throw new Error(`${req.method} is an invalid request method`);
     }
     verifyApiKey(req.headers.apikey);
-    console.log(req.body.formCurrent);
     emailjs
       .sendForm(
         process.env.EMAILJS_SERVICE_ID,

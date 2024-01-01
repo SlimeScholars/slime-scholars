@@ -31,7 +31,6 @@ export default async function (req, res) {
     checkUserType(user, 4);
 
     const { subjectId, subjectName } = req.body;
-    console.log(subjectId, subjectName);
 
     if (!subjectId) {
       throw new Error("Please send a subjectId");

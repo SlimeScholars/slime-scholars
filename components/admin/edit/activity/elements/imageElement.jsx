@@ -39,7 +39,6 @@ export default function ImageElement({ element, index, theme, handleChanges, han
     const onFileUpload = async (e) => {
         try {
             const file = e.target.files[0]
-            console.log(file)
 
             const token = cookies.get("slime-scholars-webapp-token")
 

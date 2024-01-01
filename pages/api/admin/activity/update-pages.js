@@ -90,7 +90,6 @@ export default async function (req, res) {
           element.sectionNumber < 0 ||
           element.elementType > 3
         ) {
-          console.log(element);
           throw new Error("Element type is invalid");
         }
 

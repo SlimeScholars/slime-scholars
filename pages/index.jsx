@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
 import useLogout from "../hooks/useLogout";
 import Navbar from "../components/main/navbar";
-import Testinomials from "../components/main/testimonial";
+import Testimonials from "../components/main/testimonial";
 import Mission from "../components/main/mission";
 import Details from "../components/main/details";
 import Banner from "../components/main/banner";
@@ -152,7 +152,7 @@ export default function Home({ user, setUser }) {
         )}
       </header>
       <main className="w-full flex flex-col overflow-x-hidden items-center justify-center bg-bg-light">
-        <Testinomials />
+        <Testimonials />
         <Mission />
         <Details />
         <Banner />
