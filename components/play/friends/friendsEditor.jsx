@@ -169,8 +169,8 @@ export default function FriendsEditor({
   } else {
     return (
       <div className="grid grid-cols-2 gap-4">
-        {findingLoading ? <p>Finding users...</p> :
-          searchContent.trim().length === 0 ? <p>Search for a user to friend</p> :
+        {searchContent.trim().length === 0 ? <p>Search for a user to friend</p> :
+          findingLoading ? <p>Finding users...</p> :
             usersOnlist.length === 0 ? <p>No user found</p> : <></>}
         {!findingLoading && Array.isArray(usersOnlist) ? (
           usersOnlist.map((user, index) => {
