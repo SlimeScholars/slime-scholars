@@ -15,8 +15,6 @@ import Lesson from "../../../../models/lessonModel";
  */
 export default async function (req, res) {
 	try {
-		console.log(req.query)
-		// TODO: Investigate why course select is broken
 		if (req.method !== 'DELETE') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
@@ -45,9 +43,9 @@ export default async function (req, res) {
 
 		for (let i in activity.pages) {
 			for (let j in activity.pages[i]) {
-                if (activity.pages[i].sections[j] === undefined) {
-                    continue
-                }
+				if (activity.pages[i].sections[j] === undefined) {
+					continue
+				}
 				if (activity.pages[i].sections[j].sectionType === 1) {
 					// If the section is a image, handle image delete on cloudinary
 					const imageUrl = activity.pages[i].sections[j].image

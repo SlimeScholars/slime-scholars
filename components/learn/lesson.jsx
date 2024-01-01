@@ -1,29 +1,27 @@
-import { useRouter } from "next/router";
 import { FaStar, FaRegStar } from 'react-icons/fa'
 import { BsFillPlayFill } from 'react-icons/bs'
 import Image from "next/image";
+import Link from "next/link";
 
 const maxStars = [3, 3, 5]
 
-const Activity = ({ courseId, unitId, lesson, activity, router, stars }) => {
+const Activity = ({ courseId, unitId, lesson, activity, }) => {
 	return (
-		<button className={`${activity.completion ? 'bg-gray-200 border-gray-300' : 'bg-white border-gray-30'} rounded-lg py-2 px-4 w-[95%] course-bar-default border-2 shadow-md`}
-			onClick={() => {
-				router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/activity/${activity._id}`)
-			}}>
+		<Link
+			className={`${activity.completion ? 'bg-gray-200 border-gray-300' : 'bg-white border-gray-30'} rounded-lg py-2 px-4 w-[95%] course-bar-default border-2 shadow-md`}
+			href={`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/activity/${activity._id}`}
+		>
 			<div className="flex flex-row justify-between items-center">
 				<span>{activity.activityName}</span>
 				<span className={`flex flex-row text-gray-500`}>
 					{activity.completion ? 'Completed' : ''}
 				</span>
 			</div>
-		</button>
+		</Link>
 	)
 }
 
 export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
-	const router = useRouter()
-
 	if (lesson.lessonType === "lesson") {
 		return (
 			<div
@@ -47,8 +45,8 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 							Earned
 						</div>
 						<div className="flex flex-col gap-2 my-4">
-							{lesson?.activities && lesson?.activities.map((activity, key) => <Activity key={key} activity={activity} router={router}
-								courseId={courseId} unitId={unitId} looted={lesson?.looted} stars={lesson?.stars} lesson={lesson} />)}
+							{lesson?.activities && lesson?.activities.map((activity, key) => <Activity key={key} activity={activity}
+								courseId={courseId} unitId={unitId} looted={lesson?.looted} lesson={lesson} />)}
 						</div>
 					</div>
 				</h3>
@@ -109,19 +107,17 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 					</h3>
 				</section>
 				<section className="z-[200]">
-					<button
+					<Link
 						style={{
 							backgroundColor: !colorPalette ? "" : colorPalette.text1,
 							color: !colorPalette ? "" : colorPalette.black
 						}}
-						className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
-				hover:brightness-[1.25] transition-all duration-150"
-						onClick={() => {
-							router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment/${lesson._id}`)
-						}}>
+						className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center hover:brightness-[1.25] transition-all duration-150"
+						href={`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment/${lesson._id}`}
+					>
 						Start
 						<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]" />
-					</button>
+					</Link>
 				</section>
 			</div>
 		)
@@ -182,19 +178,18 @@ export default function Lesson({ courseId, unitId, lesson, colorPalette }) {
 					</h3>
 				</section>
 				<section className="z-[200]">
-					<button
+					<Link
 						style={{
 							backgroundColor: !colorPalette ? "" : colorPalette.text1,
 							color: !colorPalette ? "" : colorPalette.black
 						}}
 						className="pr-4 py-1 pl-5 rounded-lg text-xl font-bold flex flex-row gap-2 items-center 
 				hover:brightness-[1.25] transition-all duration-150"
-						onClick={() => {
-							router.push(`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment/${lesson._id}`)
-						}}>
+						href={`/courses/${courseId}/units/${unitId}/lessons/${lesson._id}/assessment/${lesson._id}`}
+					>
 						Start
 						<BsFillPlayFill className="w-[1.5rem] h-[1.5rem]" />
-					</button>
+					</Link>
 				</section>
 			</div>
 		)
