@@ -1,3 +1,4 @@
+import { verifyApiKey } from '../../../../utils/verify'
 import connectDB from '../../../../utils/connectDB'
 import Unit from '../../../../models/unitModel'
 
@@ -12,6 +13,7 @@ export default async function (req, res) {
 		if (req.method !== 'GET') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
+		verifyApiKey(req.headers.apikey)
 
 		// Connect to database
 		await connectDB()

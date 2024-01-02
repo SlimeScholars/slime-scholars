@@ -33,7 +33,6 @@ const userSchema = new Schema(
       type: String,
       required: false,
     },
-
     // Parents and teachers must have email, students can choose to have email
     email: {
       type: String,
@@ -105,71 +104,84 @@ const userSchema = new Schema(
       required: false,
       default: undefined,
     },
-
-    completedLessons: {
-      type: [
-        {
-          lesson: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Lesson",
-            required: [true, "Missing lessonId"],
-          },
-          stars: {
-            type: Number,
-            required: false, // Stars can be 0
-          },
-          looted: {
-            type: Boolean,
-            required: [true, "Missing looted"],
-          },
+    progress: [
+      {
+        _id: false,
+        courseId: {
+          type: String,
+          required: [true, "Missing id"],
         },
-      ],
-      required: false,
-      default: undefined,
-      _id: false,
-    },
-    completedUnits: {
-      type: [
-        {
-          unit: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Unit",
-            required: [true, "Missing unitId"],
+        units: [
+          {
+            _id: false,
+            unitId: {
+              type: String,
+              required: [true, "Missing id"],
+            },
+            lessons: [
+              {
+                _id: false,
+                lessonId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
+                activities: [
+                  {
+                    _id: false,
+                    activityId: {
+                      type: String,
+                      required: [true, "Missing id"],
+                    },
+                    completion: {
+                      type: Number,
+                      required: [true, "Missing completion"],
+                    },
+                  },
+                ],
+                completion: {
+                  type: Number,
+                  required: [true, "Missing achieved"],
+                },
+              },
+            ],
+            quizzes: [
+              {
+                _id: false,
+                quizId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
+                completion: {
+                  type: Number,
+                  required: [true, "Missing completion"],
+                },
+              },
+            ],
+            tests: [
+              {
+                _id: false,
+                testId: {
+                  type: String,
+                  required: [true, "Missing id"],
+                },
+                completion: {
+                  type: Number,
+                  required: [true, "Missing completion"],
+                },
+              },
+            ],
+            completion: {
+              type: Number,
+              required: [true, "Missing achieved"],
+            },
           },
-          tier: {
-            type: Number,
-            required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
-          },
-          // Stars on the unit test
-          stars: {
-            type: Number,
-            required: false, // Stars can be 0
-          }
+        ],
+        completion: {
+          type: Number,
+          required: [true, "Missing achieved"],
         },
-      ],
-      required: false,
-      default: undefined,
-      _id: false,
-    },
-    completedCourses: {
-      type: [
-        {
-          course: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "Coure",
-            required: [true, "Missing courseId"],
-          },
-          tier: {
-            type: Number,
-            required: [true, "Missing tier"], // 1 is bronze, 2 is silver, 3 is gold
-          },
-        },
-      ],
-      required: false,
-      default: undefined,
-      _id: false,
-    },
-
+      },
+    ],
     lastRewards: {
       type: [
         {
@@ -242,32 +254,21 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Missing itemName"],
           },
-          rarity: {
-            type: String,
-            required: [true, "Missing rarity"],
-          },
           quantity: {
             type: Number,
             required: [true, "Missing quantity"],
-          },
-          sellPrice: {
-            type: Number,
-            required: false,
-          },
-          sellCurrency: {
-            type: Number,
-            required: false,
-          },
-          isBg: {
-            type: Boolean,
-            // Required makes it so that isBg cannot be false
-            required: false,
           },
         },
       ],
       required: false,
       default: undefined,
       _id: false,
+    },
+
+    tutorialActive: {
+      type: Boolean,
+      required: true,
+      default: true,
     },
   },
   {

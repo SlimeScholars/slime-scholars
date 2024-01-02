@@ -1,4 +1,5 @@
 import { authenticate } from "../../../../utils/authenticate"
+import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import Course from '../../../../models/courseModel'
@@ -14,9 +15,10 @@ import '../../../../models/lessonModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if (req.method !== 'PUT') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -29,13 +31,13 @@ export default async function (req, res) {
 
     const { courseId, courseName } = req.body
 
-    if(!courseId) {
+    if (!courseId) {
       throw new Error('Please send a courseId')
     }
 
     const courseExists = Course.findById(courseId)
 
-    if(!courseExists) {
+    if (!courseExists) {
       throw new Error('Could not find the course to update')
     }
 
@@ -49,15 +51,15 @@ export default async function (req, res) {
         path: 'units',
         populate: {
           path: 'lessons',
-          model: 'Lesson', 
+          model: 'Lesson',
         },
       })
 
-    res.status(200).json({course})
+    res.status(200).json({ course })
 
-  } catch(error) {
+  } catch (error) {
     console.log(error.message)
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }
 

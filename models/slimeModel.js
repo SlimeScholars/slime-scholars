@@ -62,22 +62,6 @@ const slimeSchema = Schema(
 			type: Number,
 			required: false,
 		},
-		abilityName: {
-			type: String,
-			required: false,
-		},
-		// Description of ability at each star level
-		abilityDescriptions: {
-			type: [String],
-			required: false,
-			default: undefined,
-		},
-		// Special effects associated with slime, eg. cannot be leveled, starts with 100 base GP
-		effects: {
-			type: [String],
-			required: false,
-			default: undefined,
-		},
 	},
 	{
 		timestamps: true,

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import Back from "../../components/signup/back";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
+import cookies from "../../services/cookies/cookies";
+import { useEffect } from "react";
 
 import {
   verifyEmail,
@@ -15,19 +16,12 @@ import { showToastError } from "../../utils/toast";
 
 import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+
+import { encrypt } from "../../utils/rsa";
 
 export default function Student({ loading, user, setUser }) {
-  const router = useRouter();
 
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-    if (user) {
-      router.push("/");
-    }
-  }, [loading, user]);
+  const router = useRouter();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -35,6 +29,12 @@ export default function Student({ loading, user, setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      router.push('/')
+    }
+  }, [user])
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -51,19 +51,35 @@ export default function Student({ loading, user, setUser }) {
       showToastError(error.message);
       return;
     }
+
+    const config = {
+      headers: {},
+    };
+
+    const encryptedPassword = encrypt(
+      password,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY_2,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
+
     axios
-      .post("/api/user/create", {
-        userType: 1,
-        firstName,
-        lastName,
-        username,
-        email,
-        password,
-      })
+      .post(
+        "/api/user/create",
+        {
+          userType: 1,
+          firstName,
+          lastName,
+          username,
+          email,
+          encryptedPassword,
+        },
+        config
+      )
       .then((response) => {
         if (response.data) {
-          localStorage.setItem("jwt", response.data.token);
+          cookies.set("slime-scholars-webapp-token", response.data.token);
           setUser(response.data.user);
+          router.push('/play')
         }
       })
       .catch((error) => {
@@ -78,11 +94,11 @@ export default function Student({ loading, user, setUser }) {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
-      <Back to={"/"} />
-      <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')]">
+      {/* FIXME <Back to={"/"} /> */}
+      <div className="w-[725px] bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl h-[95vh] p-3">
         <form
-          className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
+          className="relative w-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-y-scroll h-full"
           onSubmit={(e) => onSubmit(e)}
         >
           <div className="rotate-[14deg] absolute -bottom-8 -left-11 opacity-100 z-0">
@@ -90,7 +106,7 @@ export default function Student({ loading, user, setUser }) {
               src="/assets/graphics/slimes/slime-cat.png"
               width={0}
               height={0}
-              sizes='100vw'
+              sizes="100vw"
               className="h-[200px] w-[200px]"
               alt="Cat slime"
             />

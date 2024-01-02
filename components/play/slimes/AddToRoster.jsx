@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Roster from "./Roster";
 import axios from "axios";
 import { showToastError } from "../../../utils/toast";
+import cookies from "../../../services/cookies/cookies";
 
 export default function AddToRoster({
   user,
@@ -10,7 +11,6 @@ export default function AddToRoster({
   slime,
   setUser,
   bg,
-  refetchUser,
 }) {
   const [inRoster, setInRoster] = useState(false);
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function AddToRoster({
         }
       }
 
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -51,13 +51,14 @@ export default function AddToRoster({
       axios
         .put("/api/slime/change-roster", { roster }, config)
         .then((response) => {
-          setLoading(false);
-          refetchUser()
+          setUser({...user})
+          setTimeout(() => {setLoading(false)}, 150);
+          
         })
         .catch((error) => {
           showToastError(error.response.data.message);
           console.log(error);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
@@ -67,16 +68,13 @@ export default function AddToRoster({
 
   return (
     <div
-      className="flex flex-col px-9 py-5"
+      className="flex flex-col"
       style={{
         color: bg.text1,
       }}
     >
-      {inRoster ? (
+      {inRoster &&
         <div className="flex flex-row justify-between">
-          <div>
-            <p className="text-2xl mx-1"> Add to team</p>
-          </div>
           <div>
             <button
               className="px-5 py-1 text-xl rounded-lg"
@@ -91,11 +89,7 @@ export default function AddToRoster({
             </button>
           </div>
         </div>
-      ) : (
-        <div>
-          <p className="text-md mx-1"> Add to team</p>
-        </div>
-      )}
+      }
       <p className="text-xl mb-2 mx-1 text-center mt-5">
         Choose a slime to replace
       </p>
@@ -107,7 +101,7 @@ export default function AddToRoster({
           slime={slime}
           setUser={setUser}
           bg={bg}
-          refetchUser={refetchUser}
+          
         />
       </div>
     </div>

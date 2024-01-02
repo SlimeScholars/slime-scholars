@@ -1,63 +1,129 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { gameData } from "../data/gameData";
-import "../styles/styles.css";
+
 import axios from "axios";
 import MainSpinner from "../components/misc/mainSpinner";
 //import AxiosSpinner from "../components/misc/axiosSpinner";
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/router";
 import { Navbar } from "../components/play/Navbar";
 import Home from "../components/play/Home";
+import SlimeGelPopup from "../components/play/slimes/SlimeGelPopup";
+import CourseLayout from "../components/learn/courseLayout";
+import useCurrentUser from "../hooks/useCurrentUser";
+import Aos from "aos";
+
+import "../styles/main.css";
+import "../styles/animations.css";
+import "../styles/game.css";
+import "../styles/rarity-gradients.css";
+import "react-toastify/dist/ReactToastify.css";
+
+axios.defaults.headers.common["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
+axios.defaults.headers.post["apikey"] = process.env.NEXT_PUBLIC_API_KEY;
+
+axios.interceptors.request.use(
+  (request) => {
+    // Edit request config
+    return request;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+axios.interceptors.response.use(
+  (response) => {
+    // Edit response config
+    return response;
+  },
+  (error) => {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
 
 function MyApp({ Component, pageProps }) {
-  const [loading, setLoading] = useState(true);
-  const [axiosLoading, setAxiosLoading] = useState(false); // Used for axios loading
-  const [user, setUser] = useState(null);
-  const [numEggs, setNumEggs] = useState(0);
-  const [flowers, setFlowers] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [userLoading, setUserLoading] = useState(true);
   const [items, setItems] = useState([]);
-  const [colorPalette, setColorPalette] = useState({});
-  const [pfpBg, setPfpBg] = useState(null);
 
-  const refetchUser = async () => {
+  const [rewardsData, setRewardsData] = useState(null);
+  const [rewardsModalOpen, setRewardsModalOpen] = useState(false);
+  const isClient = typeof window === "object";
 
-    setLoading(true)
-    try {
-      const token = localStorage.getItem('jwt')
-      if (!token) {
-        setUser(null);
-        setLoading(false);
-        return;
+  const router = useRouter();
+  const [onPlay, setOnPlay] = useState(false);
+  const [current, setCurrent] = useState(0);
+
+  const [panelsVisible, setPanelsVisible] = useState(false);
+
+  const [audio, setAudio] = useState(null);
+
+  const { user, setUser } = useCurrentUser({ setLoading: setUserLoading });
+  const [initUser, setInitUser] = useState(null);
+
+  const [windowSize, setWindowSize] = useState(
+    isClient
+      ? {
+        width: window.innerWidth,
+        height: window.innerHeight,
       }
+      : { width: 10000, height: 10000 } // Provide default values for server-side rendering
+  );
 
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
+  // Step 4: Create a function to update the state variable with window size
+  const updateWindowSize = () => {
+    setWindowSize({
+      width: window.innerWidth,
+      height: window.innerHeight,
+    });
+  };
 
-      axios
-        .get("/api/user", config)
-        .then((response) => {
-          if (response.data && response.data.user) {
-            setUser(response.data.user);
-            setLoading(false);
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-          // If the json web token is invalid, remove it so no more requests will be made with the same token
-          localStorage.removeItem("jwt");
-          setUser(null);
-          setLoading(false);
-        });
+  // music
+  useEffect(() => {
+    if (user?.colorPalette) {
+      if (gameData.items[user.colorPalette].track) {
+        const track = new Audio(
+          "/assets/audio/tracks/" + gameData.items[user.colorPalette] + ".mp3"
+        );
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+        if (
+          gameData.items[user.colorPalette] === gameData.items[user.bg].track
+        ) {
+          track.currentTime = 0;
+          track.muted = true;
+          track.onended = () => {
+            track.currentTime = 0;
+            let delay = setTimeout(function () {
+              track.play();
+              clearTimeout(delay);
+            }, 15000);
+          };
+          setAudio(track);
+        }
+      } else {
+        if (audio) {
+          audio.pause();
+          audio.currentTime = 0;
+          setAudio(null);
+        }
+      }
     }
-    catch (err) {
-      console.log(err)
-      setLoading(false)
+  }, [user?.colorPalette]);
+
+  useEffect(() => {
+    if (audio) {
+      audio.pause;
+      audio.currentTime = 0;
+      audio.muted = false;
+      audio.play();
     }
-  }
+  }, [audio]);
 
   const modifiedPageProps = {
     ...pageProps,
@@ -65,32 +131,41 @@ function MyApp({ Component, pageProps }) {
     setUser,
     loading,
     setLoading,
-    axiosLoading,
-    setAxiosLoading,
-    setNumEggs,
-    setFlowers,
     items,
     setItems,
-    colorPalette,
-    setColorPalette,
-    pfpBg,
-    setPfpBg,
-    refetchUser
+    colorPalette: gameData.items[user?.bg],
+    panelsVisible,
+    setPanelsVisible,
   }; // Include user in modifiedPageProps
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      refetchUser()
-    }
+    Aos.init({ duration: 1000 });
   }, []);
 
-  const router = useRouter();
-  const [onPlay, setOnPlay] = useState(false);
-  const [current, setCurrent] = useState(0);
+  useEffect(() => {
+    if (
+      user &&
+      user.screen_display_notif &&
+      user.screen_display_notif.intervals > 0
+    ) {
+      setInitUser({ ...user });
+      setRewardsModalOpen(true);
+      setRewardsData(user.screen_display_notif);
+    }
+    if (user) {
+      setTimeout(() => {
+        setLoading(false);
+      }, 150);
+    }
+  }, [user]);
 
   useEffect(() => {
     const paths = ["shopping", "friends", "slimes", "inventory", "roll"];
-    if (router.pathname.startsWith("/play") && (router.pathname.split('/').length < 3 || paths.includes(router.pathname.split("/")[2]))) {
+    if (
+      router.pathname.startsWith("/play") &&
+      (router.pathname.split("/").length < 3 ||
+        paths.includes(router.pathname.split("/")[2]))
+    ) {
       setOnPlay(router.pathname.startsWith("/play"));
       if (router.pathname.split("/").length === 2) {
         setCurrent(0);
@@ -110,51 +185,132 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    if (user && user.pfpBg) {
-      setPfpBg(user.pfpBg);
-    }
+    const normal_noperms = ["/settings", "/play", "/courses", "/admin", "/classrooms"];
+    let permitted = true;
 
-    if (user && user.bg && gameData.items[user.bg].bg) {
-      setColorPalette(gameData.items[user.bg]);
-    }
-  }, [user]);
+    normal_noperms.forEach((start) => {
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
+      }
+    });
 
-  // Return loading on the component instead of home. This way, state variables don't get reset
+    if (!permitted) {
+      if (!userLoading && !user && router.asPath !== "/404") {
+        router.push("/access-denied");
+      }
+    }
+  }, [user, router, router.asPath, userLoading]);
+
+  useEffect(() => {
+    const student_noperms = ["/admin"];
+    let permitted = true;
+
+    student_noperms.forEach((start) => {
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
+      }
+    });
+
+    if (!permitted) {
+      if (!userLoading && user && user.userType === 1 && router.asPath !== "/404") {
+        router.push("/access-denied");
+      }
+    }
+  }, [user, router, router.asPath, userLoading]);
+
+  useEffect(() => {
+    const teacher_noperms = ["/play", "/admin"];
+    let permitted = true;
+
+    teacher_noperms.forEach((start) => {
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
+      }
+    });
+
+    if (!permitted) {
+      if (!userLoading && user && user.userType === 3 && router.asPath !== "/404") {
+        router.push("/access-denied");
+      }
+    }
+  }, [user, router, router.asPath, userLoading]);
+
+  useEffect(() => {
+    const parent_noperms = ["/play", "/admin", "/classrooms"];
+    let permitted = true;
+
+    parent_noperms.forEach((start) => {
+      if (router.asPath.startsWith(start)) {
+        permitted = false;
+      }
+    });
+
+    if (!permitted) {
+      if (!userLoading && user && user.userType === 2 && router.asPath !== "/404") {
+        router.push("/access-denied");
+      }
+    }
+  }, [user, router, router.asPath, userLoading]);
+
+  if (router.asPath.startsWith("/courses")) {
+    return (
+      <>
+        {loading || userLoading ? (
+          <div className="relative w-screen h-screen">
+            <MainSpinner />
+          </div>
+        ) : (
+          <></>
+        )}
+        <div className={`relative ${loading || userLoading ? "hidden" : ""}`}>
+          <ToastContainer />
+          <CourseLayout
+            colorPalette={gameData.items[user?.bg]}
+            setUser={setUser}
+            user={user}
+          >
+            <Component {...modifiedPageProps} />
+          </CourseLayout>
+        </div>
+      </>
+    );
+  }
+
+  if (typeof document === "undefined") {
+    React.useLayoutEffect = React.useEffect;
+  }
+
   return (
     <>
-      {loading ? <MainSpinner /> : <></>}
-      <div className={`relative ${loading ? "hidden" : ""}`}>
+      {loading || userLoading ? (
+        <div className="relative w-screen h-screen">
+          <MainSpinner />
+        </div>
+      ) : (
+        <></>
+      )}
+      <div className={`relative ${loading || userLoading ? "hidden" : ""}`} id="body">
         <ToastContainer />
+
         {onPlay ? (
           <>
-            {/* Each component is wrapped in a relative div to allow use to z-index*/}
-            {/* Home page */}
             <div className={`relative h-0 ${current === 0 ? "z-10" : "-z-10"}`}>
               <Home
                 user={user}
                 active={current === 0}
-                setLoading={current === 0 ? setLoading : () => null}
+                setLoading={setLoading}
                 setUser={current === 0 ? setUser : () => null}
-                colorPalette={colorPalette}
-                setColorPalette={setColorPalette}
-                refetchUser={refetchUser}
+                colorPalette={gameData.items[user?.bg]}
               />
             </div>
 
-            {/* Other play pages */}
             <div className={`relative h-0`}>
-              <div className={`absolute inset-0 py-10 px-20 h-screen overflow-y-scroll`}>
+              <div
+                className={`absolute inset-0 py-10 px-20 h-screen overflow-y-scroll`}
+              >
                 <div className="h-full relative">
                   <div className="z-20 mb-10">
-                    <Navbar
-                      user={user}
-                      current={current}
-                      numEggs={numEggs}
-                      setNumEggs={setNumEggs}
-                      flowers={flowers}
-                      colorPalette={colorPalette}
-                      setColorPalette={setColorPalette}
-                    />
+                    <Navbar {...modifiedPageProps} />
                   </div>
                   <Component {...modifiedPageProps} />
                 </div>
@@ -163,6 +319,13 @@ function MyApp({ Component, pageProps }) {
           </>
         ) : (
           <Component {...modifiedPageProps} />
+        )}
+        {rewardsModalOpen && (
+          <SlimeGelPopup
+            user={initUser}
+            details={rewardsData}
+            close={() => setRewardsModalOpen(false)}
+          />
         )}
       </div>
     </>

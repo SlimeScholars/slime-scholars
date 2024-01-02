@@ -5,14 +5,22 @@ import ManageFriends from "../../components/play/friends/ManageFriends";
 import FriendRequestsEditor from "../../components/play/friends/FriendRequestsEditor";
 import axios from "axios";
 import Image from "next/image";
+import cookies from "../../services/cookies/cookies";
 
-export default function Friends({ loading, setLoading, user, setUser, colorPalette, refetchUser }) {
+export default function Friends({
+  loading,
+  setLoading,
+  user,
+  setUser,
+  colorPalette,
+}) {
   const router = useRouter();
 
   const [userFriends, setUserFriends] = useState("empty for now");
   const [userRank, setUserRank] = useState(0);
   const [allPlayers, setAllPlayers] = useState("empty for now");
   const [toDo, setToDo] = useState("manage");
+  const [toDoChanged, setToDoChanged] = useState(false);
   const [userId, setUserId] = useState("empty for now");
   const [sentFriendRequests, setSentFriendRequests] = useState("empty for now");
   const [receivedFriendRequests, setReceivedFriendRequests] =
@@ -23,12 +31,22 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
+      return
     }
 
     // Get userfriends for userfriendListings in leaderboard
     const friends = [...user.friends];
-    friends.push(user)
+    let userInFriends = false;
+    for (let i = 0; i < friends.length; i++) {
+      if (friends[i].exp < user.exp) {
+        friends.splice(i, 0, user);
+        userInFriends = true;
+        break;
+      }
+    }
+    if (!userInFriends) {
+      friends.push(user);
+    }
     setUserFriends(friends);
 
     // Record user id for leaderboard listing background highlight
@@ -40,7 +58,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
 
     // Get allplayers for playerListings in leaderboard
     // Fetching top 20 players in order of exp
-    const token = localStorage.getItem("jwt");
+    const token = cookies.get("slime-scholars-webapp-token");
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -50,11 +68,11 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
     axios
       .get("/api/user/leaderboard", config)
       .then((response) => {
+        console.log(response.data);
         setUserRank(response.data.userRank);
         setAllPlayers(response.data.leaderboard);
       })
-      .catch((error) => {
-      });
+      .catch((error) => {});
   }, [user, loading]);
 
   return (
@@ -62,8 +80,7 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
       {/* Header */}
       <div
         style={{
-          backgroundColor:
-            !colorPalette ? "" : `${colorPalette.white}88`,
+          backgroundColor: !colorPalette ? "" : `${colorPalette.white}88`,
           color: !colorPalette ? "" : colorPalette.text1,
         }}
         className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
@@ -71,10 +88,10 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
         <div className="grow-0 pl-4">
           <Image
             src="/assets/icons/friends.png"
-            alt='slimes'
+            alt="friends"
             height={0}
             width={0}
-            sizes='100vw'
+            sizes="100vw"
             className="w-[4.5rem] h-[4.5rem]"
           />
         </div>
@@ -89,42 +106,58 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
             <div className="flex flex-row cursor-pointer">
               <div
                 onClick={() => {
-                  setToDo('manage')
+                  if (toDo === "add") {
+                    setToDoChanged(true);
+                  } else {
+                    setToDoChanged(false);
+                  }
+                  setToDo("manage");
                 }}
                 style={{
-                  background: toDo === 'manage' && colorPalette ? colorPalette.primary1 : "none",
+                  background:
+                    toDo === "manage" && colorPalette
+                      ? colorPalette.primary1
+                      : "none",
                 }}
-                className={`py-2 pl-3 rounded-full text-center ${toDo === 'manage' ? 'pr-4' : 'pr-2'}`}
+                className={`py-2 pl-3 rounded-full text-center ${
+                  toDo === "manage" ? "pr-4 " : "pr-2 pulse"
+                }`}
               >
                 Manage Friends
               </div>
               <div
                 onClick={() => {
-                  setToDo('add')
+                  if (toDo === "manage") {
+                    setToDoChanged(true);
+                  } else {
+                    setToDoChanged(false);
+                  }
+                  setToDo("add");
                 }}
                 style={{
-                  background: toDo === 'add' && colorPalette ? colorPalette.primary1 : "none",
+                  background:
+                    toDo === "add" && colorPalette
+                      ? colorPalette.primary1
+                      : "none",
                 }}
-                className={`py-2 pr-3 rounded-full text-center ${toDo === 'add' ? 'pl-4' : 'pl-2'}`}
+                className={`py-2 pr-3 rounded-full text-center ${
+                  toDo === "add" ? "pl-4 " : "pl-2 pulse"
+                }`}
               >
                 Add Friends
               </div>
-            </div >
+            </div>
           </div>
-
         </div>
       </div>
 
       {/* Default: leaderboard and managing friends */}
-      <div
-        className="pt-8 flex flex-row gap-8 items-start font-galindo"
-      >
+      <div className="pt-8 flex xl:flex-row gap-8 items-start font-galindo flex-col max-xl:gap-[0]">
         {/* Leaderboard */}
         <div
-          className="basis-1/2 rounded-lg mb-10"
+          className="basis-1/2 rounded-lg mb-10 w-full"
           style={{
-            backgroundColor:
-              !colorPalette ? "" : `${colorPalette.white}88`,
+            backgroundColor: !colorPalette ? "" : `${colorPalette.white}88`,
           }}
         >
           {toDo == "manage" ? (
@@ -145,14 +178,18 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setReceivedFriendRequests={setReceivedFriendRequests}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              refetchUser={refetchUser}
             />
           )}
         </div>
 
         {/* Manage Friends */}
-        <div className="basis-1/2 bg-white/50 rounded-lg h-full">
-          <div className="flex flex-row">
+        <div
+          className="basis-1/2 rounded-lg h-full w-full"
+          style={{
+            backgroundColor: !colorPalette ? "" : `${colorPalette.white}88`,
+          }}
+        >
+          <div className="flex flex-row w-full">
             <ManageFriends
               user={user}
               userFriends={userFriends}
@@ -161,7 +198,8 @@ export default function Friends({ loading, setLoading, user, setUser, colorPalet
               setUser={setUser}
               setSentFriendRequests={setSentFriendRequests}
               colorPalette={colorPalette}
-              refetchUser={refetchUser}
+              toDoChanged={toDoChanged}
+              setToDoChanged={setToDoChanged}
             />
           </div>
         </div>

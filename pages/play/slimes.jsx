@@ -6,14 +6,14 @@ import axios from "axios";
 import { showToastError } from "../../utils/toast";
 import RewardsPopUp from "../../components/play/slimes/RewardsPopUp";
 import Image from "next/image";
+import cookies from "../../services/cookies/cookies";
 
 export default function Slimes({
   loading,
   user,
   setLoading,
   setUser,
-  colorPalette,
-  refetchUser
+  colorPalette
 }) {
   const [searchContent, setSearchContent] = useState("");
   const [filterSlimes, setFilterSlimes] = useState([]); // Filtered slimes based on search
@@ -29,13 +29,13 @@ export default function Slimes({
       return;
     }
     if (!user || user.userType !== 1) {
-      router.push("/");
+      return
     }
   }, [user, loading]);
 
   const handleClick = () => {
     try {
-      const token = localStorage.getItem("jwt");
+      const token = cookies.get("slime-scholars-webapp-token")
 
       // Set the authorization header
       const config = {
@@ -47,16 +47,16 @@ export default function Slimes({
       axios
         .post("/api/slime/get-rewards", {}, config)
         .then((response) => {
-          refetchUser()
+          
           setChanceSlimes(response.data.rewardMessages);
           setShowRewardsPopup(true);
           setRewards(response.data.rewards);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         })
         .catch((error) => {
           showToastError(error.response.data.message);
           console.log(error);
-          setLoading(false);
+          setTimeout(() => {setLoading(false)}, 150);
         });
     } catch (error) {
       showToastError(error.message);
@@ -66,14 +66,15 @@ export default function Slimes({
 
   useEffect(() => {
     if (user) {
-      const searchSlimes = user.slimes.filter((slime) => {
+      // If the user searched something
+      const searchSlimes = {...user}.slimes.filter((slime) => {
         return slime.slimeName
           .toLowerCase()
           .includes(searchContent.toLowerCase());
       });
       setFilterSlimes(searchSlimes);
     }
-  }, [searchContent]);
+  }, [searchContent, user]);
 
   const handleClosePopup = () => {
     setShowRewardsPopup(false);
@@ -121,7 +122,7 @@ export default function Slimes({
               className="w-[4.5rem] h-[4.5rem]"
             />
           </div>
-          <h2 className="grow pl-4 font-galindo text-2xl">Slimes</h2>
+          <h2 className="grow pl-4 font-galindo text-2xl text-white">Slimes</h2>
           <div className="grow-0 flex pr-4">
             <div
               style={{
@@ -166,18 +167,19 @@ export default function Slimes({
                 !colorPalette ? "" : `${colorPalette.white}88`,
             }}
           >
-            <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 p-8" style={{
+            <div className="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 gap-4 p-8" style={{
               // minHeight: 'calc(100vh - 22rem)',
             }}>
               {/* loop through all slimes from user and display them */}
               {user && (
                 <SlimeInventory
                   slimes={
-                    filterSlimes.length > 0 ? filterSlimes : user.slimes
+                    filterSlimes
                   }
                   loading={loading}
                   setSlime={setSlime}
                   bg={colorPalette}
+                  searchContent={searchContent}
                 />
               )}
             </div>
@@ -196,7 +198,7 @@ export default function Slimes({
               setSlime={setSlime}
               setUser={setUser}
               bg={colorPalette}
-              refetchUser={refetchUser}
+              
             />
           </div>
         </div>

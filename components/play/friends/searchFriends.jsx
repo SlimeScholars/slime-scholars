@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SearchBar from "../searchBar";
 import axios from "axios";
+import cookies from "../../../services/cookies/cookies";
 
 /**
  * @param   {function} setFriends - can change the matching friends variable in upper level (ManageFriends.js)
@@ -12,9 +13,9 @@ import axios from "axios";
 
 export default function SearchFriends({ setFriends, toDo, placeHolder }) {
     const [searchContent, setSearchContent] = useState("");
-    
+
     const handleSubmit = (e) => {
-        const token = localStorage.getItem('jwt')
+        const token = cookies.get("slime-scholars-webapp-token")
 
         // Set the authorization header
         const config = {
@@ -25,11 +26,12 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
                 username: searchContent,
             }
         };
-        
-        if ( toDo === "add") {
+
+        if (toDo === "add") {
             axios
                 .get("/api/user/search", config)
                 .then(response => {
+                    setUser({...user})
                     setFriends(response.data.users);
                 })
                 .catch(error => {
@@ -37,13 +39,14 @@ export default function SearchFriends({ setFriends, toDo, placeHolder }) {
                 });
         } else {
             axios
-            .get("/api/user/friend/search", config)
-            .then(response => {
-                setFriends(response.data.matchingFriends);
-            })
-            .catch(error => 
-                console.error()
-                //console.error(error.message)
+                .get("/api/user/friend/search", config)
+                .then(response => {
+                    setUser({...user})
+                    setFriends(response.data.matchingFriends);
+                })
+                .catch(error =>
+                    console.error()
+                    //console.error(error.message)
                 );
         }
     };

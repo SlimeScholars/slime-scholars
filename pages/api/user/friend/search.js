@@ -1,9 +1,7 @@
-import { mongoose } from "mongoose";
 import { authenticate } from "../../../../utils/authenticate";
+import { verifyApiKey } from "../../../../utils/verify";
 import { checkUserType } from "../../../../utils/checkUserType";
 import connectDB from "../../../../utils/connectDB";
-import User from "../../../../models/userModel";
-import { getPopulatedPlayer } from "../../../../utils/getPopulatedUser";
 
 /**
  * @desc    Look for a friend (based on their username)
@@ -16,6 +14,7 @@ export default async function (req, res) {
     if (req.method !== "GET") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();

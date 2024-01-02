@@ -1,7 +1,9 @@
 import { authenticate } from "../../../utils/authenticate"
+import { verifyApiKey } from "../../../utils/verify"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
+import { gameData } from "../../../data/gameData"
 
 /**
  * @desc    Change profile picture
@@ -15,6 +17,7 @@ export default async function (req, res) {
 		if (req.method !== 'PUT') {
 			throw new Error(`${req.method} is an invalid request method`)
 		}
+		verifyApiKey(req.headers.apikey)
 
 		// Connect to database
 		await connectDB()
@@ -53,7 +56,7 @@ export default async function (req, res) {
 			throw new Error(`You do not own the following item: ${pfpBg}`)
 		}
 
-		if (!user.items[itemIndex].isBg) {
+		if (!gameData.items[pfpBg].isBg) {
 			throw new Error(`The following item is not a background: ${pfpBg}`)
 		}
 

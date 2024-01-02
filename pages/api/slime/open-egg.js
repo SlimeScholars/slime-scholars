@@ -1,4 +1,5 @@
 import { gameData } from "../../../data/gameData"
+import { verifyApiKey } from "../../../utils/verify"
 import { authenticate } from "../../../utils/authenticate"
 import { checkUserType } from '../../../utils/checkUserType'
 import connectDB from '../../../utils/connectDB'
@@ -17,6 +18,7 @@ export default async function (req, res) {
     if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -67,7 +69,7 @@ export default async function (req, res) {
       newItems.splice(itemIndex, 1)
     }
 
-    const slimeList = gameData.slimes[rarity]
+    const slimeList = gameData.raritySlimes[rarity]
     const chosenSlime = slimeList[Math.floor((Math.random() * slimeList.length))]
 
     const slimeExists = await Slime.findOne({ user: user._id, slimeName: chosenSlime.slimeName })
@@ -125,9 +127,9 @@ export default async function (req, res) {
         slimeName: chosenSlime.slimeName,
         rarity,
         // Override default max level if the slime has a custom one
-        maxLevel: chosenSlime.maxLevel ? chosenSlime.maxLevel : gameData.maxLevel[rarity],
+        maxLevel: chosenSlime.maxLevel !== undefined ? chosenSlime.maxLevel : gameData.maxLevel[rarity],
         // Override default base production if the slime has a custom one
-        baseProduction: chosenSlime.baseProduction ? chosenSlime.baseProduction : gameData.baseProduction[rarity],
+        baseProduction: chosenSlime.baseProduction !== undefined ? chosenSlime.baseProduction : gameData.baseProduction[rarity],
         // Bonus production is always 0 when creating a slime
 
         // Set level up cost to undefined if the slime cannot be leveled
@@ -137,11 +139,6 @@ export default async function (req, res) {
         maxStarLevel: gameData.maxStarLevel[rarity],
         starProgress: 0,
         maxStarProgress: gameData.starProgress[rarity][0],
-
-        abilityName: chosenSlime.abilityName,
-        abilityDescriptions: chosenSlime.abilityDescriptions,
-        // If a slime doesn't have effects, it will be undefined
-        effects: chosenSlime.effects,
       }))._id
 
       slime = await Slime.findById(slimeId, {

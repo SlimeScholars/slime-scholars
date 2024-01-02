@@ -1,3 +1,4 @@
+import { verifyApiKey } from '../../../utils/verify'
 import Slime from '../../../models/slimeModel'
 
 /**
@@ -8,13 +9,14 @@ import Slime from '../../../models/slimeModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'GET') {
+    if (req.method !== 'GET') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     const { slimeId } = req.query
-		const slime = await Slime.findById(slimeId, {
-      createdAt:0, updatedAt: 0, __v: 0,
+    const slime = await Slime.findById(slimeId, {
+      createdAt: 0, updatedAt: 0, __v: 0,
     })
       .populate({
         path: 'user',
@@ -23,9 +25,9 @@ export default async function (req, res) {
       })
       .exec()
 
-    res.status(200).json({slime})
+    res.status(200).json({ slime })
   }
   catch (error) {
-    res.status(400).json({message: error.message})
+    res.status(400).json({ message: error.message })
   }
 }

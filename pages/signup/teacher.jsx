@@ -3,6 +3,8 @@ import Back from "../../components/signup/back";
 import { AiOutlineQuestionCircle } from "react-icons/ai";
 import Modal from "../../components/signup/modal";
 import Image from "next/image";
+import { encrypt } from "../../utils/rsa";
+import cookies from "../../services/cookies/cookies";
 
 import {
   verifyEmail,
@@ -14,32 +16,12 @@ import {
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { showToastError } from "../../utils/toast";
+import { useEffect } from "react";
 
 import axios from "axios";
-
-import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 export default function Teacher({ loading, user, setUser }) {
-  const router = useRouter();
-
-  useEffect(() => {
-    if (loading) {
-      return;
-    }
-
-    // FIXME
-    if (!user) {
-      router.push('/signup/student')
-    }
-
-    if (user && user.userType === 1) {
-      router.push('/play')
-    }
-    else if (user) {
-      router.push("/");
-    }
-  }, [loading, user]);
 
   const [honorific, setHonorific] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -66,6 +48,16 @@ export default function Teacher({ loading, user, setUser }) {
       showToastError(error.message);
       return;
     }
+
+    const encryptedPassword = encrypt(
+      password,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY_2,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
+
+    const config = {
+      headers: {},
+    };
     axios
       .post("/api/user/create", {
         userType: 3,
@@ -73,12 +65,13 @@ export default function Teacher({ loading, user, setUser }) {
         firstName,
         lastName,
         email,
-        password,
-      })
+        encryptedPassword,
+      }, config)
       .then((response) => {
         if (response.data) {
-          localStorage.setItem("jwt", response.data.token);
+          cookies.set("slime-scholars-webapp-token", response.data.token);
           setUser(response.data.user);
+          router.push('/classrooms')
         }
       })
       .catch((error) => {
@@ -92,11 +85,19 @@ export default function Teacher({ loading, user, setUser }) {
       });
   };
 
+  const router = useRouter()
+
+  useEffect(() => {
+    if (user) {
+      router.push('/')
+    }
+  }, [user])
+
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')]">
       <Back to={"/"} />
       <ToastContainer />
-      <div className="w-1/3 relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
+      <div className="w-[725px] relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">
         <h1 className="text-center text-6xl font-cabin font-bold text-ink/90 mb-2 drop-shadow-sm">
           Teacher Sign-Up
         </h1>
@@ -240,7 +241,7 @@ export default function Teacher({ loading, user, setUser }) {
             src="/assets/graphics/slimes/slime-special.png"
             width={0}
             height={0}
-            sizes='100vw'
+            sizes="100vw"
             className="absolute -top-12 -left-8 drop-shadow-xl w-[200px] h-[200px]"
             alt="Slime"
           />

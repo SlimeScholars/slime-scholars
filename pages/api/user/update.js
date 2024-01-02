@@ -1,4 +1,4 @@
-import { verifyName, verifyUsername, verifyHonorific, verifyEmail } from "../../../utils/verify"
+import { verifyApiKey, verifyName, verifyUsername, verifyHonorific, verifyEmail } from "../../../utils/verify"
 import { authenticate } from "../../../utils/authenticate"
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
@@ -17,9 +17,10 @@ import { getPopulatedUser } from "../../../utils/getPopulatedUser"
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if (req.method !== 'PUT') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -44,15 +45,15 @@ export default async function (req, res) {
 
     let newEmail = user.email
     // Only check if email is taken if the user is changing email
-    if(email) {
+    if (email) {
       const lowercaseEmail = email.toLowerCase()
 
       // Check if email is being changed
-      if(email.toLowerCase() !== newEmail) {
+      if (email.toLowerCase() !== newEmail) {
         verifyEmail(email)
 
         // Make sure the email is not taken
-        const userExists = await User.findOne({ email: lowercaseEmail }, {password: 0})
+        const userExists = await User.findOne({ email: lowercaseEmail }, { password: 0 })
 
         if (userExists) {
           throw new Error('Email is already in use')
@@ -62,19 +63,19 @@ export default async function (req, res) {
     }
 
     // If email is empty and the user is not a student, then throw error
-    else if(user.userType === 2 || user.userType === 3) {
+    else if (user.userType === 2 || user.userType === 3) {
       throw new Error('Email cannot be empty')
     }
 
     // Change username only if the user updated the old username
     let newUsername = user.username
-    if(user.userType === 1 && username && username !== user.username) {
+    if (user.userType === 1 && username && username !== user.username) {
       // Make sure username is not empty and valid
       verifyUsername(username)
-      
+
       // Make sure username is not taken
       const usernameRegex = new RegExp(`^${username}$`, 'i')
-      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, {password: 0})
+      const userExists = await User.findOne({ username: { $regex: usernameRegex } }, { password: 0 })
 
       // Allow user to change their username to different capitalization
       if (userExists && !userExists._id.equals(user._id)) {
@@ -84,52 +85,52 @@ export default async function (req, res) {
     }
 
     let parent = user.parent
-    if(user.userType === 1 && parentEmail && (!parent || parentEmail.toLowerCase() !== user.parent.email)) {
+    if (user.userType === 1 && parentEmail && (!parent || parentEmail.toLowerCase() !== user.parent.email)) {
       const lowercaseParentEmail = parentEmail.toLowerCase()
-      const newParent = await User.findOne({ email: lowercaseParentEmail }, {password: 0})
-      if(!newParent) {
+      const newParent = await User.findOne({ email: lowercaseParentEmail }, { password: 0 })
+      if (!newParent) {
         throw new Error('Could not find a user with that email')
       }
-      if(newParent.userType !== 2) {
+      if (newParent.userType !== 2) {
         throw new Error('The user with that email is not a parent')
       }
       parent = newParent
     }
-    else if(!parentEmail) {
+    else if (!parentEmail) {
       parent = undefined
     }
 
-    if(!email && !parentEmail) {
+    if (!email && !parentEmail) {
       throw new Error('Account must either have an email or parent email')
     }
 
     // This complex expression is used because if either user.parent
     // or parent is undefined, I can't do undefined.equals(something)
-    if(
+    if (
       (user.parent !== undefined && parent !== undefined && user.parent._id !== parent._id) ||
       (user.parent === undefined && parent !== undefined) ||
       (user.parent !== undefined && parent === undefined)
     ) {
-      if(user.parent) {
+      if (user.parent) {
         // Delete student from old parent's student list
-        const oldParent = await User.findById(user.parent._id, {password: 0})
-        if(oldParent) {
+        const oldParent = await User.findById(user.parent._id, { password: 0 })
+        if (oldParent) {
           const newStudents = oldParent.students.filter(item => !item.equals(user._id))
-          await User.findByIdAndUpdate(user.parent._id, {students: newStudents})
+          await User.findByIdAndUpdate(user.parent._id, { students: newStudents })
         }
       }
 
-      if(parent) {
+      if (parent) {
         // Add student to new parent's student list
-        const newParent = await User.findById(parent._id, {password: 0})
-        if(newParent) {
+        const newParent = await User.findById(parent._id, { password: 0 })
+        if (newParent) {
           newParent.students.push(user)
-          await User.findByIdAndUpdate(newParent._id, {students: newParent.students})
+          await User.findByIdAndUpdate(newParent._id, { students: newParent.students })
         }
       }
     }
 
-    if(user.userType === 2 && user.userType === 3) {
+    if (user.userType === 2 && user.userType === 3) {
       await User.findByIdAndUpdate(user._id, {
         firstName,
         lastName,
@@ -141,13 +142,13 @@ export default async function (req, res) {
       await update.save()
     }
 
-    else if(user.userType === 1) {
+    else if (user.userType === 1) {
       await User.findByIdAndUpdate(user._id, {
         firstName,
         lastName,
         username: newUsername,
       })
-      
+
       const update = await User.findById(user._id)
       update.email = newEmail
       update.parent = parent
@@ -164,7 +165,7 @@ export default async function (req, res) {
       throw new Error('Failed to update user')
     }
 
-  } catch (error) { 
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

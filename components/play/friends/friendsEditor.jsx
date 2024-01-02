@@ -2,6 +2,7 @@ import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
+import cookies from "../../../services/cookies/cookies";
 
 /**
  * @param   {table} userFriends - all friends of current user
@@ -21,10 +22,11 @@ export default function FriendsEditor({
   user,
   setSentFriendRequests,
   colorPalette,
-  refetchUser
+  searchContent,
+  findingLoading,
 }) {
   const handleManageFriend = (friendId) => {
-    const token = localStorage.getItem("jwt");
+    const token = cookies.get("slime-scholars-webapp-token")
 
     // Set the authorization header
     const config = {
@@ -43,7 +45,7 @@ export default function FriendsEditor({
           config
         )
         .then((response) => {
-          refetchUser()
+          setUser({...user})
           showToastError("Friend removed", true);
         })
         .catch((error) => {
@@ -56,7 +58,9 @@ export default function FriendsEditor({
             showToastError(error.response.data.message, true);
           else console.error("Error removing friend");
         });
-    } else {
+    }
+    // Find friends
+    else {
       axios
         .post(
           "/api/user/friend/send",
@@ -67,7 +71,7 @@ export default function FriendsEditor({
         )
         .then((response) => {
           setUserFriends(response.data.friends)
-
+          setUser({...user})
           const updatedRequestListing = response.data.sentFriendRequests;
           setSentFriendRequests(updatedRequestListing);
           showToastError("Friend request sent", true);
@@ -84,9 +88,10 @@ export default function FriendsEditor({
         });
     }
   };
+
   if (toDo === "manage") {
     let friends = [];
-    if (usersOnlist === "empty for now" || usersOnlist.length === 0) {
+    if (usersOnlist === "empty for now") {
       friends = userFriends ? userFriends : [];
     } else {
       friends = usersOnlist ? usersOnlist : [];
@@ -99,6 +104,12 @@ export default function FriendsEditor({
     // may need a loading screen here
     return (
       <div className="grid grid-cols-2 gap-4">
+        {friends.length === 0 && searchContent !== "" && (
+          <p className="col-span-4">
+            You have no friends by the name "{searchContent}"
+          </p>
+        )}
+        
         {Array.isArray(friends) ? (
           friends.map((user, index) => {
             return (
@@ -114,7 +125,7 @@ export default function FriendsEditor({
                     <Image
                       src={
                         "/assets/pfp/backgrounds/" +
-                        gameData.items[user.pfpBg].pfp
+                        gameData.items[user.pfpBg].bg
                       }
                       alt={user.pfpBg}
                       height={0}
@@ -125,7 +136,7 @@ export default function FriendsEditor({
                     <Image
                       src={
                         "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[user.pfpSlime].pfp
+                        gameData.slimes[user.pfpSlime].pfp
                       }
                       alt={user.pfpSlime}
                       height={0}
@@ -135,7 +146,7 @@ export default function FriendsEditor({
                     />
                   </div>
                 </div>
-                <div className="grow px-4">{user.username}</div>
+                <div className="grow px-4 relative">{user.username}</div>
                 <button
                   className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
                   style={{
@@ -152,71 +163,72 @@ export default function FriendsEditor({
           <p>No friends to display.</p>
         )}
       </div>
-    );
+    )
+
+    {/* add friends */ }
   } else {
     return (
       <div className="grid grid-cols-2 gap-4">
-        {Array.isArray(usersOnlist) ? (
+        {searchContent.trim().length === 0 ? <p>Search for a user to friend</p> :
+          findingLoading ? <p>Finding users...</p> :
+            usersOnlist.length === 0 ? <p>No user found</p> : <></>}
+        {!findingLoading && Array.isArray(usersOnlist) ? (
           usersOnlist.map((user, index) => {
             return (
-              <div
-                key={index}
-                className="rounded-xl flex flex-row items-center p-4"
-                style={{
-                  background: colorPalette ? colorPalette.primary1 : "none",
-                }}
-              >
-                <div className="w-10 h-10 rounded-full overflow-hidden">
-                  <div className="relative">
-                    <Image
-                      src={
-                        "/assets/pfp/backgrounds/" +
-                        gameData.items[user.pfpBg].pfp
-                      }
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="absolute inset-0 w-full h-full"
-                    />
-                    <Image
-                      src={
-                        "/assets/pfp/slimes/" +
-                        gameData.slimeImgs[user.pfpSlime].pfp
-                      }
-                      height={0}
-                      width={0}
-                      sizes="100vw"
-                      className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
-                    />
+                <div
+                  key={index}
+                  className="rounded-xl items-center p-4 flex flex-row justify-between"
+                  style={{
+                    background: colorPalette ? colorPalette.primary1 : "none",
+                  }}
+                >
+                  <div className="w-10 h-10 rounded-full overflow-hidden">
+                    <div className="relative">
+                      <Image
+                        src={
+                          "/assets/pfp/backgrounds/" +
+                          gameData.items[user.pfpBg].bg
+                        }
+                        alt={user.pfpBg}
+                        height={0}
+                        width={0}
+                        sizes="100vw"
+                        className="absolute inset-0 w-full h-full"
+                        onClick={() => handleManageFriend(user._id)}
+                      />
+                      <Image
+                        src={
+                          "/assets/pfp/slimes/" +
+                          gameData.slimes[user.pfpSlime].pfp
+                        }
+                        alt={user.pfpSlime}
+                        height={0}
+                        width={0}
+                        sizes="100vw"
+                        className="relative z-10 translate-y-1/4 scale-125 h-10 w-10"
+                        onClick={() => handleManageFriend(user._id)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="grow px-4">{user.username}</div>
-                {toDo == "manage" ? (
-                  <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
-                    style={{
-                      background: colorPalette ? colorPalette.primary2 : "none",
-                    }}
-                    onClick={() => handleManageFriend(user._id)}
-                  >
-                    x
-                  </button>
-                ) : (
-                  <button
-                    className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl"
-                    style={{
-                      background: colorPalette ? colorPalette.primary2 : "none",
-                    }}
-                    onClick={() => handleManageFriend(user._id)}
-                  >
-                    <div className="mt-1">+</div>
-                  </button>
-                )}
-              </div>
+                  <div className="grow px-2 mt-2 relative">
+                    {user.username}
+                  </div>
+                  {(<div>
+                    <button
+                      className="rounded-lg w-10 h-10 flex justify-center items-center outline-none focus:outline-none text-3xl relative"
+                      style={{
+                        background: colorPalette ? colorPalette.primary2 : "none",
+                      }}
+                      onClick={() => handleManageFriend(user._id)}
+                    >
+                      <div className="mt-2">+</div>
+                    </button>
+                  </div>)}
+                  </div>
             );
           })
         ) : (
-          <p>No result to display.</p>
+          <></>
         )}
       </div>
     );

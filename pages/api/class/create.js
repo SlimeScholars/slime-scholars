@@ -1,4 +1,4 @@
-import { verifyClassName } from "../../../utils/verify"
+import { verifyApiKey, verifyClassName } from "../../../utils/verify"
 import { generateClassCode } from "../../../utils/generateClassCode"
 import { authenticate } from "../../../utils/authenticate"
 import { userData } from "../../../data/userData"
@@ -15,9 +15,10 @@ import Class from '../../../models/classModel'
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'POST') {
+    if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -30,14 +31,14 @@ export default async function (req, res) {
 
     const { className } = req.body
 
-    verifyClassName(className)        
+    verifyClassName(className)
 
     let classCode = generateClassCode(userData.classCodeLength)
     let counter = 0
-    let classExists = await Class.findOne({classCode})
-    while(classExists && counter < 10) {
+    let classExists = await Class.findOne({ classCode })
+    while (classExists && counter < 10) {
       classCode = generateClassCode(userData.classCodeLength)
-      classExists = await Class.findOne({classCode})
+      classExists = await Class.findOne({ classCode })
     }
 
     const newClass = await Class.create({
@@ -60,7 +61,7 @@ export default async function (req, res) {
       user,
     })
 
-  } catch(error) {
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

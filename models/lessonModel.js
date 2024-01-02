@@ -1,23 +1,20 @@
-import { Schema, model, models, } from 'mongoose'
+import { Schema, model, models, mongoose } from "mongoose";
 
-const sectionSchema = new Schema(
+const elementSchema = new Schema(
   {
     index: {
       type: Number,
-      required: [true, 'Missing index'],
+      required: [true, "Missing index"],
     },
-    sectionType: {
+    elementType: {
       // 0 for text, 1 for img, 2 for mc, 3 for fill in the blank
       type: Number,
-      required: [true, 'Missing sectionType'],
+      required: [true, "Missing sectionType"],
     },
-    sectionNumber: {
-      type: Number,
-      required: [true, 'Missing sectionNumber'],
-    },
-    explanation: {
-      type: String,
+    isBox: {
+      type: Boolean,
       required: false,
+      default: false,
     },
     text: {
       type: String,
@@ -28,20 +25,22 @@ const sectionSchema = new Schema(
       required: false,
     },
     options: {
-      type: [{
-        type: {
-          option: {
-            type: String,
-            required: [true, 'Missing option'],
+      type: [
+        {
+          type: {
+            option: {
+              type: String,
+              required: [true, "Missing option"],
+            },
+            correct: {
+              type: Boolean,
+              required: false, // required: true makes it impossible to store false
+            },
           },
-          correct: {
-            type: Boolean,
-            required: false, // required: true makes it impossible to store false
-          },
+          required: [true, "Missing option"],
+          _id: false,
         },
-        required: [true, 'Missing option'],
-        _id: false,
-      }],
+      ],
       required: false,
       default: undefined,
     },
@@ -58,51 +57,129 @@ const sectionSchema = new Schema(
       type: String,
       required: false,
     },
-    _id: false,
-  },
-)
-
-const lessonSchema = new Schema(
-  {
-    lessonNumber: {
+    // for images
+    // 0, 1, 2 (how rounded the corners are)
+    rounded: {
       type: Number,
-      required: [true, 'Missing unitNumber'],
-    },
-    lessonName: {
-      type: String,
-      default: '',
       required: false,
     },
-    latestAuthor: {
-      type: String,
-      required: [true, 'Missing latestAuthor'],
+    // 0, 1, 2 (0 for small, 1 for medium, 2 for large)
+    size: {
+      type: Number,
+      required: false,
     },
+    border: {
+      type: Boolean,
+      required: false,
+    },
+    _id: false,
+  },
+  {
+    timestamps: true,
+  }
+);
 
-    sections: {
-      type: [sectionSchema],
-      required: [true, 'Missing sections'],
+const sectionSchema = new Schema(
+  {
+    sectionIndex: {
+      type: Number,
+      required: [true, "Missing index"],
+    },
+    sectionStyle: {
+      type: String,
+      required: [true, "Missing style, choose plain or bold"],
+    },
+    sectionDirection: {
+      type: String,
+      required: [true, "Missing direction, choose horizontal or vertical"],
+    },
+    elements: {
+      type: [elementSchema],
+      required: [true, "Missing elements"],
       default: [],
       _id: false,
-    },
-
-    quizQuestions: {
-      type: [{
-        type: [sectionSchema],
-        required: [true, 'Missing quizSections'],
-        default: [],
-        _id: false,
-      }],
-      required: true,
-      default: [[]],
-      _id: false
     },
   },
   {
     timestamps: true,
+  }
+);
+
+const pageSchema = new Schema(
+  {
+    pageNumber: {
+      type: Number,
+      required: [true, "Missing pageNumber"],
+    },
+    sections: {
+      type: [sectionSchema],
+      required: [true, "Missing sections"],
+      default: [],
+    },
   },
-)
+  {
+    timestamps: true,
+  }
+);
 
-const Lesson = models.Lesson || model('Lesson', lessonSchema)
+const lessonSchema = new Schema(
+  {
+    lessonType: {
+      type: String,
+      default: "lesson",
+      required: [true, "Missing lesson type (lesson | quiz | test)"],
+    },
+    lessonNumber: {
+      type: Number,
+      required: [true, "Missing unitNumber"],
+    },
+    lessonName: {
+      type: String,
+      default: "",
+      required: false,
+    },
+    latestAuthor: {
+      type: String,
+      required: [true, "Missing latestAuthor"],
+    },
+    activities: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Activity",
+          required: [true, "Missing activityId"],
+        },
+      ],
+      required: false,
+      default: [],
+      _id: false,
+    },
+    problemSet: {
+      type: [pageSchema],
+      required: [true, "Missing pages"],
+      default: [],
+    },
+    problemCount: {
+      type: Number,
+      required: false,
+      default: 0,
+    },
+    starThresholds: {
+      type: [Number],
+      required: false,
+      default: [],
+    },
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
+      default: 100,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export default Lesson
+const Lesson = models.Lesson || model("Lesson", lessonSchema);
 
+export default Lesson;

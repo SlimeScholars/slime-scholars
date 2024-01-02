@@ -3,6 +3,7 @@ import { gameData } from "../../../data/gameData";
 import { showToastError } from "../../../utils/toast";
 import axios from "axios";
 import Image from "next/image";
+import cookies from "../../../services/cookies/cookies";
 
 export default function RequestListings({
   currentType,
@@ -10,10 +11,10 @@ export default function RequestListings({
   sentFriendRequests,
   receivedFriendRequests,
   setReceivedFriendRequests,
-  setSentFriendRequests,
-  refetchUser
+  setSentFriendRequests
 }) {
   function handleAcceptRequest(friendId) {
+    const token = cookies.get("slime-scholars-webapp-token")
     axios
       .post(
         "/api/user/friend/accept",
@@ -22,12 +23,12 @@ export default function RequestListings({
         },
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("jwt")}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       )
       .then((response) => {
-        refetchUser()
+        setUser({...user})
         setReceivedFriendRequests(response.data.receivedFriendRequests);
         showToastError("Friend request accepted.", true);
       })
@@ -35,7 +36,7 @@ export default function RequestListings({
   }
 
   function handleDeleteRequest(friendId) {
-    const token = localStorage.getItem("jwt");
+    const token = cookies.get("slime-scholars-webapp-token")
 
     // Set the authorization header
     const config = {
@@ -53,7 +54,7 @@ export default function RequestListings({
         config
       )
       .then((response) => {
-        refetchUser()
+        
         if (currentType === "received") {
           const updatedRequestListing = response.data.receivedFriendRequests;
           setReceivedFriendRequests(updatedRequestListing);
@@ -61,6 +62,7 @@ export default function RequestListings({
           const updatedRequestListing = response.data.sentFriendRequests;
           setSentFriendRequests(updatedRequestListing);
         }
+        setUser({...user})
         showToastError("Friend request deleted.", true);
       })
       .catch((error) => {
@@ -81,6 +83,7 @@ export default function RequestListings({
                       "/assets/pfp/backgrounds/" +
                       gameData.items[friendRequest.pfpBg].pfp
                     }
+                    alt={friendRequest.pfpBg}
                     height={0}
                     width={0}
                     sizes='100vw'
@@ -89,7 +92,7 @@ export default function RequestListings({
                   <Image
                     src={
                       "/assets/pfp/slimes/" +
-                      gameData.slimeImgs[friendRequest.pfpSlime].pfp
+                      gameData.slimes[friendRequest.pfpSlime].pfp
                     }
                     alt={friendRequest.pfpSlime}
                     height={0}
@@ -118,7 +121,7 @@ export default function RequestListings({
                 )
               }
               <button
-                className="bg-none rounded-full pr-4 hover:bg-white p-3"
+                className="bg-none rounded-full pr-4 hover:bg-white hover:text-gray-500 p-3"
                 onClick={() => handleDeleteRequest(friendRequest._id)}
               >
                 <span className="p-2 material-symbols-outlined">delete</span>
@@ -150,7 +153,7 @@ export default function RequestListings({
                   <Image
                     src={
                       "/assets/pfp/slimes/" +
-                      gameData.slimeImgs[friendRequest.pfpSlime].pfp
+                      gameData.slimes[friendRequest.pfpSlime].pfp
                     }
                     alt={friendRequest.pfpSlime}
                     height={0}
@@ -169,7 +172,7 @@ export default function RequestListings({
                 // To accept friend request
                 currentType == "received" ? (
                   <button
-                    className="bg-none rounded-full pr-4 hover:bg-white p-3"
+                    className="bg-none rounded-full pr-4 hover:bg-white hover:text-gray-500 p-3"
                     onClick={() => handleAcceptRequest(friendRequest._id)}
                   >
                     <span className="p-2 material-symbols-outlined">done</span>
@@ -179,7 +182,7 @@ export default function RequestListings({
                 )
               }
               <button
-                className="bg-none rounded-full pr-4 hover:bg-white p-3"
+                className="bg-none rounded-full pr-4 hover:bg-white hover:text-gray-500 p-3 "
                 onClick={() => handleDeleteRequest(friendRequest._id)}
               >
                 <span className="p-2 material-symbols-outlined">delete</span>

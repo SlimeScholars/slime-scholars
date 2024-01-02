@@ -3,14 +3,8 @@ import { gameData } from "../../data/gameData";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Home({ user, setLoading, setUser, active, colorPalette, setColorPalette, refetchUser }) {
+export default function Home({ user, setLoading, setUser, active, colorPalette }) {
   const router = useRouter();
-
-  useEffect(() => {
-    if (user && user.bg && gameData.items[user.bg] && setColorPalette) {
-      setColorPalette(gameData.items[user.bg]);
-    }
-  });
 
   if (!user) {
     return <></>;
@@ -21,7 +15,7 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
       className="w-full h-screen relative bg-bottom"
       style={{
         backgroundImage:
-          !colorPalette ? "" : `url('/assets/backgrounds/${colorPalette.bg}')`,
+          colorPalette && colorPalette.bg ? `url('/assets/backgrounds/${colorPalette.bg}')` : '',
         backgroundSize: "cover",
       }}
     >
@@ -35,7 +29,7 @@ export default function Home({ user, setLoading, setUser, active, colorPalette, 
             setLoading={active ? setLoading : undefined}
             setUser={active ? setUser : undefined}
             colorPalette={colorPalette}
-            refetchUser={refetchUser}
+            
           />
           {!active && (
             <div

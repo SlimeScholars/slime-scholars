@@ -1,4 +1,5 @@
 import {
+  verifyApiKey,
   verifyName,
   verifyUsername,
   verifyPassword,
@@ -12,6 +13,7 @@ import Slime from "../../../models/slimeModel";
 import { gameData } from "../../../data/gameData";
 const bcrypt = require("bcryptjs");
 const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS);
+import { decrypt } from "../../../utils/rsa";
 
 /**
  * @desc    Create new user
@@ -30,6 +32,7 @@ export default async function (req, res) {
     if (req.method !== "POST") {
       throw new Error(`${req.method} is an invalid request method`);
     }
+    verifyApiKey(req.headers.apikey);
 
     // Connect to database
     await connectDB();
@@ -37,7 +40,7 @@ export default async function (req, res) {
     // TODO: Get rid of the parse on the actual version
     const userType = parseInt(req.body.userType);
     const {
-      password,
+      encryptedPassword,
       firstName,
       lastName,
       username,
@@ -52,6 +55,13 @@ export default async function (req, res) {
     if (userType !== 1 && userType !== 2 && userType !== 3) {
       throw new Error("Invalid user type");
     }
+
+    // Decrypt password
+    const password = decrypt(
+      encryptedPassword,
+      process.env.DECRYPTION_KEY,
+      process.env.NEXT_PUBLIC_ENCRYPTION_KEY
+    );
 
     // Verify that the fields are not empty and valid
     verifyName(firstName);
@@ -201,10 +211,7 @@ export default async function (req, res) {
           friends: [],
           receivedFriendRequests: [],
           sentFriendRequests: [],
-
-          completedLessons: [],
-          completedUnits: [],
-          completedCourses: [],
+          progress: [],
 
           pfpSlime: "Blue Slime",
           pfpBg: "Forest Mountains",
@@ -226,6 +233,8 @@ export default async function (req, res) {
           ],
           lastRewards: [0, 0],
           lastSlimeRewards: new Date(),
+
+          tutorialActive: true,
         })
       )._id;
 
@@ -249,14 +258,12 @@ export default async function (req, res) {
         password: 0,
         createdAt: 0,
         updatedAt: 0,
-        completedLessons: 0,
-        completedUnits: 0,
-        completedCourses: 0,
         __v: 0,
       })
         .populate({
           path: "parent",
-          select: "_id userType firstName lastName honorific email",
+          select:
+            "_id userType firstName lastName honorific email tutorialActive",
         })
         .populate({
           path: "slimes",

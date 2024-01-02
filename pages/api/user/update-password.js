@@ -1,4 +1,4 @@
-import { verifyPassword } from "../../../utils/verify"
+import { verifyApiKey, verifyPassword } from "../../../utils/verify"
 import { authenticate } from "../../../utils/authenticate"
 import connectDB from '../../../utils/connectDB'
 import User from '../../../models/userModel'
@@ -14,9 +14,10 @@ const SALT_ROUNDS = parseInt(process.env.SALT_ROUNDS)
  */
 export default async function (req, res) {
   try {
-    if(req.method !== 'PUT') {
+    if (req.method !== 'PUT') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -29,7 +30,7 @@ export default async function (req, res) {
       newPassword,
     } = req.body
 
-    if(!oldPassword || !newPassword) {
+    if (!oldPassword || !newPassword) {
       throw new Error('Password cannot be left blank')
     }
 
@@ -38,12 +39,12 @@ export default async function (req, res) {
     const correctPassword = (await User.findById(user._id)).password
 
     // Change hashedPassword only if the user updated the old password
-    if(!(await bcrypt.compare(oldPassword, correctPassword))) {
+    if (!(await bcrypt.compare(oldPassword, correctPassword))) {
       throw new Error('Incorrect old password')
     }
 
     // Update password only if new password is different
-    if(oldPassword !== newPassword) {
+    if (oldPassword !== newPassword) {
       const salt = await bcrypt.genSalt(SALT_ROUNDS)
       const hashedPassword = await bcrypt.hash(newPassword, salt)
 
@@ -52,7 +53,7 @@ export default async function (req, res) {
 
     res.status(200).end()
 
-  } catch (error) { 
-    res.status(400).json({message: error.message})
+  } catch (error) {
+    res.status(400).json({ message: error.message })
   }
 }

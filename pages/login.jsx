@@ -1,27 +1,23 @@
 import React, { useEffect, useState } from "react";
-import Back from "../components/signup/back";
-
 import { showToastError } from "../utils/toast";
-
-import axios from "axios";
 import { useRouter } from "next/router";
+import useLogin from "../hooks/useLogin";
 
-export default function Login({ loading, user, setUser }) {
+export default function Login({ user, setUser }) {
   const [accountIdentifier, setAccountIdentifier] = useState("");
   const [password, setPassword] = useState("");
   // const [error, setError] = useState("");
-  const router = useRouter();
+  const router = useRouter()
+
+  const { login } = useLogin()
 
   useEffect(() => {
-    if (loading) {
-      return;
-    }
     if (user) {
-      router.push("/");
+      router.push('/')
     }
-  }, [loading, user]);
+  }, [user])
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!accountIdentifier) {
       showToastError("Username/email cannot be left blank");
@@ -31,29 +27,23 @@ export default function Login({ loading, user, setUser }) {
       showToastError("Password cannot be left blank");
       return;
     }
-    axios
-      .post("/api/user/login", { accountIdentifier, password })
-      .then((response) => {
-        if (response.data) {
-          localStorage.setItem("jwt", response.data.token);
-          setUser(response.data.user);
-        }
-      })
-      .catch((error) => {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          showToastError(error.response.data.message);
-        }
-      });
+    const response = await login(accountIdentifier, password)
+    if (response?.data?.user) {
+      setUser(response.data.user)
+      router.push('/')
+    }
+    else if (response.status) {
+      showToastError("Internal Server Error")
+    }
+    else {
+      showToastError("Invalid Credentials")
+    }
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')] bg-no-repeat bg-cover">
-      <Back to={"/"} />
-      <div className="w-1/3 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')] bg-no-repeat bg-cover">
+      {/* FIXME <Back to={"/"} /> */}
+      <div className="w-[600px] bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <form
           className="w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden"
           onSubmit={onSubmit}
@@ -69,7 +59,7 @@ export default function Login({ loading, user, setUser }) {
             <input
               className="w-full h-8 bg-slate-950/40 rounded-md ring-2 ring-cyan-300/60 font-galindo text-sm text-slate-100/80 placeholder:text-slate-300/50 px-3 py-2 my-1 focus:outline-none focus:ring-cyan-200/80 focus:bg-cyan-900/20 hover:ring-cyan-200/80 hover:bg-cyan-900/20 duration-300 ease-in-out"
               type="text"
-              placeholder="What name do you want others to see?"
+              placeholder="What is your username/email?"
               value={accountIdentifier}
               autoComplete="email"
               onChange={(e) => setAccountIdentifier(e.target.value)}

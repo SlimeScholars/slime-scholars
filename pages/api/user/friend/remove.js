@@ -1,10 +1,10 @@
 import { mongoose } from 'mongoose'
+import { verifyApiKey } from '../../../../utils/verify'
 import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
 import User from '../../../../models/userModel'
-import { getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
-
+import { batchGetPopulatedPlayer, getPopulatedPlayer } from '../../../../utils/getPopulatedUser'
 /**
  * @desc    Remove friend
  * @route   POST /api/user/friend/remove
@@ -16,6 +16,7 @@ export default async function (req, res) {
     if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -62,12 +63,11 @@ export default async function (req, res) {
       .exec()
     ).friends
 
-    const populatedFriends = []
+    const userIds = [];
     for (let i in friends) {
-      const populatedFriend = await getPopulatedPlayer(friends[i])
-      populatedFriends.push(populatedFriend)
+      userIds.push(friends[i]);
     }
-
+    const populatedFriends = await batchGetPopulatedPlayer(userIds)
     res.status(200).json({
       friends: populatedFriends,
     })

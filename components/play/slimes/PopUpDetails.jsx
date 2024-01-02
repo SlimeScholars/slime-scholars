@@ -3,17 +3,25 @@ import Image from "next/image";
 import { gameData } from "../../../data/gameData";
 import { useRouter } from "next/router";
 
-export default function PopUpDetails({ user, res, onClose, oldSlime }) {
+export default function PopUpDetails({ res, onClose, oldSlime }) {
   const newSlime = res.slime;
   const router = useRouter();
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 fade-in-element text-white">
       {/* TODO backgorund should match colour palette */}
-      <div className="bg-slate-200 p-8 rounded-lg shadow-lg">
+      <div className="relative bg-black/80 py-8 rounded-lg shadow-lg px-20">
+        <button className="text-white hover:text-slate-300 absolute top-[1rem] right-[2rem] text-[2.5rem]"
+                onClick={onClose}>
+                &times;
+        </button>
         <div>
+          <div className="flex flex-col">
+            <div className="text-2xl font-semibold">{gameData.slimes[newSlime.slimeName].slimeName}</div>
+            <div className="italic">Upgraded to level {newSlime.level}</div>
+          </div>
           <Image
             src={
-              "/assets/pfp/slimes/" + gameData.slimeImgs[newSlime.slimeName].pfp
+              "/assets/pfp/slimes/" + gameData.slimes[newSlime.slimeName].pfp
             }
             alt={newSlime.slimeName}
             height={0}
@@ -26,7 +34,7 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
           />
         </div>
         <p className="text-lg font-semibold mb-4">
-          Level: {oldSlime.level} → <span className="text-green-600">{newSlime.level}{" "}</span>
+          Level: {oldSlime.level} → <span className="text-green-400">{newSlime.level}{" "}</span>
         </p>
         <div className="flex flex-row items-center mb-4">
           <p className="text-lg font-semibold">
@@ -72,12 +80,6 @@ export default function PopUpDetails({ user, res, onClose, oldSlime }) {
             className="h-4 w-4 mx-1"
           />
         </div>
-        <button
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none"
-          onClick={onClose}
-        >
-          Close
-        </button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { mongoose } from 'mongoose'
+import { verifyApiKey } from '../../../../utils/verify'
 import { authenticate } from "../../../../utils/authenticate"
 import { checkUserType } from '../../../../utils/checkUserType'
 import connectDB from '../../../../utils/connectDB'
@@ -17,6 +18,7 @@ export default async function (req, res) {
     if (req.method !== 'POST') {
       throw new Error(`${req.method} is an invalid request method`)
     }
+    verifyApiKey(req.headers.apikey)
 
     // Connect to database
     await connectDB()
@@ -91,17 +93,17 @@ export default async function (req, res) {
         })
         .exec()
 
-      const populatedSentFriendRequests = []
+      const sentUserIds = []
       for (let i in newUser.sentFriendRequests) {
-        const populatedRequest = await getPopulatedPlayer(newUser.sentFriendRequests[i])
-        populatedSentFriendRequests.push(populatedRequest)
+        sentUserIds.push(newUser.sentFriendRequests[i])
       }
+      const populatedSentFriendRequests = batchGetPopulatedPlayer(sentUserIds);
 
-      const populatedFriends = []
-      for (let i in newUser.friends) {
-        const populatedFriend = await getPopulatedPlayer(newUser.friends[i]._id)
-        populatedFriends.push(populatedFriend)
+      const friendsUserIds = []
+      for (let i in newUser.sentFriendRequests) {
+        friendsUserIds.push(newUser.friends[i]._id)
       }
+      const populatedFriends = batchGetPopulatedPlayer(friendsUserIds);
 
       res.status(200).json({
         receivedFriendRequests: populatedSentFriendRequests,

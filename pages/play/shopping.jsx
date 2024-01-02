@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import SearchInventory from "../../components/play/inventory/searchInventory";
 import { gameData } from "../../data/gameData";
@@ -6,8 +6,8 @@ import ItemList from "../../components/play/inventory/itemList";
 import ItemDetails from "../../components/play/inventory/itemDetails";
 import Image from "next/image";
 
-export default function Shopping({ loading, user, pfpBg, setPfpBg, 
-	colorPalette, setColorPalette, setUser, refetchUser }) {
+export default function Shopping({ loading, user,
+	colorPalette, setUser }) {
 
 	const [searchContent, setSearchContent] = useState("");
 	const [itemOnClick, setItemOnClick] = useState(null);
@@ -22,7 +22,7 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			return;
 		}
 		if (!user || user.userType !== 1) {
-			router.push("/");
+			return
 		}
 
 		if (user && user.items) {
@@ -54,12 +54,19 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 			});
 			setGameItems(searchItem);
 		}
-		
+
 	}, [searchContent]);
+	
+	const pageRef = useRef(null)
+
+	const scrollToTop = () => {
+		if (pageRef && pageRef.current) {
+		  pageRef.current.scrollIntoView({ behavior: 'smooth' });
+		}
+	  };
 
 	return (
-		<div className="">
-
+		<div className="" ref={pageRef}>
 			{/* Shopping bar */}
 			<div className="items-center justify-between h-full">
 				<div className="flex flex-row rounded-lg items-center py-2 pl-6 pr-10"
@@ -102,24 +109,22 @@ export default function Shopping({ loading, user, pfpBg, setPfpBg,
 						shopping="true"
 						user={user}
 						colorPalette={colorPalette}
-					></ItemList>
+						scrollToTop={scrollToTop}
+					/>
 				}
 				</div>
 
 				{/* Item details */}
 				<div className="basis-1/2 rounded-lg mb-10">
-					{itemOnClick&&(
+					{itemOnClick && (
 						<ItemDetails
-						item={itemOnClick}
-						user={user}
-						pfpBg={pfpBg}
-						setPfpBg={setPfpBg}
-						setUser={setUser}
-						colorPalette={colorPalette}
-						setColorPalette={setColorPalette}
-						shopping="true"
-						refetchUser={refetchUser}
-					/>
+							item={itemOnClick}
+							user={user}
+							setUser={setUser}
+							colorPalette={colorPalette}
+							shopping="true"
+							
+						/>
 					)
 					}
 				</div>

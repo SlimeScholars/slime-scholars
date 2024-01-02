@@ -1,109 +1,91 @@
-import { Schema, model, models, mongoose } from 'mongoose'
-
-const sectionSchema = new Schema(
-  {
-    index: {
-      type: Number,
-      required: [true, 'Missing index'],
-    },
-    sectionType: {
-      // 0 for text, 1 for img, 2 for mc, 3 for fill in the blank
-      type: Number,
-      required: [true, 'Missing sectionType'],
-    },
-    sectionNumber: {
-      type: Number,
-      required: [true, 'Missing sectionNumber'],
-    },
-    explanation: {
-      type: String,
-      required: false,
-    },
-    text: {
-      type: String,
-      required: false,
-    },
-    image: {
-      type: String, // URL of image
-      required: false,
-    },
-    options: {
-      type: [{
-        type: {
-          option: {
-            type: String,
-            required: [true, 'Missing option'],
-          },
-          correct: {
-            type: Boolean,
-            required: false, // required: true makes it impossible to store false
-          },
-        },
-        required: [true, 'Missing option'],
-        _id: false,
-      }],
-      required: false,
-      default: undefined,
-    },
-    blank: {
-      type: [String],
-      required: false,
-      default: undefined,
-    },
-    afterBlank: {
-      type: String,
-      required: false,
-    },
-    explanation: {
-      type: String,
-      required: false,
-    },
-    _id: false,
-  },
-)
+import { Schema, model, models, mongoose } from "mongoose";
 
 const unitSchema = new Schema(
   {
     unitNumber: {
       type: Number,
-      required: [true, 'Missing unitNumber'],
+      required: [true, "Missing unitNumber"],
     },
     unitName: {
       type: String,
-      default: '',
+      default: "",
       required: false,
     },
     latestAuthor: {
       type: String,
-      required: [true, 'Missing latestAuthor'],
+      required: [true, "Missing latestAuthor"],
+    },
+    // totalPoints: {
+    //   type: Number,
+    //   required: [true, "Missing totalPoints"],
+    // },
+    completed: {
+      type: {
+        lessons: {
+          type: Number,
+          required: [true, "Missing completed lessons"],
+        },
+        quizzes: {
+          type: Number,
+          required: [true, "Missing completed quizzes"],
+        },
+        tests: {
+          type: Number,
+          required: [true, "Missing completed tests"],
+        },
+      },
+      required: [true, "Missing completed"],
+      default: {
+        lessons: 0,
+        quizzes: 0,
+        tests: 0,
+      },
     },
     lessons: {
-      type: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lesson',
-        required: [true, 'Missing lessonId'],
-      }],
-      required: [true, 'Missing lessons'],
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+          required: [true, "Missing lessonId"],
+        },
+      ],
+      required: [true, "Missing lessons"],
       default: [],
     },
-
-    quizQuestions: {
-      type: [{
-        type: [sectionSchema],
-        required: [true, 'Missing quizSections'],
-        default: [],
-        _id: false,
-      }],
-      required: true,
-      default: [[]],
-      _id: false
+    quizzes: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+          required: [true, "Missing quizId"],
+        },
+      ],
+      required: [true, "Missing quizzes"],
+      default: [],
+    },
+    tests: {
+      type: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Lesson",
+          required: [true, "Missing testId"],
+        },
+      ],
+      required: [true, "Missing tests"],
+      default: [],
+    },
+    
+    totalPoints: {
+      type: Number,
+      required: [true, "Missing totalPoints"],
+      default: 100,
     },
   },
   {
     timestamps: true,
-  },
-)
+  }
+);
 
-const Unit = models.Unit || model('Unit', unitSchema)
+const Unit = models.Unit || model("Unit", unitSchema);
 
-export default Unit
+export default Unit;
