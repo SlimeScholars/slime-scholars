@@ -184,7 +184,7 @@ function MyApp({ Component, pageProps }) {
   }, [router.pathname]);
 
   useEffect(() => {
-    const normal_noperms = ["/settings", "/play", "/courses", "/admin", "/classrooms"];
+    const normal_noperms = ["/settings", "/courses", "/admin", "/classrooms"];
     let permitted = true;
 
     normal_noperms.forEach((start) => {
@@ -194,7 +194,7 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (!user && router.asPath !== "/404") {
+      if (!loading && !user && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }
