@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
 import useLogout from "../hooks/useLogout";
 
-export default function Settings({ loading, user, setUser }) {
+export default function Settings({ userLoading, user, setUser }) {
   const router = useRouter();
 
   const [firstName, setFirstName] = useState('');
@@ -29,7 +29,7 @@ export default function Settings({ loading, user, setUser }) {
   const [newPassword, setNewPassword] = useState("");
 
   useEffect(() => {
-    if (loading || !user) {
+    if (userLoading || !user) {
       return;
     }
     // if (!user || user.userType !== 1) {
@@ -45,7 +45,7 @@ export default function Settings({ loading, user, setUser }) {
     setLastName(user?.lastName)
     setUsername(user?.username)
     setEmail(user?.email)
-  }, [user, loading]);
+  }, [user, userLoading]);
 
   const onSubmit = (e) => {
     e.preventDefault();

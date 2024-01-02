@@ -131,6 +131,7 @@ function MyApp({ Component, pageProps }) {
     setUser,
     loading,
     setLoading,
+    userLoading,
     items,
     setItems,
     colorPalette: gameData.items[user?.bg],
