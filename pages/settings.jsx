@@ -18,7 +18,7 @@ import { useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
 import useLogout from "../hooks/useLogout";
 
-export default function Settings({ userLoading, user, setUser }) {
+export default function Settings({ userLoading, user, setUser, setUserLoading }) {
   const router = useRouter();
 
   const [firstName, setFirstName] = useState('');
@@ -116,11 +116,11 @@ export default function Settings({ userLoading, user, setUser }) {
     }
   };
 
-  const { logout } = useLogout()
+  const { logout } = useLogout(router, setUserLoading, setUser)
 
   const onLogOut = () => {
     logout()
-    setUser(null);
+    setUser(undefined);
     //router.push('/login')
   }
 

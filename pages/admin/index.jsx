@@ -10,7 +10,7 @@ import SidePanel from "../../components/admin/above/sidePanel";
 import useLogout from "../../hooks/useLogout";
 import cookies from "../../services/cookies/cookies";
 
-export default function AdminHomepage({ user, setUser, loading, setLoading }) {
+export default function AdminHomepage({ user, setUser, loading, setLoading, setUserLoading }) {
   const router = useRouter()
 
   const [initialLoad, setInitialLoad] = useState(true)
@@ -99,7 +99,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading }) {
     }
   }
 
-  const { logout } = useLogout()
+  const { logout } = useLogout(router, setUserLoading, setUser)
 
   const onLogOut = () => {
     logout()

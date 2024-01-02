@@ -5,15 +5,16 @@ import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../main/profilePicture";
 import useLogout from "../../hooks/useLogout";
 
-export default function Navbar({ colorPalette, setUser, user }) {
+export default function Navbar({ colorPalette, setUser, setUserLoading, user }) {
   const router = useRouter();
   const dropdown = useRef(null);
   const [open, setOpen] = useState(false);
 
-  const { logout } = useLogout()
+  const { logout } = useLogout(router, setUserLoading, setUser)
 
   // const btn_tw =
   //   "px-5 py-2 rounded-lg transition-all duration-150 text-white text-[1.35em] font-galindo";
+  // TODO: Use NextLink
   const options = [
     {
       label: "My Slimes",

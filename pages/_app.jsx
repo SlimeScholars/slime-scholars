@@ -132,6 +132,7 @@ function MyApp({ Component, pageProps }) {
     loading,
     setLoading,
     userLoading,
+    setUserLoading,
     items,
     setItems,
     colorPalette: gameData.items[user?.bg],
@@ -269,6 +270,7 @@ function MyApp({ Component, pageProps }) {
             colorPalette={gameData.items[user?.bg]}
             setUser={setUser}
             user={user}
+            setUserLoading={setUserLoading}
           >
             <Component {...modifiedPageProps} />
           </CourseLayout>

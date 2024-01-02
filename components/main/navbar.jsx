@@ -7,8 +7,9 @@ import useLogout from "../../hooks/useLogout";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { FiMenu } from "react-icons/fi";
 
-export default function Navbar({ user }) {
-  const { logout } = useLogout();
+export default function Navbar({ user, setUserLoading, setUser }) {
+  const router = useRouter();
+  const { logout } = useLogout(router, setUserLoading, setUser);
   const [isMobile, setIsMobile] = useState(false);
   const isClient = typeof window === "object";
   const [width, setWidth] = useState(

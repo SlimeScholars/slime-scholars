@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
-import useLogout from "../hooks/useLogout";
 import Navbar from "../components/main/navbar";
 import Testimonials from "../components/main/testimonial";
 import Mission from "../components/main/mission";
@@ -14,7 +13,7 @@ import Contact from "../components/main/contact";
 import Footer from "../components/main/footer";
 import { useWindowSize } from "@uidotdev/usehooks";
 
-export default function Home({ user, setUser }) {
+export default function Home({ user, setUser, setUserLoading }) {
   const router = useRouter();
   const [screenType, setScreenType] = useState(0); // 0 = xs, 1 = sm, 2 = md, 3 = lg, 4 = xl, 5 = 2xl
   const { width, height } = useWindowSize();
@@ -45,7 +44,7 @@ export default function Home({ user, setUser }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar user={user} />
+      <Navbar user={user} setUser={setUser} setUserLoading={setUserLoading} />
       <header
         className="w-full h-screen flex flex-col items-center justify-center pt-20"
         style={{

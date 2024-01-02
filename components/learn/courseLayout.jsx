@@ -3,7 +3,7 @@ import Navbar from "./navbar"
 import CourseSidebar from "./courseSidebar"
 import { useRouter } from "next/router"
 
-export default function CourseLayout({ children, colorPalette, setUser, user }) {
+export default function CourseLayout({ children, colorPalette, setUser, user, setUserLoading }) {
     const [sidebarOpen, setSidebarOpen] = useState(true)
 
     const router = useRouter();
@@ -17,7 +17,7 @@ export default function CourseLayout({ children, colorPalette, setUser, user }) 
 
     return (
         <div className="absolute top-0 left-0 w-screen h-screen max-h-screen overflow-hidden">
-            <Navbar colorPalette={colorPalette} setUser={setUser} user={user} />
+            <Navbar colorPalette={colorPalette} setUser={setUser} user={user} setUserLoading={setUserLoading} />
             {user ?
                 sidebarOverride() ?
                     <div className={`transition-all duration-150 grid`}
