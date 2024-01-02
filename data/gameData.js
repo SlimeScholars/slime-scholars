@@ -881,146 +881,84 @@ export const gameData = {
     },
     "Bubble Slime": {
       slimeName: "Bubble Slime",
-<<<<<<< HEAD
-      pfp: 'bubble-slime.png',
-=======
       pfp: "bubble-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "bubble-slime.png",
       static: "bubble-slime.png",
     },
     "Cat Slime": {
       slimeName: "Cat Slime",
-<<<<<<< HEAD
-      pfp: 'cat-slime.png',
-=======
       pfp: "cat-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "cat-slime.png",
       static: "cat-slime.png",
     },
     "Cherry Slime": {
       slimeName: "Cherry Slime",
-<<<<<<< HEAD
-      pfp: 'cherry-slime.png',
-=======
       pfp: "cherry-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "cherry-slime.png",
       static: "cherry-slime.png",
     },
     "Cool Slime": {
       slimeName: "Cool Slime",
-<<<<<<< HEAD
-      pfp: 'cool-slime.png',
-=======
       pfp: "cool-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "cool-slime.png",
       static: "cool-slime.png",
     },
     "Earth Slime": {
       slimeName: "Earth Slime",
-<<<<<<< HEAD
-      pfp: 'earth-slime.png',
-=======
       pfp: "earth-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "earth-slime.png",
       static: "earth-slime.png",
     },
     "Electric Slime": {
       slimeName: "Electric Slime",
-<<<<<<< HEAD
-      pfp: 'electric-slime.png',
-=======
       pfp: "electric-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "electric-slime.png",
       static: "electric-slime.png",
     },
     "Fire Slime": {
       slimeName: "Fire Slime",
-<<<<<<< HEAD
-      pfp: 'fire-slime.png',
-=======
       pfp: "fire-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "fire-slime.png",
       static: "fire-slime.png",
     },
     "Flower Slime": {
       slimeName: "Flower Slime",
-<<<<<<< HEAD
-      pfp: 'flower-slime.png',
-=======
       pfp: "flower-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "flower-slime.png",
       static: "flower-slime.png",
     },
     "Frost Slime": {
       slimeName: "Frost Slime",
-<<<<<<< HEAD
-      pfp: 'frost-slime.png',
-=======
       pfp: "frost-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "frost-slime.png",
       static: "frost-slime.png",
     },
     "Glass Slime": {
       slimeName: "Glass Slime",
-<<<<<<< HEAD
-      pfp: 'glass-slime.png',
-=======
       pfp: "glass-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "glass-slime.png",
       static: "glass-slime.png",
     },
     "Glow Slime": {
       slimeName: "Glow Slime",
-<<<<<<< HEAD
-      pfp: 'glow-slime.png',
-=======
       pfp: "glow-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "glow-slime.png",
       static: "glow-slime.png",
     },
     "Hypno Slime": {
-<<<<<<< HEAD
-      slimeName: "Hypbo Slime",
-      pfp: 'hypno-slime.png',
-=======
       slimeName: "Hypno Slime",
       pfp: "hypno-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "hypno-slime.png",
       static: "hypno-slime.png",
     },
     "Jello Slime": {
       slimeName: "Jello Slime",
-<<<<<<< HEAD
-      pfp: 'jello-slime.png',
-=======
       pfp: "jello-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "jello-slime.png",
       static: "jello-slime.png",
     },
     "Lava Slime": {
       slimeName: "Lava Slime",
-<<<<<<< HEAD
-      pfp: 'lava-slime.png',
-      spritesheet: "lava-slime.png",
-      static: "lava-slime.png",
-    },
-    "Metal Slime": {
-      slimeName: "Metal Slime",
-      pfp: 'metal-slime.png',
-=======
       pfp: "lava-slime.png",
       spritesheet: "lava-slime.png",
       static: "lava-slime.png",
@@ -1034,161 +972,65 @@ export const gameData = {
     "Metal Slime": {
       slimeName: "Metal Slime",
       pfp: "metal-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "metal-slime.png",
       static: "metal-slime.png",
     },
     "Pineapple Slime": {
       slimeName: "Pineapple Slime",
-<<<<<<< HEAD
-      pfp: 'pineapple-slime.png',
-=======
       pfp: "pineapple-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "pineapple-slime.png",
       static: "pineapple-slime.png",
     },
     "Pixel Slime": {
       slimeName: "Pixel Slime",
-<<<<<<< HEAD
-      pfp: 'pixel-slime.png',
-=======
       pfp: "pixel-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "pixel-slime.png",
       static: "pixel-slime.png",
     },
     "Rock Slime": {
       slimeName: "Rock Slime",
-<<<<<<< HEAD
-      pfp: 'rock-slime.png',
-=======
       pfp: "rock-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "rock-slime.png",
       static: "rock-slime.png",
     },
     "Sleepy Slime": {
       slimeName: "Sleepy Slime",
-<<<<<<< HEAD
-      pfp: 'sleepy-slime.png',
-=======
       pfp: "sleepy-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "sleepy-slime.png",
       static: "sleepy-slime.png",
     },
     "Sparkle Slime": {
       slimeName: "Sparkle Slime",
-<<<<<<< HEAD
-      pfp: 'sparkle-slime.png',
-=======
       pfp: "sparkle-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "sparkle-slime.png",
       static: "sparkle-slime.png",
     },
     "Spike Slime": {
       slimeName: "Spike Slime",
-<<<<<<< HEAD
-      pfp: 'spike-slime.png',
-=======
       pfp: "spike-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "spike-slime.png",
       static: "spike-slime.png",
     },
     "Strawbunny Slime": {
       slimeName: "Strawbunny Slime",
-<<<<<<< HEAD
-      pfp: 'strawbunny-slime.png',
-=======
       pfp: "strawbunny-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "strawbunny-slime.png",
       static: "strawbunny-slime.png",
     },
     "Tanuki Slime": {
       slimeName: "Tanuki Slime",
-<<<<<<< HEAD
-      pfp: 'tanuki-slime.png',
-=======
       pfp: "tanuki-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "tanuki-slime.png",
       static: "tanuki-slime.png",
     },
     "Water Slime": {
       slimeName: "Water Slime",
-<<<<<<< HEAD
-      pfp: 'water-slime.png',
-=======
       pfp: "water-slime.png",
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
       spritesheet: "water-slime.png",
       static: "water-slime.png",
     },
     "Whale Slime": {
       slimeName: "Whale Slime",
-<<<<<<< HEAD
-      pfp: 'whale-slime.png',
-      spritesheet: "whale-slime.png",
-      static: "whale-slime.png",
-    },
-    "Acid Slime": {
-      slimeName: "Acid Slime",
-      pfp: 'acid-slime.png',
-      spritesheet: "acid-slime.png",
-      static: "acid-slime.png",
-    },
-    "Block Slime": {
-      slimeName: "Block Slime",
-      pfp: 'block-slime.png',
-      spritesheet: "block-slime.png",
-      static: "block-slime.png",
-    },
-    "Neon Slime": {
-      slimeName: "Neon Slime",
-      pfp: 'neon-slime.png',
-      spritesheet: "neon-slime.png",
-      static: "neon-slime.png",
-    },
-    "Octopus Slime": {
-      slimeName: "Octopus Slime",
-      pfp: 'octopus-slime.png',
-      spritesheet: "octopus-slime.png",
-      static: "octopus-slime.png",
-    },
-    "Prismatic Slime": {
-      slimeName: "Prismatic Slime",
-      pfp: 'prismatic-slime.png',
-      spritesheet: "prismatic-slime.png",
-      static: "prismatic-slime.png",
-    },
-    "Robot Slime": {
-      slimeName: "Robot Slime",
-      pfp: 'robot-slime.png',
-      spritesheet: "robot-slime.png",
-      static: "robot-slime.png",
-    },
-    "Sakura Slime": {
-      slimeName: "Sakura Slime",
-      pfp: 'sakura-slime.png',
-      spritesheet: "sakura-slime.png",
-      static: "sakura-slime.png",
-    },
-    "Silver Slime": {
-      slimeName: "Silver Slime",
-      pfp: 'silver-slime.png',
-      spritesheet: "silver-slime.png",
-      static: "silver-slime.png",
-    },
-    "Vantablack Slime": {
-      slimeName: "Vantablack Slime",
-      pfp: 'vantablack-slime.png',
-      spritesheet: "vantablack-slime.png",
-      static: "ventablack-slime.png",
-=======
       pfp: "whale-slime.png",
       spritesheet: "whale-slime.png",
       static: "whale-slime.png",
@@ -1298,7 +1140,6 @@ export const gameData = {
         "Base GP of all other slimes is increased by 20 percent (rounded up to whole number).",
         "Base GP of all other slimes is increased by 40 percent (rounded up to whole number).",
       ],
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
     },
     "Lucky Slime": {
       slimeName: "Lucky Slime",
@@ -1362,24 +1203,6 @@ export const gameData = {
         "Total GP production increased by 1 percent for all plus levels on all active slimes.",
       ],
       effects: "This slime's max level is 20 and has 0 base production.",
-    },
-    "Gold Slime": {
-      slimeName: "Gold Slime",
-      pfp: 'gold-slime.png',
-      spritesheet: "gold-slime.png",
-      static: "gold-slime.png",
-    },
-    "Iridiscent Slime": {
-      slimeName: "Irdiscent Slime",
-      pfp: 'iridiscent-slime.png',
-      spritesheet: "iridiscent-slime.png",
-      static: "iridiscent-slime.png",
-    },
-    "Scholar Slime": {
-      slimeName: "Scholar Slime",
-      pfp: 'scholar-slime.png',
-      spritesheet: "scholar-slime.png",
-      static: "scholar-slime.png",
     },
     "Nebula Slime": {
       slimeName: "Nebula Slime",
@@ -1553,156 +1376,10 @@ export const gameData = {
           "Gain GP equal to 80 percent of the slime with the highest active base GP.",
         ],
       },
-      {
-        slimeName: "Prismatic Slime",
-        abilityName: "Rainbow",
-        abilityDescriptions: [
-          "This slime can count as any rarity for roster bonuses.",
-          "Roster bonus 10 percent more effective.",
-          "Roster bonus 20 percent more effective.",
-        ],
-      },
-      {
-        slimeName: "Acid Slime",
-        abilityName: "Fallout",
-        abilityDescriptions: [
-          "All other active slimes gain 10 GP.",
-          "All other active slimes gain 20 GP.",
-          "All other active slimes gain 30 GP.",
-        ],
-      },
-      {
-        slimeName: "Vantablack Slime",
-        abilityName: "Shadow",
-        abilityDescriptions: [
-          "Base GP of all other slimes is increased by 10 percent (rounded up to whole number).",
-          "Base GP of all other slimes is increased by 20 percent (rounded up to whole number).",
-          "Base GP of all other slimes is increased by 40 percent (rounded up to whole number).",
-        ],
-      },
-      {
-        slimeName: "Silver Slime",
-        abilityName: "Sterling",
-        abilityDescriptions: [
-          "Total GP increased by 7.5 percent.",
-          "25 percent to gain 92.5 GP.",
-          "25 percent to gain 92.5 GP.",
-        ],
-      },
-      {
-        slimeName: "Block Slime",
-        abilityName: "6 Face",
-        abilityDescriptions: [
-          "16.66 percent chance to produce 2x base GP.",
-          "16.66 percent chance to produce 4x base GP.",
-          "16.66 percent chance to produce 6x base GP.",
-        ],
-      },
-      {
-        slimeName: "Robo Slime",
-        abilityName: "Compute",
-        abilityDescriptions: [
-          "Gain 1 GP for every plus level on all active slimes.",
-          "Gain 2 GP for every plus level on all active slimes.",
-          "Gain 3 GP for every plus level on all active slimes.",
-        ],
-      },
-      {
-        slimeName: "Neon Slime",
-        abilityName: "Fluorescent",
-        abilityDescriptions: [
-          "All other active slimes gain 8 percent more base GP.",
-          "All other active slimes gain 12 percent more base GP.",
-          "All other active slimes gain 16 percent more base GP.",
-        ],
-      },
-      {
-        slimeName: "Sakura Slime",
-        abilityName: "Blossom",
-        abilityDescriptions: [
-          "Highest base GP slime gains + 25 percent GP.",
-          "Highest base GP slime gains + 40 percent GP.",
-          "50 percent for the highest base GP slime to gain 100 percent GP (If not, 50 percent).",
-        ],
-      },
-      {
-        slimeName: "Hypno Slime",
-        abilityName: "Brainwash",
-        abilityDescriptions: [
-          "Gain GP equal to 20 percent of the slime with the highest active base GP.",
-          "Gain GP equal to 40 percent of the slime with the highest active base GP.",
-          "Gain GP equal to 80 percent of the slime with the highest active base GP.",
-        ],
-      },
     ],
     Legendary: [
       {
         slimeName: "Nebula Slime",
-<<<<<<< HEAD
-        abilityName: "Cosmic",
-        abilityDescription: [
-          "Bonus levels for all other active slimes are 2x more effective.",
-          "Bonus levels for all other active slimes are 3x more effective.",
-          "Bonus levels for all other active slimes are 3x more effective. 42% chance for bonus levels for all other active slimes to be 5x more effective instead of 3x.",
-        ],
-        maxLevel: 10,
-      },
-      {
-        slimeName: "Gold Slime",
-        abilityName: "24K",
-        abilityDescription: [
-          "GP increased by 24 percent.",
-          "24 percent to gain 240 GP.",
-          "24 percent to gain 777 GP.",
-        ],
-        maxLevel: 0,
-        baseGP: 100,
-      },
-      {
-        slimeName: "Black Hole Slime",
-        abilityName: "Singularity",
-        abilityDescription: [
-          "Its GP is equivalent to 100 percent of total base GP of all other active slimes.",
-          "Every plus level on all other active slimes causes an increase of 2 percent to the total base GP this slime absorbs.",
-          "Every plus level on this slime causes an increase of 5 percent to the base GP the slime absorbs.",
-        ],
-        maxLevel: 0,
-        baseGP: 0,
-      },
-      {
-        slimeName: "Iridiscent Slime",
-        abilityName: "Flex",
-        abilityDescription: [
-          "All active slimes can count as any rarity for roster bonuses.",
-          "All other unique rarity (Only one on the roster with that rarity) slimes get 50 percent more GP",
-          "50 percent for the roster bonus to be 80 percent more effective.",
-        ],
-        maxLevel: 10,
-        baseGP: 25,
-      },
-      {
-        slimeName: "Scholar Slime",
-        abilityName: "Wisdom",
-        abilityDescription: [
-          "Scholar Slime gains 2 percent more GP for all plus levels on all other active slimes.",
-          "All other active slimes gain 2 extra GP per level (1 for common) (3 for epic/legendary)",
-          "Total GP production increased by 1 percent for all plus levels on all active slimes.",
-        ],
-        maxLevel: 20,
-        baseGP: 0,
-      },
-      // 
-      //   slimeName: "Scholar Slime",
-      //   effects: ["Max level is level 25"],
-      //   abilityName: "Wisdom",
-      //   abilityDescription: [
-      //     "All other active slimes gain 2 extra GP per level (1 for commons).",
-      //     "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +3 GP/level itself.",
-      //     "All other active slimes gain 2 extra GP per level (1 for commons). Gain an extra +7 GP/level itself.",
-      //   ],
-      //   maxLevel: 25,
-      // },
-=======
       },
       {
         slimeName: "Gold Slime",
@@ -1722,7 +1399,6 @@ export const gameData = {
         maxLevel: 20,
         baseProduction: 0,
       },
->>>>>>> de3ed96c70003792d4119736b20216817d531fa6
     ],
   },
 
