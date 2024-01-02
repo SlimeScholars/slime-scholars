@@ -1,5 +1,5 @@
-import { useRouter } from "next/router";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Unit({
   colorPalette,
@@ -11,17 +11,13 @@ export default function Unit({
   unitCount,
   attempted,
 }) {
-  const router = useRouter();
 
   return (
-    <button
+    <Link
       className={`course-bar-default base
-		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg hover-highlight hover:opacity-100 ${
-      !attempted && "opacity-[0.8]"
-    }`}
-      onClick={() => {
-        router.push(`/courses/${courseId}/units/${unitId}/lessons`);
-      }}
+		w-[calc(25%_+_500px)] m-3 h-[100px] p-4 flex flex-col shadow-lg hover-highlight hover:opacity-100 ${!attempted && "opacity-[0.8]"
+        }`}
+      href={`/courses/${courseId}/units/${unitId}/lessons`}
     >
       <div className="w-full flex items-center justify-between">
         <span className="text-start font-bold text-lg 2xl:text-xl">
@@ -43,6 +39,6 @@ export default function Unit({
           className="h-[1.4rem] w-[1.4rem] mx-1"
         />
       </span>
-    </button>
+    </Link>
   );
 }

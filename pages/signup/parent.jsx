@@ -86,15 +86,15 @@ export default function Parent({ loading, user, setUser }) {
   };
 
   const router = useRouter()
-  
+
   useEffect(() => {
-    if(user){
+    if (user) {
       router.push('/')
     }
   }, [user])
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')]">
       <Back to={"/"} />
       <ToastContainer />
       <div className="w-[725px] relative bg-bg-light px-14 pt-10 pb-7 mb-3 flex flex-col items-center justify-between overflow-hidden">

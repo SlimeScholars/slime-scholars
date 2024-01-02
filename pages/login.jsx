@@ -9,15 +9,15 @@ export default function Login({ user, setUser }) {
   // const [error, setError] = useState("");
   const router = useRouter()
 
-  const {login} = useLogin()
+  const { login } = useLogin()
 
   useEffect(() => {
-    if(user){
+    if (user) {
       router.push('/')
     }
   }, [user])
 
-  const onSubmit = async(e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (!accountIdentifier) {
       showToastError("Username/email cannot be left blank");
@@ -28,20 +28,20 @@ export default function Login({ user, setUser }) {
       return;
     }
     const response = await login(accountIdentifier, password)
-    if(response?.data?.user){
+    if (response?.data?.user) {
       setUser(response.data.user)
       router.push('/')
     }
-    else if(response.status){
+    else if (response.status) {
       showToastError("Internal Server Error")
     }
-    else{
+    else {
       showToastError("Invalid Credentials")
     }
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')] bg-no-repeat bg-cover">
+    <div className="w-screen h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')] bg-no-repeat bg-cover">
       {/* FIXME <Back to={"/"} /> */}
       <div className="w-[600px] bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <form

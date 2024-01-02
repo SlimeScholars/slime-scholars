@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import ProfilePicture from "../components/main/profilePicture";
 import useLogout from "../hooks/useLogout";
 import Navbar from "../components/main/navbar";
-import Testinomials from "../components/main/testimonial";
+import Testimonials from "../components/main/testimonial";
 import Mission from "../components/main/mission";
 import Details from "../components/main/details";
 import Banner from "../components/main/banner";
@@ -36,7 +36,7 @@ export default function Home({ user, setUser }) {
   }, [width]);
   //console.log(user);
   return (
-    <div className="w-screen flex flex-col overflow-x-hidden">
+    <div className="w-screen flex flex-col max-w-full" >
       <Head>
         <title>Slime Scholars | Level Up Your Learning (Grade 4-12)</title>
         <meta
@@ -49,7 +49,7 @@ export default function Home({ user, setUser }) {
       <header
         className="w-full h-screen flex flex-col items-center justify-center pt-20"
         style={{
-          backgroundImage: "url('/assets/backgrounds/hero.png')",
+          backgroundImage: "url('/assets/graphics/hero.png')",
           backgroundSize: "cover",
         }}
       >
@@ -152,7 +152,7 @@ export default function Home({ user, setUser }) {
         )}
       </header>
       <main className="w-full flex flex-col overflow-x-hidden items-center justify-center bg-bg-light">
-        <Testinomials />
+        <Testimonials />
         <Mission />
         <Details />
         <Banner />

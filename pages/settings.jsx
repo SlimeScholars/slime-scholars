@@ -116,7 +116,7 @@ export default function Settings({ loading, user, setUser }) {
     }
   };
 
-  const {logout} = useLogout()
+  const { logout } = useLogout()
 
   const onLogOut = () => {
     logout()
@@ -129,7 +129,7 @@ export default function Settings({ loading, user, setUser }) {
   }
 
   return (
-    <div className="bg-cover bg-center bg-no-repeat min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="bg-cover bg-center bg-no-repeat min-h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')]">
       <Back to={"/play"} />
       <div className="w-1/2 bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl p-3">
         <form className="relative w-full h-full bg-indigo-950/80 rounded-lg px-14 py-10 flex flex-col items-center justify-between overflow-hidden">
@@ -152,7 +152,7 @@ export default function Settings({ loading, user, setUser }) {
                 router.push("/play/inventory");
               }}
             >
-              <ProfilePicture user={user}/>
+              <ProfilePicture user={user} />
             </div>
           </div>
 

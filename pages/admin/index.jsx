@@ -10,7 +10,7 @@ import SidePanel from "../../components/admin/above/sidePanel";
 import useLogout from "../../hooks/useLogout";
 import cookies from "../../services/cookies/cookies";
 
-export default function AdminHomepage({ user, setUser, loading, setLoading}) {
+export default function AdminHomepage({ user, setUser, loading, setLoading }) {
   const router = useRouter()
 
   const [initialLoad, setInitialLoad] = useState(true)
@@ -24,7 +24,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading}) {
     }
     else if (loading && subjects && initialLoad) {
       setInitialLoad(false)
-      setTimeout(() => {setLoading(false)}, 150)
+      setTimeout(() => { setLoading(false) }, 150)
     }
   }, [subjects, loading, initialLoad])
 
@@ -49,12 +49,12 @@ export default function AdminHomepage({ user, setUser, loading, setLoading}) {
           }
           //console.log(responseSubjects)
           setSubjects(responseSubjects)
-          setTimeout(() => {setLoading(false)}, 150)
+          setTimeout(() => { setLoading(false) }, 150)
         }
       })
       .catch((error) => {
         showToastError(error.message)
-        setTimeout(() => {setLoading(false)}, 150);
+        setTimeout(() => { setLoading(false) }, 150);
       });
   }
 
@@ -85,13 +85,12 @@ export default function AdminHomepage({ user, setUser, loading, setLoading}) {
                 id: subjects.length,
               },
             ]);
-            setTimeout(() => {setLoading(false)}, 150);
-            console.log(loading)
+            setTimeout(() => { setLoading(false) }, 150);
           }
         })
         .catch((error) => {
           showToastError(error.message)
-          setTimeout(() => {setLoading(false)}, 150);
+          setTimeout(() => { setLoading(false) }, 150);
         });
 
     } catch (error) {
@@ -100,7 +99,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading}) {
     }
   }
 
-  const {logout} = useLogout()
+  const { logout } = useLogout()
 
   const onLogOut = () => {
     logout()
@@ -156,7 +155,7 @@ export default function AdminHomepage({ user, setUser, loading, setLoading}) {
           onClick={async () => {
             setLoading(true)
             await subjectService.post()
-            
+
           }}
         >
           + New Subject

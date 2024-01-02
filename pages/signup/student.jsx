@@ -31,7 +31,7 @@ export default function Student({ loading, user, setUser }) {
   const [confirm, setConfirm] = useState("");
 
   useEffect(() => {
-    if(user){
+    if (user) {
       router.push('/')
     }
   }, [user])
@@ -94,7 +94,7 @@ export default function Student({ loading, user, setUser }) {
   };
 
   return (
-    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/backgrounds/bg-galaxy.png')]">
+    <div className="w-screen min-h-screen flex flex-col items-center justify-center bg-[url('/assets/graphics/bg-galaxy.png')]">
       {/* FIXME <Back to={"/"} /> */}
       <div className="w-[725px] bg-gradient-to-br from-blue-400/70 to-purple-900/70 opacity-90 rounded-2xl h-[95vh] p-3">
         <form

@@ -194,7 +194,7 @@ function MyApp({ Component, pageProps }) {
     });
 
     if (!permitted) {
-      if (!loading && !user && router.asPath !== "/404") {
+      if (!userLoading && !user && router.asPath !== "/404") {
         router.push("/access-denied");
       }
     }

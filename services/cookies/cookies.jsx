@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 class CookieWrapper {
     cookies;
 
-    constructor(){
+    constructor() {
         this.cookies = Cookies.get()
     }
 
@@ -11,23 +11,23 @@ class CookieWrapper {
         return this.cookies[key];
     }
 
-    set = (key, value, source=null) => {
+    set = (key, value, source = null) => {
         Cookies.set(key, value);
         this.cookies[key] = value;
-        this.cookies={...this.cookies}
-        //this.logChange(source ? source : 'unspecified');
-    }
- 
-    remove = (key, source=null) => {
-        Cookies.remove(key);
-        delete this.cookies[key];
-        this.cookies={...this.cookies}
+        this.cookies = { ...this.cookies }
         //this.logChange(source ? source : 'unspecified');
     }
 
-    logChange(source){
-        console.log("Change from " + source + ":")
-        console.log(this.cookies)
+    remove = (key, source = null) => {
+        Cookies.remove(key);
+        delete this.cookies[key];
+        this.cookies = { ...this.cookies }
+        //this.logChange(source ? source : 'unspecified');
+    }
+
+    logChange(source) {
+        // console.log("Change from " + source + ":")
+        // console.log(this.cookies)
     }
 }
 

@@ -9,6 +9,7 @@ import NextRewardTimer from "./slimes/NextRewardTimer";
 import { playSound } from "../../utils/playSound";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import ProfilePicture from "../main/profilePicture";
+import Link from "next/link";
 
 /*
 Parameter:
@@ -42,42 +43,37 @@ export function Navbar({ current, user, colorPalette, setPanelsVisible }) {
       <div className="flex flex-row gap-2 items-center">
         {/* home button */}
         {!onHome() && (
-          <button
+          <Link
             className="rounded hover:opacity-80 font-galindo h-[4rem] transition-opacity duration-300 max-xl:absolute top-[4rem] p-1 max-xl:h-[3.5rem] mt-[0.5rem]"
             style={{
               color: !colorPalette ? "" : colorPalette.text1,
             }}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/play");
-            }}
+            href='/play'
           >
             <FaChevronLeft className="inline text-lg max-2xl:h-3 max-xl:w-3 ml-2" />
             <HiHome className="inline text-5xl ml-1 -mt-0.5 mr-10 max-xl:h-6 max-xl:w-6" />
-          </button>
+          </Link>
         )}
         {/* earn flowers button */}
-        <div>
-          <button
-            className={`pr-16 pl-16 rounded-md shake brightness-105 hover:brightness-110 font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] 
+        <div
+          className={`pr-16 pl-16 rounded-md flex justify-center content-center shake brightness-105 hover:brightness-110 font-galindo text-lg h-[4rem] transition-brightness duration-150 max-xl:absolute top-2 max-xl:text-md max-xl:p-3 max-xl:h-[3.5rem] 
             ${onHome() ? "left-0 top-3" : "left-0"}`}
-            style={{
-              backgroundColor: !colorPalette ? "" : colorPalette.primary2,
-              color: !colorPalette ? "" : colorPalette.text2,
-              boxShadow: !colorPalette
-                ? ""
-                : `0 0 2px ${colorPalette.primary2}`,
-              background: `linear-gradient(90deg, ${
-                !colorPalette ? "" : colorPalette.primary2
+          style={{
+            backgroundColor: !colorPalette ? "" : colorPalette.primary2,
+            color: !colorPalette ? "" : colorPalette.text2,
+            boxShadow: !colorPalette
+              ? ""
+              : `0 0 2px ${colorPalette.primary2}`,
+            background: `linear-gradient(90deg, ${!colorPalette ? "" : colorPalette.primary2
               } 0%, ${!colorPalette ? "" : colorPalette.primary1} 100%)`,
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              router.push("/courses");
-            }}
+          }}
+        >
+          <Link
+            className="flex items-center"
+            href='/courses'
           >
             Earn Flowers
-          </button>
+          </Link>
         </div>
       </div>
       <div className="flex flex-row items-center space-x-2 justify-end font-galindo 2xl:text-lg text-md relative">
@@ -86,13 +82,11 @@ export function Navbar({ current, user, colorPalette, setPanelsVisible }) {
           <div
             className="flex rounded-full pt-2 pb-1 pl-3 pr-5 w-fit"
             style={{
-              backgroundColor: `${
-                colorPalette ? colorPalette.black + "55" : "#475569"
-              }`,
+              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
+                }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${
-                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-              }`,
+              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+                }`,
             }}
           >
             {user && (
@@ -116,13 +110,11 @@ export function Navbar({ current, user, colorPalette, setPanelsVisible }) {
           <div
             className="flex rounded-full pt-2 pb-1 pl-3 pr-5 w-fit mt-1.5 cursor-default"
             style={{
-              backgroundColor: `${
-                colorPalette ? colorPalette.black + "55" : "#475569"
-              }`,
+              backgroundColor: `${colorPalette ? colorPalette.black + "55" : "#475569"
+                }`,
               color: `${colorPalette ? colorPalette.text1 : "#ffffff"}`,
-              boxShadow: `${
-                colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
-              }`,
+              boxShadow: `${colorPalette ? "0px 0px 20px " + colorPalette.white + "0F" : ""
+                }`,
             }}
           >
             {user && (
@@ -147,46 +139,33 @@ export function Navbar({ current, user, colorPalette, setPanelsVisible }) {
             const imgLink = "/assets/icons/" + type.src + ".png";
             const isActive = type.id === current_id;
             return (
-              <button
-                onClick={(e) => {
-                  e.preventDefault();
-                  if (type.id === 6) {
-                    router.push("/settings");
-                    return;
-                  } else {
-                    router.push("/play/" + type.title.toLowerCase());
-                  }
-                }}
+              <Link
+                href={type.id === 6 ? "/settings" : "/play/" + type.title.toLowerCase()}
                 style={
                   isActive
                     ? {
-                        backgroundColor: `${
-                          colorPalette ? colorPalette.primary1 : "#ffffff"
+                      backgroundColor: `${colorPalette ? colorPalette.primary1 : "#ffffff"
                         }`,
-                        border: `${
-                          type.id === 6 && colorPalette !== undefined
-                            ? `5px solid ${colorPalette.primary1}`
-                            : ""
+                      border: `${type.id === 6 && colorPalette !== undefined
+                        ? `5px solid ${colorPalette.primary1}`
+                        : ""
                         }`,
-                        padding: type.id === 6 ? "0.7rem" : undefined,
-                      }
+                      padding: type.id === 6 ? "0.7rem" : undefined,
+                    }
                     : {
-                        backgroundColor: `${
-                          colorPalette ? colorPalette.white : "#ffff"
+                      backgroundColor: `${colorPalette ? colorPalette.white : "#ffff"
                         }88`,
-                        border: `${
-                          type.id === 6 && colorPalette !== undefined
-                            ? `5px solid ${colorPalette.primary1}`
-                            : ""
+                      border: `${type.id === 6 && colorPalette !== undefined
+                        ? `5px solid ${colorPalette.primary1}`
+                        : ""
                         }`,
-                        padding: type.id === 6 ? "0.7rem" : undefined,
-                      }
+                      padding: type.id === 6 ? "0.7rem" : undefined,
+                    }
                 }
-                className={`hover:opacity-100 hover:brightness-110 brightness-90 opacity-75 transition-all duration-300 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem] ${
-                  type.id === 6
-                    ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem] do-a-spin"
-                    : "wiggle" // Apply larger size for 2xl screen and type.id 6
-                }`}
+                className={`hover:opacity-100 hover:brightness-110 brightness-90 opacity-75 transition-all duration-300 rounded-full p-3 overflow-hidden relative box-border max-xl:w-[4.5rem] max-xl:h-[4.5rem] ${type.id === 6
+                  ? "2xl:w-[5.6rem] 2xl:h-[5.6rem] max-xl:w-[4.6rem] max-xl:h-[4.6rem] do-a-spin"
+                  : "wiggle" // Apply larger size for 2xl screen and type.id 6
+                  }`}
                 key={type.id}
                 data-tooltip-id="my-tooltip"
                 data-tooltip-content={type.title}
@@ -208,7 +187,7 @@ export function Navbar({ current, user, colorPalette, setPanelsVisible }) {
                     className="h-[4rem] w-[4rem] max-xl:w-[3rem] max-xl:h-[3rem]"
                   />
                 )}
-              </button>
+              </Link>
             );
           })}
         </div>
